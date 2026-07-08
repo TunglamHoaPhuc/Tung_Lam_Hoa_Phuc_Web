@@ -1,0 +1,1 @@
+export default function SuOngHoangPhapPage() { return (<div className="p-8"><h1 className="text-2xl font-bold">Đôi Nét Về Sư Ông Hoằng Pháp</h1></div>); }

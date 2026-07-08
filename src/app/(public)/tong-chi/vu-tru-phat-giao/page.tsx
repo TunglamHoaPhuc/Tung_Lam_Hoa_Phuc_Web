@@ -1,0 +1,1 @@
+export default function VuTruPhatGiaoPage() { return (<div className="p-8"><h1 className="text-2xl font-bold">Vũ Trụ Phật Giáo</h1></div>); }
