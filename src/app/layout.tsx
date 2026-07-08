@@ -25,12 +25,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    // Đổi lang="en" thành lang="vi" để các trình duyệt nhận diện chính xác tiếng Việt
     <html
       lang="vi"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col m-0 p-0">{children}</body>
+      <body
+        className="min-h-full flex flex-col m-0 p-0"
+        suppressHydrationWarning
+      >
+        {children}
+      </body>
     </html>
   );
 }
