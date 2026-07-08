@@ -2,6 +2,9 @@
   "name": "tung-lam-hoa-phuc-web",
   "version": "0.1.0",
   "private": true,
+  "overrides": {
+    "@prisma/dev": "0.24.14"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",

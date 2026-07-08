@@ -1,0 +1,1 @@
+export default function AdminRegistrationsCongQuaPage() { return (<div className="p-6"><h1 className="text-2xl font-bold">CMS - Quản lý phân nhóm Phật tử làm Công Quả</h1></div>); }
