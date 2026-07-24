@@ -1,3 +1,29 @@
+/* 1. UTM Niagara (Tiêu đề chính & Neo Menu) */
+@font-face {
+  font-family: 'UTM Niagara';
+  src: url('/fonts/UTMNiagara.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 2. UTM ClassizismAntiqua (Mô tả phụ & Tiêu đề Tông Phong) */
+@font-face {
+  font-family: 'UTM ClassizismAntiqua';
+  src: url('/fonts/UTMClassizismAntiqua.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 3. UTM Avo (Tên bài viết "Tiếp Bước Thầy Tôi" & Mô tả trong Card) */
+@font-face {
+  font-family: 'UTM Avo';
+  src: url('/fonts/UTMAvo.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
