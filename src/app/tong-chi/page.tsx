@@ -28,26 +28,7 @@ const NAV_ITEMS = [
 export default function TongChiTuHocPage() {
   const [activeSection, setActiveSection] = useState('tong-chi');
   const [isScrolled, setIsScrolled] = useState(false);
-
-const [bannerUrl, setBannerUrl] = useState<string>('');
-
-useEffect(() => {
-  async function fetchBanner() {
-    try {
-      const res = await fetch('https://tunglam.mocwp.com/wp-json/wp/v2/tong-chi/388?_embed', { cache: 'no-store' });
-      let data = res.ok ? await res.json() : null;
-      if (!data) {
-        const resPage = await fetch('https://tunglam.mocwp.com/wp-json/wp/v2/pages/388?_embed', { cache: 'no-store' });
-        if (resPage.ok) data = await resPage.json();
-      }
-      const img = data?._embedded?.['wp:featuredmedia']?.[0]?.source_url;
-      if (img) setBannerUrl(img);
-    } catch (e) {
-      console.error('Lỗi lấy banner:', e);
-    }
-  }
-  fetchBanner();
-}, []);
+  const [bannerUrl, setBannerUrl] = useState<string>('');
 
   const [sectionsData, setSectionsData] = useState<SectionData[]>([
     {
@@ -92,10 +73,17 @@ useEffect(() => {
   // 1. SCROLL LISTENER
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 350) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
+      setIsScrolled(window.scrollY > 350);
+
+      const sections = NAV_ITEMS.map((item) => document.getElementById(item.id));
+      const scrollPosition = window.scrollY + 200;
+
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = sections[i];
+        if (section && section.offsetTop <= scrollPosition) {
+          setActiveSection(NAV_ITEMS[i].id);
+          break;
+        }
       }
     };
 
@@ -108,24 +96,21 @@ useEffect(() => {
     async function fetchBanner() {
       try {
         const res = await fetch('https://tunglam.mocwp.com/wp-json/wp/v2/tong-chi/388?_embed', { cache: 'no-store' });
-        let data;
-        if (res.ok) data = await res.json();
-        else {
+        let data = res.ok ? await res.json() : null;
+        if (!data) {
           const resPage = await fetch('https://tunglam.mocwp.com/wp-json/wp/v2/pages/388?_embed', { cache: 'no-store' });
           if (resPage.ok) data = await resPage.json();
         }
-        if (data) {
-          const img = data._embedded?.['wp:featuredmedia']?.[0]?.source_url;
-          if (img) setBannerUrl(img);
-        }
-      } catch (err) {
-        console.error('Lỗi banner:', err);
+        const img = data?._embedded?.['wp:featuredmedia']?.[0]?.source_url;
+        if (img) setBannerUrl(img);
+      } catch (e) {
+        console.error('Lỗi lấy banner:', e);
       }
     }
     fetchBanner();
   }, []);
 
-  // 3. TẢI BÀI VIẾT TỪ WORDPRESS
+  // 3. TẢI BÀI VIẾT TỪ WORDPRESS (LẤY TÓM TẮT EXCERPT CHUẨN REST API)
   useEffect(() => {
     async function fetchWpPosts() {
       try {
@@ -136,15 +121,18 @@ useEffect(() => {
             const wpCards = posts
               .filter((post: any) => post.id !== 388)
               .map((post: any) => {
-                const imgUrl = post._embedded?.['wp:featuredmedia']?.[0]?.source_url || 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&q=80';
-                
+                const imgUrl =
+                  post._embedded?.['wp:featuredmedia']?.[0]?.source_url ||
+                  'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&q=80';
+
                 let subtitle = '';
                 if (post.excerpt?.rendered) {
+                  // Lọc bớt các thẻ HTML trong excerpt từ REST API
                   subtitle = post.excerpt.rendered.replace(/<[^>]+>/g, '').trim();
                 }
 
                 if (!subtitle) {
-                  subtitle = 'Bài thơ quan trọng kể lại hành trình tiếp nối của Sư Phụ.';
+                  subtitle = 'Nội dung tóm tắt cập nhật từ Tùng Lâm Hòa Phúc.';
                 }
 
                 return {
@@ -180,102 +168,183 @@ useEffect(() => {
 
   return (
     <div className="min-h-screen bg-[#2c1c11] text-[#e3d2c1] font-sans relative selection:bg-[#f2cc8f] selection:text-black">
-      
       {/* =========================================================================
-          A. MENU NGANG TRÊN CÙNG
+          A. THANH ANCHOR / SUB-NAVBAR NGANG
          ========================================================================= */}
-      <header className={`sticky top-0 z-40 bg-[#352215]/95 backdrop-blur-md border-b border-[#523622] px-4 md:px-8 py-3 shadow-2xl transition-all duration-500 ${
-        isScrolled ? 'opacity-0 -translate-y-full pointer-events-none' : 'opacity-100 translate-y-0'
-      }`}>
-        <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="bg-[#48301e] border border-[#6b472d] px-3 py-1.5 rounded flex items-center gap-2.5 shadow-inner">
-              <span className="text-lg text-[#f2cc8f]">🪷</span>
-              <span style={{ fontFamily: 'UTM Niagara' }}
-               className="font text-[#ffde59] text-lg md:text-xl tracking-widest uppercase">
-            TÔNG CHỈ TU HỌC
-            </span> 
+      <nav
+        className={`sticky top-0 z-50 w-full bg-[#2c1c11]/95 backdrop-blur-md border-b border-[#f2cc8f]/20 shadow-xl transition-all duration-500 ${
+          isScrolled ? 'opacity-0 -translate-y-full pointer-events-none' : 'opacity-100 translate-y-0'
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
+          {/* KHỐI BÊN TRÁI */}
+          <div className="flex items-center space-x-2 md:space-x-3 flex-shrink-0">
+            <div className="h-8 w-[1px] bg-gradient-to-b from-transparent via-[#c8aa6e]/60 to-transparent flex-shrink-0" />
+
+            <img
+              src="https://tunglam.mocwp.com/wp-content/uploads/2026/07/bieu-tuong-tong-chi-tu-hoc-tung-lam-hoa-phuc.png"
+              alt="Biểu tượng Tổng chỉ tu học"
+              className="h-10 md:h-12 w-auto object-contain flex-shrink-0"
+              onError={(e) => {
+                e.currentTarget.style.display = 'none';
+              }}
+            />
+
+            <div className="w-5 h-5 rounded-full bg-[#f2cc8f] text-[#2c1c11] flex items-center justify-center shadow-md flex-shrink-0">
+              <svg className="w-3 h-3 fill-current" viewBox="0 0 24 24">
+                <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
+              </svg>
             </div>
+
+            <span
+              style={{ fontFamily: "'UTM Niagara', sans-serif" }}
+              className="text-xl sm:text-2xl md:text-3xl text-[#ffde59] tracking-wide uppercase drop-shadow-[0_0_10px_rgba(255,222,89,0.4)] whitespace-nowrap"
+            >
+              TÔNG CHỈ TU HỌC
+            </span>
+
+            <div className="h-8 w-[1px] bg-gradient-to-b from-transparent via-[#c8aa6e]/60 to-transparent flex-shrink-0 ml-2" />
+
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="w-8 h-8 rounded-full bg-[#f2cc8f] text-[#2c1c11] hover:bg-[#ffe3b3] flex items-center justify-center font-bold text-sm shadow-md"
+              className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-[#e8dbb8] text-[#2c1c11] border-2 border-[#b8a679] flex items-center justify-center shadow-[0_4px_12px_rgba(0,0,0,0.7),0_0_8px_rgba(255,222,89,0.25)] hover:scale-110 hover:bg-[#ffde59] hover:border-[#ffde59] transition-all duration-300 ml-1 md:ml-2 flex-shrink-0"
+              title="Lên đầu trang"
+              type="button"
             >
-              ↑
+              <svg className="w-4 h-4 md:w-5 md:h-5 stroke-[2.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+              </svg>
             </button>
           </div>
 
-          <nav className="hidden md:flex items-center gap-2">
-            {NAV_ITEMS.map((item, index) => (
-              <React.Fragment key={item.id}>
-                {index > 0 && (
-                  <div className="flex items-center gap-1 opacity-40 px-1">
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#f2cc8f]" />
-                    <div className="w-8 md:w-12 h-[1px] bg-[#f2cc8f]" />
-                    <div className="w-1.5 h-1.5 rounded-full bg-[#f2cc8f]" />
-                  </div>
-                )}
-                <button
-                  onClick={() => scrollToSection(item.id)}
-                  style={{ fontFamily: 'UTM Niagara' }}
-                    className={`transition-all text-lg md:text-xl px-2 py-1 tracking-wider ${
-                        activeSection === item.id
-                            ? 'text-[#ffde59] border-b border-[#ffde59]'
-                            : 'text-[#b09680] hover:text-[#ffde59]'
-                    }`} 
-                >
-                  {item.label}
-                </button>
-              </React.Fragment>
-            ))}
-          </nav>
+          {/* KHỐI BÊN PHẢI: NAV NGANG */}
+          <div className="flex-1 flex items-center justify-between ml-4 md:ml-8 overflow-x-auto no-scrollbar py-2">
+            {NAV_ITEMS.map((item, idx) => {
+              const isActive = activeSection === item.id;
+              return (
+                <React.Fragment key={item.id}>
+                  {idx > 0 && (
+                    <div className="flex-1 h-[1px] bg-gradient-to-r from-[#f2cc8f]/10 via-[#f2cc8f]/30 to-[#f2cc8f]/10 min-w-[12px] mx-1 md:mx-2" />
+                  )}
+
+                  <button
+                    type="button"
+                    onClick={() => scrollToSection(item.id)}
+                    className="group relative flex items-center gap-2 py-1 px-1 transition-all duration-300 focus:outline-none flex-shrink-0 cursor-pointer"
+                  >
+                    <span
+                      className={`block rounded-full transition-all duration-300 flex-shrink-0 ${
+                        isActive
+                          ? 'w-3 h-3 bg-[#ffde59] shadow-[0_0_10px_#ffde59] scale-110 ring-2 ring-[#ffde59]/40'
+                          : 'w-2 h-2 bg-[#8c6d53]/70 group-hover:bg-[#ffde59] group-hover:scale-125'
+                      }`}
+                    />
+
+                    <span
+                      style={{ fontFamily: "'UTM Niagara', sans-serif" }}
+                      className={`text-xl sm:text-2xl whitespace-nowrap transition-all duration-500 ease-in-out transform ${
+                        isActive
+                          ? 'max-w-[180px] opacity-100 text-[#ffde59] drop-shadow-[0_0_8px_rgba(255,222,89,0.5)] translate-x-0'
+                          : 'max-w-0 opacity-0 text-[#f2cc8f] group-hover:max-w-[180px] group-hover:opacity-100 group-hover:text-[#ffde59] translate-x-1 group-hover:translate-x-0 overflow-hidden'
+                      }`}
+                    >
+                      {item.label}
+                    </span>
+                  </button>
+                </React.Fragment>
+              );
+            })}
+          </div>
         </div>
-      </header>
+      </nav>
 
       {/* =========================================================================
           B. MENU DỌC BÊN TRÁI
          ========================================================================= */}
-      <aside className={`fixed left-2 md:left-6 top-1/2 -translate-y-1/2 z-50 flex flex-col items-center gap-4 transition-all duration-500 ${
-        isScrolled ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20 pointer-events-none'
-      }`}>
-        <div className="bg-[#48301e]/95 border border-[#f2cc8f]/40 px-2 py-4 rounded-lg flex flex-col items-center gap-3 shadow-2xl backdrop-blur-md">
-          <span className="text-base text-[#f2cc8f]">🪷</span>
-          <div className="w-1.5 h-1.5 rounded-full bg-[#f2cc8f]" />
-          <span className="font-niagara font-bold text-[#f2cc8f] text-sm tracking-widest uppercase [writing-mode:vertical-lr] rotate-180">
-            TÔNG CHỈ TU HỌC
-          </span>
-        </div>
+      <aside
+        className={`fixed left-2 md:left-6 top-1/2 -translate-y-1/2 z-50 flex flex-col items-center gap-3 transition-all duration-500 ${
+          isScrolled ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20 pointer-events-none'
+        }`}
+      >
+        <div className="bg-[#382417]/90 border border-[#f2cc8f]/40 px-2.5 py-4 rounded-3xl flex flex-col items-center shadow-2xl backdrop-blur-md">
+          
+          <img
+            src="https://tunglam.mocwp.com/wp-content/uploads/2026/07/bieu-tuong-tong-chi-tu-hoc-tung-lam-hoa-phuc.png"
+            alt="Biểu tượng Tông chỉ tu học"
+            className="h-8 w-auto object-contain mb-2 flex-shrink-0 drop-shadow-[0_0_6px_rgba(255,222,89,0.4)]"
+            onError={(e) => {
+              e.currentTarget.style.display = 'none';
+            }}
+          />
 
-        <button
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          className="w-7 h-7 rounded-full bg-[#f2cc8f] text-[#2c1c11] hover:bg-[#ffe3b3] flex items-center justify-center font-bold text-xs shadow-lg transition-transform hover:scale-110 active:scale-95"
-          title="Lên đầu trang"
-        >
-          ↑
-        </button>
+          <div className="w-4 h-[1px] bg-gradient-to-r from-transparent via-[#f2cc8f]/50 to-transparent mb-2" />
 
-        <div className="flex flex-col items-center gap-3 py-2">
-          {NAV_ITEMS.map((item, index) => (
-            <React.Fragment key={item.id}>
-              {index > 0 && <div className="w-[1px] h-6 bg-[#f2cc8f]/30" />}
-              
-              <button
-                onClick={() => scrollToSection(item.id)}
-                className={`group relative flex items-center gap-2 transition-all ${
-                  activeSection === item.id ? 'text-[#f2cc8f]' : 'text-[#b09680]'
-                }`}
-              >
-                <div className={`w-2 h-2 rounded-full transition-all ${
-                  activeSection === item.id ? 'bg-[#f2cc8f] scale-125 shadow-[0_0_8px_#f2cc8f]' : 'bg-[#523622]'
-                }`} />
+          {/* Dải chữ TÔNG CHỈ TU HỌC từng từ một xuống dòng */}
+          <div
+            style={{ fontFamily: "'UTM Niagara', sans-serif" }}
+            className="flex flex-col items-center text-[#ffde59] text-base font-bold tracking-wider leading-tight uppercase select-none drop-shadow-[0_0_4px_rgba(255,222,89,0.3)] my-1"
+          >
+            <span>TÔNG</span>
+            <span>CHỈ</span>
+            <span>TU</span>
+            <span>HỌC</span>
+          </div>
 
-                {activeSection === item.id && (
-                  <span className="font-niagara text-xs text-[#f2cc8f] font-bold uppercase tracking-wider [writing-mode:vertical-lr] rotate-180 absolute left-5 whitespace-nowrap">
-                    {item.label}
-                  </span>
-                )}
-              </button>
-            </React.Fragment>
-          ))}
+          <div className="w-4 h-[1px] bg-gradient-to-r from-transparent via-[#f2cc8f]/50 to-transparent my-2" />
+
+          {/* Nút Lên Đầu Trang 3D */}
+          <button
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="w-8 h-8 rounded-full bg-[#e8dbb8] text-[#2c1c11] border-2 border-[#b8a679] flex items-center justify-center shadow-[0_4px_12px_rgba(0,0,0,0.7),0_0_8px_rgba(255,222,89,0.25)] hover:scale-110 hover:bg-[#ffde59] hover:border-[#ffde59] transition-all duration-300 my-1 cursor-pointer flex-shrink-0"
+            title="Lên đầu trang"
+            type="button"
+          >
+            <svg className="w-4 h-4 stroke-[2.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+            </svg>
+          </button>
+
+          <div className="w-4 h-[1px] bg-gradient-to-r from-transparent via-[#f2cc8f]/50 to-transparent my-2" />
+
+          {/* Danh sách bullet kết nối */}
+          <div className="flex flex-col items-center">
+            {NAV_ITEMS.map((item, index) => {
+              const isActive = activeSection === item.id;
+              return (
+                <React.Fragment key={item.id}>
+                  {index > 0 && (
+                    <div className="w-[1px] h-5 bg-gradient-to-b from-[#f2cc8f]/10 via-[#f2cc8f]/30 to-[#f2cc8f]/10 my-1" />
+                  )}
+
+                  <button
+                    type="button"
+                    onClick={() => scrollToSection(item.id)}
+                    className="group relative flex items-center justify-center p-1 focus:outline-none cursor-pointer"
+                  >
+                    <span
+                      className={`block rounded-full transition-all duration-300 ${
+                        isActive
+                          ? 'w-3 h-3 bg-[#ffde59] shadow-[0_0_10px_#ffde59] scale-110 ring-2 ring-[#ffde59]/40'
+                          : 'w-2 h-2 bg-[#8c6d53]/70 group-hover:bg-[#ffde59] group-hover:scale-125'
+                      }`}
+                    />
+
+                    <span
+                      style={{ fontFamily: "'UTM Niagara', sans-serif" }}
+                      className={`absolute left-full ml-3 px-2.5 py-1 rounded-md bg-[#21140b]/95 border border-[#f2cc8f]/50 text-lg sm:text-xl whitespace-nowrap shadow-xl backdrop-blur-md pointer-events-none transition-all duration-300 transform origin-left ${
+                        isActive
+                          ? 'opacity-100 translate-x-0 text-[#ffde59] drop-shadow-[0_0_6px_rgba(255,222,89,0.4)]'
+                          : 'opacity-0 -translate-x-2 text-[#f2cc8f] group-hover:opacity-100 group-hover:translate-x-0 group-hover:text-[#ffde59]'
+                      }`}
+                    >
+                      {item.label}
+                    </span>
+                  </button>
+                </React.Fragment>
+              );
+            })}
+          </div>
+
         </div>
       </aside>
 
@@ -283,42 +352,39 @@ useEffect(() => {
           C. NỘI DUNG CHÍNH (HERO BANNER & SLIDERS)
          ========================================================================= */}
       <div className={`transition-all duration-500 ${isScrolled ? 'pl-16 md:pl-24' : 'pl-4'} pr-4 md:pr-12`}>
-        
-        {/* HERO BANNER - CHUẨN BẢN THIẾT KẾ */}
-        <section id="tong-chi" className="relative my-6 max-w-6xl mx-auto flex flex-col items-center">
-          
-          {/* Khung chứa ảnh Hero với hiệu ứng Gradient Fade 4 cạnh */}
-          <div className="relative w-full h-[40vh] min-h-[340px] md:h-[50vh] rounded-2xl overflow-hidden flex items-end justify-center">
-            
-            {/* Ảnh Hero từ WordPress */}
-            <div 
+        {/* HERO BANNER */}
+        <section
+          id="tong-chi"
+          className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] mb-6 flex flex-col items-center overflow-x-hidden"
+        >
+          <div className="relative w-full h-[50vh] min-h-[380px] md:h-[60vh] overflow-hidden flex items-end justify-center bg-[#2c1c11]">
+            <div
               className="absolute inset-0 bg-cover bg-center transition-all duration-1000 scale-105"
               style={{ backgroundImage: `url('${bannerUrl}')` }}
             />
+            <div className="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-[#2c1c11] via-[#2c1c11]/80 to-transparent z-10 pointer-events-none" />
+            <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-[#2c1c11] to-transparent z-10 pointer-events-none" />
+            <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-[#2c1c11] to-transparent z-10 pointer-events-none" />
 
-            {/* Đánh mờ viền trên, dưới và 2 bên để hòa vào nền trang */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#2c1c11] via-transparent to-[#2c1c11]/80 z-10" />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#2c1c11]/90 via-transparent to-[#2c1c11]/90 z-10" />
-
-            {/* Khối Tiêu đề chính & Đường kẻ đè nhẹ lên chân ảnh */}
-            <div className="relative z-20 pb-2 w-full flex flex-col items-center text-center px-4">
-              <h1 style={{ fontFamily: 'UTM Niagara' }}
-              className="text-6xl md:text-9xl text-[#ffde59] tracking-normal uppercase drop-shadow-[0_0_25px_rgba(255,222,89,0.7)]">
+            <div className="relative z-20 pb-4 w-full flex flex-col items-center text-center px-4">
+              <h1
+                style={{ fontFamily: "'UTM Niagara', sans-serif" }}
+                className="text-6xl md:text-9xl text-[#ffde59] tracking-normal uppercase drop-shadow-[0_0_20px_rgba(0,0,0,0.9)]"
+              >
                 TÔNG CHỈ TU HỌC
               </h1>
 
-              {/* Đường kẻ đặc thù có họa tiết kim cương ở giữa */}
               <div className="relative w-full max-w-2xl flex items-center justify-center my-1">
                 <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-[#f2cc8f]/80 to-transparent" />
-                <div className="absolute text-[#f2cc8f] text-[10px] bg-[#2c1c11] px-1 border border-[#f2cc8f]/50 rotate-45 w-2.5 h-2.5 flex items-center justify-center">
-                </div>
+                <div className="absolute text-[#f2cc8f] text-[10px] bg-[#2c1c11] px-1 border border-[#f2cc8f]/50 rotate-45 w-2.5 h-2.5 flex items-center justify-center" />
               </div>
             </div>
           </div>
 
-          {/* Dòng chữ TÙNG LÂM HÒA PHÚC nằm BÊN DƯỚI ảnh (Chuẩn thiết kế) */}
-          <p style={{ fontFamily: 'UTM ClassizismAntiqua' }}
-          className="text-base md:text-2xl tracking-[0.2em] text-[#ffde59] uppercase opacity-95">
+          <p
+            style={{ fontFamily: "'UTM ClassizismAntiqua', serif" }}
+            className="text-base md:text-2xl tracking-[0.2em] text-[#ffde59] uppercase opacity-95 mt-4"
+          >
             TÙNG LÂM HÒA PHÚC
           </p>
         </section>
@@ -329,7 +395,6 @@ useEffect(() => {
             <SectionCarousel key={section.id} section={section} />
           ))}
         </main>
-
       </div>
     </div>
   );
@@ -350,69 +415,92 @@ function SectionCarousel({ section }: { section: SectionData }) {
 
   return (
     <section id={section.id} className="scroll-mt-24 space-y-6 relative rounded-2xl p-6 overflow-hidden">
-      
-      {/* Background chìm mờ xòe tròn (Radial Mask) mềm mại tràn viền */}
       {section.bgWatermark && (
-        <div 
+        <div
           className="absolute inset-0 bg-cover bg-center opacity-30 pointer-events-none mix-blend-luminosity [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_75%)]"
           style={{ backgroundImage: `url('${section.bgWatermark}')` }}
         />
       )}
 
-      {/* Header của Section */}
-      <div className="flex items-center justify-between border-b border-[#523622] pb-3 relative z-10">
-        <h2 style={{ fontFamily: 'UTM ClassizismAntiqua' }}
-        className="text-2xl md:text-3xl text-[#ffde59] tracking-wider uppercase">
-        {section.title}
-        </h2>
+      {/* HEADER SECTION CÓ THANH PHÂN CÁCH NGHỆ THUẬT MẠ VÀNG (ẢNH 2) */}
+      <div className="flex items-center justify-between border-b border-[#523622] pb-3 relative z-10 gap-4">
+        <div className="flex items-center gap-4 flex-1">
+          {/* Tiêu đề Section */}
+          <h2
+            style={{ fontFamily: "'UTM ClassizismAntiqua', serif" }}
+            className="text-2xl md:text-3xl text-[#ffde59] tracking-wider uppercase whitespace-nowrap"
+          >
+            {section.title}
+          </h2>
 
-        <div className="flex items-center gap-2">
-          <button 
+          {/* 🌟 THANH NGANG NGHỆ THUẬT MẠ VÀNG KIM BÊN CẠNH TIÊU ĐỀ */}
+          <div className="flex-1 flex items-center gap-2">
+            <div className="h-[1.5px] w-full bg-gradient-to-r from-[#f2cc8f] via-[#f2cc8f]/50 to-transparent" />
+            {/* Họa tiết hình thoi/kim cương cổ kính ở góc */}
+            <div className="w-2.5 h-2.5 rotate-45 border border-[#f2cc8f] bg-[#2c1c11] flex-shrink-0 shadow-[0_0_6px_rgba(242,204,143,0.5)]" />
+          </div>
+        </div>
+
+        {/* Nút chuyển Slider Left/Right */}
+        <div className="flex items-center gap-2 flex-shrink-0">
+          <button
+            type="button"
             onClick={() => handleScroll('left')}
-            className="w-8 h-8 rounded bg-[#382417] border border-[#593b26] hover:border-[#f2cc8f] text-[#f2cc8f] flex items-center justify-center transition-all"
+            className="w-8 h-8 rounded bg-[#382417] border border-[#593b26] hover:border-[#f2cc8f] text-[#f2cc8f] flex items-center justify-center transition-all cursor-pointer"
           >
             ←
           </button>
-          <button 
+          <button
+            type="button"
             onClick={() => handleScroll('right')}
-            className="w-8 h-8 rounded bg-[#382417] border border-[#593b26] hover:border-[#f2cc8f] text-[#f2cc8f] flex items-center justify-center transition-all"
+            className="w-8 h-8 rounded bg-[#382417] border border-[#593b26] hover:border-[#f2cc8f] text-[#f2cc8f] flex items-center justify-center transition-all cursor-pointer"
           >
             →
           </button>
         </div>
       </div>
 
-      {/* Slider danh sách Cards */}
-      <div 
+      {/* SLIDER CARDS */}
+      <div
         ref={scrollRef}
-        className="flex items-center gap-6 overflow-x-auto pb-4 pt-2 snap-x snap-mandatory scroll-smooth relative z-10"
+        className="flex items-center gap-6 overflow-x-auto pb-4 pt-2 snap-x snap-mandatory scroll-smooth relative z-10 no-scrollbar"
       >
         {section.cards.map((card) => (
-          <div
+          <a
             key={card.id}
-            className="group relative flex-none w-[280px] md:w-[310px] h-[380px] rounded-xl overflow-hidden cursor-pointer border border-[#593b26] hover:border-[#f2cc8f] transition-all duration-500 hover:shadow-[0_0_30px_rgba(242,204,143,0.4)] hover:-translate-y-1.5 snap-start"
+            href={card.link || '#'}
+            target={card.link ? '_blank' : '_self'}
+            rel="noopener noreferrer"
+            className="group relative flex-none w-[280px] md:w-[310px] h-[380px] rounded-xl overflow-hidden cursor-pointer border border-[#593b26] hover:border-[#f2cc8f] transition-all duration-500 hover:shadow-[0_0_30px_rgba(242,204,143,0.4)] hover:-translate-y-1.5 snap-start block"
           >
-            <div 
+            <div
               className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
               style={{ backgroundImage: `url('${card.imageUrl}')` }}
             />
-            
+
             <div className="absolute inset-0 bg-gradient-to-t from-[#1a0f08] via-[#1a0f08]/60 to-transparent opacity-85 group-hover:opacity-95 transition-opacity" />
             <div className="absolute inset-0 border-2 border-transparent group-hover:border-[#f2cc8f]/80 rounded-xl transition-all pointer-events-none" />
 
             <div className="absolute inset-0 p-6 flex flex-col justify-end text-left z-10">
-              <h3 style={{ fontFamily: 'UTM Avo' }}
-              className="text-lg md:text-xl text-[#ffffff] group-hover:text-[#ffde59] transition-colors">
-              {card.title}
+              {/* TIÊU ĐỀ CARD: UTM AVO BOLD (IN ĐẬM) */}
+              <h3
+                style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                className="text-lg md:text-xl text-[#ffffff] font-bold group-hover:text-[#ffde59] transition-colors leading-snug"
+              >
+                {card.title}
               </h3>
 
+              {/* TÓM TẮT (SUBTITLE / EXCERPT TỪ WORDPRESS API): UTM AVO THƯỜNG KHẢO HOVER */}
               {card.subtitle && (
-                <p className="font-antiqua text-xs text-[#e3d2c1] mt-2 opacity-0 max-h-0 group-hover:opacity-100 group-hover:max-h-24 transition-all duration-500 ease-in-out line-clamp-3">
+                <p
+                  style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                  className="text-xs font-normal text-[#e3d2c1] mt-2 opacity-0 max-h-0 group-hover:opacity-100 group-hover:max-h-24 transition-all duration-500 ease-in-out line-clamp-3 leading-relaxed"
+                >
                   {card.subtitle}
                 </p>
               )}
             </div>
-          </div>
+          </a>
         ))}
       </div>
     </section>
