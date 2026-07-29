@@ -32,7 +32,11 @@ function formatIntroHtml(rawHtml: string): string {
   return clean;
 }
 
+<<<<<<< HEAD
 // 🛠️ 2. HÀM BÓC TÁCH ẢNH TỪ NỘI DUNG WORDPRESS
+=======
+// 🛠️ 2. HÀM BÓC TÁCH ĂNH TỪ NỘI DUNG WORDPRESS
+>>>>>>> 2a82a66dcaa066641e502cd6bf81f25b64731f06
 function extractImgFromContent(htmlContent: string): string {
   if (!htmlContent || typeof window === 'undefined') return '';
   try {
@@ -55,9 +59,12 @@ export default function TongChiTuHocPage() {
   const [pageDescription, setPageDescription] = useState<string>('');
   const [sectionsData, setSectionsData] = useState<SectionData[]>(INITIAL_SECTIONS_DATA);
 
+<<<<<<< HEAD
   // 🔴 THÊM STATE LƯU ẢNH NỀN DANH MỤC
   const [categoryBgImage, setCategoryBgImage] = useState<string>('');
 
+=======
+>>>>>>> 2a82a66dcaa066641e502cd6bf81f25b64731f06
   // 1. SCROLL LISTENER
   useEffect(() => {
     const handleScroll = () => {
@@ -79,6 +86,7 @@ export default function TongChiTuHocPage() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+<<<<<<< HEAD
   // 🔴 LẤY ẢNH NỀN CHUẨN TỪ TAXONOMY "DANH MỤC TÔNG CHỈ"
   useEffect(() => {
     async function fetchCategoryBackground() {
@@ -118,6 +126,9 @@ export default function TongChiTuHocPage() {
   }, []);
 
   // 3. TẢI BANNER VÀ FULL MÔ TẢ TỪ BÀI 388
+=======
+  // 2. TẢI BANNER VÀ FULL MÔ TẢ TỪ BÀI 388
+>>>>>>> 2a82a66dcaa066641e502cd6bf81f25b64731f06
   useEffect(() => {
     async function fetchBannerAndIntro() {
       try {
@@ -130,11 +141,19 @@ export default function TongChiTuHocPage() {
 
         if (!data) return;
 
+<<<<<<< HEAD
+=======
+        // Lấy Banner
+>>>>>>> 2a82a66dcaa066641e502cd6bf81f25b64731f06
         const featuredImg = data?._embedded?.['wp:featuredmedia']?.[0]?.source_url;
         const contentImg = extractImgFromContent(data?.content?.rendered || '');
         const finalImg = featuredImg || contentImg;
         if (finalImg) setBannerUrl(finalImg);
 
+<<<<<<< HEAD
+=======
+        // Lấy FULL MÔ TẢ (Ưu tiên content -> acf -> excerpt)
+>>>>>>> 2a82a66dcaa066641e502cd6bf81f25b64731f06
         const fullContent = data?.content?.rendered || data?.acf?.description || data?.excerpt?.rendered || '';
         if (fullContent) {
           setPageDescription(formatIntroHtml(fullContent));
@@ -146,7 +165,11 @@ export default function TongChiTuHocPage() {
     fetchBannerAndIntro();
   }, []);
 
+<<<<<<< HEAD
   // 4. TẢI BÀI VIẾT (CARDS) CHO CÁC SECTION
+=======
+  // 3. TẢI BÀI VIẾT (CARDS) CHO CÁC SECTION
+>>>>>>> 2a82a66dcaa066641e502cd6bf81f25b64731f06
   useEffect(() => {
     async function fetchWpPosts() {
       try {
@@ -199,6 +222,7 @@ export default function TongChiTuHocPage() {
   };
 
   return (
+<<<<<<< HEAD
     <div className="min-h-screen bg-[#2c1c11] text-[#e3d2c1] font-sans relative selection:bg-[#f2cc8f] selection:text-black overflow-x-hidden">
       <SubNavbar
         activeSection={activeSection}
@@ -214,6 +238,11 @@ export default function TongChiTuHocPage() {
         pageTitle="TÔNG CHỈ TU HỌC"
         navItems={NAV_ITEMS}
       />
+=======
+    <div className="min-h-screen bg-[#2c1c11] text-[#e3d2c1] font-sans relative selection:bg-[#f2cc8f] selection:text-black">
+      <SubNavbar activeSection={activeSection} isScrolled={isScrolled} onScrollToSection={scrollToSection} />
+      <SidebarNav activeSection={activeSection} isScrolled={isScrolled} onScrollToSection={scrollToSection} />
+>>>>>>> 2a82a66dcaa066641e502cd6bf81f25b64731f06
 
       <div className={`transition-all duration-500 ${isScrolled ? 'pl-16 md:pl-24' : 'pl-4'} pr-4 md:pr-12`}>
         {/* Banner chính */}
@@ -222,6 +251,7 @@ export default function TongChiTuHocPage() {
         {/* Khối mô tả trang đầy đủ không bị cắt */}
         <PageIntro description={pageDescription} />
 
+<<<<<<< HEAD
         <main className="max-w-6xl mx-auto space-y-16 py-8 relative">
           
           <div className="relative z-10 space-y-16">
@@ -234,6 +264,12 @@ export default function TongChiTuHocPage() {
               />
             ))}
           </div>
+=======
+        <main className="max-w-6xl mx-auto space-y-16 py-8">
+          {sectionsData.map((section) => (
+            <SectionCarousel key={section.id} section={section} />
+          ))}
+>>>>>>> 2a82a66dcaa066641e502cd6bf81f25b64731f06
         </main>
       </div>
     </div>

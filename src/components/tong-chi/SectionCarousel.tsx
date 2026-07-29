@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useRef } from 'react';
+<<<<<<< HEAD
 import Link from 'next/link';
 import { SectionData } from '@/types/tong-chi';
 
@@ -15,6 +16,16 @@ export function SectionCarousel({ section, dynamicBgImage }: SectionCarouselProp
 
   // 🔴 Ưu tiên 1: Ảnh động từ WP Taxonomy -> Ưu tiên 2: bgImage của Section -> Ưu tiên 3: bgWatermark
   const bgImage = dynamicBgImage || section.bgImage || section.bgWatermark || '';
+=======
+import Link from 'next/link'; // 🟢 Đã import Link từ next/link
+import { SectionData } from '@/types/tong-chi';
+
+export function SectionCarousel({ section }: { section: SectionData }) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  // Lấy ảnh background cho mỗi phần (Ưu tiên bgImage -> bgWatermark)
+  const bgImage = section.bgImage || section.bgWatermark || '';
+>>>>>>> 2a82a66dcaa066641e502cd6bf81f25b64731f06
 
   const handleScroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
@@ -27,8 +38,12 @@ export function SectionCarousel({ section, dynamicBgImage }: SectionCarouselProp
 
   return (
     <section id={section.id} className="scroll-mt-24 space-y-6 relative rounded-2xl p-6 overflow-hidden">
+<<<<<<< HEAD
       
       {/* 🔴 HIỆU ỨNG NỀN: NẾU CÓ BGIMAGE THÌ HIỂN THỊ HÒA TRỘN MỜ ẢO SANG TRỌNG */}
+=======
+      {/* HIỆU ỨNG NỀN GỐC CỦA BẠN - GIỮ NGUYÊN 100% */}
+>>>>>>> 2a82a66dcaa066641e502cd6bf81f25b64731f06
       {bgImage && (
         <div
           className="absolute inset-0 bg-cover bg-center opacity-30 pointer-events-none mix-blend-luminosity [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_75%)]"
@@ -36,7 +51,11 @@ export function SectionCarousel({ section, dynamicBgImage }: SectionCarouselProp
         />
       )}
 
+<<<<<<< HEAD
       {/* HEADER SECTION */}
+=======
+      {/* HEADER SECTION - GIỮ NGUYÊN 100% */}
+>>>>>>> 2a82a66dcaa066641e502cd6bf81f25b64731f06
       <div className="flex items-center justify-between border-b border-[#523622] pb-3 relative z-10 gap-4">
         <div className="flex items-center gap-4 flex-1">
           <h2
@@ -79,6 +98,10 @@ export function SectionCarousel({ section, dynamicBgImage }: SectionCarouselProp
           const isExternal = card.link?.startsWith('http');
 
           return (
+<<<<<<< HEAD
+=======
+            /* 🟢 CHỖ THAY ĐỔI: Đã đổi thẻ <a> thành <Link> */
+>>>>>>> 2a82a66dcaa066641e502cd6bf81f25b64731f06
             <Link
               key={card.id}
               href={card.link || '#'}
@@ -111,7 +134,11 @@ export function SectionCarousel({ section, dynamicBgImage }: SectionCarouselProp
                   </p>
                 )}
               </div>
+<<<<<<< HEAD
             </Link>
+=======
+            </Link> /* 🟢 CHỖ THAY ĐỔI: Đã đổi </a> thành </Link> */
+>>>>>>> 2a82a66dcaa066641e502cd6bf81f25b64731f06
           );
         })}
       </div>

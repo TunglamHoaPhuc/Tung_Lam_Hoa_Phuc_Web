@@ -3,15 +3,19 @@
 import React from 'react';
 import { NAV_ITEMS } from '@/data/tong-chi-data';
 
+<<<<<<< HEAD
 interface NavItem {
   id: string;
   label: string;
 }
 
+=======
+>>>>>>> 2a82a66dcaa066641e502cd6bf81f25b64731f06
 interface SubNavbarProps {
   activeSection: string;
   isScrolled: boolean;
   onScrollToSection: (id: string) => void;
+<<<<<<< HEAD
   pageTitle?: string;
   navItems?: NavItem[];
 }
@@ -23,6 +27,11 @@ export function SubNavbar({
   pageTitle = 'TÔNG CHỈ TU HỌC',
   navItems = NAV_ITEMS,
 }: SubNavbarProps) {
+=======
+}
+
+export function SubNavbar({ activeSection, isScrolled, onScrollToSection }: SubNavbarProps) {
+>>>>>>> 2a82a66dcaa066641e502cd6bf81f25b64731f06
   return (
     <nav
       className={`sticky top-0 z-50 w-full bg-[#2c1c11]/95 backdrop-blur-md border-b border-[#f2cc8f]/20 shadow-xl transition-all duration-500 ${
@@ -30,13 +39,21 @@ export function SubNavbar({
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between gap-4">
+<<<<<<< HEAD
         {/* KHỐI TRÁI: LOGO + TIÊU ĐỀ */}
+=======
+        {/* KHỐI BÊN TRÁI */}
+>>>>>>> 2a82a66dcaa066641e502cd6bf81f25b64731f06
         <div className="flex items-center space-x-2 md:space-x-3 flex-shrink-0">
           <div className="h-8 w-[1px] bg-gradient-to-b from-transparent via-[#c8aa6e]/60 to-transparent flex-shrink-0" />
 
           <img
             src="https://tunglam.mocwp.com/wp-content/uploads/2026/07/bieu-tuong-tong-chi-tu-hoc-tung-lam-hoa-phuc.png"
+<<<<<<< HEAD
             alt="Biểu tượng"
+=======
+            alt="Biểu tượng Tổng chỉ tu học"
+>>>>>>> 2a82a66dcaa066641e502cd6bf81f25b64731f06
             className="h-10 md:h-12 w-auto object-contain flex-shrink-0"
             onError={(e) => {
               e.currentTarget.style.display = 'none';
@@ -53,14 +70,22 @@ export function SubNavbar({
             style={{ fontFamily: "'UTM Niagara', sans-serif" }}
             className="text-xl sm:text-2xl md:text-3xl text-[#ffde59] tracking-wide uppercase drop-shadow-[0_0_10px_rgba(255,222,89,0.4)] whitespace-nowrap"
           >
+<<<<<<< HEAD
             {pageTitle}
+=======
+            TÔNG CHỈ TU HỌC
+>>>>>>> 2a82a66dcaa066641e502cd6bf81f25b64731f06
           </span>
 
           <div className="h-8 w-[1px] bg-gradient-to-b from-transparent via-[#c8aa6e]/60 to-transparent flex-shrink-0 ml-2" />
 
           <button
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+<<<<<<< HEAD
             className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-[#e8dbb8] text-[#2c1c11] border-2 border-[#b8a679] flex items-center justify-center shadow-[0_4px_12px_rgba(0,0,0,0.7),0_0_8px_rgba(255,222,89,0.25)] hover:scale-110 hover:bg-[#ffde59] hover:border-[#ffde59] transition-all duration-300 ml-1 md:ml-2 flex-shrink-0 cursor-pointer"
+=======
+            className="w-8 h-8 md:w-9 md:h-9 rounded-full bg-[#e8dbb8] text-[#2c1c11] border-2 border-[#b8a679] flex items-center justify-center shadow-[0_4px_12px_rgba(0,0,0,0.7),0_0_8px_rgba(255,222,89,0.25)] hover:scale-110 hover:bg-[#ffde59] hover:border-[#ffde59] transition-all duration-300 ml-1 md:ml-2 flex-shrink-0"
+>>>>>>> 2a82a66dcaa066641e502cd6bf81f25b64731f06
             title="Lên đầu trang"
             type="button"
           >
@@ -70,9 +95,15 @@ export function SubNavbar({
           </button>
         </div>
 
+<<<<<<< HEAD
         {/* KHỐI PHẢI: NAV NGANG */}
         <div className="flex-1 flex items-center justify-between ml-4 md:ml-8 overflow-x-auto no-scrollbar py-2">
           {navItems.map((item, idx) => {
+=======
+        {/* KHỐI BÊN PHẢI: NAV NGANG */}
+        <div className="flex-1 flex items-center justify-between ml-4 md:ml-8 overflow-x-auto no-scrollbar py-2">
+          {NAV_ITEMS.map((item, idx) => {
+>>>>>>> 2a82a66dcaa066641e502cd6bf81f25b64731f06
             const isActive = activeSection === item.id;
             return (
               <React.Fragment key={item.id}>
@@ -97,8 +128,13 @@ export function SubNavbar({
                     style={{ fontFamily: "'UTM Niagara', sans-serif" }}
                     className={`text-xl sm:text-2xl whitespace-nowrap transition-all duration-500 ease-in-out transform ${
                       isActive
+<<<<<<< HEAD
                         ? 'max-w-[220px] opacity-100 text-[#ffde59] drop-shadow-[0_0_8px_rgba(255,222,89,0.5)] translate-x-0'
                         : 'max-w-0 opacity-0 text-[#f2cc8f] group-hover:max-w-[220px] group-hover:opacity-100 group-hover:text-[#ffde59] translate-x-1 group-hover:translate-x-0 overflow-hidden'
+=======
+                        ? 'max-w-[180px] opacity-100 text-[#ffde59] drop-shadow-[0_0_8px_rgba(255,222,89,0.5)] translate-x-0'
+                        : 'max-w-0 opacity-0 text-[#f2cc8f] group-hover:max-w-[180px] group-hover:opacity-100 group-hover:text-[#ffde59] translate-x-1 group-hover:translate-x-0 overflow-hidden'
+>>>>>>> 2a82a66dcaa066641e502cd6bf81f25b64731f06
                     }`}
                   >
                     {item.label}
