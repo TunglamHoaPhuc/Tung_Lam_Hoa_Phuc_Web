@@ -1,1 +1,0 @@
-export default function DangKyKhoaTuPage() { return (<div className="p-8"><h1 className="text-2xl font-bold">Form Đăng Ký Tham Gia Khóa Tu</h1></div>); }

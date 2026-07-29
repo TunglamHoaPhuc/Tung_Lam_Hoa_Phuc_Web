@@ -23,21 +23,24 @@ import { C } from "./palette";
 
 // ─── header nav ─────────────────────────────────────────────────────────────
 export const NAV_LINKS: NavLink[] = [
-  { label: "Giới thiệu", dropdown: true },
-  { label: "Tông Chỉ Tu Học" },
-  { label: "Dòng Chảy Hoằng Pháp" },
-  { label: "Vũ Trụ Phật Giáo" },
-  { label: "Bảo Tượng Phật Giáo" },
-  { label: "Trí Tuệ Phật Pháp" },
+  { label: "Giới thiệu", dropdown: true, href: "/gioi-thieu" },
+  { label: "Tông Chỉ Tu Học", href: "/tong-chi-tu-hoc" },
+  { label: "Dòng Chảy Hoằng Pháp", href: "/dong-chay-hoang-phap" },
+  { label: "Vũ Trụ Phật Giáo", href: "/vu-tru-phat-giao" },
+  { label: "Bảo Tượng Phật Giáo", href: "/bao-tuong-phat-giao" },
+  { label: "Trí Tuệ Phật Pháp", href: "/tri-tue-phat-phap" },
 ];
 
-export const DROPDOWN: string[] = [
-  "Lịch sử Tùng Lâm",
-  "Ban lãnh chúng",
-  "Kiến trúc & Không gian",
-  "Sứ mệnh hoằng pháp",
-  "Cộng đồng Phật tử",
-  "Liên hệ & Chỉ đường",
+export const DROPDOWN: { label: string; href: string }[] = [
+  {
+    label: "Lịch sử Tùng Lâm Hòa Phúc",
+    href: "/gioi-thieu/lich-su-tung-lam-hoa-phuc",
+  },
+  { label: "Đại sư Liên Đăng", href: "/gioi-thieu/dai-su-lien-dang" },
+  { label: "Sư ông Hoằng Pháp", href: "/gioi-thieu/su-ong-hoang-phap" },
+  { label: "Sư phụ Trụ trì", href: "/gioi-thieu/su-phu-tru-tri" },
+  { label: "Tiểu sử Sư tổ", href: "/gioi-thieu/tieu-su-su-to" },
+  { label: "Văn hóa ứng xử", href: "/gioi-thieu/van-hoa-ung-xu" },
 ];
 
 // ─── hero ───────────────────────────────────────────────────────────────────

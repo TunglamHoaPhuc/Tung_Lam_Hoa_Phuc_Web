@@ -3,6 +3,7 @@ import type { LucideIcon } from "lucide-react";
 // ─── nav ──────────────────────────────────────────────────────────────────
 export interface NavLink {
   label: string;
+  href?: string;
   dropdown?: boolean;
 }
 

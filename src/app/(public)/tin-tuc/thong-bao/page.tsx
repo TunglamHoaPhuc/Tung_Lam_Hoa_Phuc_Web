@@ -1,1 +1,0 @@
-export default function ThongBaoPage() { return (<div className="p-8"><h1 className="text-2xl font-bold">Thông Báo Chính Thức</h1></div>); }

@@ -1,1 +1,0 @@
-export default function BaoTuongPhatGiaoPage() { return (<div className="p-8"><h1 className="text-2xl font-bold">Bảo Tượng Phật Giáo</h1></div>); }

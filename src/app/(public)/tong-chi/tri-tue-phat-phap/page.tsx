@@ -1,1 +1,0 @@
-export default function TriTuePhatPhapPage() { return (<div className="p-8"><h1 className="text-2xl font-bold">Trí Tuệ Phật Pháp</h1></div>); }

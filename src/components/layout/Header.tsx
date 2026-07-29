@@ -3,6 +3,7 @@ import { FC, useState } from "react";
 import { ChevronRight, Menu, X } from "lucide-react";
 import { C } from "@/data/palette";
 import { NAV_LINKS, DROPDOWN } from "@/data/home-data";
+import Link from "next/link";
 
 interface HeaderProps {
   /** true once the page has scrolled past the hero threshold (opaque bg). */
@@ -68,54 +69,77 @@ const Header: FC<HeaderProps> = ({ scrolled }) => {
               onMouseEnter={() => item.dropdown && setDrop(true)}
               onMouseLeave={() => item.dropdown && setDrop(false)}
             >
-              <button
-                className="font-inter text-[11px] uppercase tracking-[.1em] font-semibold flex items-center gap-1 transition-colors duration-200 pb-0.5"
-                style={{
-                  color: C.cream,
-                  borderBottom: `1.5px solid transparent`,
-                }}
-                onMouseEnter={(e) =>
-                  ((e.currentTarget as HTMLElement).style.color = C.accent)
-                }
-                onMouseLeave={(e) =>
-                  ((e.currentTarget as HTMLElement).style.color = C.cream)
-                }
-              >
-                {item.label}
-                {item.dropdown && (
+              {item.dropdown ? (
+                <button
+                  className="font-inter text-[11px] uppercase tracking-[.1em] font-semibold flex items-center gap-1 transition-colors duration-200 pb-0.5"
+                  style={{
+                    color: C.cream,
+                    borderBottom: `1.5px solid transparent`,
+                  }}
+                  onMouseEnter={(e) =>
+                    ((e.currentTarget as HTMLElement).style.color = C.accent)
+                  }
+                  onMouseLeave={(e) =>
+                    ((e.currentTarget as HTMLElement).style.color = C.cream)
+                  }
+                >
+                  {item.label}
                   <ChevronRight className="w-3 h-3 rotate-90 opacity-50" />
-                )}
-              </button>
+                </button>
+              ) : (
+                <Link
+                  href={item.href || "#"}
+                  className="font-inter text-[11px] uppercase tracking-[.1em] font-semibold flex items-center gap-1 transition-colors duration-200 pb-0.5"
+                  style={{
+                    color: C.cream,
+                    borderBottom: `1.5px solid transparent`,
+                  }}
+                  onMouseEnter={(e) =>
+                    ((e.currentTarget as HTMLElement).style.color = C.accent)
+                  }
+                  onMouseLeave={(e) =>
+                    ((e.currentTarget as HTMLElement).style.color = C.cream)
+                  }
+                >
+                  {item.label}
+                </Link>
+              )}
 
               {/* dropdown */}
               {item.dropdown && drop && (
-                <div
-                  className="absolute top-full left-0 mt-2 w-56 rounded-lg py-1.5 z-50 border"
-                  style={{
-                    background: C.secondary,
-                    borderColor: `rgba(212,169,74,.4)`,
-                    boxShadow: "0 12px 32px rgba(0,0,0,0.45)",
-                  }}
-                >
-                  {DROPDOWN.map((d) => (
-                    <button
-                      key={d}
-                      className="w-full text-left px-4 py-2.5 font-inter text-[11px] tracking-wide transition-colors"
-                      style={{ color: C.cream }}
-                      onMouseEnter={(e) => {
-                        (e.currentTarget as HTMLElement).style.color = C.accent;
-                        (e.currentTarget as HTMLElement).style.background =
-                          "rgba(74,55,40,.5)";
-                      }}
-                      onMouseLeave={(e) => {
-                        (e.currentTarget as HTMLElement).style.color = C.cream;
-                        (e.currentTarget as HTMLElement).style.background =
-                          "transparent";
-                      }}
-                    >
-                      ›&ensp;{d}
-                    </button>
-                  ))}
+                <div className="absolute top-full left-0 pt-2 w-56 z-50">
+                  <div
+                    className="rounded-lg py-1.5 border"
+                    style={{
+                      background: C.secondary,
+                      borderColor: `rgba(212,169,74,.4)`,
+                      boxShadow: "0 12px 32px rgba(0,0,0,0.45)",
+                    }}
+                  >
+                    {DROPDOWN.map((d) => (
+                      <Link
+                        key={d.label}
+                        href={d.href}
+                        className="block w-full text-left px-4 py-2.5 font-inter text-[11px] tracking-wide transition-colors"
+                        style={{ color: C.cream }}
+                        onMouseEnter={(e) => {
+                          (e.currentTarget as HTMLElement).style.color =
+                            C.accent;
+                          (e.currentTarget as HTMLElement).style.background =
+                            "rgba(74,55,40,.5)";
+                        }}
+                        onMouseLeave={(e) => {
+                          (e.currentTarget as HTMLElement).style.color =
+                            C.cream;
+                          (e.currentTarget as HTMLElement).style.background =
+                            "transparent";
+                        }}
+                        onClick={() => setDrop(false)}
+                      >
+                        ›&ensp;{d.label}
+                      </Link>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
@@ -141,15 +165,39 @@ const Header: FC<HeaderProps> = ({ scrolled }) => {
             borderColor: "rgba(201,161,92,.3)",
           }}
         >
-          {NAV_LINKS.map((item) => (
-            <button
-              key={item.label}
-              className="font-inter text-sm uppercase tracking-widest text-left transition-colors"
-              style={{ color: C.cream }}
-            >
-              {item.label}
-            </button>
-          ))}
+          {NAV_LINKS.map((item) =>
+            item.dropdown ? (
+              <div key={item.label} className="flex flex-col gap-2">
+                <span
+                  className="font-inter text-sm uppercase tracking-widest"
+                  style={{ color: C.cream }}
+                >
+                  {item.label}
+                </span>
+                {DROPDOWN.map((d) => (
+                  <Link
+                    key={d.label}
+                    href={d.href}
+                    className="pl-4 font-inter text-sm tracking-wide"
+                    style={{ color: C.muted }}
+                    onClick={() => setMob(false)}
+                  >
+                    › {d.label}
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <Link
+                key={item.label}
+                href={item.href || "#"}
+                className="font-inter text-sm uppercase tracking-widest text-left transition-colors"
+                style={{ color: C.cream }}
+                onClick={() => setMob(false)}
+              >
+                {item.label}
+              </Link>
+            ),
+          )}
         </div>
       )}
     </header>

@@ -1,1 +1,0 @@
-export default function PhatSuPage() { return (<div className="p-8"><h1 className="text-2xl font-bold">Tin Tức Hoạt Động Phật Sự</h1></div>); }
