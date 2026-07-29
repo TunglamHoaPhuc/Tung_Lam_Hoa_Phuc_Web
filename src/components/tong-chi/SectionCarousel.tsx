@@ -1,14 +1,20 @@
 'use client';
 
 import React, { useRef } from 'react';
-import Link from 'next/link'; // 🟢 Đã import Link từ next/link
+import Link from 'next/link';
 import { SectionData } from '@/types/tong-chi';
 
-export function SectionCarousel({ section }: { section: SectionData }) {
+// 🟢 Bổ sung prop dynamicBgImage để nhận ảnh nền động từ API Taxonomy
+interface SectionCarouselProps {
+  section: SectionData;
+  dynamicBgImage?: string;
+}
+
+export function SectionCarousel({ section, dynamicBgImage }: SectionCarouselProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // Lấy ảnh background cho mỗi phần (Ưu tiên bgImage -> bgWatermark)
-  const bgImage = section.bgImage || section.bgWatermark || '';
+  // 🔴 Ưu tiên 1: Ảnh động từ WP Taxonomy -> Ưu tiên 2: bgImage của Section -> Ưu tiên 3: bgWatermark
+  const bgImage = dynamicBgImage || section.bgImage || section.bgWatermark || '';
 
   const handleScroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
@@ -21,7 +27,8 @@ export function SectionCarousel({ section }: { section: SectionData }) {
 
   return (
     <section id={section.id} className="scroll-mt-24 space-y-6 relative rounded-2xl p-6 overflow-hidden">
-      {/* HIỆU ỨNG NỀN GỐC CỦA BẠN - GIỮ NGUYÊN 100% */}
+      
+      {/* 🔴 HIỆU ỨNG NỀN: NẾU CÓ BGIMAGE THÌ HIỂN THỊ HÒA TRỘN MỜ ẢO SANG TRỌNG */}
       {bgImage && (
         <div
           className="absolute inset-0 bg-cover bg-center opacity-30 pointer-events-none mix-blend-luminosity [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_75%)]"
@@ -29,7 +36,7 @@ export function SectionCarousel({ section }: { section: SectionData }) {
         />
       )}
 
-      {/* HEADER SECTION - GIỮ NGUYÊN 100% */}
+      {/* HEADER SECTION */}
       <div className="flex items-center justify-between border-b border-[#523622] pb-3 relative z-10 gap-4">
         <div className="flex items-center gap-4 flex-1">
           <h2
@@ -72,7 +79,6 @@ export function SectionCarousel({ section }: { section: SectionData }) {
           const isExternal = card.link?.startsWith('http');
 
           return (
-            /* 🟢 CHỖ THAY ĐỔI: Đã đổi thẻ <a> thành <Link> */
             <Link
               key={card.id}
               href={card.link || '#'}
@@ -105,7 +111,7 @@ export function SectionCarousel({ section }: { section: SectionData }) {
                   </p>
                 )}
               </div>
-            </Link> /* 🟢 CHỖ THAY ĐỔI: Đã đổi </a> thành </Link> */
+            </Link>
           );
         })}
       </div>

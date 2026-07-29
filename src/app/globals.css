@@ -24,6 +24,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -75,12 +76,13 @@
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
+  /* Ép màu nền mặc định của biến --background thành màu nâu gỗ #2c1c11 */
+  --background: #2c1c11;
+  --foreground: #e3d2c1;
+  --card: #2c1c11;
+  --card-foreground: #e3d2c1;
+  --popover: #2c1c11;
+  --popover-foreground: #e3d2c1;
   --primary: oklch(0.205 0 0);
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
@@ -110,12 +112,12 @@
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
+  --background: #2c1c11;
+  --foreground: #e3d2c1;
+  --card: #2c1c11;
+  --card-foreground: #e3d2c1;
+  --popover: #2c1c11;
+  --popover-foreground: #e3d2c1;
   --primary: oklch(0.922 0 0);
   --primary-foreground: oklch(0.205 0 0);
   --secondary: oklch(0.269 0 0);
@@ -147,13 +149,20 @@
   * {
     @apply border-border outline-ring/50;
   }
+  
+  /* Cấu hình triệt tiêu màu trắng mặc định của trình duyệt */
+  html,
   body {
-    @apply bg-background text-foreground;
-  }
-  html {
+    background-color: #2c1c11 !important;
+    color: #e3d2c1;
+    overflow-x: hidden;
+    width: 100%;
+    margin: 0;
+    padding: 0;
     @apply font-sans;
   }
 }
+
 /* Ẩn thanh cuộn cho slider/carousel */
 .no-scrollbar::-webkit-scrollbar {
   display: none;

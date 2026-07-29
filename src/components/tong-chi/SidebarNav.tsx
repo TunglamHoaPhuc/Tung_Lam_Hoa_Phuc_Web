@@ -1,15 +1,29 @@
 'use client';
 
 import React from 'react';
-import { NAV_ITEMS } from '@/data/tong-chi-data';
+
+interface NavItem {
+  id: string;
+  label: string;
+}
 
 interface SidebarNavProps {
   activeSection: string;
   isScrolled: boolean;
   onScrollToSection: (id: string) => void;
+  pageTitle?: string;
+  navItems?: NavItem[];
 }
 
-export function SidebarNav({ activeSection, isScrolled, onScrollToSection }: SidebarNavProps) {
+export function SidebarNav({
+  activeSection,
+  isScrolled,
+  onScrollToSection,
+  pageTitle = 'TÔNG PHONG TRUYỀN THỪA',
+  navItems = [],
+}: SidebarNavProps) {
+  const titleWords = (pageTitle || 'TÔNG PHONG TRUYỀN THỪA').trim().split(/\s+/);
+
   return (
     <aside
       className={`fixed left-2 md:left-6 top-1/2 -translate-y-1/2 z-50 flex flex-col items-center gap-3 transition-all duration-500 ${
@@ -19,7 +33,7 @@ export function SidebarNav({ activeSection, isScrolled, onScrollToSection }: Sid
       <div className="bg-[#382417]/90 border border-[#f2cc8f]/40 px-2.5 py-4 rounded-3xl flex flex-col items-center shadow-2xl backdrop-blur-md">
         <img
           src="https://tunglam.mocwp.com/wp-content/uploads/2026/07/bieu-tuong-tong-chi-tu-hoc-tung-lam-hoa-phuc.png"
-          alt="Biểu tượng Tông chỉ tu học"
+          alt="Biểu tượng"
           className="h-8 w-auto object-contain mb-2 flex-shrink-0 drop-shadow-[0_0_6px_rgba(255,222,89,0.4)]"
           onError={(e) => {
             e.currentTarget.style.display = 'none';
@@ -30,12 +44,11 @@ export function SidebarNav({ activeSection, isScrolled, onScrollToSection }: Sid
 
         <div
           style={{ fontFamily: "'UTM Niagara', sans-serif" }}
-          className="flex flex-col items-center text-[#ffde59] text-base font-bold tracking-wider leading-tight uppercase select-none drop-shadow-[0_0_4px_rgba(255,222,89,0.3)] my-1"
+          className="flex flex-col items-center text-[#ffde59] text-base font-bold tracking-wider leading-tight uppercase select-none drop-shadow-[0_0_4px_rgba(255,222,89,0.3)] my-1 max-w-[60px] text-center"
         >
-          <span>TÔNG</span>
-          <span>CHỈ</span>
-          <span>TU</span>
-          <span>HỌC</span>
+          {titleWords.map((word, idx) => (
+            <span key={idx} className="block leading-snug py-0.5">{word}</span>
+          ))}
         </div>
 
         <div className="w-4 h-[1px] bg-gradient-to-r from-transparent via-[#f2cc8f]/50 to-transparent my-2" />
@@ -54,12 +67,13 @@ export function SidebarNav({ activeSection, isScrolled, onScrollToSection }: Sid
         <div className="w-4 h-[1px] bg-gradient-to-r from-transparent via-[#f2cc8f]/50 to-transparent my-2" />
 
         <div className="flex flex-col items-center">
-          {NAV_ITEMS.map((item, index) => {
+          {navItems.map((item, index) => {
             const isActive = activeSection === item.id;
             return (
               <React.Fragment key={item.id}>
+                {/* 🔴 ĐƯỜNG KẺ MỀM MẠI GRADIENT DỌC NHƯ THANH NGANG */}
                 {index > 0 && (
-                  <div className="w-[1px] h-5 bg-gradient-to-b from-[#f2cc8f]/10 via-[#f2cc8f]/30 to-[#f2cc8f]/10 my-1" />
+                  <div className="w-[1px] h-4 bg-gradient-to-b from-transparent via-[#f2cc8f]/40 to-transparent my-0.5" />
                 )}
 
                 <button
@@ -75,6 +89,7 @@ export function SidebarNav({ activeSection, isScrolled, onScrollToSection }: Sid
                     }`}
                   />
 
+                  {/* THẺ TEXT HOVER */}
                   <span
                     style={{ fontFamily: "'UTM Niagara', sans-serif" }}
                     className={`absolute left-full ml-3 px-2.5 py-1 rounded-md bg-[#21140b]/95 border border-[#f2cc8f]/50 text-lg sm:text-xl whitespace-nowrap shadow-xl backdrop-blur-md pointer-events-none transition-all duration-300 transform origin-left ${
