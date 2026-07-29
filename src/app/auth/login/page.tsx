@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { supabase } from "@/lib/supabase";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -11,18 +10,12 @@ export default function LoginPage() {
   async function handleLogin() {
     setLoading(true);
 
-    const { error } = await supabase.auth.signInWithPassword({
+    console.log({
       email,
       password,
     });
 
-    if (error) {
-      alert(error.message);
-      setLoading(false);
-      return;
-    }
-
-    alert("Đăng nhập thành công!");
+    alert("Auth module đang được triển khai");
 
     setLoading(false);
   }

@@ -1,8 +1,8 @@
 import { FC, useState } from "react";
-import { C } from "@/data/palette";
-import { NEWS } from "@/data/home-data";
+import { C } from "@/config/theme";
+import { NEWS } from "@/features/home/data/home-data";
+import type { SectionRef } from "@/features/home/types";
 import { step } from "@/lib/carousel";
-import type { SectionRef } from "@/types/home";
 import SecHead from "@/components/ui/SecHead";
 import Arrow from "@/components/ui/Arrow";
 import Dots from "@/components/ui/Dots";

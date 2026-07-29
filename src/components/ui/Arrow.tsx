@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { C } from "@/data/palette";
-import type { ArrowDir } from "@/types/home";
+import { C } from "@/config/theme";
+import type { ArrowDir } from "@/features/home/types";
 
 interface ArrowProps {
   dir: ArrowDir;

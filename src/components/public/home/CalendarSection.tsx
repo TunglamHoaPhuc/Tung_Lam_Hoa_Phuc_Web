@@ -1,8 +1,16 @@
 import { FC, useState } from "react";
 import { Calendar } from "lucide-react";
-import { C } from "@/data/palette";
-import { WDAYS, CAL, DOT_COLOR, LEGEND, EVT_SLIDES } from "@/data/home-data";
-import type { SectionRef } from "@/types/home";
+import { C } from "@/config/theme";
+
+import {
+  WDAYS,
+  CAL,
+  DOT_COLOR,
+  LEGEND,
+  EVT_SLIDES,
+} from "@/features/home/data/home-data";
+
+import type { SectionRef } from "@/features/home/types";
 import SecHead from "@/components/ui/SecHead";
 import Dots from "@/components/ui/Dots";
 

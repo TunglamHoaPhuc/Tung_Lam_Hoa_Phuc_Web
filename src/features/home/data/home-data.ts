@@ -18,8 +18,8 @@ import type {
   Area,
   Statue,
   Contact,
-} from "@/types/home";
-import { C } from "./palette";
+} from "../types";
+import { C } from "@/config/theme";
 
 // ─── header nav ─────────────────────────────────────────────────────────────
 export const NAV_LINKS: NavLink[] = [

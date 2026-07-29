@@ -1,7 +1,7 @@
 import { FC } from "react";
-import { C } from "@/data/palette";
-import { DHARMA } from "@/data/home-data";
-import type { SectionRef } from "@/types/home";
+import { C } from "@/config/theme";
+import { DHARMA } from "@/features/home/data/home-data";
+import type { SectionRef } from "@/features/home/types";
 import SecHead from "@/components/ui/SecHead";
 
 interface DharmaSectionProps {

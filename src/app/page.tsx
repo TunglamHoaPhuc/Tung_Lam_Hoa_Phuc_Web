@@ -1,16 +1,16 @@
 "use client";
 //import { FC, useEffect, useRef, useState } from "react";
 import { FC, useCallback, useEffect, useRef, useState } from "react";
-import { C } from "@/data/palette";
-import { SECTION_IDS } from "@/data/home-data";
-import Header from "@/components/layout/Header";
-import Hero from "@/components/home/Hero";
-import NewsSection from "@/components/home/NewsSection";
-import DharmaSection from "@/components/home/DharmaSection";
-import CalendarSection from "@/components/home/CalendarSection";
-import ProgramsSection from "@/components/home/ProgramsSection";
-import GallerySection from "@/components/home/GallerySection";
-import ContactSection from "@/components/home/ContactSection";
+import { C } from "@/config/theme";
+import { SECTION_IDS } from "@/features/home/data/home-data";
+import Header from "@/components/public/layout/Header";
+import Hero from "@/components/public/home/Hero";
+import NewsSection from "@/components/public/home/NewsSection";
+import DharmaSection from "@/components/public/home/DharmaSection";
+import CalendarSection from "@/components/public/home/CalendarSection";
+import ProgramsSection from "@/components/public/home/ProgramsSection";
+import GallerySection from "@/components/public/home/GallerySection";
+import ContactSection from "@/components/public/home/ContactSection";
 
 // NOTE: there is no "Introduction" section in the source page — the original
 // markup goes straight from Hero to the news carousel. Add an Introduction

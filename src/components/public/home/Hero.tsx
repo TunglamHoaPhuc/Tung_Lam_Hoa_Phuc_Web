@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { FaYoutube } from "react-icons/fa";
-import { C } from "@/data/palette";
-import { HERO_CTAS } from "@/data/home-data";
+import { C } from "@/config/theme";
+import { HERO_CTAS } from "@/features/home/data/home-data";
 
 /** Top banner: background image, title, CTA button row, YouTube highlight bar. */
 const Hero: FC = () => {

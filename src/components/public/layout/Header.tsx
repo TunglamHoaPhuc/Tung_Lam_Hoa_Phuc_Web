@@ -1,8 +1,8 @@
 "use client";
 import { FC, useState } from "react";
 import { ChevronRight, Menu, X } from "lucide-react";
-import { C } from "@/data/palette";
-import { NAV_LINKS, DROPDOWN } from "@/data/home-data";
+import { C } from "@/config/theme";
+import { NAV_LINKS, DROPDOWN } from "@/features/home/data/home-data";
 import Link from "next/link";
 
 interface HeaderProps {

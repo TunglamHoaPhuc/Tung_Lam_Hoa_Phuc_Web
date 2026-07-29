@@ -1,8 +1,8 @@
 import { FC } from "react";
 import { Calendar } from "lucide-react";
-import { C } from "@/data/palette";
-import { PROGRAMS } from "@/data/home-data";
-import type { SectionRef } from "@/types/home";
+import { C } from "@/config/theme";
+import { PROGRAMS } from "@/features/home/data/home-data";
+import type { SectionRef } from "@/features/home/types";
 import SecHead from "@/components/ui/SecHead";
 
 interface ProgramsSectionProps {

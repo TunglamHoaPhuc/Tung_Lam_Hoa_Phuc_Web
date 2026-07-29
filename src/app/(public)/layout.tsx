@@ -1,7 +1,7 @@
 "use client";
 
-import Header from "@/components/layout/Header";
-import ContactSection from "@/components/home/ContactSection";
+import Header from "@/components/public/layout/Header";
+import ContactSection from "@/components/public/home/ContactSection";
 
 export default function PublicLayout({
   children,

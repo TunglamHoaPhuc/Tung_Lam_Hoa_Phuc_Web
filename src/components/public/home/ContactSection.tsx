@@ -1,8 +1,8 @@
 import { FC } from "react";
 import { Phone } from "lucide-react";
 import { FaFacebook, FaYoutube, FaInstagram } from "react-icons/fa";
-import { C } from "@/data/palette";
-import { CONTACTS } from "@/data/home-data";
+import { C } from "@/config/theme";
+import { CONTACTS } from "@/features/home/data/home-data";
 
 const SOCIALS: Array<{
   icon?: typeof FaFacebook;
@@ -165,7 +165,7 @@ const ContactSection: FC = () => {
             © 2024 Tùng Lâm Hòa Phúc. Bảo lưu mọi quyền.
           </p>
           <p className="font-inter text-xs italic" style={{ color: "#5C4630" }}>
-            "Nơi để trở về – Chốn thiêng bình yên" 🪷
+            &quot;Nơi để trở về – Chốn thiêng bình yên&quot; 🪷
           </p>
         </div>
       </div>

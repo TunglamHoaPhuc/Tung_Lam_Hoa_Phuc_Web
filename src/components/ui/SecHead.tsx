@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { C } from "@/data/palette";
+import { C } from "@/config/theme";
 
 interface SecHeadProps {
   title: string;

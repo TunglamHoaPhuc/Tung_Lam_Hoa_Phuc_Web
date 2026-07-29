@@ -1,6 +1,3 @@
-// ─── palette constants ────────────────────────────────────────────────────
-// Kept exactly as in the original page.tsx. Shared by every home section so
-// colors stay pixel-identical after the split.
 export const C = {
   primary: "#4A3728",
   dark: "#2A1D14",

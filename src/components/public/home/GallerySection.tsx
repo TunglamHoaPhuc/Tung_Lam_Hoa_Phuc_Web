@@ -1,9 +1,9 @@
 import { FC, useState } from "react";
 import { MapPin, Star } from "lucide-react";
-import { C } from "@/data/palette";
-import { AREAS, STATUES } from "@/data/home-data";
+import { C } from "@/config/theme";
+import { AREAS, STATUES } from "@/features/home/data/home-data";
+import type { SectionRef } from "@/features/home/types";
 import { step } from "@/lib/carousel";
-import type { SectionRef } from "@/types/home";
 import SecHead from "@/components/ui/SecHead";
 import Arrow from "@/components/ui/Arrow";
 
