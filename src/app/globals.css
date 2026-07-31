@@ -1,3 +1,33 @@
+/* 1. UTM Niagara (Tiêu đề chính & Neo Menu) */
+@font-face {
+  font-family: 'UTM Niagara';
+  src: url('/fonts/UTMNiagara.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 2. UTM ClassizismAntiqua (Mô tả phụ & Tiêu đề Tông Phong) */
+@font-face {
+  font-family: 'UTM ClassizismAntiqua';
+  src: url('/fonts/UTMClassizismAntiqua.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 3. UTM Avo (Tên bài viết "Tiếp Bước Thầy Tôi" & Mô tả trong Card) */
+@font-face {
+  font-family: 'UTM Avo';
+  src: url('/fonts/UTMAvo.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+<<<<<<< HEAD
+
+=======
+>>>>>>> 2a82a66dcaa066641e502cd6bf81f25b64731f06
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -49,12 +79,22 @@
 }
 
 :root {
+<<<<<<< HEAD
+  /* Ép màu nền mặc định của biến --background thành màu nâu gỗ #2c1c11 */
+  --background: #2c1c11;
+  --foreground: #e3d2c1;
+  --card: #2c1c11;
+  --card-foreground: #e3d2c1;
+  --popover: #2c1c11;
+  --popover-foreground: #e3d2c1;
+=======
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
+>>>>>>> 2a82a66dcaa066641e502cd6bf81f25b64731f06
   --primary: oklch(0.205 0 0);
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
@@ -84,12 +124,21 @@
 }
 
 .dark {
+<<<<<<< HEAD
+  --background: #2c1c11;
+  --foreground: #e3d2c1;
+  --card: #2c1c11;
+  --card-foreground: #e3d2c1;
+  --popover: #2c1c11;
+  --popover-foreground: #e3d2c1;
+=======
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
+>>>>>>> 2a82a66dcaa066641e502cd6bf81f25b64731f06
   --primary: oklch(0.922 0 0);
   --primary-foreground: oklch(0.205 0 0);
   --secondary: oklch(0.269 0 0);
@@ -121,10 +170,35 @@
   * {
     @apply border-border outline-ring/50;
   }
+<<<<<<< HEAD
+  
+  /* Cấu hình triệt tiêu màu trắng mặc định của trình duyệt */
+  html,
+  body {
+    background-color: #2c1c11 !important;
+    color: #e3d2c1;
+    overflow-x: hidden;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    @apply font-sans;
+  }
+}
+
+=======
   body {
     @apply bg-background text-foreground;
   }
   html {
     @apply font-sans;
   }
+}
+>>>>>>> 2a82a66dcaa066641e502cd6bf81f25b64731f06
+/* Ẩn thanh cuộn cho slider/carousel */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE và Edge */
+  scrollbar-width: none;  /* Firefox */
 }
