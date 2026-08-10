@@ -66,3 +66,9 @@ next-env.d.ts
 # Prisma Generated Client
 # =========================
 /src/generated/prisma
+
+# Large design files & temp files (>100MB)
+*.ai
+*.tmp
+*.psd
+docs/*.xlsx

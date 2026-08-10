@@ -1,4 +1,4 @@
-import { TongChiPageData, ACFTongChiSection, ACFCardItem } from '@/types/tong-chi';
+import { TongChiPageData, ACFTongChiSection, ACFCardItem } from '@/types/tong-chi-tu-hoc';
 
 const WP_URL = 'https://tunglam.mocwp.com/wp-json';
 
@@ -13,15 +13,20 @@ function extractImageUrl(imageField: any, fallback = ''): string {
 export async function getTongChiPageData(): Promise<TongChiPageData> {
   try {
     // 1. Lấy thông tin trang chính (ID 388) làm Hero Banner & Tiêu đề
-    const resPage = await fetch(`${WP_URL}/wp/v2/tong-chi/388?_embed`, {
+    let resPage = await fetch(`${WP_URL}/wp/v2/tong-chi/388?_embed`, {
       next: { revalidate: 60 },
     });
+    if (!resPage.ok) {
+      resPage = await fetch(`${WP_URL}/wp/v2/tong-chi-tu-hoc/388?_embed`, {
+        next: { revalidate: 60 },
+      });
+    }
     const pageObj = resPage.ok ? await resPage.json() : null;
 
     const heroBanner =
-      extractImageUrl(pageObj?.acf?.banner_image) ||
       pageObj?._embedded?.['wp:featuredmedia']?.[0]?.source_url ||
-      'https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?auto=format&fit=crop&q=80';
+      extractImageUrl(pageObj?.acf?.banner_image) ||
+      'https://tunglam.mocwp.com/wp-content/uploads/2026/07/bg-chua.jpg';
 
     const pageTitle = pageObj?.title?.rendered || pageObj?.acf?.main_title || 'TÔNG CHỈ TU HỌC';
     const pageSubtitle = pageObj?.acf?.sub_title || 'TÙNG LÂM HÒA PHÚC';
@@ -71,7 +76,7 @@ export async function getTongChiPageData(): Promise<TongChiPageData> {
             extractImageUrl(acf.banner_image) ||
             p._embedded?.['wp:featuredmedia']?.[0]?.source_url ||
             'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&q=80',
-          link: `/tong-chi/${p.slug}`,
+          link: `/tong-chi-tu-hoc/${p.slug}`,
         };
 
         // Đẩy Thẻ Card vào đúng Danh mục của nó

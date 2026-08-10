@@ -1,446 +1,236 @@
-export default function Page() {
-  const categories = [
-    {
-      label: "Tam Bảo",
-      image:
-        "https://images.unsplash.com/photo-1618165220283-e85246c4171c?w=600&h=300&fit=crop",
-    },
-    {
-      label: "Bảo tượng",
-      image:
-        "https://images.unsplash.com/photo-1618554565982-3497a2e70642?w=600&h=300&fit=crop",
-    },
-    {
-      label: "Tam Quan",
-      image:
-        "https://images.unsplash.com/photo-1498747468843-5ec2ad31cb89?w=600&h=300&fit=crop",
-    },
-    {
-      label: "Vườn Thiền",
-      image:
-        "https://images.unsplash.com/photo-1769488287238-6b82889f4bb4?w=600&h=300&fit=crop",
-    },
-    {
-      label: "Hành Lang",
-      image:
-        "https://images.unsplash.com/photo-1709064159097-91b634741c96?w=600&h=300&fit=crop",
-    },
-    {
-      label: "Kinh Tạng",
-      image:
-        "https://images.unsplash.com/photo-1564834325499-cd770c8ed0ef?w=600&h=300&fit=crop",
-    },
-    {
-      label: "Toàn Cảnh",
-      image:
-        "https://images.unsplash.com/photo-1618165220283-e85246c4171c?w=600&h=300&fit=crop",
-    },
-    {
-      label: "Pháp Khí",
-      image:
-        "https://images.unsplash.com/photo-1721113411239-3e87d435dda6?w=600&h=300&fit=crop",
-    },
-  ];
+'use client';
 
-  const statues = [
-    {
-      image:
-        "https://images.unsplash.com/photo-1618554565982-3497a2e70642?w=800&h=600&fit=crop",
-      name: "Tượng Thích Ca Sơ Sinh",
-      location: "Chánh điện Tam Bảo",
-      category: "Đồng thếp vàng · Thế kỷ XVIII",
-    },
-    {
-      image:
-        "https://images.unsplash.com/photo-1564834325499-cd770c8ed0ef?w=800&h=600&fit=crop",
-      name: "Tượng Quán Thế Âm",
-      location: "Vườn Lộc Uyển",
-      category: "Bạch ngọc · Thế kỷ XX",
-    },
-    {
-      image:
-        "https://images.unsplash.com/photo-1721113411239-3e87d435dda6?w=800&h=600&fit=crop",
-      name: "Tượng La Hán Tọa Thiền",
-      location: "Nhà Tổ",
-      category: "Gỗ mít sơn son · Thế kỷ XVII",
-    },
-    {
-      image:
-        "https://images.unsplash.com/photo-1618554565982-3497a2e70642?w=800&h=600&fit=crop",
-      name: "Tượng Niết Bàn",
-      location: "Điện Cực Lạc",
-      category: "Thếp vàng · Thế kỷ XIX",
-    },
-    {
-      image:
-        "https://images.unsplash.com/photo-1564834325499-cd770c8ed0ef?w=800&h=600&fit=crop",
-      name: "Đại Hồng Chung",
-      location: "Gác Chuông",
-      category: "Đồng đúc · Niên hiệu Gia Long",
-    },
-    {
-      image:
-        "https://images.unsplash.com/photo-1618165220283-e85246c4171c?w=800&h=600&fit=crop",
-      name: "Tượng Tam Thế Phật",
-      location: "Thượng điện",
-      category: "Đồng thếp vàng · Thế kỷ XVIII",
-    },
-  ];
+import { useState } from 'react';
+import Link from 'next/link';
+import { Filter, ChevronLeft, ChevronRight, ChevronDown, Sparkles } from 'lucide-react';
+import Header from '@/components/public/layout/Header';
+import Footer from '@/components/public/layout/Footer';
+import { STATUE_ASSEMBLIES, STATUE_LIST, OFFICIAL_NTPG_LIST, StatueItem } from '@/data/statue-data';
+import { ArtisticStatueSection } from '@/features/universe/components/ArtisticStatueSection';
+import { SmartSearchAIBar } from '@/components/public/SmartSearchAIBar';
 
-  const articles = [
-    {
-      image:
-        "https://images.unsplash.com/photo-1564834325499-cd770c8ed0ef?w=800&h=500&fit=crop",
-      label: "Tư liệu",
-      title: "Mộc bản kinh tạng Hòa Phúc",
-      text: "Bộ mộc bản khắc kinh còn lưu tại tàng kinh các, ghi dấu công phu khắc chữ của nhiều thế hệ tăng chúng.",
-    },
-    {
-      image:
-        "https://images.unsplash.com/photo-1709064159097-91b634741c96?w=800&h=500&fit=crop",
-      label: "Kiến trúc",
-      title: "Hành lang La Hán và nghệ thuật sơn son",
-      text: "Hệ cột gỗ lim sơn son thếp vàng chạy dọc hai bên chánh điện, tạo nên nhịp điệu ánh sáng đặc trưng.",
-    },
-    {
-      image:
-        "https://images.unsplash.com/photo-1769488287238-6b82889f4bb4?w=800&h=500&fit=crop",
-      label: "Không gian",
-      title: "Hồ sen và vườn thiền phía Đông",
-      text: "Không gian tĩnh lặng dành cho hành giả kinh hành, nơi mặt nước phản chiếu mái ngói cổ mỗi buổi chiều.",
-    },
-  ];
+export default function BaoTuongPhatGiaoPage() {
+  const [selectedAssembly, setSelectedAssembly] = useState('all');
+  const [isExpanded, setIsExpanded] = useState(false);
 
-  const locations = [
-    {
-      image:
-        "https://images.unsplash.com/photo-1498747468843-5ec2ad31cb89?w=900&h=600&fit=crop",
-      name: "Tam Quan Ngoại",
-      text: "Cổng tam quan ba lối, biểu tượng của Không — Vô Tướng — Vô Tác.",
-    },
-    {
-      image:
-        "https://images.unsplash.com/photo-1618165220283-e85246c4171c?w=900&h=600&fit=crop",
-      name: "Chánh Điện Tam Bảo",
-      text: "Trung tâm hành lễ của tùng lâm, nơi tôn trí Tam Thế Phật.",
-    },
-  ];
-
-  const slides = [
-    {
-      image:
-        "https://images.unsplash.com/photo-1618165220283-e85246c4171c?w=1200&h=700&fit=crop",
-      title: "TOÀN CẢNH TÙNG LÂM",
-      description:
-        "Quần thể tùng lâm tọa lạc giữa vùng núi sương phủ, bố cục theo trục thần đạo truyền thống với chánh điện làm trung tâm.",
-    },
-    {
-      image:
-        "https://images.unsplash.com/photo-1709064159097-91b634741c96?w=1200&h=700&fit=crop",
-      title: "HÀNH LANG LA HÁN",
-      description:
-        "Dãy hành lang gỗ với hệ đèn lồng, dẫn hành giả từ ngoại viện vào không gian nội điện thanh tịnh.",
-    },
-    {
-      image:
-        "https://images.unsplash.com/photo-1769488287238-6b82889f4bb4?w=1200&h=700&fit=crop",
-      title: "VƯỜN THIỀN LỘC UYỂN",
-      description:
-        "Vườn cảnh với hồ sen, đá tảng và cây thế, được chăm sóc theo nếp thiền môn qua nhiều thế hệ.",
-    },
-  ];
+  // Filter assemblies
+  const activeAssemblies = STATUE_ASSEMBLIES.filter((asm) => {
+    if (asm.id === 'all') return false;
+    if (selectedAssembly !== 'all' && asm.id !== selectedAssembly) return false;
+    return true;
+  });
 
   return (
-    <div className="min-h-screen bg-[#1a120c] text-[#f5e6c8]">
-      {/* HERO */}
-      <section className="relative h-[70vh] min-h-[520px] w-full overflow-hidden">
-        <img
-          src="https://images.unsplash.com/photo-1618165220283-e85246c4171c?w=1920&h=1080&fit=crop"
-          alt="Tùng Lâm Hòa Phúc"
-          className="h-full w-full object-cover"
+    <div className="min-h-screen bg-[#2A1D14] text-[#e3d2c1] selection:bg-[#F2C14E] selection:text-black">
+      <Header scrolled={true} />
+
+      {/* ── 1. HERO BANNER CHUẨN ĐỒNG BỘ DÒNG CHẢY HOẰNG PHÁP ── */}
+      <div className="relative w-full overflow-hidden bg-[#2A1D14] pt-28 pb-10">
+        {/* Ảnh nền đằng sau mờ */}
+        <div
+          className="absolute inset-0 bg-cover bg-center opacity-30 blur-[2px] pointer-events-none"
+          style={{
+            backgroundImage: "url('/images/toan-canh-chua.jpg')",
+          }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/45 to-[#1a120c]" />
-        <div className="absolute inset-0 flex flex-col items-center justify-center px-6 text-center">
-          <p className="text-[11px] uppercase tracking-[0.3em] text-[#d4a94a]">
-            Kho tàng văn hóa Phật giáo Việt Nam
-          </p>
-          <div className="mt-6 h-px w-[120px] bg-[#d4a94a]" />
-          <h1 className="mt-6 text-4xl font-bold tracking-[0.08em] text-[#f0d78c] md:text-6xl lg:text-7xl">
-            TÙNG LÂM HÒA PHÚC
-          </h1>
-          <p className="mt-6 max-w-[600px] text-base leading-relaxed text-white/90">
-            Không gian lưu trữ số về bảo tượng, kiến trúc và tư liệu của một
-            tùng lâm cổ — nơi mỗi pho tượng, mỗi mái ngói đều mang theo ký ức
-            của nhiều thế kỷ tu tập.
-          </p>
-          <a
-            href="#bo-suu-tap"
-            className="mt-10 inline-flex h-12 items-center border border-[#d4a94a] px-8 text-[12px] uppercase tracking-[0.2em] text-[#f0d78c] transition hover:bg-[#d4a94a]/15"
+        {/* Hiệu ứng mờ mềm mại hòa vào nền nâu */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#2A1D14]/40 via-[#2A1D14]/75 to-[#2A1D14] pointer-events-none" />
+
+        <div className="relative z-10 max-w-[1280px] mx-auto px-4 md:px-10 flex flex-col items-center justify-center text-center">
+          <div className="w-10 h-10 rounded-full bg-[#3a2718] border border-[#f2cc8f]/40 flex items-center justify-center text-[#ffde59] mb-2 shadow-md">
+            <span className="text-xl">☸</span>
+          </div>
+
+          {/* 1. KHUNG FLEXBOX CĂN ĐƯỜNG KẺ HAI BÊN ĐÂM TỪ TIM TIÊU ĐỀ */}
+          <div className="flex items-center justify-center w-full my-4 gap-4 md:gap-8">
+            <div className="flex-1 h-[1px] bg-gradient-to-r from-transparent via-[#F2C14E]/50 to-[#F2C14E]" />
+            <h1
+              style={{ fontFamily: "'UTM Niagara', sans-serif" }}
+              className="text-5xl sm:text-6xl md:text-7xl font-normal text-[#ffde59] uppercase tracking-wider drop-shadow-[0_0_18px_rgba(242,193,78,0.7)] whitespace-nowrap flex-shrink-0"
+            >
+              BẢO TƯỢNG PHẬT GIÁO
+            </h1>
+            <div className="flex-1 h-[1px] bg-gradient-to-l from-transparent via-[#F2C14E]/50 to-[#F2C14E]" />
+          </div>
+
+          {/* 2. Subtitle: UTM Avo, Sentence case, Text-balance */}
+          <p
+            style={{ fontFamily: "'UTM Avo', sans-serif" }}
+            className="text-xs sm:text-sm md:text-base text-[#e3d2c1] tracking-wide font-normal max-w-2xl mx-auto px-4 leading-relaxed text-balance text-center"
           >
-            Bắt đầu chiêm bái
-          </a>
+            Hệ thống tượng&nbsp;pháp dát&nbsp;vàng, sơn&nbsp;son thếp&nbsp;vàng tôn&nbsp;thờ tại Tùng&nbsp;Lâm&nbsp;Hòa&nbsp;Phúc.
+          </p>
         </div>
-      </section>
+      </div>
 
-      {/* CATEGORY GRID */}
-      <section
-        id="bo-suu-tap"
-        className="mx-auto max-w-[1280px] px-6 py-20 md:px-10"
-      >
-        <div className="mb-10">
-          <p className="text-[11px] uppercase tracking-[0.3em] text-[#d4a94a]">
-            Bộ sưu tập
-          </p>
-          <h2 className="mt-3 text-3xl font-bold text-[#f0d78c]">
-            CÁC CHUYÊN MỤC
-          </h2>
-        </div>
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-4 md:gap-6">
-          {categories.map((c) => (
-            <a
-              key={c.label}
-              href="#"
-              className="group relative block h-[110px] overflow-hidden border border-[#3d2e22] transition hover:border-[#d4a94a]"
-            >
-              <img
-                src={c.image}
-                alt={c.label}
-                className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-black/55" />
-              <span className="absolute bottom-3 left-3 text-[13px] tracking-[0.16em] text-[#f0d78c]">
-                {c.label.toUpperCase()}
-              </span>
-            </a>
-          ))}
-        </div>
-      </section>
+      {/* ── 2. THANH BỘ LỌC TAXONOMIES "LỰA CHỌN" (FILTER BAR) ── */}
+      <main className="max-w-[1280px] mx-auto px-4 md:px-10 py-12">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-12 pb-6 border-b" style={{ borderColor: 'rgba(242,193,78,0.2)' }}>
+          <div className="flex items-center gap-2">
+            <Filter className="w-4 h-4 text-[#F2C14E]" />
+            <span className="text-xs font-bold uppercase tracking-widest text-[#F2C14E]" style={{ fontFamily: "'UTM Avo', sans-serif", fontWeight: 'bold' }}>
+              LỰA CHỌN CHÚNG HỘI:
+            </span>
+          </div>
 
-      {/* TAM BAO */}
-      <section className="py-12">
-        <div className="relative h-[420px] w-full overflow-hidden md:h-[560px]">
-          <img
-            src="https://images.unsplash.com/photo-1618165220283-e85246c4171c?w=1920&h=1000&fit=crop"
-            alt="Chánh điện Tam Bảo"
-            className="h-full w-full object-cover"
-          />
-          <div className="absolute inset-0 bg-black/40" />
+          <select
+            value={selectedAssembly}
+            onChange={(e) => setSelectedAssembly(e.target.value)}
+            className="py-2.5 px-5 rounded-xl text-xs font-bold uppercase tracking-wider focus:outline-none cursor-pointer"
+            style={{
+              background: 'linear-gradient(135deg, #4A3728 0%, #3D2B1F 100%)',
+              border: '1.5px solid #F2C14E',
+              color: '#F2C14E',
+              fontFamily: "'UTM Avo', sans-serif",
+              fontWeight: 'bold',
+            }}
+          >
+            {STATUE_ASSEMBLIES.map((asm) => (
+              <option key={asm.id} value={asm.id} className="bg-[#2A1D14] text-[#e3d2c1]">
+                {asm.name}
+              </option>
+            ))}
+          </select>
         </div>
-        <div className="mx-auto mt-12 flex max-w-[1280px] flex-col items-center px-6 text-center md:px-10">
-          <p className="text-[11px] uppercase tracking-[0.3em] text-[#d4a94a]">
-            Không gian tiêu biểu
-          </p>
-          <h2 className="mt-4 text-4xl font-bold tracking-[0.1em] text-[#f0d78c] md:text-6xl">
-            TAM BẢO
-          </h2>
-          <div className="mt-6 h-px w-[160px] bg-[#d4a94a]" />
-          <p className="mt-8 max-w-[700px] text-base leading-[2] text-white/90">
-            Chánh điện Tam Bảo là trung tâm của tùng lâm, nơi tôn trí Tam Thế
-            Phật trên bệ sen chạm khắc. Ánh nến hắt lên lớp sơn son thếp vàng
-            của hệ vì kèo gỗ lim, tạo nên bầu không khí trầm mặc mà nhiều thế hệ
-            tăng chúng đã gìn giữ nguyên vẹn.
-          </p>
-        </div>
-      </section>
 
-      {/* STATUES */}
-      <section className="mx-auto max-w-[1280px] px-6 py-20 md:px-10">
-        <div className="mb-12 text-center">
-          <p className="text-[11px] uppercase tracking-[0.3em] text-[#d4a94a]">
-            Di sản tôn tượng
-          </p>
-          <h2 className="mt-3 text-3xl font-bold text-[#f0d78c] md:text-4xl">
-            BẢO TƯỢNG TỊNH TU
-          </h2>
-        </div>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {statues.map((s) => (
-            <article
-              key={s.name}
-              className="group flex h-[320px] flex-col overflow-hidden border border-[#3d2e22] bg-[#2a1d14]"
-            >
-              <div className="h-[75%] overflow-hidden">
-                <img
-                  src={s.image}
-                  alt={s.name}
-                  className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
-                />
-              </div>
-              <div className="flex flex-1 flex-col justify-center border-t border-[#3d2e22] px-5">
-                <h3 className="text-[15px] tracking-[0.12em] text-[#f0d78c]">
-                  {s.name}
-                </h3>
-                <p className="mt-1 text-[11px] uppercase tracking-[0.14em] text-[#a89070]">
-                  {s.location} · {s.category}
-                </p>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
+        {/* ── 3. KHUNG DANH MỤC PHÂN LOẠI CHÚNG HỘI VỚI DẢI MỜ & NÚT XEM TẤT CẢ NỔI ── */}
+        <div className="relative mb-12">
+          {/* Khung bọc danh sách Tượng Pháp có max-h chứa 6 bài (2 hàng x 3 cột) khi chưa bấm mở rộng */}
+          <div
+            className={`relative transition-all duration-500 overflow-hidden ${
+              !isExpanded ? 'max-h-[850px] md:max-h-[880px]' : 'max-h-[10000px] pb-8'
+            }`}
+          >
+            <div className="space-y-16">
+              {activeAssemblies.map((asm) => {
+                const statuesInAsm = STATUE_LIST.filter((s) => s.assemblyId === asm.id || selectedAssembly === 'all');
+                if (statuesInAsm.length === 0) return null;
 
-      {/* ARTICLES */}
-      <section className="mx-auto max-w-[1280px] px-6 py-20 md:px-10">
-        <div className="mb-10">
-          <p className="text-[11px] uppercase tracking-[0.3em] text-[#d4a94a]">
-            Tư liệu liên quan
-          </p>
-          <h2 className="mt-3 text-3xl font-bold text-[#f0d78c]">
-            KHẢO CỨU & GHI CHÉP
-          </h2>
-        </div>
-        <div className="flex flex-col">
-          {articles.map((a) => (
-            <a
-              key={a.title}
-              href="#"
-              className="group grid grid-cols-1 gap-6 border-t border-[#3d2e22] py-8 last:border-b md:grid-cols-[40%_1fr] md:gap-8"
-            >
-              <div className="h-[200px] overflow-hidden border border-[#3d2e22] md:h-[220px]">
-                <img
-                  src={a.image}
-                  alt={a.title}
-                  className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
-                />
-              </div>
-              <div className="flex flex-col justify-center">
-                <p className="text-[11px] uppercase tracking-[0.3em] text-[#d4a94a]">
-                  {a.label}
-                </p>
-                <h3 className="mt-3 text-2xl text-[#f0d78c] transition group-hover:text-[#d4a94a]">
-                  {a.title}
-                </h3>
-                <p className="mt-3 max-w-[560px] text-base leading-relaxed text-[#a89070]">
-                  {a.text}
-                </p>
-              </div>
-            </a>
-          ))}
-        </div>
-      </section>
+                return (
+                  <div key={asm.id} className="space-y-6">
+                    {/* Header Section */}
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <img
+                          src="/images/bieu-tuong-tuong-phap.png"
+                          alt="Biểu tượng Bảo tượng"
+                          className="w-7 h-7 object-contain filter drop-shadow-[0_0_8px_rgba(242,193,78,0.6)]"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = '/images/bieu-tuong-tuong-phap.svg';
+                          }}
+                        />
+                        <h2
+                          className="text-2xl md:text-3xl font-bold uppercase tracking-wider text-[#F2C14E]"
+                          style={{ fontFamily: "'UTM Niagara', 'Playfair Display', serif" }}
+                        >
+                          {asm.name}
+                        </h2>
+                      </div>
+                    </div>
 
-      {/* ARCHITECTURE */}
-      <section className="mx-auto max-w-[1280px] px-6 py-20 md:px-10">
-        <div className="mb-10 text-center">
-          <p className="text-[11px] uppercase tracking-[0.3em] text-[#d4a94a]">
-            Tham quan kiến trúc
-          </p>
-          <h2 className="mt-3 text-3xl font-bold text-[#f0d78c]">
-            KHÔNG GIAN TÙNG LÂM
-          </h2>
-        </div>
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:grid-rows-2 md:gap-6">
-          <figure className="relative overflow-hidden border border-[#3d2e22] md:col-span-2 md:row-span-2 md:h-[560px]">
-            <img
-              src="https://images.unsplash.com/photo-1618165220283-e85246c4171c?w=1200&h=800&fit=crop"
-              alt="Toàn cảnh tùng lâm"
-              className="h-full w-full object-cover"
-            />
-            <div className="absolute inset-0 bg-black/30" />
-            <figcaption className="absolute bottom-6 left-6 text-xl tracking-[0.16em] text-[#f0d78c]">
-              TOÀN CẢNH TÙNG LÂM
-            </figcaption>
-          </figure>
-          {[
-            {
-              image:
-                "https://images.unsplash.com/photo-1769488287238-6b82889f4bb4?w=800&h=400&fit=crop",
-              title: "VƯỜN THIỀN",
-            },
-            {
-              image:
-                "https://images.unsplash.com/photo-1709064159097-91b634741c96?w=800&h=400&fit=crop",
-              title: "HÀNH LANG",
-            },
-          ].map((g) => (
-            <figure
-              key={g.title}
-              className="relative h-[220px] overflow-hidden border border-[#3d2e22] md:h-[268px]"
-            >
-              <img
-                src={g.image}
-                alt={g.title}
-                className="h-full w-full object-cover"
-              />
-              <div className="absolute inset-0 bg-black/30" />
-              <figcaption className="absolute bottom-5 left-5 text-[15px] tracking-[0.16em] text-[#f0d78c]">
-                {g.title}
-              </figcaption>
-            </figure>
-          ))}
-        </div>
-      </section>
+                    <div className="h-px w-full" style={{ background: 'linear-gradient(to right, #F2C14E, transparent)' }} />
 
-      {/* LOCATIONS */}
-      <section className="mx-auto max-w-[1280px] px-6 py-20 md:px-10">
-        <div className="mb-10">
-          <p className="text-[11px] uppercase tracking-[0.3em] text-[#d4a94a]">
-            Địa điểm quan trọng
-          </p>
-          <h2 className="mt-3 text-3xl font-bold text-[#f0d78c]">
-            CHIÊM BÁI THEO TRỤC THẦN ĐẠO
-          </h2>
-        </div>
-        <div className="grid gap-6 md:grid-cols-2">
-          {locations.map((l) => (
-            <article
-              key={l.name}
-              className="group relative h-[380px] overflow-hidden border border-[#3d2e22] md:h-[420px]"
-            >
-              <img
-                src={l.image}
-                alt={l.name}
-                className="h-full w-full object-cover transition duration-700 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
-              <div className="absolute right-6 bottom-6 left-6">
-                <h3 className="text-2xl tracking-[0.12em] text-[#f0d78c]">
-                  {l.name}
-                </h3>
-                <p className="mt-2 text-[15px] leading-relaxed text-white/85">
-                  {l.text}
-                </p>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
+                    {/* Grid Cards */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {statuesInAsm.map((st) => (
+                        <Link
+                          key={st.id}
+                          href={`/bao-tuong-phat-giao/${st.slug}`}
+                          className="group relative w-full overflow-hidden rounded-xl border border-[#F2C14E]/20 bg-[#2C1C11] cursor-pointer transition-all duration-300 hover:-translate-y-1.5 hover:border-[#F2C14E] shadow-xl hover:shadow-2xl flex flex-col h-full"
+                        >
+                          {/* Thumbnail with Badge Logo overlay */}
+                          <div className="relative w-full aspect-[3/4] overflow-hidden bg-[#1A120B] shrink-0">
+                            <img
+                              src={st.imgUrl}
+                              alt={st.name}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                            />
+                            <div
+                              className="absolute inset-0 pointer-events-none"
+                              style={{
+                                background: 'linear-gradient(to top, rgba(44,28,17,0.92) 0%, transparent 60%)',
+                              }}
+                            />
+                          </div>
 
-      {/* SLIDES */}
-      <section className="mx-auto max-w-[1280px] px-6 py-20 md:px-10">
-        <div className="mb-12 text-center">
-          <p className="text-[11px] uppercase tracking-[0.3em] text-[#d4a94a]">
-            Hành trình hình ảnh
-          </p>
-          <h2 className="mt-3 text-3xl font-bold text-[#f0d78c]">
-            THƯ VIỆN CHIÊM BÁI
-          </h2>
+                          {/* Seam line and badge logo */}
+                          <div className="relative w-full h-[1px] bg-gradient-to-r from-transparent via-[#F2C14E]/70 to-transparent z-10 shrink-0">
+                            <div className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-11 md:h-11 rounded-full border-2 border-[#F2C14E] bg-[#2C1C11] flex items-center justify-center p-1.5 shadow-[0_0_12px_rgba(242,193,78,0.5)]">
+                              <img
+                                src="/images/bieu-tuong-tuong-phap.png"
+                                alt="Biểu tượng Bảo tượng"
+                                className="w-full h-full object-contain filter drop-shadow-[0_0_6px_rgba(242,193,78,0.8)]"
+                                onError={(e) => {
+                                  (e.target as HTMLImageElement).src = '/images/bieu-tuong-tuong-phap.svg';
+                                }}
+                              />
+                            </div>
+                          </div>
+
+                          {/* Content Card */}
+                          <div className="p-4 md:p-6 pt-6 md:pt-8 flex flex-col gap-2 bg-[#2C1C11] flex-1 justify-between text-center items-center">
+                            <div>
+                              <h3
+                                className="font-bold text-xl md:text-2xl text-[#F2C14E] group-hover:text-white transition-colors mb-1"
+                                style={{
+                                  fontFamily: "'UTM Niagara', 'Playfair Display', serif",
+                                  textShadow: '0 0 16px rgba(242,193,78,0.4)',
+                                }}
+                              >
+                                {st.name}
+                              </h3>
+
+                              <p
+                                className="text-xs text-[#c9b896] uppercase tracking-wider"
+                                style={{
+                                  fontFamily: "'UTM ClassizismAntiqua', 'Playfair Display', serif",
+                                }}
+                              >
+                                {st.areaName}
+                              </p>
+                            </div>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Lớp dải mờ Gradient Mask Overlay ở chân hàng Card thứ 2 (khi chưa mở rộng) */}
+            {!isExpanded && (
+              <div className="absolute bottom-0 inset-x-0 h-48 md:h-64 bg-gradient-to-t from-[#2C1C11] via-[#2C1C11]/85 to-transparent pointer-events-none z-10" />
+            )}
+          </div>
+
+          {/* Nút Xem Tất Cả Tượng Pháp nổi chính giữa dải mờ (Giống 100% Dòng Chảy Hoằng Pháp) */}
+          {!isExpanded && (
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 w-full flex justify-center px-4">
+              <button
+                type="button"
+                onClick={() => setIsExpanded(true)}
+                className="px-8 py-3 md:px-10 md:py-3.5 bg-[#6B4B2A] hover:bg-[#8B6439] border border-[#F2C14E] text-[#F2C14E] hover:text-[#FFE5A3] font-bold text-sm md:text-base rounded-xl transition-all duration-300 shadow-[0_10px_25px_rgba(0,0,0,0.7)] flex items-center gap-2 cursor-pointer uppercase tracking-wider"
+                style={{ fontFamily: "'UTM Avo', sans-serif" }}
+              >
+                <span>XEM TẤT CẢ 45 BẢO TƯỢNG PHẬT GIÁO</span>
+                <ChevronDown className="w-5 h-5" />
+              </button>
+            </div>
+          )}
         </div>
-        <div className="grid gap-6 md:grid-cols-3">
-          {slides.map((s) => (
-            <article
-              key={s.title}
-              className="overflow-hidden border border-[#3d2e22] bg-[#2a1d14]"
-            >
-              <div className="h-[220px] overflow-hidden">
-                <img
-                  src={s.image}
-                  alt={s.title}
-                  className="h-full w-full object-cover"
-                />
-              </div>
-              <div className="p-5">
-                <h3 className="text-[15px] tracking-[0.14em] text-[#f0d78c]">
-                  {s.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-[#a89070]">
-                  {s.description}
-                </p>
-              </div>
-            </article>
-          ))}
+
+        {/* ── 4. NGHỆ THUẬT PHẬT GIÁO SECTION (51 PHO TƯỢNG) ── */}
+        <div className="mt-12 mb-12">
+          <ArtisticStatueSection items={OFFICIAL_NTPG_LIST} />
         </div>
-      </section>
+
+        {/* ── 5. KHUNG TRỢ LÝ AI PHẬT HỌC NẰM PHÍA DƯỚI KHỐI GRID ── */}
+        <div className="mt-8 mb-12">
+          <SmartSearchAIBar contextTitle="Bảo Tượng Phật Giáo Tùng Lâm Hòa Phúc" />
+        </div>
+      </main>
+      <Footer />
     </div>
   );
 }

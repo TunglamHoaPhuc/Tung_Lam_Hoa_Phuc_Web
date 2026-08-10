@@ -1,87 +1,79 @@
 "use client";
-//import { FC, useEffect, useRef, useState } from "react";
-import { FC, useCallback, useEffect, useRef, useState } from "react";
-import { C } from "@/config/theme";
-import { SECTION_IDS } from "@/features/home/data/home-data";
-import Header from "@/components/public/layout/Header";
-import Hero from "@/components/public/home/Hero";
-import NewsSection from "@/components/public/home/NewsSection";
-import DharmaSection from "@/components/public/home/DharmaSection";
-import CalendarSection from "@/components/public/home/CalendarSection";
-import ProgramsSection from "@/components/public/home/ProgramsSection";
-import GallerySection from "@/components/public/home/GallerySection";
-import ContactSection from "@/components/public/home/ContactSection";
 
-// NOTE: there is no "Introduction" section in the source page — the original
-// markup goes straight from Hero to the news carousel. Add an Introduction
-// component here once real content (chùa history / giới thiệu) is available.
+import { FC, useEffect, useState } from "react";
+import Header from "@/components/public/layout/Header";
+import Footer from "@/components/public/layout/Footer";
+import Hero from "@/features/home/components/Hero";
+import NewsSection from "@/features/home/components/NewsSection";
+import DharmaSection from "@/features/home/components/DharmaSection";
+import CalendarSection from "@/features/home/components/CalendarSection";
+import GallerySection from "@/features/home/components/GallerySection";
+import { SmartSearchAIBar } from "@/components/public/SmartSearchAIBar";
+import { VerticalAnchorNav } from "@/components/common/VerticalAnchorNav";
+
+const HOME_SECTIONS = [
+  { id: "hero", label: "NƠI ĐỂ TRỞ VỀ" },
+  { id: "ai-search", label: "TRỢ LÝ PHẬT HỌC" },
+  { id: "news", label: "TIN MỚI NHẤT" },
+  { id: "dharma", label: "DẤU ẤN HOẰNG PHÁP" },
+  { id: "calendar", label: "LỊCH TU HỌC" },
+  { id: "gallery", label: "KHU VỰC & BẢO TƯỢNG" },
+];
 
 const Home: FC = () => {
   const [scrollY, setScrollY] = useState<number>(0);
-  const [activeSection, setActive] = useState<number>(0);
-  const sectionRefs = useRef<(HTMLElement | null)[]>([]);
 
   useEffect(() => {
     const onScroll = () => {
       setScrollY(window.scrollY);
-      const pos = window.scrollY + window.innerHeight / 2;
-      sectionRefs.current.forEach((el, i) => {
-        if (el && el.offsetTop <= pos && el.offsetTop + el.offsetHeight > pos) {
-          setActive(i);
-        }
-      });
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const scrolled = scrollY > 64;
-
-  const registerRef = useCallback(
-    (i: number) => (el: HTMLElement | null) => {
-      sectionRefs.current[i] = el;
-    },
-    [],
-  );
-
   return (
     <div
-      style={{ background: C.bg, fontFamily: "'Noto Serif', serif" }}
-      className="min-h-screen overflow-x-hidden"
+      style={{ background: "#1A120B" }}
+      className="min-h-screen overflow-x-hidden relative font-sans text-[#e3d2c1] selection:bg-[#F2C14E] selection:text-black"
     >
-      {/* sticky side section dots */}
-      <nav
-        className="fixed right-5 top-1/2 -translate-y-1/2 z-40 hidden xl:flex flex-col gap-3"
-        aria-label="Điều hướng section"
-      >
-        {SECTION_IDS.map((id, i) => (
-          <button
-            key={id}
-            onClick={() =>
-              sectionRefs.current[i]?.scrollIntoView({ behavior: "smooth" })
-            }
-            className="w-2.5 h-2.5 rounded-full border-2 transition-all duration-300"
-            style={{
-              borderColor: C.accent,
-              background: i === activeSection ? C.accent : "transparent",
-              transform: i === activeSection ? "scale(1.3)" : "scale(1)",
-            }}
-            aria-label={`Section ${id}`}
-          />
-        ))}
-      </nav>
+      {/* ── THANH NEO DỌC SANG BÊN PHẢI MÀN HÌNH ── */}
+      <VerticalAnchorNav pageTitle="TRANG CHỦ" sections={HOME_SECTIONS} />
 
-      <Header scrolled={scrolled} />
+      <Header scrolled={scrollY > 64} />
 
-      <Hero />
+      <main>
+        {/* Section 0: Hero Video Banner */}
+        <section id="hero">
+          <Hero />
+        </section>
 
-      <NewsSection sectionRef={registerRef(0)} />
-      <DharmaSection sectionRef={registerRef(1)} />
-      <CalendarSection sectionRef={registerRef(2)} />
-      <ProgramsSection sectionRef={registerRef(3)} />
-      <GallerySection areasRef={registerRef(4)} statuesRef={registerRef(5)} />
+        {/* Section 1: TRỢ LÝ PHẬT HỌC AI NGAY DƯỚI HERO VIDEO */}
+        <section id="ai-search" className="max-w-[1280px] mx-auto px-4 md:px-10 my-10 relative z-20">
+          <SmartSearchAIBar contextTitle="Tùng Lâm Hòa Phúc - Bạn muốn tìm điều gì / đặt câu hỏi gì?" />
+        </section>
 
-      <ContactSection />
+        {/* Section 2: News */}
+        <section id="news">
+          <NewsSection />
+        </section>
+
+        {/* Section 3: Dharma */}
+        <section id="dharma">
+          <DharmaSection />
+        </section>
+
+        {/* Section 4: Calendar */}
+        <section id="calendar">
+          <CalendarSection />
+        </section>
+
+        {/* Section 5: Featured Areas & Statues */}
+        <section id="gallery">
+          <GallerySection />
+        </section>
+      </main>
+
+      <Footer />
     </div>
   );
 };

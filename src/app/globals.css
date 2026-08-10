@@ -1,4 +1,4 @@
-/* 1. UTM Niagara (Tiêu đề chính & Neo Menu) */
+/* 1. UTM Niagara (Tiêu đề lớn phát sáng chữ vàng) */
 @font-face {
   font-family: 'UTM Niagara';
   src: url('/fonts/UTMNiagara.ttf') format('truetype');
@@ -7,7 +7,7 @@
   font-display: swap;
 }
 
-/* 2. UTM ClassizismAntiqua (Mô tả phụ & Tiêu đề Tông Phong) */
+/* 2. UTM ClassizismAntiqua (Phụ đề, slogan, tiêu đề bài viết) */
 @font-face {
   font-family: 'UTM ClassizismAntiqua';
   src: url('/fonts/UTMClassizismAntiqua.ttf') format('truetype');
@@ -16,7 +16,7 @@
   font-display: swap;
 }
 
-/* 3. UTM Avo (Tên bài viết "Tiếp Bước Thầy Tôi" & Mô tả trong Card) */
+/* 3. UTM Avo (Văn bản thân bài, mô tả ngắn, metadata thẻ) */
 @font-face {
   font-family: 'UTM Avo';
   src: url('/fonts/UTMAvo.ttf') format('truetype');
@@ -24,10 +24,25 @@
   font-style: normal;
   font-display: swap;
 }
-<<<<<<< HEAD
 
-=======
->>>>>>> 2a82a66dcaa066641e502cd6bf81f25b64731f06
+/* 4. UTM Avo Bold (Tooltip keyword nổi bật → Pop-up giải nghĩa) */
+@font-face {
+  font-family: 'UTM Avo';
+  src: url('/fonts/UTMAvoBold.ttf') format('truetype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 5. UTM Avo Italic (Chú thích ảnh / image captions) */
+@font-face {
+  font-family: 'UTM Avo';
+  src: url('/fonts/UTMAvoItalic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: italic;
+  font-display: swap;
+}
+
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -79,7 +94,6 @@
 }
 
 :root {
-<<<<<<< HEAD
   /* Ép màu nền mặc định của biến --background thành màu nâu gỗ #2c1c11 */
   --background: #2c1c11;
   --foreground: #e3d2c1;
@@ -87,14 +101,6 @@
   --card-foreground: #e3d2c1;
   --popover: #2c1c11;
   --popover-foreground: #e3d2c1;
-=======
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
->>>>>>> 2a82a66dcaa066641e502cd6bf81f25b64731f06
   --primary: oklch(0.205 0 0);
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
@@ -124,21 +130,12 @@
 }
 
 .dark {
-<<<<<<< HEAD
   --background: #2c1c11;
   --foreground: #e3d2c1;
   --card: #2c1c11;
   --card-foreground: #e3d2c1;
   --popover: #2c1c11;
   --popover-foreground: #e3d2c1;
-=======
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
->>>>>>> 2a82a66dcaa066641e502cd6bf81f25b64731f06
   --primary: oklch(0.922 0 0);
   --primary-foreground: oklch(0.205 0 0);
   --secondary: oklch(0.269 0 0);
@@ -170,7 +167,6 @@
   * {
     @apply border-border outline-ring/50;
   }
-<<<<<<< HEAD
   
   /* Cấu hình triệt tiêu màu trắng mặc định của trình duyệt */
   html,
@@ -185,15 +181,6 @@
   }
 }
 
-=======
-  body {
-    @apply bg-background text-foreground;
-  }
-  html {
-    @apply font-sans;
-  }
-}
->>>>>>> 2a82a66dcaa066641e502cd6bf81f25b64731f06
 /* Ẩn thanh cuộn cho slider/carousel */
 .no-scrollbar::-webkit-scrollbar {
   display: none;

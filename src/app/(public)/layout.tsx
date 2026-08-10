@@ -1,7 +1,7 @@
 "use client";
 
 import Header from "@/components/public/layout/Header";
-import ContactSection from "@/components/public/home/ContactSection";
+import ContactSection from "@/features/home/components/ContactSection";
 
 export default function PublicLayout({
   children,
@@ -13,7 +13,7 @@ export default function PublicLayout({
       {/* scrolled={true}: header luôn có nền, dễ đọc trên trang con */}
       <Header scrolled={true} />
 
-      <main className="flex-1 pt-[72px]">{children}</main>
+      <main className="flex-1">{children}</main>
 
       <ContactSection />
     </div>

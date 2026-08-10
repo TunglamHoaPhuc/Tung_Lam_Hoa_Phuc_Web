@@ -1,139 +1,115 @@
 "use client";
 import { FC, useState } from "react";
 import { ChevronRight, Menu, X } from "lucide-react";
-import { C } from "@/config/theme";
 import { NAV_LINKS, DROPDOWN } from "@/features/home/data/home-data";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 
 interface HeaderProps {
-  /** true once the page has scrolled past the hero threshold (opaque bg). */
   scrolled: boolean;
 }
 
-/** Fixed top header: logo, desktop dropdown nav, mobile hamburger menu. */
 const Header: FC<HeaderProps> = ({ scrolled }) => {
   const [drop, setDrop] = useState<boolean>(false);
   const [mob, setMob] = useState<boolean>(false);
 
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const handleLogoClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (pathname === '/') {
+      // Nếu đang ở trang chủ: Cuộn mượt lên đầu trang
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      // Nếu đang ở trang con: Chuyển hướng về trang chủ
+      router.push('/');
+    }
+  };
+
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+      className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b overflow-visible py-1.5 md:py-2 bg-[#1A120B]"
       style={{
-        height: 72,
-        background: scrolled ? `rgba(42,29,20,0.97)` : "transparent",
-        backdropFilter: scrolled ? "blur(10px)" : "none",
-        boxShadow: scrolled ? "0 2px 20px rgba(0,0,0,0.35)" : "none",
+        height: 64,
+        background: scrolled
+          ? "rgba(26,15,8,0.96)"
+          : "linear-gradient(to bottom, rgba(26,15,8,0.92) 0%, rgba(26,15,8,0.75) 100%)",
+        backdropFilter: "blur(12px)",
+        borderColor: "rgba(242,193,78,0.25)",
+        boxShadow: "0 4px 24px rgba(0,0,0,0.5)",
       }}
     >
-      <div className="max-w-[1280px] mx-auto px-10 h-full flex items-center justify-between">
-        {/* logo */}
-        <div className="flex items-center gap-3">
-          <div
-            className="w-12 h-12 rounded-full border-2 flex items-center justify-center overflow-hidden flex-shrink-0"
-            style={{
-              borderColor: C.accentDeep,
-              background: `linear-gradient(135deg,${C.accent},${C.surface})`,
-            }}
-          >
-            <span
-              className="font-cinzel font-black text-center leading-tight"
-              style={{ fontSize: 7.5, color: C.dark }}
-            >
-              TL
-              <br />
-              HP
-            </span>
-          </div>
-          <div className="hidden md:block">
-            <div
-              className="font-cinzel text-xs font-bold tracking-[.2em]"
-              style={{ color: C.cream }}
-            >
-              TÙNG LÂM HÒA PHÚC
-            </div>
-            <div
-              className="font-inter text-[10px] tracking-[.25em] uppercase"
-              style={{ color: C.muted }}
-            >
-              Thiền Viện · Hà Nội
-            </div>
-          </div>
-        </div>
+      <div className="max-w-[1360px] mx-auto px-4 md:px-8 h-full flex items-center justify-between lg:justify-start gap-6 md:gap-8 overflow-visible relative z-50">
 
-        {/* desktop nav */}
-        <nav className="hidden lg:flex items-center gap-7">
+        {/* Logo Mộc Ấn Treo Thò (Hanging Badge - Dual Logic) */}
+        <Link
+          href="/"
+          onClick={handleLogoClick}
+          className="relative z-50 shrink-0 -mb-10 md:-mb-16 overflow-visible cursor-pointer group"
+          title="Tùng Lâm Hòa Phúc"
+        >
+          <img
+            src="/images/logo-moc-an.png"
+            alt="Logo Mộc Ấn Tùng Lâm Hòa Phúc"
+            className="h-24 md:h-32 lg:h-36 w-auto object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.7)] transition-transform duration-300 hover:scale-105"
+          />
+        </Link>
+
+        {/* Vạch phân cách 1 (Sau Logo) */}
+        <div className="w-[1px] h-6 bg-gradient-to-b from-transparent via-[#F2C14E]/50 to-transparent shrink-0 hidden lg:block" />
+
+        {/* Menu Navigation Phẳng Đẹp Ngay Sau Logo */}
+        <nav className="hidden lg:flex items-center gap-6 xl:gap-8 flex-shrink-0">
           {NAV_LINKS.map((item) => (
             <div
               key={item.label}
-              className="relative"
+              className="relative flex-shrink-0"
               onMouseEnter={() => item.dropdown && setDrop(true)}
               onMouseLeave={() => item.dropdown && setDrop(false)}
             >
               {item.dropdown ? (
                 <button
-                  className="font-inter text-[11px] uppercase tracking-[.1em] font-semibold flex items-center gap-1 transition-colors duration-200 pb-0.5"
+                  className="text-[11px] xl:text-xs uppercase tracking-[.1em] font-bold flex items-center gap-1 transition-colors duration-200 py-1 cursor-pointer whitespace-nowrap"
                   style={{
-                    color: C.cream,
-                    borderBottom: `1.5px solid transparent`,
+                    color: "#F2C14E",
+                    fontFamily: "'UTM Avo', sans-serif",
+                    textShadow: "0 0 10px rgba(242,193,78,0.3)",
                   }}
-                  onMouseEnter={(e) =>
-                    ((e.currentTarget as HTMLElement).style.color = C.accent)
-                  }
-                  onMouseLeave={(e) =>
-                    ((e.currentTarget as HTMLElement).style.color = C.cream)
-                  }
                 >
-                  {item.label}
-                  <ChevronRight className="w-3 h-3 rotate-90 opacity-50" />
+                  <span className="whitespace-nowrap">{item.label}</span>
+                  <ChevronRight className="w-3.5 h-3.5 rotate-90 text-[#F2C14E] flex-shrink-0" />
                 </button>
               ) : (
                 <Link
                   href={item.href || "#"}
-                  className="font-inter text-[11px] uppercase tracking-[.1em] font-semibold flex items-center gap-1 transition-colors duration-200 pb-0.5"
+                  className="text-[11px] xl:text-xs uppercase tracking-[.1em] font-bold flex items-center gap-1 transition-colors duration-200 py-1 hover:text-white whitespace-nowrap"
                   style={{
-                    color: C.cream,
-                    borderBottom: `1.5px solid transparent`,
+                    color: "#e3d2c1",
+                    fontFamily: "'UTM Avo', sans-serif",
                   }}
-                  onMouseEnter={(e) =>
-                    ((e.currentTarget as HTMLElement).style.color = C.accent)
-                  }
-                  onMouseLeave={(e) =>
-                    ((e.currentTarget as HTMLElement).style.color = C.cream)
-                  }
                 >
-                  {item.label}
+                  <span className="whitespace-nowrap">{item.label}</span>
                 </Link>
               )}
 
-              {/* dropdown */}
+              {/* Dropdown Menu */}
               {item.dropdown && drop && (
-                <div className="absolute top-full left-0 pt-2 w-56 z-50">
+                <div className="absolute top-full left-0 pt-2 w-60 z-50">
                   <div
-                    className="rounded-lg py-1.5 border"
+                    className="rounded-xl py-2 border shadow-2xl backdrop-blur-md"
                     style={{
-                      background: C.secondary,
-                      borderColor: `rgba(212,169,74,.4)`,
-                      boxShadow: "0 12px 32px rgba(0,0,0,0.45)",
+                      background: "rgba(42,29,20,0.96)",
+                      borderColor: "rgba(242,193,78,0.4)",
+                      boxShadow: "0 12px 36px rgba(0,0,0,0.6)",
                     }}
                   >
                     {DROPDOWN.map((d) => (
                       <Link
                         key={d.label}
                         href={d.href}
-                        className="block w-full text-left px-4 py-2.5 font-inter text-[11px] tracking-wide transition-colors"
-                        style={{ color: C.cream }}
-                        onMouseEnter={(e) => {
-                          (e.currentTarget as HTMLElement).style.color =
-                            C.accent;
-                          (e.currentTarget as HTMLElement).style.background =
-                            "rgba(74,55,40,.5)";
-                        }}
-                        onMouseLeave={(e) => {
-                          (e.currentTarget as HTMLElement).style.color =
-                            C.cream;
-                          (e.currentTarget as HTMLElement).style.background =
-                            "transparent";
-                        }}
+                        className="block w-full text-left px-4 py-2.5 text-xs font-bold tracking-wide transition-all hover:bg-[#F2C14E]/20 hover:text-[#F2C14E] whitespace-nowrap"
+                        style={{ color: "#e3d2c1", fontFamily: "'UTM Avo', sans-serif" }}
                         onClick={() => setDrop(false)}
                       >
                         ›&ensp;{d.label}
@@ -146,9 +122,12 @@ const Header: FC<HeaderProps> = ({ scrolled }) => {
           ))}
         </nav>
 
+        {/* Vạch phân cách 2 (Kết thúc Nav Bar) */}
+        <div className="w-[1px] h-6 bg-gradient-to-b from-transparent via-[#F2C14E]/50 to-transparent shrink-0 hidden lg:block" />
+
+        {/* Mobile Hamburger Button */}
         <button
-          className="lg:hidden p-1"
-          style={{ color: C.cream }}
+          className="lg:hidden ml-auto p-1.5 rounded-lg border border-[#F2C14E]/40 text-[#F2C14E]"
           onClick={() => setMob(!mob)}
           aria-label="Menu"
         >
@@ -156,21 +135,21 @@ const Header: FC<HeaderProps> = ({ scrolled }) => {
         </button>
       </div>
 
-      {/* mobile */}
+      {/* Mobile Menu Dropdown */}
       {mob && (
         <div
-          className="lg:hidden border-t px-8 py-5 flex flex-col gap-4"
+          className="lg:hidden border-t px-8 py-6 flex flex-col gap-4 shadow-2xl"
           style={{
-            background: "rgba(42,29,20,.98)",
-            borderColor: "rgba(201,161,92,.3)",
+            background: "rgba(26,15,8,0.98)",
+            borderColor: "rgba(242,193,78,0.3)",
           }}
         >
           {NAV_LINKS.map((item) =>
             item.dropdown ? (
               <div key={item.label} className="flex flex-col gap-2">
                 <span
-                  className="font-inter text-sm uppercase tracking-widest"
-                  style={{ color: C.cream }}
+                  className="text-xs uppercase font-bold tracking-widest text-[#F2C14E] whitespace-nowrap"
+                  style={{ fontFamily: "'UTM Avo', sans-serif" }}
                 >
                   {item.label}
                 </span>
@@ -178,8 +157,8 @@ const Header: FC<HeaderProps> = ({ scrolled }) => {
                   <Link
                     key={d.label}
                     href={d.href}
-                    className="pl-4 font-inter text-sm tracking-wide"
-                    style={{ color: C.muted }}
+                    className="pl-4 text-xs font-bold tracking-wide text-[#e3d2c1] hover:text-[#F2C14E] whitespace-nowrap"
+                    style={{ fontFamily: "'UTM Avo', sans-serif" }}
                     onClick={() => setMob(false)}
                   >
                     › {d.label}
@@ -190,8 +169,8 @@ const Header: FC<HeaderProps> = ({ scrolled }) => {
               <Link
                 key={item.label}
                 href={item.href || "#"}
-                className="font-inter text-sm uppercase tracking-widest text-left transition-colors"
-                style={{ color: C.cream }}
+                className="text-xs uppercase tracking-widest font-bold text-[#e3d2c1] hover:text-[#F2C14E] whitespace-nowrap"
+                style={{ fontFamily: "'UTM Avo', sans-serif" }}
                 onClick={() => setMob(false)}
               >
                 {item.label}

@@ -102,7 +102,7 @@ export default function TongChiTuHocPage() {
   useEffect(() => {
     async function fetchBanner() {
       try {
-        const res = await fetch('https://tunglam.mocwp.com/wp-json/wp/v2/tong-chi/388?_embed', { cache: 'no-store' });
+        const res = await fetch('https://tunglam.mocwp.com/wp-json/wp/v2/tong-chi-tu-hoc/388?_embed', { cache: 'no-store' });
         let data = res.ok ? await res.json() : null;
         if (!data) {
           const resPage = await fetch('https://tunglam.mocwp.com/wp-json/wp/v2/pages/388?_embed', { cache: 'no-store' });
