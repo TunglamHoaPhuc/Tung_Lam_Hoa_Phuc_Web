@@ -50,9 +50,12 @@ const Header: FC<HeaderProps> = ({ scrolled }) => {
           title="Tùng Lâm Hòa Phúc"
         >
           <img
-            src="/images/logo-moc-an.png"
+            src="/images/icon-minh-hoa/logo-moc-an.png"
             alt="Logo Mộc Ấn Tùng Lâm Hòa Phúc"
             className="h-24 md:h-32 lg:h-36 w-auto object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.7)] transition-transform duration-300 hover:scale-105"
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).src = '/images/logo-moc-an.png';
+            }}
           />
         </Link>
 

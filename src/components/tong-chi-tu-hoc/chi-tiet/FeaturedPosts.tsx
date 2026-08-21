@@ -22,15 +22,16 @@ export function FeaturedPosts({ heroBanner, featuredArticle }: PropsBaiVietNoiBa
     <section id="bai-viet-noibat" className="scroll-mt-24 py-12 relative w-full">
       <div className="relative w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] min-h-[380px] sm:min-h-[460px] flex items-center justify-center text-center p-6 sm:p-12 border-y border-[#c8aa6e]/40 overflow-hidden bg-[#120a06] group">
 
-        {/* TỐI ƯU HÓA: Dùng Image fill cho background thay vì backgroundImage */}
+        {/* TỐI ƯU HÓA: Dùng thẻ img với fallback onError mượt mà, không bị crash nếu ảnh WordPress lỗi */}
         <div className="absolute inset-0 opacity-40 scale-105 transition-transform duration-1000 ease-out group-hover:scale-100">
-          <Image
+          <img
             src={bgImageSrc}
             alt={featuredArticle?.title || 'Bài viết nổi bật'}
-            fill
-            sizes="100vw"
-            className="object-cover object-center"
+            className="w-full h-full object-cover object-center"
             loading="lazy"
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).src = '/images/toan-canh-chua.jpg';
+            }}
           />
         </div>
 

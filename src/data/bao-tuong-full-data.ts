@@ -463,7 +463,7 @@ export const STATUE_FULL_DATA: StatueFullItem[] = [
     "group": "CHƯ PHẬT HẢI HỘI",
     "type": "TƯỢNG CHÍNH",
     "cluster": "DUC_PHAT_DI_DA",
-    "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/duc_phat_di_da_tuong_chinh.JPG",
+    "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/duc_phat_di_da_tuong_chinh.JPG",
     "location": "Khu Vực Tam Bảo",
     "quote": "Ngài sinh ở thế gian nhưng không nhiễm thế gian. Vì Ngài đã rõ giáo lý duyên khởi, đoạn trừ mầm mống luân hồi.",
     "description": "Dưới chân dãy Himalaya, nơi một vương quốc nhỏ được dựng nên và một dòng giống mang tên Śākya lưu truyền qua bao đời, có một vầng sáng âm thầm lớn lên trong cung điện.\n\nNgười đời gọi Ngài là bậc xuất thân dòng dõi Thái Dương, nhưng Ngài chọn rời hết ba tòa Cung Vui để đi thẳng vào con đường tỉnh thức.",
@@ -472,22 +472,22 @@ export const STATUE_FULL_DATA: StatueFullItem[] = [
     "subStatues": [
       {
         "name": "Văn Thù Bồ Tát",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/duc_phat_di_da_tuong_chinh.JPG"
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/duc_phat_di_da_tuong_chinh.JPG"
       },
       {
         "name": "Phổ Hiền Bồ Tát",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/duc_phat_di_da_tuong_chinh.JPG"
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/duc_phat_di_da_tuong_chinh.JPG"
       }
     ],
     "artisticStatues": [
       {
         "name": "Nghệ Thuật Sơn Son Thếp Vàng",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/duc_phat_di_da_tuong_chinh.JPG",
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/duc_phat_di_da_tuong_chinh.JPG",
         "description": "Chất liệu gỗ phỏng cổ"
       },
       {
         "name": "Nghệ Thuật Chạm Đá Nguyên Khối",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/duc_phat_di_da_tuong_chinh.JPG",
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/duc_phat_di_da_tuong_chinh.JPG",
         "description": "Chất liệu đá tự nhiên"
       }
     ]
@@ -498,7 +498,7 @@ export const STATUE_FULL_DATA: StatueFullItem[] = [
     "group": "CHƯ PHẬT HẢI HỘI",
     "type": "NGHỆ THUẬT PHẬT GIÁO",
     "cluster": "DUC_PHAT_DI_DA",
-    "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_chat_lieu_da.jpg",
+    "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_chat_lieu_da.jpg",
     "location": "Khu Vực Tam Bảo",
     "quote": "Ngài sinh ở thế gian nhưng không nhiễm thế gian. Vì Ngài đã rõ giáo lý duyên khởi, đoạn trừ mầm mống luân hồi.",
     "description": "Dưới chân dãy Himalaya, nơi một vương quốc nhỏ được dựng nên và một dòng giống mang tên Śākya lưu truyền qua bao đời, có một vầng sáng âm thầm lớn lên trong cung điện.\n\nNgười đời gọi Ngài là bậc xuất thân dòng dõi Thái Dương, nhưng Ngài chọn rời hết ba tòa Cung Vui để đi thẳng vào con đường tỉnh thức.",
@@ -507,22 +507,22 @@ export const STATUE_FULL_DATA: StatueFullItem[] = [
     "subStatues": [
       {
         "name": "Văn Thù Bồ Tát",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_chat_lieu_da.jpg"
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_chat_lieu_da.jpg"
       },
       {
         "name": "Phổ Hiền Bồ Tát",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_chat_lieu_da.jpg"
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_chat_lieu_da.jpg"
       }
     ],
     "artisticStatues": [
       {
         "name": "Nghệ Thuật Sơn Son Thếp Vàng",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_chat_lieu_da.jpg",
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_chat_lieu_da.jpg",
         "description": "Chất liệu gỗ phỏng cổ"
       },
       {
         "name": "Nghệ Thuật Chạm Đá Nguyên Khối",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_chat_lieu_da.jpg",
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_chat_lieu_da.jpg",
         "description": "Chất liệu đá tự nhiên"
       }
     ]
@@ -533,7 +533,7 @@ export const STATUE_FULL_DATA: StatueFullItem[] = [
     "group": "CHƯ PHẬT HẢI HỘI",
     "type": "NGHỆ THUẬT PHẬT GIÁO",
     "cluster": "DUC_PHAT_DI_DA",
-    "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_chat_lieu_da_v2.JPG",
+    "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_chat_lieu_gom_truyen_thong.JPG",
     "location": "Khu Vực Tam Bảo",
     "quote": "Ngài sinh ở thế gian nhưng không nhiễm thế gian. Vì Ngài đã rõ giáo lý duyên khởi, đoạn trừ mầm mống luân hồi.",
     "description": "Dưới chân dãy Himalaya, nơi một vương quốc nhỏ được dựng nên và một dòng giống mang tên Śākya lưu truyền qua bao đời, có một vầng sáng âm thầm lớn lên trong cung điện.\n\nNgười đời gọi Ngài là bậc xuất thân dòng dõi Thái Dương, nhưng Ngài chọn rời hết ba tòa Cung Vui để đi thẳng vào con đường tỉnh thức.",
@@ -542,22 +542,22 @@ export const STATUE_FULL_DATA: StatueFullItem[] = [
     "subStatues": [
       {
         "name": "Văn Thù Bồ Tát",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_chat_lieu_da_v2.JPG"
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_chat_lieu_gom_truyen_thong.JPG"
       },
       {
         "name": "Phổ Hiền Bồ Tát",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_chat_lieu_da_v2.JPG"
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_chat_lieu_gom_truyen_thong.JPG"
       }
     ],
     "artisticStatues": [
       {
         "name": "Nghệ Thuật Sơn Son Thếp Vàng",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_chat_lieu_da_v2.JPG",
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_chat_lieu_gom_truyen_thong.JPG",
         "description": "Chất liệu gỗ phỏng cổ"
       },
       {
         "name": "Nghệ Thuật Chạm Đá Nguyên Khối",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_chat_lieu_da_v2.JPG",
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_chat_lieu_gom_truyen_thong.JPG",
         "description": "Chất liệu đá tự nhiên"
       }
     ]
@@ -568,7 +568,7 @@ export const STATUE_FULL_DATA: StatueFullItem[] = [
     "group": "CHƯ PHẬT HẢI HỘI",
     "type": "NGHỆ THUẬT PHẬT GIÁO",
     "cluster": "DUC_PHAT_DI_DA",
-    "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_chat_lieu_da_v3.jpg",
+    "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_phong_co_doi_tong_trung_hoa.JPG",
     "location": "Khu Vực Tam Bảo",
     "quote": "Ngài sinh ở thế gian nhưng không nhiễm thế gian. Vì Ngài đã rõ giáo lý duyên khởi, đoạn trừ mầm mống luân hồi.",
     "description": "Dưới chân dãy Himalaya, nơi một vương quốc nhỏ được dựng nên và một dòng giống mang tên Śākya lưu truyền qua bao đời, có một vầng sáng âm thầm lớn lên trong cung điện.\n\nNgười đời gọi Ngài là bậc xuất thân dòng dõi Thái Dương, nhưng Ngài chọn rời hết ba tòa Cung Vui để đi thẳng vào con đường tỉnh thức.",
@@ -577,22 +577,22 @@ export const STATUE_FULL_DATA: StatueFullItem[] = [
     "subStatues": [
       {
         "name": "Văn Thù Bồ Tát",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_chat_lieu_da_v3.jpg"
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_phong_co_doi_tong_trung_hoa.JPG"
       },
       {
         "name": "Phổ Hiền Bồ Tát",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_chat_lieu_da_v3.jpg"
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_phong_co_doi_tong_trung_hoa.JPG"
       }
     ],
     "artisticStatues": [
       {
         "name": "Nghệ Thuật Sơn Son Thếp Vàng",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_chat_lieu_da_v3.jpg",
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_phong_co_doi_tong_trung_hoa.JPG",
         "description": "Chất liệu gỗ phỏng cổ"
       },
       {
         "name": "Nghệ Thuật Chạm Đá Nguyên Khối",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_chat_lieu_da_v3.jpg",
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_phong_co_doi_tong_trung_hoa.JPG",
         "description": "Chất liệu đá tự nhiên"
       }
     ]
@@ -603,7 +603,7 @@ export const STATUE_FULL_DATA: StatueFullItem[] = [
     "group": "CHƯ PHẬT HẢI HỘI",
     "type": "NGHỆ THUẬT PHẬT GIÁO",
     "cluster": "DUC_PHAT_DI_DA",
-    "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_chat_lieu_gom_truyen_thong.JPG",
+    "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_chat_lieu_gom_truyen_thong.JPG",
     "location": "Khu Vực Tam Bảo",
     "quote": "Ngài sinh ở thế gian nhưng không nhiễm thế gian. Vì Ngài đã rõ giáo lý duyên khởi, đoạn trừ mầm mống luân hồi.",
     "description": "Dưới chân dãy Himalaya, nơi một vương quốc nhỏ được dựng nên và một dòng giống mang tên Śākya lưu truyền qua bao đời, có một vầng sáng âm thầm lớn lên trong cung điện.\n\nNgười đời gọi Ngài là bậc xuất thân dòng dõi Thái Dương, nhưng Ngài chọn rời hết ba tòa Cung Vui để đi thẳng vào con đường tỉnh thức.",
@@ -612,22 +612,22 @@ export const STATUE_FULL_DATA: StatueFullItem[] = [
     "subStatues": [
       {
         "name": "Văn Thù Bồ Tát",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_chat_lieu_gom_truyen_thong.JPG"
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_chat_lieu_gom_truyen_thong.JPG"
       },
       {
         "name": "Phổ Hiền Bồ Tát",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_chat_lieu_gom_truyen_thong.JPG"
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_chat_lieu_gom_truyen_thong.JPG"
       }
     ],
     "artisticStatues": [
       {
         "name": "Nghệ Thuật Sơn Son Thếp Vàng",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_chat_lieu_gom_truyen_thong.JPG",
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_chat_lieu_gom_truyen_thong.JPG",
         "description": "Chất liệu gỗ phỏng cổ"
       },
       {
         "name": "Nghệ Thuật Chạm Đá Nguyên Khối",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_chat_lieu_gom_truyen_thong.JPG",
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_chat_lieu_gom_truyen_thong.JPG",
         "description": "Chất liệu đá tự nhiên"
       }
     ]
@@ -638,7 +638,7 @@ export const STATUE_FULL_DATA: StatueFullItem[] = [
     "group": "CHƯ PHẬT HẢI HỘI",
     "type": "NGHỆ THUẬT PHẬT GIÁO",
     "cluster": "DUC_PHAT_DI_DA",
-    "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_nhat_ban_can_dai.JPG",
+    "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_nhat_ban_can_dai.JPG",
     "location": "Khu Vực Tam Bảo",
     "quote": "Ngài sinh ở thế gian nhưng không nhiễm thế gian. Vì Ngài đã rõ giáo lý duyên khởi, đoạn trừ mầm mống luân hồi.",
     "description": "Dưới chân dãy Himalaya, nơi một vương quốc nhỏ được dựng nên và một dòng giống mang tên Śākya lưu truyền qua bao đời, có một vầng sáng âm thầm lớn lên trong cung điện.\n\nNgười đời gọi Ngài là bậc xuất thân dòng dõi Thái Dương, nhưng Ngài chọn rời hết ba tòa Cung Vui để đi thẳng vào con đường tỉnh thức.",
@@ -647,22 +647,22 @@ export const STATUE_FULL_DATA: StatueFullItem[] = [
     "subStatues": [
       {
         "name": "Văn Thù Bồ Tát",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_nhat_ban_can_dai.JPG"
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_nhat_ban_can_dai.JPG"
       },
       {
         "name": "Phổ Hiền Bồ Tát",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_nhat_ban_can_dai.JPG"
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_nhat_ban_can_dai.JPG"
       }
     ],
     "artisticStatues": [
       {
         "name": "Nghệ Thuật Sơn Son Thếp Vàng",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_nhat_ban_can_dai.JPG",
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_nhat_ban_can_dai.JPG",
         "description": "Chất liệu gỗ phỏng cổ"
       },
       {
         "name": "Nghệ Thuật Chạm Đá Nguyên Khối",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_nhat_ban_can_dai.JPG",
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_nhat_ban_can_dai.JPG",
         "description": "Chất liệu đá tự nhiên"
       }
     ]
@@ -673,7 +673,7 @@ export const STATUE_FULL_DATA: StatueFullItem[] = [
     "group": "CHƯ PHẬT HẢI HỘI",
     "type": "NGHỆ THUẬT PHẬT GIÁO",
     "cluster": "DUC_PHAT_DI_DA",
-    "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_nhat_ban_co.jpg",
+    "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_nhat_ban_co.jpg",
     "location": "Khu Vực Tam Bảo",
     "quote": "Ngài sinh ở thế gian nhưng không nhiễm thế gian. Vì Ngài đã rõ giáo lý duyên khởi, đoạn trừ mầm mống luân hồi.",
     "description": "Dưới chân dãy Himalaya, nơi một vương quốc nhỏ được dựng nên và một dòng giống mang tên Śākya lưu truyền qua bao đời, có một vầng sáng âm thầm lớn lên trong cung điện.\n\nNgười đời gọi Ngài là bậc xuất thân dòng dõi Thái Dương, nhưng Ngài chọn rời hết ba tòa Cung Vui để đi thẳng vào con đường tỉnh thức.",
@@ -682,22 +682,22 @@ export const STATUE_FULL_DATA: StatueFullItem[] = [
     "subStatues": [
       {
         "name": "Văn Thù Bồ Tát",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_nhat_ban_co.jpg"
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_nhat_ban_co.jpg"
       },
       {
         "name": "Phổ Hiền Bồ Tát",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_nhat_ban_co.jpg"
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_nhat_ban_co.jpg"
       }
     ],
     "artisticStatues": [
       {
         "name": "Nghệ Thuật Sơn Son Thếp Vàng",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_nhat_ban_co.jpg",
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_nhat_ban_co.jpg",
         "description": "Chất liệu gỗ phỏng cổ"
       },
       {
         "name": "Nghệ Thuật Chạm Đá Nguyên Khối",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_nhat_ban_co.jpg",
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_nhat_ban_co.jpg",
         "description": "Chất liệu đá tự nhiên"
       }
     ]
@@ -708,7 +708,7 @@ export const STATUE_FULL_DATA: StatueFullItem[] = [
     "group": "CHƯ PHẬT HẢI HỘI",
     "type": "NGHỆ THUẬT PHẬT GIÁO",
     "cluster": "DUC_PHAT_DI_DA",
-    "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_phong_co_doi_tong_trung_hoa.JPG",
+    "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_phong_co_doi_tong_trung_hoa.JPG",
     "location": "Khu Vực Tam Bảo",
     "quote": "Ngài sinh ở thế gian nhưng không nhiễm thế gian. Vì Ngài đã rõ giáo lý duyên khởi, đoạn trừ mầm mống luân hồi.",
     "description": "Dưới chân dãy Himalaya, nơi một vương quốc nhỏ được dựng nên và một dòng giống mang tên Śākya lưu truyền qua bao đời, có một vầng sáng âm thầm lớn lên trong cung điện.\n\nNgười đời gọi Ngài là bậc xuất thân dòng dõi Thái Dương, nhưng Ngài chọn rời hết ba tòa Cung Vui để đi thẳng vào con đường tỉnh thức.",
@@ -717,22 +717,22 @@ export const STATUE_FULL_DATA: StatueFullItem[] = [
     "subStatues": [
       {
         "name": "Văn Thù Bồ Tát",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_phong_co_doi_tong_trung_hoa.JPG"
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_phong_co_doi_tong_trung_hoa.JPG"
       },
       {
         "name": "Phổ Hiền Bồ Tát",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_phong_co_doi_tong_trung_hoa.JPG"
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_phong_co_doi_tong_trung_hoa.JPG"
       }
     ],
     "artisticStatues": [
       {
         "name": "Nghệ Thuật Sơn Son Thếp Vàng",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_phong_co_doi_tong_trung_hoa.JPG",
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_phong_co_doi_tong_trung_hoa.JPG",
         "description": "Chất liệu gỗ phỏng cổ"
       },
       {
         "name": "Nghệ Thuật Chạm Đá Nguyên Khối",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_phong_co_doi_tong_trung_hoa.JPG",
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_phong_co_doi_tong_trung_hoa.JPG",
         "description": "Chất liệu đá tự nhiên"
       }
     ]
@@ -743,7 +743,7 @@ export const STATUE_FULL_DATA: StatueFullItem[] = [
     "group": "CHƯ PHẬT HẢI HỘI",
     "type": "NGHỆ THUẬT PHẬT GIÁO",
     "cluster": "DUC_PHAT_DI_DA",
-    "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_thay_tam_linh.JPG",
+    "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_thay_tam_linh.JPG",
     "location": "Khu Vực Tam Bảo",
     "quote": "Ngài sinh ở thế gian nhưng không nhiễm thế gian. Vì Ngài đã rõ giáo lý duyên khởi, đoạn trừ mầm mống luân hồi.",
     "description": "Dưới chân dãy Himalaya, nơi một vương quốc nhỏ được dựng nên và một dòng giống mang tên Śākya lưu truyền qua bao đời, có một vầng sáng âm thầm lớn lên trong cung điện.\n\nNgười đời gọi Ngài là bậc xuất thân dòng dõi Thái Dương, nhưng Ngài chọn rời hết ba tòa Cung Vui để đi thẳng vào con đường tỉnh thức.",
@@ -752,22 +752,22 @@ export const STATUE_FULL_DATA: StatueFullItem[] = [
     "subStatues": [
       {
         "name": "Văn Thù Bồ Tát",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_thay_tam_linh.JPG"
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_thay_tam_linh.JPG"
       },
       {
         "name": "Phổ Hiền Bồ Tát",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_thay_tam_linh.JPG"
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_thay_tam_linh.JPG"
       }
     ],
     "artisticStatues": [
       {
         "name": "Nghệ Thuật Sơn Son Thếp Vàng",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_thay_tam_linh.JPG",
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_thay_tam_linh.JPG",
         "description": "Chất liệu gỗ phỏng cổ"
       },
       {
         "name": "Nghệ Thuật Chạm Đá Nguyên Khối",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_thay_tam_linh.JPG",
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_thay_tam_linh.JPG",
         "description": "Chất liệu đá tự nhiên"
       }
     ]
@@ -778,7 +778,7 @@ export const STATUE_FULL_DATA: StatueFullItem[] = [
     "group": "CHƯ PHẬT HẢI HỘI",
     "type": "NGHỆ THUẬT PHẬT GIÁO",
     "cluster": "DUC_PHAT_DI_DA",
-    "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_thuan_viet.JPG",
+    "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_thuan_viet.JPG",
     "location": "Khu Vực Tam Bảo",
     "quote": "Ngài sinh ở thế gian nhưng không nhiễm thế gian. Vì Ngài đã rõ giáo lý duyên khởi, đoạn trừ mầm mống luân hồi.",
     "description": "Dưới chân dãy Himalaya, nơi một vương quốc nhỏ được dựng nên và một dòng giống mang tên Śākya lưu truyền qua bao đời, có một vầng sáng âm thầm lớn lên trong cung điện.\n\nNgười đời gọi Ngài là bậc xuất thân dòng dõi Thái Dương, nhưng Ngài chọn rời hết ba tòa Cung Vui để đi thẳng vào con đường tỉnh thức.",
@@ -787,22 +787,22 @@ export const STATUE_FULL_DATA: StatueFullItem[] = [
     "subStatues": [
       {
         "name": "Văn Thù Bồ Tát",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_thuan_viet.JPG"
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_thuan_viet.JPG"
       },
       {
         "name": "Phổ Hiền Bồ Tát",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_thuan_viet.JPG"
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_thuan_viet.JPG"
       }
     ],
     "artisticStatues": [
       {
         "name": "Nghệ Thuật Sơn Son Thếp Vàng",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_thuan_viet.JPG",
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_thuan_viet.JPG",
         "description": "Chất liệu gỗ phỏng cổ"
       },
       {
         "name": "Nghệ Thuật Chạm Đá Nguyên Khối",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_thuan_viet.JPG",
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_thuan_viet.JPG",
         "description": "Chất liệu đá tự nhiên"
       }
     ]
@@ -813,7 +813,7 @@ export const STATUE_FULL_DATA: StatueFullItem[] = [
     "group": "CHƯ PHẬT HẢI HỘI",
     "type": "NGHỆ THUẬT PHẬT GIÁO",
     "cluster": "DUC_PHAT_DI_DA",
-    "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_tieu_ban.JPG",
+    "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_tieu_ban.JPG",
     "location": "Khu Vực Tam Bảo",
     "quote": "Ngài sinh ở thế gian nhưng không nhiễm thế gian. Vì Ngài đã rõ giáo lý duyên khởi, đoạn trừ mầm mống luân hồi.",
     "description": "Dưới chân dãy Himalaya, nơi một vương quốc nhỏ được dựng nên và một dòng giống mang tên Śākya lưu truyền qua bao đời, có một vầng sáng âm thầm lớn lên trong cung điện.\n\nNgười đời gọi Ngài là bậc xuất thân dòng dõi Thái Dương, nhưng Ngài chọn rời hết ba tòa Cung Vui để đi thẳng vào con đường tỉnh thức.",
@@ -822,22 +822,22 @@ export const STATUE_FULL_DATA: StatueFullItem[] = [
     "subStatues": [
       {
         "name": "Văn Thù Bồ Tát",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_tieu_ban.JPG"
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_tieu_ban.JPG"
       },
       {
         "name": "Phổ Hiền Bồ Tát",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_tieu_ban.JPG"
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_tieu_ban.JPG"
       }
     ],
     "artisticStatues": [
       {
         "name": "Nghệ Thuật Sơn Son Thếp Vàng",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_tieu_ban.JPG",
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_tieu_ban.JPG",
         "description": "Chất liệu gỗ phỏng cổ"
       },
       {
         "name": "Nghệ Thuật Chạm Đá Nguyên Khối",
-        "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_tieu_ban.JPG",
+        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/NGHE_THUAT_PHAT_GIAO/duc_phat_di_da_tieu_ban.JPG",
         "description": "Chất liệu đá tự nhiên"
       }
     ]
@@ -919,8 +919,8 @@ export const STATUE_FULL_DATA: StatueFullItem[] = [
     "type": "NGHỆ THUẬT PHẬT GIÁO",
     "cluster": "DUC_PHAT_DUOC_SU",
     "imgUrl": "/images/BẢO TƯỢNG PHẬT GIÁO/CHƯ PHẬT HẢI HỘI/DUC_PHAT_DUOC_SU/NGHE_THUAT_PHAT_GIAO/duc_phat_duoc_su_thay_thuoc.JPG",
-    "location": "Khu Vực Tam Bảo",
-    "quote": "Ngài sinh ở thế gian nhưng không nhiễm thế gian. Vì Ngài đã rõ giáo lý duyên khởi, đoạn trừ mầm mống luân hồi.",
+    "location": "Khu Vực Bảo Tàng",
+    "quote": "3 vị Thầy có trong 1 vị Thầy; 1 vị Thầy gồm đủ 3 vị Thầy.",
     "description": "Dưới chân dãy Himalaya, nơi một vương quốc nhỏ được dựng nên và một dòng giống mang tên Śākya lưu truyền qua bao đời, có một vầng sáng âm thầm lớn lên trong cung điện.\n\nNgười đời gọi Ngài là bậc xuất thân dòng dõi Thái Dương, nhưng Ngài chọn rời hết ba tòa Cung Vui để đi thẳng vào con đường tỉnh thức.",
     "authorQuote": "VÔ TRÍ - TÂM HÒA",
     "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",

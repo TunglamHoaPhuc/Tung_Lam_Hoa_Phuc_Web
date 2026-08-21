@@ -3,6 +3,7 @@
 import React, { FC, useState, useMemo } from "react";
 import { Search, ChevronLeft, ChevronRight, Eye, Calendar, RefreshCw, Volume2, Sparkles, ChevronDown } from "lucide-react";
 import { GIANG_DUONG_TOPICS, EMOTION_QUICK_TAGS, PHAP_THOAI_FEATURED, PHAP_THOAI_ALL, PhapThoaiTalk } from "@/data/giang-duong-data";
+import { CustomDropdown } from "@/components/common/CustomDropdown";
 
 // ── Sub-component: PhapThoaiCard (Matching Image 0 reference) ──
 const PhapThoaiCard = React.memo(({ talk }: { talk: PhapThoaiTalk }) => {
@@ -19,7 +20,7 @@ const PhapThoaiCard = React.memo(({ talk }: { talk: PhapThoaiTalk }) => {
           decoding="async"
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
           onError={(e) => {
-            (e.target as HTMLImageElement).src = '/images/toan-canh-chua.jpg';
+            (e.target as HTMLImageElement).src = '/images/vu-tru-phat-giao/toan-canh-chua.jpg';
           }}
         />
         <div
@@ -39,13 +40,16 @@ const PhapThoaiCard = React.memo(({ talk }: { talk: PhapThoaiTalk }) => {
       {/* 2. CARD BODY WITH CENTER BADGE (Matching Image 0) */}
       <div className="relative w-full bg-gradient-to-b from-[#25170E] to-[#1C130D] px-5 pt-6 pb-4 flex flex-col justify-between flex-1">
         {/* Center Circular Badge at Top Edge */}
-        <div className="absolute top-[-22px] left-1/2 -translate-x-1/2 z-30 w-11 h-11 rounded-full border-2 border-[#F2C14E] bg-[#25170E] flex items-center justify-center p-1 shadow-[0_0_16px_rgba(242,193,78,0.6)]">
+        <div className="absolute top-[-24px] left-1/2 -translate-x-1/2 z-30 w-11 h-11 sm:w-12 sm:h-12 rounded-full border-2 border-[#F2C14E] bg-[#25170E] flex items-center justify-center p-1 shadow-[0_0_18px_rgba(242,193,78,0.65)] overflow-hidden">
           <img
-            src="/images/bieu-tuong-tuong-phap.svg"
+            src="/images/icon-minh-hoa/bieu-tuong-tuong-phap.png"
             alt="Biểu tượng Bảo tượng"
             loading="lazy"
             decoding="async"
-            className="w-full h-full object-contain filter drop-shadow-[0_0_6px_rgba(242,193,78,0.8)]"
+            className="w-full h-full object-contain filter drop-shadow-[0_0_6px_rgba(242,193,78,0.95)] scale-135 transform-gpu"
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).src = '/images/bieu-tuong-tuong-phap.svg';
+            }}
           />
         </div>
 
@@ -265,76 +269,83 @@ export const GiangDuongPhapThoai: FC = () => {
           </div>
         </div>
 
-        {/* Filter Toolbar (Matching Danh Tăng Filter Bar Style) */}
+        {/* Filter Toolbar (Matching Danh Tăng & Bảo Tượng Custom Gradient Style) */}
         <div className="flex flex-wrap items-center gap-3 mb-8">
+          {/* Nhãn LỰA CHỌN nhẹ nhàng thanh lịch */}
+          <span
+            className="text-[11px] font-bold uppercase tracking-widest text-[#F2C14E]/80 shrink-0 select-none mr-0.5"
+            style={{ fontFamily: "'UTM Avo', sans-serif" }}
+          >
+            LỰA CHỌN:
+          </span>
+
           {/* Search Input */}
-          <div className="relative flex-1 min-w-[200px] max-w-xs">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#F2C14E]/60" />
+          <div className="relative flex-1 min-w-[180px] max-w-xs group">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#F2C14E]/60 group-hover:text-[#F2C14E] transition-colors" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Tìm pháp thoại, từ khóa..."
-              className="w-full pl-9 pr-3 py-1.5 bg-[#1C130D] border border-[#F2C14E]/30 rounded-lg text-xs text-[#FFE5A3] placeholder-[#c9b896]/50 focus:outline-none focus:border-[#F2C14E]"
+              className="w-full pl-9 pr-3 py-1.5 bg-gradient-to-b from-[#3A2718]/90 via-[#2A1D14]/90 to-[#1C130D]/90 border border-[#F2C14E]/35 rounded-xl text-xs text-[#FFE5A3] placeholder-[#c9b896]/50 focus:outline-none focus:border-[#F2C14E] hover:border-[#F2C14E]/70 transition-all shadow-inner"
               style={{ fontFamily: "'UTM Avo', sans-serif" }}
             />
           </div>
 
+          {/* Vạch phân định nhẹ mờ */}
+          <div className="h-4 w-px bg-[#F2C14E]/25 hidden sm:block" />
+
           {/* Filter Dropdown 1: Chủ Đề */}
-          <div className="relative">
-            <select
-              value={selectedTopic}
-              onChange={(e) => setSelectedTopic(e.target.value)}
-              className="appearance-none bg-[#1C130D] border border-[#F2C14E]/30 rounded-lg px-3 py-1.5 pr-8 text-xs text-[#FFE5A3] focus:outline-none focus:border-[#F2C14E] cursor-pointer"
-              style={{ fontFamily: "'UTM Avo', sans-serif" }}
-            >
-              <option value="Tất cả">Chủ đề: Tất cả</option>
-              {GIANG_DUONG_TOPICS.filter((t) => t !== "Tất cả").map((t) => (
-                <option key={t} value={t}>{t}</option>
-              ))}
-            </select>
-            <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#F2C14E]/60 pointer-events-none" />
-          </div>
+          <CustomDropdown
+            labelPrefix="Chủ đề"
+            value={selectedTopic}
+            options={GIANG_DUONG_TOPICS.map((t) => ({ id: t, name: t }))}
+            onChange={setSelectedTopic}
+            placeholder="Tất cả"
+          />
+
+          {/* Vạch phân định nhẹ mờ */}
+          <div className="h-4 w-px bg-[#F2C14E]/25 hidden sm:block" />
 
           {/* Filter Dropdown 2: Thời Lượng */}
-          <div className="relative">
-            <select
-              value={durationFilter}
-              onChange={(e) => setDurationFilter(e.target.value)}
-              className="appearance-none bg-[#1C130D] border border-[#F2C14E]/30 rounded-lg px-3 py-1.5 pr-8 text-xs text-[#FFE5A3] focus:outline-none focus:border-[#F2C14E] cursor-pointer"
-              style={{ fontFamily: "'UTM Avo', sans-serif" }}
-            >
-              <option value="all">Thời lượng: Tất cả</option>
-              <option value="under30">&lt; 30 phút</option>
-              <option value="30to60">30 - 60 phút</option>
-              <option value="over60">60+ phút</option>
-            </select>
-            <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#F2C14E]/60 pointer-events-none" />
-          </div>
+          <CustomDropdown
+            labelPrefix="Thời lượng"
+            value={durationFilter}
+            options={[
+              { id: 'all', name: 'Tất cả' },
+              { id: 'under30', name: '< 30 phút' },
+              { id: '30to60', name: '30 - 60 phút' },
+              { id: 'over60', name: '60+ phút' },
+            ]}
+            onChange={setDurationFilter}
+            placeholder="Tất cả"
+          />
+
+          {/* Vạch phân định nhẹ mờ */}
+          <div className="h-4 w-px bg-[#F2C14E]/25 hidden sm:block" />
 
           {/* Filter Dropdown 3: Sắp Xếp */}
-          <div className="relative">
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="appearance-none bg-[#1C130D] border border-[#F2C14E]/30 rounded-lg px-3 py-1.5 pr-8 text-xs text-[#FFE5A3] focus:outline-none focus:border-[#F2C14E] cursor-pointer"
-              style={{ fontFamily: "'UTM Avo', sans-serif" }}
-            >
-              <option value="newest">Sắp xếp: Mới nhất</option>
-              <option value="views">Sắp xếp: Xem nhiều nhất</option>
-            </select>
-            <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#F2C14E]/60 pointer-events-none" />
-          </div>
+          <CustomDropdown
+            labelPrefix="Sắp xếp"
+            value={sortBy}
+            options={[
+              { id: 'newest', name: 'Mới nhất' },
+              { id: 'views', name: 'Xem nhiều nhất' },
+            ]}
+            onChange={setSortBy}
+            placeholder="Mới nhất"
+          />
 
           {/* Reset Filters button */}
           {(searchQuery || selectedTopic !== "Tất cả" || durationFilter !== "all" || sortBy !== "newest" || activeTag) && (
             <button
               type="button"
               onClick={handleResetFilters}
-              className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-[#F2C14E]/30 text-xs text-[#c9b896] hover:text-[#F2C14E] hover:border-[#F2C14E] transition-all cursor-pointer"
+              className="flex items-center gap-1 px-3 py-1.5 rounded-xl border border-[#F2C14E]/35 bg-gradient-to-b from-[#3A2718]/90 via-[#2A1D14]/90 to-[#1C130D]/90 text-xs text-[#FFE5A3] hover:text-white hover:border-[#F2C14E] transition-all cursor-pointer hover:shadow-[0_0_10px_rgba(242,193,78,0.25)]"
               title="Xóa bộ lọc"
+              style={{ fontFamily: "'UTM Avo', sans-serif" }}
             >
-              <RefreshCw className="w-3 h-3" />
+              <RefreshCw className="w-3 h-3 text-[#F2C14E]" />
               <span>Xóa bộ lọc</span>
             </button>
           )}

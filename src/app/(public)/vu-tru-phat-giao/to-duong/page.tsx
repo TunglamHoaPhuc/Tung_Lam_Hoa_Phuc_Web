@@ -57,8 +57,6 @@ export default function ToDuongPage() {
 
   return (
     <div className="w-full min-h-screen bg-[#2c1c11] text-[#e3d2c1] font-sans relative selection:bg-[#f2cc8f] selection:text-black overflow-x-hidden">
-      <Header scrolled={true} />
-
       {/* ── TOP STICKY SUBNAVBAR & SIDEBAR NAV ── */}
       <SubNavbar
         activeSection={activeSection}

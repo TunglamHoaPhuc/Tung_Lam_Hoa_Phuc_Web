@@ -1409,4 +1409,4 @@ export const MONK_PROFILES: MonkProfile[] = [
   },
 ];
 
-export const DANH_TANG_MAP_IMAGE = '/images/ban-do-danh-tang-viet-nam.png';
+export const DANH_TANG_MAP_IMAGE = '/images/vu-tru-phat-giao/ban-do-danh-tang-viet-nam-final.png';

@@ -71,4 +71,10 @@ next-env.d.ts
 *.ai
 *.tmp
 *.psd
-docs/*.xlsx
+*.xlsx
+*.pdf
+*.docx
+scratch/
+danh_sach_file_anh.txt
+.gemini/
+.agents/

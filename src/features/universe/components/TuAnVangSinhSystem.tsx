@@ -4,6 +4,7 @@ import React, { FC, useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, ChevronDown, RefreshCw, X, Flame, MapPin, Phone, Sparkles, Filter, ChevronLeft, ChevronRight } from 'lucide-react';
 import { HUONG_LINH_DATA, KHU_VUC_LIST, HuongLinhItem } from '@/data/tu-an-data';
+import { CustomDropdown } from '@/components/common/CustomDropdown';
 
 interface HuongLinhCardProps {
   item: HuongLinhItem;
@@ -162,64 +163,73 @@ export const TuAnVangSinhSystem: FC = () => {
         </div>
 
         {/* ── 2. ULTRA-FAST SINGLE SEARCH INPUT BAR & KHU VỰC DROPDOWN ── */}
-        <div className="bg-[#1C130D] p-4 md:p-6 rounded-2xl border border-[#F2C14E]/30 shadow-2xl mb-8">
-          <div className="flex flex-col md:flex-row items-center gap-4">
-            {/* Search Input Box */}
-            <div className="relative flex-1 w-full">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#F2C14E]" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => {
-                  setSearchQuery(e.target.value);
-                  setDisplayCount(12);
-                }}
-                placeholder="Nhập tên Chư Hương Linh, Pháp danh, Mã số bài vị (VD: 255, PHÙNG THỊ MINH, Quốc Oai)..."
-                className="w-full pl-12 pr-10 py-3.5 bg-[#2A1D14] border-2 border-[#F2C14E]/40 rounded-xl text-sm md:text-base text-[#FFE5A3] placeholder-[#c9b896]/60 focus:outline-none focus:border-[#F2C14E] transition-all shadow-inner"
-                style={{ fontFamily: "'UTM Avo', sans-serif" }}
-              />
-              {searchQuery && (
-                <button
-                  type="button"
-                  onClick={() => setSearchQuery('')}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-[#c9b896] hover:text-[#F2C14E] text-sm font-bold"
-                >
-                  ✕
-                </button>
-              )}
-            </div>
+        <div className="flex flex-wrap items-center gap-3 mb-8">
+          {/* Nhãn LỰA CHỌN nhẹ nhàng thanh lịch */}
+          <span
+            className="text-[11px] font-bold uppercase tracking-widest text-[#F2C14E]/80 shrink-0 select-none mr-0.5"
+            style={{ fontFamily: "'UTM Avo', sans-serif" }}
+          >
+            LỰA CHỌN:
+          </span>
 
-            {/* Area Filter Dropdown */}
-            <div className="relative w-full md:w-64">
-              <select
-                value={selectedKhuVuc}
-                onChange={(e) => {
-                  setSelectedKhuVuc(e.target.value);
-                  setDisplayCount(12);
-                }}
-                className="w-full appearance-none bg-[#2A1D14] border border-[#F2C14E]/40 rounded-xl px-4 py-3.5 text-xs md:text-sm font-bold text-[#F2C14E] focus:outline-none focus:border-[#F2C14E] cursor-pointer shadow-md"
-                style={{ fontFamily: "'UTM Avo', sans-serif" }}
-              >
-                {KHU_VUC_LIST.map((kv) => (
-                  <option key={kv} value={kv}>{kv}</option>
-                ))}
-              </select>
-              <ChevronDown className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#F2C14E] pointer-events-none" />
-            </div>
-
-            {/* Reset Filter Button */}
-            {(searchQuery || selectedKhuVuc !== 'Tất cả khu vực') && (
+          {/* Search Input Box */}
+          <div className="relative flex-1 min-w-[240px] group">
+            <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#F2C14E]/60 group-hover:text-[#F2C14E] transition-colors" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                setDisplayCount(12);
+              }}
+              placeholder="Nhập tên Chư Hương Linh, Pháp danh, Mã số bài vị (VD: 255, PHÙNG THỊ MINH)..."
+              className="w-full pl-10 pr-9 py-2 bg-gradient-to-b from-[#3A2718]/90 via-[#2A1D14]/90 to-[#1C130D]/90 border border-[#F2C14E]/35 rounded-xl text-xs md:text-sm text-[#FFE5A3] placeholder-[#c9b896]/50 focus:outline-none focus:border-[#F2C14E] hover:border-[#F2C14E]/70 transition-all shadow-inner"
+              style={{ fontFamily: "'UTM Avo', sans-serif" }}
+            />
+            {searchQuery && (
               <button
                 type="button"
-                onClick={handleResetFilters}
-                className="flex items-center gap-1.5 px-4 py-3.5 rounded-xl border border-[#F2C14E]/40 bg-[#2A1D14] text-xs font-bold text-[#c9b896] hover:text-[#F2C14E] hover:border-[#F2C14E] transition-all cursor-pointer whitespace-nowrap"
-                style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                onClick={() => setSearchQuery('')}
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#c9b896] hover:text-[#F2C14E] text-xs font-bold"
               >
-                <RefreshCw className="w-4 h-4" />
-                <span>Xóa tìm kiếm</span>
+                ✕
               </button>
             )}
           </div>
+
+          {/* Vạch phân định nhẹ mờ */}
+          <div className="h-4 w-px bg-[#F2C14E]/25 hidden sm:block" />
+
+          {/* Area Filter Dropdown */}
+          <CustomDropdown
+            labelPrefix="Khu vực"
+            value={selectedKhuVuc}
+            options={KHU_VUC_LIST.map((kv) => ({ id: kv, name: kv }))}
+            onChange={(val) => {
+              setSelectedKhuVuc(val);
+              setDisplayCount(12);
+            }}
+            placeholder="Tất cả khu vực"
+          />
+
+          {/* Reset Filter Button */}
+          {(searchQuery || selectedKhuVuc !== 'Tất cả khu vực') && (
+            <button
+              type="button"
+              onClick={handleResetFilters}
+              className="flex items-center gap-1 px-3 py-1.5 rounded-xl border border-[#F2C14E]/35 bg-gradient-to-b from-[#3A2718]/90 via-[#2A1D14]/90 to-[#1C130D]/90 text-xs text-[#FFE5A3] hover:text-white hover:border-[#F2C14E] transition-all cursor-pointer hover:shadow-[0_0_10px_rgba(242,193,78,0.25)]"
+              style={{ fontFamily: "'UTM Avo', sans-serif" }}
+            >
+              <RefreshCw className="w-3 h-3 text-[#F2C14E]" />
+              <span>Xóa tìm kiếm</span>
+            </button>
+          )}
+
+          {/* Count Badge */}
+          <div className="text-xs text-[#F2C14E] font-bold shrink-0 px-3 py-1.5 bg-gradient-to-b from-[#3A2718]/90 via-[#2A1D14]/90 to-[#1C130D]/90 rounded-xl border border-[#F2C14E]/35 shadow-sm" style={{ fontFamily: "'UTM Avo', sans-serif" }}>
+            {filteredData.length} Hương linh
+          </div>
+        </div>
 
           {/* Quick Counter Info Bar */}
           <div className="flex items-center justify-between mt-4 pt-3 border-t border-[#F2C14E]/15 text-xs text-[#c9b896]" style={{ fontFamily: "'UTM Avo', sans-serif" }}>
@@ -235,7 +245,6 @@ export const TuAnVangSinhSystem: FC = () => {
               Nhấp vào từng linh vị để xem mã số chi tiết &amp; thắp hương cầu siêu
             </span>
           </div>
-        </div>
 
         {/* ── 3. 4-COLUMN CARDS GRID (FAST PAGINATED RENDER) ── */}
         {filteredData.length > 0 ? (

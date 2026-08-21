@@ -14,6 +14,7 @@ import {
   REGIONS, ASSEMBLIES, SECTS, ERAS, SUB_ERA_BY_ERA, ERA_ORDER,
   KNOWN_MONK_LOCATIONS, VIETNAM_PROVINCE_COORDINATES, getMonkLocation,
 } from '@/data/danh-tang-data';
+import { CustomDropdown } from '@/components/common/CustomDropdown';
 
 interface DanhTangMapProps {
   onExitMapMode?: () => void;
@@ -38,26 +39,26 @@ export interface RegionHub {
 export const REGION_HUBS: Record<Exclude<Region, 'Quốc tế'>, RegionHub> = {
   'Miền Bắc': {
     id: 'Miền Bắc',
-    title: 'BẮC BỘ',
+    title: 'MIỀN BẮC',
     countLabel: '21 VỊ DANH TĂNG',
-    top: '20%',
-    left: '26%',
+    top: '18%',
+    left: '33.8%',
     zoomScale: 1.5,
   },
   'Miền Trung': {
     id: 'Miền Trung',
-    title: 'TRUNG BỘ',
+    title: 'MIỀN TRUNG',
     countLabel: '22 VỊ DANH TĂNG',
-    top: '52%',
-    left: '34%',
+    top: '42%',
+    left: '35%',
     zoomScale: 1.5,
   },
   'Miền Nam': {
     id: 'Miền Nam',
-    title: 'NAM BỘ',
+    title: 'MIỀN NAM',
     countLabel: '45 VỊ DANH TĂNG',
-    top: '78%',
-    left: '30%',
+    top: '79%',
+    left: '34.8%',
     zoomScale: 1.5,
   },
 };
@@ -135,7 +136,7 @@ const MonkGridCard = React.memo(({ monk, onSelect }: MonkGridCardProps) => {
           loading="lazy"
           decoding="async"
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-          onError={(e) => { (e.target as HTMLImageElement).src = '/images/logo-tung-lam-hoa-phuc-tron.png'; }}
+          onError={(e) => { (e.target as HTMLImageElement).src = '/images/icon-minh-hoa/logo-tung-lam-hoa-phuc-tron.png'; }}
         />
         <div
           className="absolute inset-0 pointer-events-none"
@@ -149,13 +150,16 @@ const MonkGridCard = React.memo(({ monk, onSelect }: MonkGridCardProps) => {
         <div className="relative w-full h-[1px] bg-gradient-to-r from-transparent via-[#F2C14E] to-transparent z-30 opacity-90 shadow-[0_0_8px_rgba(242,193,78,0.5)]" />
 
         <div className="relative w-full bg-gradient-to-b from-[#25170E] to-[#1C130D] px-3 pt-5 pb-4 text-center flex flex-col items-center justify-start">
-          <div className="absolute top-[-24px] left-1/2 -translate-x-1/2 z-40 w-11 h-11 rounded-full border-2 border-[#F2C14E] bg-[#25170E] flex items-center justify-center p-1 shadow-[0_0_16px_rgba(242,193,78,0.6)]">
+          <div className="absolute top-[-24px] left-1/2 -translate-x-1/2 z-40 w-11 h-11 sm:w-12 sm:h-12 rounded-full border-2 border-[#F2C14E] bg-[#25170E] flex items-center justify-center p-1 shadow-[0_0_18px_rgba(242,193,78,0.65)] overflow-hidden">
             <img
-              src="/images/bieu-tuong-tuong-phap.svg"
+              src="/images/icon-minh-hoa/bieu-tuong-tuong-phap.png"
               alt="Biểu tượng Bảo tượng"
               loading="lazy"
               decoding="async"
-              className="w-full h-full object-contain filter drop-shadow-[0_0_6px_rgba(242,193,78,0.8)]"
+              className="w-full h-full object-contain filter drop-shadow-[0_0_6px_rgba(242,193,78,0.95)] scale-135 transform-gpu"
+              onError={(e) => {
+                (e.currentTarget as HTMLImageElement).src = '/images/bieu-tuong-tuong-phap.svg';
+              }}
             />
           </div>
 
@@ -653,8 +657,8 @@ export const DanhTangMap: FC<DanhTangMapProps> = ({ onExitMapMode }) => {
           )}
         </AnimatePresence>
 
-        {/* ── TOP RIGHT TOGGLE BUTTON PILL ── */}
-        <div className="absolute top-5 right-6 z-30 flex items-center">
+        {/* ── TOP LEFT TOGGLE BUTTON PILL ── */}
+        <div className="absolute top-5 left-6 z-30 flex items-center">
           <div className="flex items-center bg-[#1C130D]/90 border border-[#F2C14E]/40 rounded-full p-1 shadow-2xl backdrop-blur-md">
             <button
               type="button"
@@ -716,7 +720,27 @@ export const DanhTangMap: FC<DanhTangMapProps> = ({ onExitMapMode }) => {
             </span>
           </button>
 
-          {/* Button 3: Mở Chatbot AI */}
+          {/* Button 3: Bật / Tắt Nhạc nền YouTube */}
+          <button
+            type="button"
+            onClick={() => setIsPlayingAudio(!isPlayingAudio)}
+            className={`w-10 h-10 rounded-xl border transition-all cursor-pointer shadow-md group relative flex items-center justify-center ${
+              isPlayingAudio
+                ? 'border-[#F2C14E] bg-[#F2C14E]/20 text-[#F2C14E]'
+                : 'border-[#F2C14E]/30 bg-[#2C1C11]/90 text-[#C4B5A5] hover:text-[#FFE5A3]'
+            }`}
+            title={isPlayingAudio ? 'Tắt nhạc nền' : 'Bật nhạc thiền'}
+          >
+            {isPlayingAudio ? <Volume2 className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
+            <span
+              className="absolute left-full ml-3 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-lg bg-[#1A120B] border border-[#F2C14E] text-[#F2C14E] text-xs font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none shadow-xl uppercase"
+              style={{ fontFamily: "'UTM Avo', sans-serif" }}
+            >
+              {isPlayingAudio ? 'Tắt nhạc nền' : 'Bật nhạc thiền'}
+            </span>
+          </button>
+
+          {/* Button 4: Mở Chatbot AI */}
           <button
             type="button"
             onClick={() => setIsAiChatOpen(!isAiChatOpen)}
@@ -733,6 +757,17 @@ export const DanhTangMap: FC<DanhTangMapProps> = ({ onExitMapMode }) => {
             </span>
           </button>
         </div>
+
+        {/* ── HIDDEN YOUTUBE BACKGROUND MEDITATION MUSIC PLAYER (ID: V_hkbEVraSA) ── */}
+        {isPlayingAudio && (
+          <div className="absolute w-0 h-0 opacity-0 overflow-hidden pointer-events-none">
+            <iframe
+              src="https://www.youtube.com/embed/V_hkbEVraSA?autoplay=1&loop=1&playlist=V_hkbEVraSA&start=7&controls=0&mute=0"
+              title="Nhạc thiền tịnh tâm"
+              allow="autoplay"
+            />
+          </div>
+        )}
 
         {/* ── AI CHATBOT BUBBLE OVERLAY (FROSTED GLASS) ── */}
         <AnimatePresence>
@@ -858,6 +893,11 @@ export const DanhTangMap: FC<DanhTangMapProps> = ({ onExitMapMode }) => {
             )}
           </div>
 
+          {/* ── DISCLAIMER NOTE AT BOTTOM ── */}
+          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-30 pointer-events-none text-[11px] text-[#FFE5A3]/50 italic text-center px-4" style={{ fontFamily: "'UTM Avo', sans-serif" }}>
+            * Hình ảnh sơ đồ tạo bởi Gemini AI chỉ mang tính minh họa
+          </div>
+
           {/* ── RIGHT SIDE PANEL (LIST MODE & DETAIL MODE WITH OPTIMIZED PAGINATION) ── */}
           <AnimatePresence>
             {activeRegionHub && (
@@ -925,7 +965,7 @@ export const DanhTangMap: FC<DanhTangMapProps> = ({ onExitMapMode }) => {
                                 alt={monk.name}
                                 className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500"
                                 loading="lazy"
-                                onError={(e) => { (e.target as HTMLImageElement).src = '/images/logo-tung-lam-hoa-phuc-tron.png'; }}
+                                onError={(e) => { (e.target as HTMLImageElement).src = '/images/icon-minh-hoa/logo-tung-lam-hoa-phuc-tron.png'; }}
                               />
                             </div>
 
@@ -1019,7 +1059,7 @@ export const DanhTangMap: FC<DanhTangMapProps> = ({ onExitMapMode }) => {
                           alt={selectedMapMonk.name}
                           className="w-full h-full object-cover object-top"
                           loading="lazy"
-                          onError={(e) => { (e.target as HTMLImageElement).src = '/images/logo-tung-lam-hoa-phuc-tron.png'; }}
+                          onError={(e) => { (e.target as HTMLImageElement).src = '/images/icon-minh-hoa/logo-tung-lam-hoa-phuc-tron.png'; }}
                         />
                       </div>
 
@@ -1143,101 +1183,104 @@ export const DanhTangMap: FC<DanhTangMapProps> = ({ onExitMapMode }) => {
           </div>
         </div>
 
-        {/* Filter Toolbar (Aligned cleanly) */}
-        <div className="flex flex-wrap items-center gap-3 mt-6">
+        {/* Filter Toolbar (Aligned cleanly with subtle dividers and hover lift/glow) */}
+        <div className="flex flex-wrap items-center gap-3 mt-6 pb-2">
+          {/* Nhãn LỰA CHỌN nhẹ nhàng thanh lịch */}
+          <span
+            className="text-[11px] font-bold uppercase tracking-widest text-[#F2C14E]/80 shrink-0 select-none mr-0.5"
+            style={{ fontFamily: "'UTM Avo', sans-serif" }}
+          >
+            LỰA CHỌN:
+          </span>
+
           {/* Search bar */}
-          <div className="relative flex-1 min-w-[180px] max-w-xs">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#F2C14E]/60" />
+          <div className="relative flex-1 min-w-[180px] max-w-xs group">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#F2C14E]/60 group-hover:text-[#F2C14E] transition-colors" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Tìm tên danh tăng..."
-              className="w-full pl-9 pr-3 py-1.5 bg-[#1C130D] border border-[#F2C14E]/30 rounded-lg text-xs text-[#FFE5A3] placeholder-[#c9b896]/50 focus:outline-none focus:border-[#F2C14E]"
+              className="w-full pl-9 pr-3 py-1.5 bg-gradient-to-b from-[#3A2718]/90 via-[#2A1D14]/90 to-[#1C130D]/90 border border-[#F2C14E]/35 rounded-xl text-xs text-[#FFE5A3] placeholder-[#c9b896]/50 focus:outline-none focus:border-[#F2C14E] hover:border-[#F2C14E]/70 transition-all shadow-inner"
               style={{ fontFamily: "'UTM Avo', sans-serif" }}
             />
           </div>
 
+          {/* Vạch phân định nhẹ mờ */}
+          <div className="h-4 w-px bg-[#F2C14E]/25 hidden sm:block" />
+
           {/* Filter Dropdown 1: Vùng Miền */}
-          <div className="relative">
-            <select
-              value={selectedRegion}
-              onChange={(e) => setSelectedRegion(e.target.value as Region | 'all')}
-              className="appearance-none bg-[#1C130D] border border-[#F2C14E]/30 rounded-lg px-3 py-1.5 pr-8 text-xs text-[#FFE5A3] focus:outline-none focus:border-[#F2C14E] cursor-pointer"
-              style={{ fontFamily: "'UTM Avo', sans-serif" }}
-            >
-              <option value="all">Vùng miền: Tất cả</option>
-              {REGIONS.map((r) => (
-                <option key={r} value={r}>{r}</option>
-              ))}
-            </select>
-            <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#F2C14E]/60 pointer-events-none" />
-          </div>
+          <CustomDropdown
+            labelPrefix="Vùng miền"
+            value={selectedRegion}
+            options={[
+              { id: 'all', name: 'Tất cả' },
+              ...REGIONS.map((r) => ({ id: r, name: r })),
+            ]}
+            onChange={(val) => setSelectedRegion(val as Region | 'all')}
+            placeholder="Tất cả"
+          />
+
+          {/* Vạch phân định nhẹ mờ */}
+          <div className="h-4 w-px bg-[#F2C14E]/25 hidden sm:block" />
 
           {/* Filter Dropdown 2: Hội Chúng */}
-          <div className="relative">
-            <select
-              value={selectedAssembly}
-              onChange={(e) => setSelectedAssembly(e.target.value as Assembly | 'all')}
-              className="appearance-none bg-[#1C130D] border border-[#F2C14E]/30 rounded-lg px-3 py-1.5 pr-8 text-xs text-[#FFE5A3] focus:outline-none focus:border-[#F2C14E] cursor-pointer"
-              style={{ fontFamily: "'UTM Avo', sans-serif" }}
-            >
-              <option value="all">Hội chúng: Tất cả</option>
-              {ASSEMBLIES.map((a) => (
-                <option key={a} value={a}>{a}</option>
-              ))}
-            </select>
-            <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#F2C14E]/60 pointer-events-none" />
-          </div>
+          <CustomDropdown
+            labelPrefix="Hội chúng"
+            value={selectedAssembly}
+            options={[
+              { id: 'all', name: 'Tất cả' },
+              ...ASSEMBLIES.map((a) => ({ id: a, name: a })),
+            ]}
+            onChange={(val) => setSelectedAssembly(val as Assembly | 'all')}
+            placeholder="Tất cả"
+          />
+
+          {/* Vạch phân định nhẹ mờ */}
+          <div className="h-4 w-px bg-[#F2C14E]/25 hidden sm:block" />
 
           {/* Filter Dropdown 3: Hệ Phái */}
-          <div className="relative">
-            <select
-              value={selectedSect}
-              onChange={(e) => setSelectedSect(e.target.value as Sect | 'all')}
-              className="appearance-none bg-[#1C130D] border border-[#F2C14E]/30 rounded-lg px-3 py-1.5 pr-8 text-xs text-[#FFE5A3] focus:outline-none focus:border-[#F2C14E] cursor-pointer max-w-[170px] truncate"
-              style={{ fontFamily: "'UTM Avo', sans-serif" }}
-            >
-              <option value="all">Hệ phái: Tất cả</option>
-              {SECTS.map((s) => (
-                <option key={s} value={s}>{s}</option>
-              ))}
-            </select>
-            <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#F2C14E]/60 pointer-events-none" />
-          </div>
+          <CustomDropdown
+            labelPrefix="Hệ phái"
+            value={selectedSect}
+            options={[
+              { id: 'all', name: 'Tất cả' },
+              ...SECTS.map((s) => ({ id: s, name: s })),
+            ]}
+            onChange={(val) => setSelectedSect(val as Sect | 'all')}
+            placeholder="Tất cả"
+          />
+
+          {/* Vạch phân định nhẹ mờ */}
+          <div className="h-4 w-px bg-[#F2C14E]/25 hidden sm:block" />
 
           {/* Filter Dropdown 4: Thời Kỳ (Era) */}
-          <div className="relative">
-            <select
-              value={selectedEra}
-              onChange={(e) => setSelectedEra(e.target.value as Era | 'all')}
-              className="appearance-none bg-[#1C130D] border border-[#F2C14E]/30 rounded-lg px-3 py-1.5 pr-8 text-xs text-[#FFE5A3] focus:outline-none focus:border-[#F2C14E] cursor-pointer"
-              style={{ fontFamily: "'UTM Avo', sans-serif" }}
-            >
-              <option value="all">Thời kỳ: Tất cả</option>
-              {ERAS.map((e) => (
-                <option key={e} value={e}>{e}</option>
-              ))}
-            </select>
-            <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#F2C14E]/60 pointer-events-none" />
-          </div>
+          <CustomDropdown
+            labelPrefix="Thời kỳ"
+            value={selectedEra}
+            options={[
+              { id: 'all', name: 'Tất cả' },
+              ...ERAS.map((e) => ({ id: e, name: e })),
+            ]}
+            onChange={(val) => setSelectedEra(val as Era | 'all')}
+            placeholder="Tất cả"
+          />
 
           {/* Filter Dropdown 5: Bối Cảnh (SubEra) - Cascading */}
           {selectedEra !== 'all' && availableSubEras.length > 0 && (
-            <div className="relative">
-              <select
+            <>
+              <div className="h-4 w-px bg-[#F2C14E]/25 hidden sm:block" />
+              <CustomDropdown
+                labelPrefix="Bối cảnh"
                 value={selectedSubEra}
-                onChange={(e) => setSelectedSubEra(e.target.value as SubEra | 'all')}
-                className="appearance-none bg-[#1C130D] border border-[#F2C14E]/50 rounded-lg px-3 py-1.5 pr-8 text-xs text-[#F2C14E] focus:outline-none focus:border-[#F2C14E] cursor-pointer animate-in fade-in"
-                style={{ fontFamily: "'UTM Avo', sans-serif" }}
-              >
-                <option value="all">Bối cảnh: Tất cả</option>
-                {availableSubEras.map((sub) => (
-                  <option key={sub} value={sub}>{sub}</option>
-                ))}
-              </select>
-              <ChevronDown className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-[#F2C14E] pointer-events-none" />
-            </div>
+                options={[
+                  { id: 'all', name: 'Tất cả' },
+                  ...availableSubEras.map((sub) => ({ id: sub, name: sub })),
+                ]}
+                onChange={(val) => setSelectedSubEra(val as SubEra | 'all')}
+                placeholder="Tất cả"
+              />
+            </>
           )}
 
           {/* Reset Filters button */}
@@ -1245,10 +1288,11 @@ export const DanhTangMap: FC<DanhTangMapProps> = ({ onExitMapMode }) => {
             <button
               type="button"
               onClick={handleResetFilters}
-              className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-[#F2C14E]/30 text-xs text-[#c9b896] hover:text-[#F2C14E] hover:border-[#F2C14E] transition-all cursor-pointer"
+              className="flex items-center gap-1 px-3 py-1.5 rounded-xl border border-[#F2C14E]/35 bg-gradient-to-b from-[#3A2718]/90 via-[#2A1D14]/90 to-[#1C130D]/90 text-xs text-[#FFE5A3] hover:text-white hover:border-[#F2C14E] transition-all cursor-pointer hover:shadow-[0_0_10px_rgba(242,193,78,0.25)]"
               title="Xóa bộ lọc"
+              style={{ fontFamily: "'UTM Avo', sans-serif" }}
             >
-              <RefreshCw className="w-3 h-3" />
+              <RefreshCw className="w-3 h-3 text-[#F2C14E]" />
               <span>Xóa bộ lọc</span>
             </button>
           )}
@@ -1359,7 +1403,7 @@ export const DanhTangMap: FC<DanhTangMapProps> = ({ onExitMapMode }) => {
                     alt={selectedMonk.name}
                     loading="lazy"
                     className="w-full h-full object-cover object-top"
-                    onError={(e) => { (e.target as HTMLImageElement).src = '/images/logo-tung-lam-hoa-phuc-tron.png'; }}
+                    onError={(e) => { (e.target as HTMLImageElement).src = '/images/icon-minh-hoa/logo-tung-lam-hoa-phuc-tron.png'; }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-[#1C130D]/60 via-transparent to-transparent" />
                 </div>

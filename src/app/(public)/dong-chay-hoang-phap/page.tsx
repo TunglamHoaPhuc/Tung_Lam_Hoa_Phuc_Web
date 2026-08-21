@@ -50,20 +50,17 @@ export default function DongChayHoangPhapPage() {
 
   return (
     <div className="min-h-screen bg-[#2A1D14] text-[#e3d2c1] selection:bg-[#F2C14E] selection:text-black">
-      {/* Header Fixed */}
-      <Header scrolled={true} />
-
       {/* ── HEADER VỚI BACKGROUND MỜ VÀ SCROLL FADE VIGNETTE ── */}
       <div className="relative w-full overflow-hidden bg-[#2A1D14] pt-28 pb-10">
-        {/* Ảnh nền đằng sau mờ */}
+        {/* Ảnh nền đằng sau mờ phủ gradient & giảm opacity nhẹ */}
         <div
-          className="absolute inset-0 bg-cover bg-center opacity-30 blur-[2px] pointer-events-none"
+          className="absolute inset-0 bg-cover bg-center opacity-30 md:opacity-35 blur-[2.5px] pointer-events-none scale-105"
           style={{
             backgroundImage: "url('/images/toan-canh-chua.jpg')",
           }}
         />
-        {/* Hiệu ứng mờ mềm mại hòa vào nền nâu (Scroll Vignette Fade Out) */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#2A1D14]/40 via-[#2A1D14]/75 to-[#2A1D14] pointer-events-none" />
+        {/* Hiệu ứng gradient mờ mềm mại hòa vào nền nâu */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#2A1D14]/45 via-[#2A1D14]/75 to-[#2A1D14] pointer-events-none" />
 
         <div className="relative z-10 max-w-[1280px] mx-auto px-4 md:px-10 flex flex-col items-center justify-center text-center">
           {/* Biểu tượng bánh xe Pháp Chuyển */}

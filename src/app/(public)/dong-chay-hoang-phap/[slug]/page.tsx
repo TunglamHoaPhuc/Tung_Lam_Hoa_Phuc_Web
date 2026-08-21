@@ -76,8 +76,6 @@ export default function DongChayHoangPhapDetailPage() {
 
   return (
     <div className="min-h-screen bg-[#2C1C11] text-[#e3d2c1] selection:bg-[#F2C14E] selection:text-black">
-      <Header scrolled={true} />
-
       {/* ── 1. STICKY ANCHOR NAV (RÚT GỌN TIÊU ĐỀ TỐI ĐA 3-4 TỪ) ── */}
       <SubNavbar
         activeSection={activeSection}

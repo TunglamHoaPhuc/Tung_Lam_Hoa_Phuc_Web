@@ -3,6 +3,7 @@
 import { FC, useState } from "react";
 import { Search, Filter, ZoomIn, X, Sparkles, BookOpen } from "lucide-react";
 import { PATRIARCH_NODES, WISDOM_CLUSTERS, PatriarchNode } from "@/data/wisdom-map-data";
+import { CustomDropdown } from "@/components/common/CustomDropdown";
 
 export const WisdomMapOfPatriarchs: FC = () => {
   // 5 Filter Bar States
@@ -188,25 +189,20 @@ export const WisdomMapOfPatriarchs: FC = () => {
           <label className="text-[10px] uppercase font-bold text-[#F2C14E] tracking-wider block mb-1" style={{ fontFamily: "'UTM Avo', sans-serif", fontWeight: "bold" }}>
             ⏳ 2. THỜI KỲ
           </label>
-          <select
+          <CustomDropdown
             value={selectedPeriod}
-            onChange={(e) => setSelectedPeriod(e.target.value)}
-            className="w-full py-2 px-3 rounded-lg text-xs focus:outline-none transition-all cursor-pointer"
-            style={{
-              background: "rgba(26,15,8,0.8)",
-              border: "1px solid rgba(242,193,78,0.3)",
-              color: "#e3d2c1",
-              fontFamily: "'UTM Avo', sans-serif",
-            }}
-          >
-            <option value="all">Tất cả thời kỳ</option>
-            <option value="Trần">Triều Trần</option>
-            <option value="Lý">Triều Lý</option>
-            <option value="Lê">Triều Lê</option>
-            <option value="Nguyễn">Triều Nguyễn</option>
-            <option value="Hiện đại">Hiện đại</option>
-            <option value="Cổ đại">Cổ đại quốc tế</option>
-          </select>
+            options={[
+              { id: 'all', name: 'Tất cả thời kỳ' },
+              { id: 'Trần', name: 'Triều Trần' },
+              { id: 'Lý', name: 'Triều Lý' },
+              { id: 'Lê', name: 'Triều Lê' },
+              { id: 'Nguyễn', name: 'Triều Nguyễn' },
+              { id: 'Hiện đại', name: 'Hiện đại' },
+              { id: 'Cổ đại', name: 'Cổ đại quốc tế' },
+            ]}
+            onChange={setSelectedPeriod}
+            placeholder="Tất cả thời kỳ"
+          />
         </div>
 
         {/* 3. Hệ phái Dropdown */}
@@ -214,26 +210,21 @@ export const WisdomMapOfPatriarchs: FC = () => {
           <label className="text-[10px] uppercase font-bold text-[#F2C14E] tracking-wider block mb-1" style={{ fontFamily: "'UTM Avo', sans-serif", fontWeight: "bold" }}>
             ☸ 3. HỆ PHÁI / VÙNG MIỀN
           </label>
-          <select
+          <CustomDropdown
             value={selectedSect}
-            onChange={(e) => setSelectedSect(e.target.value)}
-            className="w-full py-2 px-3 rounded-lg text-xs focus:outline-none transition-all cursor-pointer"
-            style={{
-              background: "rgba(26,15,8,0.8)",
-              border: "1px solid rgba(242,193,78,0.3)",
-              color: "#e3d2c1",
-              fontFamily: "'UTM Avo', sans-serif",
-            }}
-          >
-            <option value="all">Tất cả hệ phái</option>
-            <option value="Trúc Lâm">Thiền phái Trúc Lâm</option>
-            <option value="Lâm Tế">Tông Lâm Tế</option>
-            <option value="Tào Động">Tông Tào Động</option>
-            <option value="Khất Sĩ">Khất Sĩ Nam Bộ</option>
-            <option value="Kim Cang">Mật Tông Kim Cang</option>
-            <option value="Zen Nhật Bản">Zen Nhật Bản</option>
-            <option value="Ấn Độ">Ấn Độ Cổ Đại</option>
-          </select>
+            options={[
+              { id: 'all', name: 'Tất cả hệ phái' },
+              { id: 'Trúc Lâm', name: 'Thiền phái Trúc Lâm' },
+              { id: 'Lâm Tế', name: 'Tông Lâm Tế' },
+              { id: 'Tào Động', name: 'Tông Tào Động' },
+              { id: 'Khất Sĩ', name: 'Khất Sĩ Nam Bộ' },
+              { id: 'Kim Cang', name: 'Mật Tông Kim Cang' },
+              { id: 'Zen Nhật Bản', name: 'Zen Nhật Bản' },
+              { id: 'Ấn Độ', name: 'Ấn Độ Cổ Đại' },
+            ]}
+            onChange={setSelectedSect}
+            placeholder="Tất cả hệ phái"
+          />
         </div>
 
         {/* 4. Quote chứa từ khóa Input */}

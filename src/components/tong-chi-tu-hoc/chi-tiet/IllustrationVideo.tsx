@@ -69,13 +69,14 @@ export function IllustrationVideo({ heroBanner, videoBlock }: PropsKhoiVideo) {
               />
             ) : (
               <div className="relative w-full h-full cursor-pointer">
-                <Image
+                <img
                   src={thumbnailSrc}
                   alt="Video Thumbnail"
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 60vw"
-                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   loading="lazy"
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).src = '/images/toan-canh-chua.jpg';
+                  }}
                 />
 
                 {/* ── 3. NÚT PLAY CUSTOM VÀNG PHÁT SÁNG ĐỒNG BỘ ── */}

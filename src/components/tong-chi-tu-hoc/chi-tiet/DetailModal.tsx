@@ -63,15 +63,16 @@ export function DetailModal({
             </div>
 
             <div className="p-4 sm:p-6 space-y-4">
-              {/* TỐI ƯU HÓA: Dùng Next Image hiển thị ảnh tư liệu sắc nét */}
+              {/* TỐI ƯU HÓA: Dùng img với fallback onError mượt mà */}
               <div className="relative aspect-[4/3] w-full max-h-[380px] rounded-xl overflow-hidden border border-[#c8aa6e]/40 shadow-inner bg-black/40 flex items-center justify-center">
-                <Image
+                <img
                   src={currentPhoto.imageUrl || currentPhoto.url || 'https://tunglam.mocwp.com/wp-content/uploads/2026/07/default-bg.jpg'}
                   alt={currentPhoto.title || 'Ảnh tư liệu'}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 650px"
-                  className="object-contain"
-                  priority
+                  className="w-full h-full object-contain"
+                  loading="lazy"
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).src = '/images/toan-canh-chua.jpg';
+                  }}
                 />
               </div>
 

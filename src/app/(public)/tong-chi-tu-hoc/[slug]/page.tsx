@@ -171,10 +171,11 @@ export default function TrangChiTietTongChi() {
         setLoading(true);
 
         const res = await fetch(`https://tunglam.mocwp.com/wp-json/wp/v2/tong-chi?slug=${slug}&_embed`, { cache: 'no-store' });
-        const posts = await res.json();
+        if (res.ok) {
+          const posts = await res.json();
 
-        if (posts && posts.length > 0) {
-          const post = posts[0];
+          if (Array.isArray(posts) && posts.length > 0) {
+            const post = posts[0];
           const acf = post.acf || {};
 
           const banner = acf.banner_image?.url || acf.banner_image || post._embedded?.['wp:featuredmedia']?.[0]?.source_url || '';
@@ -262,7 +263,8 @@ export default function TrangChiTietTongChi() {
               : defaultGallery,
           });
         }
-      } catch (err) {
+      }
+    } catch (err) {
         console.error('❌ Lỗi tải bài viết chi tiết:', err);
       } finally {
         setLoading(false);

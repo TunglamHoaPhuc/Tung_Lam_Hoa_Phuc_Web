@@ -2,10 +2,11 @@
 
 import React, { FC, useState, useMemo } from "react";
 import Link from "next/link";
-import { Filter, Calendar, Eye, Volume2, Video as VideoIcon, BookOpen, FileText, Sparkles, ChevronDown } from "lucide-react";
+import { Search, Calendar, Eye, Volume2, Video as VideoIcon, BookOpen, FileText, ChevronDown } from "lucide-react";
 import { WISDOM_ITEMS, MEDIA_TYPE_OPTIONS } from "@/data/wisdom-archive-data";
-import { WisdomItem, MediaType } from "@/types/wisdom-tags";
+import { WisdomItem } from "@/types/wisdom-tags";
 import { MediaPlayModal } from "@/components/public/modals/MediaPlayModal";
+import { CustomDropdown } from "@/components/common/CustomDropdown";
 
 interface WisdomCardProps {
   item: WisdomItem;
@@ -86,14 +87,31 @@ const WisdomCard = React.memo(({ item, onClick }: WisdomCardProps) => {
 WisdomCard.displayName = "WisdomCard";
 
 export const WisdomArchiveSection: FC = () => {
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedType, setSelectedType] = useState<string>("all");
   const [sortBy, setSortBy] = useState<string>("newest");
   const [activeMediaModalItem, setActiveMediaModalItem] = useState<WisdomItem | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
 
+  const typeOptions = useMemo(() => {
+    return MEDIA_TYPE_OPTIONS.map((opt) => ({ id: opt.id, name: opt.label }));
+  }, []);
+
+  const sortOptions = [
+    { id: 'newest', name: 'Mới nhất' },
+    { id: 'views', name: 'Xem nhiều nhất' },
+  ];
+
   // Filter & Sort with useMemo
   const filteredItems = useMemo(() => {
     let result = WISDOM_ITEMS.filter((item) => {
+      if (searchQuery.trim()) {
+        const q = searchQuery.toLowerCase();
+        const matchesTitle = item.title.toLowerCase().includes(q);
+        const matchesCategory = item.primaryCategoryTag?.toLowerCase().includes(q);
+        const matchesExcerpt = item.excerpt?.toLowerCase().includes(q);
+        if (!matchesTitle && !matchesCategory && !matchesExcerpt) return false;
+      }
       if (selectedType !== "all" && item.type !== selectedType) {
         return false;
       }
@@ -104,7 +122,7 @@ export const WisdomArchiveSection: FC = () => {
       result = [...result].sort((a, b) => b.views - a.views);
     }
     return result;
-  }, [selectedType, sortBy]);
+  }, [searchQuery, selectedType, sortBy]);
 
   // 4 Columns x 4 Rows = 16 cards per page
   const visibleItems = useMemo(() => {
@@ -124,96 +142,101 @@ export const WisdomArchiveSection: FC = () => {
 
   return (
     <div className="w-full">
-      {/* ── 1. Elegant Streamlined Filter Toolbar ── */}
-      <div className="bg-[#1C130D] p-4 md:p-6 rounded-2xl border border-[#F2C14E]/30 shadow-2xl mb-8 flex flex-col md:flex-row items-center justify-between gap-4">
-        {/* Category Pills */}
-        <div className="flex flex-wrap items-center gap-2">
+      {/* ── 1. Thanh Bộ Lọc Tinh Gọn & Tối Giản (Không Đường Kẻ Dưới, Dropdown Gradient & Hover Nâu Vàng) ── */}
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-8 pb-2">
+        
+        <div className="flex flex-wrap items-center gap-3 flex-1 min-w-[280px]">
+          {/* Nhãn LỰA CHỌN nhẹ nhàng thanh lịch */}
           <span
-            className="text-xs font-bold uppercase tracking-widest text-[#F2C14E] mr-2"
+            className="text-[11px] font-bold uppercase tracking-widest text-[#F2C14E]/80 shrink-0 select-none mr-0.5"
             style={{ fontFamily: "'UTM Avo', sans-serif" }}
           >
-            CHỦ ĐỀ:
+            LỰA CHỌN:
           </span>
-          {MEDIA_TYPE_OPTIONS.map((opt) => {
-            const isSelected = selectedType === opt.id;
-            return (
-              <button
-                key={opt.id}
-                type="button"
-                onClick={() => setSelectedType(opt.id)}
-                className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer border ${
-                  isSelected
-                    ? 'bg-[#F2C14E] text-[#1C130D] border-white shadow-md'
-                    : 'bg-[#2A1D14] text-[#c9b896] border-[#F2C14E]/30 hover:border-[#F2C14E] hover:text-[#F2C14E]'
-                }`}
-                style={{ fontFamily: "'UTM Avo', sans-serif" }}
-              >
-                {opt.label}
-              </button>
-            );
-          })}
-        </div>
 
-        {/* Sort Select */}
-        <div className="flex items-center gap-2 shrink-0">
-          <span className="text-xs font-bold uppercase text-[#F2C14E]" style={{ fontFamily: "'UTM Avo', sans-serif" }}>
-            SẮP XẾP:
-          </span>
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-            className="py-1.5 px-3 rounded-xl text-xs font-bold uppercase tracking-wider bg-[#2A1D14] border border-[#F2C14E]/40 text-[#FFE5A3] focus:outline-none cursor-pointer"
-            style={{ fontFamily: "'UTM Avo', sans-serif" }}
-          >
-            <option value="newest" className="bg-[#2A1D14]">MỚI NHẤT ↕</option>
-            <option value="views" className="bg-[#2A1D14]">XEM NHIỀU NHẤT ↕</option>
-          </select>
-        </div>
-      </div>
-
-      {/* ── 2. 4 COLUMNS x 4 ROWS GRID (16 CARDS) WITH PORTFOLIO EXPANSION ── */}
-      <div className="relative mb-12">
-        <div
-          className={`relative transition-all duration-500 overflow-hidden ${
-            !isExpanded && filteredItems.length > 16 ? 'max-h-[1600px] md:max-h-[1700px]' : 'max-h-[10000px] pb-8'
-          }`}
-        >
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 md:gap-6">
-            {visibleItems.map((item) => (
-              <WisdomCard
-                key={item.id}
-                item={item}
-                onClick={handleCardClick}
-              />
-            ))}
-          </div>
-
-          {!isExpanded && filteredItems.length > 16 && (
-            <div className="absolute bottom-0 inset-x-0 h-48 md:h-64 bg-gradient-to-t from-[#2C1C11] via-[#2C1C11]/90 to-transparent pointer-events-none z-10" />
-          )}
-        </div>
-
-        {/* Portfolio "TÌM HIỂU THÊM" Expansion Button */}
-        {!isExpanded && filteredItems.length > 16 && (
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 w-full flex justify-center px-4">
-            <button
-              type="button"
-              onClick={() => setIsExpanded(true)}
-              className="px-8 py-3.5 bg-gradient-to-r from-[#D4A017] via-[#F2C14E] to-[#D4A017] text-[#1C130D] font-bold text-xs md:text-sm rounded-full transition-all duration-300 shadow-[0_0_30px_rgba(242,193,78,0.5)] flex items-center gap-2 cursor-pointer uppercase tracking-wider hover:scale-105"
+          {/* Search Box */}
+          <div className="relative flex-1 min-w-[180px] max-w-xs group">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#F2C14E]/60 group-hover:text-[#F2C14E] transition-colors" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Tìm bài viết, pháp âm..."
+              className="w-full pl-9 pr-3 py-1.5 bg-gradient-to-b from-[#3A2718]/90 via-[#2A1D14]/90 to-[#1C130D]/90 border border-[#F2C14E]/35 rounded-xl text-xs text-[#FFE5A3] placeholder-[#c9b896]/50 focus:outline-none focus:border-[#F2C14E] hover:border-[#F2C14E]/70 transition-all shadow-inner"
               style={{ fontFamily: "'UTM Avo', sans-serif" }}
-            >
-              <span>TÌM HIỂU THÊM</span>
-              <ChevronDown className="w-4 h-4" />
-            </button>
+            />
           </div>
-        )}
+
+          {/* Vạch phân định nhẹ mờ */}
+          <div className="h-4 w-px bg-[#F2C14E]/25 hidden sm:block" />
+
+          {/* Dropdown 1: Thể Loại */}
+          <CustomDropdown
+            labelPrefix="Thể loại"
+            value={selectedType}
+            options={typeOptions}
+            onChange={setSelectedType}
+            placeholder="Tất cả"
+          />
+
+          {/* Vạch phân định nhẹ mờ */}
+          <div className="h-4 w-px bg-[#F2C14E]/25 hidden sm:block" />
+
+          {/* Dropdown 2: Sắp Xếp */}
+          <CustomDropdown
+            labelPrefix="Sắp xếp"
+            value={sortBy}
+            options={sortOptions}
+            onChange={setSortBy}
+            placeholder="Mới nhất"
+          />
+        </div>
+
+        {/* Result Count Badge */}
+        <div className="text-xs text-[#F2C14E] font-bold shrink-0 px-3 py-1.5 bg-gradient-to-b from-[#3A2718]/90 via-[#2A1D14]/90 to-[#1C130D]/90 rounded-xl border border-[#F2C14E]/35 shadow-sm" style={{ fontFamily: "'UTM Avo', sans-serif" }}>
+          {filteredItems.length} Nội dung
+        </div>
       </div>
 
-      {/* Pop-up Lightbox */}
-      <MediaPlayModal
-        item={activeMediaModalItem}
-        onClose={() => setActiveMediaModalItem(null)}
-      />
+      {/* ── 2. Grid Cards Display ── */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {visibleItems.map((item) => (
+          <WisdomCard key={item.id} item={item} onClick={handleCardClick} />
+        ))}
+      </div>
+
+      {/* Empty State */}
+      {filteredItems.length === 0 && (
+        <div
+          className="w-full py-16 text-center text-[#c9b896]/60 border border-dashed border-[#F2C14E]/20 rounded-2xl bg-[#1C130D]/40"
+          style={{ fontFamily: "'UTM Avo', sans-serif" }}
+        >
+          Không tìm thấy bài viết hoặc pháp âm nào phù hợp với bộ lọc hiện tại.
+        </div>
+      )}
+
+      {/* Expand Button */}
+      {!isExpanded && filteredItems.length > 16 && (
+        <div className="w-full flex justify-center mt-10">
+          <button
+            type="button"
+            onClick={() => setIsExpanded(true)}
+            className="px-8 py-3 bg-[#6B4B2A] hover:bg-[#8B6439] border border-[#F2C14E] text-[#F2C14E] hover:text-[#FFE5A3] font-bold text-sm rounded-xl transition-all duration-300 shadow-[0_10px_25px_rgba(0,0,0,0.7)] flex items-center gap-2 cursor-pointer uppercase tracking-wider"
+            style={{ fontFamily: "'UTM Avo', sans-serif" }}
+          >
+            <span>XEM TẤT CẢ {filteredItems.length} PHÁP BẢO LƯU THÔNG</span>
+            <ChevronDown className="w-4 h-4" />
+          </button>
+        </div>
+      )}
+
+      {/* Media Player Modal */}
+      {activeMediaModalItem && (
+        <MediaPlayModal
+          item={activeMediaModalItem}
+          onClose={() => setActiveMediaModalItem(null)}
+        />
+      )}
     </div>
   );
 };

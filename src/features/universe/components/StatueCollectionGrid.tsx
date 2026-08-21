@@ -38,7 +38,7 @@ const StatueCard = React.memo(({ statue }: StatueCardProps) => {
           decoding="async"
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 transform-gpu"
           onError={(e) => {
-            (e.target as HTMLImageElement).src = '/images/toan-canh-chua.jpg';
+            (e.target as HTMLImageElement).src = '/images/vu-tru-phat-giao/toan-canh-chua.jpg';
           }}
         />
 
@@ -58,13 +58,16 @@ const StatueCard = React.memo(({ statue }: StatueCardProps) => {
         {/* KHUNG CHÚ THÍCH NỀN BG #25170E */}
         <div className="relative w-full bg-gradient-to-b from-[#25170E] to-[#1C130D] px-3 pt-5 pb-3.5 text-center flex flex-col items-center justify-start">
           {/* LOGO BADGE CĂN GIỮA */}
-          <div className="absolute top-[-24px] left-1/2 -translate-x-1/2 z-40 w-11 h-11 rounded-full border-2 border-[#F2C14E] bg-[#25170E] flex items-center justify-center p-1 shadow-[0_0_16px_rgba(242,193,78,0.6)]">
+          <div className="absolute top-[-24px] left-1/2 -translate-x-1/2 z-40 w-11 h-11 sm:w-12 sm:h-12 rounded-full border-2 border-[#F2C14E] bg-[#25170E] flex items-center justify-center p-1 shadow-[0_0_18px_rgba(242,193,78,0.75)] overflow-hidden">
             <img
-              src="/images/bieu-tuong-tuong-phap.svg"
+              src="/images/icon-minh-hoa/bieu-tuong-tuong-phap.png"
               alt="Logo Bảo tượng"
               loading="lazy"
               decoding="async"
-              className="w-full h-full object-contain filter drop-shadow-[0_0_6px_rgba(242,193,78,0.8)]"
+              className="w-full h-full object-contain filter drop-shadow-[0_0_6px_rgba(242,193,78,0.95)] scale-145 sm:scale-150 transform-gpu"
+              onError={(e) => {
+                (e.currentTarget as HTMLImageElement).src = '/images/bieu-tuong-tuong-phap.svg';
+              }}
             />
           </div>
 
@@ -133,10 +136,13 @@ export const StatueCollectionGrid: FC<StatueCollectionGridProps> = ({
       {/* ── 1. BACKGROUND HÒA TRỘN TỰ NHIÊN ── */}
       <div className="absolute top-0 inset-x-0 h-[850px] pointer-events-none select-none z-0 overflow-hidden bg-[#2C1C11]">
         <img
-          src="/images/toan-canh-chua.jpg"
+          src="/images/vu-tru-phat-giao/toan-canh-chua.jpg"
           alt="Background Tam Bảo"
           loading="lazy"
           decoding="async"
+          onError={(e) => {
+            (e.currentTarget as HTMLImageElement).src = '/images/toan-canh-chua.jpg';
+          }}
           className="w-full h-full object-cover opacity-48 mix-blend-overlay filter brightness-95"
           style={{
             WebkitMaskImage: 'radial-gradient(ellipse 72% 78% at 50% 50%, rgba(0,0,0,1) 25%, rgba(0,0,0,0) 90%)',
@@ -152,11 +158,14 @@ export const StatueCollectionGrid: FC<StatueCollectionGridProps> = ({
       <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8">
         {/* ── 2. SECTION HEADER: ICON & 2 ĐƯỜNG KẺ HAI BÊN ── */}
         <div className="flex flex-col items-center text-center mb-12">
-          <div className="w-10 h-10 mb-3 flex items-center justify-center" aria-hidden="true">
+          <div className="w-16 h-16 sm:w-20 sm:h-20 mb-2 flex items-center justify-center" aria-hidden="true">
             <img
-              src="/images/bieu-tuong-tuong-phap.svg"
+              src="/images/icon-minh-hoa/bieu-tuong-tuong-phap.png"
               alt="Biểu Tượng Tượng Pháp"
-              className="w-full h-full object-contain filter drop-shadow-[0_0_14px_rgba(242,193,78,0.9)]"
+              className="w-full h-full object-contain filter drop-shadow-[0_0_20px_rgba(242,193,78,0.95)] scale-135 transform-gpu"
+              onError={(e) => {
+                (e.currentTarget as HTMLImageElement).src = '/images/bieu-tuong-tuong-phap.svg';
+              }}
             />
           </div>
 
@@ -190,9 +199,11 @@ export const StatueCollectionGrid: FC<StatueCollectionGridProps> = ({
         {/* ── 3. GRID SYSTEM (RESPONSIVE CLASSIC 1-2-3-4 COLS) ── */}
         <div className="relative">
           <div
-            className={`transition-all duration-700 ease-in-out ${
-              !isExpanded ? 'max-h-[880px] md:max-h-[920px] overflow-hidden' : 'max-h-[10000px] overflow-visible pb-12'
-            }`}
+            className={`transition-all duration-700 ease-in-out ${!isExpanded ? 'max-h-[880px] md:max-h-[920px] overflow-hidden' : 'max-h-[10000px] overflow-visible pb-12'}`}
+            style={!isExpanded && filteredStatues.length > 8 ? {
+              WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 50%, rgba(0,0,0,0.85) 68%, rgba(0,0,0,0.3) 85%, rgba(0,0,0,0) 100%)',
+              maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 50%, rgba(0,0,0,0.85) 68%, rgba(0,0,0,0.3) 85%, rgba(0,0,0,0) 100%)',
+            } : undefined}
           >
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8">
               {filteredStatues.map((statue) => (
@@ -203,7 +214,7 @@ export const StatueCollectionGrid: FC<StatueCollectionGridProps> = ({
 
           {/* DẢI MỜ PHÍA DƯỚI KHI CHƯA MỞ RỘNG */}
           {!isExpanded && filteredStatues.length > 8 && (
-            <div className="absolute bottom-0 inset-x-0 h-48 md:h-64 bg-gradient-to-t from-[#2C1C11] via-[#2C1C11]/90 to-transparent pointer-events-none z-30" />
+            <div className="absolute bottom-0 inset-x-0 h-64 md:h-80 bg-gradient-to-t from-[#2C1C11] via-[#2C1C11]/95 via-35% via-[#2C1C11]/60 via-70% to-transparent pointer-events-none z-30" />
           )}
 
           {/* NÚT XEM TẤT CẢ NỔI VỚI SHADOW ĐẬM */}

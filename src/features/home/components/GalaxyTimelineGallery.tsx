@@ -4,7 +4,7 @@ import { FC, useState } from "react";
 import { X, Volume2, ArrowLeft } from "lucide-react";
 import { C } from "@/config/theme";
 
-// ─── Dữ liệu Timeline ──────────────────────────────────────────────────────
+// ─── Dữ liệu Timeline Ban Đầu ──────────────────────────────────────────────────────
 const TIMELINE_YEARS = [
   {
     year: "2015",
@@ -182,7 +182,6 @@ const GalaxyTimelineGallery: FC<GalaxyTimelineGalleryProps> = ({ onClose }) => {
       <div className="py-12 px-6 md:px-12 relative overflow-hidden flex-1">
         {/* ── Nền không gian thiên hà ── */}
         <div className="absolute inset-0 pointer-events-none">
-          {/* starfield gradient */}
           <div
             className="absolute inset-0"
             style={{
@@ -206,7 +205,6 @@ const GalaxyTimelineGallery: FC<GalaxyTimelineGalleryProps> = ({ onClose }) => {
                 <stop offset="100%" stopColor={C.accent} stopOpacity="0" />
               </linearGradient>
             </defs>
-            {/* small star dots */}
             {[...Array(40)].map((_, i) => (
               <circle
                 key={i}
@@ -218,7 +216,6 @@ const GalaxyTimelineGallery: FC<GalaxyTimelineGalleryProps> = ({ onClose }) => {
               />
             ))}
           </svg>
-          {/* center glow */}
           <div
             className="absolute"
             style={{
@@ -237,7 +234,7 @@ const GalaxyTimelineGallery: FC<GalaxyTimelineGalleryProps> = ({ onClose }) => {
               style={{ fontFamily: "'UTM Avo', sans-serif" }}
               className="text-xs uppercase tracking-[.3em] px-5 py-2 rounded-full border border-[#f2cc8f]/40 inline-block mb-4 text-[#f2cc8f] font-bold"
             >
-              ORBIT TIMELINE · DÒNG THỜI GIAN QUỶ ĐẠO
+              ORBIT TIMELINE · DÒNG THỜI GIAN QUỸ ĐẠO
             </span>
             <h2
               style={{ fontFamily: "'UTM Niagara', sans-serif" }}
@@ -265,7 +262,6 @@ const GalaxyTimelineGallery: FC<GalaxyTimelineGalleryProps> = ({ onClose }) => {
                   }}
                   aria-label={`Xem ảnh năm ${yt.year}`}
                 >
-                  {/* orbit ring glow */}
                   <div
                     className="absolute rounded-full transition-all duration-300"
                     style={{
@@ -279,7 +275,6 @@ const GalaxyTimelineGallery: FC<GalaxyTimelineGalleryProps> = ({ onClose }) => {
                       animation: isActive ? "pulse 2s infinite" : "none",
                     }}
                   />
-                  {/* planet dot */}
                   <div
                     className="rounded-full border-2 overflow-hidden relative z-10 transition-all duration-300"
                     style={{
@@ -292,14 +287,15 @@ const GalaxyTimelineGallery: FC<GalaxyTimelineGalleryProps> = ({ onClose }) => {
                   >
                     <img src={yt.icon} alt={yt.year} className="w-full h-full object-cover opacity-70" />
                   </div>
-                  {/* year label chuẩn font UTM Niagara */}
                   <span
                     style={{
                       fontFamily: "'UTM Niagara', sans-serif",
                       color: isActive ? C.accent : C.cream,
                       textShadow: isActive ? `0 0 16px ${C.accent}` : "none",
+                      fontSize: isActive ? "2.2rem" : "1.6rem",
+                      letterSpacing: "0.05em",
                     }}
-                    className="text-2xl sm:text-3xl font-bold uppercase leading-none mt-1 transition-all duration-300"
+                    className="transition-all duration-300 font-bold"
                   >
                     {yt.year}
                   </span>
@@ -308,137 +304,87 @@ const GalaxyTimelineGallery: FC<GalaxyTimelineGalleryProps> = ({ onClose }) => {
             })}
           </div>
 
-          {/* ── Modal Pop-up Filmstrip ── */}
-          {active && activeYear !== null && (
+          {/* ── Active Year Card Detail Panel ── */}
+          {active && (
             <div
-              className="mt-4 rounded-2xl overflow-hidden border transition-all duration-500"
+              className="mt-8 rounded-2xl p-6 md:p-8 border relative z-20 shadow-2xl transition-all duration-300"
               style={{
-                background: `linear-gradient(160deg, rgba(74,55,40,.95), rgba(26,15,8,.97))`,
-                borderColor: `${C.accent}55`,
-                boxShadow: `0 0 60px ${C.accent}22`,
+                background: "linear-gradient(135deg, rgba(42,29,20,.95) 0%, rgba(26,15,8,.98) 100%)",
+                borderColor: `${C.accent}66`,
+                boxShadow: `0 0 40px ${C.accent}22`,
               }}
             >
-              {/* header modal dùng font UTM Niagara & UTM Avo */}
-              <div
-                className="flex items-center justify-between px-6 py-4 border-b"
-                style={{ borderColor: `${C.accent}22` }}
-              >
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-[#f2cc8f]/20">
                 <div>
+                  <span
+                    style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                    className="text-xs uppercase tracking-widest text-[#f2cc8f] font-bold"
+                  >
+                    MỐC THỜI GIAN {active.year}
+                  </span>
                   <h3
                     style={{ fontFamily: "'UTM Niagara', sans-serif" }}
-                    className="text-3xl md:text-4xl text-[#ffde59] uppercase font-bold tracking-wide"
+                    className="text-3xl sm:text-4xl md:text-5xl font-bold uppercase text-[#ffde59] tracking-wider mt-1"
                   >
-                    {active.year} — {active.label}
+                    {active.label}
                   </h3>
-                  <p
-                    style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                    className="text-xs sm:text-sm text-[#e3d2c1] leading-relaxed mt-1 opacity-90 font-normal"
-                  >
-                    {active.desc}
-                  </p>
                 </div>
-                <button
-                  onClick={() => setActiveYear(null)}
-                  className="w-8 h-8 rounded-full flex items-center justify-center transition-all hover:scale-110 cursor-pointer"
-                  style={{ background: "rgba(42,29,20,.8)", color: C.cream }}
-                  aria-label="Đóng"
-                >
-                  <X className="w-4 h-4" />
-                </button>
+                <p className="text-sm text-[#e3d2c1] max-w-xl leading-relaxed">
+                  {active.desc}
+                </p>
               </div>
 
-              {/* filmstrip by category */}
-              <div className="p-6 space-y-6">
-                {active.photos.map((cat) => (
-                  <div key={cat.cat}>
-                    <div className="flex items-center gap-2 mb-3">
-                      <div className="w-1 h-4 rounded" style={{ background: C.accent }} />
-                      <span
-                        style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                        className="text-xs font-bold uppercase tracking-widest text-[#ffde59]"
-                      >
-                        {cat.cat}
-                      </span>
-                    </div>
-                    {/* filmstrip row */}
-                    <div className="flex gap-3 overflow-x-auto pb-2 no-scrollbar">
-                      {cat.imgs.map((img, j) => (
-                        <button
-                          key={j}
-                          onClick={() => setLightboxImg(img)}
-                          className="flex-none rounded-lg overflow-hidden border-2 transition-all hover:scale-105 hover:shadow-lg cursor-pointer"
-                          style={{
-                            width: 220, height: 130,
-                            borderColor: `${C.accent}44`,
-                          }}
-                          aria-label={`Xem ảnh ${j + 1}`}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
+                {active.photos.map((group, idx) => (
+                  <div key={idx} className="space-y-4">
+                    <h4
+                      style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                      className="text-sm font-bold uppercase tracking-wider text-[#ffde59] flex items-center gap-2 border-b border-[#f2cc8f]/30 pb-2"
+                    >
+                      <span className="w-2 h-2 rounded-full bg-[#ffde59]" />
+                      <span>{group.cat}</span>
+                    </h4>
+                    <div className="grid grid-cols-3 gap-3">
+                      {group.imgs.map((src, pIdx) => (
+                        <div
+                          key={pIdx}
+                          onClick={() => setLightboxImg(src)}
+                          className="relative h-24 sm:h-28 rounded-lg overflow-hidden border border-[#f2cc8f]/30 hover:border-[#ffde59] group/img cursor-pointer transition-all duration-300 shadow-md"
                         >
-                          <img src={img} alt="" className="w-full h-full object-cover" />
-                        </button>
+                          <img
+                            src={src}
+                            alt={`${active.year} - ${group.cat} ${pIdx + 1}`}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover/img:scale-110"
+                          />
+                          <div className="absolute inset-0 bg-black/30 group-hover/img:bg-transparent transition-colors" />
+                        </div>
                       ))}
                     </div>
                   </div>
                 ))}
-              </div>
-
-              {/* ambient sound player */}
-              <div
-                className="flex items-center gap-3 px-6 py-3 border-t"
-                style={{ borderColor: `${C.accent}22` }}
-              >
-                <Volume2 className="w-4 h-4 flex-shrink-0" style={{ color: C.accent }} />
-                <span
-                  style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                  className="text-xs text-[#e3d2c1]/80 font-normal"
-                >
-                  Gàu thoma liên mục — nhạc thiền thanh tĩnh
-                </span>
-                {/* fake audio slider */}
-                <div className="flex-1 h-1 rounded-full overflow-hidden" style={{ background: "rgba(242,193,78,.2)" }}>
-                  <div className="h-full w-1/3 rounded-full" style={{ background: C.accent }} />
-                </div>
-                <span
-                  style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                  className="text-xs text-[#e3d2c1]/60 font-normal"
-                >
-                  timeline.gsap
-                </span>
               </div>
             </div>
           )}
         </div>
       </div>
 
-      {/* ── Lightbox ── */}
+      {/* Lightbox */}
       {lightboxImg && (
         <div
-          className="fixed inset-0 z-[120] flex items-center justify-center p-4"
-          style={{ background: "rgba(0,0,0,0.9)", backdropFilter: "blur(10px)" }}
           onClick={() => setLightboxImg(null)}
+          className="fixed inset-0 z-[200] bg-black/90 backdrop-blur-md flex items-center justify-center p-4 cursor-pointer animate-in fade-in duration-200"
         >
-          <button
-            className="absolute top-6 right-6 w-10 h-10 rounded-full flex items-center justify-center text-white border border-[#f2cc8f]/40 bg-[#2a1d14] hover:scale-110 transition-transform cursor-pointer"
-            onClick={() => setLightboxImg(null)}
-            aria-label="Đóng lightbox"
-          >
-            <X className="w-5 h-5 text-[#ffde59]" />
-          </button>
-          <img
-            src={lightboxImg}
-            alt="Ảnh tư liệu Tùng Lâm Hòa Phúc"
-            className="max-w-5xl max-h-[85vh] w-full object-contain rounded-xl shadow-2xl border border-[#f2cc8f]/30"
-            onClick={(e) => e.stopPropagation()}
-          />
+          <div className="relative max-w-4xl max-h-[85vh] rounded-2xl overflow-hidden border border-[#f2cc8f]/50 shadow-2xl">
+            <img src={lightboxImg} alt="Ảnh Phóng To" className="w-full h-full object-contain" />
+            <button
+              onClick={() => setLightboxImg(null)}
+              className="absolute top-4 right-4 w-10 h-10 rounded-full bg-black/70 text-[#ffde59] border border-[#f2cc8f]/40 flex items-center justify-center cursor-pointer hover:scale-110 transition-all"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
         </div>
       )}
-
-      {/* CSS animation cho pulse */}
-      <style>{`
-        @keyframes pulse {
-          0%, 100% { opacity: 0.6; transform: translate(-50%,-50%) scale(1); }
-          50% { opacity: 1; transform: translate(-50%,-50%) scale(1.08); }
-        }
-      `}</style>
     </div>
   );
 };

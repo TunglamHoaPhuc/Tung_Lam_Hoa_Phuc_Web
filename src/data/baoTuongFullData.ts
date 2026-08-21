@@ -80,8 +80,8 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "id": "TP0001",
     "slug": "duc_phat_thich_ca_mau_ni",
     "name": "ĐỨC PHẬT THÍCH CA MÂU NI",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "titleName": "ĐỨC PHẬT THÍCH CA MÂU NI",
+    "subtitle": "Vô Thượng Năng",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -89,7 +89,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "ĐỨC PHẬT THÍCH CA MÂU NI",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_THICH_CA/TUONG_CHINH/duc_phat_thich_ca_tuongchinh.jpg"
       },
@@ -122,8 +122,8 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "id": "TP0012",
     "slug": "duc_phat_a_di_da",
     "name": "ĐỨC PHẬT A DI ĐÀ",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "titleName": "ĐỨC PHẬT A DI ĐÀ",
+    "subtitle": "Lời nguyện vượt thời gian",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -131,7 +131,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "ĐỨC PHẬT A DI ĐÀ",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DI_DA/duc_phat_di_da_tuong_chinh.JPG"
       },
@@ -153,34 +153,39 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
   {
     "code": "TP0018",
     "assembly": "CHƯ PHẬT HẢI HỘI",
-    "group": "CỤM TƯỢNG TÔN THỜ",
+    "group": "Đông Phương Tam Thánh",
     "title": "ĐỨC PHẬT DƯỢC SƯ",
     "categoryType": "TƯỢNG CHÍNH",
     "characterGroup": "duc_phat_duoc_su",
     "areaId": "TAM_BAO",
-    "description": "Dưới chân dãy Himalaya, nơi một vương quốc nhỏ được dựng nên và một dòng giống mang tên Śākya lưu truyền qua bao đời, có một vầng sáng âm thầm lớn lên trong cung điện.",
-    "quote": "Ngài sinh ở thế gian nhưng không nhiễm thế gian. Vì Ngài đã rõ giáo lý duyên khởi, đoạn trừ mầm mống luân hồi.",
+    "description": "Đấng Y Vương cứu khổ bách tính, với 12 đại nguyện cứu giúp chúng sinh thoát khỏi bệnh tật thân tâm.",
+    "quote": "Khi làm chủ tâm sân, bệnh tật và đau khổ dần được chuyển hóa.",
     "notes": "",
     "id": "TP0018",
     "slug": "duc_phat_duoc_su",
     "name": "ĐỨC PHẬT DƯỢC SƯ",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "titleName": "ĐỨC PHẬT DƯỢC SƯ",
+    "subtitle": "Đấng Y Vương Cứu Khổ Bách Tính",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
-    "clusterName": "CỤM TƯỢNG TÔN THỜ",
+    "clusterName": "Đông Phương Tam Thánh",
     "type": "TƯỢNG CHÍNH",
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
-        "slug": "van_thu_bo_tat",
+        "name": "ĐỨC PHẬT DƯỢC SƯ",
+        "slug": "duc_phat_duoc_su",
         "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DUOC_SU/phat_duoc_su_luu_ly_quang_vuong_nhu_lai_tuong_chinh.jpg"
       },
       {
-        "name": "Phổ Hiền Bồ Tát",
-        "slug": "pho_hien_bo_tat",
-        "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_DUOC_SU/phat_duoc_su_luu_ly_quang_vuong_nhu_lai_tuong_chinh.jpg"
+        "name": "Nhật Quang Bồ Tát",
+        "slug": "nhat_quang_bo_tat",
+        "imgUrl": "/images/bao_tuong_phat_giao/thanh_tinh_dai_hai_chung/BO_TAT_NHAT_NGUYET_QUANG/nhat_nguyet_quang_bo_tat.JPG"
+      },
+      {
+        "name": "Nguyệt Quang Bồ Tát",
+        "slug": "nguyet_quang_bo_tat",
+        "imgUrl": "/images/bao_tuong_phat_giao/thanh_tinh_dai_hai_chung/BO_TAT_NHAT_NGUYET_QUANG/nhat_nguyet_quang_bo_tat.JPG"
       }
     ],
     "areaSlug": "tam-bao",
@@ -206,8 +211,8 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "id": "TP0021",
     "slug": "phat_ty_lo_gia_na",
     "name": "PHẬT TỲ LÔ GIÁ NA",
-    "titleName": "Phỏng cổ nghệ thuật tạc tượng đời Đường, Trung Hoa",
-    "subtitle": "Phỏng cổ nghệ thuật tạc tượng đời Đường, Trung Hoa",
+    "titleName": "PHẬT TỲ LÔ GIÁ NA",
+    "subtitle": "Phỏng Cổ nghệ thuật tạc tượng đời Đường, Trung Hoa",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -215,7 +220,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "PHẬT TỲ LÔ GIÁ NA",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/chu_phat_hai_hoi/DUC_PHAT_TY_LO_GIA_NA/duc_phat_ty_lo_gia_na.JPG"
       },
@@ -248,8 +253,8 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "id": "TP0022",
     "slug": "bo_tat_van_thu",
     "name": "BỒ TÁT VĂN THÙ",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "titleName": "BỒ TÁT VĂN THÙ",
+    "subtitle": "Trí Tuệ Đệ Nhất Hàng Bồ Tát",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -257,7 +262,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "BỒ TÁT VĂN THÙ",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/thanh_tinh_dai_hai_chung/BO_TAT_VAN_THU/bo_tat_van_thu.JPG"
       },
@@ -290,8 +295,8 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "id": "TP0023",
     "slug": "bo_tat_pho_hien",
     "name": "BỒ TÁT PHỔ HIỀN",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "titleName": "BỒ TÁT PHỔ HIỀN",
+    "subtitle": "Đại Hạnh Đệ Nhất Hàng Bồ Tát",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -299,7 +304,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "BỒ TÁT PHỔ HIỀN",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/thanh_tinh_dai_hai_chung/BO_TAT_PHO_HIEN/bo_tat_pho_hien.JPG"
       },
@@ -322,7 +327,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "code": "TP0026",
     "assembly": "CHƯ PHẬT HẢI HỘI",
     "group": "CỤM TƯỢNG TÔN THỜ",
-    "title": "QUAN ÂM NGUYỆT TRÍ",
+    "title": "QUÁN ÂM BỒ TÁT",
     "categoryType": "TƯỢNG CHÍNH",
     "characterGroup": "quan_am_nguyet_tri",
     "areaId": "BAO_TANG",
@@ -331,9 +336,9 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "notes": "",
     "id": "TP0026",
     "slug": "quan_am_nguyet_tri",
-    "name": "QUAN ÂM NGUYỆT TRÍ",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "name": "QUÁN ÂM BỒ TÁT",
+    "titleName": "QUÁN ÂM BỒ TÁT",
+    "subtitle": "Nguyệt Trí",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -341,7 +346,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "QUÁN ÂM BỒ TÁT",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/thanh_tinh_dai_hai_chung/BO_TAT_QUAN_AM/quan_am_nguyet_tri_tuong_chinh.jpg"
       },
@@ -364,7 +369,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "code": "TP0033",
     "assembly": "CHƯ PHẬT HẢI HỘI",
     "group": "CỤM TƯỢNG TÔN THỜ",
-    "title": "ĐẠI THẾ CHÍ PHỎNG CỔ",
+    "title": "ĐẠI THẾ CHÍ BỒ TÁT",
     "categoryType": "TƯỢNG CHÍNH",
     "characterGroup": "dai_the_chi_phong_co",
     "areaId": "GIANG_DUONG",
@@ -373,9 +378,9 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "notes": "",
     "id": "TP0033",
     "slug": "dai_the_chi_phong_co",
-    "name": "ĐẠI THẾ CHÍ PHỎNG CỔ",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "name": "ĐẠI THẾ CHÍ BỒ TÁT",
+    "titleName": "ĐẠI THẾ CHÍ BỒ TÁT",
+    "subtitle": "Phỏng Cổ",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -383,7 +388,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "ĐẠI THẾ CHÍ BỒ TÁT",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/thanh_tinh_dai_hai_chung/BO_TAT_DAI_THE_CHI/bo_tat_dai_the_chi.JPG"
       },
@@ -406,7 +411,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "code": "TP0034",
     "assembly": "CHƯ PHẬT HẢI HỘI",
     "group": "CỤM TƯỢNG TÔN THỜ",
-    "title": "ĐỊA TẠNG BỒ TÁT",
+    "title": "ĐỊA TẠNG BỒ TÁT",
     "categoryType": "TƯỢNG CHÍNH",
     "characterGroup": "dia_tang_bo_tat",
     "areaId": "VANG_SINH_DUONG",
@@ -415,9 +420,9 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "notes": "",
     "id": "TP0034",
     "slug": "dia_tang_bo_tat",
-    "name": "ĐỊA TẠNG BỒ TÁT",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "name": "ĐỊA TẠNG BỒ TÁT",
+    "titleName": "ĐỊA TẠNG BỒ TÁT",
+    "subtitle": "Không một ai bị bỏ lại phía sau",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -425,7 +430,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "ĐỊA TẠNG BỒ TÁT",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/thanh_tinh_dai_hai_chung/BO_TAT_DIA_TANG/dia_tang_bo_tat_tuong_chinh.JPG"
       },
@@ -448,7 +453,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "code": "TP0039",
     "assembly": "CHƯ PHẬT HẢI HỘI",
     "group": "CỤM TƯỢNG TÔN THỜ",
-    "title": "NHẬT QUANG BỒ TÁT",
+    "title": "NHẬT QUANG BỒ TÁT",
     "categoryType": "TƯỢNG CHÍNH",
     "characterGroup": "nhat_quang_bo_tat",
     "areaId": "TAM_BAO",
@@ -457,9 +462,9 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "notes": "",
     "id": "TP0039",
     "slug": "nhat_quang_bo_tat",
-    "name": "NHẬT QUANG BỒ TÁT",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "name": "NHẬT QUANG BỒ TÁT",
+    "titleName": "NHẬT QUANG BỒ TÁT",
+    "subtitle": "Ánh sáng soi chiếu thế gian",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -467,7 +472,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "NHẬT QUANG BỒ TÁT",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/thanh_tinh_dai_hai_chung/BO_TAT_NHAT_NGUYET_QUANG/nhat_nguyet_quang_bo_tat.JPG"
       },
@@ -500,8 +505,8 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "id": "TP0040",
     "slug": "nguyet_quang_bo_tat",
     "name": "NGUYỆT QUANG BỒ TÁT",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "titleName": "NGUYỆT QUANG BỒ TÁT",
+    "subtitle": "Ánh sáng soi chiếu thế gian",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -509,7 +514,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "NGUYỆT QUANG BỒ TÁT",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/thanh_tinh_dai_hai_chung/BO_TAT_NHAT_NGUYET_QUANG/nhat_nguyet_quang_bo_tat.JPG"
       },
@@ -542,8 +547,8 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "id": "TP0041",
     "slug": "phat_mau_chuan_de",
     "name": "PHẬT MẪU CHUẨN ĐỀ",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "titleName": "PHẬT MẪU CHUẨN ĐỀ",
+    "subtitle": "Bàn tay nhiếp phục mọi chướng ngại",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -551,7 +556,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "PHẬT MẪU CHUẨN ĐỀ",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/thanh_tinh_dai_hai_chung/BO_TAT_CHUAN_DE/chuan_de_bo_tat_tuong_chinh.JPG"
       },
@@ -584,8 +589,8 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "id": "TP0044",
     "slug": "di_lac_bo_tat",
     "name": "DI LẶC BỒ TÁT",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "titleName": "DI LẶC BỒ TÁT",
+    "subtitle": "Chất liệu hiện đại",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -593,7 +598,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "DI LẶC BỒ TÁT",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/thanh_tinh_dai_hai_chung/BO_TAT_DI_LAC/di_lac_bo_tat_tuong_chinh.jpg"
       },
@@ -626,8 +631,8 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "id": "TP0045",
     "slug": "thap_dai_de_tu",
     "name": "THẬP ĐẠI ĐỆ TỬ",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "titleName": "THẬP ĐẠI ĐỆ TỬ",
+    "subtitle": "Những người con trưởng thành từ Giáo Pháp",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -635,7 +640,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "THẬP ĐẠI ĐỆ TỬ",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/thanh_van_thanh_chung/THAP_DAI_DE_TU/ton_gia_a_nan.jpg"
       },
@@ -658,7 +663,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "code": "TP0051",
     "assembly": "CHƯ PHẬT HẢI HỘI",
     "group": "CỤM TƯỢNG TÔN THỜ",
-    "title": "THẬP BÁT LA HÁN ĐÁ",
+    "title": "THẬP BÁT LA HÁN",
     "categoryType": "TƯỢNG CHÍNH",
     "characterGroup": "thap_bat_la_han_da",
     "areaId": "SAN_LA_HAN",
@@ -667,9 +672,9 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "notes": "",
     "id": "TP0051",
     "slug": "thap_bat_la_han_da",
-    "name": "THẬP BÁT LA HÁN ĐÁ",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "name": "THẬP BÁT LA HÁN",
+    "titleName": "THẬP BÁT LA HÁN",
+    "subtitle": "Tượng Đá",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -677,7 +682,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "THẬP BÁT LA HÁN",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/thanh_van_thanh_chung/THAP_BAT_LA_HAN/TUONG_CHINH/bo_dai_la_han.jpg"
       },
@@ -710,8 +715,8 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "id": "TP0053",
     "slug": "to_su_dat_ma",
     "name": "TỔ SƯ ĐẠT MA",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "titleName": "TỔ SƯ ĐẠT MA",
+    "subtitle": "Sơ Tổ Thiền Tông Trung Hoa",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -719,7 +724,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "TỔ SƯ ĐẠT MA",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/chu_lich_dai_to_su/to_su_dat_ma.jpg"
       },
@@ -742,7 +747,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "code": "TP0054",
     "assembly": "CHƯ PHẬT HẢI HỘI",
     "group": "CỤM TƯỢNG TÔN THỜ",
-    "title": "TỔ SƯ LONG THỌ",
+    "title": "TỔ SƯ LONG THỌ",
     "categoryType": "TƯỢNG CHÍNH",
     "characterGroup": "to_su_long_tho",
     "areaId": "TAM_BAO",
@@ -751,9 +756,9 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "notes": "",
     "id": "TP0054",
     "slug": "to_su_long_tho",
-    "name": "TỔ SƯ LONG THỌ",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "name": "TỔ SƯ LONG THỌ",
+    "titleName": "TỔ SƯ LONG THỌ",
+    "subtitle": "Bắc Truyền Đại Thừa Sơ Tổ",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -761,7 +766,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "TỔ SƯ LONG THỌ",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/chu_lich_dai_to_su/to_su_long_tho.jpg"
       },
@@ -784,7 +789,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "code": "TP0055",
     "assembly": "CHƯ PHẬT HẢI HỘI",
     "group": "CỤM TƯỢNG TÔN THỜ",
-    "title": "PHẬT HOÀNG TRẦN NHÂN TÔNG",
+    "title": "PHẬT HOÀNG TRẦN NHÂN TÔNG",
     "categoryType": "TƯỢNG CHÍNH",
     "characterGroup": "phat_hoang_tran_nhan_tong",
     "areaId": "TAM_BAO",
@@ -793,9 +798,9 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "notes": "",
     "id": "TP0055",
     "slug": "phat_hoang_tran_nhan_tong",
-    "name": "PHẬT HOÀNG TRẦN NHÂN TÔNG",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "name": "PHẬT HOÀNG TRẦN NHÂN TÔNG",
+    "titleName": "PHẬT HOÀNG TRẦN NHÂN TÔNG",
+    "subtitle": "Sơ Tổ Thiền phái Trúc Lâm",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -803,7 +808,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "PHẬT HOÀNG TRẦN NHÂN TÔNG",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/chu_lich_dai_to_su/phat_hoang_tran_nhan_tong.jpg"
       },
@@ -826,7 +831,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "code": "TP0056",
     "assembly": "CHƯ PHẬT HẢI HỘI",
     "group": "CỤM TƯỢNG TÔN THỜ",
-    "title": "TỔ SƯ KHƯƠNG TĂNG HỘI",
+    "title": "TỔ SƯ KHƯƠNG TĂNG HỘI",
     "categoryType": "TƯỢNG CHÍNH",
     "characterGroup": "to_su_khuong_tang_hoi",
     "areaId": "TAM_BAO",
@@ -835,9 +840,9 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "notes": "",
     "id": "TP0056",
     "slug": "to_su_khuong_tang_hoi",
-    "name": "TỔ SƯ KHƯƠNG TĂNG HỘI",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "name": "TỔ SƯ KHƯƠNG TĂNG HỘI",
+    "titleName": "TỔ SƯ KHƯƠNG TĂNG HỘI",
+    "subtitle": "Sơ Tổ Phật Giáo Việt Nam",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -845,7 +850,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "TỔ SƯ KHƯƠNG TĂNG HỘI",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/chu_lich_dai_to_su/to_su_khuong_tang_hoi.jpg"
       },
@@ -868,7 +873,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "code": "TP0057",
     "assembly": "CHƯ PHẬT HẢI HỘI",
     "group": "CỤM TƯỢNG TÔN THỜ",
-    "title": "THIỀN SƯ TỪ ĐẠO HẠNH",
+    "title": "THIỀN SƯ TỪ ĐẠO HẠNH",
     "categoryType": "TƯỢNG CHÍNH",
     "characterGroup": "thien_su_tu_dao_hanh",
     "areaId": "TO_DUONG",
@@ -877,9 +882,9 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "notes": "",
     "id": "TP0057",
     "slug": "thien_su_tu_dao_hanh",
-    "name": "THIỀN SƯ TỪ ĐẠO HẠNH",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "name": "THIỀN SƯ TỪ ĐẠO HẠNH",
+    "titleName": "THIỀN SƯ TỪ ĐẠO HẠNH",
+    "subtitle": "Bậc Thánh Tăng Triều Lý",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -887,7 +892,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "THIỀN SƯ TỪ ĐẠO HẠNH",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/chu_lich_dai_to_su/thien_su_tu_dao_hanh.jpg"
       },
@@ -910,7 +915,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "code": "TP0058",
     "assembly": "CHƯ PHẬT HẢI HỘI",
     "group": "CỤM TƯỢNG TÔN THỜ",
-    "title": "THIỀN SƯ TỲ-NI-DA-LƯU-CHI",
+    "title": "THIỀN SƯ TỲ-NI-DA-LƯU-CHI -",
     "categoryType": "TƯỢNG CHÍNH",
     "characterGroup": "thien_su_ty_ni_da_luu_chi",
     "areaId": "BAO_TANG",
@@ -919,9 +924,9 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "notes": "",
     "id": "TP0058",
     "slug": "thien_su_ty_ni_da_luu_chi",
-    "name": "THIỀN SƯ TỲ-NI-DA-LƯU-CHI",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "name": "THIỀN SƯ TỲ-NI-DA-LƯU-CHI -",
+    "titleName": "THIỀN SƯ TỲ-NI-DA-LƯU-CHI -",
+    "subtitle": "Sơ Tổ Thiền phái Tỳ-Ni-Da-Lưu-Chi (? – 594)",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -929,7 +934,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "THIỀN SƯ TỲ-NI-DA-LƯU-CHI -",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/chu_lich_dai_to_su/thien_su_ty_ni_da_luu_chi.jpg"
       },
@@ -962,8 +967,8 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "id": "TP0059",
     "slug": "thien_su_van_hanh",
     "name": "THIỀN SƯ VẠN HẠNH",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "titleName": "THIỀN SƯ VẠN HẠNH",
+    "subtitle": "Quốc Sư triều Lý (938 – 1018) - Thầy vua Lý Công Uẩn",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -971,7 +976,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "THIỀN SƯ VẠN HẠNH",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/chu_lich_dai_to_su/thien_su_van_hanh.jpg"
       },
@@ -1004,8 +1009,8 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "id": "TP0060",
     "slug": "quoc_su_khuong_viet",
     "name": "QUỐC SƯ KHUÔNG VIỆT",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "titleName": "QUỐC SƯ KHUÔNG VIỆT",
+    "subtitle": "Quốc Sư hai triều Đinh & Tiền Lê (933 – 1011)",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -1013,7 +1018,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "QUỐC SƯ KHUÔNG VIỆT",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/chu_lich_dai_to_su/quoc_su_khuong_viet.jpg"
       },
@@ -1036,7 +1041,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "code": "TP0061",
     "assembly": "CHƯ PHẬT HẢI HỘI",
     "group": "CỤM TƯỢNG TÔN THỜ",
-    "title": "SƯ TỔ NGỘ CHÂN TỬ",
+    "title": "SƯ TỔ NGỘ CHÂN TỬ",
     "categoryType": "TƯỢNG CHÍNH",
     "characterGroup": "su_to_ngo_chan_tu",
     "areaId": "TAM_BAO",
@@ -1045,9 +1050,9 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "notes": "",
     "id": "TP0061",
     "slug": "su_to_ngo_chan_tu",
-    "name": "SƯ TỔ NGỘ CHÂN TỬ",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "name": "SƯ TỔ NGỘ CHÂN TỬ",
+    "titleName": "SƯ TỔ NGỘ CHÂN TỬ",
+    "subtitle": "Khai sáng Tổ đình Hoằng Pháp",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -1055,7 +1060,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "SƯ TỔ NGỘ CHÂN TỬ",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/chu_lich_dai_to_su/su_to_ngo_chan_tu.jpg"
       },
@@ -1078,7 +1083,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "code": "TP0062",
     "assembly": "CHƯ PHẬT HẢI HỘI",
     "group": "CỤM TƯỢNG TÔN THỜ",
-    "title": "TUỆ TĨNH THIỀN SƯ",
+    "title": "TUỆ TĨNH THIỀN SƯ",
     "categoryType": "TƯỢNG CHÍNH",
     "characterGroup": "tue_tinh_thien_su",
     "areaId": "TO_DUONG",
@@ -1087,9 +1092,9 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "notes": "",
     "id": "TP0062",
     "slug": "tue_tinh_thien_su",
-    "name": "TUỆ TĨNH THIỀN SƯ",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "name": "TUỆ TĨNH THIỀN SƯ",
+    "titleName": "TUỆ TĨNH THIỀN SƯ",
+    "subtitle": "Đại Danh Y Thiền Sư",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -1097,7 +1102,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "TUỆ TĨNH THIỀN SƯ",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/chu_lich_dai_to_su/tue_tinh_thien_su.jpg"
       },
@@ -1172,8 +1177,8 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "id": "TP0063",
     "slug": "tue_trung_thuong_si",
     "name": "TUỆ TRUNG THƯỢNG SĨ",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "titleName": "TUỆ TRUNG THƯỢNG SĨ",
+    "subtitle": "Cư sĩ Thiền gia (1230 – 1291) - Thầy của Phật Hoàng",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -1181,7 +1186,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "TUỆ TRUNG THƯỢNG SĨ",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/chu_lich_dai_to_su/tue_trung_thuong_si.jpg"
       },
@@ -1204,7 +1209,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "code": "TP0064",
     "assembly": "CHƯ PHẬT HẢI HỘI",
     "group": "CỤM TƯỢNG TÔN THỜ",
-    "title": "THÍCH ĐỀ HOÀN NHÂN",
+    "title": "THÍCH ĐẾ HOÀN NHÂN",
     "categoryType": "TƯỢNG CHÍNH",
     "characterGroup": "thich_de_hoan_nhan",
     "areaId": "NHA_MAU",
@@ -1213,9 +1218,9 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "notes": "",
     "id": "TP0064",
     "slug": "thich_de_hoan_nhan",
-    "name": "THÍCH ĐỀ HOÀN NHÂN",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "name": "THÍCH ĐẾ HOÀN NHÂN",
+    "titleName": "THÍCH ĐẾ HOÀN NHÂN",
+    "subtitle": "Người hộ trì Chánh Pháp",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -1223,7 +1228,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "THÍCH ĐẾ HOÀN NHÂN",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/ho_phap_than_vuong/TUONG_CHINH/thich_de_hoan_nhan.jpg"
       },
@@ -1246,7 +1251,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "code": "TP0066",
     "assembly": "CHƯ PHẬT HẢI HỘI",
     "group": "CỤM TƯỢNG TÔN THỜ",
-    "title": "KIÊN LAO ĐỊA THẦN",
+    "title": "KIÊN LAO ĐỊA THẦN",
     "categoryType": "TƯỢNG CHÍNH",
     "characterGroup": "kien_lao_dia_than",
     "areaId": "SAN_LA_HAN",
@@ -1255,9 +1260,9 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "notes": "",
     "id": "TP0066",
     "slug": "kien_lao_dia_than",
-    "name": "KIÊN LAO ĐỊA THẦN",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "name": "KIÊN LAO ĐỊA THẦN",
+    "titleName": "KIÊN LAO ĐỊA THẦN",
+    "subtitle": "Người giữ gìn đại địa",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -1265,7 +1270,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "KIÊN LAO ĐỊA THẦN",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/ho_phap_than_vuong/TUONG_CHINH/kien_lao_dia_than.jpg"
       },
@@ -1288,7 +1293,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "code": "TP0069",
     "assembly": "CHƯ PHẬT HẢI HỘI",
     "group": "CỤM TƯỢNG TÔN THỜ",
-    "title": "VI ĐÀ HỘ PHÁP",
+    "title": "VI ĐÀ HỘ PHÁP",
     "categoryType": "TƯỢNG CHÍNH",
     "characterGroup": "vi_da_ho_phap",
     "areaId": "TAM_BAO",
@@ -1297,9 +1302,9 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "notes": "",
     "id": "TP0069",
     "slug": "vi_da_ho_phap",
-    "name": "VI ĐÀ HỘ PHÁP",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "name": "VI ĐÀ HỘ PHÁP",
+    "titleName": "VI ĐÀ HỘ PHÁP",
+    "subtitle": "Vị Hộ Pháp sau ánh sáng giác ngộ",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -1307,7 +1312,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "VI ĐÀ HỘ PHÁP",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/ho_phap_than_vuong/TUONG_CHINH/vi_da_ho_phap.jpg"
       },
@@ -1330,7 +1335,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "code": "TP0070",
     "assembly": "CHƯ PHẬT HẢI HỘI",
     "group": "CỤM TƯỢNG TÔN THỜ",
-    "title": "NGÀI TRỪNG ÁC",
+    "title": "NGÀI TRỪNG ÁC -",
     "categoryType": "TƯỢNG CHÍNH",
     "characterGroup": "ngai_trung_ac",
     "areaId": "TAM_BAO",
@@ -1339,9 +1344,9 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "notes": "Công lý, chính nghĩa và sức mạnh bảo vệ Tam bảo",
     "id": "TP0070",
     "slug": "ngai_trung_ac",
-    "name": "NGÀI TRỪNG ÁC",
-    "titleName": "Công lý, chính nghĩa và sức mạnh bảo vệ Tam bảo",
-    "subtitle": "Công lý, chính nghĩa và sức mạnh bảo vệ Tam bảo",
+    "name": "NGÀI TRỪNG ÁC -",
+    "titleName": "NGÀI TRỪNG ÁC -",
+    "subtitle": "Công lý, chính nghĩa và sức mạnh bảo vệ Tam Bảo",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -1349,7 +1354,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "NGÀI TRỪNG ÁC -",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/ho_phap_than_vuong/TUONG_CHINH/trung_ac.jpg"
       },
@@ -1372,7 +1377,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "code": "TP0071",
     "assembly": "CHƯ PHẬT HẢI HỘI",
     "group": "CỤM TƯỢNG TÔN THỜ",
-    "title": "NGÀI KHUYẾN THIỆN",
+    "title": "NGÀI KHUYẾN THIỆN -",
     "categoryType": "TƯỢNG CHÍNH",
     "characterGroup": "ngai_khuyen_thien",
     "areaId": "TAM_BAO",
@@ -1381,8 +1386,8 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "notes": "Lòng từ bi, trí tuệ và sự khuyến khích điều thiện",
     "id": "TP0071",
     "slug": "ngai_khuyen_thien",
-    "name": "NGÀI KHUYẾN THIỆN",
-    "titleName": "Lòng từ bi, trí tuệ và sự khuyến khích điều thiện",
+    "name": "NGÀI KHUYẾN THIỆN -",
+    "titleName": "NGÀI KHUYẾN THIỆN -",
     "subtitle": "Lòng từ bi, trí tuệ và sự khuyến khích điều thiện",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
@@ -1391,7 +1396,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "NGÀI KHUYẾN THIỆN -",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/ho_phap_than_vuong/TUONG_CHINH/khuyen_thien.jpg"
       },
@@ -1414,7 +1419,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "code": "TP0076",
     "assembly": "CHƯ PHẬT HẢI HỘI",
     "group": "CỤM TƯỢNG TÔN THỜ",
-    "title": "MẬT TÍCH KIM CANG TƯỢNG CỔ",
+    "title": "MẬT TÍCH KIM CANG",
     "categoryType": "TƯỢNG CHÍNH",
     "characterGroup": "mat_tich_kim_cang_tuong_co",
     "areaId": "CONG_THAP",
@@ -1423,9 +1428,9 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "notes": "",
     "id": "TP0076",
     "slug": "mat_tich_kim_cang_tuong_co",
-    "name": "MẬT TÍCH KIM CANG TƯỢNG CỔ",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "name": "MẬT TÍCH KIM CANG",
+    "titleName": "MẬT TÍCH KIM CANG",
+    "subtitle": "Tượng Cổ",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -1433,7 +1438,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "MẬT TÍCH KIM CANG",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/ho_phap_than_vuong/TUONG_CHINH/mat_tich_ho_phap.jpg"
       },
@@ -1456,7 +1461,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "code": "TP0077",
     "assembly": "CHƯ PHẬT HẢI HỘI",
     "group": "CỤM TƯỢNG TÔN THỜ",
-    "title": "NA LA DIỆN KIM CANG TƯỢNG CỔ",
+    "title": "NA LA DIEN KIM CANG",
     "categoryType": "TƯỢNG CHÍNH",
     "characterGroup": "na_la_dien_kim_cang_tuong_co",
     "areaId": "CONG_THAP",
@@ -1465,9 +1470,9 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "notes": "",
     "id": "TP0077",
     "slug": "na_la_dien_kim_cang_tuong_co",
-    "name": "NA LA DIỆN KIM CANG TƯỢNG CỔ",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "name": "NA LA DIEN KIM CANG",
+    "titleName": "NA LA DIEN KIM CANG",
+    "subtitle": "Tượng Cổ",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -1475,7 +1480,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "NA LA DIEN KIM CANG",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/ho_phap_than_vuong/TUONG_CHINH/na_la_dien_ho_phap.jpg"
       },
@@ -1508,8 +1513,8 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "id": "TP0078",
     "slug": "thap_nhi_duoc_xoa_dai_tuong",
     "name": "THẬP NHỊ DƯỢC XOA ĐẠI TƯỚNG",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "titleName": "THẬP NHỊ DƯỢC XOA ĐẠI TƯỚNG",
+    "subtitle": "Tượng đồng Phỏng Cổ",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -1517,7 +1522,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "THẬP NHỊ DƯỢC XOA ĐẠI TƯỚNG",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/ho_phap_than_vuong/TUONG_CHINH/thap_nhi_duoc_xoa/an_de_la_dai_tuong.jpg"
       },
@@ -1537,6 +1542,48 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "fullHistoryHtml": "<p>Tôn tượng THẬP NHỊ DƯỢC XOA ĐẠI TƯỚNG tôn thờ tại TAM BẢO mang năng lượng từ bi và trí tuệ bình an vô biên.</p>"
   },
   {
+    "code": "TP0079",
+    "assembly": "HỘ PHÁP THẦN VƯƠNG",
+    "group": "Hộ Trì Tam Bảo",
+    "title": "BÁT BỘ KIM CANG",
+    "categoryType": "TƯỢNG CHÍNH",
+    "characterGroup": "bat_bo_kim_cang",
+    "areaId": "TAM_BAO",
+    "description": "Bát Bộ Kim Cang gồm tám vị Đại Hộ Pháp uy mãnh, đại diện cho sức mạnh Trí Tuệ Kim Cang bất khả tư nghì, hộ trì đàn tràng Tam Bảo và bảo vệ người tu học Chánh Pháp.",
+    "quote": "Trí Tuệ Kim Cang bất hoại, uy lực dẹp tan mọi ma chướng, bảo hộ Chánh Pháp trường tồn.",
+    "notes": "Hàng Tam Thế Kim Cang • Bát Đại Hộ Pháp Thần Vương",
+    "id": "TP0079",
+    "slug": "bat_bo_kim_cang",
+    "name": "BÁT BỘ KIM CANG",
+    "titleName": "BÁT BỘ KIM CANG",
+    "subtitle": "8 Vị Hộ Pháp Kim Cang Thần Vương • Hàng Tam Thế",
+    "assemblyId": "chu_phat_hai_hoi",
+    "assemblyName": "HỘ PHÁP THẦN VƯƠNG",
+    "clusterName": "Hộ Trì Tam Bảo",
+    "type": "TƯỢNG CHÍNH",
+    "hasSinglePage": true,
+    "clusterMembers": [
+      {
+        "name": "Hàng Tam Thế Kim Cang",
+        "slug": "bat_bo_kim_cang",
+        "imgUrl": "/images/bao_tuong_phat_giao/ho_phap_than_vuong/NGHE_THUAT_PHAT_GIAO/bat_bo_kim_cang/giang_tam_the_kim_cuong.jpg"
+      },
+      {
+        "name": "Bất Động Kim Cang",
+        "slug": "bat_bo_kim_cang",
+        "imgUrl": "/images/bao_tuong_phat_giao/ho_phap_than_vuong/NGHE_THUAT_PHAT_GIAO/bat_bo_kim_cang/bat_dong_kim_cuong.jpg"
+      }
+    ],
+    "areaSlug": "tam-bao",
+    "areaName": "TAM BẢO",
+    "location": "TAM BẢO",
+    "imgUrl": "/images/bao_tuong_phat_giao/ho_phap_than_vuong/NGHE_THUAT_PHAT_GIAO/bat_bo_kim_cang/giang_tam_the_kim_cuong.jpg",
+    "avatarUrl": "/images/bao_tuong_phat_giao/ho_phap_than_vuong/NGHE_THUAT_PHAT_GIAO/bat_bo_kim_cang/giang_tam_the_kim_cuong.jpg",
+    "quoteAuthor": "Kinh Kim Cang Bát Nhã",
+    "summary": "Bát Bộ Kim Cang gồm tám vị Đại Hộ Pháp uy mãnh, đại diện cho sức mạnh Trí Tuệ Kim Cang bất khả tư nghì, hộ trì đàn tràng Tam Bảo và bảo vệ người tu học Chánh Pháp.",
+    "fullHistoryHtml": "<p>Bát Bộ Kim Cang là tám vị Đại Bồ Tát hóa hiện thân Kim Cang Thần Vương uy mãnh để hộ trì Phật pháp và hàng phục ma chướng. Tám vị gồm: Bất Động Kim Cang, Bộ Trịch Kim Cang, Đại Luân Kim Cang, Đại Tế Kim Cang, Đại Uy Đức Kim Cang, Hàng Tam Thế Kim Cang, Mã Đầu Kim Cang, và Vô Năng Thắng Kim Cang. Tôn tượng tôn thờ trang nghiêm tại khu vực Tam Bảo Tùng Lâm Hòa Phúc.</p>"
+  },
+  {
     "code": "TP0080",
     "assembly": "CHƯ PHẬT HẢI HỘI",
     "group": "CỤM TƯỢNG TÔN THỜ",
@@ -1550,8 +1597,8 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "id": "TP0080",
     "slug": "tieu_dien_dai_sy",
     "name": "TIÊU DIỆN ĐẠI SỸ",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "titleName": "TIÊU DIỆN ĐẠI SỸ",
+    "subtitle": "Thống lĩnh âm binh",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -1559,7 +1606,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "TIÊU DIỆN ĐẠI SỸ",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/ho_phap_than_vuong/NGHE_THUAT_PHAT_GIAO/bat_bo_kim_cang/dai_tieu_kim_cuong.jpg"
       },
@@ -1582,7 +1629,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "code": "TP0081",
     "assembly": "CHƯ PHẬT HẢI HỘI",
     "group": "CỤM TƯỢNG TÔN THỜ",
-    "title": "ĐOAN QUỐC CÔNG NGUYỄN HOÀNG",
+    "title": "ĐOAN QUỐC CÔNG NGUYỄN HOÀNG",
     "categoryType": "TƯỢNG CHÍNH",
     "characterGroup": "doan_quoc_cong_nguyen_hoang",
     "areaId": "NHA_MAU",
@@ -1591,9 +1638,9 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "notes": "",
     "id": "TP0081",
     "slug": "doan_quoc_cong_nguyen_hoang",
-    "name": "ĐOAN QUỐC CÔNG NGUYỄN HOÀNG",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "name": "ĐOAN QUỐC CÔNG NGUYỄN HOÀNG",
+    "titleName": "ĐOAN QUỐC CÔNG NGUYỄN HOÀNG",
+    "subtitle": "Hộ Trì Chánh Pháp",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -1601,7 +1648,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "ĐOAN QUỐC CÔNG NGUYỄN HOÀNG",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/chu_thanh_ho_quoc/doan_quoc_cong_nguyen_hoang.jpg"
       },
@@ -1624,7 +1671,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "code": "TP0082",
     "assembly": "CHƯ PHẬT HẢI HỘI",
     "group": "CỤM TƯỢNG TÔN THỜ",
-    "title": "TAM TÒA THÁNH MẪU",
+    "title": "TAM TÒA THÁNH MẪU",
     "categoryType": "TƯỢNG CHÍNH",
     "characterGroup": "tam_toa_thanh_mau",
     "areaId": "NHA_MAU",
@@ -1633,9 +1680,9 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "notes": "",
     "id": "TP0082",
     "slug": "tam_toa_thanh_mau",
-    "name": "TAM TÒA THÁNH MẪU",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "name": "TAM TÒA THÁNH MẪU",
+    "titleName": "TAM TÒA THÁNH MẪU",
+    "subtitle": "Phúc Lành Muôn Dân",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -1643,7 +1690,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "TAM TÒA THÁNH MẪU",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/chu_thanh_ho_quoc/tam_toa_thanh_mau.jpg"
       },
@@ -1676,8 +1723,8 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "id": "TP0085",
     "slug": "ly_thanh_tong",
     "name": "LÝ THÁNH TÔNG",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "titleName": "LÝ THÁNH TÔNG",
+    "subtitle": "Vua Lý Thánh Tông (1023–1072) • Nhị Tổ Thiền phái Thảo Đường",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -1685,7 +1732,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "LÝ THÁNH TÔNG",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/chu_thanh_ho_quoc/vua_ly_thanh_tong.jpg"
       },
@@ -1718,8 +1765,8 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "id": "TP0086",
     "slug": "nguyen_trai_dai_tu_do",
     "name": "NGUYỄN TRÃI ĐẠI TƯ ĐỒ",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "titleName": "NGUYỄN TRÃI ĐẠI TƯ ĐỒ",
+    "subtitle": "Nguyễn Trãi (1380–1442) • Ngoài giữ Nho phong, trong rèn Phật đạo",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -1727,7 +1774,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "NGUYỄN TRÃI ĐẠI TƯ ĐỒ",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/chu_thanh_ho_quoc/nguyen_trai_dai_tu_do.jpg"
       },
@@ -1750,7 +1797,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "code": "TP0088",
     "assembly": "CHƯ PHẬT HẢI HỘI",
     "group": "CỤM TƯỢNG TÔN THỜ",
-    "title": "BÀ NGUYỆT TRANG ĐÀI (ĐỨC BÀ VISHAKHA)",
+    "title": "BÀ NGUYỆT TRANG ĐÀI",
     "categoryType": "TƯỢNG CHÍNH",
     "characterGroup": "ba_nguyet_trang_dai_duc_ba_vishakha",
     "areaId": "NHA_MAU",
@@ -1759,9 +1806,9 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "notes": "",
     "id": "TP0088",
     "slug": "ba_nguyet_trang_dai_duc_ba_vishakha",
-    "name": "BÀ NGUYỆT TRANG ĐÀI (ĐỨC BÀ VISHAKHA)",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "name": "BÀ NGUYỆT TRANG ĐÀI",
+    "titleName": "BÀ NGUYỆT TRANG ĐÀI",
+    "subtitle": "Đức Bà Visākhā • Đại Nữ Thí Chủ",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -1769,7 +1816,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "BÀ NGUYỆT TRANG ĐÀI",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/dai_thi_chu/ba_nguyet_trang_dai.jpg"
       },
@@ -1802,8 +1849,8 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "id": "TP0089",
     "slug": "thanh_nu_sujata",
     "name": "THÁNH NỮ SUJATA",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "titleName": "THÁNH NỮ SUJATA",
+    "subtitle": "Cúng Dường Bằng Tâm Thành Vô Điều Kiện",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -1811,7 +1858,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "THÁNH NỮ SUJATA",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/dai_thi_chu/thanh_nu_sujata.jpg"
       },
@@ -1834,7 +1881,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "code": "TP0090",
     "assembly": "CHƯ PHẬT HẢI HỘI",
     "group": "CỤM TƯỢNG TÔN THỜ",
-    "title": "THIỀM THỪ CÓC",
+    "title": "THIỀM THỨ CÓC",
     "categoryType": "TƯỢNG CHÍNH",
     "characterGroup": "thiem_thu_coc",
     "areaId": "BAO_TANG",
@@ -1843,9 +1890,9 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "notes": "",
     "id": "TP0090",
     "slug": "thiem_thu_coc",
-    "name": "THIỀM THỪ CÓC",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "name": "THIỀM THỨ CÓC",
+    "titleName": "THIỀM THỨ CÓC",
+    "subtitle": "Linh Thú Hộ Đạo",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -1853,7 +1900,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "THIỀM THỨ CÓC",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/linh_vat_phat_giao/thiem_thu_coc.jpg"
       },
@@ -1876,7 +1923,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "code": "TP0091",
     "assembly": "CHƯ PHẬT HẢI HỘI",
     "group": "CỤM TƯỢNG TÔN THỜ",
-    "title": "LINH QUY TRƯỜNG THỌ",
+    "title": "LINH QUY TRƯỜNG THỌ",
     "categoryType": "TƯỢNG CHÍNH",
     "characterGroup": "linh_quy_truong_tho",
     "areaId": "NHA_MAU",
@@ -1885,9 +1932,9 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "notes": "",
     "id": "TP0091",
     "slug": "linh_quy_truong_tho",
-    "name": "LINH QUY TRƯỜNG THỌ",
-    "titleName": "VÔ THƯỢNG NĂNG NHÂN",
-    "subtitle": "",
+    "name": "LINH QUY TRƯỜNG THỌ",
+    "titleName": "LINH QUY TRƯỜNG THỌ",
+    "subtitle": "Linh Thú Hộ Đạo",
     "assemblyId": "chu_phat_hai_hoi",
     "assemblyName": "CHƯ PHẬT HẢI HỘI",
     "clusterName": "CỤM TƯỢNG TÔN THỜ",
@@ -1895,7 +1942,7 @@ export const BAO_TUONG_CHINH_LIST: BaoTuongChinhItem[] = [
     "hasSinglePage": true,
     "clusterMembers": [
       {
-        "name": "Văn Thù Bồ Tát",
+        "name": "LINH QUY TRƯỜNG THỌ",
         "slug": "van_thu_bo_tat",
         "imgUrl": "/images/bao_tuong_phat_giao/linh_vat_phat_giao/an_rong_trieu_dai_hai_ba_trung.jpg"
       },

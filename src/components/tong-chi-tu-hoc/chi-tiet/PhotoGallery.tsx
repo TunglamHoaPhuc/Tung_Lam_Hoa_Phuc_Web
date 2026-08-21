@@ -60,14 +60,15 @@ export function PhotoGallery({ photoGallery, onSelectPhoto }: PropsBoSuuTapAnh) 
               onClick={() => onSelectPhoto(idx)}
               className="group relative aspect-[4/3] w-full overflow-hidden border border-[#c8aa6e]/60 shadow-xl cursor-pointer bg-[#2a1a0e]"
             >
-              {/* TỐI ƯU HÓA: Dùng Image của Next.js thay cho img thường */}
-              <Image
+              {/* TỐI ƯU HÓA: Dùng img với fallback onError mượt mà */}
+              <img
                 src={imgSrc}
                 alt={item.title || `Ảnh tư liệu ${idx + 1}`}
-                fill
-                sizes="(max-width: 768px) 100vw, 50vw"
-                className="object-cover group-hover:scale-105 transition-transform duration-500"
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 loading="lazy"
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).src = '/images/toan-canh-chua.jpg';
+                }}
               />
 
               <div className="absolute inset-0 bg-black/35 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-6 backdrop-blur-[1px] z-10">

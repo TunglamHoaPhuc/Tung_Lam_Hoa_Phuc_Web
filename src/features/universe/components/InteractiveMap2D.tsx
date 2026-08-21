@@ -50,7 +50,7 @@ export const locationNodes = [
   { id: 11, name: "Khu Vệ Sinh", x: 64, y: 14 },
   { id: 12, name: "Sân Chụp Ảnh Xuân An Lành", x: 65, y: 52 },
   { id: 13, name: "Sân Di Đà", x: 57, y: 33 },
-  { id: 14, name: "Sân Di Lặc", x: 42, y: 57 },
+  { id: 14, name: "Cổng Tam Quan - Sân Di Lặc", x: 42, y: 57 },
   { id: 15, name: "Đình Làng", x: 42, y: 79 },
 ];
 
@@ -71,14 +71,17 @@ export const MAP_SPOTS_15: MapSpot[] = [
   {
     id: "2",
     number: 2,
-    name: "CỔNG TAM QUAN",
-    subtitle: "TAM GIẢI THOÁT MÔN",
+    name: "CỔNG TAM QUAN - SÂN DI LẶC",
+    subtitle: "TAM GIẢI THOÁT MÔN & SÂN DI LẶC",
     slug: "cong-tam-quan",
     mapPos: { x: 30, y: 52 },
-    imgUrl: "https://images.unsplash.com/photo-1769488287238-6b82889f4bb4?w=800&h=500&fit=crop",
-    description: "Cửa ngõ đầu tiên dẫn lối vào chốn thiêng gồm hệ thống Cổng Tam Quan uy nghi, kết nối qua cây Cầu Bát Chánh Đạo vượt dòng nước tịnh, dẫn lên Thềm Thất Thánh Tài (7 bậc đá). Giúp hành giả rũ bỏ bụi trần, tu tập 8 con đường chân chính để gặt hái 7 báu vật tâm linh của bậc Thánh.",
+    imgUrl: "/images/bao_tuong_phat_giao/thanh_tinh_dai_hai_chung/BO_TAT_DI_LAC/di_lac_bo_tat_tuong_chinh.jpg",
+    description: "Cửa ngõ đầu tiên dẫn lối vào chốn thiêng gồm hệ thống Cổng Tam Quan uy nghi, kết nối qua cây Cầu Bát Chánh Đạo vượt dòng nước tịnh, dẫn lên Thềm Thất Thánh Tài và Sân Di Lặc - nơi tôn trí tôn tượng Bồ Tát Di Lặc hoan hỷ vô lượng.",
     quote: "“Bước qua cổng lớn, buông bỏ mọi phiền lụy nhân gian để an trú trong hiện tại thanh tịnh.”",
-    statues: [],
+    statues: [
+      { name: "Di Lặc Bồ Tát (Tượng Chính)", imgUrl: "/images/bao_tuong_phat_giao/thanh_tinh_dai_hai_chung/BO_TAT_DI_LAC/di_lac_bo_tat_tuong_chinh.jpg" },
+      { name: "Phật Di Lặc (Tượng Gỗ)", imgUrl: "/images/bao_tuong_phat_giao/thanh_tinh_dai_hai_chung/BO_TAT_DI_LAC/Phật Di Lặc - tượng gỗ.JPG" }
+    ],
     stories: []
   },
   {
@@ -134,7 +137,7 @@ export const MAP_SPOTS_15: MapSpot[] = [
   {
     id: "6",
     number: 6,
-    name: "BẢO TÀNG PHẬT GIÁO VÀ TƯỢNG ĐÀI NGUYỆT TRÍ QUAN ÂM",
+    name: "BẢO TÀNG",
     subtitle: "DẤU XƯA LƯU TRUYỀN",
     slug: "bao-tang",
     mapPos: { x: 56, y: 76 },
@@ -526,7 +529,7 @@ export const InteractiveMap2D: FC<InteractiveMap2DProps> = ({ onExit2DMode }) =>
     }, 400);
   };
 
-  const MAP_IMAGE_URL = "/images/canh-1.png";
+  const MAP_IMAGE_URL = "/images/vu-tru-phat-giao/canh-1.png";
 
   return (
     <div className="w-screen h-screen fixed inset-0 z-50 bg-[#1C120C] overflow-hidden select-none">
@@ -569,7 +572,7 @@ export const InteractiveMap2D: FC<InteractiveMap2DProps> = ({ onExit2DMode }) =>
             {/* Seamless Anchor Background Image: toan-canh-chua.jpg */}
             <div className="absolute inset-0 z-0">
               <img
-                src="/images/toan-canh-chua.jpg"
+                src="/images/vu-tru-phat-giao/toan-canh-chua.jpg"
                 onError={(e) => {
                   e.currentTarget.src = "/images/toan-canh-chua.jpg";
                 }}

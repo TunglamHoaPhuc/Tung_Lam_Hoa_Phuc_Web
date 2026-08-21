@@ -20,6 +20,9 @@ import { BaoThapGrid } from '@/features/universe/components/BaoThapGrid';
 import { BaoTangGrid } from '@/features/universe/components/BaoTangGrid';
 import { DaiNamQuocMauGrid } from '@/features/universe/components/DaiNamQuocMauGrid';
 import { CongTamQuanSection } from '@/features/universe/components/CongTamQuanSection';
+import { ChayDuongSection } from '@/features/universe/components/ChayDuongSection';
+import { ThapBatLaHanGrid } from '@/features/universe/components/ThapBatLaHanGrid';
+import { ThapDaiDeTuCards } from '@/features/universe/components/ThapDaiDeTuCards';
 import { SmartSearchAIBar } from '@/components/public/SmartSearchAIBar';
 
 function formatParagraphsHtml(fullContent?: string, description?: string): string {
@@ -82,10 +85,31 @@ export default function UniverseDetailPage() {
   const [activeSection, setActiveSection] = useState('gioi-thieu');
   const [isScrolled, setIsScrolled] = useState(false);
 
+  const isBaoTang = slug === 'bao-tang' || slug === 'bao-tang-phat-giao';
+  const isBaoThap = slug === 'bao-thap' || slug === 'bao-thap-van-phat-xa-loi';
+  const isThuVien = slug === 'thu-vien' || slug === 'tang-kinh-cac';
+  const isTuAn = slug === 'tu-an' || slug === 'tu-an-duong' || slug === 'vang-sinh-duong';
+
   const navItems = [
     { id: 'gioi-thieu', label: 'GIỚI THIỆU' },
-    { id: 'bo-suu-tap-bao-tuong', label: 'BỘ SƯU TẬP BẢO TƯỢNG' },
-    { id: 'cau-chuyen-lien-quan', label: 'CÂU CHUYỆN LIÊN QUAN' },
+    ...(!isBaoThap
+      ? [
+          { id: 'bo-suu-tap-bao-tuong', label: 'BỘ SƯU TẬP BẢO TƯỢNG' },
+          { id: 'nghe-thuat-phat-giao-khu-vuc', label: 'NGHỆ THUẬT PHẬT GIÁO' },
+        ]
+      : []),
+    {
+      id: 'cau-chuyen-lien-quan',
+      label: isBaoTang
+        ? 'TRIỂN LÃM SỐ'
+        : isBaoThap
+        ? 'SƠ ĐỒ BẢO THÁP'
+        : isThuVien
+        ? 'TỦ SÁCH KINH ĐIỂN'
+        : isTuAn
+        ? 'HƯƠNG LINH KÝ TỰ'
+        : 'CÂU CHUYỆN LIÊN QUAN',
+    },
     { id: 'khong-gian', label: 'KHÔNG GIAN' },
     { id: 'khu-vuc-khac', label: 'KHU VỰC KHÁC' },
     { id: 'hoi-dap-ai', label: 'HỎI ĐÁP AI' },
@@ -122,8 +146,6 @@ export default function UniverseDetailPage() {
 
   return (
     <div className="w-full min-h-screen bg-[#2c1c11] text-[#e3d2c1] font-sans relative selection:bg-[#f2cc8f] selection:text-black overflow-x-hidden">
-      <Header scrolled={true} />
-
       {/* ── TOP STICKY SUBNAVBAR & SIDEBAR NAV ── */}
       <SubNavbar
         activeSection={activeSection}
@@ -174,23 +196,27 @@ export default function UniverseDetailPage() {
             />
           </section>
 
-          {/* SECTION 2 — BỘ SƯU TẬP BẢO TƯỢNG (TƯỢNG CHÍNH) */}
-          <section id="bo-suu-tap-bao-tuong" className="w-full scroll-mt-24 pt-4">
-            <StatueCollectionGrid
-              statues={OFFICIAL_TUONG_CHINH_LIST}
-              areaTitle={area.name}
-              areaSlug={area.slug || slug}
-            />
-          </section>
+          {/* SECTION 2 — BỘ SƯU TẬP BẢO TƯỢNG (TƯỢNG CHÍNH) - ẨN Ở TRANG BẢO THÁP */}
+          {slug !== 'bao-thap' && slug !== 'bao-thap-van-phat-xa-loi' && (
+            <section id="bo-suu-tap-bao-tuong" className="w-full scroll-mt-24 pt-4">
+              <StatueCollectionGrid
+                statues={OFFICIAL_TUONG_CHINH_LIST}
+                areaTitle={area.name}
+                areaSlug={area.slug || slug}
+              />
+            </section>
+          )}
 
-          {/* SECTION 2B — NGHỆ THUẬT PHẬT GIÁO (BỔ SUNG CHO TẤT CẢ KHU VỰC - FONT UTM NIAGARA) */}
-          <section id="nghe-thuat-phat-giao-khu-vuc" className="w-full scroll-mt-24 pt-4">
-            <ArtisticStatueSection
-              areaTitle={area.name}
-              areaSlug={area.slug || slug}
-              items={OFFICIAL_NTPG_LIST}
-            />
-          </section>
+          {/* SECTION 2B — NGHỆ THUẬT PHẬT GIÁO - ẨN Ở TRANG BẢO THÁP */}
+          {slug !== 'bao-thap' && slug !== 'bao-thap-van-phat-xa-loi' && (
+            <section id="nghe-thuat-phat-giao-khu-vuc" className="w-full scroll-mt-24 pt-4">
+              <ArtisticStatueSection
+                areaTitle={area.name}
+                areaSlug={area.slug || slug}
+                items={OFFICIAL_NTPG_LIST}
+              />
+            </section>
+          )}
 
           {/* SECTION 3 — TÍNH NĂNG CHUYÊN BIỆT THEO KHU VỰC */}
           <section id="cau-chuyen-lien-quan" className="w-full scroll-mt-24">
@@ -206,6 +232,12 @@ export default function UniverseDetailPage() {
               <DaiNamQuocMauGrid />
             ) : slug === 'cong-tam-quan' ? (
               <CongTamQuanSection />
+            ) : slug === 'trai-duong' || slug === 'chay-duong' ? (
+              <ChayDuongSection />
+            ) : slug === 'san-la-han' ? (
+              <ThapBatLaHanGrid />
+            ) : slug === 'ho-phong-sinh' ? (
+              <ThapDaiDeTuCards />
             ) : (
               <div className="max-w-4xl mx-auto px-4">
                 <RelatedStoriesSection
@@ -236,12 +268,11 @@ export default function UniverseDetailPage() {
           </section>
 
           {/* SECTION 6 — HỎI ĐÁP AI */}
-          <section id="hoi-dap-ai" className="max-w-4xl mx-auto px-4 scroll-mt-24">
+          <section id="hoi-dap-ai" className="max-w-4xl mx-auto px-4 scroll-mt-24 mb-12">
             <SmartSearchAIBar contextTitle={`Không Gian Tâm Linh ${area.name}`} />
           </section>
         </main>
       </div>
-      <Footer />
     </div>
   );
 }

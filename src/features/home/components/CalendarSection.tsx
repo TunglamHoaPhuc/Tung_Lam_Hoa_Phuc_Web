@@ -1,256 +1,73 @@
 'use client';
 
-import { FC, useState } from "react";
-import { ChevronLeft, ChevronRight, ArrowLeft, ArrowRight, Calendar as CalendarIcon, MapPin, Clock, Tag } from "lucide-react";
+import { FC, useState, useMemo } from "react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ArrowLeft,
+  ArrowRight,
+  Calendar as CalendarIcon,
+  MapPin,
+  Clock,
+  Sparkles,
+  Tag,
+  X,
+} from "lucide-react";
 import { SectionHeader } from "@/components/common/SectionHeader";
-import { CategoryIcon } from "@/components/common/CategoryIcon";
 import {
   getDaysInMonth,
   getStartDayOffset,
   getLunarCellString,
   getBuddhistEraYear,
+  convertSolarToLunar,
 } from "@/lib/lunar-calendar";
+import {
+  CalendarEvent,
+  FEATURED_PROGRAMS,
+  MONTH_THEMES,
+  getEventsForMonth,
+} from "@/data/schedule-data";
 
-interface CalendarEvent {
-  day: number;
-  lunarDate: string;
-  title: string;
-  lunarTag: string;
-  description: string;
-  category: string;
-  location: string;
-  time: string;
-  color: string;
-  imgUrl: string;
-}
-
-const EVENTS_DATABASE: Record<string, CalendarEvent[]> = {
-  "2026-0-3": [
-    {
-      day: 3,
-      lunarDate: "15/11 Âm Lịch",
-      title: "KHÓA LỄ SÁM NGUYỆN HẰNG THÁNG",
-      lunarTag: "14 VÀ 29/30 ÂM LỊCH HẰNG THÁNG",
-      description: "Sám hối hằng tháng dành cho tất cả quý Phật tử, làm mới thân tâm, tăng trưởng phước báu và tịnh hóa nghiệp chướng.",
-      category: "Sám Hối Định Kỳ",
-      location: "Chánh Điện Tam Bảo - Tùng Lâm Hòa Phúc",
-      time: "19:00 - 21:00",
-      color: "#047857",
-      imgUrl: "https://images.unsplash.com/photo-1618165220283-e85246c4171c?w=600&h=400&fit=crop",
-    },
-  ],
-  "2026-0-8": [
-    {
-      day: 8,
-      lunarDate: "20/11 Âm Lịch",
-      title: "THỜI KHÓA SÁU CĂN TỈNH THỨC",
-      lunarTag: "CHỦ NHẬT HẰNG TUẦN",
-      description: "Thời khóa thực hành chánh niệm quản lý sáu căn trong sinh hoạt hằng ngày, tọa thiền và nghe pháp thoại.",
-      category: "Chánh Niệm Định Kỳ",
-      location: "Giảng Đường Tùng Lâm Hòa Phúc",
-      time: "08:00 - 11:00",
-      color: "#3b82f6",
-      imgUrl: "https://images.unsplash.com/photo-1564834325499-cd770c8ed0ef?w=600&h=400&fit=crop",
-    },
-  ],
-  "2026-0-10": [
-    {
-      day: 10,
-      lunarDate: "22/11 Âm Lịch",
-      title: "NGÀY TU HỌC AN LẠC HÔM NAY",
-      lunarTag: "THỜI KHÓA AN LẠC HẰNG NGÀY",
-      description: "Thời khóa tụng kinh, niệm Phật và thiền hành dành cho đại chúng tại Chánh Điện Tam Bảo.",
-      category: "Ngày Hiện Tại",
-      location: "Chánh Điện Tam Bảo",
-      time: "07:30 - 16:30",
-      color: "#f59e0b",
-      imgUrl: "https://images.unsplash.com/photo-1564834325499-cd770c8ed0ef?w=600&h=400&fit=crop",
-    },
-  ],
-  "2026-0-14": [
-    {
-      day: 14,
-      lunarDate: "26/11 Âm Lịch",
-      title: "KHÓA TU MỘT NGÀY AN LẠC",
-      lunarTag: "ĐỊNH KỲ HẰNG THÁNG",
-      description: "Trang nghiêm khóa tu hằng tháng dành cho hàng trăm Phật tử tại gia trọn một ngày thanh tịnh.",
-      category: "Khóa Tu Định Kỳ",
-      location: "Đại Giảng Đường Tùng Lâm",
-      time: "07:00 - 17:00",
-      color: "#10b981",
-      imgUrl: "https://images.unsplash.com/photo-1507692049790-de58290a4334?w=600&h=400&fit=crop",
-    },
-  ],
-  "2026-0-19": [
-    {
-      day: 19,
-      lunarDate: "1/12 Âm Lịch",
-      title: "HUÂN TU NIỆM PHẬT MÙNG 1",
-      lunarTag: "MÙNG 1 ÂM LỊCH HẰNG THÁNG",
-      description: "Thời khóa huân tu trì danh niệm Phật hướng tâm Tịnh Độ, chuyển hóa phiền não.",
-      category: "Huân Tu Niệm Phật",
-      location: "Chánh Điện Tam Bảo",
-      time: "19:00 - 21:00",
-      color: "#7c3aed",
-      imgUrl: "https://images.unsplash.com/photo-1507692049790-de58290a4334?w=600&h=400&fit=crop",
-    },
-  ],
-  "2026-0-26": [
-    {
-      day: 26,
-      lunarDate: "8/12 Âm Lịch (Vía Phật Thành Đạo)",
-      title: "ĐẠI LỄ VÍA PHẬT THÀNH ĐẠO",
-      lunarTag: "MÙNG 8 THÁNG CHẠP ÂM LỊCH",
-      description: "Kỷ niệm ngày Đức Bản Sư Thích Ca Mâu Ni Phật thành đạo dưới cội Bồ Đề, lễ truyền đăng và văn nghệ cúng dưỡng.",
-      category: "Đại Lễ Kỷ Niệm",
-      location: "Khuôn Viên Tùng Lâm Hòa Phúc",
-      time: "18:00 - 21:30",
-      color: "#ef4444",
-      imgUrl: "https://images.unsplash.com/photo-1618554565982-3497a2e70642?w=600&h=400&fit=crop",
-    },
-  ],
-};
-
-/**
- * Gets events for a specific date, with fallback recurring schedule so event data persists across month changes
- */
-function getEventsForDate(year: number, month: number, day: number): CalendarEvent[] | null {
-  const monthKey = `${year}-${month}-${day}`;
-  if (EVENTS_DATABASE[monthKey]) {
-    return EVENTS_DATABASE[monthKey];
-  }
-
-  const genericEvents: Record<number, CalendarEvent> = {
-    3: {
-      day: 3,
-      lunarDate: "15 Âm Lịch",
-      title: "KHÓA LỄ SÁM NGUYỆN HẰNG THÁNG",
-      lunarTag: "14 VÀ 29/30 ÂM LỊCH HẰNG THÁNG",
-      description: "Sám hối hằng tháng dành cho tất cả quý Phật tử, làm mới thân tâm, tăng trưởng phước báu và tịnh hóa nghiệp chướng.",
-      category: "Sám Hối Định Kỳ",
-      location: "Chánh Điện Tam Bảo - Tùng Lâm Hòa Phúc",
-      time: "19:00 - 21:00",
-      color: "#047857",
-      imgUrl: "https://images.unsplash.com/photo-1618165220283-e85246c4171c?w=600&h=400&fit=crop",
-    },
-    8: {
-      day: 8,
-      lunarDate: "20 Âm Lịch",
-      title: "THỜI KHÓA SÁU CĂN TỈNH THỨC",
-      lunarTag: "CHỦ NHẬT HẰNG TUẦN",
-      description: "Thời khóa thực hành chánh niệm quản lý sáu căn trong sinh hoạt hằng ngày, tọa thiền và nghe pháp thoại.",
-      category: "Chánh Niệm Định Kỳ",
-      location: "Giảng Đường Tùng Lâm Hòa Phúc",
-      time: "08:00 - 11:00",
-      color: "#3b82f6",
-      imgUrl: "https://images.unsplash.com/photo-1564834325499-cd770c8ed0ef?w=600&h=400&fit=crop",
-    },
-    10: {
-      day: 10,
-      lunarDate: "22 Âm Lịch",
-      title: "NGÀY TU HỌC AN LẠC HÔM NAY",
-      lunarTag: "THỜI KHÓA AN LẠC HẰNG NGÀY",
-      description: "Thời khóa tụng kinh, niệm Phật và thiền hành dành cho đại chúng tại Chánh Điện Tam Bảo.",
-      category: "Ngày Hiện Tại",
-      location: "Chánh Điện Tam Bảo",
-      time: "07:30 - 16:30",
-      color: "#f59e0b",
-      imgUrl: "https://images.unsplash.com/photo-1564834325499-cd770c8ed0ef?w=600&h=400&fit=crop",
-    },
-    14: {
-      day: 14,
-      lunarDate: "26 Âm Lịch",
-      title: "KHÓA TU MỘT NGÀY AN LẠC",
-      lunarTag: "ĐỊNH KỲ HẰNG THÁNG",
-      description: "Trang nghiêm khóa tu hằng tháng dành cho hàng trăm Phật tử tại gia trọn một ngày thanh tịnh.",
-      category: "Khóa Tu Định Kỳ",
-      location: "Đại Giảng Đường Tùng Lâm",
-      time: "07:00 - 17:00",
-      color: "#10b981",
-      imgUrl: "https://images.unsplash.com/photo-1507692049790-de58290a4334?w=600&h=400&fit=crop",
-    },
-    19: {
-      day: 19,
-      lunarDate: "1 Âm Lịch",
-      title: "HUÂN TU NIỆM PHẬT MÙNG 1",
-      lunarTag: "MÙNG 1 ÂM LỊCH HẰNG THÁNG",
-      description: "Thời khóa huân tu trì danh niệm Phật hướng tâm Tịnh Độ, chuyển hóa phiền não.",
-      category: "Huân Tu Niệm Phật",
-      location: "Chánh Điện Tam Bảo",
-      time: "19:00 - 21:00",
-      color: "#7c3aed",
-      imgUrl: "https://images.unsplash.com/photo-1507692049790-de58290a4334?w=600&h=400&fit=crop",
-    },
-    26: {
-      day: 26,
-      lunarDate: "8 Âm Lịch",
-      title: "ĐẠI LỄ KỶ NIỆM TÂM LINH",
-      lunarTag: "ĐỊNH KỲ HẰNG THÁNG",
-      description: "Thời khóa huân tu niệm Phật và pháp thoại tâm linh định kỳ hằng tháng.",
-      category: "Đại Lễ Kỷ Niệm",
-      location: "Khuôn Viên Tùng Lâm Hòa Phúc",
-      time: "18:00 - 21:30",
-      color: "#ef4444",
-      imgUrl: "https://images.unsplash.com/photo-1618554565982-3497a2e70642?w=600&h=400&fit=crop",
-    },
-  };
-
-  if (genericEvents[day]) {
-    return [genericEvents[day]];
-  }
-
-  return null;
-}
-
-const FEATURED_PROGRAMS = [
-  {
-    id: "p1",
-    title: "SÁM NGUYỆN",
-    schedule: "14 VÀ 29/30 ÂM LỊCH HẰNG THÁNG",
-    summary: "Sám hối hằng tháng dành cho tất cả mọi người, làm mới thân tâm, tăng trưởng công đức và tịnh hóa nghiệp chướng.",
-    imgUrl: "https://images.unsplash.com/photo-1618165220283-e85246c4171c?w=600&h=400&fit=crop",
-  },
-  {
-    id: "p2",
-    title: "SÁU CĂN TỈNH THỨC",
-    schedule: "CHỦ NHẬT HẰNG TUẦN",
-    summary: "Thời khóa thực hành chánh niệm quản lý sáu căn trong sinh hoạt hằng ngày.",
-    imgUrl: "https://images.unsplash.com/photo-1564834325499-cd770c8ed0ef?w=600&h=400&fit=crop",
-  },
-  {
-    id: "p3",
-    title: "KHÓA TU TUỔI TRẺ",
-    schedule: "ĐỊNH KỲ HẰNG THÁNG",
-    summary: "Khóa sinh hoạt tu học kết hợp thiện nguyện và phóng sinh dành cho thanh thiếu niên.",
-    imgUrl: "https://images.unsplash.com/photo-1507692049790-de58290a4334?w=600&h=400&fit=crop",
-  },
-  {
-    id: "p4",
-    title: "PHẬT THẤT NIỆM PHẬT",
-    schedule: "7 NGÀY TẬP TRUNG",
-    summary: "Khóa huân tu trì danh niệm Phật 7 ngày đêm hướng tâm Tịnh Độ giải thoát.",
-    imgUrl: "https://images.unsplash.com/photo-1618554565982-3497a2e70642?w=600&h=400&fit=crop",
-  },
-  {
-    id: "p5",
-    title: "XUẤT GIA GIEO DUYÊN",
-    schedule: "THƯỜNG NIÊN HẰNG NĂM",
-    summary: "Trải nghiệm đời sống xuất gia thanh tịnh dành cho quý Phật tử hữu duyên.",
-    imgUrl: "https://images.unsplash.com/photo-1626807126017-f01e8c07d27e?w=600&h=400&fit=crop",
-  },
+const CATEGORIES = [
+  "Tất Cả",
+  "Khóa Lễ Truyền Thống",
+  "Đại Lễ Sự Kiện",
+  "Cộng Tu",
+  "Tịnh Độ Nhân Gian",
 ];
 
 export const CalendarSection: FC = () => {
-  const [activeDate, setActiveDate] = useState<Date>(new Date(2026, 0, 1));
+  // Default to August 2026 (Tháng 7 Âm Lịch Bính Ngọ Vu Lan)
+  const [activeDate, setActiveDate] = useState<Date>(new Date(2026, 7, 1)); // 0-indexed: 7 = August
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string>("Tất Cả");
   const [carouselIdx, setCarouselIdx] = useState(0);
 
   const currentYear = activeDate.getFullYear();
-  const currentMonth = activeDate.getMonth(); // 0-indexed
+  const currentMonth = activeDate.getMonth(); // 0-indexed (0 to 11)
 
   const daysInMonth = getDaysInMonth(currentYear, currentMonth);
   const startDayOffset = getStartDayOffset(currentYear, currentMonth);
   const buddhistEra = getBuddhistEraYear(currentYear);
+
+  // Month Theme Info (Banner, Quote, Colors)
+  const monthTheme = useMemo(() => {
+    return MONTH_THEMES[currentMonth] || MONTH_THEMES[0];
+  }, [currentMonth]);
+
+  // Dynamic automatic calculation of all events for this month
+  const monthEventsMap = useMemo(() => {
+    return getEventsForMonth(currentYear, currentMonth);
+  }, [currentYear, currentMonth]);
+
+  // First and last day lunar info for header
+  const firstDayLunar = useMemo(() => {
+    return convertSolarToLunar(1, currentMonth, currentYear);
+  }, [currentMonth, currentYear]);
+
+  const lastDayLunar = useMemo(() => {
+    return convertSolarToLunar(daysInMonth, currentMonth, currentYear);
+  }, [daysInMonth, currentMonth, currentYear]);
 
   const handlePrevMonth = () => {
     setActiveDate(new Date(currentYear, currentMonth - 1, 1));
@@ -260,7 +77,7 @@ export const CalendarSection: FC = () => {
     setActiveDate(new Date(currentYear, currentMonth + 1, 1));
   };
 
-  // Carousel navigation for programs (> 3 items)
+  // Carousel navigation for programs
   const maxSlide = Math.max(0, FEATURED_PROGRAMS.length - 3);
   const handlePrevSlide = () => {
     setCarouselIdx((prev) => (prev > 0 ? prev - 1 : maxSlide));
@@ -273,355 +90,494 @@ export const CalendarSection: FC = () => {
 
   return (
     <section className="w-full py-20 relative overflow-hidden bg-[#2A1D14]">
-      {/* ── Blurred Background Image ── */}
+      {/* ── Background Ambient Aura ── */}
       <div className="absolute inset-0 pointer-events-none">
         <img
-          src="https://images.unsplash.com/photo-1564834325499-cd770c8ed0ef?w=1600&h=900&fit=crop"
+          src={monthTheme.bannerImg}
           alt="Bối cảnh Lịch tu học"
-          className="w-full h-full object-cover opacity-15 blur-[2px]"
+          className="w-full h-full object-cover opacity-15 blur-sm"
           loading="lazy"
+          onError={(e) => {
+            (e.currentTarget as HTMLImageElement).src = '/images/vu-tru-phat-giao/bao-thap/bao-thap-banner.jpg';
+          }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#2A1D14] via-transparent to-[#2A1D14]" />
       </div>
 
       {/* ── 1. Top Section Header ── */}
       <SectionHeader
-        title="LỊCH TU HỌC PHẬT LỊCH 2570"
-        subtitle="THỜI KHÓA TU TẬP, SÁM HỐI VÀ ĐẠI LỄ TÂM LINH HẰNG THÁNG"
+        title={`LỊCH TU HỌC PHẬT LỊCH ${buddhistEra}`}
+        subtitle={`THỜI KHÓA TU TẬP, SÁM HỐI VÀ ĐẠI LỄ TÂM LINH ĐỊNH KỲ NĂM BÍNH NGỌ ${currentYear}`}
         icon={<CalendarIcon className="w-5 h-5 text-amber-400 animate-pulse" />}
       />
 
-      {/* ── 2. Main Calendar Container ── */}
-      <div className="relative z-10 max-w-4xl mx-auto px-4">
-        <div
-          className="rounded-3xl overflow-hidden border shadow-2xl p-4 md:p-6"
-          style={{
-            background: "#FAF6EE",
-            borderColor: "#F2C14E",
-            boxShadow: "0 16px 60px rgba(0,0,0,0.6)",
-            color: "#2A1D14",
-          }}
-        >
-          {/* Thanh Điều Hướng Tháng (Calendar Toolbar) */}
-          <div className="flex items-center justify-between gap-3 mb-4 p-3 rounded-2xl bg-[#3D2B1F] text-[#ffffff] shadow-md">
-            {/* Nút bên trái: Icon mỏng < */}
+      {/* ── 2. Unified Side-by-Side Calendar Container ── */}
+      <div className="relative z-10 max-w-6xl mx-auto px-4 space-y-6">
+        
+        {/* Category Filters Bar */}
+        <div className="flex flex-wrap items-center justify-center gap-2">
+          {CATEGORIES.map((cat) => (
             <button
-              onClick={handlePrevMonth}
-              className="w-10 h-10 rounded-xl bg-[#4A3728] text-[#F2C14E] hover:bg-[#F2C14E] hover:text-[#2A1D14] transition-all flex items-center justify-center cursor-pointer shadow"
-              aria-label="Tháng trước"
+              key={cat}
+              onClick={() => setSelectedCategory(cat)}
+              className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer shadow-md uppercase tracking-wider ${
+                selectedCategory === cat
+                  ? "bg-[#F2C14E] text-[#1C120B] border-2 border-white shadow-[0_0_15px_rgba(242,193,78,0.7)] scale-105"
+                  : "bg-[#1C120B]/90 text-[#FFE5A3] border border-[#F2C14E]/40 hover:bg-[#F2C14E] hover:text-[#1C120B]"
+              }`}
+              style={{ fontFamily: "'UTM Avo', sans-serif" }}
             >
-              <ChevronLeft className="w-5 h-5" />
+              {cat}
             </button>
-
-            {/* Nhãn tháng ở giữa */}
-            <div className="flex items-center justify-center">
-              <span
-                className="text-base sm:text-lg md:text-xl font-bold px-4 py-1.5 rounded-xl bg-[#4A3728] text-[#F2C14E] shadow-inner text-center"
-                style={{ fontFamily: "'UTM Avo', sans-serif" }}
-              >
-                Tháng {String(currentMonth + 1).padStart(2, '0')}/{currentYear} (Bính Ngọ) - PL.{buddhistEra}
-              </span>
-            </div>
-
-            {/* Nút bên phải: Icon mỏng > */}
-            <button
-              onClick={handleNextMonth}
-              className="w-10 h-10 rounded-xl bg-[#4A3728] text-[#F2C14E] hover:bg-[#F2C14E] hover:text-[#2A1D14] transition-all flex items-center justify-center cursor-pointer shadow"
-              aria-label="Tháng sau"
-            >
-              <ChevronRight className="w-5 h-5" />
-            </button>
-          </div>
-
-          {/* Thanh Thứ Grid Header (To & Rõ Nét) */}
-          <div className="grid grid-cols-7 gap-1 text-center font-bold text-sm md:text-base uppercase py-3 bg-[#3D2B1F] text-[#F2C14E] rounded-xl mb-2 tracking-wider shadow-md" style={{ fontFamily: "'UTM Avo', sans-serif" }}>
-            <div>THỨ 2</div>
-            <div>THỨ 3</div>
-            <div>THỨ 4</div>
-            <div>THỨ 5</div>
-            <div>THỨ 6</div>
-            <div>THỨ 7</div>
-            <div>CHỦ NHẬT</div>
-          </div>
-
-          {/* Days Grid */}
-          <div className="grid grid-cols-7 gap-1.5 text-center">
-            {/* Blank offset cells */}
-            {[...Array(startDayOffset)].map((_, i) => (
-              <div key={`blank-${i}`} className="min-h-[76px] md:min-h-[88px] rounded-2xl border border-transparent opacity-10" />
-            ))}
-
-            {/* Day cells */}
-            {[...Array(daysInMonth)].map((_, i) => {
-              const day = i + 1;
-              const isToday = currentYear === 2026 && currentMonth === 0 && day === 10;
-              const events = getEventsForDate(currentYear, currentMonth, day);
-              const lunarCellStr = getLunarCellString(day, currentMonth, currentYear);
-
-              return (
-                <div
-                  key={day}
-                  onClick={() => events && setSelectedEvent(events[0])}
-                  className={`min-h-[76px] md:min-h-[88px] p-2 flex flex-col justify-between relative rounded-2xl border transition-all cursor-pointer shadow-sm hover:shadow-md ${
-                    isToday
-                      ? "bg-amber-500/20 border-2 border-[#F2C14E] shadow-[0_0_20px_rgba(242,193,78,0.8)] scale-105 z-10 font-bold"
-                      : events
-                      ? "bg-[#FFF8E7] border-[#F2C14E] hover:border-[#D9A329] hover:scale-102"
-                      : "bg-white border-amber-200/60 hover:border-[#F2C14E]/60"
-                  }`}
-                >
-                  {/* Solar Date (Rất to & Đậm) */}
-                  <span className={`text-2xl md:text-3xl font-extrabold font-mono text-center pt-0.5 leading-none ${isToday ? "text-[#8B6914] font-black" : "text-[#2C1E11]"}`}>
-                    {day}
-                  </span>
-
-                  {/* Event Dots (Đánh dấu ngày có sự kiện) */}
-                  {events ? (
-                    <div className="flex items-center justify-center gap-1 my-0.5">
-                      {events.map((ev, idx) => (
-                        <div
-                          key={idx}
-                          className="w-3 h-3 rounded-full border-2 border-white shadow-md animate-pulse"
-                          style={{ background: ev.color }}
-                          title={ev.title}
-                        />
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="h-3" />
-                  )}
-
-                  {/* Lunar Date */}
-                  <span
-                    className={`text-xs md:text-sm font-semibold font-sans text-right block leading-none pb-0.5 pr-0.5 ${
-                      isToday ? "text-[#8B6914] font-bold" : "text-amber-800/80"
-                    }`}
-                  >
-                    {lunarCellStr}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
+          ))}
         </div>
 
-        {/* ── Pop-up Chi Tiết Sự Kiện (Tối Nền Tăng Tương Phản & Đường Kẻ Ngang Hai Bên Logo Tim) ── */}
-        {selectedEvent && (
-          <div
-            className="fixed inset-0 z-50 flex items-center justify-center px-4"
-            style={{ background: "rgba(0,0,0,0.88)", backdropFilter: "blur(12px)" }}
-            onClick={() => setSelectedEvent(null)}
-          >
-            <div
-              className="relative max-w-md w-full rounded-3xl overflow-hidden shadow-2xl border transition-all animate-in zoom-in-95 bg-[#2C1E11]"
-              style={{
-                borderColor: "#F2C14E",
-                boxShadow: "0 0 60px rgba(242,193,78,0.5)",
-              }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              {/* Nút Đóng Popup */}
-              <button
-                onClick={() => setSelectedEvent(null)}
-                className="absolute top-3 left-3 z-30 w-8 h-8 rounded-full bg-[#1A120B]/80 text-[#F2C14E] border border-[#F2C14E]/50 flex items-center justify-center shadow-lg hover:scale-110 cursor-pointer"
-                aria-label="Đóng Pop-up"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
+        {/* ══════════════════════════════════════════════════════════════════════
+            BỐ CỤC NỔI 3D TRÊN BACKGROUND: KHÔNG KHUNG BAO NGOÀI, TỈ LỆ VÀNG 17x19CM
+        ══════════════════════════════════════════════ */}
+        <div className="flex flex-col lg:flex-row items-stretch gap-6 sm:gap-7">
 
-              {/* Cover Photo Container (relative overflow-visible) */}
-              <div className="relative w-full h-[210px] overflow-visible">
-                <img
-                  src={selectedEvent.imgUrl}
-                  alt={selectedEvent.title}
-                  className="w-full h-full object-cover"
-                />
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    background: "linear-gradient(to top, rgba(44,30,17,1) 0%, transparent 65%)",
-                  }}
-                />
+          {/* ── 1. CỘT TRÁI: TRANH THÁNG NGHỆ THUẬT LIỀN KHỐI (CHUẨN TỶ LỆ 17x19CM, CỐ ĐỊNH CHIỀU CAO) ── */}
+          <div className="w-full lg:w-[350px] xl:w-[380px] shrink-0 rounded-3xl bg-gradient-to-b from-[#2A170F] via-[#201007] to-[#150A04] border border-[#F2C14E]/35 shadow-[0_20px_60px_rgba(0,0,0,0.85)] backdrop-blur-md flex flex-col justify-between overflow-hidden transition-all min-h-[530px] md:min-h-[550px]">
+            
+            {/* 1.1 TRANH MINH HỌA NGHỆ THUẬT (Đúng tỷ lệ tự nhiên, không bị cắt mất chân chữ) */}
+            <div className="relative w-full aspect-[1200/1015] shrink-0 overflow-hidden bg-black/30">
+              <img
+                src={monthTheme.bannerImg}
+                alt={monthTheme.title}
+                className="w-full h-full object-cover object-top transition-transform duration-700 hover:scale-102"
+                onError={(e) => {
+                  (e.currentTarget as HTMLImageElement).src = '/images/vu-tru-phat-giao/bao-thap/bao-thap-banner.jpg';
+                }}
+              />
+              
+              {/* Lớp gradient đậm sát mép đáy che kín hoàn toàn chi tiết thừa mà không chạm vào chữ */}
+              <div className="absolute inset-x-0 bottom-0 h-4 sm:h-5 bg-gradient-to-t from-[#201007] from-35% via-[#201007]/90 to-transparent pointer-events-none" />
+            </div>
 
-                {/* ── Đường kẻ ngang mảnh xuất phát từ tim logo nối sang hai bên lề ── */}
-                <div className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-[#F2C14E]/80 to-transparent z-10" />
+            {/* Đường chỉ vàng kim phân định chính xác giữa ảnh và phần quote */}
+            <div className="flex items-center justify-center gap-2 w-full px-5 py-2 shrink-0 opacity-85">
+              <div className="flex-1 h-px bg-gradient-to-r from-transparent via-[#F2C14E]/60 to-[#F2C14E]" />
+              <span className="text-[#F2C14E] text-xs select-none drop-shadow-[0_0_6px_rgba(242,193,78,0.7)]">❖</span>
+              <div className="flex-1 h-px bg-gradient-to-l from-transparent via-[#F2C14E]/60 to-[#F2C14E]" />
+            </div>
 
-                {/* ── Biểu Tượng Tròn Nổi Đè Lên Đường Ranh Giới (Overlap 50% Top / 50% Bottom - Canva Model 100%) ── */}
-                <div className="absolute -bottom-7 left-1/2 -translate-x-1/2 w-14 h-14 rounded-full border-2 border-[#F2C14E] bg-[#2C1E11] flex items-center justify-center z-20 shadow-2xl">
-                  <span className="text-2xl text-[#F2C14E] select-none">🏯</span>
+            {/* 1.2 KHỐI NỘI DUNG QUOTE & TÁC GIẢ */}
+            <div className="p-4 sm:p-5 pt-0 flex-1 flex flex-col justify-between items-center text-center">
+
+              {/* Câu Quote: Thơ căn giữa - Văn xuôi căn đều 2 bên đoạn văn */}
+              <div className="w-full flex-1 flex flex-col justify-center my-auto py-1">
+                {(() => {
+                  // Phân loại tháng là Thơ (2, 4, 5, 6, 11) hay Văn xuôi
+                  const isPoem = [1, 3, 4, 5, 10].includes(currentMonth);
+
+                  if (isPoem) {
+                    // THƠ: Căn giữa, ngắt dòng từng câu
+                    return (
+                      <div className="space-y-1 my-auto">
+                        {monthTheme.quoteLines.map((line, idx) => {
+                          if (line === "") return <div key={idx} className="h-1" />;
+                          const cleanLine = line.replace(/[“”"']/g, '').trim();
+                          if (!cleanLine) return null;
+                          const isLong = monthTheme.quoteLines.length > 5;
+
+                          return (
+                            <p
+                              key={idx}
+                              style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                              className={`leading-relaxed tracking-wide text-center ${
+                                idx === 0
+                                  ? isLong
+                                    ? "font-bold text-xs sm:text-sm text-[#FFDE59]"
+                                    : "font-bold text-sm sm:text-base text-[#FFDE59]"
+                                  : isLong
+                                  ? "font-normal text-[11px] sm:text-xs text-[#FFE5A3]/90"
+                                  : "font-normal text-xs sm:text-sm text-[#FFE5A3]/90"
+                              }`}
+                            >
+                              {cleanLine}
+                            </p>
+                          );
+                        })}
+                      </div>
+                    );
+                  } else {
+                    // VĂN XUÔI: Căn 2 bên (text-justify), viết liền đoạn văn, in đậm câu đầu
+                    const cleanLines = monthTheme.quoteLines
+                      .map((l) => l.replace(/[“”"']/g, '').trim())
+                      .filter(Boolean);
+                    const firstSentence = cleanLines[0] || "";
+                    const restSentences = cleanLines.slice(1).join(" ");
+
+                    return (
+                      <p
+                        style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                        className="text-justify leading-relaxed text-xs sm:text-sm text-[#FFE5A3]/90 my-auto px-1 sm:px-2"
+                      >
+                        <strong className="font-bold text-[#FFDE59] inline mr-1">
+                          {firstSentence}
+                        </strong>
+                        <span className="inline">{restSentences}</span>
+                      </p>
+                    );
+                  }
+                })()}
+              </div>
+
+              {/* 1.3 HUY HIỆU TÁC GIẢ (Font UTM Niagara, nhỏ gọn trang nhã) */}
+              <div className="pt-2 w-full flex justify-center shrink-0">
+                <div className="inline-flex items-center px-5 py-1 rounded-full border border-[#F2C14E]/60 bg-[#7C4A1C]/50 hover:bg-[#7C4A1C]/70 backdrop-blur-sm shadow-md transition-colors">
+                  <span
+                    style={{ fontFamily: "'UTM Niagara', serif" }}
+                    className="text-sm sm:text-base text-[#FFE5A3] uppercase tracking-widest leading-none pt-0.5"
+                  >
+                    {monthTheme.author}
+                  </span>
                 </div>
               </div>
 
-              {/* Content Container dưới ảnh bìa (Nền tối sẫm bg-[#2C1E11] tăng tương phản tuyệt đối) */}
-              <div className="px-6 pt-10 pb-6 text-center space-y-3 bg-[#2C1E11]">
-                {/* Tiêu đề sự kiện (Phát sáng Vàng Gold trên nền tối) */}
-                <h3
-                  className="text-3xl md:text-4xl font-normal uppercase text-[#F2C14E] leading-tight"
-                  style={{
-                    fontFamily: "'UTM Niagara', 'Playfair Display', serif",
-                    fontWeight: "normal",
-                    textShadow: "0 0 20px rgba(242,193,78,0.6)",
-                  }}
-                >
-                  {selectedEvent.title}
-                </h3>
+            </div>
 
-                {/* Ngày Âm / Lịch trình */}
-                <div
-                  className="text-xs uppercase font-bold text-[#F2C14E] tracking-widest block"
-                  style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                >
-                  {selectedEvent.lunarTag}
-                </div>
+          </div>
 
-                {/* Phân loại & Thời gian */}
-                <div
-                  className="flex flex-wrap items-center justify-center gap-2 text-xs text-[#E2C89B] pt-1"
-                  style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                >
-                  {selectedEvent.category && (
-                    <span className="flex items-center gap-1 font-semibold text-[#F2C14E]">
-                      <CategoryIcon categoryName={selectedEvent.category} className="w-3.5 h-3.5 text-[#F2C14E]" />
-                      {selectedEvent.category}
-                    </span>
-                  )}
-                  {selectedEvent.time && (
-                    <>
-                      <span>•</span>
-                      <span className="flex items-center gap-1 text-[#FFF5E0]">
-                        <Clock className="w-3.5 h-3.5 text-[#F2C14E]" /> {selectedEvent.time}
-                      </span>
-                    </>
-                  )}
-                </div>
+          {/* ── 2. CỘT PHẢI: BẢNG LỊCH CỐ ĐỊNH 6 HÀNG (42 Ô) - ĐỒNG BỘ CHIỀU CAO ── */}
+          <div className="flex-1 rounded-3xl p-4 sm:p-5 md:p-6 bg-gradient-to-b from-[#2A170F]/95 via-[#1D0F08]/95 to-[#140A04]/98 border border-[#F2C14E]/35 shadow-[0_20px_60px_rgba(0,0,0,0.85)] backdrop-blur-md flex flex-col justify-between space-y-3 transition-all min-h-[530px] md:min-h-[550px]">
+            
+            {/* 2.1 THANH ĐIỀU HƯỚNG THÁNG & PHẬT LỊCH / DƯƠNG LỊCH (Chuyển lên trên bảng lịch, nút tròn/pill đẹp mắt) */}
+            <div className="flex flex-wrap items-center justify-between gap-2.5 p-2 sm:p-2.5 rounded-2xl bg-black/55 border border-[#F2C14E]/35 shadow-inner">
+              {/* Nút lùi tháng (nút tròn) */}
+              <button
+                onClick={handlePrevMonth}
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#3D2210] border border-[#F2C14E]/60 text-[#FFDE59] hover:bg-[#F2C14E] hover:text-[#1C0F08] transition-all flex items-center justify-center cursor-pointer shadow-md hover:scale-105 active:scale-95"
+                aria-label="Tháng trước"
+              >
+                <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+              </button>
 
-                {/* Địa điểm */}
-                {selectedEvent.location && (
-                  <p
-                    className="text-xs text-[#E2C89B] flex items-center justify-center gap-1.5"
+              {/* Nhãn Tháng Dương Lịch & Phật Lịch dạng nút tròn / pill nổi bật */}
+              <div className="flex flex-wrap items-center justify-center gap-2">
+                {/* Pill 1: Tháng Dương Lịch */}
+                <div className="flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-gradient-to-r from-[#A3520A] via-[#C87515] to-[#A3520A] border border-[#F2C14E] shadow-sm">
+                  <span className="text-xs select-none">🪷</span>
+                  <span
                     style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                    className="text-xs sm:text-sm font-black uppercase tracking-wider text-white"
                   >
-                    <MapPin className="w-3.5 h-3.5 text-[#F2C14E]" /> {selectedEvent.location}
-                  </p>
-                )}
+                    THÁNG {String(currentMonth + 1).padStart(2, '0')} / {currentYear}
+                  </span>
+                  <span className="text-xs select-none">🪷</span>
+                </div>
 
-                {/* Nội dung mô tả chi tiết (Màu Trắng `#FFFFFF` nổi bật trên nền tối) */}
+                {/* Pill 2: Phật Lịch & Âm Lịch */}
+                <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/60 border border-[#F2C14E]/50 shadow-sm">
+                  <span
+                    style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                    className="text-[11px] sm:text-xs font-bold text-[#FFDE59] tracking-wide"
+                  >
+                    PL. {buddhistEra}
+                  </span>
+                  <span className="text-[#F2C14E]/60 text-xs">•</span>
+                  <span
+                    style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                    className="text-[11px] sm:text-xs font-medium text-amber-200/90"
+                  >
+                    Tháng {firstDayLunar.month === lastDayLunar.month ? firstDayLunar.month : `${firstDayLunar.month} - ${lastDayLunar.month}`} ÂL Năm Bính Ngọ
+                  </span>
+                </div>
+              </div>
+
+              {/* Nút tiến tháng (nút tròn) */}
+              <button
+                onClick={handleNextMonth}
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#3D2210] border border-[#F2C14E]/60 text-[#FFDE59] hover:bg-[#F2C14E] hover:text-[#1C0F08] transition-all flex items-center justify-center cursor-pointer shadow-md hover:scale-105 active:scale-95"
+                aria-label="Tháng sau"
+              >
+                <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
+              </button>
+            </div>
+
+            {/* 2.2 Header thứ trong tuần (T2, T3, T4, T5, T6, T7, CN) */}
+            <div
+              className="grid grid-cols-7 gap-1.5 sm:gap-2 text-center font-bold text-xs sm:text-sm uppercase py-2 px-1.5 rounded-xl tracking-wider shadow-inner"
+              style={{
+                backgroundColor: "rgba(0, 0, 0, 0.6)",
+                fontFamily: "'UTM Avo', sans-serif",
+                border: "1px solid rgba(242,193,78,0.3)",
+              }}
+            >
+              <div className="text-[#FFE5A3]">T2</div>
+              <div className="text-[#FFE5A3]">T3</div>
+              <div className="text-[#FFE5A3]">T4</div>
+              <div className="text-[#FFE5A3]">T5</div>
+              <div className="text-[#FFE5A3]">T6</div>
+              <div className="text-[#FFE5A3]">T7</div>
+              <div className="text-[#1C0F08] font-black bg-gradient-to-r from-[#F2C14E] to-[#FFDE59] rounded-lg shadow-sm">
+                CN
+              </div>
+            </div>
+
+            {/* 2.3 Lưới 42 Ô Cố Định (6 Hàng x 7 Cột) - Đảm bảo lịch không bao giờ nhảy chiều cao */}
+            <div className="grid grid-cols-7 gap-1.5 sm:gap-2 text-center flex-1">
+              {(() => {
+                // Xây dựng cố định 42 ô (6 hàng x 7 cột)
+                interface DayCellData {
+                  dayNumber: number;
+                  events: CalendarEvent[];
+                  lunarCellStr: string;
+                  isFirstOrFullMoon: boolean;
+                  isSamHoi: boolean;
+                  isSunday: boolean;
+                }
+
+                const cells: (DayCellData | null)[] = Array(42).fill(null);
+
+                for (let day = 1; day <= daysInMonth; day++) {
+                  const cellIndex = startDayOffset + (day - 1);
+                  const rawEvents = monthEventsMap[day] || [];
+                  const events = selectedCategory === "Tất Cả"
+                    ? rawEvents
+                    : rawEvents.filter((ev) => ev.category === selectedCategory);
+
+                  const lunarCellStr = getLunarCellString(day, currentMonth, currentYear);
+                  const lunarObj = convertSolarToLunar(day, currentMonth, currentYear);
+                  const isFirstOrFullMoon = lunarObj.day === 1 || lunarObj.day === 15;
+                  const isSamHoi = lunarObj.day === 8 || lunarObj.day === 14 || lunarObj.day === 23 || lunarObj.day >= 29;
+                  const isSunday = cellIndex % 7 === 6;
+
+                  if (cellIndex < 42) {
+                    cells[cellIndex] = {
+                      dayNumber: day,
+                      events,
+                      lunarCellStr,
+                      isFirstOrFullMoon,
+                      isSamHoi,
+                      isSunday,
+                    };
+                  }
+                }
+
+                return cells.map((cell, idx) => {
+                  if (!cell) {
+                    return (
+                      <div
+                        key={`empty-${idx}`}
+                        className="min-h-[50px] sm:min-h-[56px] md:min-h-[60px] rounded-xl border border-transparent opacity-0 pointer-events-none"
+                      />
+                    );
+                  }
+
+                  const hasEvent = cell.events.length > 0;
+
+                  return (
+                    <div
+                      key={`day-${cell.dayNumber}`}
+                      onClick={() => hasEvent && setSelectedEvent(cell.events[0])}
+                      className={`min-h-[50px] sm:min-h-[56px] md:min-h-[60px] p-1 sm:p-1.5 flex flex-col justify-between relative rounded-xl border transition-all duration-200 ${
+                        hasEvent
+                          ? "bg-gradient-to-b from-[#4A2C14]/90 to-[#2A1608]/95 border-[#F2C14E] shadow-[0_0_15px_rgba(242,193,78,0.4)] hover:border-[#FFDE59] hover:scale-105 cursor-pointer"
+                          : "bg-black/45 border-[#F2C14E]/20 hover:border-[#F2C14E]/60 hover:bg-black/65 cursor-pointer"
+                      }`}
+                    >
+                      {/* Số Ngày Dương (To, Rõ Ràng, Font UTM Avo Đậm) */}
+                      <span
+                        style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                        className={`text-base sm:text-xl md:text-2xl font-black text-center leading-none ${
+                          cell.isSunday
+                            ? "text-[#FFDE59] drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]"
+                            : "text-white"
+                        }`}
+                      >
+                        {cell.dayNumber}
+                      </span>
+
+                      {/* Chấm sự kiện tu học phát sáng */}
+                      {hasEvent ? (
+                        <div className="flex items-center justify-center gap-1 my-0.5">
+                          {cell.events.map((ev, i) => (
+                            <div
+                              key={i}
+                              className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full border border-white shadow-md animate-pulse"
+                              style={{ background: ev.color }}
+                              title={ev.title}
+                            />
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="h-1" />
+                      )}
+
+                      {/* Ngày Âm Lịch (Đầy đủ, nổi bật Sóc/Vọng & Sám hối) */}
+                      <div className="flex items-center justify-end pr-0.5">
+                        <span
+                          style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                          className={`text-[9px] sm:text-[10px] md:text-[11px] font-bold rounded px-1 leading-tight ${
+                            cell.isFirstOrFullMoon
+                              ? "bg-[#DC2626] text-white shadow-sm font-black"
+                              : cell.isSamHoi
+                              ? "text-[#FFC107] font-bold"
+                              : "text-amber-200/80"
+                          }`}
+                        >
+                          {cell.lunarCellStr}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                });
+              })()}
+            </div>
+          </div>
+
+        </div>
+
+        {/* ══════════════════════════════════════════════════════════════════════
+            POPUP POSTER MODEL (BRING TO FRONT Z-[9999], TỶ LỆ VÀNG, KHÔNG LỘ VIỀN NỀN)
+        ══════════════════════════════════════════════ */}
+        {selectedEvent && (
+          <div
+            className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-4 bg-black/90 backdrop-blur-xl animate-in fade-in duration-300"
+            onClick={() => setSelectedEvent(null)}
+          >
+            <div
+              className="relative max-w-md w-full max-h-[85vh] overflow-y-auto rounded-3xl shadow-[0_25px_80px_rgba(0,0,0,0.95)] border bg-[#1E1108] transition-all animate-in zoom-in-95 flex flex-col scrollbar-none"
+              style={{
+                borderColor: "#F2C14E",
+                boxShadow: "0 0 50px rgba(242,193,78,0.4)",
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {/* Nút Đóng Popup X */}
+              <button
+                onClick={() => setSelectedEvent(null)}
+                className="absolute top-3.5 right-3.5 z-30 w-8 h-8 rounded-full bg-[#1A120B]/90 text-[#FFE5A3] hover:bg-[#F2C14E] hover:text-black border border-[#F2C14E]/60 flex items-center justify-center shadow-2xl transition-all cursor-pointer backdrop-blur-md"
+                aria-label="Đóng Pop-up"
+              >
+                <X className="w-4 h-4" />
+              </button>
+
+              {/* 1. TOP BANNER IMAGE */}
+              <div className="relative w-full h-[180px] sm:h-[200px] bg-black shrink-0 overflow-hidden">
+                <img
+                  src={selectedEvent.imgUrl}
+                  alt={selectedEvent.title}
+                  className="w-full h-full object-cover object-center"
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).src = '/images/vu-tru-phat-giao/bao-thap/bao-thap-banner.jpg';
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#1E1108] via-transparent to-black/40" />
+              </div>
+
+              {/* 2. POSTER CONTENT BODY */}
+              <div className="p-4 sm:p-5 space-y-3 text-center bg-[#1E1108] text-white">
+                {/* Tiêu đề phụ 1 */}
                 <p
-                  className="text-xs text-[#FFFFFF] leading-relaxed pt-3 border-t border-[#F2C14E]/30"
-                  style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                  style={{ fontFamily: "'UTM Niagara', serif" }}
+                  className="text-2xl sm:text-3xl text-[#FFE5A3] uppercase tracking-widest leading-none"
                 >
-                  {selectedEvent.description}
+                  {selectedEvent.subTitle1 || selectedEvent.lunarTag || "CỘNG TU"}
                 </p>
 
-                {/* Nút Đã Hiểu */}
-                <div className="pt-3">
-                  <button
-                    onClick={() => setSelectedEvent(null)}
-                    className="w-full py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-[#F2C14E] text-[#2A1D14] cursor-pointer hover:bg-[#D9A329] transition-all shadow-md"
+                {/* Tiêu đề chính */}
+                <div className="inline-block px-5 py-1.5 rounded-xl bg-gradient-to-r from-[#A3520A] via-[#C87515] to-[#A3520A] border border-[#F2C14E] shadow-[0_0_20px_rgba(200,117,21,0.5)]">
+                  <h3
                     style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                    className="text-base sm:text-lg font-bold uppercase text-white tracking-wider leading-snug"
                   >
-                    ĐÃ HIỂU ✦
-                  </button>
+                    {selectedEvent.title}
+                  </h3>
+                </div>
+
+                {/* Tiêu đề phụ 2 */}
+                <p
+                  style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                  className="text-xs text-[#FFE5A3] italic opacity-90"
+                >
+                  {selectedEvent.subTitle2 || selectedEvent.location}
+                </p>
+
+                {/* 3. POSTER SCHEDULE GLASS BOX (TỶ LỆ VÀNG) */}
+                <div className="rounded-xl p-3.5 sm:p-4 bg-[#2C180E]/90 border border-[#F2C14E]/35 shadow-inner grid grid-cols-1 sm:grid-cols-2 gap-3 items-center text-left">
+                  {/* Left Column: Thứ, Ngày Dương, Ngày Âm */}
+                  <div className="border-b sm:border-b-0 sm:border-r border-[#F2C14E]/25 pb-2.5 sm:pb-0 sm:pr-3 space-y-1 flex flex-col justify-between">
+                    <span
+                      style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                      className="text-sm sm:text-base font-normal uppercase text-white block tracking-wider leading-none"
+                    >
+                      {selectedEvent.dayOfWeekStr}
+                    </span>
+                    <span
+                      style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                      className="text-xl sm:text-2xl font-extrabold text-[#F2C14E] block tracking-wide leading-none py-1"
+                    >
+                      {selectedEvent.solarDateStr}
+                    </span>
+                    <span
+                      style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                      className="text-sm sm:text-base font-normal text-[#FFE5A3] block tracking-wide leading-none opacity-95"
+                    >
+                      {selectedEvent.lunarDate}
+                    </span>
+                  </div>
+
+                  {/* Right Column: Giờ và Thời Khóa */}
+                  <div className="space-y-2 sm:pl-2">
+                    {selectedEvent.timeSlot1Time && (
+                      <div>
+                        <span
+                          style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                          className="text-[11px] text-[#FFE5A3] block tracking-wide font-normal opacity-90"
+                        >
+                          {selectedEvent.timeSlot1Label}
+                        </span>
+                        <span
+                          style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                          className="text-lg sm:text-xl font-bold text-white block leading-tight"
+                        >
+                          {selectedEvent.timeSlot1Time}
+                        </span>
+                      </div>
+                    )}
+
+                    {selectedEvent.timeSlot2Time && (
+                      <div>
+                        <span
+                          style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                          className="text-[11px] text-[#FFE5A3] block tracking-wide font-normal opacity-90"
+                        >
+                          {selectedEvent.timeSlot2Label}
+                        </span>
+                        <span
+                          style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                          className="text-lg sm:text-xl font-bold text-[#F2C14E] block leading-tight"
+                        >
+                          {selectedEvent.timeSlot2Time}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* 4. DESCRIPTION & LOCATION */}
+                <div className="space-y-1.5 text-left pt-1">
+                  <p
+                    style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                    className="text-xs text-white/90 leading-relaxed font-normal"
+                  >
+                    {selectedEvent.description}
+                  </p>
+                  <p
+                    style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                    className="text-xs text-[#F2C14E] flex items-center gap-1.5 font-bold"
+                  >
+                    <MapPin className="w-3.5 h-3.5 shrink-0" />
+                    <span>{selectedEvent.location}</span>
+                  </p>
                 </div>
               </div>
             </div>
           </div>
         )}
-
-        {/* ── 3. Header Khu Vực "CHƯƠNG TRÌNH CỘNG TU TRONG THÁNG" ── */}
-        <div className="mt-16 mb-6 pb-3 border-b border-[#F2C14E]/30 flex items-end justify-between w-full">
-          {/* Bên TÁI (Left-aligned): Tiêu đề phông UTM ClassizismAntiqua màu TRẮNG */}
-          <h3
-            className="text-xl md:text-2xl font-normal uppercase tracking-wider text-white"
-            style={{
-              fontFamily: "'UTM ClassizismAntiqua', 'UTM Classic Antiqua', serif",
-              fontWeight: "normal",
-            }}
-          >
-            CHƯƠNG TRÌNH CỘNG TU TRONG THÁNG
-          </h3>
-
-          {/* Bên PHẢI (Right-aligned): Biểu tượng ◇ + 2 Nút Mũi tên [ ← ] [ → ] */}
-          <div className="flex items-center gap-3">
-            <span className="text-[#F2C14E]/60 text-sm select-none hidden sm:inline">◇</span>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={handlePrevSlide}
-                className="w-9 h-9 rounded-full bg-[#3D2B1F] border border-[#F2C14E]/50 text-[#F2C14E] flex items-center justify-center hover:bg-[#F2C14E] hover:text-[#2A1D14] transition-all shadow cursor-pointer"
-                aria-label="Khóa tu trước"
-              >
-                <ArrowLeft className="w-4 h-4" />
-              </button>
-              <button
-                onClick={handleNextSlide}
-                className="w-9 h-9 rounded-full bg-[#3D2B1F] border border-[#F2C14E]/50 text-[#F2C14E] flex items-center justify-center hover:bg-[#F2C14E] hover:text-[#2A1D14] transition-all shadow cursor-pointer"
-                aria-label="Khóa tu sau"
-              >
-                <ArrowRight className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* ── 4. Carousel / Slider Các Khóa Tu ── */}
-        <div className="relative w-full">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 transition-all duration-500">
-            {visiblePrograms.map((prog) => (
-              <div
-                key={prog.id}
-                onClick={() =>
-                  setSelectedEvent({
-                    day: 1,
-                    lunarDate: prog.schedule,
-                    title: prog.title,
-                    lunarTag: prog.schedule,
-                    description: prog.summary,
-                    category: "Chương Trình Nổi Bật",
-                    location: "Chánh Điện / Đại Giảng Đường Tùng Lâm Hòa Phúc",
-                    time: "Thời khóa định kỳ",
-                    color: "#F2C14E",
-                    imgUrl: prog.imgUrl,
-                  })
-                }
-                className="group rounded-2xl overflow-hidden border p-5 transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-2xl flex flex-col justify-between cursor-pointer"
-                style={{
-                  background: "linear-gradient(160deg, rgba(74,55,40,0.6) 0%, rgba(26,15,8,0.9) 100%)",
-                  borderColor: "rgba(242,193,78,0.3)",
-                }}
-              >
-                <div className="relative overflow-hidden rounded-xl mb-3" style={{ height: 150 }}>
-                  <img
-                    src={prog.imgUrl}
-                    alt={prog.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-black/40" />
-                  <div className="absolute bottom-2 left-2 right-2">
-                    <span
-                      className="text-[10px] font-bold text-[#F2C14E] bg-black/80 px-2.5 py-1 rounded uppercase tracking-wider block text-center"
-                      style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                    >
-                      {prog.schedule}
-                    </span>
-                  </div>
-                </div>
-
-                <div>
-                  <h4
-                    className="text-xl font-normal uppercase text-[#F2C14E] mb-1.5 group-hover:text-amber-200 transition-colors"
-                    style={{ fontFamily: "'UTM Niagara', serif", fontWeight: "normal" }}
-                  >
-                    {prog.title}
-                  </h4>
-                  <p className="text-xs text-[#c9b896] line-clamp-2 leading-relaxed" style={{ fontFamily: "'UTM Avo', sans-serif" }}>
-                    {prog.summary}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
       </div>
     </section>
   );

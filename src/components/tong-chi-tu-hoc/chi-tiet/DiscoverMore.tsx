@@ -116,15 +116,16 @@ export function DiscoverMore({ relatedArticles }: PropsTimHieuThem) {
               href={item.link || '#'}
               className="group relative flex-shrink-0 w-[260px] sm:w-[320px] aspect-[3/4] overflow-hidden rounded-xl border border-[#c8aa6e]/50 shadow-2xl bg-black block transition-all duration-500 hover:-translate-y-1.5 hover:border-[#ffde59]"
             >
-              {/* TỐI ƯU HÓA: Dùng Next Image cho background card */}
+              {/* TỐI ƯU HÓA: Dùng img với fallback onError mượt mà */}
               <div className="w-full h-full relative">
-                <Image
+                <img
                   src={item.url || 'https://tunglam.mocwp.com/wp-content/uploads/2026/07/default-bg.jpg'}
                   alt={item.title}
-                  fill
-                  sizes="(max-width: 640px) 260px, 320px"
-                  className="object-cover group-hover:scale-108 transition-transform duration-700 ease-out"
+                  className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out"
                   loading="lazy"
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).src = '/images/toan-canh-chua.jpg';
+                  }}
                 />
               </div>
 

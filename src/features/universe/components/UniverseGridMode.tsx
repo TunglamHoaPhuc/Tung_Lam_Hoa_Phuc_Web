@@ -158,11 +158,10 @@ export const UniverseGridMode: FC<UniverseGridModeProps> = ({ viewMode, onToggle
           <button
             type="button"
             onClick={() => onToggleViewMode("2d")}
-            className={`px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
-              is2dActive
+            className={`px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${is2dActive
                 ? "bg-[#F2C14E] text-[#2A1D14] shadow-md"
                 : "bg-transparent text-[#FFE5A3]/60 hover:text-[#FFE5A3]"
-            }`}
+              }`}
             style={{
               fontFamily: "'UTM Avo', sans-serif",
             }}
@@ -173,11 +172,10 @@ export const UniverseGridMode: FC<UniverseGridModeProps> = ({ viewMode, onToggle
           <button
             type="button"
             onClick={() => onToggleViewMode("grid")}
-            className={`px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
-              viewMode === "grid"
+            className={`px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${viewMode === "grid"
                 ? "bg-[#F2C14E] text-[#2A1D14] shadow-md"
                 : "bg-transparent text-[#FFE5A3]/60 hover:text-[#FFE5A3]"
-            }`}
+              }`}
             style={{
               fontFamily: "'UTM Avo', sans-serif",
             }}

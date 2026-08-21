@@ -24,8 +24,6 @@ export default function WisdomDetailPage() {
 
   return (
     <div className="min-h-screen bg-[#2C1C11] text-[#e3d2c1] selection:bg-[#F2C14E] selection:text-black">
-      <Header scrolled={true} />
-
       {/* ── 1. HERO BANNER & TIÊU ĐỀ TRANG (HEADLINE & SUB-HEADLINE) ── */}
       <div className="relative overflow-hidden bg-[#1A120B] pt-20 md:pt-24 pb-12 md:pb-16 px-4 md:px-10">
         {/* Background Event Image with Vignette Overlay */}

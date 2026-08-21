@@ -58,8 +58,6 @@ export default function TamBaoDetailPage() {
 
   return (
     <div className="w-full min-h-screen bg-[#2c1c11] text-[#e3d2c1] font-sans relative selection:bg-[#f2cc8f] selection:text-black overflow-x-hidden">
-      <Header scrolled={true} />
-
       {/* ── TOP STICKY SUBNAVBAR & SIDEBAR NAV ── */}
       <SubNavbar
         activeSection={activeSection}
@@ -106,7 +104,7 @@ export default function TamBaoDetailPage() {
               "
             >
               <p>
-                Trung tâm tâm linh của toàn Chùa, được xây dựng theo lối kiến trúc truyền thống chữ CÔNG (工), hội tụ tinh hoa Phật giáo 3 miền Bắc - Trung - Nam. Nơi đại chúng trang nghiêm lễ bái cúng dường, mang nhiều ý nghĩa biểu tượng sâu sắc.
+                Với kiến trúc hình chữ công (工) và phối thờ theo phong cách của ba miền Bắc - Trung - Nam, Tam Bảo là nơi tôn thờ Đức Phật Bổn Sư Thích Ca Mâu Ni, cùng chư Bồ Tát, chư Hiền Thánh Tăng và các vị Tổ sư có công rất lớn trong việc duy trì mạng mạch chánh Pháp của Như Lai.
               </p>
               <p>
                 Nơi hội tụ chư Phật hải hội, chư đại Bồ Tát và Thánh Tăng, điểm tựa tinh thần vững chãi cho hàng vạn Phật tử thập phương trở về tu học và tìm kiếm sự bình an trong tâm hồn.

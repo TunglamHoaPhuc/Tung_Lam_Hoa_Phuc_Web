@@ -110,13 +110,16 @@ export const OtherAreasSection: FC<OtherAreasSectionProps> = ({
   return (
     <section id="khu-vuc-khac" className="w-full scroll-mt-24 py-10">
       <div className="flex flex-col items-center text-center mb-10">
-        <div className="w-10 h-10 mb-3 flex items-center justify-center" aria-hidden="true">
+        <div className="w-14 h-14 sm:w-16 sm:h-16 mb-2 flex items-center justify-center" aria-hidden="true">
           <img
-            src="/images/bieu-tuong-tuong-phap.svg"
+            src="/images/icon-minh-hoa/bieu-tuong-tuong-phap.png"
             alt=""
             loading="lazy"
             decoding="async"
-            className="w-full h-full object-contain filter drop-shadow-[0_0_14px_rgba(242,193,78,0.9)]"
+            className="w-full h-full object-contain filter drop-shadow-[0_0_16px_rgba(242,193,78,0.95)] scale-125 transform-gpu"
+            onError={(e) => {
+              (e.currentTarget as HTMLImageElement).src = '/images/bieu-tuong-tuong-phap.svg';
+            }}
           />
         </div>
 
