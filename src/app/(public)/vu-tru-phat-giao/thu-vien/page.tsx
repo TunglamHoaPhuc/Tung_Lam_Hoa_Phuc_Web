@@ -76,7 +76,7 @@ export default function ThuVienPage() {
         {/* ── HEROBANNER ── */}
         <HeroBanner
           id="herobanner"
-          bannerUrl="https://images.unsplash.com/photo-1507692049790-de58290a4334?w=1600&h=900&fit=crop"
+          bannerUrl="https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp"
           title="THƯ VIỆN KINH SÁCH"
           subtitle="PHÁP BẢO LƯU THÔNG"
         />

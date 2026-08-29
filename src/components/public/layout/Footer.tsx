@@ -77,11 +77,11 @@ export const Footer: FC = () => {
             className="mx-auto flex justify-center items-center mb-4 md:mb-6 p-[2px] bg-gradient-to-tr from-[#F2C14E] via-[#FFE5A3] to-[#B8860B] rounded-full shadow-[0_0_25px_rgba(242,193,78,0.55)] hover:shadow-[0_0_35px_rgba(242,193,78,0.85)] hover:scale-105 transition-all duration-300 cursor-pointer group"
           >
             <img
-              src="/images/icon-minh-hoa/logo-tung-lam-hoa-phuc-tron.png"
+              src="https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/logo-tung-lam-hoa-phuc-tron.webp"
               alt="Logo Tùng Lâm Hòa Phúc"
               className="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover bg-white/95 p-[1px] group-hover:scale-105 transition-transform duration-300"
               onError={(e) => {
-                (e.currentTarget as HTMLImageElement).src = '/images/logo-tung-lam-hoa-phuc-tron.png';
+                (e.currentTarget as HTMLImageElement).src = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/logo-moc-an.webp';
               }}
             />
           </button>

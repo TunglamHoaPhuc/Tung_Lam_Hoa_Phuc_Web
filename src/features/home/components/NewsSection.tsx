@@ -20,7 +20,7 @@ const LATEST_NEWS_DATA: NewsItem[] = [
     category: "Tông chỉ tu học",
     title: "BỒ ĐỀ TÂM",
     subtitle: "Khuyến phát Bồ Đề Tâm — Cội gốc của mọi công hạnh tu tập",
-    imgUrl: "https://images.unsplash.com/photo-1564834325499-cd770c8ed0ef?w=1200&h=800&fit=crop",
+    imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     targetUrl: "/tong-chi-tu-hoc",
   },
   {
@@ -28,7 +28,7 @@ const LATEST_NEWS_DATA: NewsItem[] = [
     category: "Dòng chảy hoằng pháp",
     title: "TULKUL RINPOCHE VIẾNG THĂM",
     subtitle: "Chuyến viếng thăm và giảng pháp của chư vị Hòa thượng quốc tế",
-    imgUrl: "https://images.unsplash.com/photo-1618165220283-e85246c4171c?w=1200&h=800&fit=crop",
+    imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     targetUrl: "/dong-chay-hoang-phap",
   },
   {
@@ -36,7 +36,7 @@ const LATEST_NEWS_DATA: NewsItem[] = [
     category: "Tượng pháp",
     title: "ĐỨC PHẬT THÍCH CA",
     subtitle: "Bảo tượng Vô Thượng Năng Nhân ngự tại Đại Hùng Bảo Điện",
-    imgUrl: "https://images.unsplash.com/photo-1618554565982-3497a2e70642?w=1200&h=800&fit=crop",
+    imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     targetUrl: "/bao-tuong-phat-giao/duc-phat-thich-ca",
   },
   {
@@ -44,7 +44,7 @@ const LATEST_NEWS_DATA: NewsItem[] = [
     category: "Sự kiện định kỳ",
     title: "KHÓA TU MỘT NGÀY AN LẠC",
     subtitle: "Trang nghiêm khóa tu hằng tháng dành cho hàng trăm Phật tử",
-    imgUrl: "https://images.unsplash.com/photo-1507692049790-de58290a4334?w=1200&h=800&fit=crop",
+    imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     targetUrl: "/dong-chay-hoang-phap",
   },
 ];

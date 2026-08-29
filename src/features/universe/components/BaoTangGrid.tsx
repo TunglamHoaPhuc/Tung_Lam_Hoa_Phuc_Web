@@ -3,7 +3,7 @@
 import React, { FC, useState } from 'react';
 import Image from 'next/image';
 import { HeritageMap2D } from './heritage-map/HeritageMap2D';
-import { Compass, Sparkles } from 'lucide-react';
+import { Compass, Sparkles, ArrowRight } from 'lucide-react';
 
 export const BaoTangGrid: FC = () => {
   const [isHeritageMapOpen, setIsHeritageMapOpen] = useState<boolean>(false);
@@ -64,7 +64,7 @@ export const BaoTangGrid: FC = () => {
                 >
                   <Compass className="w-4 h-4 mr-2" />
                   <span>KHÁM PHÁ BẢN ĐỒ DI SẢN</span>
-                  <span className="ml-2 group-hover/btn:translate-x-1.5 transition-transform">&rarr;</span>
+                  <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1.5 transition-transform" />
                 </button>
               </div>
             </div>

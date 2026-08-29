@@ -50,11 +50,11 @@ const Header: FC<HeaderProps> = ({ scrolled }) => {
           title="Tùng Lâm Hòa Phúc"
         >
           <img
-            src="/images/icon-minh-hoa/logo-moc-an.png"
+            src="https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/logo-moc-an.webp"
             alt="Logo Mộc Ấn Tùng Lâm Hòa Phúc"
             className="h-24 md:h-32 lg:h-36 w-auto object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.7)] transition-transform duration-300 hover:scale-105"
             onError={(e) => {
-              (e.currentTarget as HTMLImageElement).src = '/images/logo-moc-an.png';
+              (e.currentTarget as HTMLImageElement).src = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/logo-tung-lam-hoa-phuc-tron.webp';
             }}
           />
         </Link>
@@ -141,7 +141,7 @@ const Header: FC<HeaderProps> = ({ scrolled }) => {
       {/* Mobile Menu Dropdown */}
       {mob && (
         <div
-          className="lg:hidden border-t px-8 py-6 flex flex-col gap-4 shadow-2xl"
+          className="lg:hidden border-t px-6 py-6 flex flex-col gap-4 shadow-2xl max-h-[calc(100vh-70px)] overflow-y-auto"
           style={{
             background: "rgba(26,15,8,0.98)",
             borderColor: "rgba(242,193,78,0.3)",

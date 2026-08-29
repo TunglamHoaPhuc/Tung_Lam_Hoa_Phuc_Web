@@ -44,7 +44,7 @@ export interface HeritageBentoCluster {
   compareLabelAfter?: string;
 }
 
-export const HERITAGE_MAP_IMAGE = '/images/vu-tru-phat-giao/ban-do-danh-tang-viet-nam-final.png';
+export const HERITAGE_MAP_IMAGE = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/ban-do-danh-tang-viet-nam-final.webp';
 
 // ── 6 CHÙM BENTO CHỦ ĐẠO (BENTO CLUSTERS) THEO QUY HOẠCH SỰ KIỆN ──
 export const HERITAGE_BENTO_CLUSTERS: HeritageBentoCluster[] = [
@@ -58,28 +58,28 @@ export const HERITAGE_BENTO_CLUSTERS: HeritageBentoCluster[] = [
     yearEnd: 1930,
     region: 'BAC',
     theme: 'DOI_SONG',
-    heroImg: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Đời sống/Miền Bắc/Chợ phiên Bắc bộ xưa.jpg',
+    heroImg: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/doi-song/mien-bac/Cho-phien-Bac-bo-xua.webp',
     heroTitle: 'Chợ Phiên Đồng Bằng Bắc Bộ',
     heroCaption: 'Bức tranh sống động về nét sinh hoạt giao thương thuần hậu của người dân châu thổ sông Hồng đầu thế kỷ 20.',
     satelliteImgs: [
       {
         title: 'Chợ Bán Đồ Mây',
-        imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Đời sống/Miền Bắc/Chợ bán đồ mây cuối thế kỉ 19 tại Hà Nội.jpg',
+        imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/doi-song/mien-bac/Cho-ban-do-may-cuoi-the-ki-19-tai-Ha-Noi.webp',
         caption: 'Hàng mây tre đan tinh xảo của các làng nghề thủ công ven kinh thành Thăng Long cuối thế kỷ 19.'
       },
       {
         title: 'Nón Quai Thao Truyền Thống',
-        imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Đời sống/Miền Bắc/Nón quai thao chụp năm 1911.jpg',
+        imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/doi-song/mien-bac/Non-quai-thao-chup-nam-1911.webp',
         caption: 'Nét duyên dáng đặc trưng của phụ nữ Kinh Bắc trong trang phục áo tứ thân và chiếc nón quai thao truyền thống.'
       },
       {
         title: 'Nét Đẹp Phụ Nữ Lao Động',
-        imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Đời sống/Miền Bắc/Chân dung những người phụ nữ thuộc tầng lớp lao động miền Bắc Việt Nam đầu thế kỷ 20..jpg',
+        imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/doi-song/mien-bac/Chan-dung-nhung-nguoi-phu-nu-thuoc-tang-lop-lao-dong-mien-Bac-Viet-Nam-dau-the-ky-20-.webp',
         caption: 'Vẻ đẹp mộc mạc, chịu thương chịu khó của những người mẹ, người chị xứ Bắc đầu thế kỷ 20.'
       },
       {
         title: 'Lễ Hội Phủ Giày',
-        imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Đời sống/Miền Bắc/Nhóm phụ nữ vận chuyển đồ thờ tự chuẩn bị cho đám rước của lễ hội Phủ Giày ở Nam Định thập niên 1920.jpg',
+        imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/đời sống/miền bắc/nhóm phụ nữ vận chuyển đồ thờ tự chuẩn bị cho đám rước của lễ hội phủ giày ở nam định thập niên 1920.webp',
         caption: 'Nghi lễ rước kiệu truyền thống chuẩn bị cho hội Phủ Giày, Nam Định.'
       }
     ],
@@ -87,8 +87,8 @@ export const HERITAGE_BENTO_CLUSTERS: HeritageBentoCluster[] = [
     historicalQuote: 'Thăng Long - Hà Nội ngàn năm văn hiến, nơi nếp sống cần lao hòa quyện cùng cốt cách thanh lịch, thuần phong mỹ tục của dân tộc.',
     quoteAuthor: 'Ký ức Văn hóa Dân gian Bắc Bộ',
     locationName: 'Hà Nội & Châu thổ Bắc Bộ',
-    compareBeforeImg: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Đời sống/Miền Bắc/Chợ phiên Bắc bộ xưa.jpg',
-    compareAfterImg: 'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=1000&h=600&fit=crop',
+    compareBeforeImg: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/doi-song/mien-bac/Cho-phien-Bac-bo-xua.webp',
+    compareAfterImg: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp',
     compareLabelBefore: 'Chợ phiên đầu thế kỷ 20',
     compareLabelAfter: 'Phố chợ Hà Nội ngày nay'
   },
@@ -103,28 +103,28 @@ export const HERITAGE_BENTO_CLUSTERS: HeritageBentoCluster[] = [
     yearEnd: 1930,
     region: 'BAC',
     theme: 'PHAT_GIAO',
-    heroImg: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Phật giáo/CHÙA VIỆT NAM XƯA/Chùa Một Cột xưa.jpg',
+    heroImg: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/phat-giao/chua-viet-nam-xua/Chua-Mot-Cot-xua.webp',
     heroTitle: 'Chùa Một Cột (Diên Hựu Tự)',
     heroCaption: 'Biểu tượng hoa sen thanh tịnh nở giữa chốn nhân gian, chứng nhân lịch sử ngàn năm của Phật giáo Việt Nam.',
     satelliteImgs: [
       {
         title: 'Tăng Sư An Nam',
-        imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Phật giáo/Vị Tăng sư An Nam thời Nguyễn trong mũ Ni và áo châu lĩnh – Chân dung lịch sử năm 1872 qua ống kính Esmile Gsell.jpg',
+        imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/phat-giao/Vi-Tang-su-An-Nam-thoi-Nguyen-trong-mu-Ni-va-ao-chau-linh-Chan-dung-lich-su-nam-1872-qua-ong-kinh-Esmile-Gsell.webp',
         caption: 'Vị Tăng sư An Nam thời Nguyễn trong mũ Ni và áo châu lĩnh – Chân dung lịch sử năm 1872 qua ống kính Emile Gsell.'
       },
       {
         title: 'Chùa Trấn Quốc Cổ Kính',
-        imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Phật giáo/CHÙA VIỆT NAM XƯA/Chùa Trấn Quốc ảnh chụp bởi nhiếp ảnh gia người Pháp Pierre Dieueflis.jpg',
+        imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/phat-giao/chua-viet-nam-xua/Chua-Tran-Quoc-anh-chup-boi-nhiep-anh-gia-nguoi-Phap-Pierre-Dieueflis.webp',
         caption: 'Cổ tự trấn giữ phía Đông Hồ Tây, ngôi chùa cổ nhất đất Thăng Long lịch sử.'
       },
       {
         title: 'Chùa Đọ (Quang Minh Tự)',
-        imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Phật giáo/CHÙA VIỆT NAM XƯA/Chùa Đọ có tên chữ là Quang Minh tự, ở Làng Đỗ Xá nay thuộc địa phận Ninh Giang, thành phố Bắc Ninh, ảnh được chụp vào năm 1897.jpg',
+        imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/phật giáo/chùa việt nam xưa/chùa đọ có tên chữ là quang minh tự, ở làng đỗ xá nay thuộc địa phận ninh giang, thành phố bắc ninh, ảnh được chụp vào năm 1897.webp',
         caption: 'Kiến trúc gỗ cổ kính của Chùa Đọ, Bắc Ninh ghi lại năm 1897.'
       },
       {
         title: 'Chư Tăng Bắc Kỳ',
-        imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Phật giáo/Bưu thiếp cổ năm 1900 – Chân dung nhà sư Phật giáo Bắc Kỳ thời kỳ Đông Dương dưới sự cai trị của Pháp.jpg',
+        imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/phật giáo/bưu thiếp cổ năm 1900 – chân dung nhà sư phật giáo bắc kỳ thời kỳ đông dương dưới sự cai trị của pháp.webp',
         caption: 'Đạo phong tịch tĩnh, từ bi của chư Tăng miền Bắc thời kỳ Đông Dương.'
       }
     ],
@@ -132,8 +132,8 @@ export const HERITAGE_BENTO_CLUSTERS: HeritageBentoCluster[] = [
     historicalQuote: 'Mái chùa che chở hồn dân tộc, nếp sống muôn đời của tổ tông. Đạo Phật đồng hành cùng dân tộc qua muôn ngàn biến thiên thế sự.',
     quoteAuthor: 'Hòa thượng Thích Mật Thể • Việt Nam Phật Giáo Sử Lược',
     locationName: 'Hà Nội & Bắc Ninh, Hải Phòng, Thái Bình',
-    compareBeforeImg: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Phật giáo/CHÙA VIỆT NAM XƯA/Chùa Một Cột xưa.jpg',
-    compareAfterImg: 'https://images.unsplash.com/photo-1599707367072-cd6ada2bc375?w=1000&h=600&fit=crop',
+    compareBeforeImg: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/phat-giao/chua-viet-nam-xua/Chua-Mot-Cot-xua.webp',
+    compareAfterImg: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp',
     compareLabelBefore: 'Chùa Một Cột đầu TK 20',
     compareLabelAfter: 'Diên Hựu Tự ngày nay'
   },
@@ -148,28 +148,28 @@ export const HERITAGE_BENTO_CLUSTERS: HeritageBentoCluster[] = [
     yearEnd: 1954,
     region: 'BAC',
     theme: 'DOI_SONG',
-    heroImg: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Đời sống/Miền Bắc/Tàu điện Hà Nội - Dấu ấn lịch sử từ năm 1900, phương tiện quen thuộc của người dân Thủ đô năm 1975.jpg',
+    heroImg: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/doi-song/mien-bac/Tau-dien-Ha-Noi-Dau-an-lich-su-tu-nam-1900-phuong-tien-quen-thuoc-cua-nguoi-dan-Thu-do-nam-1975.webp',
     heroTitle: 'Tàu Điện Leng Keng',
     heroCaption: 'Tiếng chuông leng keng rộn rã trên các tuyến đường Hàng Gai, Hàng Đào in sâu vào tâm khảm bao thế hệ người Hà Nội.',
     satelliteImgs: [
       {
         title: 'Tàu Điện Phố Hàng Gai',
-        imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Đời sống/Miền Bắc/Đường tàu điện trên phố Hàng Gai – Nhịp sống chậm rãi giữa lòng khu phố Cổ Hà Nội.jpg',
+        imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/đời sống/miền bắc/đường tàu điện trên phố hàng gai – nhịp sống chậm rãi giữa lòng khu phố cổ hà nội.webp',
         caption: 'Nhịp sống chậm rãi, bình yên giữa lòng khu phố cổ những năm 1930.'
       },
       {
         title: 'Tuổi Thơ Đu Boong Tàu',
-        imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Đời sống/Miền Bắc/Đường tàu điện cắt ngang phố Hà Nội – Ký ức tuổi thơ với những đứa trẻ đu _boong_ tàu.jpg',
+        imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/đời sống/miền bắc/đường tàu điện cắt ngang phố hà nội – ký ức tuổi thơ với những đứa trẻ đu _boong_ tàu.webp',
         caption: 'Hình ảnh thân thương gắn liền với tuổi thơ trẻ em Hà Nội một thời.'
       },
       {
         title: 'Không Khí Tết Xưa',
-        imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Đời sống/Miền Bắc/Tết tại Hà Nội trước 1954.jpg',
+        imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/doi-song/mien-bac/Tet-tai-Ha-Noi-truoc-1954.webp',
         caption: 'Không khí sắm Tết đầm ấm, đào phai khoe sắc trên hè phố trước năm 1954.'
       },
       {
         title: 'Xe Đạp Thống Nhất',
-        imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Đời sống/Miền Bắc/Xe đạp Thống Nhất – Người bạn đồng hành của gia đình Hà Nội thời bao cấp.jpg',
+        imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/doi-song/mien-bac/Xe-dap-Thong-Nhat-Nguoi-ban-dong-hanh-cua-gia-dinh-Ha-Noi-thoi-bao-cap.webp',
         caption: 'Vật báu gia đình, phương tiện thân thuộc thời kỳ bao cấp của người Tràng An.'
       }
     ],
@@ -177,8 +177,8 @@ export const HERITAGE_BENTO_CLUSTERS: HeritageBentoCluster[] = [
     historicalQuote: 'Hà Nội ba mươi sáu phố phường, tiếng chuông tàu điện sớm trưa dặt dìu, giữ gìn một nét duyên sâu lắng của thời gian.',
     quoteAuthor: 'Thạch Lam • Hà Nội 36 Phố Phường',
     locationName: 'Phố Cổ Hoàn Kiếm, Hà Nội',
-    compareBeforeImg: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Đời sống/Miền Bắc/Đường tàu điện trên phố Hàng Gai – Nhịp sống chậm rãi giữa lòng khu phố Cổ Hà Nội.jpg',
-    compareAfterImg: 'https://images.unsplash.com/photo-1528127269322-539801943592?w=1000&h=600&fit=crop',
+    compareBeforeImg: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/đời sống/miền bắc/đường tàu điện trên phố hàng gai – nhịp sống chậm rãi giữa lòng khu phố cổ hà nội.webp',
+    compareAfterImg: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp',
     compareLabelBefore: 'Phố Hàng Gai năm 1930',
     compareLabelAfter: 'Phố Hàng Gai hôm nay'
   },
@@ -193,28 +193,28 @@ export const HERITAGE_BENTO_CLUSTERS: HeritageBentoCluster[] = [
     yearEnd: 1954,
     region: 'TRUNG',
     theme: 'PHAT_GIAO',
-    heroImg: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Phật giáo/CHÙA VIỆT NAM XƯA/Bảo tháp Phước Duyên tại chùa Thiên Mụ, Huế – Biểu tượng tôn nghiêm của Phật giáo xứ Huế.jpg',
+    heroImg: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/phat-giao/chua-viet-nam-xua/Bao-thap-Phuoc-Duyen-tai-chua-Thien-Mu-Hue-Bieu-tuong-ton-nghiem-cua-Phat-giao-xu-Hue.webp',
     heroTitle: 'Bảo Tháp Phước Duyên',
     heroCaption: 'Biểu tượng thiêng liêng bên dòng sông Hương, chiếc nôi phát khởi phong trào Chấn hưng Phật giáo Trung Kỳ.',
     satelliteImgs: [
       {
         title: 'Toàn Cảnh Chùa Thiên Mụ',
-        imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Phật giáo/CHÙA VIỆT NAM XƯA/Chùa Thiên Mụ thập niên 1920 nhìn từ máy bay.jpg',
+        imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/phat-giao/chua-viet-nam-xua/Chua-Thien-Mu-thap-nien-1920-nhin-tu-may-bay.webp',
         caption: 'Toàn cảnh non nước hữu tình của Tổ đình Linh Mụ nhìn từ không trung thập niên 1920.'
       },
       {
         title: 'Ba Vị Cao Tăng',
-        imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Phật giáo/Ba vị cao Tăng Phật Giáo ở Huế, trong thời kỳ Việt Nam bị Pháp chiếm đóng.jpg',
+        imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/phat-giao/Ba-vi-cao-Tang-Phat-Giao-o-Hue-trong-thoi-ky-Viet-Nam-bi-Phap-chiem-dong.webp',
         caption: 'Các bậc Trưởng lão đạo hạnh sáng ngời, kiên cường giữ gìn mạng mạch Phật pháp.'
       },
       {
         title: 'Cụ Bà Niệm Phật',
-        imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Phật giáo/Bà lão Annam (nay là miền Trung, Việt Nam), trong trang phục truyền thống, cầm chuỗi tràng hạt cầu nguyện.jpg',
+        imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/phat-giao/Ba-lao-Annam-nay-la-mien-Trung-Viet-Nam-trong-trang-phuc-truyen-thong-cam-chuoi-trang-hat-cau-nguyen.webp',
         caption: 'Hình ảnh cụ bà với chuỗi tràng hạt bồ đề, biểu trưng cho niềm tin Tam Bảo son sắt của người dân Trung Bộ.'
       },
       {
         title: 'Gánh Hàng Nông Sản',
-        imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Đời sống/Miền Trung/Những người phụ nữ bán nông sản ven đường ở Huế năm 1926..jpg',
+        imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/doi-song/mien-trung/Nhung-nguoi-phu-nu-ban-nong-san-ven-duong-o-Hue-nam-1926-.webp',
         caption: 'Nét chân chất, bình dị của người phụ nữ Cố đô gánh gồng mưu sinh năm 1926.'
       }
     ],
@@ -222,8 +222,8 @@ export const HERITAGE_BENTO_CLUSTERS: HeritageBentoCluster[] = [
     historicalQuote: 'Tiếng chuông Thiên Mụ canh gà Thọ Xương. Dòng sông Hương phẳng lặng ôm ấp bao trầm tích tâm linh nghìn đời của chốn Thần Kinh.',
     quoteAuthor: 'Ca Dao Xứ Huế',
     locationName: 'Cố Đô Huế & Sông Hương',
-    compareBeforeImg: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Phật giáo/CHÙA VIỆT NAM XƯA/Chùa Thiên Mụ thập niên 1920 nhìn từ máy bay.jpg',
-    compareAfterImg: 'https://images.unsplash.com/photo-1559592413-7cec4d0cae2b?w=1000&h=600&fit=crop',
+    compareBeforeImg: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/phat-giao/chua-viet-nam-xua/Chua-Thien-Mu-thap-nien-1920-nhin-tu-may-bay.webp',
+    compareAfterImg: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp',
     compareLabelBefore: 'Chùa Thiên Mụ thập niên 1920',
     compareLabelAfter: 'Chùa Thiên Mụ ngày nay'
   },
@@ -238,18 +238,18 @@ export const HERITAGE_BENTO_CLUSTERS: HeritageBentoCluster[] = [
     yearEnd: 1975,
     region: 'NAM',
     theme: 'DOI_SONG',
-    heroImg: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Đời sống/Miền Nam/Chợ Bến Thành Sài Gòn năm 1964 – Vẻ đẹp sôi động qua ống kính người Pháp.jpg',
+    heroImg: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/doi-song/mien-nam/Cho-Ben-Thanh-Sai-Gon-nam-1964-Ve-dep-soi-dong-qua-ong-kinh-nguoi-Phap.webp',
     heroTitle: 'Chợ Bến Thành Sầm Uất',
     heroCaption: 'Tháp đồng hồ bốn mặt sừng sững – trung tâm giao thương sầm uất và biểu tượng kiến trúc không thể thay thế của Hòn Ngọc Viễn Đông.',
     satelliteImgs: [
       {
         title: 'Xe Thổ Mộ Song Mã',
-        imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Đời sống/Miền Nam/Xe thổ mộ đầu thế kỷ 20_ Di sản giao thông độc đáo của người Việt biến tấu từ xe song mã Châu Âu.jpg',
+        imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/doi-song/mien-nam/Xe-tho-mo-dau-the-ky-20_-Di-san-giao-thong-doc-dao-cua-nguoi-Viet-bien-tau-tu-xe-song-ma-Chau-Au.webp',
         caption: 'Phương tiện độc đáo của người Nam Kỳ lục tỉnh biến tấu từ xe song mã châu Âu.'
       },
       {
         title: 'Gánh Hàng Rong Phố Thị',
-        imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Đời sống/Miền Nam/Gánh hàng rong phố Sài Gòn năm 1950 – Sắc màu ẩm thực đường phố giữa nhịp sống sôi động của thành phố.jpg',
+        imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/doi-song/mien-nam/Ganh-hang-rong-pho-Sai-Gon-nam-1950-Sac-mau-am-thuc-duong-pho-giua-nhip-song-soi-dong-cua-thanh-pho.webp',
         caption: 'Nét ẩm thực đường phố bình dị và thân thương của Sài Gòn xưa.'
       }
     ],
@@ -257,8 +257,8 @@ export const HERITAGE_BENTO_CLUSTERS: HeritageBentoCluster[] = [
     historicalQuote: 'Đất Sài Gòn hoa lệ, lòng người Nam Bộ hào sảng bao dung. Trải qua bao năm tháng đổi thay, nếp sống nghĩa tình vẫn vẹn nguyên.',
     quoteAuthor: 'Ký Ức Đất Phương Nam',
     locationName: 'Sài Gòn - Gia Định & Cửu Long',
-    compareBeforeImg: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Đời sống/Miền Nam/Chợ Bến Thành Sài Gòn năm 1964 – Vẻ đẹp sôi động qua ống kính người Pháp.jpg',
-    compareAfterImg: 'https://images.unsplash.com/photo-1583417319070-4a69db38a482?w=1000&h=600&fit=crop',
+    compareBeforeImg: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/doi-song/mien-nam/Cho-Ben-Thanh-Sai-Gon-nam-1964-Ve-dep-soi-dong-qua-ong-kinh-nguoi-Phap.webp',
+    compareAfterImg: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp',
     compareLabelBefore: 'Chợ Bến Thành năm 1964',
     compareLabelAfter: 'Chợ Bến Thành ngày nay'
   },
@@ -273,28 +273,28 @@ export const HERITAGE_BENTO_CLUSTERS: HeritageBentoCluster[] = [
     yearEnd: 2026,
     region: 'NAM',
     theme: 'PHAT_GIAO',
-    heroImg: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Phật giáo/Vị sám chủ (giữa) và kinh sử Ứng phú Nam bộ (ảnh do Émlie Gsell người Pháp chụp khoảng vào năm 1875 – 1879).jpg',
+    heroImg: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/phat-giao/Vi-sam-chu-giua-va-kinh-su-Ung-phu-Nam-bo-anh-do-Emlie-Gsell-nguoi-Phap-chup-khoang-vao-nam-1875-1879-.webp',
     heroTitle: 'Nghi Lễ Ứng Phú',
     heroCaption: 'Bức ảnh lịch sử quý giá do Emile Gsell chụp ghi lại nghi thức xướng tụng và pháp phục truyền thống của chư Tăng Nam Bộ cuối TK 19.',
     satelliteImgs: [
       {
         title: 'Chùa Xá Lợi',
-        imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Phật giáo/CHÙA VIỆT NAM XƯA/Chùa Xá Lợi trên đường bà Huyện Thanh Quan, quận 3, Tp.HCM.jpg',
+        imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/phat-giao/chua-viet-nam-xua/Chua-Xa-Loi-tren-duong-ba-Huyen-Thanh-Quan-quan-3-Tp-HCM.webp',
         caption: 'Trung tâm phát xuất phong trào Phật giáo miền Nam những năm 1960.'
       },
       {
         title: 'Chùa Hội Phật Học',
-        imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Đời sống/Miền Nam/Chùa Hội Phật học tại Cần Thơ.jpg',
+        imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/doi-song/mien-nam/Chua-Hoi-Phat-hoc-tai-Can-Tho.webp',
         caption: 'Cơ sở giáo dục và chấn hưng Phật học vùng Tây Nam Bộ thế kỷ 20.'
       },
       {
         title: 'Chư Tăng Phương Nam',
-        imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Phật giáo/PHẬT GIÁO 3 MIỀN/Chư Tăng Phật Giáo Miền Nam.jpg',
+        imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/phat-giao/phat-giao-3-mien/Chu-Tang-Phat-Giao-Mien-Nam.webp',
         caption: 'Đoàn kết và trang nghiêm trong phụng sự nhân sinh của Phật giáo phương Nam.'
       },
       {
         title: 'Bảo Tháp Tùng Lâm Hòa Phúc',
-        imgUrl: '/images/vu-tru-phat-giao/toan-canh-chua.jpg',
+        imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp',
         caption: 'Tiếp nối mạng mạch hoằng pháp, kiến tạo không gian di sản tâm linh đương đại.'
       }
     ],
@@ -302,8 +302,8 @@ export const HERITAGE_BENTO_CLUSTERS: HeritageBentoCluster[] = [
     historicalQuote: 'Phật pháp bất ly thế gian pháp. Nối dòng tiếp mạch chư Tổ, Tùng Lâm Hòa Phúc phụng sự Chánh Pháp, kiến tạo an lạc cho muôn người.',
     quoteAuthor: 'Tùng Lâm Hòa Phúc • Đạo Từ Hoằng Pháp',
     locationName: 'Sài Gòn, Cần Thơ & Tùng Lâm Hòa Phúc',
-    compareBeforeImg: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Phật giáo/Vị sám chủ (giữa) và kinh sử Ứng phú Nam bộ (ảnh do Émlie Gsell người Pháp chụp khoảng vào năm 1875 – 1879).jpg',
-    compareAfterImg: '/images/vu-tru-phat-giao/toan-canh-chua.jpg',
+    compareBeforeImg: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/phat-giao/Vi-sam-chu-giua-va-kinh-su-Ung-phu-Nam-bo-anh-do-Emlie-Gsell-nguoi-Phap-chup-khoang-vao-nam-1875-1879-.webp',
+    compareAfterImg: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp',
     compareLabelBefore: 'Nghi lễ Phật giáo TK 19',
     compareLabelAfter: 'Tùng Lâm Hòa Phúc ngày nay'
   }
@@ -320,7 +320,7 @@ export const ALL_HERITAGE_PHOTOS: HeritagePhotoItem[] = [
     region: 'BAC',
     theme: 'DOI_SONG',
     category: 'Chợ phiên & Lao động',
-    imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Đời sống/Miền Bắc/Chợ bán đồ mây cuối thế kỉ 19 tại Hà Nội.jpg',
+    imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/doi-song/mien-bac/Cho-ban-do-may-cuoi-the-ki-19-tai-Ha-Noi.webp',
     locationName: 'Hà Nội',
     caption: 'Hàng mây tre đan tinh xảo của các làng nghề thủ công ven kinh thành Thăng Long cuối thế kỷ 19.',
     historicalContext: 'Thời kỳ đồ thủ công mây tre đan truyền thống là sản phẩm gia dụng không thể thiếu của các gia đình Hà Nội cổ xưa.'
@@ -333,7 +333,7 @@ export const ALL_HERITAGE_PHOTOS: HeritagePhotoItem[] = [
     region: 'BAC',
     theme: 'DOI_SONG',
     category: 'Phương tiện giao thông',
-    imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Đời sống/Miền Bắc/Tàu điện Hà Nội - Dấu ấn lịch sử từ năm 1900, phương tiện quen thuộc của người dân Thủ đô năm 1975.jpg',
+    imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/doi-song/mien-bac/Tau-dien-Ha-Noi-Dau-an-lich-su-tu-nam-1900-phuong-tien-quen-thuoc-cua-nguoi-dan-Thu-do-nam-1975.webp',
     locationName: 'Bờ Hồ, Hà Nội',
     caption: 'Phương tiện giao thông công cộng đầu tiên của Hà Nội, bắt đầu vận hành từ năm 1900.',
     historicalContext: 'Tuyến tàu điện Bờ Hồ - Bạch Mai, Hà Đông gắn bó với ký ức của biết bao thế hệ người Hà Nội thế kỷ 20.'
@@ -346,7 +346,7 @@ export const ALL_HERITAGE_PHOTOS: HeritagePhotoItem[] = [
     region: 'BAC',
     theme: 'DOI_SONG',
     category: 'Phụ nữ & Trang phục',
-    imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Đời sống/Miền Bắc/Chân dung những người phụ nữ thuộc tầng lớp lao động miền Bắc Việt Nam đầu thế kỷ 20..jpg',
+    imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/doi-song/mien-bac/Chan-dung-nhung-nguoi-phu-nu-thuoc-tang-lop-lao-dong-mien-Bac-Viet-Nam-dau-the-ky-20-.webp',
     locationName: 'Bắc Bộ',
     caption: 'Chân dung chân thực về người phụ nữ nông thôn Bắc Bộ với trang phục áo yếm, khăn mỏ quạ mộc mạc.',
     historicalContext: 'Ghi lại vẻ đẹp dung dị, nhẫn nại và đức hy sinh cao cả của người phụ nữ Việt Nam trong giai đoạn lịch sử giao thời.'
@@ -359,7 +359,7 @@ export const ALL_HERITAGE_PHOTOS: HeritagePhotoItem[] = [
     region: 'BAC',
     theme: 'DOI_SONG',
     category: 'Phụ nữ & Trang phục',
-    imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Đời sống/Miền Bắc/Nón quai thao chụp năm 1911.jpg',
+    imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/doi-song/mien-bac/Non-quai-thao-chup-nam-1911.webp',
     locationName: 'Kinh Bắc',
     caption: 'Nón quai thao đặc trưng vùng đồng bằng Bắc Bộ, tôn vinh nét e ấp của thiếu nữ xưa.',
     historicalContext: 'Chiếc nón Ba Tầm / nón quai thao với dải lụa tao nhã, thường được dùng trong các dịp trẩy hội mùa xuân.'
@@ -372,7 +372,7 @@ export const ALL_HERITAGE_PHOTOS: HeritagePhotoItem[] = [
     region: 'BAC',
     theme: 'DOI_SONG',
     category: 'Chợ phiên & Lao động',
-    imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Đời sống/Miền Bắc/Chợ phiên Bắc bộ xưa.jpg',
+    imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/doi-song/mien-bac/Cho-phien-Bac-bo-xua.webp',
     locationName: 'Đồng bằng Bắc Bộ',
     caption: 'Cảnh chợ quê tấp nập với những sạp hàng cói, gốm sứ và sản vật địa phương.',
     historicalContext: 'Chợ phiên là trung tâm sinh hoạt kinh tế và văn hóa cộng đồng gắn kết tình làng nghĩa xóm chốn thôn quê.'
@@ -385,7 +385,7 @@ export const ALL_HERITAGE_PHOTOS: HeritagePhotoItem[] = [
     region: 'BAC',
     theme: 'DOI_SONG',
     category: 'Lễ hội & Tín ngưỡng',
-    imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Đời sống/Miền Bắc/Nhóm phụ nữ vận chuyển đồ thờ tự chuẩn bị cho đám rước của lễ hội Phủ Giày ở Nam Định thập niên 1920.jpg',
+    imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/đời sống/miền bắc/nhóm phụ nữ vận chuyển đồ thờ tự chuẩn bị cho đám rước của lễ hội phủ giày ở nam định thập niên 1920.webp',
     locationName: 'Vụ Bản, Nam Định',
     caption: 'Nhóm phụ nữ khiêng rước đồ thờ tự chuẩn bị cho lễ hội Mẫu Liễu Hạnh tại Phủ Giày.',
     historicalContext: 'Di sản thực hành Tín ngưỡng Thờ Mẫu Tam Phủ của người Việt được bảo tồn qua bao thế hệ.'
@@ -398,7 +398,7 @@ export const ALL_HERITAGE_PHOTOS: HeritagePhotoItem[] = [
     region: 'BAC',
     theme: 'DOI_SONG',
     category: 'Ký ức Phố cổ',
-    imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Đời sống/Miền Bắc/Đường tàu điện trên phố Hàng Gai – Nhịp sống chậm rãi giữa lòng khu phố Cổ Hà Nội.jpg',
+    imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/đời sống/miền bắc/đường tàu điện trên phố hàng gai – nhịp sống chậm rãi giữa lòng khu phố cổ hà nội.webp',
     locationName: 'Phố Hàng Gai, Hà Nội',
     caption: 'Tàu điện lướt nhẹ qua những mái ngói rêu phong phố cổ Hàng Gai.',
     historicalContext: 'Phố Hàng Gai thời kỳ này là trung tâm tơ lụa sầm uất bậc nhất của Hà Nội xưa.'
@@ -411,7 +411,7 @@ export const ALL_HERITAGE_PHOTOS: HeritagePhotoItem[] = [
     region: 'BAC',
     theme: 'DOI_SONG',
     category: 'Phong tục & Lễ hội',
-    imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Đời sống/Miền Bắc/Tết tại Hà Nội trước 1954.jpg',
+    imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/doi-song/mien-bac/Tet-tai-Ha-Noi-truoc-1954.webp',
     locationName: 'Hà Nội',
     caption: 'Chợ hoa Tết rộn ràng trên hè phố Hàng Lược với cành đào bích truyền thống.',
     historicalContext: 'Nếp đón Tết trang trọng, ấm cúng và tao nhã của người Hà Nội giữa giai đoạn lịch sử chuyển biến.'
@@ -424,7 +424,7 @@ export const ALL_HERITAGE_PHOTOS: HeritagePhotoItem[] = [
     region: 'BAC',
     theme: 'DOI_SONG',
     category: 'Đời sống Bao cấp',
-    imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Đời sống/Miền Bắc/Xe đạp Thống Nhất – Người bạn đồng hành của gia đình Hà Nội thời bao cấp.jpg',
+    imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/doi-song/mien-bac/Xe-dap-Thong-Nhat-Nguoi-ban-dong-hanh-cua-gia-dinh-Ha-Noi-thoi-bao-cap.webp',
     locationName: 'Hà Nội',
     caption: 'Chiếc xe đạp Thống Nhất có biển số xe – gia tài quý giá của mỗi gia đình thời bao cấp.',
     historicalContext: 'Chiếc xe đạp Thống Nhất trở thành biểu tượng của sự bền bỉ, tiết kiệm và tinh thần vượt khó của người Việt.'
@@ -439,7 +439,7 @@ export const ALL_HERITAGE_PHOTOS: HeritagePhotoItem[] = [
     region: 'TRUNG',
     theme: 'DOI_SONG',
     category: 'Phong tục & Chợ quê',
-    imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Đời sống/Miền Trung/Một phụ nữ gánh vàng mã ra chợ ở làng Đông Sơn, Thanh Hóa..jpg',
+    imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/đời sống/miền trung/một phụ nữ gánh vàng mã ra chợ ở làng đông sơn, thanh hóa..webp',
     locationName: 'Đông Sơn, Thanh Hóa',
     caption: 'Hình ảnh phụ nữ gánh hàng mã ra chợ làng Đông Sơn, Thanh Hóa đầu thế kỷ 20.',
     historicalContext: 'Vùng đất Đông Sơn cổ kính lưu giữ những phong tục tín ngưỡng dân gian đậm đà bản sắc.'
@@ -452,7 +452,7 @@ export const ALL_HERITAGE_PHOTOS: HeritagePhotoItem[] = [
     region: 'TRUNG',
     theme: 'DOI_SONG',
     category: 'Đời sống Cố đô',
-    imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Đời sống/Miền Trung/Những người phụ nữ bán nông sản ven đường ở Huế năm 1926..jpg',
+    imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/doi-song/mien-trung/Nhung-nguoi-phu-nu-ban-nong-san-ven-duong-o-Hue-nam-1926-.webp',
     locationName: 'Huế',
     caption: 'Hình ảnh gánh rau quả ven thành nội Huế năm 1926.',
     historicalContext: 'Cuộc sống mộc mạc bên dòng sông Hương và những con đường rợp bóng cây xanh xứ Huế.'
@@ -465,7 +465,7 @@ export const ALL_HERITAGE_PHOTOS: HeritagePhotoItem[] = [
     region: 'TRUNG',
     theme: 'DOI_SONG',
     category: 'Xã hội Miền Trung',
-    imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Đời sống/Miền Trung/Cận cảnh cuộc sống của dân nghèo ở Huế năm 1961.jpg',
+    imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/doi-song/mien-trung/Can-canh-cuoc-song-cua-dan-ngheo-o-Hue-nam-1961.webp',
     locationName: 'Huế',
     caption: 'Hình ảnh chân thực về đời sống người dân lao động Huế thập niên 1960.',
     historicalContext: 'Tư liệu quý giá phản ánh đời sống xã hội miền Trung trước năm 1975.'
@@ -480,7 +480,7 @@ export const ALL_HERITAGE_PHOTOS: HeritagePhotoItem[] = [
     region: 'NAM',
     theme: 'DOI_SONG',
     category: 'Di tích Gia Định',
-    imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Đời sống/Miền Nam/Lăng Ông - Bà Chiểu_ Khu lăng mộ Tả quân Lê Văn Duyệt tại Gia Định, dấu ấn lịch sử Sài Gòn thế kỷ 19.jpg',
+    imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/đời sống/miền nam/lăng ông - bà chiểu_ khu lăng mộ tả quân lê văn duyệt tại gia định, dấu ấn lịch sử sài gòn thế kỷ 19.webp',
     locationName: 'Bình Thạnh, Gia Định',
     caption: 'Di tích Lăng Tả quân Lê Văn Duyệt – trung tâm sinh hoạt văn hóa tâm linh bậc nhất Nam Bộ.',
     historicalContext: 'Nơi người dân Sài Gòn - Gia Định kính ngưỡng vị công thần khai phá và bảo bọc vùng đất phương Nam.'
@@ -493,7 +493,7 @@ export const ALL_HERITAGE_PHOTOS: HeritagePhotoItem[] = [
     region: 'NAM',
     theme: 'DOI_SONG',
     category: 'Giao thông Nam Bộ',
-    imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Đời sống/Miền Nam/Xe thổ mộ đầu thế kỷ 20_ Di sản giao thông độc đáo của người Việt biến tấu từ xe song mã Châu Âu.jpg',
+    imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/doi-song/mien-nam/Xe-tho-mo-dau-the-ky-20_-Di-san-giao-thong-doc-dao-cua-nguoi-Viet-bien-tau-tu-xe-song-ma-Chau-Au.webp',
     locationName: 'Sài Gòn - Lục Tỉnh',
     caption: 'Chiếc xe ngựa thổ mộ lóc cóc trên các nẻo đường Lục Tỉnh Nam Kỳ xưa.',
     historicalContext: 'Phương tiện vận chuyển người và hàng hóa độc đáo, ăn sâu vào đời sống văn hóa Nam Bộ.'
@@ -506,7 +506,7 @@ export const ALL_HERITAGE_PHOTOS: HeritagePhotoItem[] = [
     region: 'NAM',
     theme: 'DOI_SONG',
     category: 'Sông nước Cửu Long',
-    imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Đời sống/Miền Nam/Con thuyền gắn với cuộc sống miền Tây Nam bộ xưa.jpg',
+    imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/doi-song/mien-nam/Con-thuyen-gan-voi-cuoc-song-mien-Tay-Nam-bo-xua.webp',
     locationName: 'Miền Tây Nam Bộ',
     caption: 'Chiếc thuyền gỗ xuôi ngược trên những kênh rạch chằng chịt miền Tây.',
     historicalContext: 'Văn hóa sông nước định hình lối sống, tính cách hào hiệp, phóng khoáng của người miền Tây.'
@@ -519,7 +519,7 @@ export const ALL_HERITAGE_PHOTOS: HeritagePhotoItem[] = [
     region: 'NAM',
     theme: 'DOI_SONG',
     category: 'Ẩm thực đường phố',
-    imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Đời sống/Miền Nam/Gánh hàng rong phố Sài Gòn năm 1950 – Sắc màu ẩm thực đường phố giữa nhịp sống sôi động của thành phố.jpg',
+    imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/doi-song/mien-nam/Ganh-hang-rong-pho-Sai-Gon-nam-1950-Sac-mau-am-thuc-duong-pho-giua-nhip-song-soi-dong-cua-thanh-pho.webp',
     locationName: 'Sài Gòn',
     caption: 'Đôi quang gánh trĩu nặng ân tình của những người mẹ, người chị trên đường phố Sài Gòn.',
     historicalContext: 'Ẩm thực đường phố Sài Gòn là sự giao thoa phong phú giữa ba miền và văn hóa bản địa.'
@@ -532,7 +532,7 @@ export const ALL_HERITAGE_PHOTOS: HeritagePhotoItem[] = [
     region: 'NAM',
     theme: 'DOI_SONG',
     category: 'Phố thị Sài Gòn',
-    imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Đời sống/Miền Nam/Chợ Bến Thành Sài Gòn năm 1964 – Vẻ đẹp sôi động qua ống kính người Pháp.jpg',
+    imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/doi-song/mien-nam/Cho-Ben-Thanh-Sai-Gon-nam-1964-Ve-dep-soi-dong-qua-ong-kinh-nguoi-Phap.webp',
     locationName: 'Quận 1, Sài Gòn',
     caption: 'Toàn cảnh chợ Bến Thành với tháp đồng hồ trứ danh năm 1964.',
     historicalContext: 'Ngôi chợ trung tâm chứng kiến bao bước thăng trầm lịch sử và sự phát triển vượt bậc của Sài Gòn.'
@@ -545,7 +545,7 @@ export const ALL_HERITAGE_PHOTOS: HeritagePhotoItem[] = [
     region: 'NAM',
     theme: 'DOI_SONG',
     category: 'Sông nước Cửu Long',
-    imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Đời sống/Miền Nam/Thuyền gỗ trên sông Hậu năm 1965 – Vận chuyển hàng hóa và người dân đến chợ Cần Thơ, giữa lòng Sông Cửu Long.jpg',
+    imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/doi-song/mien-nam/Thuyen-go-tren-song-Hau-nam-1965-Van-chuyen-hang-hoa-va-nguoi-dan-den-cho-Can-Tho-giua-long-Song-Cuu-Long.webp',
     locationName: 'Cần Thơ',
     caption: 'Những chuyến đò chở đầy hoa trái tươi ngon đến chợ nổi Tây Đô.',
     historicalContext: 'Cần Thơ - thủ phủ miền Tây Nam Bộ rộn rã thuyền bè giao thương trên dòng sông Hậu hiền hòa.'
@@ -560,7 +560,7 @@ export const ALL_HERITAGE_PHOTOS: HeritagePhotoItem[] = [
     region: 'BAC',
     theme: 'PHAT_GIAO',
     category: 'Chân dung & Tăng đoàn',
-    imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Phật giáo/Vị Tăng sư An Nam thời Nguyễn trong mũ Ni và áo châu lĩnh – Chân dung lịch sử năm 1872 qua ống kính Esmile Gsell.jpg',
+    imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/phat-giao/Vi-Tang-su-An-Nam-thoi-Nguyen-trong-mu-Ni-va-ao-chau-linh-Chan-dung-lich-su-nam-1872-qua-ong-kinh-Esmile-Gsell.webp',
     locationName: 'Bắc Bộ',
     caption: 'Vị Tăng sư An Nam thời Nguyễn trong mũ Ni và áo châu lĩnh – Chân dung lịch sử năm 1872 qua ống kính Emile Gsell.',
     historicalContext: 'Bức ảnh chân dung cổ quý hiếm bậc nhất về tăng phục cổ truyền Việt Nam thế kỷ 19.'
@@ -573,7 +573,7 @@ export const ALL_HERITAGE_PHOTOS: HeritagePhotoItem[] = [
     region: 'BAC',
     theme: 'PHAT_GIAO',
     category: 'Danh Lam Cổ Tự',
-    imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Phật giáo/CHÙA VIỆT NAM XƯA/Chùa Một Cột xưa.jpg',
+    imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/phat-giao/chua-viet-nam-xua/Chua-Mot-Cot-xua.webp',
     locationName: 'Ba Đình, Hà Nội',
     caption: 'Chùa Diên Hựu thời Nguyễn với ao sen và trụ đá nghìn năm.',
     historicalContext: 'Kiến trúc hoa sen độc nhất vô nhị do vua Lý Thái Tông khởi dựng năm 1049.'
@@ -586,7 +586,7 @@ export const ALL_HERITAGE_PHOTOS: HeritagePhotoItem[] = [
     region: 'BAC',
     theme: 'PHAT_GIAO',
     category: 'Danh Lam Cổ Tự',
-    imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Phật giáo/CHÙA VIỆT NAM XƯA/Chùa Trấn Quốc ảnh chụp bởi nhiếp ảnh gia người Pháp Pierre Dieueflis.jpg',
+    imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/phat-giao/chua-viet-nam-xua/Chua-Tran-Quoc-anh-chup-boi-nhiep-anh-gia-nguoi-Phap-Pierre-Dieueflis.webp',
     locationName: 'Tây Hồ, Hà Nội',
     caption: 'Cổ tự Khai Quốc trên bán đảo Kim Ngư giữa lòng Hồ Tây mênh mang sóng nước.',
     historicalContext: 'Ngôi chùa cổ nhất của thủ đô Hà Nội, khởi lập từ thời Tiền Lý (thế kỷ thứ 6).'
@@ -599,7 +599,7 @@ export const ALL_HERITAGE_PHOTOS: HeritagePhotoItem[] = [
     region: 'BAC',
     theme: 'PHAT_GIAO',
     category: 'Danh Lam Cổ Tự',
-    imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Phật giáo/CHÙA VIỆT NAM XƯA/Chùa Láng, tên chữ là Chiêu Thiền Tự ở Láng Thượng.jpg',
+    imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/phat-giao/chua-viet-nam-xua/Chua-Lang-ten-chu-la-Chieu-Thien-Tu-o-Lang-Thuong.webp',
     locationName: 'Đống Đa, Hà Nội',
     caption: 'Chiêu Thiền Tự uy nghiêm nơi thờ Thiền sư Từ Đạo Hạnh thời Lý.',
     historicalContext: 'Ngôi chùa có kiến trúc hàng thông cổ thụ và quần thể di tích tâm linh linh thiêng của đất Thăng Long.'
@@ -612,7 +612,7 @@ export const ALL_HERITAGE_PHOTOS: HeritagePhotoItem[] = [
     region: 'BAC',
     theme: 'PHAT_GIAO',
     category: 'Danh Lam Cổ Tự',
-    imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Phật giáo/CHÙA VIỆT NAM XƯA/Chùa Đọ có tên chữ là Quang Minh tự, ở Làng Đỗ Xá nay thuộc địa phận Ninh Giang, thành phố Bắc Ninh, ảnh được chụp vào năm 1897.jpg',
+    imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/phật giáo/chùa việt nam xưa/chùa đọ có tên chữ là quang minh tự, ở làng đỗ xá nay thuộc địa phận ninh giang, thành phố bắc ninh, ảnh được chụp vào năm 1897.webp',
     locationName: 'Bắc Ninh',
     caption: 'Kiến trúc gỗ cổ truyền chụp năm 1897 của chùa Đọ, Bắc Ninh.',
     historicalContext: 'Minh chứng cho kỹ thuật điêu khắc gỗ tinh xảo và truyền thống thờ Phật tại xứ Kinh Bắc.'
@@ -625,7 +625,7 @@ export const ALL_HERITAGE_PHOTOS: HeritagePhotoItem[] = [
     region: 'BAC',
     theme: 'PHAT_GIAO',
     category: 'Danh Lam Cổ Tự',
-    imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Phật giáo/CHÙA VIỆT NAM XƯA/Một cái tháp của chùa Bảo-Ân bên bờ hồ Hoàn-Kiếm.jpg',
+    imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/phat-giao/chua-viet-nam-xua/Mot-cai-thap-cua-chua-Bao-An-ben-bo-ho-Hoan-Kiem.webp',
     locationName: 'Hồ Hoàn Kiếm, Hà Nội',
     caption: 'Dấu tích Tháp Hòa Phong – hạng mục còn lại của quần thể đại cổ tự Báo Ân bên hồ Gươm.',
     historicalContext: 'Chùa Báo Ân (chùa Liên Trì) từng là một trong những ngôi chùa quy mô tráng lệ nhất Hà Nội thế kỷ 19.'
@@ -638,7 +638,7 @@ export const ALL_HERITAGE_PHOTOS: HeritagePhotoItem[] = [
     region: 'BAC',
     theme: 'PHAT_GIAO',
     category: 'Sự Kiện Lịch Sử',
-    imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Phật giáo/Công binh di dời tượng Phật nặng 9 tấn ở chùa Thần Quang, Ngũ Xá (tháng 12.1950).jpg',
+    imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/phat-giao/Cong-binh-di-doi-tuong-Phat-nang-9-tan-o-chua-Than-Quang-Ngu-Xa-thang-12-1950-.webp',
     locationName: 'Ngũ Xá, Hà Nội',
     caption: 'Công binh phối hợp di dời đại tượng Phật A Di Đà bằng đồng nặng 9 tấn vào Phật điện chùa Thần Quang tháng 12/1950.',
     historicalContext: 'Pho đại tượng đồng đúc nguyên khối kỳ vĩ – kiệt tác của nghệ nhân đúc đồng làng Ngũ Xá.'
@@ -651,7 +651,7 @@ export const ALL_HERITAGE_PHOTOS: HeritagePhotoItem[] = [
     region: 'BAC',
     theme: 'PHAT_GIAO',
     category: 'Sự Kiện Lịch Sử',
-    imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Phật giáo/Bức tượng Quan thế âm chùa Một Cột sau vụ nổ năm 1954.jpg',
+    imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/phat-giao/Buc-tuong-Quan-the-am-chua-Mot-Cot-sau-vu-no-nam-1954.webp',
     locationName: 'Hà Nội',
     caption: 'Bức tôn tượng Quan Thế Âm linh thiêng vẫn vẹn nguyên sau vụ nổ năm 1954 trước ngày Giải phóng Thủ đô.',
     historicalContext: 'Minh chứng cho sự trường tồn và linh ứng của ngôi cổ tự thiêng liêng đất Thăng Long.'
@@ -666,7 +666,7 @@ export const ALL_HERITAGE_PHOTOS: HeritagePhotoItem[] = [
     region: 'TRUNG',
     theme: 'PHAT_GIAO',
     category: 'Danh Lam & Tháp Cổ',
-    imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Phật giáo/CHÙA VIỆT NAM XƯA/Bảo tháp Phước Duyên tại chùa Thiên Mụ, Huế – Biểu tượng tôn nghiêm của Phật giáo xứ Huế.jpg',
+    imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/phat-giao/chua-viet-nam-xua/Bao-thap-Phuoc-Duyen-tai-chua-Thien-Mu-Hue-Bieu-tuong-ton-nghiem-cua-Phat-giao-xu-Hue.webp',
     locationName: 'Chùa Thiên Mụ, Huế',
     caption: 'Bảo tháp Phước Duyên 7 tầng hình bát giác vươn cao bên dòng Hương Giang thơ mộng.',
     historicalContext: 'Xây dựng năm 1844 dưới thời vua Thiệu Trị, mỗi tầng tháp thờ một vị Phật thiêng liêng.'
@@ -679,7 +679,7 @@ export const ALL_HERITAGE_PHOTOS: HeritagePhotoItem[] = [
     region: 'TRUNG',
     theme: 'PHAT_GIAO',
     category: 'Danh Lam & Tháp Cổ',
-    imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Phật giáo/CHÙA VIỆT NAM XƯA/Chùa Thiên Mụ thập niên 1920 nhìn từ máy bay.jpg',
+    imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/phat-giao/chua-viet-nam-xua/Chua-Thien-Mu-thap-nien-1920-nhin-tu-may-bay.webp',
     locationName: 'Đồi Hà Khê, Huế',
     caption: 'Bức ảnh chụp trên không độc đáo ghi lại toàn cảnh đồi Hà Khê và chùa Thiên Mụ.',
     historicalContext: 'Cổ tự do chúa Tiên Nguyễn Hoàng khởi lập năm 1601, biểu tượng Phật giáo xứ Đàng Trong.'
@@ -692,7 +692,7 @@ export const ALL_HERITAGE_PHOTOS: HeritagePhotoItem[] = [
     region: 'TRUNG',
     theme: 'PHAT_GIAO',
     category: 'Tăng Già & Đạo Phong',
-    imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Phật giáo/Ba vị cao Tăng Phật Giáo ở Huế, trong thời kỳ Việt Nam bị Pháp chiếm đóng.jpg',
+    imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/phat-giao/Ba-vi-cao-Tang-Phat-Giao-o-Hue-trong-thoi-ky-Viet-Nam-bi-Phap-chiem-dong.webp',
     locationName: 'Huế',
     caption: 'Chân dung đạo hạnh uy nghiêm của ba vị cao Tăng xứ Huế thời kỳ Pháp thuộc.',
     historicalContext: 'Các bậc Tăng tài đức độ đã đặt nền móng cho phong trào Chấn hưng Phật giáo Trung Bộ năm 1932.'
@@ -705,7 +705,7 @@ export const ALL_HERITAGE_PHOTOS: HeritagePhotoItem[] = [
     region: 'TRUNG',
     theme: 'PHAT_GIAO',
     category: 'Nghi Lễ Phật Giáo',
-    imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Phật giáo/Tăng Cang trong Pháp phục cà sa, mũ Hiếp Chưởng tại đám tang vua Khải Định (1925) – Hình ảnh các vị Tăng Sắc Tứ trong nghi lễ triều đình thời Pháp thuộc.jpg',
+    imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/phật giáo/tăng cang trong pháp phục cà sa, mũ hiếp chưởng tại đám tang vua khải định (1925) – hình ảnh các vị tăng sắc tứ trong nghi lễ triều đình thời pháp thuộc.webp',
     locationName: 'Kinh Thành Huế',
     caption: 'Tăng Cang trong Pháp phục cà sa gấm và mũ Hiếp Chưởng thực hiện nghi lễ cầu siêu chốn cung đình.',
     historicalContext: 'Nghi lễ Phật giáo truyền thống gắn bó mật thiết với hoàng gia triều Nguyễn.'
@@ -720,7 +720,7 @@ export const ALL_HERITAGE_PHOTOS: HeritagePhotoItem[] = [
     region: 'NAM',
     theme: 'PHAT_GIAO',
     category: 'Nghi Lễ & Tăng Đoàn',
-    imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Phật giáo/Vị sám chủ (giữa) và kinh sử Ứng phú Nam bộ (ảnh do Émlie Gsell người Pháp chụp khoảng vào năm 1875 – 1879).jpg',
+    imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/phat-giao/Vi-sam-chu-giua-va-kinh-su-Ung-phu-Nam-bo-anh-do-Emlie-Gsell-nguoi-Phap-chup-khoang-vao-nam-1875-1879-.webp',
     locationName: 'Gia Định - Nam Bộ',
     caption: 'Bức ảnh chụp bởi Emile Gsell ghi lại nghi thức tụng niệm và pháp khí Kim Cang của Tăng sĩ Nam Bộ.',
     historicalContext: 'Nghi lễ Ứng Phú Nam Bộ mang nét đặc sắc của văn hóa nghi lễ Phật giáo Nam Bộ xưa.'
@@ -733,7 +733,7 @@ export const ALL_HERITAGE_PHOTOS: HeritagePhotoItem[] = [
     region: 'NAM',
     theme: 'PHAT_GIAO',
     category: 'Cơ Sở Hoằng Pháp',
-    imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Phật giáo/CHÙA VIỆT NAM XƯA/Chùa Xá Lợi trên đường bà Huyện Thanh Quan, quận 3, Tp.HCM.jpg',
+    imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/phat-giao/chua-viet-nam-xua/Chua-Xa-Loi-tren-duong-ba-Huyen-Thanh-Quan-quan-3-Tp-HCM.webp',
     locationName: 'Quận 3, Sài Gòn',
     caption: 'Chùa Xá Lợi với tháp chuông 7 tầng – trung tâm của phong trào Phật giáo miền Nam.',
     historicalContext: 'Ngôi chùa lịch sử được xây dựng năm 1956 để phụng thờ Xá Lợi Phật và hoằng dương Chánh pháp.'
@@ -746,7 +746,7 @@ export const ALL_HERITAGE_PHOTOS: HeritagePhotoItem[] = [
     region: 'NAM',
     theme: 'PHAT_GIAO',
     category: 'Cơ Sở Hoằng Pháp',
-    imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Đời sống/Miền Nam/Chùa Hội Phật học tại Cần Thơ.jpg',
+    imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/doi-song/mien-nam/Chua-Hoi-Phat-hoc-tai-Can-Tho.webp',
     locationName: 'Cần Thơ',
     caption: 'Trụ sở Hội Phật học Cần Thơ – nơi đào tạo tăng tài và ấn tống kinh sách vùng Tây Nam Bộ.',
     historicalContext: 'Dấu ấn rực rỡ của phong trào Chấn hưng Phật giáo Nam Kỳ lục tỉnh.'
@@ -759,7 +759,7 @@ export const ALL_HERITAGE_PHOTOS: HeritagePhotoItem[] = [
     region: 'NAM',
     theme: 'PHAT_GIAO',
     category: 'Nghi Lễ & Tăng Đoàn',
-    imgUrl: '/images/vu-tru-phat-giao/bao-tang/trien-lam/Phật giáo/PHẬT GIÁO 3 MIỀN/Chư Tăng Phật Giáo Miền Nam.jpg',
+    imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/phat-giao/phat-giao-3-mien/Chu-Tang-Phat-Giao-Mien-Nam.webp',
     locationName: 'Sài Gòn - Nam Bộ',
     caption: 'Chư Tăng Nam Bộ trong pháp hội trang nghiêm, đoàn kết phụng sự đạo pháp và nhân sinh.',
     historicalContext: 'Tinh thần lục hòa cộng trụ và phụng sự nhân sinh của tăng đoàn phương Nam.'

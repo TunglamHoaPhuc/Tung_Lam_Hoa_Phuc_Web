@@ -1,32 +1,6 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Playfair_Display, Noto_Serif } from "next/font/google";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-// Fallback 1: Playfair Display – dùng cho tiêu đề trang Phật giáo khi UTM Niagara/ClassizismAntiqua chưa load
-const playfairDisplay = Playfair_Display({
-  variable: "--font-playfair",
-  subsets: ["latin", "vietnamese"],
-  weight: ["400", "500", "600", "700", "800", "900"],
-  display: "swap",
-});
-
-// Fallback 2: Noto Serif – dùng cho body text khi UTM Avo chưa load (hỗ trợ đầy đủ tiếng Việt)
-const notoSerif = Noto_Serif({
-  variable: "--font-noto-serif",
-  subsets: ["latin", "vietnamese"],
-  weight: ["400", "700"],
-  display: "swap",
-});
+// ZenAudioPlayer tạm tắt theo yêu cầu (sẽ bật lại sau)
 
 // Sửa lại thông tin SEO chuẩn cho Cổng thông tin của Chùa
 export const metadata: Metadata = {
@@ -41,16 +15,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="vi"
-      className={`${geistSans.variable} ${geistMono.variable} ${playfairDisplay.variable} ${notoSerif.variable} h-full antialiased`}
-      suppressHydrationWarning
-    >
-      <body
-        className="min-h-full flex flex-col m-0 p-0"
-        suppressHydrationWarning
-      >
+    <html lang="vi" className="h-full antialiased" suppressHydrationWarning>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600;1,700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600;1,700&family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap"
+          rel="stylesheet"
+        />
+      </head>
+      <body className="min-h-full flex flex-col m-0 p-0 font-sans relative" suppressHydrationWarning>
         {children}
+        {/* <ZenAudioPlayer /> - Tắt tạm thời */}
       </body>
     </html>
   );

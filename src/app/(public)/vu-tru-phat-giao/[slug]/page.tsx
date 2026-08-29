@@ -73,7 +73,7 @@ export default function UniverseDetailPage() {
       subtitle: "TÙNG LÂM HÒA PHÚC",
       temple: "tung-lam-hoa-phuc",
       templeName: "Tùng Lâm Hòa Phúc",
-      imgUrl: "https://images.unsplash.com/photo-1618165220283-e85246c4171c?w=1100&h=600&fit=crop",
+      imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
       mapPos: { x: 50, y: 50 },
       description: `Không gian tâm linh ${formattedTitle} thuộc tự viện Tùng Lâm Hòa Phúc. Nơi đây là điểm tựa tinh thần trang nghiêm để chư tôn đức và Phật tử thập phương cúng dường lễ bái, tụng kinh và chiêm bái các pho bảo tượng Phật giáo truyền thống.`,
       fullContent: `Không gian tâm linh ${formattedTitle} thuộc tự viện Tùng Lâm Hòa Phúc. Nơi đây là điểm tựa tinh thần trang nghiêm để chư tôn đức và Phật tử thập phương cúng dường lễ bái, tụng kinh và chiêm bái các pho bảo tượng Phật giáo truyền thống.`,

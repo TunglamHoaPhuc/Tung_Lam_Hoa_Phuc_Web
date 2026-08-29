@@ -2,7 +2,7 @@
 
 import React, { FC, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Sparkles, Compass } from 'lucide-react';
+import { X, Sparkles, Compass, ArrowRight } from 'lucide-react';
 import { THAT_PHAT_DUOC_SU_DATA, ThatPhatDuocSuItem } from '@/data/statue-data';
 
 export const ThatPhatDuocSuSection: FC = () => {
@@ -122,11 +122,11 @@ export const ThatPhatDuocSuSection: FC = () => {
                   {/* Hover Button */}
                   <div className="w-full mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex justify-center shrink-0">
                     <span
-                      className="inline-flex items-center justify-center gap-1 px-3 py-0.5 rounded-full bg-gradient-to-r from-[#D4A017] to-[#F2C14E] text-[#1C130D] font-bold text-[10px] uppercase shadow-md hover:brightness-110 transition-all cursor-pointer"
+                      className="inline-flex items-center justify-center gap-1.5 px-3 py-0.5 rounded-full bg-gradient-to-r from-[#D4A017] to-[#F2C14E] text-[#1C130D] font-bold text-[10px] uppercase shadow-md hover:brightness-110 transition-all cursor-pointer"
                       style={{ fontFamily: "'UTM Avo', sans-serif" }}
                     >
                       <span>CHI TIẾT</span>
-                      <span>➔</span>
+                      <ArrowRight className="w-3 h-3" />
                     </span>
                   </div>
                 </div>

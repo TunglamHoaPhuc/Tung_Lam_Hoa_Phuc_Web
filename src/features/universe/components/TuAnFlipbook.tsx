@@ -7,7 +7,7 @@ const TOTAL_PAGES = 30;
 
 const PAGES = Array.from({ length: TOTAL_PAGES }, (_, i) => ({
   pageNumber: i + 1,
-  src: `/images/tu-an-book/page_${String(i + 1).padStart(2, '0')}.webp`,
+  src: `https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/page_${String(i + 1).padStart(2, '0')}.webp`,
   title: i === 0 ? 'Bìa Sách: Nhà Tứ Ân' : i === TOTAL_PAGES - 1 ? 'Bìa Sau' : `Trang ${i + 1}`,
 }));
 

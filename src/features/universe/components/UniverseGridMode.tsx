@@ -2,6 +2,7 @@
 
 import React, { FC, useState, useMemo } from "react";
 import Link from "next/link";
+import { Map as MapIcon, LayoutGrid } from "lucide-react";
 import { UNIVERSE_AREAS, UniverseArea } from "@/data/universe-data";
 import { CategoryFilter, SortOption } from "@/components/common/CategoryFilter";
 
@@ -158,7 +159,7 @@ export const UniverseGridMode: FC<UniverseGridModeProps> = ({ viewMode, onToggle
           <button
             type="button"
             onClick={() => onToggleViewMode("2d")}
-            className={`px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${is2dActive
+            className={`px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer ${is2dActive
                 ? "bg-[#F2C14E] text-[#2A1D14] shadow-md"
                 : "bg-transparent text-[#FFE5A3]/60 hover:text-[#FFE5A3]"
               }`}
@@ -166,13 +167,14 @@ export const UniverseGridMode: FC<UniverseGridModeProps> = ({ viewMode, onToggle
               fontFamily: "'UTM Avo', sans-serif",
             }}
           >
-            <span>🎯 SƠ ĐỒ 2D</span>
+            <MapIcon className="w-3.5 h-3.5" />
+            <span>SƠ ĐỒ 2D</span>
           </button>
 
           <button
             type="button"
             onClick={() => onToggleViewMode("grid")}
-            className={`px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${viewMode === "grid"
+            className={`px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all flex items-center gap-2 cursor-pointer ${viewMode === "grid"
                 ? "bg-[#F2C14E] text-[#2A1D14] shadow-md"
                 : "bg-transparent text-[#FFE5A3]/60 hover:text-[#FFE5A3]"
               }`}
@@ -180,7 +182,8 @@ export const UniverseGridMode: FC<UniverseGridModeProps> = ({ viewMode, onToggle
               fontFamily: "'UTM Avo', sans-serif",
             }}
           >
-            <span>🔲 DẠNG LƯỚI GRID</span>
+            <LayoutGrid className="w-3.5 h-3.5" />
+            <span>DẠNG LƯỚI GRID</span>
           </button>
         </div>
       </div>

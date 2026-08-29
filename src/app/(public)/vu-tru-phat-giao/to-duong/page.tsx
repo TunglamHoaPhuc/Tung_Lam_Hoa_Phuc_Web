@@ -77,7 +77,7 @@ export default function ToDuongPage() {
         {/* ── HEROBANNER ── */}
         <HeroBanner
           id="herobanner"
-          bannerUrl="https://images.unsplash.com/photo-1564834325499-cd770c8ed0ef?w=1600&h=900&fit=crop"
+          bannerUrl="https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp"
           title="TỔ ĐƯỜNG"
           subtitle="TỔ ẤN TRÙNG QUANG"
         />

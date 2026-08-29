@@ -27,7 +27,7 @@ export interface VerticalAnchorNavProps {
 export const VerticalAnchorNav: FC<VerticalAnchorNavProps> = ({
   sections,
   pageTitle = "TRANG CHỦ",
-  logoUrl = "https://tunglam.mocwp.com/wp-content/uploads/2026/07/bieu-tuong-tong-chi-tu-hoc-tung-lam-hoa-phuc.png",
+  logoUrl = "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/bieu-tuong-tong-chi-tu-hoc-tung-lam-hoa-phuc.webp",
   activeSectionId,
   onSectionChange,
   position = "left",
@@ -117,7 +117,7 @@ export const VerticalAnchorNav: FC<VerticalAnchorNavProps> = ({
 
   return (
     <aside
-      className={`fixed top-1/2 -translate-y-1/2 z-50 flex flex-col items-center gap-3 transition-opacity duration-300 ${positionClass} ${
+      className={`fixed top-1/2 -translate-y-1/2 z-50 hidden md:flex flex-col items-center gap-3 transition-opacity duration-300 ${positionClass} ${
         isVisible
           ? "opacity-100 translate-x-0"
           : `opacity-0 ${translateOffClass} pointer-events-none`

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { FC, useState, useMemo } from 'react';
+import { ArrowRight } from 'lucide-react';
 import { OFFICIAL_NTPG_LIST, normalizeAreaId } from '@/data/statue-data';
 import { ArtisticStatueModal, NTPGModalItem } from './ArtisticStatueModal';
 import { ThapBatLaHanGrid } from './ThapBatLaHanGrid';
@@ -217,7 +218,7 @@ export const ArtisticStatueSection: FC<ArtisticStatueSectionProps> = ({
                     style={{ fontFamily: "'UTM Avo', sans-serif" }}
                   >
                     <span>XEM THÊM BẢO TƯỢNG NGHỆ THUẬT TẠI {areaDisplayName} (+{remainingCount} PHO TƯỢNG)</span>
-                    <span className="text-lg">➔</span>
+                    <ArrowRight className="w-4 h-4" />
                   </button>
                 </div>
               )}

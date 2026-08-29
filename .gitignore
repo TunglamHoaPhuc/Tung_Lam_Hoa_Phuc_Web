@@ -74,7 +74,11 @@ next-env.d.ts
 *.xlsx
 *.pdf
 *.docx
+*.exe
+*.zip
 scratch/
 danh_sach_file_anh.txt
 .gemini/
-.agents/
+.agents/
+drive_download/
+Ket_Noi_S3_Hoa_Phuc.bat

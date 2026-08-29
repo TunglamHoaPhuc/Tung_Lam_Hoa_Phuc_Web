@@ -2,7 +2,7 @@
 
 import React, { FC, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Sparkles } from 'lucide-react';
+import { X, Sparkles, ArrowRight } from 'lucide-react';
 import { AN_TRIEU_NGUYEN_LIST, AnTrieuNguyenItem } from '@/data/anTrieuNguyenData';
 
 export const DaiNamQuocMauGrid: FC = () => {
@@ -110,7 +110,8 @@ export const DaiNamQuocMauGrid: FC = () => {
                     className="px-5 py-1.5 rounded-full text-xs font-bold text-[#1C130D] bg-gradient-to-r from-[#F2C14E] via-[#E5A93B] to-[#F2C14E] shadow-[0_4px_15px_rgba(242,193,78,0.5)] flex items-center gap-1.5 uppercase tracking-wider cursor-pointer font-sans hover:brightness-110"
                     style={{ fontFamily: "'UTM Avo', 'UTM_Avo', sans-serif" }}
                   >
-                    XEM CHI TIẾT ➔
+                    <span>XEM CHI TIẾT</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
                   </span>
                 </div>
               </div>

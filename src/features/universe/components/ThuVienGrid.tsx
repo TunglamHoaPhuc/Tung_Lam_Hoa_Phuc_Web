@@ -26,7 +26,7 @@ const BookCard = React.memo(({ book, onSelect }: BookCardProps) => {
           decoding="async"
           className="w-auto h-full max-h-[230px] object-contain shadow-2xl rounded-lg group-hover:scale-105 transition-transform duration-700 filter drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]"
           onError={(e) => {
-            (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop';
+            (e.target as HTMLImageElement).src = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp';
           }}
         />
         <div
@@ -78,8 +78,9 @@ const BookCard = React.memo(({ book, onSelect }: BookCardProps) => {
               <Building className="w-3 h-3 text-[#F2C14E] shrink-0" />
               <span className="truncate">{book.publisher || 'NXB Tôn Giáo'}</span>
             </span>
-            <span className="text-[#F2C14E] group-hover:translate-x-1 transition-transform shrink-0">
-              Chi tiết ➔
+            <span className="text-[#F2C14E] group-hover:translate-x-1 transition-transform shrink-0 flex items-center gap-1">
+              <span>Chi tiết</span>
+              <ArrowRight className="w-3 h-3" />
             </span>
           </div>
         </div>
@@ -95,9 +96,8 @@ export const ThuVienGrid: FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('Tất cả');
   const [sortBy, setSortBy] = useState<'newest' | 'pages' | 'title'>('newest');
   const [selectedBook, setSelectedBook] = useState<BookItem | null>(null);
-  const [displayCount, setDisplayCount] = useState(8); // 2 rows x 4 columns = 8 books
+  const [displayCount, setDisplayCount] = useState(8);
 
-  // Fast Instant Real-time Filter across all 427 books
   const filteredBooks = useMemo(() => {
     let result = THU_VIEN_BOOKS;
 
@@ -117,11 +117,13 @@ export const ThuVienGrid: FC = () => {
       result = result.filter((b) => b.category === selectedCategory);
     }
 
-    result = [...result].sort((a, b) => {
-      if (sortBy === 'pages') return b.pages - a.pages;
-      if (sortBy === 'title') return a.title.localeCompare(b.title, 'vi');
-      return 0;
-    });
+    if (sortBy === 'newest') {
+      result = [...result];
+    } else if (sortBy === 'pages') {
+      result = [...result].sort((a, b) => (b.pages || 0) - (a.pages || 0));
+    } else if (sortBy === 'title') {
+      result = [...result].sort((a, b) => a.title.localeCompare(b.title, 'vi'));
+    }
 
     return result;
   }, [searchQuery, selectedCategory, sortBy]);
@@ -137,15 +139,15 @@ export const ThuVienGrid: FC = () => {
     setDisplayCount(8);
   };
 
-  const handleAiPromptClick = (promptText: string) => {
-    setSearchQuery(promptText);
+  const handleAiPromptClick = (prompt: string) => {
+    const cleaned = prompt.replace(/^Tìm sách về |^Kinh điển |^Bộ luật /i, '').trim();
+    setSearchQuery(cleaned);
     setDisplayCount(8);
   };
 
   return (
     <div className="w-full bg-[#2c1c11] text-[#e3d2c1] py-6">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
-        {/* ── 1. SECTION HEADER SYNCHRONIZED WITH HOMEPAGE ── */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
           <div>
             <h2
@@ -163,44 +165,41 @@ export const ThuVienGrid: FC = () => {
           </div>
         </div>
 
-        {/* ── 2. AI SMART SEARCH PROMPT SUGGESTIONS ── */}
-        <div className="bg-[#1C130D] p-4 md:p-5 rounded-2xl border border-[#F2C14E]/30 shadow-2xl mb-8 space-y-3">
-          <div className="flex flex-wrap items-center gap-3">
-            {/* Nhãn LỰA CHỌN */}
-            <div className="flex items-center gap-2 shrink-0">
-              <Sparkles className="w-4 h-4 text-[#F2C14E]" />
+        <div className="bg-[#1C130D] p-4 md:p-5 rounded-2xl border border-[#F2C14E]/30 shadow-2xl mb-8 space-y-4">
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-[#ffde59]" />
               <span
-                className="text-xs font-bold uppercase tracking-widest text-[#F2C14E]"
+                className="text-xs font-bold uppercase tracking-wider text-[#ffde59]"
                 style={{ fontFamily: "'UTM Avo', sans-serif" }}
               >
-                GỢI Ý TÌM KIẾM AI:
+                Gợi Ý Tìm Kiếm Nhanh:
               </span>
             </div>
 
-            {/* Quick AI Prompts */}
-            <div className="flex flex-wrap items-center gap-1.5">
+            <div className="flex flex-wrap gap-2">
               {[
-                'Kinh Tụng Hằng Ngày',
-                'Kinh Di Đà & Tịnh Độ',
-                'Bồ Đề Tâm Giảng Luận',
-                'Pháp Bảo Đàn Kinh',
-                'Kinh Dược Sư Cầu An',
-                'Pháp Môn Thiền Định',
+                'Tìm sách về Thiền Tông',
+                'Kinh điển Đại Thừa',
+                'Tịnh Độ Tông',
+                'Bộ luật Tỳ Kheo',
+                'Nghi lễ Phật giáo',
+                'Lịch sử Phật giáo Việt Nam',
               ].map((prompt) => (
                 <button
                   key={prompt}
                   onClick={() => handleAiPromptClick(prompt)}
-                  className="px-2.5 py-1 rounded-lg bg-[#2A1D14] border border-[#F2C14E]/30 hover:border-[#F2C14E] text-[#FFE5A3] hover:text-white text-xs transition-all cursor-pointer"
+                  className="px-2.5 py-1 rounded-lg bg-[#2A1D14] border border-[#F2C14E]/30 hover:border-[#F2C14E] text-[#FFE5A3] hover:text-white text-xs transition-all cursor-pointer flex items-center gap-1.5"
                   style={{ fontFamily: "'UTM Avo', sans-serif" }}
                 >
-                  🔍 {prompt}
+                  <Search className="w-3 h-3 text-[#F2C14E] shrink-0" />
+                  <span>{prompt}</span>
                 </button>
               ))}
             </div>
           </div>
 
           <div className="flex flex-wrap items-center gap-3 pt-2">
-            {/* Nhãn LỰA CHỌN nhẹ nhàng thanh lịch */}
             <span
               className="text-[11px] font-bold uppercase tracking-widest text-[#F2C14E]/80 shrink-0 select-none mr-0.5"
               style={{ fontFamily: "'UTM Avo', sans-serif" }}
@@ -208,7 +207,6 @@ export const ThuVienGrid: FC = () => {
               LỰA CHỌN:
             </span>
 
-            {/* Search Input */}
             <div className="relative flex-1 min-w-[200px] max-w-sm group">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#F2C14E]/60 group-hover:text-[#F2C14E] transition-colors" />
               <input
@@ -226,9 +224,10 @@ export const ThuVienGrid: FC = () => {
                 <button
                   type="button"
                   onClick={() => setSearchQuery('')}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#c9b896] hover:text-[#F2C14E] text-xs font-bold"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#c9b896] hover:text-[#F2C14E] transition-colors"
+                  title="Xóa tìm kiếm"
                 >
-                  ✕
+                  <X className="w-3.5 h-3.5" />
                 </button>
               )}
             </div>

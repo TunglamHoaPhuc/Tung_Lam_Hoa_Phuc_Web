@@ -113,18 +113,17 @@ export const CalendarSection: FC = () => {
 
       {/* ── 2. Unified Side-by-Side Calendar Container ── */}
       <div className="relative z-10 max-w-6xl mx-auto px-4 space-y-6">
-        
+
         {/* Category Filters Bar */}
         <div className="flex flex-wrap items-center justify-center gap-2">
           {CATEGORIES.map((cat) => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer shadow-md uppercase tracking-wider ${
-                selectedCategory === cat
+              className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer shadow-md uppercase tracking-wider ${selectedCategory === cat
                   ? "bg-[#F2C14E] text-[#1C120B] border-2 border-white shadow-[0_0_15px_rgba(242,193,78,0.7)] scale-105"
                   : "bg-[#1C120B]/90 text-[#FFE5A3] border border-[#F2C14E]/40 hover:bg-[#F2C14E] hover:text-[#1C120B]"
-              }`}
+                }`}
               style={{ fontFamily: "'UTM Avo', sans-serif" }}
             >
               {cat}
@@ -139,7 +138,7 @@ export const CalendarSection: FC = () => {
 
           {/* ── 1. CỘT TRÁI: TRANH THÁNG NGHỆ THUẬT LIỀN KHỐI (CHUẨN TỶ LỆ 17x19CM, CỐ ĐỊNH CHIỀU CAO) ── */}
           <div className="w-full lg:w-[350px] xl:w-[380px] shrink-0 rounded-3xl bg-gradient-to-b from-[#2A170F] via-[#201007] to-[#150A04] border border-[#F2C14E]/35 shadow-[0_20px_60px_rgba(0,0,0,0.85)] backdrop-blur-md flex flex-col justify-between overflow-hidden transition-all min-h-[530px] md:min-h-[550px]">
-            
+
             {/* 1.1 TRANH MINH HỌA NGHỆ THUẬT (Đúng tỷ lệ tự nhiên, không bị cắt mất chân chữ) */}
             <div className="relative w-full aspect-[1200/1015] shrink-0 overflow-hidden bg-black/30">
               <img
@@ -150,7 +149,7 @@ export const CalendarSection: FC = () => {
                   (e.currentTarget as HTMLImageElement).src = '/images/vu-tru-phat-giao/bao-thap/bao-thap-banner.jpg';
                 }}
               />
-              
+
               {/* Lớp gradient đậm sát mép đáy che kín hoàn toàn chi tiết thừa mà không chạm vào chữ */}
               <div className="absolute inset-x-0 bottom-0 h-4 sm:h-5 bg-gradient-to-t from-[#201007] from-35% via-[#201007]/90 to-transparent pointer-events-none" />
             </div>
@@ -185,15 +184,14 @@ export const CalendarSection: FC = () => {
                             <p
                               key={idx}
                               style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                              className={`leading-relaxed tracking-wide text-center ${
-                                idx === 0
+                              className={`leading-relaxed tracking-wide text-center ${idx === 0
                                   ? isLong
                                     ? "font-bold text-xs sm:text-sm text-[#FFDE59]"
                                     : "font-bold text-sm sm:text-base text-[#FFDE59]"
                                   : isLong
-                                  ? "font-normal text-[11px] sm:text-xs text-[#FFE5A3]/90"
-                                  : "font-normal text-xs sm:text-sm text-[#FFE5A3]/90"
-                              }`}
+                                    ? "font-normal text-[11px] sm:text-xs text-[#FFE5A3]/90"
+                                    : "font-normal text-xs sm:text-sm text-[#FFE5A3]/90"
+                                }`}
                             >
                               {cleanLine}
                             </p>
@@ -242,7 +240,7 @@ export const CalendarSection: FC = () => {
 
           {/* ── 2. CỘT PHẢI: BẢNG LỊCH CỐ ĐỊNH 6 HÀNG (42 Ô) - ĐỒNG BỘ CHIỀU CAO ── */}
           <div className="flex-1 rounded-3xl p-4 sm:p-5 md:p-6 bg-gradient-to-b from-[#2A170F]/95 via-[#1D0F08]/95 to-[#140A04]/98 border border-[#F2C14E]/35 shadow-[0_20px_60px_rgba(0,0,0,0.85)] backdrop-blur-md flex flex-col justify-between space-y-3 transition-all min-h-[530px] md:min-h-[550px]">
-            
+
             {/* 2.1 THANH ĐIỀU HƯỚNG THÁNG & PHẬT LỊCH / DƯƠNG LỊCH (Chuyển lên trên bảng lịch, nút tròn/pill đẹp mắt) */}
             <div className="flex flex-wrap items-center justify-between gap-2.5 p-2 sm:p-2.5 rounded-2xl bg-black/55 border border-[#F2C14E]/35 shadow-inner">
               {/* Nút lùi tháng (nút tròn) */}
@@ -372,20 +370,18 @@ export const CalendarSection: FC = () => {
                     <div
                       key={`day-${cell.dayNumber}`}
                       onClick={() => hasEvent && setSelectedEvent(cell.events[0])}
-                      className={`min-h-[50px] sm:min-h-[56px] md:min-h-[60px] p-1 sm:p-1.5 flex flex-col justify-between relative rounded-xl border transition-all duration-200 ${
-                        hasEvent
+                      className={`min-h-[50px] sm:min-h-[56px] md:min-h-[60px] p-1 sm:p-1.5 flex flex-col justify-between relative rounded-xl border transition-all duration-200 ${hasEvent
                           ? "bg-gradient-to-b from-[#4A2C14]/90 to-[#2A1608]/95 border-[#F2C14E] shadow-[0_0_15px_rgba(242,193,78,0.4)] hover:border-[#FFDE59] hover:scale-105 cursor-pointer"
                           : "bg-black/45 border-[#F2C14E]/20 hover:border-[#F2C14E]/60 hover:bg-black/65 cursor-pointer"
-                      }`}
+                        }`}
                     >
                       {/* Số Ngày Dương (To, Rõ Ràng, Font UTM Avo Đậm) */}
                       <span
                         style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                        className={`text-base sm:text-xl md:text-2xl font-black text-center leading-none ${
-                          cell.isSunday
+                        className={`text-base sm:text-xl md:text-2xl font-black text-center leading-none ${cell.isSunday
                             ? "text-[#FFDE59] drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]"
                             : "text-white"
-                        }`}
+                          }`}
                       >
                         {cell.dayNumber}
                       </span>
@@ -410,13 +406,12 @@ export const CalendarSection: FC = () => {
                       <div className="flex items-center justify-end pr-0.5">
                         <span
                           style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                          className={`text-[9px] sm:text-[10px] md:text-[11px] font-bold rounded px-1 leading-tight ${
-                            cell.isFirstOrFullMoon
+                          className={`text-[9px] sm:text-[10px] md:text-[11px] font-bold rounded px-1 leading-tight ${cell.isFirstOrFullMoon
                               ? "bg-[#DC2626] text-white shadow-sm font-black"
                               : cell.isSamHoi
-                              ? "text-[#FFC107] font-bold"
-                              : "text-amber-200/80"
-                          }`}
+                                ? "text-[#FFC107] font-bold"
+                                : "text-amber-200/80"
+                            }`}
                         >
                           {cell.lunarCellStr}
                         </span>

@@ -24,7 +24,18 @@ function MemorialSearchContent() {
 
         <div className="relative z-10 max-w-[1280px] mx-auto px-4 md:px-10 flex flex-col items-center justify-center text-center">
           <div className="w-10 h-10 rounded-full bg-[#3a2718] border border-[#f2cc8f]/40 flex items-center justify-center text-[#ffde59] mb-2 shadow-md">
-            <span className="text-xl">☸</span>
+            <svg viewBox="0 0 24 24" className="w-5 h-5 fill-none stroke-current stroke-2" strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <circle cx="12" cy="12" r="3" />
+              <line x1="12" y1="2" x2="12" y2="9" />
+              <line x1="12" y1="15" x2="12" y2="22" />
+              <line x1="2" y1="12" x2="9" y2="12" />
+              <line x1="15" y1="12" x2="22" y2="12" />
+              <line x1="4.93" y1="4.93" x2="9.88" y2="9.88" />
+              <line x1="14.12" y1="14.12" x2="19.07" y2="19.07" />
+              <line x1="4.93" y1="19.07" x2="9.88" y2="14.12" />
+              <line x1="14.12" y1="9.88" x2="19.07" y2="4.93" />
+            </svg>
           </div>
 
           <div className="flex items-center justify-center w-full my-3 gap-4 md:gap-8">

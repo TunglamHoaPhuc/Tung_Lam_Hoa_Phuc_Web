@@ -3,6 +3,7 @@
 import React, { useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { SectionData } from '@/types/tong-chi-tu-hoc';
 
 interface SectionCarouselProps {
@@ -55,16 +56,18 @@ export function SectionCarousel({ section, dynamicBgImage }: SectionCarouselProp
           <button
             type="button"
             onClick={() => handleScroll('left')}
-            className="w-8 h-8 rounded bg-[#382417] border border-[#593b26] hover:border-[#f2cc8f] text-[#f2cc8f] flex items-center justify-center transition-all cursor-pointer"
+            className="w-8 h-8 rounded-lg bg-[#382417] border border-[#593b26] hover:border-[#f2cc8f] text-[#f2cc8f] flex items-center justify-center transition-all cursor-pointer shadow-sm hover:scale-105"
+            title="Cuộn sang trái"
           >
-            ←
+            <ChevronLeft className="w-4 h-4" />
           </button>
           <button
             type="button"
             onClick={() => handleScroll('right')}
-            className="w-8 h-8 rounded bg-[#382417] border border-[#593b26] hover:border-[#f2cc8f] text-[#f2cc8f] flex items-center justify-center transition-all cursor-pointer"
+            className="w-8 h-8 rounded-lg bg-[#382417] border border-[#593b26] hover:border-[#f2cc8f] text-[#f2cc8f] flex items-center justify-center transition-all cursor-pointer shadow-sm hover:scale-105"
+            title="Cuộn sang phải"
           >
-            →
+            <ChevronRight className="w-4 h-4" />
           </button>
         </div>
       </div>
@@ -92,27 +95,38 @@ export function SectionCarousel({ section, dynamicBgImage }: SectionCarouselProp
                 loading="lazy"
                 unoptimized
                 sizes="(max-width: 768px) 280px, 310px"
-                className="object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105 transform-gpu"
+                className="object-cover transition-transform duration-500 ease-out group-hover:scale-105 transform-gpu"
+                style={{ objectPosition: (card as any).imagePosition || 'center center' }}
               />
 
-              <div className="absolute inset-0 bg-gradient-to-t from-[#1a0f08] via-[#1a0f08]/60 to-transparent opacity-85 group-hover:opacity-95 transition-opacity duration-300" />
-              <div className="absolute inset-0 border-2 border-transparent group-hover:border-[#f2cc8f]/80 rounded-xl transition-colors duration-300 pointer-events-none" />
+              {/* Gradient màu nâu đậm đồng màu với nền trang, đổ đậm chân ảnh để tôn chữ trắng sáng chuẩn theo mẫu */}
+              <div
+                className="absolute inset-x-0 bottom-0 h-[42%] pointer-events-none transition-all duration-300 group-hover:h-[52%]"
+                style={{
+                  background: 'linear-gradient(to top, rgba(35, 21, 12, 0.98) 0%, rgba(35, 21, 12, 0.85) 30%, rgba(35, 21, 12, 0.42) 65%, transparent 100%)',
+                }}
+              />
+              <div className="absolute inset-0 border-2 border-transparent group-hover:border-[#f2cc8f]/70 rounded-xl transition-colors duration-300 pointer-events-none" />
 
-              <div className="absolute inset-0 p-6 flex flex-col justify-end text-left z-10">
+              <div className="absolute inset-0 p-4 sm:p-5 flex flex-col justify-end text-left z-10">
+                {/* Tiêu đề in hoa thường, khi đưa chuột vào mới bold */}
                 <h3
                   style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                  className="text-lg md:text-xl text-[#ffffff] font-bold group-hover:text-[#ffde59] transition-colors duration-300 leading-snug"
+                  className="text-base md:text-[17px] uppercase font-normal text-[#ffffff] group-hover:font-bold group-hover:text-[#FFE5A3] transition-all duration-300 leading-snug drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)] transform-gpu group-hover:-translate-y-0.5 tracking-wide"
                 >
                   {card.title}
                 </h3>
 
+                {/* Sub tiêu đề chỉ hiện ra khi rê chuột vào */}
                 {card.subtitle && (
-                  <p
-                    style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                    className="text-xs font-normal text-[#e3d2c1] mt-2 opacity-80 group-hover:opacity-100 transition-opacity duration-300 line-clamp-3 leading-relaxed"
-                  >
-                    {card.subtitle}
-                  </p>
+                  <div className="max-h-0 opacity-0 overflow-hidden group-hover:max-h-36 group-hover:opacity-100 group-hover:mt-2 transition-all duration-300 ease-out transform-gpu translate-y-2 group-hover:translate-y-0">
+                    <p
+                      style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                      className="text-xs sm:text-[13px] font-normal text-[#E8D7C8]/95 line-clamp-3 leading-relaxed border-t border-[#F2C14E]/25 pt-1.5 italic"
+                    >
+                      {card.subtitle}
+                    </p>
+                  </div>
                 )}
               </div>
             </Link>

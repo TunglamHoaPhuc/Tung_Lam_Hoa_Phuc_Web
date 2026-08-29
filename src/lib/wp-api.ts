@@ -75,7 +75,7 @@ export async function getTongChiPageData(): Promise<TongChiPageData> {
           imageUrl:
             extractImageUrl(acf.banner_image) ||
             p._embedded?.['wp:featuredmedia']?.[0]?.source_url ||
-            'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&q=80',
+            'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp',
           link: `/tong-chi-tu-hoc/${p.slug}`,
         };
 
@@ -101,3 +101,93 @@ export async function getTongChiPageData(): Promise<TongChiPageData> {
     };
   }
 }
+
+import { HOANG_PHAP_ARTICLES, HoangPhapArticle } from '@/data/dong-chay-hoang-phap-data';
+
+export async function getHoangPhapArticles(): Promise<HoangPhapArticle[]> {
+  try {
+    const res = await fetch(`${WP_URL}/wp/v2/posts?_embed&per_page=50`, {
+      next: { revalidate: 60 },
+    });
+    if (!res.ok) {
+      return HOANG_PHAP_ARTICLES;
+    }
+    const wpPosts = await res.json();
+    if (!Array.isArray(wpPosts) || wpPosts.length === 0) {
+      return HOANG_PHAP_ARTICLES;
+    }
+
+    const fetched: HoangPhapArticle[] = wpPosts.map((p: any) => {
+      const featuredMedia = p._embedded?.['wp:featuredmedia']?.[0]?.source_url;
+      const term = p._embedded?.['wp:term']?.flat()?.[0];
+      const categorySlug = term?.slug || 'khoa-le-truyen-thong';
+      const subCategory = term?.name || 'DÒNG CHẢY HOẰNG PHÁP';
+
+      return {
+        id: String(p.id),
+        slug: p.slug,
+        title: p.title?.rendered || 'Phật Sự Tùng Lâm Hòa Phúc',
+        subtitle: p.acf?.sub_title || p.excerpt?.rendered?.replace(/<[^>]+>/g, '').trim().slice(0, 100),
+        category: categorySlug,
+        subCategory: subCategory.toUpperCase(),
+        subCategoryIcon: '🪔',
+        templeLogo: 'tung-lam-hoa-phuc',
+        templeName: 'Tùng Lâm Hòa Phúc',
+        thumbnailUrl: featuredMedia || '/images/toan-canh-chua.jpg',
+        bannerUrl: featuredMedia || '/images/toan-canh-chua.jpg',
+        date: p.date ? new Date(p.date).toLocaleDateString('vi-VN') : '2025',
+        views: p.acf?.views || 350,
+        author: p.acf?.author || 'Ban Truyền Thông',
+        location: p.acf?.location || 'Tùng Lâm Hòa Phúc',
+        summary: p.excerpt?.rendered?.replace(/<[^>]+>/g, '').trim() || '',
+        contentHtml: p.content?.rendered || '',
+      };
+    });
+
+    return [...fetched, ...HOANG_PHAP_ARTICLES];
+  } catch (error) {
+    console.error('Lỗi khi fetch bài viết Hoằng Pháp từ WordPress:', error);
+    return HOANG_PHAP_ARTICLES;
+  }
+}
+
+export async function getHoangPhapArticleBySlug(slug: string): Promise<HoangPhapArticle | null> {
+  try {
+    const res = await fetch(`${WP_URL}/wp/v2/posts?slug=${slug}&_embed`, {
+      next: { revalidate: 60 },
+    });
+    if (res.ok) {
+      const posts = await res.json();
+      if (Array.isArray(posts) && posts.length > 0) {
+        const p = posts[0];
+        const featuredMedia = p._embedded?.['wp:featuredmedia']?.[0]?.source_url;
+        const term = p._embedded?.['wp:term']?.flat()?.[0];
+        return {
+          id: String(p.id),
+          slug: p.slug,
+          title: p.title?.rendered || '',
+          subtitle: p.acf?.sub_title,
+          category: term?.slug || 'khoa-le-truyen-thong',
+          subCategory: (term?.name || 'DÒNG CHẢY HOẰNG PHÁP').toUpperCase(),
+          subCategoryIcon: '🪔',
+          templeLogo: 'tung-lam-hoa-phuc',
+          templeName: 'Tùng Lâm Hòa Phúc',
+          thumbnailUrl: featuredMedia || '/images/toan-canh-chua.jpg',
+          bannerUrl: featuredMedia || '/images/toan-canh-chua.jpg',
+          date: p.date ? new Date(p.date).toLocaleDateString('vi-VN') : '2025',
+          views: p.acf?.views || 350,
+          author: p.acf?.author || 'Ban Truyền Thông',
+          location: p.acf?.location || 'Tùng Lâm Hòa Phúc',
+          summary: p.excerpt?.rendered?.replace(/<[^>]+>/g, '').trim() || '',
+          contentHtml: p.content?.rendered || '',
+        };
+      }
+    }
+  } catch (error) {
+    console.error('Lỗi khi fetch bài viết chi tiết từ WP:', error);
+  }
+
+  // Fallback to static articles
+  return HOANG_PHAP_ARTICLES.find((a) => a.slug === slug) || null;
+}
+

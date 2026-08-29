@@ -37,7 +37,7 @@ export const PATRIARCH_NODES: PatriarchNode[] = [
     quote: "Cư尘lạc đạo tùy duyên thị, Cơ lai thốn thực mẫn lai thùy. Gia trung hữu bảo hưu tầm mịch, Đối cảnh vô tâm mạc vấn Thiền.",
     summary: "Vị vua anh minh hai lần đánh thắng quân Nguyên Mông, sau nhường ngôi cởi áo hoàng bào lên núi Yên Tử tu hành, sáng lập Dòng Thiền Trúc Lâm Yên Tử mang đậm bản sắc dân tộc Việt Nam.",
     historicalMarks: "Sáng lập Thiền phái Trúc Lâm năm 1299 tại ngọn Ngoạ Vân Yên Tử, thống nhất Phật giáo Đại Việt.",
-    portraitUrl: "https://images.unsplash.com/photo-1564834325499-cd770c8ed0ef?w=400&h=400&fit=crop",
+    portraitUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     pos: { x: 25, y: 32 },
   },
   {
@@ -51,7 +51,7 @@ export const PATRIARCH_NODES: PatriarchNode[] = [
     quote: "Muốn hiểu tỏ lòng này, hãy quán chiếu hoa nở mùa xuân và lá rơi mùa thu.",
     summary: "Vị Tổ thứ hai của phái Trúc Lâm, người có công lớn trong việc hệ thống hóa kinh sách, đúc tượng và xây dựng hàng trăm tự viện khắp đất nước.",
     historicalMarks: "Soạn thảo tác phẩm Tham Thiền Yếu Chỉ và tổ chức in ấn Đại Tạng Kinh đầu tiên tại Việt Nam.",
-    portraitUrl: "https://images.unsplash.com/photo-1609137144813-7d9921338f24?w=400&h=400&fit=crop",
+    portraitUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     pos: { x: 32, y: 40 },
   },
   {
@@ -65,7 +65,7 @@ export const PATRIARCH_NODES: PatriarchNode[] = [
     quote: "Thân như mây nổi qua chiều tà, tâm tựa trăng rằm chiếu đáy sông.",
     summary: "Vị Trạng nguyên tài hoa gác lại danh vọng triều đình để xuất gia, vị Tổ thứ ba nối truyền mạch sống Trúc Lâm Yên Tử.",
     historicalMarks: "Chủ trì chùa Thanh Mai và Côn Sơn, để lại nhiều tác phẩm thi văn Phật giáo giá trị.",
-    portraitUrl: "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=400&h=400&fit=crop",
+    portraitUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     pos: { x: 22, y: 48 },
   },
   {
@@ -79,7 +79,7 @@ export const PATRIARCH_NODES: PatriarchNode[] = [
     quote: "Vị quốc vong thân, vị pháp thiêu thân. Nguyện ánh sáng Phật từ bi soi chiếu giải thoát khổ đau.",
     summary: "Vị Bồ Tát tự thiêu tại Sài Gòn năm 1963 để phản đối chính sách đàn áp Phật giáo. Trái tim ngài bốc cháy trong ngọn lửa nhưng vẫn nguyên vẹn trở thành Trái Tim Bồ Tát bất diệt.",
     historicalMarks: "Sự kiện Vị pháp thiêu thân ngày 11/06/1963 chấn động thế giới, để lại Trái tim Xá lợi bất biến.",
-    portraitUrl: "https://images.unsplash.com/photo-1618165220283-e85246c4171c?w=400&h=400&fit=crop",
+    portraitUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     pos: { x: 68, y: 28 },
   },
   {
@@ -93,7 +93,7 @@ export const PATRIARCH_NODES: PatriarchNode[] = [
     quote: "Nuôi dưỡng Bồ Đề Tâm, đem nguồn vui Phật pháp đến với muôn nhà.",
     summary: "Vị Tổ khai sơn Tổ đình Hoằng Pháp (Hóc Môn, TP.HCM) — ngọn nguồn tâm linh nuôi dưỡng bao thế hệ Tăng Ni và Phật tử tu học Tịnh Độ.",
     historicalMarks: "Xây dựng Tổ đình Hoằng Pháp năm 1957 và khởi xướng phong trào tu học Tịnh Độ rộng khắp.",
-    portraitUrl: "https://images.unsplash.com/photo-1564834325499-cd770c8ed0ef?w=400&h=400&fit=crop",
+    portraitUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     pos: { x: 75, y: 42 },
   },
   {
@@ -107,7 +107,7 @@ export const PATRIARCH_NODES: PatriarchNode[] = [
     quote: "Nghiên cứu Phật pháp là nghiên cứu chính mình. Nghiên cứu chính mình là quên đi chính mình.",
     summary: "Thiền sư vĩ đại sang Trung Hoa cầu pháp rồi trở về Nhật Bản thành lập Thiền phái Tào Động (Soto Zen) tại chùa Eihei-ji.",
     historicalMarks: "Tác giả bộ Shobogenzo (Chính Pháp Nhãn Tàng) kinh điển của Thiền học thế giới.",
-    portraitUrl: "https://images.unsplash.com/photo-1618554565982-3497a2e70642?w=400&h=400&fit=crop",
+    portraitUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     pos: { x: 45, y: 22 },
   },
   {
@@ -121,7 +121,7 @@ export const PATRIARCH_NODES: PatriarchNode[] = [
     quote: "Nối truyền Thích Ca Chánh Pháp — Đời sống bình đẳng, nối kết tình thương.",
     summary: "Vị Tổ sư khai sáng Hệ phái Phật giáo Khất sĩ Việt Nam với chí nguyện 'Nối truyền Thích Ca Chánh Pháp', sống đời chơn lý khất sĩ y bát.",
     historicalMarks: "Sáng lập Hệ phái Khất Sĩ năm 1944 và để lại bộ Chơn Lý 60 quyển sâu sắc.",
-    portraitUrl: "https://images.unsplash.com/photo-1721113411239-3e87d435dda6?w=400&h=400&fit=crop",
+    portraitUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     pos: { x: 82, y: 62 },
   },
   {
@@ -135,7 +135,7 @@ export const PATRIARCH_NODES: PatriarchNode[] = [
     quote: "Bất sinh bất diệt, bất thường bất đoạn, bất nhất bất dị, bất lai bất xuất.",
     summary: "Một trong những triết gia vĩ đại nhất lịch sử nhân loại, người hệ thống hóa triết lý Bát Nhã Chân Không và sáng lập Trung Quán Tông.",
     historicalMarks: "Tác giả Trung Luận và Đại Trí Độ Luận — nền tảng luận giải Đại thừa.",
-    portraitUrl: "https://images.unsplash.com/photo-1507692049790-de58290a4334?w=400&h=400&fit=crop",
+    portraitUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     pos: { x: 15, y: 70 },
   },
   {
@@ -149,7 +149,7 @@ export const PATRIARCH_NODES: PatriarchNode[] = [
     quote: "Tâm bản nguyên thanh tịnh như bầu trời bao la không dấu vết.",
     summary: "Đại sư Mật tông truyền Phật giáo từ Ấn Độ sang Tây Tạng, hóa giải mọi chướng ngại và sáng lập Dòng Nyingma (Cổ Mật).",
     historicalMarks: "Xây dựng tu viện Samye đầu tiên tại Tây Tạng và cất giấu các kho tàng Terma.",
-    portraitUrl: "https://images.unsplash.com/photo-1659513704374-0dc63b98dbb5?w=400&h=400&fit=crop",
+    portraitUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     pos: { x: 52, y: 78 },
   },
 ];

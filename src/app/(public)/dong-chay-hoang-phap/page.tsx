@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Eye, Calendar, ArrowRight, ChevronDown, Check } from 'lucide-react';
+import { Eye, Calendar, ArrowRight, ChevronDown, Check, Sparkles } from 'lucide-react';
 import Header from '@/components/public/layout/Header';
 import Footer from '@/components/public/layout/Footer';
 import { HOANG_PHAP_ARTICLES, HOANG_PHAP_CATEGORIES, HoangPhapArticle } from '@/data/dong-chay-hoang-phap-data';
@@ -19,12 +19,48 @@ const SORT_OPTIONS: { id: SortOption; label: string }[] = [
 ];
 
 export default function DongChayHoangPhapPage() {
+  const [articles, setArticles] = useState<HoangPhapArticle[]>(HOANG_PHAP_ARTICLES);
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [currentSort, setCurrentSort] = useState<SortOption>('newest');
   const [isExpanded, setIsExpanded] = useState(false);
 
+  // Dynamic Backend Sync
+  useEffect(() => {
+    async function fetchDynamicPosts() {
+      try {
+        const res = await fetch('/api/admin/posts?category=dong-chay-hoang-phap', { cache: 'no-store' });
+        if (res.ok) {
+          const json = await res.json();
+          if (json.success && Array.isArray(json.posts) && json.posts.length > 0) {
+            const mapped: HoangPhapArticle[] = json.posts.map((p: any) => ({
+              id: p.id,
+              slug: p.slug,
+              title: p.title,
+              date: p.publishedDate || '2026-08-01',
+              author: p.author || 'Ban Văn Hóa Tùng Lâm',
+              category: p.subCategory || 'dong-chay-hoang-phap',
+              subCategory: p.subtitle || 'Dòng Chảy Hoằng Pháp',
+              subCategoryIcon: '',
+              views: p.viewsCount || 108,
+              thumbnailUrl: p.thumbnailUrl || '/images/toan-canh-chua.jpg',
+              thumbnailPosition: p.thumbnailPosition || 'center center',
+              bannerUrl: p.bannerUrl || '/images/toan-canh-chua.jpg',
+              summary: p.summary || '',
+              contentHtml: p.contentHtml || '',
+            }));
+            // Merge with local fallback if needed, placing dynamic articles first
+            setArticles(mapped);
+          }
+        }
+      } catch (err) {
+        console.log('Dynamic posts load fallback to static dataset:', err);
+      }
+    }
+    fetchDynamicPosts();
+  }, []);
+
   // 1. Lọc bài viết theo danh mục
-  let filteredArticles = HOANG_PHAP_ARTICLES.filter((art) => {
+  let filteredArticles = articles.filter((art) => {
     if (activeCategory === 'all' || activeCategory === 'moi-nhat') return true;
     return art.category === activeCategory;
   });
@@ -173,6 +209,7 @@ function HoangPhapCard({ article }: { article: HoangPhapArticle }) {
           src={article.thumbnailUrl}
           alt={article.title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+          style={{ objectPosition: (article as any).thumbnailPosition || 'center center' }}
         />
       </div>
 
@@ -181,7 +218,7 @@ function HoangPhapCard({ article }: { article: HoangPhapArticle }) {
         {/* Huy hiệu Logo Chùa nổi chính giữa tim đường kẻ */}
         <div className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-11 md:h-11 rounded-full border-2 border-[#F2C14E] bg-[#2C1C11] flex items-center justify-center p-1 shadow-[0_0_12px_rgba(242,193,78,0.5)]">
           <img
-            src="https://tunglam.mocwp.com/wp-content/uploads/2026/07/bieu-tuong-tong-chi-tu-hoc-tung-lam-hoa-phuc.png"
+            src="https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/bieu-tuong-tong-chi-tu-hoc-tung-lam-hoa-phuc.webp"
             alt="Logo Chùa"
             className="w-full h-full object-contain"
           />
@@ -196,7 +233,7 @@ function HoangPhapCard({ article }: { article: HoangPhapArticle }) {
             style={{ fontFamily: "'UTM Avo', sans-serif" }}
             className="text-[11px] md:text-[12px] font-bold text-[#F2C14E] tracking-wide flex items-center gap-1.5"
           >
-            <span>{article.subCategoryIcon || '🪔'}</span>
+            <Sparkles className="w-3.5 h-3.5 text-[#F2C14E]" />
             <span>{article.subCategory || 'Dòng chảy hoằng pháp'}</span>
           </div>
 

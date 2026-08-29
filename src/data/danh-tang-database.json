@@ -1,0 +1,1485 @@
+[
+  {
+    "id": "khuong-viet",
+    "name": "Quốc sư Khuông Việt",
+    "lifespan": "933–1011",
+    "region": "Miền Bắc",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Cổ đại",
+    "sub_era": "Triều Đinh",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/bac/Quoc-su-Khuong-Viet-933-1011-.webp",
+    "phapNgu": "Đạo pháp và dân tộc luôn song hành trong từng hơi thở của bậc Thánh Tăng.",
+    "bio": "Quốc sư Khuông Việt (933-1011), tên thật Ngô Chân Lưu, thiền sư đời thứ 4 phái Vô Ngôn Thông. Được vua Đinh Tiên Hoàng phong Khuông Việt Đại Sư. Ngài có công lớn trong việc phát triển Phật giáo và nền văn hóa dân tộc.",
+    "coordinates": {
+      "x": 48,
+      "y": 28
+    }
+  },
+  {
+    "id": "van-hanh",
+    "name": "Thiền sư Vạn Hạnh",
+    "lifespan": "938–1018",
+    "region": "Miền Bắc",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Cổ đại",
+    "sub_era": "Triều Tiền Lê",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/THIEN-SU-VAN-HANH-938-1018.webp",
+    "phapNgu": "Thân như điện ảnh hữu hoàn vô, vạn mộc xuân vinh thu hựu khô.",
+    "bio": "Thiền sư Vạn Hạnh (938-1018), người có công lớn đưa Lý Công Uẩn lên ngôi mở ra triều đại Lý. Ngài là bậc thiền sư uyên thâm, tinh thông Phật pháp và thiên văn.",
+    "coordinates": {
+      "x": 50,
+      "y": 30
+    }
+  },
+  {
+    "id": "phap-loa",
+    "name": "Thiền sư Pháp Loa",
+    "lifespan": "1284–1330",
+    "region": "Miền Bắc",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Thiền phái Trúc Lâm Yên Tử",
+    "era": "Thời Trung đại",
+    "sub_era": "Triều Trần",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/Thien-su-Phap-Loa-1284-1330-.webp",
+    "phapNgu": "Giữ giới như giữ mắt, tu hành như giữ ngọc quý.",
+    "bio": "Thiền sư Pháp Loa (1284-1330), Đệ Nhị Tổ của Thiền phái Trúc Lâm Yên Tử. Ngài là học trò xuất sắc của Phật Hoàng Trần Nhân Tông, có công lớn phát triển Thiền phái Trúc Lâm và in ấn kinh sách.",
+    "coordinates": {
+      "x": 52,
+      "y": 26
+    }
+  },
+  {
+    "id": "huong-hai",
+    "name": "Thiền sư Hương Hải",
+    "lifespan": "1628–1715",
+    "region": "Miền Bắc",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Thiền phái Trúc Lâm Yên Tử",
+    "era": "Thời Trung đại",
+    "sub_era": "Triều Hậu Lê",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/Thien-su-Huong-Hai-1628-1715.webp",
+    "phapNgu": "Bể trần đường quá ngó ngàn thu, biển ái sông mê rộng mặc dù.",
+    "bio": "Thiền sư Hương Hải (1628-1715), thiền sư danh tiếng thời Lê-Trịnh, am hiểu sâu sắc Phật pháp và để lại nhiều tác phẩm thơ văn Phật giáo quý giá.",
+    "coordinates": {
+      "x": 46,
+      "y": 32
+    }
+  },
+  {
+    "id": "thich-thanh-hanh",
+    "name": "Hòa thượng Thích Thanh Hanh",
+    "lifespan": "1840–1936",
+    "region": "Miền Bắc",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Tào Động",
+    "era": "Thời Cận đại",
+    "sub_era": "Phong trào Chấn hưng Phật giáo",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/-ai-lao-Hoa-thuong-Thich-Thanh-am-1924-2022-1-1-1.webp",
+    "bio": "Hòa thượng Thích Thanh Hanh, bậc cao tăng có công lớn trong việc chấn hưng và phục hưng Phật giáo miền Bắc.",
+    "coordinates": {
+      "x": 51,
+      "y": 27
+    }
+  },
+  {
+    "id": "kim-cuong-tu",
+    "name": "Hòa thượng Kim Cương Tử",
+    "lifespan": "1914–2001",
+    "region": "Miền Bắc",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/bac/kim-cuong-tu.webp",
+    "bio": "Hòa thượng Kim Cương Tử, học giả Phật giáo uyên bác, có nhiều công trình nghiên cứu kinh điển và Phật học.",
+    "coordinates": {
+      "x": 49,
+      "y": 29
+    }
+  },
+  {
+    "id": "thich-doan-hai",
+    "name": "Hòa thượng Thích Doãn Hải",
+    "lifespan": "1915–1998",
+    "region": "Miền Bắc",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/bac/thich-doan-hai.webp",
+    "bio": "Hòa thượng Thích Doãn Hải, vị tôn túc có công hoằng dương Phật pháp tại miền Bắc.",
+    "coordinates": {
+      "x": 53,
+      "y": 28
+    }
+  },
+  {
+    "id": "thich-tam-thong",
+    "name": "Hòa thượng Thích Tâm Thông",
+    "lifespan": "1916–2004",
+    "region": "Miền Bắc",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Tào Động",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/bac/thich-tam-thong.webp",
+    "bio": "Hòa thượng Thích Tâm Thông, bậc cao tăng đức độ tại miền Bắc.",
+    "coordinates": {
+      "x": 47,
+      "y": 31
+    }
+  },
+  {
+    "id": "thich-to-lien",
+    "name": "Hòa thượng Thích Tổ Liên",
+    "lifespan": "1903–1982",
+    "region": "Miền Bắc",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Cận đại",
+    "sub_era": "Phong trào Chấn hưng Phật giáo",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/bac/thich-to-lien.webp",
+    "bio": "Hòa thượng Thích Tổ Liên, cao tăng có công trong phong trào chấn hưng Phật giáo miền Bắc.",
+    "coordinates": {
+      "x": 50,
+      "y": 33
+    }
+  },
+  {
+    "id": "thich-tri-do",
+    "name": "Hòa thượng Thích Trí Độ",
+    "lifespan": "1894–1979",
+    "region": "Miền Bắc",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Đương đại",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/bac/thich-tri-do.webp",
+    "bio": "Hòa thượng Thích Trí Độ, học giả Phật giáo uyên thâm, đóng góp lớn cho nền Phật giáo Việt Nam.",
+    "coordinates": {
+      "x": 54,
+      "y": 26
+    }
+  },
+  {
+    "id": "thich-tri-hai-bac",
+    "name": "Hòa thượng Thích Trí Hải",
+    "lifespan": "1906–1979",
+    "region": "Miền Bắc",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Tào Động",
+    "era": "Thời Hiện đại",
+    "sub_era": "Đương đại",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/bac/thich-tri-hai.webp",
+    "bio": "Hòa thượng Thích Trí Hải, bậc cao tăng uyên bác tại miền Bắc.",
+    "coordinates": {
+      "x": 48,
+      "y": 34
+    }
+  },
+  {
+    "id": "thich-tam-tich",
+    "name": "Hòa thượng Thích Tâm Tịch",
+    "lifespan": "1915–2005",
+    "region": "Miền Bắc",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/bac/thich-tam-tich.webp",
+    "bio": "Hòa thượng Thích Tâm Tịch, Đệ nhị Pháp chủ Giáo hội Phật giáo Việt Nam.",
+    "coordinates": {
+      "x": 46,
+      "y": 35
+    }
+  },
+  {
+    "id": "thich-thanh-bich",
+    "name": "Hòa thượng Thích Thanh Bích",
+    "lifespan": "1912–2013",
+    "region": "Miền Bắc",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Tào Động",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/bac/thich-thanh-bich.webp",
+    "bio": "Hòa thượng Thích Thanh Bích, bậc cao tăng đức hạnh thọ 101 tuổi.",
+    "coordinates": {
+      "x": 51,
+      "y": 35
+    }
+  },
+  {
+    "id": "thich-thanh-tu",
+    "name": "Hòa thượng Thích Thanh Tứ",
+    "lifespan": "1927–2011",
+    "region": "Miền Bắc",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/-ai-lao-Hoa-thuong-Thich-Thanh-am-1924-2022-1-1-1.webp",
+    "bio": "Hòa thượng Thích Thanh Tứ, Phó Chủ tịch Thường trực HĐTS Giáo hội Phật giáo Việt Nam.",
+    "coordinates": {
+      "x": 52,
+      "y": 30
+    }
+  },
+  {
+    "id": "thich-thanh-vien",
+    "name": "Hòa thượng Thích Thanh Viên",
+    "lifespan": "1921–1993",
+    "region": "Miền Bắc",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/bac/HOA-THUONG-THICH-THANH-VIEN-1921-1993-.webp",
+    "bio": "Hòa thượng Thích Thanh Viên (1921-1993), vị cao tăng đức độ có công phát triển Phật giáo.",
+    "coordinates": {
+      "x": 49,
+      "y": 32
+    }
+  },
+  {
+    "id": "thich-the-long",
+    "name": "Hòa thượng Thích Thế Long",
+    "lifespan": "1909–1985",
+    "region": "Miền Bắc",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/bac/thich-the-long.webp",
+    "bio": "Hòa thượng Thích Thế Long, bậc lãnh đạo tinh thần có ảnh hưởng lớn tại miền Bắc.",
+    "coordinates": {
+      "x": 55,
+      "y": 29
+    }
+  },
+  {
+    "id": "thich-vien-thanh",
+    "name": "Hòa thượng Thích Viên Thành",
+    "lifespan": "1950–2002",
+    "region": "Miền Bắc",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Thiền phái Trúc Lâm Yên Tử",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/bac/HOA-THUONG-THICH-THANH-VIEN-1921-1993-.webp",
+    "bio": "Hòa thượng Thích Viên Thành, vị cao tăng trùng kiến Hương Tích và hoằng truyền Phật pháp.",
+    "coordinates": {
+      "x": 47,
+      "y": 27
+    }
+  },
+  {
+    "id": "thich-duc-nhuan",
+    "name": "Hòa thượng Thích Đức Nhuận",
+    "lifespan": "1897–1993",
+    "region": "Miền Bắc",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Tào Động",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/bac/thich-duc-nhuan.webp",
+    "bio": "Hòa thượng Thích Đức Nhuận, Đệ nhất Pháp chủ Giáo hội Phật giáo Việt Nam.",
+    "coordinates": {
+      "x": 53,
+      "y": 32
+    }
+  },
+  {
+    "id": "thich-tu-thong",
+    "name": "Hòa thượng Thích Từ Thông",
+    "lifespan": "1928–2025",
+    "region": "Miền Bắc",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Đương đại",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/HOA-THUONG-THICH-TU-THONG-1928-2025-.webp",
+    "phapNgu": "Học Phật là học hỏi để hiểu rõ bản thân, thấy rõ chân tâm.",
+    "bio": "Hòa thượng Thích Từ Thông (1928-2025), vị cao tăng thọ 97 tuổi, có công lớn hoằng dương Phật pháp.",
+    "coordinates": {
+      "x": 50,
+      "y": 36
+    }
+  },
+  {
+    "id": "thich-pho-tue",
+    "name": "Hòa thượng Thích Phổ Tuệ",
+    "lifespan": "1917–2021",
+    "region": "Miền Bắc",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Tào Động",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/bac/Hoa-thuong-Thich-Pho-Tue.webp",
+    "phapNgu": "Sống đời giản dị, không tư tâm tư lợi, một lòng vì đạo.",
+    "bio": "Hòa thượng Thích Phổ Tuệ, Đệ tam Pháp chủ Giáo hội Phật giáo Việt Nam, thọ 105 tuổi.",
+    "coordinates": {
+      "x": 48,
+      "y": 37
+    }
+  },
+  {
+    "id": "thich-dam-nham",
+    "name": "Ni trưởng Thích Đàm Nhâm",
+    "lifespan": "1918–2010",
+    "region": "Miền Bắc",
+    "hoi_chung": "Ni chúng",
+    "sect": "Tông Tào Động",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/ni-gioi-vn/su-ba-Thich-Nu-am-Nham.webp",
+    "bio": "Ni trưởng Thích Đàm Nhâm, vị ni trưởng có công lớn phát triển ni giới Phật giáo Việt Nam tại miền Bắc.",
+    "coordinates": {
+      "x": 44,
+      "y": 30
+    }
+  },
+  {
+    "id": "nguyen-thieu",
+    "name": "Tổ sư Nguyên Thiều",
+    "lifespan": "1648–1728",
+    "region": "Miền Trung",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Trung đại",
+    "sub_era": "Triều Nguyễn",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/trung/To-Su-Nguyen-Thieu-1648-1728.webp",
+    "phapNgu": "Phật pháp là ngọn đuốc sáng soi đường cho muôn kiếp chúng sinh.",
+    "bio": "Tổ sư Nguyên Thiều (1648-1728), người có công lớn truyền bá dòng Thiền Lâm Tế tại miền Trung và miền Nam Việt Nam.",
+    "coordinates": {
+      "x": 62,
+      "y": 50
+    }
+  },
+  {
+    "id": "minh-hai",
+    "name": "Tổ sư Minh Hải",
+    "lifespan": "1670–1746",
+    "region": "Miền Trung",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Trung đại",
+    "sub_era": "Triều Nguyễn",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/trung/To_su_minh_hai_phap_bao-1670-1746.webp",
+    "phapNgu": "Giữ gìn giới luật là nền tảng của mọi công đức tu hành.",
+    "bio": "Tổ sư Minh Hải (1670-1746), người sáng lập phái Lâm Tế Chúc Thánh tại Quảng Nam.",
+    "coordinates": {
+      "x": 60,
+      "y": 52
+    }
+  },
+  {
+    "id": "lieu-quan",
+    "name": "Thiền sư Liễu Quán",
+    "lifespan": "1670–1742",
+    "region": "Miền Trung",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Trung đại",
+    "sub_era": "Triều Nguyễn",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/trung/Thien-su-Lieu-Quan-1670-1742.webp",
+    "phapNgu": "Tâm không vướng bận, đạo tự nhiên hiển hiện.",
+    "bio": "Thiền sư Liễu Quán (1670-1742), người sáng lập Thiền phái Liễu Quán tại Thuận Hóa, vị thiền sư có ảnh hưởng sâu rộng nhất ở xứ Đàng Trong.",
+    "coordinates": {
+      "x": 63,
+      "y": 48
+    }
+  },
+  {
+    "id": "nhat-dinh",
+    "name": "Thiền sư Nhất Định",
+    "lifespan": "1784–1847",
+    "region": "Miền Trung",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Trung đại",
+    "sub_era": "Triều Nguyễn",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/nam/nam/Hoa-Thuong-Nhat-Thien-1929-2001.webp",
+    "bio": "Thiền sư Nhất Định (1784-1847), khai sơn Từ Hiếu (Huế), thiền sư tinh thần hiếu thảo và đức độ vô song.",
+    "coordinates": {
+      "x": 61,
+      "y": 54
+    }
+  },
+  {
+    "id": "hue-dang",
+    "name": "Tổ sư Huệ Đăng",
+    "lifespan": "1873–1944",
+    "region": "Miền Trung",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Cận đại",
+    "sub_era": "Thời Pháp thuộc",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/nam/nam/Hoa-Thuong-Hue-Hung-1917-1990.webp",
+    "bio": "Tổ sư Huệ Đăng (1873-1944), khai sơn Chùa Thiên Hòa, bậc cao tăng trong phong trào chấn hưng Phật giáo.",
+    "coordinates": {
+      "x": 64,
+      "y": 53
+    }
+  },
+  {
+    "id": "phuoc-hue",
+    "name": "Hòa thượng Thích Phước Huệ",
+    "lifespan": "1869–1945",
+    "region": "Miền Trung",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Cận đại",
+    "sub_era": "Phong trào Chấn hưng Phật giáo",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/ni-gioi-vn/NI-TRUONG-THICH-NU-HUE-PHUOC-1933-2020-.webp",
+    "bio": "Hòa thượng Thích Phước Huệ (1869-1945), đường chủ Phật học đường Thập Tháp, bậc sư tổ của các vị cao tăng thế kỷ 20.",
+    "coordinates": {
+      "x": 59,
+      "y": 55
+    }
+  },
+  {
+    "id": "tinh-khiet",
+    "name": "Hòa thượng Thích Tịnh Khiết",
+    "lifespan": "1890–1973",
+    "region": "Miền Trung",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Cận đại",
+    "sub_era": "Phong trào Chấn hưng Phật giáo",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/trung/Hoa-Thuong-Thich-Tinh-Khiet-1890-1973-.webp",
+    "phapNgu": "Giáo hội là ngôi nhà chung của Phật tử Việt Nam, cần được gìn giữ và phát triển.",
+    "bio": "Đệ nhất Tăng thống Giáo hội Phật giáo Việt Nam Thống nhất (1890-1973), bậc thạch trụ uy nghiêm của Phật giáo Việt Nam.",
+    "coordinates": {
+      "x": 65,
+      "y": 47
+    }
+  },
+  {
+    "id": "giac-tien",
+    "name": "Hòa thượng Trừng Thành Giác Tiên",
+    "lifespan": "1880–1936",
+    "region": "Miền Trung",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Cận đại",
+    "sub_era": "Phong trào Chấn hưng Phật giáo",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/trung/Hoa-Thuong-Trung-Thanh-Giac-Tien-1880-1936-.webp",
+    "bio": "Hòa thượng Trừng Thành Giác Tiên (1880-1936), một trong những vị sáng lập An Nam Phật học hội.",
+    "coordinates": {
+      "x": 62,
+      "y": 56
+    }
+  },
+  {
+    "id": "giac-nhien",
+    "name": "Hòa thượng Trừng Thủy Giác Nhiên",
+    "lifespan": "1878–1979",
+    "region": "Miền Trung",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Cận đại",
+    "sub_era": "Phong trào Chấn hưng Phật giáo",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/trung/Hoa-Thuong-Trung-Thuy-Giac-Nhien-1878-1979-.webp",
+    "bio": "Hòa thượng Trừng Thủy Giác Nhiên (1878-1979), Đệ nhị Tăng thống GHPGVNTN, thọ 101 tuổi.",
+    "coordinates": {
+      "x": 63,
+      "y": 45
+    }
+  },
+  {
+    "id": "mat-hien",
+    "name": "Hòa thượng Thích Mật Hiển",
+    "lifespan": "1907–1992",
+    "region": "Miền Trung",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/trung/thich-mat-hien.webp",
+    "bio": "Hòa thượng Thích Mật Hiển, vị cao tăng đức độ lớn tại Huế và miền Trung.",
+    "coordinates": {
+      "x": 60,
+      "y": 57
+    }
+  },
+  {
+    "id": "thien-sieu",
+    "name": "Hòa thượng Thích Thiện Siêu",
+    "lifespan": "1921–2001",
+    "region": "Miền Trung",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/trung/thich-thien-sieu.webp",
+    "phapNgu": "Phật pháp như biển rộng, người học cần kiên nhẫn và tinh tấn.",
+    "bio": "Hòa thượng Thích Thiện Siêu, Phó Pháp chủ HĐCM Giáo hội Phật giáo Việt Nam, vị học giả uyên bác.",
+    "coordinates": {
+      "x": 66,
+      "y": 50
+    }
+  },
+  {
+    "id": "tri-thu",
+    "name": "Hòa thượng Thích Trí Thủ",
+    "lifespan": "1909–1984",
+    "region": "Miền Trung",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/bac/thich-tri-do.webp",
+    "phapNgu": "Đoàn kết Phật giáo là nền tảng cho sự phát triển của đạo pháp và dân tộc.",
+    "bio": "Hòa thượng Thích Trí Thủ, Đệ nhất Chủ tịch Hội đồng Trị sự Giáo hội Phật giáo Việt Nam.",
+    "coordinates": {
+      "x": 61,
+      "y": 44
+    }
+  },
+  {
+    "id": "tri-quang",
+    "name": "Hòa thượng Thích Trí Quang",
+    "lifespan": "1923–2019",
+    "region": "Miền Trung",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Đương đại",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/trung/Hoa-thuong-Thich-Tri-Quang-1923-2019-.webp",
+    "phapNgu": "Phật giáo và dân tộc là một, bảo vệ Phật giáo là bảo vệ dân tộc.",
+    "bio": "Hòa thượng Thích Trí Quang (1923-2019), lãnh đạo Phật giáo uyên bác nổi tiếng trong phong trào đấu tranh Phật giáo năm 1963.",
+    "coordinates": {
+      "x": 64,
+      "y": 43
+    }
+  },
+  {
+    "id": "don-hau",
+    "name": "Hòa thượng Thích Đôn Hậu",
+    "lifespan": "1905–1992",
+    "region": "Miền Trung",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/trung/thich-don-hau.webp",
+    "bio": "Hòa thượng Thích Đôn Hậu, Phó Pháp chủ GHPGVN, trụ trì Chùa Linh Mụ (Huế).",
+    "coordinates": {
+      "x": 65,
+      "y": 42
+    }
+  },
+  {
+    "id": "chon-thien",
+    "name": "Hòa thượng Thích Chơn Thiện",
+    "lifespan": "1942–2016",
+    "region": "Miền Trung",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/trung/thich-chon-thien.webp",
+    "bio": "Hòa thượng Thích Chơn Thiện, học giả Phật học xuất sắc, Viện trưởng Học viện PGVN tại Huế.",
+    "coordinates": {
+      "x": 59,
+      "y": 58
+    }
+  },
+  {
+    "id": "thien-nguyen",
+    "name": "Hòa thượng Thích Thiện Nguyện",
+    "lifespan": "1946–2016",
+    "region": "Miền Trung",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/thien-su-Nguyen-Minh-Khong-1073-1141-.webp",
+    "bio": "Hòa thượng Thích Thiện Nguyện, Quyền Trưởng ban Trị sự GHPGVN TP. Đà Nẵng.",
+    "coordinates": {
+      "x": 67,
+      "y": 51
+    }
+  },
+  {
+    "id": "nhat-hanh",
+    "name": "Thiền sư Thích Nhất Hạnh",
+    "lifespan": "1926–2022",
+    "region": "Miền Trung",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Đương đại",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/trung/Thien-su-Thich-Nhat-Hanh-1926-2022-37.webp",
+    "phapNgu": "Thở vào tôi làm lặng thân tâm, thở ra tôi nở nụ cười. Tôi an trú trong hiện tại, tôi biết đây là khoảnh khắc nhiệm màu.",
+    "bio": "Thiền sư Thích Nhất Hạnh (1926-2022), vị thiền sư Phật giáo nổi tiếng thế giới, sáng lập Làng Mai (Pháp) và phong trào Phật giáo Dấn thân.",
+    "coordinates": {
+      "x": 68,
+      "y": 49
+    }
+  },
+  {
+    "id": "huyen-quang",
+    "name": "Hòa thượng Huyền Quang",
+    "lifespan": "1920–2008",
+    "region": "Miền Trung",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Đương đại",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/trung/Hoa-Thuong-Huyen-Quang1920-2008.webp",
+    "bio": "Hòa thượng Huyền Quang (1920-2008), Đệ tứ Tăng thống Giáo hội Phật giáo Việt Nam Thống nhất.",
+    "coordinates": {
+      "x": 63,
+      "y": 59
+    }
+  },
+  {
+    "id": "ke-chau",
+    "name": "Hòa thượng Thích Kế Châu",
+    "lifespan": "1922–1996",
+    "region": "Miền Trung",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/trung/Hoa-Thuong-Thich-Ke-Chau-1922-1996.webp",
+    "bio": "Hòa thượng Thích Kế Châu (1922-1996), vị cao tăng trụ trì Thập Tháp Bát Nhã cổ tự (Bình Định).",
+    "coordinates": {
+      "x": 62,
+      "y": 41
+    }
+  },
+  {
+    "id": "thien-duyen",
+    "name": "Hòa thượng Thích Thiện Duyên",
+    "lifespan": "1926–2021",
+    "region": "Miền Trung",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/trung/Hoa-Thuong-Thich-Thien-Duyen-1926-2021.webp",
+    "bio": "Hòa thượng Thích Thiện Duyên (1926-2021), Phó Pháp chủ HĐCM Giáo hội Phật giáo Việt Nam.",
+    "coordinates": {
+      "x": 66,
+      "y": 53
+    }
+  },
+  {
+    "id": "dieu-khong",
+    "name": "Sư bà Diệu Không",
+    "lifespan": "1905–1997",
+    "region": "Miền Trung",
+    "hoi_chung": "Ni chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Cận đại",
+    "sub_era": "Phong trào Chấn hưng Phật giáo",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/ni-gioi-vn/su-ba-dieu-khong-1905-1997.webp",
+    "phapNgu": "Người phụ nữ tu hành phải giữ giới luật và tinh tấn hơn gấp đôi.",
+    "bio": "Ni trưởng Thích Nữ Diệu Không (1905-1997), vị ni trưởng đức độ của Phật giáo Việt Nam thế kỷ 20, có công lớn xây dựng trường ni học và từ thiện.",
+    "coordinates": {
+      "x": 58,
+      "y": 60
+    }
+  },
+  {
+    "id": "nhu-thanh",
+    "name": "Ni trưởng Thích Nữ Như Thanh",
+    "lifespan": "1911–1999",
+    "region": "Miền Trung",
+    "hoi_chung": "Ni chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/ni-gioi-vn/Su-truong-Nhu-Thanh-1911-1999-.webp",
+    "bio": "Ni trưởng Thích Nữ Như Thanh (1911-1999), Vụ trưởng Ni giới Vụ thuộc GHPGVNTN.",
+    "coordinates": {
+      "x": 67,
+      "y": 55
+    }
+  },
+  {
+    "id": "linh-nhac",
+    "name": "Thiền sư Linh Nhạc Phật Ý",
+    "lifespan": "1725–1821",
+    "region": "Miền Nam",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Trung đại",
+    "sub_era": "Triều Nguyễn",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/nam/nam/Thien-su-Linh-Nhac-Phat-Y-mien-nam-1725-1821-.webp",
+    "bio": "Thiền sư Linh Nhạc Phật Ý (1725-1821), khai sơn Chùa Từ Ân (Gia Định), bậc sơ tổ Phật giáo miền Nam.",
+    "coordinates": {
+      "x": 68,
+      "y": 78
+    }
+  },
+  {
+    "id": "tien-giac",
+    "name": "Thiền sư Tiên Giác Hải Tịnh",
+    "lifespan": "1788–1875",
+    "region": "Miền Nam",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Cận đại",
+    "sub_era": "Thời Pháp thuộc",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/nam/nam/Thien-su-Tien-Giac-Hai-Tinh-1788-1875-.webp",
+    "bio": "Thiền sư Tiên Giác Hải Tịnh (1788-1875), Tăng cang Giác Lâm, vị danh tăng Đàng Trong.",
+    "coordinates": {
+      "x": 70,
+      "y": 76
+    }
+  },
+  {
+    "id": "tu-phong",
+    "name": "Hòa thượng Thích Từ Phong",
+    "lifespan": "1864–1938",
+    "region": "Miền Nam",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Cận đại",
+    "sub_era": "Phong trào Chấn hưng Phật giáo",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/nam/nam/Hoa-Thuong-Thich-Tu-Phong-1864-1938.webp",
+    "bio": "Hòa thượng Thích Từ Phong (1864-1938), trụ trì Chùa Giác Ngộ, lãnh đạo phong trào chấn hưng Phật giáo Nam Kỳ.",
+    "coordinates": {
+      "x": 69,
+      "y": 80
+    }
+  },
+  {
+    "id": "khanh-hoa",
+    "name": "Hòa thượng Khánh Hòa",
+    "lifespan": "1877–1947",
+    "region": "Miền Nam",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Cận đại",
+    "sub_era": "Phong trào Chấn hưng Phật giáo",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/nam/nam/Hoa-Thuong-Khanh-Hoa-1877-1947.webp",
+    "phapNgu": "Muốn chấn hưng Phật giáo trước tiên phải chấn hưng việc học.",
+    "bio": "Hòa thượng Khánh Hòa (1877-1947), người khai sáng phong trào chấn hưng Phật giáo Nam Kỳ.",
+    "coordinates": {
+      "x": 67,
+      "y": 82
+    }
+  },
+  {
+    "id": "minh-dang-quang",
+    "name": "Hòa thượng Minh Đăng Quang",
+    "lifespan": "1923–1954",
+    "region": "Miền Nam",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Hệ phái Phật giáo Khất sĩ",
+    "era": "Thời Cận đại",
+    "sub_era": "Phong trào Chấn hưng Phật giáo",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/nam/nam/Hoa-Thuong-Minh-ang-Quang.webp",
+    "phapNgu": "Đi tu là đi theo con đường giải thoát, không phải đi tìm danh lợi.",
+    "bio": "Tổ sư Minh Đăng Quang, người khai sáng Hệ phái Phật giáo Khất sĩ Việt Nam nối truyền Chánh pháp.",
+    "coordinates": {
+      "x": 71,
+      "y": 77
+    }
+  },
+  {
+    "id": "chi-thien",
+    "name": "Tổ Phi Lai Thích Chí Thiền",
+    "lifespan": "1861–1933",
+    "region": "Miền Nam",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Cận đại",
+    "sub_era": "Thời Pháp thuộc",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/nam/To-Phi-Lai-THICH-CHI-THIEN.webp",
+    "bio": "Tổ Phi Lai Thích Chí Thiền, bậc thiền sư từ bi cứu thế, tổ sư Chùa Phi Lai (An Giang).",
+    "coordinates": {
+      "x": 66,
+      "y": 79
+    }
+  },
+  {
+    "id": "khanh-anh",
+    "name": "Hòa thượng Thích Khánh Anh",
+    "lifespan": "1895–1961",
+    "region": "Miền Nam",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Cận đại",
+    "sub_era": "Phong trào Chấn hưng Phật giáo",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/nam/nam/Hoa-Thuong-Khanh-Hoa-1877-1947.webp",
+    "bio": "Hòa thượng Thích Khánh Anh (1895-1961), Thượng thủ Giáo hội Tăng già Toàn quốc.",
+    "coordinates": {
+      "x": 72,
+      "y": 78
+    }
+  },
+  {
+    "id": "thien-hoa",
+    "name": "Hòa thượng Thích Thiện Hoa",
+    "lifespan": "1918–1973",
+    "region": "Miền Nam",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Cận đại",
+    "sub_era": "Phong trào Chấn hưng Phật giáo",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/nam/Hoa-Thuong-Thich-Thien-Hoa.webp",
+    "phapNgu": "Tu học Phật pháp là sự nghiệp cả cuộc đời, không được lơ là.",
+    "bio": "Hòa thượng Thích Thiện Hoa, Viện trưởng Viện Hóa Đạo GHPGVNTN, tác giả bộ sách Phật Học Phổ Thông.",
+    "coordinates": {
+      "x": 69,
+      "y": 81
+    }
+  },
+  {
+    "id": "thien-hoa-nam",
+    "name": "Hòa thượng Thích Thiện Hòa",
+    "lifespan": "1907–1978",
+    "region": "Miền Nam",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Đương đại",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/nam/Hoa-Thuong-Thich-Thien-Hoa.webp",
+    "bio": "Hòa thượng Thích Thiện Hòa, Trưởng ban Trị sự Chùa Ấn Quang, kiến thiết nhiều cơ sở Phật giáo.",
+    "coordinates": {
+      "x": 70,
+      "y": 83
+    }
+  },
+  {
+    "id": "quang-duc",
+    "name": "Hòa thượng Thích Quảng Đức",
+    "lifespan": "1897–1963",
+    "region": "Miền Nam",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Cận đại",
+    "sub_era": "Phong trào Chấn hưng Phật giáo",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/bac/thich-duc-nhuan.webp",
+    "phapNgu": "Trước khi nhắm mắt từ biệt thế gian, tôi xin kính xin hãy tỏ lòng bác ái từ bi đối với quốc dân và Phật giáo.",
+    "bio": "Bồ Tát Thích Quảng Đức, vị hòa thượng tự thiêu vì tự do tín ngưỡng ngày 11/6/1963 tại Sài Gòn, để lại Bồ Tát Xá Lợi Trái Tim Bất Diệt.",
+    "coordinates": {
+      "x": 73,
+      "y": 76
+    }
+  },
+  {
+    "id": "minh-chau",
+    "name": "Hòa thượng Thích Minh Châu",
+    "lifespan": "1918–2012",
+    "region": "Miền Nam",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Phật giáo Nam tông",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/nam/nam/Hoa-Thuong-Thich-Minh-Chau.webp",
+    "phapNgu": "Tam tạng kinh điển là kho tàng vô giá của nhân loại cần được dịch thuật và gìn giữ.",
+    "bio": "Hòa thượng Thích Minh Châu, người dịch trọn bộ Kinh Tạng Pali sang tiếng Việt, Viện trưởng Học viện PGVN.",
+    "coordinates": {
+      "x": 71,
+      "y": 80
+    }
+  },
+  {
+    "id": "thien-tam",
+    "name": "Hòa thượng Thích Thiền Tâm",
+    "lifespan": "1925–1992",
+    "region": "Miền Nam",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/bac/thich-tam-thong.webp",
+    "phapNgu": "Niệm Phật là con đường thù thắng nhất cho người tu trong thời mạt pháp.",
+    "bio": "Hòa thượng Thích Thiền Tâm, bậc cao tăng Tịnh Độ Tông nổi tiếng miền Nam.",
+    "coordinates": {
+      "x": 68,
+      "y": 84
+    }
+  },
+  {
+    "id": "tri-tinh",
+    "name": "Hòa thượng Thích Trí Tịnh",
+    "lifespan": "1917–2014",
+    "region": "Miền Nam",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/nam/nam/Hoa-Thuong-Thich-Tri-Tinh.webp",
+    "phapNgu": "Phật pháp như thuốc chữa bệnh, không dùng thì bệnh không khỏi.",
+    "bio": "Hòa thượng Thích Trí Tịnh, Đệ nhất Chủ tịch HĐTS Giáo hội Phật giáo Việt Nam, dịch giả Đại Thừa Kinh Tạng.",
+    "coordinates": {
+      "x": 74,
+      "y": 79
+    }
+  },
+  {
+    "id": "ho-tong",
+    "name": "Hòa thượng Hộ Tông",
+    "lifespan": "1899–1981",
+    "region": "Miền Nam",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Phật giáo Nam tông",
+    "era": "Thời Hiện đại",
+    "sub_era": "Đương đại",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/-jpg",
+    "bio": "Đại lão Hòa thượng Hộ Tông (Vansarakkhita), vị Tổ sư có công truyền bá Phật giáo Nam Tông (Theravada) vào Việt Nam.",
+    "coordinates": {
+      "x": 72,
+      "y": 82
+    }
+  },
+  {
+    "id": "hue-thanh",
+    "name": "Hòa thượng Thích Huệ Thành",
+    "lifespan": "1912–1998",
+    "region": "Miền Nam",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/nam/nam/Hoa-Thuong-Thich-Hue-Thanh-1912-1998.webp",
+    "bio": "Hòa thượng Thích Huệ Thành (1912-1998), Tăng thống Giáo hội Cổ truyền Phật giáo Việt Nam.",
+    "coordinates": {
+      "x": 69,
+      "y": 85
+    }
+  },
+  {
+    "id": "hanh-tru",
+    "name": "Hòa thượng Thích Hành Trụ",
+    "lifespan": "1904–1984",
+    "region": "Miền Nam",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/nam/nam/Hoa-Thuong-Thich-Hanh-Tru.webp",
+    "bio": "Hòa thượng Thích Hành Trụ, vị cao tăng tinh通 Luật tạng và dịch thuật Luật bản.",
+    "coordinates": {
+      "x": 75,
+      "y": 77
+    }
+  },
+  {
+    "id": "quang-do",
+    "name": "Hòa thượng Thích Quảng Độ",
+    "lifespan": "1928–2020",
+    "region": "Miền Nam",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Đương đại",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/bac/thich-doan-hai.webp",
+    "bio": "Hòa thượng Thích Quảng Độ, Đệ ngũ Tăng thống Giáo hội Phật giáo Việt Nam Thống nhất.",
+    "coordinates": {
+      "x": 70,
+      "y": 87
+    }
+  },
+  {
+    "id": "thanh-kiem",
+    "name": "Hòa thượng Thích Thanh Kiểm",
+    "lifespan": "1921–2000",
+    "region": "Miền Nam",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Tào Động",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/nam/nam/Hoa-Thuong-Thich-Thanh-Kiem.webp",
+    "bio": "Hòa thượng Thích Thanh Kiểm, Trưởng ban Phật học Vụ GHPGVN, học giả Phật giáo uyên bác.",
+    "coordinates": {
+      "x": 73,
+      "y": 83
+    }
+  },
+  {
+    "id": "tam-giac",
+    "name": "Hòa thượng Thích Tâm Giác",
+    "lifespan": "1917–1973",
+    "region": "Miền Nam",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Tào Động",
+    "era": "Thời Cận đại",
+    "sub_era": "Phong trào Chấn hưng Phật giáo",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/nam/nam/Hoa-Thuong-Thich-Tam-Giac.webp",
+    "bio": "Hòa thượng Thích Tâm Giác, Viện chủ Vĩnh Nghiêm (Sài Gòn).",
+    "coordinates": {
+      "x": 71,
+      "y": 86
+    }
+  },
+  {
+    "id": "tac-an",
+    "name": "Hòa thượng Thích Tắc An",
+    "lifespan": "1913–2003",
+    "region": "Miền Nam",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/nam/nam/Hoa-Thuong-Thich-Tac-An.webp",
+    "bio": "Hòa thượng Thích Tắc An, Viện chủ Chùa Thiền Tôn, cao tăng hệ phái Thiên Thai Thiền Giáo.",
+    "coordinates": {
+      "x": 74,
+      "y": 81
+    }
+  },
+  {
+    "id": "tu-nhon",
+    "name": "Hòa thượng Thích Từ Nhơn",
+    "lifespan": "1926–2013",
+    "region": "Miền Nam",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/nam/nam/Hoa-Thuong-Thich-Tu-Nhon.webp",
+    "bio": "Hòa thượng Thích Từ Nhơn, Phó Chủ tịch Thường trực HĐTS Giáo hội Phật giáo Việt Nam.",
+    "coordinates": {
+      "x": 67,
+      "y": 86
+    }
+  },
+  {
+    "id": "vinh-trang",
+    "name": "Hòa thượng Thích Vĩnh Tràng",
+    "lifespan": "1916–2002",
+    "region": "Miền Nam",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/nam/nam/Hoa-Thuong-Thich-Vinh-Trang.webp",
+    "bio": "Hòa thượng Thích Vĩnh Tràng, vị cao tăng trụ trì Vĩnh Tràng cổ tự (Mỹ Tho).",
+    "coordinates": {
+      "x": 75,
+      "y": 85
+    }
+  },
+  {
+    "id": "dat-thanh",
+    "name": "Hòa thượng Thích Đạt Thanh",
+    "lifespan": "1853–1973",
+    "region": "Miền Nam",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Cận đại",
+    "sub_era": "Phong trào Chấn hưng Phật giáo",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/-ai-lao-Hoa-thuong-Thich-Thanh-am-1924-2022-1-1-1.webp",
+    "bio": "Hòa thượng Thích Đạt Thanh (1853-1973), thọ 120 tuổi, bậc trưởng lão thạch trụ đức độ Nam Bộ.",
+    "coordinates": {
+      "x": 76,
+      "y": 83
+    }
+  },
+  {
+    "id": "thien-hao",
+    "name": "Hòa thượng Thích Thiện Hào",
+    "lifespan": "1911–1997",
+    "region": "Miền Nam",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/nam/nam/Hoa-Thuong-Thich-Thien-Hao.webp",
+    "bio": "Hòa thượng Thích Thiện Hào, Phó Chủ tịch HĐTS GHPGVN, Trưởng ban Trị sự TP.HCM.",
+    "coordinates": {
+      "x": 72,
+      "y": 88
+    }
+  },
+  {
+    "id": "thien-phuoc",
+    "name": "Hòa thượng Thích Thiện Phước",
+    "lifespan": "1924–1986",
+    "region": "Miền Nam",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Đương đại",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/nam/nam/Hoa-Thuong-Thich-Thien-Phuoc-1924-1986-.gif",
+    "bio": "Hòa thượng Thích Thiện Phước (1924-1986), khai sơn Chùa Liên Trì.",
+    "coordinates": {
+      "x": 68,
+      "y": 88
+    }
+  },
+  {
+    "id": "minh-canh",
+    "name": "Hòa thượng Thích Minh Cảnh",
+    "lifespan": "1937–2018",
+    "region": "Miền Nam",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/nam/nam/Hoa-Thuong-Thich-Minh-Canh.webp",
+    "bio": "Hòa thượng Thích Minh Cảnh, Giám đốc Trung tâm Phiên dịch Hán Nôm Huệ Quang.",
+    "coordinates": {
+      "x": 76,
+      "y": 78
+    }
+  },
+  {
+    "id": "tri-dung",
+    "name": "Hòa thượng Trí Dũng",
+    "lifespan": "1906–2001",
+    "region": "Miền Nam",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/nam/nam/Hoa-Thuong-Tri-Dung-1906-2001-.webp",
+    "bio": "Hòa thượng Trí Dũng (1906-2001), khai sơn Chùa Nam Quốc Phật Tổ.",
+    "coordinates": {
+      "x": 73,
+      "y": 90
+    }
+  },
+  {
+    "id": "thong-buu",
+    "name": "Hòa thượng Thích Thông Bửu",
+    "lifespan": "1933–2007",
+    "region": "Miền Nam",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/nam/nam/Hoa-Thuong-Thich-Thong-Buu.webp",
+    "bio": "Hòa thượng Thích Thông Bửu, trụ trì Quán Thế Âm thiền tự.",
+    "coordinates": {
+      "x": 74,
+      "y": 91
+    }
+  },
+  {
+    "id": "duy-luc",
+    "name": "Hòa thượng Thích Duy Lực",
+    "lifespan": "1923–2000",
+    "region": "Miền Nam",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/nam/nam/Hoa-Thuong-Thich-Duy-Luc.webp",
+    "phapNgu": "Tham thiền là phương pháp trực tiếp nhất để ngộ tâm kiến tánh.",
+    "bio": "Hòa thượng Thích Duy Lực, vị thiền sư chuyên hoằng truyền Tổ Sư Thiền nổi tiếng rộng rãi.",
+    "coordinates": {
+      "x": 78,
+      "y": 86
+    }
+  },
+  {
+    "id": "ho-giac",
+    "name": "Hòa thượng Thích Hộ Giác",
+    "lifespan": "1928–2012",
+    "region": "Miền Nam",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Phật giáo Nam tông",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/nam/nam/Hoa-Thuong-Thich-Ho-Giac.webp",
+    "bio": "Hòa thượng Thích Hộ Giác, vị cao tăng Phật giáo Nam Tông Việt Nam.",
+    "coordinates": {
+      "x": 79,
+      "y": 79
+    }
+  },
+  {
+    "id": "ngo-chan-tu",
+    "name": "Hòa thượng Ngộ Chân Tử",
+    "lifespan": "1901–1988",
+    "region": "Miền Nam",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Đương đại",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/nam/nam/Hoa-Thuong-Ngo-Chan-Tu.webp",
+    "bio": "Hòa thượng Ngộ Chân Tử, khai sơn Chùa Hoằng Pháp (Hóc Môn, TP.HCM).",
+    "coordinates": {
+      "x": 80,
+      "y": 85
+    }
+  },
+  {
+    "id": "thien-quang",
+    "name": "Hòa thượng Thiện Quang",
+    "lifespan": "1895–1953",
+    "region": "Miền Nam",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Cận đại",
+    "sub_era": "Phong trào Chấn hưng Phật giáo",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/nam/nam/Hoa-Thuong-Minh-ang-Quang.webp",
+    "bio": "Hòa thượng Thiện Quang (1895-1953), khai sơn Chùa Thường Chiếu.",
+    "coordinates": {
+      "x": 81,
+      "y": 78
+    }
+  },
+  {
+    "id": "hue-hung",
+    "name": "Hòa thượng Huệ Hưng",
+    "lifespan": "1917–1990",
+    "region": "Miền Nam",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/nam/nam/Hoa-Thuong-Hue-Hung-1917-1990.webp",
+    "bio": "Hòa thượng Huệ Hưng, Trưởng ban Tăng sự Trung ương GHPGVN.",
+    "coordinates": {
+      "x": 82,
+      "y": 79
+    }
+  },
+  {
+    "id": "gioi-nghiem",
+    "name": "Hòa thượng Giới Nghiêm",
+    "lifespan": "1921–1984",
+    "region": "Miền Nam",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Phật giáo Nam tông",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/nam/Hoa-Thuong-Gioi-Nghiem-1921-1984-.webp",
+    "bio": "Hòa thượng Giới Nghiêm (Thitasilo), Tăng thống Phật giáo Nam Tông Việt Nam.",
+    "coordinates": {
+      "x": 82,
+      "y": 84
+    }
+  },
+  {
+    "id": "thich-nu-huynh-lien",
+    "name": "Ni sư Thích nữ Huỳnh Liên",
+    "lifespan": "1923–1987",
+    "region": "Miền Nam",
+    "hoi_chung": "Ni chúng",
+    "sect": "Hệ phái Phật giáo Khất sĩ",
+    "era": "Thời Cận đại",
+    "sub_era": "Phong trào Chấn hưng Phật giáo",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/ni-gioi-vn/Ni-su-Thich-nu-Huynh-Lien-1923-1987.webp",
+    "bio": "Ni trưởng Thích Nữ Huỳnh Liên, Trưởng Ni giới Hệ phái Khất sĩ Việt Nam, dấn thân vì hòa bình và đạo pháp.",
+    "coordinates": {
+      "x": 84,
+      "y": 85
+    }
+  },
+  {
+    "id": "hue-phuoc",
+    "name": "Ni trưởng Thích Nữ Huệ Phước",
+    "lifespan": "1933–2020",
+    "region": "Miền Nam",
+    "hoi_chung": "Ni chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/ni-gioi-vn/NI-TRUONG-THICH-NU-HUE-PHUOC-1933-2020-.webp",
+    "bio": "Ni trưởng Thích Nữ Huệ Phước (1933-2020), vị ni trưởng đức độ tại miền Nam.",
+    "coordinates": {
+      "x": 83,
+      "y": 77
+    }
+  },
+  {
+    "id": "tri-hai-ni",
+    "name": "Ni sư Thích Nữ Trí Hải",
+    "lifespan": "1938–2003",
+    "region": "Miền Nam",
+    "hoi_chung": "Ni chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/bac/thich-tri-hai.webp",
+    "phapNgu": "Một cuốn sách hay có thể thay đổi cả cuộc đời một con người.",
+    "bio": "Ni sư Thích Nữ Trí Hải (1938-2003), vị ni sư học giả uyên bác, dịch giả tài ba của Phật giáo Việt Nam.",
+    "coordinates": {
+      "x": 84,
+      "y": 81
+    }
+  },
+  {
+    "id": "nhu-hue",
+    "name": "Ni trưởng Thích Nữ Như Huệ",
+    "lifespan": "1914–1984",
+    "region": "Miền Nam",
+    "hoi_chung": "Ni chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Cận đại",
+    "sub_era": "Phong trào Chấn hưng Phật giáo",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/gioi-ni/Ni-truong-Thich-Nu-Nhu-Hue-1914-1984-.webp",
+    "bio": "Ni trưởng Thích Nữ Như Huệ (1914-1984), vị ni trưởng có công lớn phát triển ni giới Nam Bộ.",
+    "coordinates": {
+      "x": 85,
+      "y": 80
+    }
+  },
+  {
+    "id": "tinh-hanh",
+    "name": "Ni trưởng Thích Nữ Tịnh Hạnh",
+    "lifespan": "1926–2018",
+    "region": "Miền Nam",
+    "hoi_chung": "Ni chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/ni-gioi-vn/su-ba-tinh-hanh-1926-2018.webp",
+    "bio": "Ni trưởng Thích Nữ Tịnh Hạnh (1926-2018), vị ni trưởng đức độ tại miền Nam.",
+    "coordinates": {
+      "x": 85,
+      "y": 84
+    }
+  },
+  {
+    "id": "vien-minh-ni",
+    "name": "Ni trưởng Thích Nữ Viên Minh",
+    "lifespan": "1914–2014",
+    "region": "Miền Nam",
+    "hoi_chung": "Ni chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/ni-gioi-vn/Ni-truong-Thich-nu-Vien-Minh-1914-2014.webp",
+    "bio": "Ni trưởng Thích Nữ Viên Minh (1914-2014), thọ 100 tuổi, trụ trì Chùa Dược Sư.",
+    "coordinates": {
+      "x": 86,
+      "y": 78
+    }
+  },
+  {
+    "id": "dieu-huong",
+    "name": "Ni trưởng Thích Nữ Diệu Hương",
+    "lifespan": "1884–1971",
+    "region": "Miền Nam",
+    "hoi_chung": "Ni chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Cận đại",
+    "sub_era": "Phong trào Chấn hưng Phật giáo",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/nam/nam/Hoa-Thuong-Thich-Dieu-Tam.webp",
+    "bio": "Ni trưởng Thích Nữ Diệu Hương (1884-1971), bậc ni trưởng tiên phong của Phật giáo Việt Nam hiện đại.",
+    "coordinates": {
+      "x": 86,
+      "y": 82
+    }
+  },
+  {
+    "id": "hue-giac",
+    "name": "Ni trưởng Thích Nữ Huệ Giác",
+    "lifespan": "1937–2021",
+    "region": "Miền Nam",
+    "hoi_chung": "Ni chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/ni-gioi-vn/Ni-truong-Thich-nu-Hue-Giac-1937-2021-.webp",
+    "bio": "Ni trưởng Thích Nữ Huệ Giác (1937-2021), vị ni trưởng Tông Quan Âm Tu Viện.",
+    "coordinates": {
+      "x": 87,
+      "y": 81
+    }
+  },
+  {
+    "id": "nhu-hoa",
+    "name": "Ni trưởng Thích Nữ Như Hoa",
+    "lifespan": "1909–1989",
+    "region": "Miền Nam",
+    "hoi_chung": "Ni chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Cận đại",
+    "sub_era": "Phong trào Chấn hưng Phật giáo",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/bac/thich-duc-nhuan.webp",
+    "bio": "Ni trưởng Thích Nữ Như Hoa (1909-1989), vị ni trưởng đức độ tại miền Nam.",
+    "coordinates": {
+      "x": 87,
+      "y": 85
+    }
+  },
+  {
+    "id": "hai-trieu-am",
+    "name": "Sư trưởng Hải Triều Âm",
+    "lifespan": "1920–2013",
+    "region": "Miền Nam",
+    "hoi_chung": "Ni chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/ni-gioi-vn/Su-Truong-HAI-TRIEU-AM-1920-2013.webp",
+    "bio": "Sư trưởng Hải Triều Âm (1920-2013), bậc sư bà chuyên tu và hoằng truyền Tịnh Độ Tông.",
+    "coordinates": {
+      "x": 88,
+      "y": 79
+    }
+  },
+  {
+    "id": "dieu-tan",
+    "name": "Sư bà Diệu Tấn",
+    "lifespan": "1910–1995",
+    "region": "Miền Nam",
+    "hoi_chung": "Ni chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/anh-hoa-thuong-tong-hop/nam/nam/Hoa-Thuong-Thich-Dieu-Tam.webp",
+    "bio": "Sư bà Diệu Tấn, vị ni trưởng đức độ cao dày tại miền Nam.",
+    "coordinates": {
+      "x": 88,
+      "y": 83
+    }
+  },
+  {
+    "id": "yoshimizu-daichi",
+    "name": "Đại lão HT. Thích Yoshimizu Daichi",
+    "lifespan": "1941–2023",
+    "region": "Quốc tế",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Phật giáo Quốc tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Đương đại",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/quoc-te/-ai-lao-Hoa-thuong-Thich-YOSHIMIZU-DAICHI-1941-2023.webp",
+    "phapNgu": "Phật giáo không có biên giới quốc gia, chỉ có biên giới của tâm.",
+    "bio": "Đại lão Hòa thượng Thích Yoshimizu Daichi (1941-2023), Nguyên Phó Chủ tịch Hội Phật giáo Tịnh Độ Tông Nhật Bản, thọ giới Phật giáo Việt Nam, hết lòng hỗ trợ cộng đồng Việt Nam.",
+    "coordinates": {
+      "x": 88,
+      "y": 25
+    }
+  },
+  {
+    "id": "thich-buu-hue",
+    "name": "Hòa thượng Thích Bửu Huệ",
+    "lifespan": "1914–1991",
+    "region": "Miền Nam",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/nam/Hoa-thuong-Thich-Buu-Hue.webp",
+    "phapNgu": "Giới luật là thọ mạng của Phật pháp, Giới luật còn là Phật pháp còn.",
+    "bio": "Hòa thượng Thích Bửu Huệ (1914–1991), nguyên Viện chủ Tổ đình Huê Nghiêm (Huê Nghiêm Luật Viện), bậc danh tăng uyên thâm Giới luật, có công đức to lớn trong việc đào tạo Tăng tài và chấn hưng Phật giáo miền Nam.",
+    "coordinates": {
+      "x": 48,
+      "y": 78
+    }
+  },
+  {
+    "id": "thich-nhat-thien",
+    "name": "Hòa thượng Thích Nhật Thiện",
+    "lifespan": "1920–2010",
+    "region": "Miền Nam",
+    "hoi_chung": "Tăng chúng",
+    "sect": "Tông Lâm Tế",
+    "era": "Thời Hiện đại",
+    "sub_era": "Giáo hội Phật giáo Việt Nam",
+    "avatarUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/nam/Hoa-thuong-Thich-Nhat-Thien.webp",
+    "phapNgu": "Hương Giới Định mát lòng người nạp tử, nụ cười hiền hiện Phạm tướng đoan nghiêm.",
+    "bio": "Hòa thượng Thích Nhật Thiện (1920–2010), nguyên Viện chủ Chùa Đình Thành (Gia Định xưa - TP.HCM), bậc Tôn túc giới đức trang nghiêm, tận tụy tiếp độ chúng tăng và trao truyền Phạm bối cho hàng hậu học.",
+    "coordinates": {
+      "x": 49,
+      "y": 79
+    }
+  }
+]

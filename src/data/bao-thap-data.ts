@@ -13,8 +13,8 @@ export interface BaoThapFloor {
   hotspot: { x: number; y: number }; // percentage on so-do-bao-thap.webp
 }
 
-export const BAO_THAP_MAP_IMAGE = '/images/vu-tru-phat-giao/bao-thap/so-do-bao-thap.webp';
-export const BAO_THAP_BANNER_IMAGE = '/images/vu-tru-phat-giao/bao-thap/bao-thap-banner.jpg';
+export const BAO_THAP_MAP_IMAGE = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/so-do-bao-thap.webp';
+export const BAO_THAP_BANNER_IMAGE = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp';
 
 export const BAO_THAP_FLOORS: BaoThapFloor[] = [
   {
@@ -25,8 +25,8 @@ export const BAO_THAP_FLOORS: BaoThapFloor[] = [
     statueName: 'Tượng Quan Âm Thiên Thủ Thiên Nhãn',
     statueSubtitle: 'Đại Bi Cứu Khổ Nhân Sinh',
     statueImg:
-      '/images/bao_tuong_phat_giao/thanh_tinh_dai_hai_chung/BO_TAT_QUAN_AM/NGHE_THUAT_PHAT_GIAO/quan_am_thien_thu_thien_nhan_dang_dung.jpg',
-    mandalaImg: '/images/vu-tru-phat-giao/bao-thap/mandala-tang-1-quan-am-bo-tat.webp',
+      'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp',
+    mandalaImg: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/mandala-tang-1-quan-am-bo-tat.webp',
     mandalaMeaning:
       'Mạn Đà La Quan Thế Âm Bồ Tát biểu trưng cho Đại Bi Tâm vô lượng vô biên, hóa thân nghìn mắt nghìn tay soi thấu và cứu vớt muôn loài thoát khỏi trầm luân đau khổ.',
     statueDescription:
@@ -42,8 +42,8 @@ export const BAO_THAP_FLOORS: BaoThapFloor[] = [
     mandalaName: 'Mandala Tây Phương Cực Lạc',
     statueName: 'Tượng Đại Nhật Như Lai',
     statueSubtitle: 'Pháp Thân Thanh Tịnh Soi Khắp Pháp Giới',
-    statueImg: '/images/vu-tru-phat-giao/bao-thap/Tượng Đại Nhật Như Lai.JPG',
-    mandalaImg: '/images/vu-tru-phat-giao/bao-thap/mandala-tang-2-tay-phuong-cuc-lac.webp',
+    statueImg: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/Tuong-ai-Nhat-Nhu-Lai-JPG.webp',
+    mandalaImg: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/mandala-tang-2-tay-phuong-cuc-lac.webp',
     mandalaMeaning:
       'Mạn Đà La Tây Phương Cực Lạc tái hiện cảnh giới Tịnh Độ trang nghiêm thanh tịnh của Đức Phật A Di Đà với ao Thất Bảo, sen báu cửu phẩm và ánh sáng vi diệu.',
     statueDescription:
@@ -60,8 +60,8 @@ export const BAO_THAP_FLOORS: BaoThapFloor[] = [
     statueName: 'Tượng đức Phật Thích Ca, Bảo Tháp và kinh Diệu Pháp Liên Hoa',
     statueSubtitle: 'Pháp Hoa Tam Muội - Khai Thị Chúng Sinh',
     statueImg:
-      '/images/vu-tru-phat-giao/bao-thap/Tượng đức Phật Thích Ca, báo Tháp và kinh Diệu Pháp Liên Hoa.JPG',
-    mandalaImg: '/images/vu-tru-phat-giao/bao-thap/mandala-tang-3-da-bao-nhu-lai.webp',
+      'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/Tuong-duc-Phat-Thich-Ca-bao-Thap-va-kinh-Dieu-Phap-Lien-Hoa-JPG.webp',
+    mandalaImg: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/mandala-tang-3-da-bao-nhu-lai.webp',
     mandalaMeaning:
       'Mạn Đà La Đa Bảo Như Lai biểu hiện sự ấn chứng chân lý tối thượng của kinh Diệu Pháp Liên Hoa, khẳng định mọi chúng sinh đều có Phật tánh và khả năng thành Phật.',
     statueDescription:
@@ -77,8 +77,8 @@ export const BAO_THAP_FLOORS: BaoThapFloor[] = [
     mandalaName: 'Mandala Đại Hắc Thiên Mahakala',
     statueName: 'Tượng Tam Thế Phật',
     statueSubtitle: 'Tam Phương Tam Thế - Hộ Trì Chánh Pháp',
-    statueImg: '/images/vu-tru-phat-giao/bao-thap/Tượng Tam Thế Phật.JPG',
-    mandalaImg: '/images/vu-tru-phat-giao/bao-thap/mandala-tang-4-dai-hac-thien-mahakala.webp',
+    statueImg: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/Tuong-Tam-The-Phat-JPG.webp',
+    mandalaImg: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/mandala-tang-4-dai-hac-thien-mahakala.webp',
     mandalaMeaning:
       'Mạn Đà La Đại Hắc Thiên Mahakala - vị Hộ Pháp uy mãnh tối thượng hàng phục ma chướng, bảo vệ chánh pháp trường tồn và hộ trì người tu hành bình an.',
     statueDescription:
@@ -94,8 +94,8 @@ export const BAO_THAP_FLOORS: BaoThapFloor[] = [
     mandalaName: 'Mandala Thập Chủng Tử Kalachakra',
     statueName: 'Bảo tháp Srilanka',
     statueSubtitle: 'Xá Lợi Phật Tối Thượng - Thời Luân Kim Cương',
-    statueImg: '/images/vu-tru-phat-giao/bao-thap/Bảo tháp Srilanka.JPG',
-    mandalaImg: '/images/vu-tru-phat-giao/bao-thap/mandala-tang-5-thap-chung-tu-kalachakra.webp',
+    statueImg: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/Bao-thap-Srilanka-JPG.webp',
+    mandalaImg: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/mandala-tang-5-thap-chung-tu-kalachakra.webp',
     mandalaMeaning:
       'Mạn Đà La Thập Chủng Tử Kalachakra (Thời Luân Kim Cương) kết tinh tinh hoa tối thượng của Mật giáo, chuyển hóa thời gian và không gian hướng tới Đại Hòa Bình thế giới.',
     statueDescription:

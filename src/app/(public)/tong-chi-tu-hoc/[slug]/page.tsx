@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
+import Link from 'next/link';
+import { ExternalLink } from 'lucide-react';
 import { SubNavbar } from '@/components/tong-chi-tu-hoc/SubNavbar';
 import { SidebarNav } from '@/components/tong-chi-tu-hoc/SidebarNav';
 import { HeroBanner } from '@/components/tong-chi-tu-hoc/HeroBanner';
@@ -13,6 +15,8 @@ import { PhotoGallery } from '@/components/tong-chi-tu-hoc/chi-tiet/PhotoGallery
 import { DiscoverMore } from '@/components/tong-chi-tu-hoc/chi-tiet/DiscoverMore';
 import { AiQnA } from '@/components/tong-chi-tu-hoc/chi-tiet/AiQnA';
 import { DetailModal } from '@/components/tong-chi-tu-hoc/chi-tiet/DetailModal';
+import { BookCitationSection, SourceBookData } from '@/components/tong-chi-tu-hoc/chi-tiet/BookCitationSection';
+import { InfographicArticleRenderer } from '@/components/tong-chi-tu-hoc/chi-tiet/InfographicArticleRenderer';
 
 interface DuLieuBaiVietChiTiet {
   id: number;
@@ -20,7 +24,11 @@ interface DuLieuBaiVietChiTiet {
   subtitle?: string;
   shortDescription?: string;
   heroBanner: string;
+  bannerPosition?: string;
   poemContent?: string;
+  author?: string;
+  authorLink?: string;
+  sourceBook?: SourceBookData | SourceBookData[];
   popups?: Array<{
     keyword: string;
     title: string;
@@ -38,6 +46,7 @@ interface DuLieuBaiVietChiTiet {
     title?: string;
     author?: string;
     bgImage?: string;
+    bgPosition?: string;
     linkUrl?: string;
   };
   photoGallery?: Array<{
@@ -131,19 +140,41 @@ export default function TrangChiTietTongChi() {
   const params = useParams();
   const slug = params?.slug as string;
 
-  const navItems = [
-    { id: 'bai-tho', label: 'Bài thơ / Nội dung' },
-    { id: 'video-minh-hoa', label: 'Video minh họa' },
-    { id: 'bai-viet-noibat', label: 'Bài viết nổi bật' },
-    { id: 'bo-suu-tap-anh', label: 'Bộ sưu tập ảnh' },
-    { id: 'tim-hieu-them', label: 'Tìm hiểu thêm' },
-  ];
+  const isBoDeTam = slug === 'bo-de-tam-coi-nguon-thien-phap';
+
+  const navItems = isBoDeTam
+    ? [
+        { id: 'bo-de-tam-la-gi', label: 'Bồ Đề Tâm Là Gì' },
+        { id: 'bo-de-tam-la-nen-tang', label: 'Bồ Đề Tâm Là Nền Tảng' },
+        { id: 'bo-de-tam-la-dong-luc', label: 'Bồ Đề Tâm Là Động Lực' },
+        { id: 'bo-de-tam-la-suc-manh', label: 'Bồ Đề Tâm Là Sức Mạnh' },
+        { id: 'song-voi-bo-de-tam', label: 'Sống Với Bồ Đề Tâm' },
+        { id: 'de-bo-de-tam-them-lon', label: 'Để Bồ Đề Tâm Thêm Lớn' },
+        { id: 'trich-nguon-sach', label: 'Trích Nguồn Sách' },
+        { id: 'video-minh-hoa', label: 'Video Pháp Thoại' },
+        { id: 'bo-suu-tap-anh', label: 'Bộ Sưu Tập Ảnh' },
+        { id: 'tim-hieu-them', label: 'Bài Viết Liên Quan' },
+      ]
+    : [
+        { id: 'bai-tho', label: 'Bài Thơ / Nội Dung' },
+        { id: 'trich-nguon-sach', label: 'Trích Nguồn Sách' },
+        { id: 'video-minh-hoa', label: 'Video Minh Họa' },
+        { id: 'bai-viet-noibat', label: 'Bài Viết Nổi Bật' },
+        { id: 'bo-suu-tap-anh', label: 'Bộ Sưu Tập Ảnh' },
+        { id: 'tim-hieu-them', label: 'Tìm Hiểu Thêm' },
+      ];
 
   const [data, setData] = useState<DuLieuBaiVietChiTiet | null>(null);
   const [loading, setLoading] = useState(true);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState('bai-tho');
+  const [activeSection, setActiveSection] = useState(navItems[0]?.id || 'bai-tho');
   const [activePhotoIndex, setActivePhotoIndex] = useState<number | null>(null);
+
+  const sidebarTitle = isBoDeTam
+    ? 'BỒ ĐỀ TÂM'
+    : (data?.title || 'TÔNG CHỈ TU HỌC').length > 18
+    ? (data?.title || 'TÔNG CHỈ TU HỌC').split('-')[0].trim()
+    : (data?.title || 'TÔNG CHỈ TU HỌC');
 
   const [activeKeywordPopup, setActiveKeywordPopup] = useState<{
     keyword: string;
@@ -170,13 +201,96 @@ export default function TrangChiTietTongChi() {
       try {
         setLoading(true);
 
+        // 1. Check Local Backend JSON Store First
+        try {
+          const [detailRes, allRes] = await Promise.all([
+            fetch(`/api/admin/tong-chi/${slug}`, { cache: 'no-store' }),
+            fetch('/api/admin/tong-chi', { cache: 'no-store' }),
+          ]);
+
+          if (detailRes.ok) {
+            const localData = await detailRes.json();
+            if (localData.success && localData.data) {
+              const item = localData.data;
+              const poemHtml = item.content || '';
+
+              // Tính toán bài viết liên quan (Cùng chuyên mục ưu tiên trước, sau đó tới các chuyên mục khác)
+              let computedRelated: any[] = [];
+              if (allRes.ok) {
+                const allData = await allRes.json();
+                if (allData.success && Array.isArray(allData.data)) {
+                  const others = allData.data.filter((a: any) => a.slug !== slug && a.id !== item.id);
+                  const sameCat = others.filter((a: any) => a.category === item.category);
+                  const diffCat = others.filter((a: any) => a.category !== item.category);
+                  const combined = [...sameCat, ...diffCat];
+
+                  computedRelated = combined.slice(0, 8).map((art: any) => ({
+                    category: (art.categoryName || art.category || 'TÔNG CHỈ TU HỌC').toUpperCase(),
+                    title: art.title,
+                    url: art.bannerImage || '/images/toan-canh-chua.jpg',
+                    link: `/tong-chi-tu-hoc/${art.slug}`,
+                  }));
+                }
+              }
+
+              setData({
+                id: item.id,
+                title: item.title,
+                subtitle: item.subtitle,
+                shortDescription: item.excerpt || '',
+                heroBanner: item.bannerImage || '/images/trang-chu/z5856417756187_3b9aa0f55b1ca50d9934ff24e27fdbad.jpg',
+                bannerPosition: item.bannerPosition || 'center',
+                poemContent: item.content || poemHtml,
+                author: item.author || 'Sa Môn Vô Trí (Thích Tâm Hòa)',
+                authorLink: item.authorLink || '/gioi-thieu/su-phu-tru-tri',
+                sourceBook: item.sourceBook,
+                popups: (item.keywords || []).map((k: any) => ({
+                  keyword: k.keyword,
+                  title: k.title,
+                  subtitle: k.subtitle,
+                  description: cleanPopupDescription(k.description || k.summary || ''),
+                  imageUrl: k.imageUrl || item.bannerImage || '/images/toan-canh-chua.jpg',
+                  linkUrl: k.linkUrl || '',
+                })),
+                videoBlock: item.videoBlock || {
+                  title: 'VIDEO PHÁP THOẠI & KỆ TỤNG TÔNG PHONG',
+                  description: 'Tông phong tu học Tùng Lâm Hòa Phúc - Lắng đọng tâm tư qua từng lời kệ tiếng chuông.',
+                  videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+                },
+                featuredArticle: item.featuredArticle || {
+                  label: item.categoryName || 'TÔNG PHONG TRUYỀN THỪA',
+                  title: item.title,
+                  author: item.author || 'Sa Môn Vô Trí',
+                  bgImage: item.bannerImage,
+                  bgPosition: item.bannerPosition || 'center 50%',
+                  linkUrl: `/tong-chi-tu-hoc/${item.slug}`,
+                },
+                photoGallery: item.photoGallery || [
+                  {
+                    title: 'KHÔNG GIAN TU HỌC TÙNG LÂM',
+                    imageUrl: item.bannerImage || '/images/toan-canh-chua.jpg',
+                    khuVuc: 'Chánh Điện',
+                    noiDung: item.title,
+                  },
+                ],
+                relatedArticles: computedRelated,
+              });
+              setLoading(false);
+              return;
+            }
+          }
+        } catch (localErr) {
+          console.log('Local fetch failed, falling back to WP:', localErr);
+        }
+
+        // 2. Fallback to WordPress API
         const res = await fetch(`https://tunglam.mocwp.com/wp-json/wp/v2/tong-chi?slug=${slug}&_embed`, { cache: 'no-store' });
         if (res.ok) {
           const posts = await res.json();
 
           if (Array.isArray(posts) && posts.length > 0) {
             const post = posts[0];
-          const acf = post.acf || {};
+            const acf = post.acf || {};
 
           const banner = acf.banner_image?.url || acf.banner_image || post._embedded?.['wp:featuredmedia']?.[0]?.source_url || '';
           const content = acf.poem_wysiwyg || post.content?.rendered || '';
@@ -196,13 +310,13 @@ export default function TrangChiTietTongChi() {
           const defaultGallery = [
             {
               title: 'LỄ TƯỞNG NIỆM KHAI SƠN TÔNG PHONG HOẰNG PHÁP',
-              imageUrl: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=1000&q=80',
+              imageUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp',
               khuVuc: 'Bảo tàng',
               noiDung: 'Lễ Tưởng Niệm Khai Sơn Tông Phong Hoằng Pháp',
             },
             {
               title: 'ĐẠO TRÀNG THANH THIẾU NIÊN TU HỌC',
-              imageUrl: 'https://images.unsplash.com/photo-1609137144813-7d9921338f24?auto=format&fit=crop&w=1000&q=80',
+              imageUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp',
               khuVuc: 'Giảng đường',
               noiDung: 'Các bạn khóa sinh tham gia khóa tu mùa hè.',
             },
@@ -396,62 +510,75 @@ export default function TrangChiTietTongChi() {
   }
 
   return (
-    <div className="w-full min-h-screen bg-[#2c1c11] text-[#e3d2c1] font-sans relative selection:bg-[#f2cc8f] selection:text-black overflow-x-hidden">
+    <div className="w-full min-h-screen bg-[#2c1c11] text-[#FFE5A3] font-sans relative selection:bg-[#f2cc8f] selection:text-black overflow-x-hidden">
       <SubNavbar
         activeSection={activeSection}
         isScrolled={isScrolled}
         onScrollToSection={scrollToSection}
-        pageTitle={data?.title || 'TÔNG PHONG TRUYỀN THỪA'}
+        pageTitle={sidebarTitle}
         navItems={navItems}
       />
       <SidebarNav
         activeSection={activeSection}
         isScrolled={isScrolled}
         onScrollToSection={scrollToSection}
-        pageTitle={data?.title || 'TÔNG PHONG TRUYỀN THỪA'}
+        pageTitle={sidebarTitle}
         navItems={navItems}
       />
 
       <div className={`w-full transition-all duration-500 ${isScrolled ? 'pl-16 md:pl-24' : 'pl-4'} pr-4 md:pr-12`}>
-        <HeroBanner bannerUrl={data?.heroBanner} title={data?.title} subtitle={data?.subtitle} />
+        <HeroBanner bannerUrl={data?.heroBanner} bannerPosition={data?.bannerPosition} title={data?.title} subtitle={data?.subtitle} />
 
         <main className="max-w-5xl mx-auto pt-4 pb-16 space-y-16 w-full">
           {/* KHỐI BÀI THƠ / NỘI DUNG CHÍNH */}
-          <section id="bai-tho" className="scroll-mt-24 relative">
-            <div className="text-center">
-              {data?.shortDescription && (
-                <div className="max-w-xl mx-auto -mt-9 mb-12 px-4">
-                  <h2
-                    style={{ fontFamily: "'UTM ClassizismAntiqua', serif" }}
-                    className="text-lg sm:text-xl md:text-2xl text-[#ffde59] uppercase tracking-wider leading-relaxed md:leading-loose whitespace-pre-line break-words opacity-90"
-                  >
-                    {data.shortDescription}
-                  </h2>
-                </div>
-              )}
+          {/* KHỐI BÀI VIẾT / INFOGRAPHIC TRỰC QUAN / BÀI THƠ */}
+          <section id="bai-tho" className="scroll-mt-24 relative pt-2">
+            {data?.poemContent && (
+              <InfographicArticleRenderer
+                rawContent={data.poemContent}
+                title={data.title}
+                subtitle={data.subtitle}
+                author={data.author}
+                authorLink={data.authorLink}
+                popups={data.popups}
+                onKeywordClick={(kw) => {
+                  const matchedPopup = data?.popups?.find((p) => {
+                    const popupKeyword = (p.keyword || '').replace(/[.,;:]+$/, '').trim().toLowerCase();
+                    const popupTitle = (p.title || '').replace(/[.,;:]+$/, '').trim().toLowerCase();
+                    const cleanClickedText = kw.replace(/[.,;:]+$/, '').trim().toLowerCase();
 
-              {data?.poemContent && (
-                <div
-                  onClick={handlePoemContentClick}
-                  style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                  className="
-                    text-base sm:text-lg md:text-xl text-[#ffde59]
-                    leading-relaxed md:leading-loose tracking-wide
-                    space-y-4 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]
-                    text-center
-                    [&>p]:text-center [&>p]:mb-4
-                    [&_strong]:text-[#ffde59] [&_strong]:underline [&_strong]:decoration-dotted [&_strong]:cursor-pointer
-                    [&_b]:text-[#ffde59] [&_b]:underline [&_b]:decoration-dotted [&_b]:cursor-pointer
-                    [&>p:first-of-type::first-letter]:[font-family:'UTM_ClassizismAntiqua','UTM_ClassicAntiqua',serif]
-                    [&>p:first-of-type::first-letter]:text-6xl md:[&>p:first-of-type::first-letter]:text-7xl
-                    [&>p:first-of-type::first-letter]:font-bold [&>p:first-of-type::first-letter]:text-[#ffde59]
-                    [&>p:first-of-type::first-letter]:mr-2 [&>p:first-of-type::first-letter]:pb-1 [&>p:first-of-type::first-letter]:leading-none
-                  "
-                  dangerouslySetInnerHTML={{ __html: data.poemContent }}
-                />
-              )}
-            </div>
+                    return (
+                      popupKeyword === cleanClickedText ||
+                      popupTitle === cleanClickedText ||
+                      (popupKeyword && cleanClickedText.includes(popupKeyword)) ||
+                      (cleanClickedText && popupKeyword.includes(cleanClickedText))
+                    );
+                  });
+
+                  if (matchedPopup) {
+                    setActiveKeywordPopup({
+                      keyword: matchedPopup.keyword || kw,
+                      title: matchedPopup.title || kw.toUpperCase(),
+                      description: matchedPopup.description || 'Chưa có thông tin chú thích.',
+                      imageUrl: matchedPopup.imageUrl || '',
+                      linkUrl: matchedPopup.linkUrl || '#',
+                    });
+                  } else {
+                    setActiveKeywordPopup({
+                      keyword: kw,
+                      title: kw.toUpperCase(),
+                      description: `Thông tin giải nghĩa chi tiết cho từ khóa "${kw}".`,
+                      imageUrl: data?.heroBanner,
+                      linkUrl: '#',
+                    });
+                  }
+                }}
+              />
+            )}
           </section>
+
+          {/* KHỐI TRÍCH NGUỒN TÁC PHẨM & SÁCH */}
+          <BookCitationSection sourceBook={data?.sourceBook} />
 
           {/* CÁC KHỐI TIẾNG VIỆT */}
           <IllustrationVideo heroBanner={data?.heroBanner} videoBlock={data?.videoBlock} />

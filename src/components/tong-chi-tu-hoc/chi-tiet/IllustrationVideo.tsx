@@ -8,16 +8,36 @@ interface PropsKhoiVideo {
   heroBanner?: string;
   videoBlock?: {
     title?: string;
+    subtitle?: string;
     description?: string;
     videoUrl?: string;
   };
 }
 
 function formatYoutubeEmbed(url?: string): string {
-  if (!url) return 'https://www.youtube.com/embed/dQw4w9WgXcQ';
+  if (!url) return 'https://www.youtube.com/embed/MKt_sLwxmNU?start=5547';
   if (url.includes('youtube.com/embed/')) return url;
-  if (url.includes('watch?v=')) return url.replace('watch?v=', 'embed/');
-  if (url.includes('youtu.be/')) return url.replace('youtu.be/', 'youtube.com/embed/');
+
+  try {
+    if (url.includes('watch?v=')) {
+      const parsed = new URL(url);
+      const v = parsed.searchParams.get('v');
+      const t = parsed.searchParams.get('t')?.replace('s', '');
+      if (v) {
+        return `https://www.youtube.com/embed/${v}${t ? `?start=${t}` : ''}`;
+      }
+    }
+    if (url.includes('youtu.be/')) {
+      const parts = url.split('youtu.be/')[1]?.split('?');
+      const v = parts?.[0];
+      const params = parts?.[1] ? new URLSearchParams(parts[1]) : null;
+      const t = params?.get('t')?.replace('s', '');
+      if (v) {
+        return `https://www.youtube.com/embed/${v}${t ? `?start=${t}` : ''}`;
+      }
+    }
+  } catch (e) {}
+
   return url;
 }
 
@@ -102,12 +122,14 @@ export function IllustrationVideo({ heroBanner, videoBlock }: PropsKhoiVideo) {
               {videoBlock?.title || 'LỄ TƯỞNG NIỆM LẦN THỨ 33'}
             </h3>
 
-            <h4
-              style={{ fontFamily: "'UTM Avo', sans-serif" }}
-              className="text-base sm:text-xl font-bold text-[#f2cc8f] leading-snug tracking-normal"
-            >
-              Tổ Sư Khai Sơn Tông Phong Hoằng Pháp Viên Tịch
-            </h4>
+            {videoBlock?.subtitle && (
+              <h4
+                style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                className="text-base sm:text-xl font-bold text-[#f2cc8f] leading-snug tracking-normal"
+              >
+                {videoBlock.subtitle}
+              </h4>
+            )}
 
             <div className="w-full h-[1px] bg-gradient-to-r from-[#c8aa6e]/80 via-[#c8aa6e]/30 to-transparent my-3" />
 

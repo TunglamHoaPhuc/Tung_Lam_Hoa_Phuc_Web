@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bảng Viết Tay Chữ Tạng Wacom & Bút Cảm Ứng (Tibetan Handwriting Pad)</title>
+    <!-- Fonts: UTM Avo fallback Montserrat & Tibetan Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Noto+Sans+Tibetan:wght@500;600;700;800&family=Noto+Serif+Tibetan:wght@600;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #160E0C;
+            --bg-surface: #221513;
+            --bg-card: rgba(43, 25, 21, 0.85);
+            --burgundy: #56130D;
+            --burgundy-bright: #7D1B13;
+            --gold: #D4AF37;
+            --gold-light: #FCE794;
+            --gold-border: rgba(212, 175, 55, 0.28);
+            --gold-glow: 0 0 16px rgba(212, 175, 55, 0.25);
+            --text-primary: #FDFBF7;
+            --text-secondary: #D4C3B7;
+            --text-muted: #9E897C;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            user-select: none;
+        }
+
+        body {
+            font-family: 'UTM Avo', 'Avo', 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .tibetan-font {
+            font-family: "Noto Serif Tibetan", "Noto Sans Tibetan", "Microsoft Himalaya", serif;
+            font-weight: 700;
+        }
+
+        .svg-icon {
+            display: inline-block;
+            vertical-align: middle;
+            flex-shrink: 0;
+        }
+
+        .gold-icon {
+            color: var(--gold);
+        }
+
+        /* Top Header */
+        header {
+            background: linear-gradient(180deg, #2E1511 0%, #1D0E0C 100%);
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--gold-border);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+            height: 52px;
+        }
+
+        .title-badge {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--gold-light);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            letter-spacing: 0.3px;
+        }
+
+        /* Main Workspace */
+        .workspace {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* Canvas Area */
+        .canvas-container {
+            background: radial-gradient(circle at center, #2C1B18 0%, #160D0B 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            position: relative;
+        }
+
+        .pad-wrapper {
+            position: relative;
+            background: #FFFFFF;
+            border: 2px solid var(--gold);
+            border-radius: 14px;
+            box-shadow: 0 12px 36px rgba(0,0,0,0.7), var(--gold-glow);
+            touch-action: none;
+            overflow: hidden;
+        }
+
+        #drawCanvas {
+            display: block;
+            cursor: crosshair;
+        }
+
+        /* Grid lines layer */
+        .grid-guide-line {
+            position: absolute;
+            left: 0; right: 0;
+            pointer-events: none;
+            border-top: 1px dashed rgba(212, 175, 55, 0.4);
+        }
+
+        .canvas-toolbar {
+            display: flex;
+            gap: 8px;
+            margin-top: 14px;
+            align-items: center;
+            background: linear-gradient(135deg, #2D1410 0%, #1A0B09 100%);
+            padding: 6px 14px;
+            border-radius: 30px;
+            border: 1px solid var(--gold-border);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+        }
+
+        .btn-act {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid var(--gold-border);
+            color: var(--text-primary);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-act:hover {
+            background: rgba(212, 175, 55, 0.15);
+            border-color: var(--gold);
+            color: var(--gold-light);
+            transform: translateY(-1px);
+        }
+
+        .btn-clear {
+            background: linear-gradient(135deg, #7D1B13 0%, #4D0E08 100%);
+            border-color: #991B1B;
+        }
+
+        .btn-clear:hover {
+            background: #991B1B;
+            box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
+        }
+
+        .btn-recognize {
+            background: linear-gradient(135deg, #F59E0B 0%, #D4AF37 100%);
+            border: 1px solid var(--gold-light);
+            color: #1A0D0B;
+            box-shadow: 0 2px 8px rgba(212, 175, 55, 0.35);
+        }
+
+        .btn-recognize:hover {
+            color: #000;
+            box-shadow: 0 0 16px rgba(212, 175, 55, 0.6);
+        }
+
+        /* Result Panel (Right side) */
+        .result-panel {
+            background: linear-gradient(180deg, #241411 0%, #180D0B 100%);
+            border-left: 1px solid var(--gold-border);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+            gap: 12px;
+        }
+
+        .result-panel::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .result-panel::-webkit-scrollbar-thumb {
+            background: rgba(212, 175, 55, 0.2);
+            border-radius: 3px;
+        }
+
+        .result-card {
+            background: var(--bg-card);
+            border: 1px solid var(--gold);
+            border-radius: 12px;
+            padding: 14px;
+            text-align: center;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+        }
+
+        .big-tibetan-char {
+            font-size: 76px;
+            line-height: 1.1;
+            color: var(--gold-light);
+            font-weight: 900;
+            text-shadow: var(--gold-glow);
+        }
+
+        .char-phonetics {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--gold);
+            margin-top: 4px;
+        }
+
+        .candidates-list-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            justify-content: center;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed var(--gold-border);
+        }
+
+        .cand-pill {
+            background: rgba(15, 8, 7, 0.85);
+            border: 1px solid var(--gold-border);
+            color: var(--text-secondary);
+            padding: 4px 10px;
+            border-radius: 16px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .cand-pill:hover {
+            border-color: var(--gold);
+            color: var(--gold-light);
+            background: rgba(212, 175, 55, 0.15);
+            transform: translateY(-1px);
+        }
+
+        .cand-pill.active {
+            background: linear-gradient(135deg, #7D1B13 0%, #56130D 100%);
+            border-color: var(--gold);
+            color: var(--gold-light);
+            font-weight: 700;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .info-section {
+            background: var(--bg-card);
+            border: 1px solid var(--gold-border);
+            border-radius: 10px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 12px;
+        }
+
+        .section-header {
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: var(--gold);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            letter-spacing: 0.3px;
+        }
+
+        .btn-play-sound {
+            background: linear-gradient(135deg, #7D1B13 0%, #56130D 100%);
+            color: var(--gold-light);
+            border: 1px solid var(--gold);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 800;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            width: 100%;
+            transition: all 0.2s ease;
+        }
+
+        .btn-play-sound:hover {
+            background: linear-gradient(135deg, #962218 0%, #61130B 100%);
+            box-shadow: var(--gold-glow);
+            transform: translateY(-1px);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #2D1410 0%, #1A0B09 100%);
+            border: 1px solid var(--gold);
+            color: var(--gold-light);
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+            display: none;
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="title-badge">
+            <svg class="svg-icon gold-icon" viewBox="0 0 24 24" width="18" height="18" stroke="currentColor" stroke-width="2" fill="none"><path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path></svg>
+            <span>BẢNG VIẾT TAY CHỮ TẠNG WACOM (UCHEN CALLIGRAPHY)</span>
+        </div>
+        <div style="font-size:11px; color:var(--text-muted);">
+            Nhận lực nhấn bút • Tự động nhận diện chữ
+        </div>
+    </header>
+
+    <div class="workspace">
+        <!-- Canvas Handwriting Area -->
+        <div class="canvas-container">
+            <div class="pad-wrapper" id="padWrapper">
+                <canvas id="drawCanvas" width="560" height="420"></canvas>
+                
+                <!-- Calligraphy 4-Guide Lines -->
+                <div class="grid-guide-line" style="top: 25%;"></div>
+                <div class="grid-guide-line" style="top: 50%; border-top-color:rgba(212, 175, 55, 0.6); border-top-style:solid;"></div>
+                <div class="grid-guide-line" style="top: 75%;"></div>
+            </div>
+
+            <!-- Toolbar below canvas -->
+            <div class="canvas-toolbar">
+                <button class="btn-act btn-clear" onclick="clearCanvas()" title="Xóa toàn bộ để viết lại">
+                    <svg class="svg-icon" viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" stroke-width="2" fill="none"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                    <span>Xóa bảng</span>
+                </button>
+                <button class="btn-act" onclick="undoLastStroke()" title="Hoàn tác nét vẽ vừa viết (Ctrl+Z)">
+                    <svg class="svg-icon" viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" stroke-width="2" fill="none"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>
+                    <span>Hoàn tác (Ctrl+Z)</span>
+                </button>
+                <button class="btn-act btn-recognize" onclick="recognizeDrawing()" title="Nhận diện chữ Tạng">
+                    <svg class="svg-icon" viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M12 2L14.39 8.26L21 9.27L16.2 13.97L17.34 20.73L12 17.27L6.66 20.73L7.8 13.97L3 9.27L9.61 8.26L12 2Z"/></svg>
+                    <span>Nhận Diện Ngay</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Result & Analysis Panel -->
+        <div class="result-panel">
+            <div class="result-card">
+                <div class="big-tibetan-char tibetan-font" id="resChar">ཀ</div>
+                <div class="char-phonetics" id="resWylie">Chuyển tự Wylie: <b>ka</b></div>
+                <button class="btn-play-sound" style="margin-top:10px;" onclick="playAudio()">
+                    <svg class="svg-icon" viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path></svg>
+                    <span>Phát Âm Chậm (0.5x)</span>
+                </button>
+
+                <!-- Alternative Candidate Pills -->
+                <div class="candidates-list-row" id="candidatesRow">
+                    <button class="cand-pill active">ཀ (ka)</button>
+                    <button class="cand-pill">ཁ (kha)</button>
+                    <button class="cand-pill">ག (ga)</button>
+                </div>
+            </div>
+
+            <!-- Meaning & Phonetics -->
+            <div class="info-section">
+                <div class="section-header">
+                    <svg class="svg-icon gold-icon" viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" stroke-width="2" fill="none"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+                    <span>Ý Nghĩa & Khẩu Hình:</span>
+                </div>
+                <div id="resMeaning" style="font-size:13px; font-weight:700; color:var(--gold-light);">Căn tự Ka (âm cao, không bật hơi)</div>
+                <div id="resSpelling" style="font-size:11px; color:var(--text-secondary); line-height:1.5;">Gốc lưỡi chạm ngạc mềm, phát âm dứt khoát.</div>
+            </div>
+
+            <!-- Buddhist Significance -->
+            <div class="info-section" style="background:linear-gradient(135deg, rgba(86, 19, 13, 0.6) 0%, rgba(45, 23, 20, 0.6) 100%); border-color:var(--gold);">
+                <div class="section-header">
+                    <svg class="svg-icon gold-icon" viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" stroke-width="2" fill="none"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="3"></circle><line x1="12" y1="3" x2="12" y2="9"></line><line x1="12" y1="15" x2="12" y2="21"></line><line x1="3" y1="12" x2="9" y2="12"></line><line x1="15" y1="12" x2="21" y2="12"></line></svg>
+                    <span>Ngữ Cảnh Phật Học:</span>
+                </div>
+                <div id="resBuddhist" style="font-size:11px; color:var(--gold-light); line-height:1.6;">
+                    Xuất hiện trong các câu chú và bài kinh tụng truyền thống Tây Tạng.
+                </div>
+            </div>
+
+            <!-- Copy Action -->
+            <button class="btn-act" style="justify-content:center; padding:8px 0;" onclick="copyResult()">
+                <svg class="svg-icon" viewBox="0 0 24 24" width="13" height="13" stroke="currentColor" stroke-width="2" fill="none"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                <span>Sao Chép Chữ Này</span>
+            </button>
+        </div>
+    </div>
+
+    <div id="toast" class="toast">Đã sao chép!</div>
+
+    <script>
+        const canvas = document.getElementById('drawCanvas');
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+        let lastX = 0, lastY = 0;
+        let strokes = [];
+        let currentStroke = [];
+        let currentChar = 'ཀ';
+        let currentAudio = new Audio();
+        let autoRecognizeTimer = null;
+
+        // Init white canvas
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Pointer Events with Pressure
+        canvas.addEventListener('pointerdown', (e) => {
+            isDrawing = true;
+            canvas.setPointerCapture(e.pointerId);
+            const rect = canvas.getBoundingClientRect();
+            lastX = e.clientX - rect.left;
+            lastY = e.clientY - rect.top;
+            
+            const pressure = (e.pressure && e.pressure > 0) ? e.pressure : 0.5;
+            const strokeWidth = Math.max(3, pressure * 14);
+
+            currentStroke = [{ x: lastX, y: lastY, width: strokeWidth }];
+            drawPoint(lastX, lastY, strokeWidth);
+            if (autoRecognizeTimer) clearTimeout(autoRecognizeTimer);
+        });
+
+        canvas.addEventListener('pointermove', (e) => {
+            if (!isDrawing) return;
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            const pressure = (e.pressure && e.pressure > 0) ? e.pressure : 0.5;
+            const strokeWidth = Math.max(3, pressure * 14);
+
+            drawLine(lastX, lastY, x, y, strokeWidth);
+            currentStroke.push({ x: x, y: y, width: strokeWidth });
+            lastX = x;
+            lastY = y;
+        });
+
+        canvas.addEventListener('pointerup', (e) => {
+            if (!isDrawing) return;
+            isDrawing = false;
+            if (currentStroke.length > 0) {
+                strokes.push(currentStroke);
+                currentStroke = [];
+            }
+            autoRecognizeTimer = setTimeout(() => {
+                recognizeDrawing();
+            }, 600);
+        });
+
+        function drawPoint(x, y, w) {
+            ctx.fillStyle = '#1A0D0B';
+            ctx.beginPath();
+            ctx.arc(x, y, w / 2, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function drawLine(x1, y1, x2, y2, w) {
+            ctx.strokeStyle = '#1A0D0B';
+            ctx.lineWidth = w;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.stroke();
+        }
+
+        function clearCanvas() {
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            strokes = [];
+            currentStroke = [];
+        }
+
+        function undoLastStroke() {
+            if (strokes.length === 0) return;
+            strokes.pop();
+            redrawAllStrokes();
+            recognizeDrawing();
+        }
+
+        function redrawAllStrokes() {
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            strokes.forEach(stroke => {
+                for (let i = 0; i < stroke.length; i++) {
+                    if (i === 0) {
+                        drawPoint(stroke[i].x, stroke[i].y, stroke[i].width);
+                    } else {
+                        drawLine(stroke[i-1].x, stroke[i-1].y, stroke[i].x, stroke[i].y, stroke[i].width);
+                    }
+                }
+            });
+        }
+
+        async function recognizeDrawing() {
+            const dataUrl = canvas.toDataURL('image/png');
+            try {
+                const res = await fetch('http://localhost:8769/api/hwr-recognize', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ image: dataUrl })
+                });
+
+                const data = await res.json();
+                if (data.status === 'success') {
+                    renderHWRResults(data);
+                }
+            } catch (err) {
+                console.error('HWR error:', err);
+            }
+        }
+
+        function renderHWRResults(data) {
+            currentChar = data.best_char || 'ཀ';
+            document.getElementById('resChar').textContent = currentChar;
+            
+            const analysis = data.analysis || {};
+            const dict = analysis.dictionary || {};
+            
+            document.getElementById('resWylie').innerHTML = `Chuyển tự Wylie: <b>${analysis.wylie || ''}</b>`;
+            document.getElementById('resMeaning').textContent = dict.vn || 'Từ vựng tiếng Tạng';
+            document.getElementById('resSpelling').innerHTML = dict.usage || 'Căn tự tiếng Tạng cơ bản.';
+            document.getElementById('resBuddhist').innerHTML = dict.buddhist || 'Xuất hiện trong các bài kinh tụng và nghi lễ Phật giáo.';
+
+            // Render candidates
+            const cRow = document.getElementById('candidatesRow');
+            cRow.innerHTML = '';
+            (data.candidates || []).forEach((c) => {
+                const btn = document.createElement('button');
+                btn.className = `cand-pill tibetan-font ${c.char === currentChar ? 'active' : ''}`;
+                btn.textContent = `${c.char} (${c.wylie})`;
+                btn.onclick = () => selectCandidate(c.char);
+                cRow.appendChild(btn);
+            });
+        }
+
+        async function selectCandidate(ch) {
+            currentChar = ch;
+            document.getElementById('resChar').textContent = currentChar;
+            try {
+                const res = await fetch('http://localhost:8769/api/analyze', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text: ch })
+                });
+                const analysis = await res.json();
+                const dict = analysis.dictionary || {};
+                document.getElementById('resWylie').innerHTML = `Chuyển tự Wylie: <b>${analysis.wylie || ''}</b>`;
+                document.getElementById('resMeaning').textContent = dict.vn || 'Từ vựng tiếng Tạng';
+                document.getElementById('resSpelling').innerHTML = dict.usage || 'Căn tự tiếng Tạng cơ bản.';
+                document.getElementById('resBuddhist').innerHTML = dict.buddhist || 'Xuất hiện trong kinh điển.';
+                playAudio();
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        async function playAudio() {
+            if (!currentChar) return;
+            try {
+                const res = await fetch('/api/tts', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text: currentChar })
+                });
+                const data = await res.json();
+                if (data.status === 'success' && data.audio_url) {
+                    currentAudio.src = data.audio_url;
+                    currentAudio.playbackRate = 0.5;
+                    currentAudio.play();
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        function copyResult() {
+            if (currentChar) {
+                navigator.clipboard.writeText(currentChar).then(() => {
+                    showToast(`Đã sao chép: ${currentChar}`);
+                });
+            }
+        }
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.style.display = 'block';
+            setTimeout(() => { t.style.display = 'none'; }, 2000);
+        }
+    </script>
+</body>
+</html>

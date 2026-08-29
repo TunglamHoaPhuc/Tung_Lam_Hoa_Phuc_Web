@@ -11,6 +11,7 @@ interface PropsBaiVietNoiBat {
     title?: string;
     author?: string;
     bgImage?: string;
+    bgPosition?: string;
     linkUrl?: string;
   };
 }
@@ -27,7 +28,8 @@ export function FeaturedPosts({ heroBanner, featuredArticle }: PropsBaiVietNoiBa
           <img
             src={bgImageSrc}
             alt={featuredArticle?.title || 'Bài viết nổi bật'}
-            className="w-full h-full object-cover object-center"
+            className="w-full h-full object-cover transition-all duration-700"
+            style={{ objectPosition: featuredArticle?.bgPosition || 'center' }}
             loading="lazy"
             onError={(e) => {
               (e.currentTarget as HTMLImageElement).src = '/images/toan-canh-chua.jpg';

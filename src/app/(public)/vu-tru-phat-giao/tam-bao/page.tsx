@@ -78,7 +78,7 @@ export default function TamBaoDetailPage() {
         {/* ── HEROBANNER ── */}
         <HeroBanner
           id="herobanner"
-          bannerUrl="https://images.unsplash.com/photo-1618165220283-e85246c4171c?w=1600&h=900&fit=crop"
+          bannerUrl="https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp"
           title="TAM BẢO"
           subtitle="ĐẠI HÙNG BẢO ĐIỆN"
         />

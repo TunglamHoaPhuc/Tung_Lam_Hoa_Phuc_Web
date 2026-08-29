@@ -2,7 +2,7 @@
 
 import React, { FC, useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, ChevronDown, RefreshCw, X, Flame, MapPin, Phone, Sparkles, Filter, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search, ChevronDown, RefreshCw, X, Flame, MapPin, Phone, Sparkles, Filter, ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 import { HUONG_LINH_DATA, KHU_VUC_LIST, HuongLinhItem } from '@/data/tu-an-data';
 import { CustomDropdown } from '@/components/common/CustomDropdown';
 
@@ -83,7 +83,8 @@ const HuongLinhCard = React.memo(({ item, onSelect }: HuongLinhCardProps) => {
             </div>
             <span className="text-[#F2C14E] group-hover:translate-x-1 transition-transform flex items-center gap-1 shrink-0">
               <Flame className="w-3.5 h-3.5 text-[#F2C14E]" />
-              Chi tiết ➔
+              <span>Chi tiết</span>
+              <ArrowRight className="w-3 h-3" />
             </span>
           </div>
         </div>
@@ -190,9 +191,10 @@ export const TuAnVangSinhSystem: FC = () => {
               <button
                 type="button"
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#c9b896] hover:text-[#F2C14E] text-xs font-bold"
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#c9b896] hover:text-[#F2C14E] transition-colors"
+                title="Xóa tìm kiếm"
               >
-                ✕
+                <X className="w-3.5 h-3.5" />
               </button>
             )}
           </div>
@@ -372,7 +374,8 @@ export const TuAnVangSinhSystem: FC = () => {
                     style={{ fontFamily: "'UTM Avo', sans-serif" }}
                   >
                     <Flame className="w-4 h-4" />
-                    <span>{hasLitIncense ? 'ĐÃ THẮP HƯƠNG CẦU SIÊU 🙏' : 'THẮP HƯƠNG CẦU SIÊU TÂM LINH'}</span>
+                    <span>{hasLitIncense ? 'ĐÃ THẮP HƯƠNG CẦU SIÊU' : 'THẮP HƯƠNG CẦU SIÊU TÂM LINH'}</span>
+                    {hasLitIncense && <Sparkles className="w-4 h-4 text-[#1C130D]" />}
                   </button>
                   {hasLitIncense && (
                     <p className="text-xs text-[#F2C14E] font-bold mt-2 animate-in fade-in" style={{ fontFamily: "'UTM Avo', sans-serif" }}>

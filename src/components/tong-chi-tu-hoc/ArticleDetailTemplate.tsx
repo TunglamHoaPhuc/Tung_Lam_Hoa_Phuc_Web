@@ -54,7 +54,7 @@ function injectKeywords(html: string, keywords: KeywordPopup[]): string {
     const regex = new RegExp(`(${escaped})`, 'g');
     result = result.replace(
       regex,
-      `<span class="keyword-highlight" data-keyword="${kw.keyword}" style="font-family:'UTM Avo',sans-serif;font-weight:bold;color:#F2C14E;border-bottom:1.5px dotted rgba(242,193,78,0.6);cursor:pointer;transition:all 0.2s;" onmouseenter="this.style.textShadow='0 0 12px rgba(242,193,78,0.7)'" onmouseleave="this.style.textShadow='none'">$1</span>`
+      `<span class="keyword-highlight" data-keyword="${kw.keyword}" style="font-family:'UTM Avo',sans-serif;font-weight:bold;color:#FFDE59;background:rgba(242,193,78,0.2);border:1px solid rgba(242,193,78,0.4);padding:2px 6px;border-radius:6px;cursor:pointer;transition:all 0.2s;" onmouseenter="this.style.background='rgba(242,193,78,0.35)';this.style.color='#FFFFFF'" onmouseleave="this.style.background='rgba(242,193,78,0.2)';this.style.color='#FFDE59'">$1</span>`
     );
   });
   return result;
@@ -94,7 +94,7 @@ const ArticleDetailTemplate: FC<ArticleDetailTemplateProps> = ({
   const processedHtml = injectKeywords(contentHtml, keywords);
 
   return (
-    <article className="min-h-screen" style={{ background: '#2c1c11', color: '#e3d2c1' }}>
+    <article className="min-h-screen" style={{ background: '#2c1c11', color: '#FFE5A3' }}>
 
       {/* ── 1. HERO BANNER ── */}
       <div
@@ -102,7 +102,7 @@ const ArticleDetailTemplate: FC<ArticleDetailTemplateProps> = ({
         style={{ height: 'clamp(300px, 55vh, 580px)' }}
       >
         <img
-          src={heroBannerUrl || 'https://images.unsplash.com/photo-1618165220283-e85246c4171c?w=1440&h=600&fit=crop'}
+          src={heroBannerUrl || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp'}
           alt={title}
           className="absolute inset-0 w-full h-full object-cover"
         />

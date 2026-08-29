@@ -2,7 +2,7 @@
 
 import React, { FC, useState, useMemo } from "react";
 import Link from "next/link";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, ArrowRight } from "lucide-react";
 import { OFFICIAL_TUONG_CHINH_LIST, StatueItem, normalizeAreaId } from "@/data/statue-data";
 
 interface StatueCollectionGridProps {
@@ -37,6 +37,7 @@ const StatueCard = React.memo(({ statue }: StatueCardProps) => {
           loading="lazy"
           decoding="async"
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 transform-gpu"
+          style={{ objectPosition: (statue as any).imgPosition || 'center 20%' }}
           onError={(e) => {
             (e.target as HTMLImageElement).src = '/images/vu-tru-phat-giao/toan-canh-chua.jpg';
           }}
@@ -97,7 +98,7 @@ const StatueCard = React.memo(({ statue }: StatueCardProps) => {
               style={{ fontFamily: "'UTM Avo', sans-serif" }}
             >
               <span>XEM CHI TIẾT</span>
-              <span>➔</span>
+              <ArrowRight className="w-3.5 h-3.5" />
             </span>
           </div>
         </div>

@@ -2,7 +2,7 @@
 
 import React, { FC, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X } from 'lucide-react';
+import { X, ArrowRight } from 'lucide-react';
 import { THAP_BAT_LA_HAN_DATA, ThapBatLaHanItem } from '@/data/thapBatLaHanData';
 
 export const ThapBatLaHanGrid: FC = () => {
@@ -132,7 +132,7 @@ export const ThapBatLaHanGrid: FC = () => {
                 style={{ fontFamily: "'UTM Avo', sans-serif" }}
               >
                 <span>XEM TẤT CẢ 18 VỊ THẬP BÁT LA HÁN (+6 VỊ)</span>
-                <span className="text-sm">➔</span>
+                <ArrowRight className="w-4 h-4" />
               </button>
             </div>
           )}

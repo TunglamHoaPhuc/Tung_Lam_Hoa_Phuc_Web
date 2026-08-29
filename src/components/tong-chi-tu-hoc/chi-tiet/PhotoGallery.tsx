@@ -6,6 +6,7 @@ import Image from 'next/image';
 interface AnhTuLieu {
   imageUrl?: string;
   url?: string;
+  imagePosition?: string;
   title?: string;
   caption?: string;
   khuVuc?: string;
@@ -38,9 +39,9 @@ export function PhotoGallery({ photoGallery, onSelectPhoto }: PropsBoSuuTapAnh) 
 
           <h2
             style={{ fontFamily: "'UTM Niagara', 'UTM ClassizismAntiqua', serif" }}
-            className="text-3xl sm:text-5xl font-normal text-[#ffde59] uppercase tracking-normal drop-shadow-[0_0_16px_rgba(255,222,89,0.85)] whitespace-nowrap px-4 sm:px-6"
+            className="text-3xl sm:text-4xl text-[#ffde59] uppercase tracking-wider mx-6 font-normal"
           >
-            BỘ SƯ TẬP ẢNH TƯ LIỆU
+            BỘ SƯU TẬP ẢNH TƯ LIỆU
           </h2>
 
           <div className="flex-1 flex items-center justify-start">
@@ -65,6 +66,7 @@ export function PhotoGallery({ photoGallery, onSelectPhoto }: PropsBoSuuTapAnh) 
                 src={imgSrc}
                 alt={item.title || `Ảnh tư liệu ${idx + 1}`}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                style={{ objectPosition: item.imagePosition || 'center' }}
                 loading="lazy"
                 onError={(e) => {
                   (e.currentTarget as HTMLImageElement).src = '/images/toan-canh-chua.jpg';

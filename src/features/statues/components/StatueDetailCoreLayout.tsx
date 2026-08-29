@@ -939,7 +939,7 @@ export const StatueDetailCoreLayout: FC<StatueDetailCoreLayoutProps> = ({ statue
       <section className="relative w-full border-y border-[#F2C14E]/40 overflow-hidden bg-[#160B04] min-h-[380px] sm:min-h-[440px] flex items-center justify-center text-center p-6 sm:p-12 group my-6">
         <div className="absolute inset-0 opacity-40 scale-105 transition-transform duration-1000 group-hover:scale-100">
           <img
-            src={statue.article?.bannerUrl || "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=1600&h=600&fit=crop"}
+            src={statue.article?.bannerUrl || "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp"}
             alt="Bài viết"
             className="w-full h-full object-cover object-center"
           />

@@ -1,14 +1,16 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
+import { ArrowRight, ExternalLink, X } from 'lucide-react';
 
 interface TuKhoaPopup {
   keyword: string;
   title: string;
+  subtitle?: string;
   description: string;
   imageUrl?: string;
+  imagePosition?: string;
   linkUrl?: string;
 }
 
@@ -38,6 +40,10 @@ export function DetailModal({
       ? photoGallery[activePhotoIndex]
       : null;
 
+  const rawLink = activeKeywordPopup?.linkUrl?.trim() || '';
+  const hasLink = Boolean(rawLink !== '' && rawLink !== '#');
+  const isExternal = rawLink.startsWith('http://') || rawLink.startsWith('https://');
+
   return (
     <>
       {/* ==================== POPUP BỘ SƯ TẬP ẢNH ==================== */}
@@ -56,17 +62,14 @@ export function DetailModal({
                 onClick={onClosePhotoModal}
                 className="border border-[#c8aa6e]/60 rounded-lg p-1.5 text-[#ffde59] hover:text-white hover:bg-[#c8aa6e]/20 transition-colors cursor-pointer"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
+                <X className="w-5 h-5" />
               </button>
             </div>
 
             <div className="p-4 sm:p-6 space-y-4">
-              {/* TỐI ƯU HÓA: Dùng img với fallback onError mượt mà */}
               <div className="relative aspect-[4/3] w-full max-h-[380px] rounded-xl overflow-hidden border border-[#c8aa6e]/40 shadow-inner bg-black/40 flex items-center justify-center">
                 <img
-                  src={currentPhoto.imageUrl || currentPhoto.url || 'https://tunglam.mocwp.com/wp-content/uploads/2026/07/default-bg.jpg'}
+                  src={currentPhoto.imageUrl || currentPhoto.url || '/images/toan-canh-chua.jpg'}
                   alt={currentPhoto.title || 'Ảnh tư liệu'}
                   className="w-full h-full object-contain"
                   loading="lazy"
@@ -109,39 +112,13 @@ export function DetailModal({
                   </button>
                 </div>
 
-                <h4
-                  style={{ fontFamily: "'UTM ClassizismAntiqua', serif" }}
-                  className="text-lg sm:text-xl font-bold text-[#ffde59] text-center uppercase tracking-wide px-2"
-                >
-                  {currentPhoto.title || currentPhoto.caption || 'ẢNH TƯ LIỆU TÙNG LÂM HÒA PHÚC'}
-                </h4>
-
-                <div className="grid grid-cols-12 gap-4 pt-2 border-t border-[#c8aa6e]/30 text-center items-center">
-                  <div className="col-span-5 space-y-1">
-                    <span
-                      style={{ fontFamily: "'UTM ClassizismAntiqua', serif" }}
-                      className="text-sm font-bold text-[#ffde59] uppercase block tracking-wider"
-                    >
-                      KHU VỰC
-                    </span>
-                    <p className="text-xs sm:text-sm text-white font-sans">{currentPhoto.khuVuc || 'Bảo tàng'}</p>
-                  </div>
-
-                  <div className="col-span-2 flex justify-center">
-                    <div className="w-[1px] h-10 bg-[#c8aa6e]/50" />
-                  </div>
-
-                  <div className="col-span-5 space-y-1">
-                    <span
-                      style={{ fontFamily: "'UTM ClassizismAntiqua', serif" }}
-                      className="text-sm font-bold text-[#ffde59] uppercase block tracking-wider"
-                    >
-                      NỘI DUNG
-                    </span>
-                    <p className="text-xs sm:text-sm text-white font-sans leading-snug">
-                      {currentPhoto.noiDung || currentPhoto.caption || 'Tùng Lâm Hòa Phúc.'}
+                <div className="bg-[#4a321a]/80 p-4 rounded-xl border border-[#c8aa6e]/30 space-y-1">
+                  <h4 className="font-bold text-[#ffde59] text-base">{currentPhoto.title}</h4>
+                  {currentPhoto.noiDung && (
+                    <p className="text-xs sm:text-sm text-[#e3d2c1]/90 leading-relaxed font-sans">
+                      {currentPhoto.noiDung}
                     </p>
-                  </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -151,80 +128,93 @@ export function DetailModal({
 
       {/* ==================== POPUP CHÚ THÍCH TỪ KHÓA ==================== */}
       {activeKeywordPopup && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn">
-          
-          <div className="relative bg-[#7d5225]/95 border border-[#f2cc8f]/70 p-6 sm:p-7 rounded-md max-w-lg w-full shadow-[0_0_35px_rgba(0,0,0,0.85)] backdrop-blur-md text-left space-y-5">
-            
-            {/* HUY HIỆU HÌNH THOI GÓC TRÊN PHÍA TRÁI */}
-            <div className="absolute -top-3.5 -left-3.5 w-10 h-10 bg-[#7d5225] border border-[#f2cc8f] rotate-45 flex items-center justify-center z-20 shadow-lg">
-              <div className="-rotate-45 flex items-center justify-center text-[#ffde59]">
-                <svg className="w-5 h-5 stroke-[2.5]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
-                </svg>
-              </div>
-            </div>
-
-            {/* NÚT ĐÓNG X */}
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn"
+          onClick={onCloseKeywordPopup}
+        >
+          <div
+            className="relative bg-[#3A2718]/95 border-2 border-[#F2C14E]/70 p-6 sm:p-7 rounded-3xl max-w-lg w-full shadow-[0_0_50px_rgba(0,0,0,0.85)] backdrop-blur-md text-left space-y-4 transition-all animate-in zoom-in-95"
+            onClick={(e) => e.stopPropagation()}
+            style={{ fontFamily: "'UTM Avo', sans-serif" }}
+          >
+            {/* NÚT ĐÓNG */}
             <button
               type="button"
               onClick={onCloseKeywordPopup}
-              className="absolute top-3 right-3 text-[#f2cc8f] hover:text-[#ffde59] text-xl font-light cursor-pointer transition-colors"
+              className="absolute top-4 right-4 w-8 h-8 rounded-full bg-black/50 border border-[#F2C14E]/40 text-[#FFE5A3] hover:text-black hover:bg-[#F2C14E] flex items-center justify-center transition-all cursor-pointer shadow-md"
             >
-              ✕
+              <X className="w-4 h-4" />
             </button>
 
-            {/* HEADER: ẢNH BÊN TRÁI + TIÊU ĐỀ BÊN PHẢI */}
-            <div className="flex items-center gap-4 sm:gap-5 pr-4 pt-1">
-              <div className="relative w-32 sm:w-36 h-24 sm:h-28 flex-shrink-0 rounded-xl overflow-hidden border border-[#ffde59]/70 shadow-md bg-black">
-                {/* TỐI ƯU HÓA: Dùng Next Image cho Popup từ khóa */}
-                <Image
-                  src={activeKeywordPopup.imageUrl || 'https://tunglam.mocwp.com/wp-content/uploads/2026/07/bg-chua.jpg'}
-                  alt={activeKeywordPopup.title}
-                  fill
-                  sizes="150px"
-                  className="object-cover"
-                />
-              </div>
+            {/* HEADER: ẢNH + TIÊU ĐỀ */}
+            <div className="flex items-center gap-4 sm:gap-5 pr-6 pt-1">
+              {activeKeywordPopup.imageUrl && (
+                <div className="relative w-24 sm:w-28 h-24 sm:h-28 flex-shrink-0 rounded-2xl overflow-hidden border border-[#F2C14E]/60 shadow-[0_0_20px_rgba(242,193,78,0.2)] bg-black">
+                  <img
+                    src={activeKeywordPopup.imageUrl}
+                    alt={activeKeywordPopup.title}
+                    style={{ objectPosition: activeKeywordPopup.imagePosition || 'center 50%' }}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).src = '/images/toan-canh-chua.jpg';
+                    }}
+                  />
+                </div>
+              )}
 
-              <div className="space-y-0.5">
+              <div className="space-y-1 min-w-0 flex-1">
+                {/* Chỉ hiện badge nếu keyword khác biệt với title */}
+                {activeKeywordPopup.keyword &&
+                  activeKeywordPopup.title &&
+                  activeKeywordPopup.keyword.trim().toLowerCase() !== activeKeywordPopup.title.trim().toLowerCase() && (
+                    <span className="px-2.5 py-0.5 rounded-full bg-[#F2C14E]/20 text-[#F2C14E] text-[10px] font-bold border border-[#F2C14E]/40 uppercase tracking-wider inline-block">
+                      {activeKeywordPopup.keyword}
+                    </span>
+                  )}
+
+                {activeKeywordPopup.subtitle && (
+                  <div className="text-[11px] text-[#FFE5A3]/90 font-medium tracking-wide">
+                    {activeKeywordPopup.subtitle}
+                  </div>
+                )}
+
                 <h3
                   style={{ fontFamily: "'UTM Niagara', serif" }}
-                  className="text-3xl sm:text-4xl text-[#ffde59] uppercase leading-none tracking-wide drop-shadow-md"
+                  className="text-2xl sm:text-3xl text-[#ffde59] uppercase leading-tight tracking-wide drop-shadow-md"
                 >
-                  {activeKeywordPopup.title}
+                  {activeKeywordPopup.title || activeKeywordPopup.keyword}
                 </h3>
               </div>
             </div>
 
-            {/* ĐƯỜNG KẺ NGANG NỐI LIỀN 2 DẤU CHẤM */}
-            <div className="flex items-center w-full py-1">
-              <div className="w-2 h-2 rounded-full border-2 border-[#f2cc8f] bg-[#7d5225] flex-shrink-0" />
-              <div className="h-[1.5px] w-full bg-[#f2cc8f]/60 -mx-0.5" />
-              <div className="w-2 h-2 rounded-full border-2 border-[#f2cc8f] bg-[#7d5225] flex-shrink-0" />
+            {/* ĐƯỜNG KẺ GRADIENT VÀNG KIM 1 BÊN */}
+            <div className="w-full py-1">
+              <div className="h-[1.5px] w-full bg-gradient-to-r from-[#F2C14E] via-[#F2C14E]/50 to-transparent" />
             </div>
 
             {/* MÔ TẢ CHI TIẾT */}
-<p
-  style={{ fontFamily: "'UTM Avo', sans-serif" }}
-  className="text-sm sm:text-base text-[#f7e7ce] leading-relaxed font-normal text-justify"
->
-  {activeKeywordPopup.description}
-</p>
+            <p className="text-xs sm:text-sm text-[#f7e7ce] leading-relaxed font-normal text-justify whitespace-pre-line">
+              {activeKeywordPopup.description}
+            </p>
 
-            {/* LINK CÓ GẠCH CHÂN DÙNG FONT UTM AVO */}
-            {activeKeywordPopup.linkUrl && (
-              <div className="pt-1">
-                {/* TỐI ƯU HÓA: Dùng Link thay cho <a> */}
+            {/* NÚT XEM THÊM (CHỈ HIỆN KHI CÓ LINK) */}
+            {hasLink && (
+              <div className="pt-2">
                 <Link
-                  href={activeKeywordPopup.linkUrl}
-                  style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                  className="text-base sm:text-lg text-[#ffde59] hover:text-white underline underline-offset-4 tracking-wide transition-colors inline-block font-normal"
+                  href={rawLink}
+                  target={isExternal ? '_blank' : undefined}
+                  rel={isExternal ? 'noopener noreferrer' : undefined}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#F2C14E] to-[#d4a029] hover:from-[#ffde59] hover:to-[#F2C14E] text-[#140D07] text-xs font-bold uppercase tracking-wider transition-all shadow-[0_0_15px_rgba(242,193,78,0.35)] hover:scale-[1.02] group cursor-pointer"
                 >
-                  Tìm hiểu thêm về {activeKeywordPopup.title}
+                  <span>Xem thêm chi tiết</span>
+                  {isExternal ? (
+                    <ExternalLink className="w-3.5 h-3.5 transition-transform group-hover:scale-110" />
+                  ) : (
+                    <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
+                  )}
                 </Link>
               </div>
             )}
-
           </div>
         </div>
       )}

@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bảng Chữ Cái & Bàn Phím Tiếng Tạng (Chữ Siêu To Rõ Nét)</title>
+    <!-- Import Tibetan High Quality Bold Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tibetan:wght@600;700;900&family=Noto+Serif+Tibetan:wght@600;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #8B1E0F;
+            --primary-dark: #641206;
+            --gold: #D4AF37;
+            --gold-light: #FFF4D0;
+            --bg: #FAF6F0;
+            --card-bg: #FFFFFF;
+            --text-main: #1A1A1A;
+            --border: #D6C7B8;
+            --key-bg: #FFFFFF;
+            --key-hover: #FFF3CC;
+            --key-active: #FFE599;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Tahoma, sans-serif;
+            background: #F4EFE6;
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 12px;
+        }
+
+        /* Chữ Tạng siêu to và nét đậm */
+        .tibetan-font {
+            font-family: "Noto Serif Tibetan", "Noto Sans Tibetan", "Microsoft Himalaya", "Tibetan Machine Uni", serif;
+            font-weight: 700;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: #FFF;
+            padding: 14px 22px;
+            border-radius: 14px;
+            box-shadow: 0 6px 18px rgba(139, 30, 15, 0.3);
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 2px solid var(--gold);
+        }
+
+        .header-title h1 {
+            font-size: 24px;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            color: var(--gold-light);
+        }
+
+        .header-title p {
+            font-size: 14px;
+            color: #F8DCD0;
+            margin-top: 2px;
+        }
+
+        .header-btns {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-top {
+            background: rgba(255, 255, 255, 0.2);
+            color: #FFF;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-top:hover {
+            background: var(--gold);
+            color: var(--primary-dark);
+        }
+
+        /* Editor Section */
+        .editor-section {
+            background: #FFFFFF;
+            border-radius: 14px;
+            padding: 14px 18px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+            border: 2px solid var(--border);
+            margin-bottom: 14px;
+        }
+
+        .editor-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .font-adjust-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #FFF8E7;
+            border: 1px solid var(--gold);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #8B1E0F;
+        }
+
+        .btn-scale {
+            background: #8B1E0F;
+            color: #FFF;
+            border: none;
+            padding: 4px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 800;
+            font-size: 14px;
+            transition: 0.15s;
+        }
+        .btn-scale:hover {
+            background: #641206;
+        }
+
+        .editor-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn-act {
+            background: #F1F5F9;
+            border: 1px solid #94A3B8;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.15s;
+        }
+
+        .btn-act:hover {
+            background: #E2E8F0;
+        }
+
+        .btn-copy {
+            background: #8B1E0F;
+            color: white;
+            border-color: #641206;
+            font-size: 15px;
+            box-shadow: 0 2px 6px rgba(139, 30, 15, 0.3);
+        }
+
+        .btn-copy:hover {
+            background: #B91C1C;
+        }
+
+        #tibetanTextarea {
+            width: 100%;
+            height: 120px;
+            font-size: 48px; /* Khung gõ hiển thị chữ to 48px */
+            font-weight: bold;
+            line-height: 1.6;
+            padding: 12px 18px;
+            border: 2px solid #CBD5E1;
+            border-radius: 10px;
+            outline: none;
+            resize: vertical;
+            background: #FFFEFA;
+            color: #000;
+        }
+
+        #tibetanTextarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(139, 30, 15, 0.15);
+        }
+
+        /* Mantra Quick Bar */
+        .mantras-bar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px dashed #CBD5E1;
+            align-items: center;
+        }
+
+        .mantra-chip {
+            background: #FFFDF0;
+            border: 1.5px solid var(--gold);
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: 0.15s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .mantra-chip:hover {
+            background: var(--gold);
+            color: #000;
+        }
+
+        .mantra-chip .tb {
+            font-size: 26px; /* Thần chú to rõ */
+            font-weight: bold;
+            color: #8B1E0F;
+        }
+
+        /* Tabs */
+        .tab-bar {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            background: #E2D7CC;
+            border: 2px solid #C4B5A5;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 800;
+            color: #4A3B32;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: 0.15s;
+        }
+
+        .tab-button.active {
+            background: var(--primary);
+            color: #FFF;
+            border-color: var(--primary-dark);
+            box-shadow: 0 4px 10px rgba(139, 30, 15, 0.3);
+        }
+
+        .tab-button:hover:not(.active) {
+            background: #D5C7B9;
+            color: #000;
+        }
+
+        .keyboard-view {
+            display: none;
+        }
+
+        .keyboard-view.active {
+            display: block;
+        }
+
+        /* ==================================================== */
+        /* TAB 1: BẢNG 30 CHỮ CÁI TIẾNG TẠNG SIÊU TO KHỔNG LỒ  */
+        /* ==================================================== */
+        .alphabet-board {
+            background: #FFFFFF;
+            padding: 20px;
+            border-radius: 16px;
+            border: 2px solid var(--border);
+            box-shadow: 0 4px 18px rgba(0,0,0,0.06);
+        }
+
+        .board-row {
+            background: #FAF7F2;
+            border: 2px solid #E4D8CB;
+            border-radius: 14px;
+            padding: 14px;
+            margin-bottom: 14px;
+        }
+
+        .board-row-title {
+            font-size: 14px;
+            font-weight: 900;
+            color: var(--primary);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .cards-4-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+
+        .cards-6-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
+        }
+
+        .cards-5-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+        }
+
+        /* NÚT BẤM CHỮ CÁI SIÊU TO */
+        .alpha-card {
+            background: #FFFFFF;
+            border: 2.5px solid #D1C4B5;
+            border-radius: 12px;
+            padding: 10px 6px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 110px; /* Thẻ to cao */
+            transition: all 0.12s ease;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        .alpha-card:hover {
+            background: #FFF8E6;
+            border-color: var(--gold);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 14px rgba(212, 175, 55, 0.25);
+        }
+
+        .alpha-card:active {
+            transform: translateY(0);
+            background: #FFE8A3;
+        }
+
+        /* CHỮ TẠNG TRONG BẢNG CỰC ĐẠI */
+        .alpha-card .big-tibetan {
+            font-size: var(--alpha-font-size, 64px); /* Siêu to 64px */
+            line-height: 1.05;
+            font-weight: 900;
+            color: #000000;
+            margin-bottom: 4px;
+        }
+
+        .alpha-card .name-wylie {
+            font-size: 16px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .alpha-card .name-vn {
+            font-size: 13px;
+            font-weight: 600;
+            color: #555555;
+            margin-top: 2px;
+            text-align: center;
+        }
+
+        .alpha-card .key-shortcut {
+            position: absolute;
+            top: 4px;
+            right: 6px;
+            background: #EEF2F6;
+            color: #1E293B;
+            font-size: 11px;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 6px;
+            border: 1px solid #CBD5E1;
+        }
+
+        /* Màu riêng cho Nguyên âm */
+        .vowel-card {
+            background: #F0F9FF;
+            border-color: #BAE6FD;
+        }
+        .vowel-card .big-tibetan {
+            color: #0369A1;
+        }
+        .vowel-card:hover {
+            background: #E0F2FE;
+            border-color: #0284C7;
+        }
+
+        /* Màu riêng cho Chân chữ */
+        .sub-card {
+            background: #FAF5FF;
+            border-color: #E9D5FF;
+        }
+        .sub-card .big-tibetan {
+            color: #7E22CE;
+        }
+        .sub-card:hover {
+            background: #F3E8FF;
+            border-color: #9333EA;
+        }
+
+        /* ==================================================== */
+        /* TAB 2: BÀN PHÍM CHUẨN QWERTY (CŨNG ĐƯỢC PHÓNG TO)    */
+        /* ==================================================== */
+        .virtual-keyboard {
+            background: #25201E;
+            padding: 18px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            border: 2px solid #5A4E49;
+            user-select: none;
+        }
+
+        .vk-row {
+            display: flex;
+            gap: 7px;
+            margin-bottom: 8px;
+            justify-content: center;
+        }
+
+        .vk-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .vk-key {
+            background: #FFFFFF;
+            color: #111;
+            border-radius: 10px;
+            height: 88px; /* Phím cao to */
+            min-width: 56px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 4px 2px;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #9E8C7E;
+            border: 1.5px solid #D6C9BE;
+            transition: all 0.08s ease;
+            position: relative;
+        }
+
+        .vk-key:hover {
+            background: #FFF7D6;
+            border-color: var(--gold);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #9E8C7E;
+        }
+
+        .vk-key:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 0 #9E8C7E;
+            background: #FFE8A3;
+        }
+
+        .vk-key .tb-char {
+            font-size: 44px; /* Chữ Tạng trên phím to 44px */
+            line-height: 1;
+            font-weight: 900;
+            color: #000000;
+        }
+
+        .vk-key .tb-shift-char {
+            position: absolute;
+            top: 2px;
+            right: 5px;
+            font-size: 22px; /* Chữ Shift đỏ to 22px */
+            color: #DC2626;
+            font-weight: 900;
+        }
+
+        .vk-key .lat-char {
+            font-size: 13px;
+            font-weight: 800;
+            color: #64748B;
+        }
+
+        .vk-key .vn-desc {
+            font-size: 10px;
+            color: #8B1E0F;
+            font-weight: 800;
+        }
+
+        .vk-key-func {
+            background: #E8E0D7;
+            box-shadow: 0 4px 0 #9E9187;
+        }
+
+        .vk-key-shift {
+            min-width: 110px;
+            flex: 1.5;
+        }
+
+        .vk-key-shift.active {
+            background: #DC2626;
+            color: #FFF;
+            box-shadow: 0 2px 0 #991B1B;
+        }
+
+        .vk-key-backspace {
+            min-width: 95px;
+            flex: 1.4;
+        }
+
+        .vk-key-space {
+            flex: 5;
+            min-width: 280px;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 14px;
+            font-size: 16px;
+            font-weight: bold;
+            height: 70px;
+        }
+
+        .vk-key-vowel {
+            background: #F0F9FF;
+            border-color: #BAE6FD;
+        }
+        .vk-key-vowel .tb-char {
+            color: #0284C7;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #0F172A;
+            color: #FFF;
+            padding: 14px 24px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: bold;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            display: none;
+            z-index: 9999;
+            border-left: 5px solid var(--gold);
+        }
+
+        @media (max-width: 900px) {
+            .cards-4-grid { grid-template-columns: repeat(2, 1fr); }
+            .cards-6-grid { grid-template-columns: repeat(3, 1fr); }
+            .cards-5-grid { grid-template-columns: repeat(3, 1fr); }
+            .alpha-card .big-tibetan { font-size: 46px; }
+            .vk-key { height: 72px; min-width: 40px; }
+            .vk-key .tb-char { font-size: 32px; }
+            .vk-key .tb-shift-char { font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Header -->
+    <header>
+        <div class="header-title">
+            <h1><span class="tibetan-font" style="font-size: 42px; color:#FFF;">བོད་ཡིག</span> BẢNG CHỮ CÁI & BÀN PHÍM TIẾNG TẠNG</h1>
+            <p>Chữ to rõ nét – Bấm chuột trực tiếp vào từng chữ để gõ và học phát âm</p>
+        </div>
+        <div class="header-btns">
+            <button class="btn-top" onclick="insertTsheg()">
+                <span class="tibetan-font" style="font-size: 32px;">་</span> Dấu Tsheg (Chấm)
+            </button>
+            <button class="btn-top" onclick="insertShad()">
+                <span class="tibetan-font" style="font-size: 32px;">།</span> Dấu Shad (Gạch)
+            </button>
+        </div>
+    </header>
+
+    <!-- Editor Section -->
+    <div class="editor-section">
+        <div class="editor-toolbar">
+            <div class="font-adjust-group">
+                <span>🔍 PHÓNG TO CHỮ CÁI:</span>
+                <button class="btn-scale" onclick="changeAlphaSize(8)">A⁺ TO HƠN</button>
+                <button class="btn-scale" onclick="changeAlphaSize(-8)">A⁻ NHỎ LẠI</button>
+                <span id="curSizeLabel" style="font-size:12px; color:#555;">(Cỡ: 64px)</span>
+            </div>
+
+            <div class="editor-actions">
+                <button class="btn-act" onclick="adjustTextareaSize(6)">A⁺ Khung gõ</button>
+                <button class="btn-act" onclick="adjustTextareaSize(-6)">A⁻ Khung gõ</button>
+                <button class="btn-act btn-copy" onclick="copyResult()">📋 SAO CHÉP (COPY)</button>
+                <button class="btn-act" onclick="doBackspace()">⌫ Xóa 1 chữ</button>
+                <button class="btn-act" onclick="clearAll()">🗑 Xóa hết</button>
+            </div>
+        </div>
+
+        <textarea id="tibetanTextarea" class="tibetan-font" placeholder="Bấm vào từng chữ cái bên dưới để gõ chữ Tạng... (Chữ gõ ra sẽ hiện to ở đây)"></textarea>
+
+        <!-- Mantras Quick Insert -->
+        <div class="mantras-bar">
+            <span style="font-size: 13px; font-weight: 800; color: var(--primary);">Thần Chú & Thuật Ngữ:</span>
+            <button class="mantra-chip" onclick="insertText('ཨོཾ་མ་ཎི་པདྨེ་ཧཱུྃ། ')">
+                <span class="tibetan-font tb">ཨོཾ་མ་ཎི་པདྨེ་ཧཱུྃ།</span> (Lục Tự Đại Minh)
+            </button>
+            <button class="mantra-chip" onclick="insertText('ཨོཾ་ཨཱཿཧཱུྃ། ')">
+                <span class="tibetan-font tb">ཨོཾ་ཨཱཿཧཱུྃ།</span> (Om Ah Hum)
+            </button>
+            <button class="mantra-chip" onclick="insertText('ཨོཾ་ཏཱ་རེ་ཏུཏྟཱ་རེ་ཏུ་རེ་སྭཱ་ཧཱ། ')">
+                <span class="tibetan-font tb">ཨོཾ་ཏཱ་རེ་ཏུཏྟཱ་རེ་ཏུ་རེ་སྭཱ་ཧཱ།</span> (Tara Xanh)
+            </button>
+            <button class="mantra-chip" onclick="insertText('བཀྲ་ཤིས་བདེ་ལེགས། ')">
+                <span class="tibetan-font tb">བཀྲ་ཤིས་བདེ་ལེགས།</span> (Tashi Delek)
+            </button>
+            <button class="mantra-chip" onclick="insertText('སངས་རྒྱས། ')">
+                <span class="tibetan-font tb">སངས་རྒྱས།</span> (Phật)
+            </button>
+            <button class="mantra-chip" onclick="insertText('ཆོས། ')">
+                <span class="tibetan-font tb">ཆོས།</span> (Pháp)
+            </button>
+            <button class="mantra-chip" onclick="insertText('དགེ་འདུན། ')">
+                <span class="tibetan-font tb">དགེ་འདུན།</span> (Tăng)
+            </button>
+            <button class="mantra-chip" onclick="insertText('བླ་མ། ')">
+                <span class="tibetan-font tb">བླ་མ།</span> (Lạt-ma / Thầy)
+            </button>
+        </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="tab-bar">
+        <button class="tab-button active" onclick="showTab('tab-alphabet')">📚 BẢNG 30 CHỮ CÁI GỐC (CHỮ TO RÕ NHẤT)</button>
+        <button class="tab-button" onclick="showTab('tab-vowels')">🌺 4 NGUYÊN ÂM & CHÂN CHỮ CHÈN DƯỚI</button>
+        <button class="tab-button" onclick="showTab('tab-qwerty')">⌨️ BÀN PHÍM BẤM CHUỘT QWERTY</button>
+    </div>
+
+    <!-- ==================================================== -->
+    <!-- TAB 1: BẢNG 30 PHỤ ÂM GỐC SIÊU TO KHỔNG LỒ (DEFAULT) -->
+    <!-- ==================================================== -->
+    <div id="tab-alphabet" class="keyboard-view active">
+        <div class="alphabet-board">
+            
+            <!-- Hàng 1: Ka Kha Ga Nga -->
+            <div class="board-row">
+                <div class="board-row-title">
+                    <span>Hàng 1: Âm Vòm Họng (Guttural)</span>
+                    <span style="font-weight:normal; color:#666;">Nhấp chuột vào chữ để gõ</span>
+                </div>
+                <div class="cards-4-grid">
+                    <button class="alpha-card" onclick="insertChar('ཀ')">
+                        <span class="key-shortcut">Phím K</span>
+                        <span class="tibetan-font big-tibetan">ཀ</span>
+                        <span class="name-wylie">ka</span>
+                        <span class="name-vn">ca (âm cao)</span>
+                    </button>
+                    <button class="alpha-card" onclick="insertChar('ཁ')">
+                        <span class="key-shortcut">Shift + K</span>
+                        <span class="tibetan-font big-tibetan">ཁ</span>
+                        <span class="name-wylie">kha</span>
+                        <span class="name-vn">kha (cao, bật hơi)</span>
+                    </button>
+                    <button class="alpha-card" onclick="insertChar('ག')">
+                        <span class="key-shortcut">Phím G</span>
+                        <span class="tibetan-font big-tibetan">ག</span>
+                        <span class="name-wylie">ga</span>
+                        <span class="name-vn">ga / kha (âm trầm)</span>
+                    </button>
+                    <button class="alpha-card" onclick="insertChar('ང')">
+                        <span class="key-shortcut">Shift + C</span>
+                        <span class="tibetan-font big-tibetan">ང</span>
+                        <span class="name-wylie">nga</span>
+                        <span class="name-vn">nga (âm trầm)</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Hàng 2: Ca Cha Ja Nya -->
+            <div class="board-row">
+                <div class="board-row-title">
+                    <span>Hàng 2: Âm Ngạc Cứng (Palatal)</span>
+                </div>
+                <div class="cards-4-grid">
+                    <button class="alpha-card" onclick="insertChar('ཅ')">
+                        <span class="key-shortcut">Phím C</span>
+                        <span class="tibetan-font big-tibetan">ཅ</span>
+                        <span class="name-wylie">ca</span>
+                        <span class="name-vn">cha (âm cao)</span>
+                    </button>
+                    <button class="alpha-card" onclick="insertChar('ཆ')">
+                        <span class="key-shortcut">Phím Q</span>
+                        <span class="tibetan-font big-tibetan">ཆ</span>
+                        <span class="name-wylie">cha</span>
+                        <span class="name-vn">chha (cao, bật hơi)</span>
+                    </button>
+                    <button class="alpha-card" onclick="insertChar('ཇ')">
+                        <span class="key-shortcut">Phím J</span>
+                        <span class="tibetan-font big-tibetan">ཇ</span>
+                        <span class="name-wylie">ja</span>
+                        <span class="name-vn">ja / cha (âm trầm)</span>
+                    </button>
+                    <button class="alpha-card" onclick="insertChar('ཉ')">
+                        <span class="key-shortcut">Phím X</span>
+                        <span class="tibetan-font big-tibetan">ཉ</span>
+                        <span class="name-wylie">nya</span>
+                        <span class="name-vn">nha (âm trầm)</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Hàng 3: Ta Tha Da Na -->
+            <div class="board-row">
+                <div class="board-row-title">
+                    <span>Hàng 3: Âm Răng (Dental)</span>
+                </div>
+                <div class="cards-4-grid">
+                    <button class="alpha-card" onclick="insertChar('ཏ')">
+                        <span class="key-shortcut">Phím T</span>
+                        <span class="tibetan-font big-tibetan">ཏ</span>
+                        <span class="name-wylie">ta</span>
+                        <span class="name-vn">ta (âm cao)</span>
+                    </button>
+                    <button class="alpha-card" onclick="insertChar('ཐ')">
+                        <span class="key-shortcut">Shift + T</span>
+                        <span class="tibetan-font big-tibetan">ཐ</span>
+                        <span class="name-wylie">tha</span>
+                        <span class="name-vn">tha (cao, bật hơi)</span>
+                    </button>
+                    <button class="alpha-card" onclick="insertChar('ད')">
+                        <span class="key-shortcut">Phím D</span>
+                        <span class="tibetan-font big-tibetan">ད</span>
+                        <span class="name-wylie">da</span>
+                        <span class="name-vn">da / tha (âm trầm)</span>
+                    </button>
+                    <button class="alpha-card" onclick="insertChar('ན')">
+                        <span class="key-shortcut">Phím N</span>
+                        <span class="tibetan-font big-tibetan">ན</span>
+                        <span class="name-wylie">na</span>
+                        <span class="name-vn">na (âm trầm)</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Hàng 4: Pa Pha Ba Ma -->
+            <div class="board-row">
+                <div class="board-row-title">
+                    <span>Hàng 4: Âm Môi (Labial)</span>
+                </div>
+                <div class="cards-4-grid">
+                    <button class="alpha-card" onclick="insertChar('པ')">
+                        <span class="key-shortcut">Phím P</span>
+                        <span class="tibetan-font big-tibetan">པ</span>
+                        <span class="name-wylie">pa</span>
+                        <span class="name-vn">pa (âm cao)</span>
+                    </button>
+                    <button class="alpha-card" onclick="insertChar('ཕ')">
+                        <span class="key-shortcut">Shift + P</span>
+                        <span class="tibetan-font big-tibetan">ཕ</span>
+                        <span class="name-wylie">pha</span>
+                        <span class="name-vn">pha (cao, bật hơi)</span>
+                    </button>
+                    <button class="alpha-card" onclick="insertChar('བ')">
+                        <span class="key-shortcut">Phím B</span>
+                        <span class="tibetan-font big-tibetan">བ</span>
+                        <span class="name-wylie">ba</span>
+                        <span class="name-vn">ba / pha (âm trầm)</span>
+                    </button>
+                    <button class="alpha-card" onclick="insertChar('མ')">
+                        <span class="key-shortcut">Phím M</span>
+                        <span class="tibetan-font big-tibetan">མ</span>
+                        <span class="name-wylie">ma</span>
+                        <span class="name-vn">ma (âm trầm)</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Hàng 5: Tsa Tsha Dza Wa -->
+            <div class="board-row">
+                <div class="board-row-title">
+                    <span>Hàng 5: Âm Tắc Xát Răng (Affricate)</span>
+                </div>
+                <div class="cards-4-grid">
+                    <button class="alpha-card" onclick="insertChar('ཙ')">
+                        <span class="key-shortcut">Phím W</span>
+                        <span class="tibetan-font big-tibetan">ཙ</span>
+                        <span class="name-wylie">tsa</span>
+                        <span class="name-vn">tsa (âm cao)</span>
+                    </button>
+                    <button class="alpha-card" onclick="insertChar('ཚ')">
+                        <span class="key-shortcut">Shift + W</span>
+                        <span class="tibetan-font big-tibetan">ཚ</span>
+                        <span class="name-wylie">tsha</span>
+                        <span class="name-vn">tsha (cao, bật hơi)</span>
+                    </button>
+                    <button class="alpha-card" onclick="insertChar('ཛ')">
+                        <span class="key-shortcut">Phím V</span>
+                        <span class="tibetan-font big-tibetan">ཛ</span>
+                        <span class="name-wylie">dza</span>
+                        <span class="name-vn">dza / tsha (âm trầm)</span>
+                    </button>
+                    <button class="alpha-card" onclick="insertChar('ཝ')">
+                        <span class="key-shortcut">Shift + V</span>
+                        <span class="tibetan-font big-tibetan">ཝ</span>
+                        <span class="name-wylie">wa</span>
+                        <span class="name-vn">wa (âm trầm)</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Hàng 6: Zha Za 'A Ya -->
+            <div class="board-row">
+                <div class="board-row-title">
+                    <span>Hàng 6: Âm Xát & Bán Nguyên Âm</span>
+                </div>
+                <div class="cards-4-grid">
+                    <button class="alpha-card" onclick="insertChar('ཞ')">
+                        <span class="key-shortcut">Shift + Z</span>
+                        <span class="tibetan-font big-tibetan">ཞ</span>
+                        <span class="name-wylie">zha</span>
+                        <span class="name-vn">zha / sha trầm</span>
+                    </button>
+                    <button class="alpha-card" onclick="insertChar('ཟ')">
+                        <span class="key-shortcut">Phím Z</span>
+                        <span class="tibetan-font big-tibetan">ཟ</span>
+                        <span class="name-wylie">za</span>
+                        <span class="name-vn">za / sa trầm</span>
+                    </button>
+                    <button class="alpha-card" onclick="insertChar('འ')">
+                        <span class="key-shortcut">Phím '</span>
+                        <span class="tibetan-font big-tibetan">འ</span>
+                        <span class="name-wylie">'a</span>
+                        <span class="name-vn">'a-chung (trầm)</span>
+                    </button>
+                    <button class="alpha-card" onclick="insertChar('ཡ')">
+                        <span class="key-shortcut">Phím Y</span>
+                        <span class="tibetan-font big-tibetan">ཡ</span>
+                        <span class="name-wylie">ya</span>
+                        <span class="name-vn">ya (âm trầm)</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Hàng 7 & 8: Ra La Sha Sa Ha A -->
+            <div class="board-row">
+                <div class="board-row-title">
+                    <span>Hàng 7 & 8: Âm Cuối & Âm Gốc A</span>
+                </div>
+                <div class="cards-6-grid">
+                    <button class="alpha-card" onclick="insertChar('ར')">
+                        <span class="key-shortcut">R</span>
+                        <span class="tibetan-font big-tibetan">ར</span>
+                        <span class="name-wylie">ra</span>
+                        <span class="name-vn">ra</span>
+                    </button>
+                    <button class="alpha-card" onclick="insertChar('ལ')">
+                        <span class="key-shortcut">L</span>
+                        <span class="tibetan-font big-tibetan">ལ</span>
+                        <span class="name-wylie">la</span>
+                        <span class="name-vn">la</span>
+                    </button>
+                    <button class="alpha-card" onclick="insertChar('ཤ')">
+                        <span class="key-shortcut">Shift+S</span>
+                        <span class="tibetan-font big-tibetan">ཤ</span>
+                        <span class="name-wylie">sha</span>
+                        <span class="name-vn">sha (cao)</span>
+                    </button>
+                    <button class="alpha-card" onclick="insertChar('ས')">
+                        <span class="key-shortcut">S</span>
+                        <span class="tibetan-font big-tibetan">ས</span>
+                        <span class="name-wylie">sa</span>
+                        <span class="name-vn">sa (cao)</span>
+                    </button>
+                    <button class="alpha-card" onclick="insertChar('ཧ')">
+                        <span class="key-shortcut">H</span>
+                        <span class="tibetan-font big-tibetan">ཧ</span>
+                        <span class="name-wylie">ha</span>
+                        <span class="name-vn">ha (cao)</span>
+                    </button>
+                    <button class="alpha-card" onclick="insertChar('ཨ')">
+                        <span class="key-shortcut">A</span>
+                        <span class="tibetan-font big-tibetan">ཨ</span>
+                        <span class="name-wylie">a</span>
+                        <span class="name-vn">a (gốc)</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ==================================================== -->
+    <!-- TAB 2: NGUYÊN ÂM & CHÂN CHỮ GHÉP                     -->
+    <!-- ==================================================== -->
+    <div id="tab-vowels" class="keyboard-view">
+        <div class="alphabet-board">
+            
+            <div class="board-row">
+                <div class="board-row-title">4 Nguyên Âm Chính (Gắn lên trên hoặc dưới phụ âm)</div>
+                <div class="cards-4-grid">
+                    <button class="alpha-card vowel-card" onclick="insertChar('\u0F72')">
+                        <span class="key-shortcut">Phím I</span>
+                        <span class="tibetan-font big-tibetan">ཨི</span>
+                        <span class="name-wylie">i (Gi-gu)</span>
+                        <span class="name-vn">mũ cong phía trên ( ི)</span>
+                    </button>
+                    <button class="alpha-card vowel-card" onclick="insertChar('\u0F74')">
+                        <span class="key-shortcut">Phím U</span>
+                        <span class="tibetan-font big-tibetan">ཨུ</span>
+                        <span class="name-wylie">u (Zhabs-kyu)</span>
+                        <span class="name-vn">móc cong phía dưới ( ུ)</span>
+                    </button>
+                    <button class="alpha-card vowel-card" onclick="insertChar('\u0F7A')">
+                        <span class="key-shortcut">Phím E</span>
+                        <span class="tibetan-font big-tibetan">ཨེ</span>
+                        <span class="name-wylie">e (Dreng-bu)</span>
+                        <span class="name-vn">gạch chéo phía trên ( ེ)</span>
+                    </button>
+                    <button class="alpha-card vowel-card" onclick="insertChar('\u0F7C')">
+                        <span class="key-shortcut">Phím O</span>
+                        <span class="tibetan-font big-tibetan">ཨོ</span>
+                        <span class="name-wylie">o (Na-ro)</span>
+                        <span class="name-vn">sừng cong phía trên ( ོ)</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="board-row">
+                <div class="board-row-title">4 Chân Chữ Ghép Dưới Phổ Biến (Subjoined - Đặt dưới phụ âm)</div>
+                <div class="cards-4-grid">
+                    <button class="alpha-card sub-card" onclick="insertChar('\u0FB1')">
+                        <span class="key-shortcut">Shift + Y</span>
+                        <span class="tibetan-font big-tibetan">ྱ</span>
+                        <span class="name-wylie">Ya-ta (-y-)</span>
+                        <span class="name-vn">Chân Ya (ghép ky, phy, my...)</span>
+                    </button>
+                    <button class="alpha-card sub-card" onclick="insertChar('\u0FB2')">
+                        <span class="key-shortcut">Shift + R</span>
+                        <span class="tibetan-font big-tibetan">ྲ</span>
+                        <span class="name-wylie">Ra-ta (-r-)</span>
+                        <span class="name-vn">Chân Ra (ghép kr, pr, tr...)</span>
+                    </button>
+                    <button class="alpha-card sub-card" onclick="insertChar('\u0FB3')">
+                        <span class="key-shortcut">Shift + L</span>
+                        <span class="tibetan-font big-tibetan">ླ</span>
+                        <span class="name-wylie">La-ta (-l-)</span>
+                        <span class="name-vn">Chân La (ghép kl, bl, zl...)</span>
+                    </button>
+                    <button class="alpha-card sub-card" onclick="insertChar('\u0FAD')">
+                        <span class="key-shortcut">Shift + W</span>
+                        <span class="tibetan-font big-tibetan">ྭ</span>
+                        <span class="name-wylie">Wa-zur (-w-)</span>
+                        <span class="name-vn">Góc Wa (tam giác nhỏ dưới)</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="board-row">
+                <div class="board-row-title">Dấu Thần Chú & Dấu Phân Cách Ngữ Pháp</div>
+                <div class="cards-5-grid">
+                    <button class="alpha-card" onclick="insertChar('་')">
+                        <span class="key-shortcut">Space</span>
+                        <span class="tibetan-font big-tibetan">་</span>
+                        <span class="name-wylie">Tsheg</span>
+                        <span class="name-vn">Chấm ngắt âm tiết</span>
+                    </button>
+                    <button class="alpha-card" onclick="insertChar('།')">
+                        <span class="key-shortcut">/</span>
+                        <span class="tibetan-font big-tibetan">།</span>
+                        <span class="name-wylie">Shad</span>
+                        <span class="name-vn">Gạch hết câu</span>
+                    </button>
+                    <button class="alpha-card" onclick="insertChar('\u0F7E')">
+                        <span class="key-shortcut">Shift + N</span>
+                        <span class="tibetan-font big-tibetan">ཾ</span>
+                        <span class="name-wylie">Thigle (ṃ)</span>
+                        <span class="name-vn">Chấm tròn mũi (Om, Hum)</span>
+                    </button>
+                    <button class="alpha-card" onclick="insertChar('\u0F7F')">
+                        <span class="key-shortcut">Shift + H</span>
+                        <span class="tibetan-font big-tibetan">ཿ</span>
+                        <span class="name-wylie">Visarga (ḥ)</span>
+                        <span class="name-vn">Dấu hai chấm (Ah)</span>
+                    </button>
+                    <button class="alpha-card" onclick="insertChar('\u0F83')">
+                        <span class="key-shortcut">Shift + M</span>
+                        <span class="tibetan-font big-tibetan">ྃ</span>
+                        <span class="name-wylie">Nada</span>
+                        <span class="name-vn">Trăng khuyết & giọt sáng</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ==================================================== -->
+    <!-- TAB 3: BÀN PHÍM QWERTY BẤM CHUỘT                    -->
+    <!-- ==================================================== -->
+    <div id="tab-qwerty" class="keyboard-view">
+        <div class="virtual-keyboard">
+            <!-- Row 1 -->
+            <div class="vk-row">
+                <div class="vk-key" onclick="handleKey('1', '༡', '!')"><span class="tb-shift-char">!</span><span class="tibetan-font tb-char">༡</span><span class="lat-char">1</span></div>
+                <div class="vk-key" onclick="handleKey('2', '༢', '@')"><span class="tb-shift-char">@</span><span class="tibetan-font tb-char">༢</span><span class="lat-char">2</span></div>
+                <div class="vk-key" onclick="handleKey('3', '༣', '#')"><span class="tb-shift-char">#</span><span class="tibetan-font tb-char">༣</span><span class="lat-char">3</span></div>
+                <div class="vk-key" onclick="handleKey('4', '༤', '$')"><span class="tb-shift-char">$</span><span class="tibetan-font tb-char">༤</span><span class="lat-char">4</span></div>
+                <div class="vk-key" onclick="handleKey('5', '༥', '%')"><span class="tb-shift-char">%</span><span class="tibetan-font tb-char">༥</span><span class="lat-char">5</span></div>
+                <div class="vk-key" onclick="handleKey('6', '༦', '^')"><span class="tb-shift-char">^</span><span class="tibetan-font tb-char">༦</span><span class="lat-char">6</span></div>
+                <div class="vk-key" onclick="handleKey('7', '༧', '&')"><span class="tb-shift-char">&</span><span class="tibetan-font tb-char">༧</span><span class="lat-char">7</span></div>
+                <div class="vk-key" onclick="handleKey('8', '༨', '*')"><span class="tb-shift-char">*</span><span class="tibetan-font tb-char">༨</span><span class="lat-char">8</span></div>
+                <div class="vk-key" onclick="handleKey('9', '༩', '(')"><span class="tb-shift-char">(</span><span class="tibetan-font tb-char">༩</span><span class="lat-char">9</span></div>
+                <div class="vk-key" onclick="handleKey('0', '༠', ')')"><span class="tb-shift-char">)</span><span class="tibetan-font tb-char">༠</span><span class="lat-char">0</span></div>
+                <div class="vk-key" onclick="handleKey('-', '་', '_')"><span class="tb-shift-char">_</span><span class="tibetan-font tb-char">་</span><span class="lat-char">-</span><span class="vn-desc">Tsheg</span></div>
+                <div class="vk-key" onclick="handleKey('=', '།', '+')"><span class="tibetan-font tb-shift-char">༎</span><span class="tibetan-font tb-char">།</span><span class="lat-char">=</span><span class="vn-desc">Shad</span></div>
+                <div class="vk-key vk-key-func vk-key-backspace" onclick="doBackspace()"><span style="font-weight:bold; font-size:14px;">⌫ Xóa</span></div>
+            </div>
+
+            <!-- Row 2 -->
+            <div class="vk-row">
+                <div class="vk-key" onclick="handleKey('q', 'ཆ', 'ྖ')"><span class="tibetan-font tb-shift-char">ྖ</span><span class="tibetan-font tb-char">ཆ</span><span class="lat-char">Q</span><span class="vn-desc">cha bật</span></div>
+                <div class="vk-key" onclick="handleKey('w', 'ཙ', 'ཚ')"><span class="tibetan-font tb-shift-char">ཚ</span><span class="tibetan-font tb-char">ཙ</span><span class="lat-char">W</span><span class="vn-desc">tsa/tsha</span></div>
+                <div class="vk-key vk-key-vowel" onclick="handleKey('e', '\u0F7A', 'ཻ')"><span class="tibetan-font tb-shift-char">ཻ</span><span class="tibetan-font tb-char">ེ</span><span class="lat-char">E</span><span class="vn-desc">âm e</span></div>
+                <div class="vk-key" onclick="handleKey('r', 'ར', '\u0FB2')"><span class="tibetan-font tb-shift-char">ྲ</span><span class="tibetan-font tb-char">ར</span><span class="lat-char">R</span><span class="vn-desc">ra</span></div>
+                <div class="vk-key" onclick="handleKey('t', 'ཏ', 'ཐ')"><span class="tibetan-font tb-shift-char">ཐ</span><span class="tibetan-font tb-char">ཏ</span><span class="lat-char">T</span><span class="vn-desc">ta/tha</span></div>
+                <div class="vk-key" onclick="handleKey('y', 'ཡ', '\u0FB1')"><span class="tibetan-font tb-shift-char">ྱ</span><span class="tibetan-font tb-char">ཡ</span><span class="lat-char">Y</span><span class="vn-desc">ya</span></div>
+                <div class="vk-key vk-key-vowel" onclick="handleKey('u', '\u0F74', 'ཱུ')"><span class="tibetan-font tb-shift-char">ཱུ</span><span class="tibetan-font tb-char">ུ</span><span class="lat-char">U</span><span class="vn-desc">âm u</span></div>
+                <div class="vk-key vk-key-vowel" onclick="handleKey('i', '\u0F72', '\u0F80')"><span class="tibetan-font tb-shift-char">ྀ</span><span class="tibetan-font tb-char">ི</span><span class="lat-char">I</span><span class="vn-desc">âm i</span></div>
+                <div class="vk-key vk-key-vowel" onclick="handleKey('o', '\u0F7C', 'ཽ')"><span class="tibetan-font tb-shift-char">ཽ</span><span class="tibetan-font tb-char">ོ</span><span class="lat-char">O</span><span class="vn-desc">âm o</span></div>
+                <div class="vk-key" onclick="handleKey('p', 'པ', 'ཕ')"><span class="tibetan-font tb-shift-char">ཕ</span><span class="tibetan-font tb-char">པ</span><span class="lat-char">P</span><span class="vn-desc">pa/pha</span></div>
+                <div class="vk-key" onclick="handleKey('[', '༼', '༺')"><span class="tibetan-font tb-shift-char">༺</span><span class="tibetan-font tb-char">༼</span><span class="lat-char">[</span></div>
+                <div class="vk-key" onclick="handleKey(']', '༽', '༻')"><span class="tibetan-font tb-shift-char">༻</span><span class="tibetan-font tb-char">༽</span><span class="lat-char">]</span></div>
+            </div>
+
+            <!-- Row 3 -->
+            <div class="vk-row">
+                <div class="vk-key" onclick="handleKey('a', 'ཨ', '\u0F71')"><span class="tibetan-font tb-shift-char">ཱ</span><span class="tibetan-font tb-char">ཨ</span><span class="lat-char">A</span><span class="vn-desc">a</span></div>
+                <div class="vk-key" onclick="handleKey('s', 'ས', 'ཤ')"><span class="tibetan-font tb-shift-char">ཤ</span><span class="tibetan-font tb-char">ས</span><span class="lat-char">S</span><span class="vn-desc">sa/sha</span></div>
+                <div class="vk-key" onclick="handleKey('d', 'ད', 'ཌ')"><span class="tibetan-font tb-shift-char">ཌ</span><span class="tibetan-font tb-char">ད</span><span class="lat-char">D</span><span class="vn-desc">da</span></div>
+                <div class="vk-key" onclick="handleKey('f', '་', '༴')"><span class="tibetan-font tb-shift-char">༴</span><span class="tibetan-font tb-char">་</span><span class="lat-char">F</span><span class="vn-desc">Tsheg</span></div>
+                <div class="vk-key" onclick="handleKey('g', 'ག', 'གྷ')"><span class="tibetan-font tb-shift-char">གྷ</span><span class="tibetan-font tb-char">ག</span><span class="lat-char">G</span><span class="vn-desc">ga</span></div>
+                <div class="vk-key" onclick="handleKey('h', 'ཧ', 'ཿ')"><span class="tibetan-font tb-shift-char">ཿ</span><span class="tibetan-font tb-char">ཧ</span><span class="lat-char">H</span><span class="vn-desc">ha</span></div>
+                <div class="vk-key" onclick="handleKey('j', 'ཇ', 'ྈ')"><span class="tibetan-font tb-shift-char">ྈ</span><span class="tibetan-font tb-char">ཇ</span><span class="lat-char">J</span><span class="vn-desc">ja</span></div>
+                <div class="vk-key" onclick="handleKey('k', 'ཀ', 'ཁ')"><span class="tibetan-font tb-shift-char">ཁ</span><span class="tibetan-font tb-char">ཀ</span><span class="lat-char">K</span><span class="vn-desc">ka/kha</span></div>
+                <div class="vk-key" onclick="handleKey('l', 'ལ', '\u0FB3')"><span class="tibetan-font tb-shift-char">ླ</span><span class="tibetan-font tb-char">ལ</span><span class="lat-char">L</span><span class="vn-desc">la</span></div>
+                <div class="vk-key" onclick="handleKey(';', '་', '༔')"><span class="tibetan-font tb-shift-char">༔</span><span class="tibetan-font tb-char">་</span><span class="lat-char">;</span></div>
+                <div class="vk-key" onclick="handleKey('\'', 'འ', 'ྋ')"><span class="tibetan-font tb-shift-char">ྋ</span><span class="tibetan-font tb-char">འ</span><span class="lat-char">'</span><span class="vn-desc">'a</span></div>
+                <div class="vk-key vk-key-func vk-key-enter" onclick="insertText('\n')"><span style="font-weight:bold; font-size:14px;">↵ Xuống hàng</span></div>
+            </div>
+
+            <!-- Row 4 -->
+            <div class="vk-row">
+                <button id="shiftBtn" class="vk-key vk-key-func vk-key-shift" onclick="toggleShift()">
+                    <span style="font-weight:bold; font-size:15px;">⇧ SHIFT (Chữ đỏ)</span>
+                </button>
+                <div class="vk-key" onclick="handleKey('z', 'ཟ', 'ཞ')"><span class="tibetan-font tb-shift-char">ཞ</span><span class="tibetan-font tb-char">ཟ</span><span class="lat-char">Z</span><span class="vn-desc">za/zha</span></div>
+                <div class="vk-key" onclick="handleKey('x', 'ཉ', 'ཎ')"><span class="tibetan-font tb-shift-char">ཎ</span><span class="tibetan-font tb-char">ཉ</span><span class="lat-char">X</span><span class="vn-desc">nya</span></div>
+                <div class="vk-key" onclick="handleKey('c', 'ཅ', 'ང')"><span class="tibetan-font tb-shift-char">ང</span><span class="tibetan-font tb-char">ཅ</span><span class="lat-char">C</span><span class="vn-desc">ca/nga</span></div>
+                <div class="vk-key" onclick="handleKey('v', 'ཛ', 'ཝ')"><span class="tibetan-font tb-shift-char">ཝ</span><span class="tibetan-font tb-char">ཛ</span><span class="lat-char">V</span><span class="vn-desc">dza/wa</span></div>
+                <div class="vk-key" onclick="handleKey('b', 'བ', 'བྷ')"><span class="tibetan-font tb-shift-char">བྷ</span><span class="tibetan-font tb-char">བ</span><span class="lat-char">B</span><span class="vn-desc">ba</span></div>
+                <div class="vk-key" onclick="handleKey('n', 'ན', '\u0F7E')"><span class="tibetan-font tb-shift-char">ཾ</span><span class="tibetan-font tb-char">ན</span><span class="lat-char">N</span><span class="vn-desc">na</span></div>
+                <div class="vk-key" onclick="handleKey('m', 'མ', '\u0F83')"><span class="tibetan-font tb-shift-char">ྃ</span><span class="tibetan-font tb-char">མ</span><span class="lat-char">M</span><span class="vn-desc">ma</span></div>
+                <div class="vk-key" onclick="handleKey(',', '་', 'ༀ')"><span class="tibetan-font tb-shift-char">ༀ</span><span class="tibetan-font tb-char">་</span><span class="lat-char">,</span></div>
+                <div class="vk-key" onclick="handleKey('.', '་', '༄')"><span class="tibetan-font tb-shift-char">༄</span><span class="tibetan-font tb-char">་</span><span class="lat-char">.</span></div>
+                <div class="vk-key" onclick="handleKey('/', '།', '༅')"><span class="tibetan-font tb-shift-char">༅</span><span class="tibetan-font tb-char">།</span><span class="lat-char">/</span><span class="vn-desc">Shad</span></div>
+            </div>
+
+            <!-- Row 5: Space -->
+            <div class="vk-row">
+                <div class="vk-key vk-key-space" onclick="insertTsheg()">
+                    <span class="tibetan-font tb-char" style="font-size:42px; margin-top:-8px;">་</span>
+                    <span style="font-size:18px;">PHÍM CÁCH (Dấu Tsheg - Ngắt Âm Tiết)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="toast" class="toast">✅ Đã sao chép văn bản tiếng Tạng!</div>
+
+<script>
+    const textarea = document.getElementById('tibetanTextarea');
+    let isShift = false;
+    let currentAlphaFontSize = 64;
+    let currentTextareaFontSize = 48;
+
+    function insertChar(ch) {
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const text = textarea.value;
+        textarea.value = text.substring(0, start) + ch + text.substring(end);
+        textarea.selectionStart = textarea.selectionEnd = start + ch.length;
+        textarea.focus();
+    }
+
+    function insertText(str) {
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const text = textarea.value;
+        textarea.value = text.substring(0, start) + str + text.substring(end);
+        textarea.selectionStart = textarea.selectionEnd = start + str.length;
+        textarea.focus();
+    }
+
+    function insertTsheg() {
+        insertChar('་');
+    }
+
+    function insertShad() {
+        insertChar('།');
+    }
+
+    function doBackspace() {
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const text = textarea.value;
+        if (start === end && start > 0) {
+            textarea.value = text.substring(0, start - 1) + text.substring(end);
+            textarea.selectionStart = textarea.selectionEnd = start - 1;
+        } else if (start !== end) {
+            textarea.value = text.substring(0, start) + text.substring(end);
+            textarea.selectionStart = textarea.selectionEnd = start;
+        }
+        textarea.focus();
+    }
+
+    function clearAll() {
+        if (textarea.value.length > 0 && confirm('Bạn có chắc muốn xóa hết nội dung?')) {
+            textarea.value = '';
+            textarea.focus();
+        }
+    }
+
+    function toggleShift() {
+        isShift = !isShift;
+        const btn = document.getElementById('shiftBtn');
+        if (isShift) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    }
+
+    function handleKey(latKey, normalChar, shiftChar) {
+        if (isShift) {
+            insertChar(shiftChar);
+            toggleShift();
+        } else {
+            insertChar(normalChar);
+        }
+    }
+
+    function adjustTextareaSize(delta) {
+        currentTextareaFontSize = Math.max(24, Math.min(90, currentTextareaFontSize + delta));
+        textarea.style.fontSize = currentTextareaFontSize + 'px';
+    }
+
+    function changeAlphaSize(delta) {
+        currentAlphaFontSize = Math.max(40, Math.min(100, currentAlphaFontSize + delta));
+        document.documentElement.style.setProperty('--alpha-font-size', currentAlphaFontSize + 'px');
+        document.querySelectorAll('.big-tibetan').forEach(el => {
+            el.style.fontSize = currentAlphaFontSize + 'px';
+        });
+        document.getElementById('curSizeLabel').textContent = `(Cỡ: ${currentAlphaFontSize}px)`;
+    }
+
+    function copyResult() {
+        if (!textarea.value) {
+            alert('Chưa có văn bản để sao chép!');
+            return;
+        }
+        navigator.clipboard.writeText(textarea.value).then(() => {
+            showToast('✅ Đã sao chép văn bản tiếng Tạng! Bạn có thể Dán (Paste) vào Word / Excel.');
+        }).catch(() => {
+            textarea.select();
+            document.execCommand('copy');
+            showToast('✅ Đã sao chép văn bản!');
+        });
+    }
+
+    function showToast(msg) {
+        const toast = document.getElementById('toast');
+        toast.textContent = msg;
+        toast.style.display = 'block';
+        setTimeout(() => {
+            toast.style.display = 'none';
+        }, 3000);
+    }
+
+    function showTab(tabId) {
+        document.querySelectorAll('.keyboard-view').forEach(v => v.classList.remove('active'));
+        document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+        
+        document.getElementById(tabId).classList.add('active');
+        event.target.classList.add('active');
+    }
+</script>
+
+</body>
+</html>

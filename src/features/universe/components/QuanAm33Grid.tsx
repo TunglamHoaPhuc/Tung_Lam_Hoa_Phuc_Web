@@ -83,7 +83,7 @@ const QuanAmCard = React.memo(({ item, onSelect }: CardProps) => {
           className="w-full h-full object-cover object-[center_12%] transition-transform duration-700 ease-out group-hover:scale-108 filter drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]"
           onError={(e) => {
             (e.target as HTMLImageElement).src =
-              'https://images.unsplash.com/photo-1564834325499-cd770c8ed0ef?w=600&h=800&fit=crop';
+              'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp';
           }}
         />
 

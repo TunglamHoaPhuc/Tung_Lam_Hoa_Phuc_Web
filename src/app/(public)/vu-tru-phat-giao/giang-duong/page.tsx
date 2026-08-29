@@ -77,7 +77,7 @@ export default function GiangDuongPage() {
         {/* ── HEROBANNER ── */}
         <HeroBanner
           id="herobanner"
-          bannerUrl="https://images.unsplash.com/photo-1498747468843-5ec2ad31cb89?w=1600&h=900&fit=crop"
+          bannerUrl="https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp"
           title="GIẢNG ĐƯỜNG"
           subtitle="CHƯ PHẬT HẢI HỘI"
         />

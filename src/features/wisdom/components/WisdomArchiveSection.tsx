@@ -2,7 +2,7 @@
 
 import React, { FC, useState, useMemo } from "react";
 import Link from "next/link";
-import { Search, Calendar, Eye, Volume2, Video as VideoIcon, BookOpen, FileText, ChevronDown } from "lucide-react";
+import { Search, Calendar, Eye, Volume2, Video as VideoIcon, BookOpen, FileText, ChevronDown, Sparkles } from "lucide-react";
 import { WISDOM_ITEMS, MEDIA_TYPE_OPTIONS } from "@/data/wisdom-archive-data";
 import { WisdomItem } from "@/types/wisdom-tags";
 import { MediaPlayModal } from "@/components/public/modals/MediaPlayModal";
@@ -27,6 +27,7 @@ const WisdomCard = React.memo(({ item, onClick }: WisdomCardProps) => {
           loading="lazy"
           decoding="async"
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 filter drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]"
+          style={{ objectPosition: (item as any).thumbnailPosition || 'center center' }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#2C1C11] via-transparent to-black/40" />
 
@@ -48,9 +49,9 @@ const WisdomCard = React.memo(({ item, onClick }: WisdomCardProps) => {
         <div className="space-y-1.5">
           <div
             style={{ fontFamily: "'UTM Avo', sans-serif" }}
-            className="text-[11px] font-bold text-[#F2C14E] tracking-wide flex items-center gap-1"
+            className="text-[11px] font-bold text-[#F2C14E] tracking-wide flex items-center gap-1.5"
           >
-            <span>🪔</span>
+            <Sparkles className="w-3.5 h-3.5 text-[#F2C14E] shrink-0" />
             <span>{item.primaryCategoryTag}</span>
           </div>
 
@@ -87,11 +88,57 @@ const WisdomCard = React.memo(({ item, onClick }: WisdomCardProps) => {
 WisdomCard.displayName = "WisdomCard";
 
 export const WisdomArchiveSection: FC = () => {
+  const [items, setItems] = useState<WisdomItem[]>(WISDOM_ITEMS);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [selectedType, setSelectedType] = useState<string>("all");
   const [sortBy, setSortBy] = useState<string>("newest");
   const [activeMediaModalItem, setActiveMediaModalItem] = useState<WisdomItem | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
+
+  // Tải bài viết: ưu tiên từ WordPress API admin.tunglamhoaphuc.com, fallback về local
+  React.useEffect(() => {
+    async function loadWisdomPosts() {
+      try {
+        // 1. Gọi WordPress tunglam/v1 API
+        const wpRes = await fetch(
+          'https://admin.tunglamhoaphuc.com/wp-json/tunglam/v1/posts?per_page=50',
+          { cache: 'no-store' }
+        );
+        if (wpRes.ok) {
+          const wpData = await wpRes.json();
+          const posts = Array.isArray(wpData) ? wpData : (wpData?.posts || []);
+          if (posts.length > 0) {
+            const mapped: WisdomItem[] = posts.map((p: any) => {
+              const imgUrls = p.featured_image_urls || {};
+              const thumbnailUrl = imgUrls.medium || imgUrls.large || imgUrls.thumbnail || '/images/toan-canh-chua.jpg';
+              const firstCat = Array.isArray(p.categories) ? p.categories[0] : null;
+              return {
+                id: String(p.id),
+                slug: p.slug || '',
+                title: p.title?.rendered || p.title || '',
+                type: 'article' as const,
+                primaryCategoryTag: firstCat?.name || 'Trí Tuệ Phật Pháp',
+                publishDate: p.date ? new Date(p.date).toLocaleDateString('vi-VN') : '2026',
+                views: p.acf?.views || 108,
+                thumbnailUrl,
+                thumbnailPosition: 'center center',
+                excerpt: p.noi_dung_tom_tat || p.acf?.noi_dung_tom_tat || '',
+                content: p.content?.rendered || '',
+              };
+            });
+            setItems(mapped);
+            return; // WP API thành công
+          }
+        }
+      } catch (err) {
+        // Lỗi mạng: dùng local data
+        console.log('WP API unavailable, using local data:', err);
+      }
+    }
+    loadWisdomPosts();
+  }, []);
+
+
 
   const typeOptions = useMemo(() => {
     return MEDIA_TYPE_OPTIONS.map((opt) => ({ id: opt.id, name: opt.label }));
@@ -104,7 +151,7 @@ export const WisdomArchiveSection: FC = () => {
 
   // Filter & Sort with useMemo
   const filteredItems = useMemo(() => {
-    let result = WISDOM_ITEMS.filter((item) => {
+    let result = items.filter((item) => {
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase();
         const matchesTitle = item.title.toLowerCase().includes(q);
@@ -229,6 +276,46 @@ export const WisdomArchiveSection: FC = () => {
           </button>
         </div>
       )}
+
+      {/* ── 4. Mục Học Tiếng Tạng (Sara Book) ── */}
+      <div className="mt-16 w-full">
+        <div className="relative overflow-hidden rounded-2xl border border-[#F2C14E]/40 bg-gradient-to-br from-[#2C1C11] via-[#1C130D] to-[#0F0A06] p-8 shadow-2xl">
+          {/* Background decoration */}
+          <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'url("/images/tibetan-pattern.png")', backgroundSize: '200px' }} />
+          <div className="absolute top-0 right-0 w-64 h-64 bg-[#F2C14E]/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-3xl" />
+
+          <div className="relative flex flex-col md:flex-row items-center gap-6">
+            {/* Icon */}
+            <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#4D311F] to-[#2C1C11] border border-[#F2C14E]/50 flex items-center justify-center shadow-xl shrink-0">
+              <span className="text-4xl" role="img" aria-label="Tiếng Tạng">&#x0F04;&#x0F05;</span>
+            </div>
+
+            {/* Text */}
+            <div className="flex-1 text-center md:text-left">
+              <div className="text-xs font-bold tracking-[0.2em] text-[#F2C14E]/70 uppercase mb-1" style={{ fontFamily: "'UTM Avo', sans-serif" }}>
+                Học Thuật • Phật Pháp
+              </div>
+              <h3 className="text-2xl font-bold text-[#F2C14E] mb-2" style={{ fontFamily: "'UTM Avo', sans-serif" }}>
+                Học Tiếng Tạng (Sara Book)
+              </h3>
+              <p className="text-sm text-[#c9b896]/80 max-w-lg" style={{ fontFamily: "'UTM Avo', sans-serif" }}>
+                Học nghiên cứu tiếng Tạng qua bộ giáo trình Sara Book — công cụ học thuật quan trọng dành cho những ai muốn thâm nhập kho tàng triết học Phật giáo Tây Tạng nguyên bản.
+              </p>
+            </div>
+
+            {/* CTA Button */}
+            <Link
+              href="/tri-tue-phat-phap/hoc-tieng-tang"
+              id="btn-hoc-tieng-tang"
+              className="shrink-0 inline-flex items-center gap-2.5 px-6 py-3 bg-gradient-to-r from-[#C8860A] to-[#F2C14E] hover:from-[#F2C14E] hover:to-[#FFDE59] rounded-xl text-sm font-bold text-[#1C0A00] shadow-lg hover:shadow-[0_0_25px_rgba(242,193,78,0.6)] transition-all duration-300 group"
+              style={{ fontFamily: "'UTM Avo', sans-serif" }}
+            >
+              <span>Vào Học Ngay</span>
+              <span className="group-hover:translate-x-1 transition-transform">➤</span>
+            </Link>
+          </div>
+        </div>
+      </div>
 
       {/* Media Player Modal */}
       {activeMediaModalItem && (

@@ -30,7 +30,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "TỪ BI ÂM (LA VOIX DE LA MISÉRICORDE)",
     "publisher": "NXB Tôn Giáo",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 157,
     "description": "Tác phẩm kinh điển \"TAG\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -41,7 +41,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "18 QUYỂN (TỪ 1-18)",
     "publisher": "TỪ BI ÂM (LA VOIX DE LA MISÉRICORDE)",
     "category": "Phật Học Tạp Chí",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 174,
     "description": "Tác phẩm kinh điển \"PHẬT HỌC TẠP CHÍ MỖI THÁNG XUẤT BẢN MỘT KỲ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -52,7 +52,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "10 QUYỂN (TẬP 1 -10)",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 191,
     "description": "Tác phẩm kinh điển \"ẤN BẢN LẦN ĐẦU 2015 TÁI BẢN LẦN THỨ NHẤT 2019\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -63,7 +63,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "1 QUYỂN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 208,
     "description": "Tác phẩm kinh điển \"VÔ ÚY TRONG THỜI MẠT PHÁP\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -74,7 +74,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "NXB TÔN GIÁO",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 225,
     "description": "Tác phẩm kinh điển \"LAMA THUBTEN ZOPA RINPOCHE VIỆT DỊCH: NGUYỄN VĂN Đ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -85,7 +85,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "XÃ HỘI GIÁC NGỘ - SHAMBHALA - CON ĐƯỜNG THIÊNG LIÊ",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 242,
     "description": "Tác phẩm kinh điển \"Sách nghiên cứu Phật học\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -96,7 +96,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "TÂM AN LẠC",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 259,
     "description": "Tác phẩm kinh điển \"THIỆN TRI THỨC\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -107,7 +107,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "NHÀ XUẤT BẢN TÔN GIÁO",
     "publisher": "BAMRDO BÍ MẬT NGHỆ THUẬT SINH TỬ",
     "category": "Lịch Sử Phật Giáo",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 276,
     "description": "Tác phẩm kinh điển \"ĐỨC NHIẾP CHÍNH VƯƠNG GYALWA DOKHAMPA Biên dịch: D\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -118,7 +118,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "HOẰNG TÁN ĐẠI SƯ",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 293,
     "description": "Tác phẩm kinh điển \"2 QUYỂN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -129,7 +129,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "HOẰNG TÁN ĐẠI SƯ",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 310,
     "description": "Tác phẩm kinh điển \"Tái bản lần thứ 4\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -140,7 +140,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "THÍCH LINH QUANG",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 327,
     "description": "Tác phẩm kinh điển \"PHẬT GIÁO MẬT TÔNG KIM CANG THỪA CHÚ GIẢI (TẬP 1) \" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -151,7 +151,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT GIÁO MẬT TÔNG KIM CANG THỪA CHÚ GIẢI (TẬP 2)  PHẬT GIÁO",
     "publisher": "MẬT TÔNG TÂY TẠNG",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 344,
     "description": "Tác phẩm kinh điển \"PHẠN - HÁN - VIỆT CHÚ NGỮ TOÀN THƯ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -162,7 +162,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "3 QUYỂN",
     "category": "Luận Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 361,
     "description": "Tác phẩm kinh điển \"BỘ MẬT TÔNG  CHUẨN ĐỀ TÂM PHÁP\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -173,7 +173,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "NHÀ XUẤT BẢN TÔN GIÁO",
     "publisher": "CÁC TÔNG PHÁI ĐẠO PHẬT",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 378,
     "description": "Tác phẩm kinh điển \"NXB TP HCM\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -184,7 +184,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "NGHI THỨC TỤNG NIỆM KAGYU NONLAM",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 395,
     "description": "Tác phẩm kinh điển \"NXB TỔNG HỢP TP HCM\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -195,7 +195,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "TÂY TẠNG HUYỀN BÍ",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 412,
     "description": "Tác phẩm kinh điển \"ALTRUISM PUBLICATIONS\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -206,7 +206,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "THEO CHÂN ĐẠO SƯ TÂY TẠNG",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 429,
     "description": "Tác phẩm kinh điển \"NXB LAO ĐỘNG\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -217,7 +217,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "TÁNH GIÁC LỘ TOÀN THÂN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 446,
     "description": "Tác phẩm kinh điển \"NXB PHƯƠNG ĐÔNG\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -228,7 +228,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "NXB THIỆN TRI THỨC",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 463,
     "description": "Tác phẩm kinh điển \"KARMA CHAGME\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -239,7 +239,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "THƯỢNG SƯ TSONGKHAPA Biên dịch: Thích Tịnh Nghiêm",
     "category": "Phật Học Tạp Chí",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 480,
     "description": "Tác phẩm kinh điển \"BỒ ĐỀ CHÁNH ĐẠO  BỒ TÁT GIỚI LUẬN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -250,7 +250,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "LAMA DALAI",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 497,
     "description": "Tác phẩm kinh điển \"XƯNG TÁN DUYÊN KHỞI\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -261,7 +261,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT GIÁO MẬT TÔNG KIM CANG THỪA CHÚ GIẢI (TẬP 2)  PHẬT GIÁO",
     "publisher": "Biên dịch: Huyền Thanh",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 514,
     "description": "Tác phẩm kinh điển \"ĐẠI PHẬT ĐỈNH THỦ LĂNG NGHIÊM THẦN CHÚ PHÁP\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -272,7 +272,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "TULKU THONDUP Biên dịch: Nguyễn Văn Nghệ",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 531,
     "description": "Tác phẩm kinh điển \"CHẾT AN BÌNH TÁI SINH HỶ LẠC\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -283,7 +283,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "TỲ KHEO TRÍ QUANG",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 548,
     "description": "Tác phẩm kinh điển \"ĐỂ HIỂU ĐÀN CHẨN TẾ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -294,7 +294,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "KEITH DOWMAN  Biên dịch: Lục Thạch - Ban Thiền Phá",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 565,
     "description": "Tác phẩm kinh điển \"VŨ ĐIỆU DAKIMI ĐỜI SỐNG BÍ MẬT VÀ NHỮNG BÀI CA CỦA\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -305,7 +305,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT GIÁO MẬT TÔNG KIM CANG THỪA CHÚ GIẢI (TẬP 2)  PHẬT GIÁO",
     "publisher": "JEROME EDORI",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 582,
     "description": "Tác phẩm kinh điển \"NỮ ĐẠO SƯ MACHIG LABDRON VÀ NỀN MÓNG CỦA PHÁP\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -316,7 +316,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "THINLEY NORBU",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 599,
     "description": "Tác phẩm kinh điển \"SỰ NHẢY MÚA ẢO DIỆU TRÒ PHÔ DIỄN CỦA TỰ TÁNH CỦA N\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -327,7 +327,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "NGHI QUỸ HÀNH TRÌ TINH YẾU",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 616,
     "description": "Tác phẩm kinh điển \"NYOSHUL THENPO RINPOCHE\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -338,7 +338,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "NXB HỒNG ĐỨC",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 633,
     "description": "Tác phẩm kinh điển \"Dịch giả: Trần Gia Phong\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -349,7 +349,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "NHÀ XUẤT BẢN TÔN GIÁO",
     "publisher": "JAMGON MIPHAM",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 650,
     "description": "Tác phẩm kinh điển \"MO - PHƯƠNG PHÁP TIÊN TRI TÂY TẠNG\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -360,7 +360,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "ORGYEN KUSUM LINGPA  Biên dịch: Liên Hoa",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 667,
     "description": "Tác phẩm kinh điển \"KHO TÀNG CÁC GIÁO HUẤN SIÊU VIỆT VỀ TRI GIÁC CỦA T\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -371,7 +371,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "NHÀ XUẤT BẢN TÔN GIÁO",
     "publisher": "NGUYÊN THÀNH",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 684,
     "description": "Tác phẩm kinh điển \"MỘT ĐỜI NGƯỜI MỘT CÂU THẦN CHÚ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -382,7 +382,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "800 NĂM PHỤNG SỰ NHÂN LOẠI VÀ VŨ TRỤ",
     "publisher": "HẠNH NGỘ MINH SƯ  Biên dịch: Vô Úy",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 151,
     "description": "Tác phẩm kinh điển \"THUBTEN CHODRON\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -393,7 +393,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "BỘ MẬT TÔNG",
     "publisher": "MẬT TÔNG TÂY TẠNG",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 168,
     "description": "Tác phẩm kinh điển \"Chịu trách nhiệm xb:  Nguyễn Công Oánh\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -404,7 +404,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "NHÀ XUẤT BẢN TÔN GIÁO",
     "publisher": "Dịch giả: Thích Viên Đức",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 185,
     "description": "Tác phẩm kinh điển \"4 QUYỂN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -415,7 +415,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "DU GIÀ NGHI QUỸ",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 202,
     "description": "Tác phẩm kinh điển \"5 QUYỂN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -426,7 +426,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "In tại Đài Loan",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 219,
     "description": "Tác phẩm kinh điển \"Dịch giả: Nguyệt Trí\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -437,7 +437,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "LAMA ZOPA RINPOCHE",
     "category": "Luận Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 236,
     "description": "Tác phẩm kinh điển \"ĐIỀU TRỊ BỆNH TẬN GỐC NĂNG LỰC CỦA TÂM BI MẪN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -448,7 +448,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "RIBUR RINPOCHE Dịch giả: Hồng Như",
     "category": "Phật Học Tạp Chí",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 253,
     "description": "Tác phẩm kinh điển \"PHÁT TÂM BỒ ĐỀ QUA PHÁP BẢY ĐIỂM NHÂN QỦA VÀ HOÁN \" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -459,7 +459,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "ĐỨC DALAI LAMA",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 270,
     "description": "Tác phẩm kinh điển \"MỘT TIA CHỚP SÁNG TRONG ĐÊM TỐI\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -470,7 +470,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "Biên dịch: Vô Úy",
     "category": "Luận Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 287,
     "description": "Tác phẩm kinh điển \"CÂY TÍCH TRƯỢNG KHAI TÂM NHÃN VÀ TIÊU TRỪ MÀNG VÔ \" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -481,7 +481,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "TRÍ TUỆ VÀ CHÂN THÀNH",
     "category": "Luận Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 304,
     "description": "Tác phẩm kinh điển \"SOGYAL RINPOCHE  Biên dịch : Trường Tâm và Thanh L\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -492,7 +492,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "NHÀ XUẤT BẢN TÔN GIÁO",
     "publisher": "TRẦN NHÂN TÔNG VÀ THIỀN PHÁI TRÚC LÂM",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 321,
     "description": "Tác phẩm kinh điển \"NXB TRẺ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -503,7 +503,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT GIÁO MẬT TÔNG KIM CANG THỪA CHÚ GIẢI (TẬP 2)  PHẬT GIÁO",
     "publisher": "TỪ VÔ MINH ĐẾN MINH",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 338,
     "description": "Tác phẩm kinh điển \"NXB VĂN HỌC\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -514,7 +514,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "Biên dịch: Huyền Thanh",
     "category": "Thiền Học",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 355,
     "description": "Tác phẩm kinh điển \"THIỀN SƯ OTTAMATHARA  Dịch giả: Lan - Nanika\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -525,7 +525,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "TÁM QUYỂN SÁCH QUÝ",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 372,
     "description": "Tác phẩm kinh điển \"NXB THANH NIÊN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -536,7 +536,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "TÔN KÍNH ĐỨC DI ĐÀ",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 389,
     "description": "Tác phẩm kinh điển \"HÒA THƯỢNG THÍCH THIỆN HOA\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -547,7 +547,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "THẬT HIỀN ĐẠI SƯ",
     "category": "Luận Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 406,
     "description": "Tác phẩm kinh điển \"KHUYẾN PHÁT BỒ ĐÈ TÂM VĂN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -558,7 +558,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "VẬN HÀNH CỦA NGHIỆP TẬP 1",
     "category": "Luận Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 423,
     "description": "Tác phẩm kinh điển \"Luận, Luận giải\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -569,7 +569,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "HÒA THƯỢNG TUYÊN HÓA",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 440,
     "description": "Tác phẩm kinh điển \"KHAI THỊ QUYỂN 6\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -580,7 +580,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "Tuyển tập",
     "category": "Luật Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 457,
     "description": "Tác phẩm kinh điển \"TỔNG HỘI PHẬT GIÁO PHÁP GIỚI\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -591,7 +591,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "LAURENCE J.BRAHM",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 474,
     "description": "Tác phẩm kinh điển \"SHAMBHALA\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -602,7 +602,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "Biên dịch: Vô Úy",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 491,
     "description": "Tác phẩm kinh điển \"BỒ TÁT ĐẠI TRÍ VĂN THÙ SƯ LỢI\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -613,7 +613,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "NHÀ XUẤT BẢN TÔN GIÁO",
     "publisher": "TÔN GIẢ A ĐỂ SA",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 508,
     "description": "Tác phẩm kinh điển \"LỆ NHƯ THÍCH TRUNG HẬU\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -624,7 +624,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "TƯ TƯỞNG VIỆT NAM NHÂN BẢN THỰC TẠI LUẬN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 525,
     "description": "Tác phẩm kinh điển \"THÍCH HẰNG ĐẠT\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -635,7 +635,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "NYAYAPRAVESA",
     "category": "Luận Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 542,
     "description": "Tác phẩm kinh điển \"ĐƯỜNG VÀO LUẬN LÍ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -646,7 +646,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "TỔNG QUAN VỀ NGHIỆP",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 559,
     "description": "Tác phẩm kinh điển \"ĐỒNG VĂN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -657,7 +657,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "ĐỨC PHẬT VẪN ĐANG THUYẾT PHÁP",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 576,
     "description": "Tác phẩm kinh điển \"NXB ĐÀ NẴNG\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -668,7 +668,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "ĐƯỜNG ĐẾN THIỀN PHÁI TRÚC LÂM TẠI VIỆT NAM",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 593,
     "description": "Tác phẩm kinh điển \"NXB TỪ ĐIỂN BÁCH KHOA\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -679,7 +679,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "NXB ĐẠI HỌC QUỐC GIA HN",
     "category": "Luận Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 610,
     "description": "Tác phẩm kinh điển \"TS. THƯỢNG TỌA THÍCH TÂM ĐỨC\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -690,7 +690,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "TS. NGUYỄN TIẾN SƠN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 627,
     "description": "Tác phẩm kinh điển \"KHẢO CỨU PHÁP TU TỊNH ĐỘ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -701,7 +701,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "HÒA THƯỢNG THÍCH GIÁC QUANG",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 644,
     "description": "Tác phẩm kinh điển \"PHÁP GIÁO LIÊN TÔNG TỊNH ĐỘ NON BỒNG\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -712,7 +712,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "Dịch giả: Thích Hiển Chơn",
     "publisher": "LỊCH SỬ TƯ TƯỞNG PHẬT HỌC TRUNG QUỐC",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 661,
     "description": "Tác phẩm kinh điển \"HÀNH TRÌNH TUỆ GIÁC\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -723,7 +723,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "NHÀ XUẤT BẢN TÔN GIÁO",
     "publisher": "VIỆT NAM PHẬT GIÁO SỬ LUẬN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 678,
     "description": "Tác phẩm kinh điển \"LỮ TRỪNG\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -734,7 +734,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "NGUYỄN LANG",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 145,
     "description": "Tác phẩm kinh điển \"1 TẬP 3 QUYỂN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -745,7 +745,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "LƯỢC GIẢI BỔN MÔN PHÁP HOA KINH",
     "category": "Luận Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 162,
     "description": "Tác phẩm kinh điển \"THÍCH TÂM THIỆN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -756,7 +756,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "NHÀ XUẤT BẢN TÔN GIÁO",
     "publisher": "NXB TÔN GIÁO HÀ NỘI",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 179,
     "description": "Tác phẩm kinh điển \"HÒA THƯỢNG THÍCH TRÍ QUẢNG\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -767,7 +767,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "PHÁP SƯ TỊNH KHÔNG",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 196,
     "description": "Tác phẩm kinh điển \"PHẬT THUYẾT ĐẠI THỪA VÔ LƯỢNG THỌ TRANG NGHIÊM ĐẲN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -778,7 +778,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "THÍCH TUỆ HẢI",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 213,
     "description": "Tác phẩm kinh điển \"THẬP NGUYỆN PHỔ HIỀN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -789,7 +789,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "THIỀN SƯ PA-AUK TAWYA SAYDAW THIỀN SƯ U DHAMMAPALA",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 230,
     "description": "Tác phẩm kinh điển \"THIỆN BẠN HỮU\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -800,7 +800,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "NGŨ TỔ HOẰNG NHẪN",
     "category": "Luận Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 247,
     "description": "Tác phẩm kinh điển \"LUẬN TỐI THƯỢNG THỪA\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -811,7 +811,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "DAISETZ TEITARO SUZUKI",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 264,
     "description": "Tác phẩm kinh điển \"ĐẠI CƯƠNG PHẬT GIÁO ĐẠI THỪA\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -822,7 +822,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "THÍCH CHÚC PHÚC",
     "publisher": "NHẶT LÁ RỪNG XƯA",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 281,
     "description": "Tác phẩm kinh điển \"VÀI VẤN ĐỀ VỀ PHẬT GIÁO VÀ NHÂN SINH\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -833,7 +833,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "KINH VIÊN GIÁC GIẢNG GIẢI",
     "category": "Luận Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 298,
     "description": "Tác phẩm kinh điển \"MINH ĐỨC TRIỀU TÂM ÁNH\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -844,7 +844,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "THÍCH NHẬT QUANG",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 315,
     "description": "Tác phẩm kinh điển \"2 BỘ 4 QUYỂN ( TẬP 1, 2)\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -855,7 +855,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "TÂM HUỆ HỶ",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 332,
     "description": "Tác phẩm kinh điển \"DANH TỪ PHẬT HỌC THỰC DỤNG\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -866,7 +866,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "TT. THÍCH ĐẠT ĐẠO ĐĐ. THÍCH NGUYÊN AN - MC. TÁNH T",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 349,
     "description": "Tác phẩm kinh điển \"NGHỆ THUẬT DIỄN GẢI VÀ XƯỚNG NGÔN LỄ HỘI PHẬT GIÁO\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -877,7 +877,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "BỘ MẬT TÔNG",
     "publisher": "MADHYAMAKA - SASTRA",
     "category": "Luận Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 366,
     "description": "Tác phẩm kinh điển \"TRUNG LUẬN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -888,7 +888,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "SA MÔN THÍCH TRÍ MINH",
     "publisher": "LIÊN TÔNG BẢO GIÁM",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 383,
     "description": "Tác phẩm kinh điển \"QUI NGUYÊN TRỰC CHỈ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -899,7 +899,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "NHÀ XUẤT BẢN TÔN GIÁO",
     "publisher": "CHÚ GIẢI KINH PHẬT HUYẾT ĐẠI THỪA VÔ THỌ TRANG NGH",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 400,
     "description": "Tác phẩm kinh điển \"ĐẠI SƯ ƯU ĐÀM\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -910,7 +910,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "CHÚ GIẢI KINH PHẬT HUYẾT ĐẠI THỪA VÔ THỌ TRANG NGH",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 417,
     "description": "Tác phẩm kinh điển \"9 QUYỂN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -921,7 +921,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "KINH THẬP THIỆN LƯỢC GIẢNG",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 434,
     "description": "Tác phẩm kinh điển \"BỬU QUANG ĐỆ TỬ NHƯ HÒA\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -932,7 +932,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "KINH KIM CANG BÁT NHÃ BA LA MẬT QUYỂN MỘT",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 451,
     "description": "Tác phẩm kinh điển \"TỲ KHEO THÍCH TUỆ HẢI\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -943,7 +943,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "CHÚ GIẢI KINH PHẬT HUYẾT ĐẠI THỪA VÔ THỌ TRANG NGH",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 468,
     "description": "Tác phẩm kinh điển \"MA HA BÁT NHÃ BA LA MẬT ĐA TÂM KINH\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -954,7 +954,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "VẬN HÀNH CỦA NGHIỆP TẬP 1",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 485,
     "description": "Tác phẩm kinh điển \"ĐẠI ĐỨC THÍCH TUỆ HẢI\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -965,7 +965,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "VŨ THẾ NGỌC",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 502,
     "description": "Tác phẩm kinh điển \"NGHIÊN CỨU LỤC TỔ ĐÀN KINH\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -976,7 +976,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "ĐẠI CƯƠNG KINH HOA NGHIÊM TẬP 1",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 519,
     "description": "Tác phẩm kinh điển \"KINH ĐỊA TẠNG BỒ TÁT BỔN NGUYỆN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -987,7 +987,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "HOA NGHIÊM XUẤT BẢN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 536,
     "description": "Tác phẩm kinh điển \"CE DỊCH VÀ LƯỢC GIẢI\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -998,7 +998,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "Nguyên tác hán văn: Sa - môn Tông mật soạn Việt dị",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 553,
     "description": "Tác phẩm kinh điển \"LƯỢC GIẢI KINH ĐẠI PHƯƠNG QUẢNG VIÊN GIÁC\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1009,7 +1009,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "NHÀ XUẤT BẢN TÔN GIÁO",
     "publisher": "HOA NGHIÊM XUẤT BẢN",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 570,
     "description": "Tác phẩm kinh điển \"KINH KIM CANG GIẢNG GIẢI\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1020,7 +1020,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "HOA NGHIÊM XUẤT BẢN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 587,
     "description": "Tác phẩm kinh điển \"THÍCH THANH TỪ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1031,7 +1031,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "NHÀ XUẤT BẢN TÔN GIÁO",
     "publisher": "HOA NGHIÊM XUẤT BẢN",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 604,
     "description": "Tác phẩm kinh điển \"KINH PHÁP BẢO ĐÀN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1042,7 +1042,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "HOA NGHIÊM XUẤT BẢN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 621,
     "description": "Tác phẩm kinh điển \"HT. THÍCH DUY LỰC\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1053,7 +1053,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "KINH VIÊN GIÁC GIẢNG GIẢI TTT",
     "publisher": "KIẾN TÁNH THÀNH PHẬT GIẢNG GIẢI",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 638,
     "description": "Tác phẩm kinh điển \"KINH PHÁP BẢO ĐÀN GIẢNG GIẢI\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1064,7 +1064,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "LỘ TRÌNH TÂM VÀ SẮC PHÁP",
     "category": "Phật Học Tạp Chí",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 655,
     "description": "Tác phẩm kinh điển \"NHẶT LÁ BỒ ĐỀ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1075,7 +1075,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "THERAVADA",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 672,
     "description": "Tác phẩm kinh điển \"1 QUYẾN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1086,7 +1086,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "THÍCH THẮNG HOAN",
     "publisher": "DIỆU PHÁP YẾU LƯỢC",
     "category": "Luận Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 689,
     "description": "Tác phẩm kinh điển \"KHẢO NGHIỆM DUY THỨC HỌC TÂM LÝ HỌC THỰC NGHIỆM\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1097,7 +1097,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "SỰ TÍCH TÁM VỊ BỒ TÁT",
     "publisher": "NGUYÊN TÁC MINPHAM RINPOCHE - DỊCH TỪ TẠNG - HÁN K",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 156,
     "description": "Tác phẩm kinh điển \"DHAMMAKITTI MAHASAMI\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1108,7 +1108,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "150 QUYỂN",
     "publisher": "ĐẶNG MINH CHÂU (HÒA THƯỢNG THÍCH BẢO NGHIÊM)",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 173,
     "description": "Tác phẩm kinh điển \"MỐI QUAN HỆ GIỮA PHÂT GIÁO VÀ TÍN NGƯỠNG DÂN GIAN \" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1119,7 +1119,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "LƯỢC GIẢ- TỲ KHEO THÍCH TUỆ HẢI- PL.2563-2019",
     "publisher": "BIẾN VĂN ĐÔN HOÀNG THẠCH ĐỘNG KHÔNG NGỦ YÊN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 190,
     "description": "Tác phẩm kinh điển \"TINH TÚY BÁT NHÃ BA LA MẬT ĐA\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1130,7 +1130,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "BỘ MẬT TÔNG",
     "publisher": "15 THÁNG 8 NĂM 2019 - IN XONG VÀ NỘP LƯU CHIỂU QUÝ",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 207,
     "description": "Tác phẩm kinh điển \"NXB TÔN GIÁO- CHỊU TRÁCH NHIỆM XUẤT BẢN GIÁM ĐỐC- \" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1141,7 +1141,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "SA MÔN THÍCH TIẾN ĐẠT",
     "publisher": "NXB TÔN GIÁO",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 224,
     "description": "Tác phẩm kinh điển \"KINH NGŨ BÁCH DANH\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1152,7 +1152,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "TỰ HỌC VI DIỆU PHÁP TẬP 6",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 241,
     "description": "Tác phẩm kinh điển \"Kinh\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1163,7 +1163,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "NHÀ XUẤT BẢN TÔN GIÁO",
     "publisher": "NHỊ KHÓA HIỆP GIẢI",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 258,
     "description": "Tác phẩm kinh điển \"Kinh\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1174,7 +1174,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "NXB THÀNH PHỐ HỒ CHÍ MINH",
     "publisher": "PHẬT LỊCH 2539 - DƯƠNG LỊCH 1995",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 275,
     "description": "Tác phẩm kinh điển \"HÒA THƯỢNG THÍCH KHÁNH ANH\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1185,7 +1185,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "TỊNH ĐỘ YẾU NGHĨA",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 292,
     "description": "Tác phẩm kinh điển \"VIỆT DỊCH : HÒA THƯỢNG THÍCH KHÁNH ANH\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1196,7 +1196,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "GIẢNG GIẢI HAI THỜI CÔNG PHU",
     "publisher": "BIỂN SOẠN VÀ GIẢNG GIẢI : TỲ KHEO THÍCH THIỆN TOÀN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 309,
     "description": "Tác phẩm kinh điển \"CHÂN NGUYÊN TUỆ ĐĂNG SOẠN - LÊ MẠNH THÁT - DỊCH CH\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1207,7 +1207,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "ĐỊA TẠNG VƯƠNG BỒ TÁT BỔN NGUYỆN KINH GIẢNG KÝ",
     "publisher": "3 QUYỂN ( QUYỂN HẠ - TRUNG - THƯỢNG)",
     "category": "Lịch Sử Phật Giáo",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 326,
     "description": "Tác phẩm kinh điển \"PHẬT LỊCH 2562 - DƯƠNG LỊCH 2019\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1218,7 +1218,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "5 QUYỂN TỪ TẬP 1 ĐẾN TẬP 6 - THIẾU TẬP 2",
     "publisher": "NUYÊN TÁC - MINGUN SAYADAW BIÊN DỊCH - TỲ KHƯU MIN",
     "category": "Lịch Sử Phật Giáo",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 343,
     "description": "Tác phẩm kinh điển \"ĐẠI PHẬT SỬ - MAHA BUDDAHAVAMSA\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1229,7 +1229,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "2 QUYỂN",
     "publisher": "BỬU QUANG TỰ Đệ tử NHƯ HÒA  KÍNH DỊCH SANG VIỆT NG",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 360,
     "description": "Tác phẩm kinh điển \"CHÚ GIẢI PHẬT THUYẾT ĐẠI THỪA VÔ LƯỢNG THỌ TRANG N\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1240,7 +1240,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "HƯƠNG HOA VƯỜN GIÁO PHÁP- PHÁP UYỂN CHÂU LÂM",
     "publisher": "14 QUYỂN TU TAP 1 ĐẾN TẬP 7 MỖI TẬP 2 QUYỂN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 377,
     "description": "Tác phẩm kinh điển \"NĂM 2012\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1251,7 +1251,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "NHÀ XUẤT BẢN TÔN GIÁO",
     "publisher": "KINH A DI ĐÀ BẠCH THOẠI GIẢI THÍCH",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 394,
     "description": "Tác phẩm kinh điển \"BAN DỊCH THUẬT HÁN TẠNG PHÁP ÂM - PHÁP SƯ ĐẠO THẾ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1262,7 +1262,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "DI ĐÀ HỢP GIẢI",
     "publisher": "NHƯ HÒA DỊCH",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 411,
     "description": "Tác phẩm kinh điển \"HUỲNH TRÍ HẢI - HÒA THƯỢNG THÍCH TRÍ MINH DỊCH\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1273,7 +1273,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "5 QUYỂN TỪ TẬP 1 ĐẾN TẬP 6 - THIẾU TẬP 2",
     "publisher": "DỊCH GIẢ : THÍCH TUỆ NHUẬN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 428,
     "description": "Tác phẩm kinh điển \"1 QUYỂN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1284,7 +1284,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "NHÀ XUẤT BẢN TÔN GIÁO",
     "publisher": "KINH PHẬT THUYẾT A DI ĐÀ",
     "category": "Lịch Sử Phật Giáo",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 445,
     "description": "Tác phẩm kinh điển \"PHẬT LỊCH 2537- DƯƠNG LỊCH 1993\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1295,7 +1295,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "NĂM 2008",
     "publisher": "NGUỒN GỐC HÌNH THÀNH VÀ PHÁT TRIỂN TÍN NGƯỠNG QUÁN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 462,
     "description": "Tác phẩm kinh điển \"HÒA THƯỢNG TUYÊN HÓA\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1306,7 +1306,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "HƯƠNG HOA VƯỜN GIÁO PHÁP- PHÁP UYỂN CHÂU LÂM",
     "publisher": "10 QUYỂN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 479,
     "description": "Tác phẩm kinh điển \"NỀN TẢNG PHẬT GIÁO\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1317,7 +1317,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT GIÁO MẬT TÔNG KIM CANG THỪA CHÚ GIẢI (TẬP 2)  PHẬT GIÁO",
     "publisher": "TĂNG HUẤN NHẬT KÝ - NHỮNG LỜI GIÁO HUẤN CHƯ TĂNG H",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 496,
     "description": "Tác phẩm kinh điển \"NĂM 2018\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1328,7 +1328,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "DI ĐÀ HỢP GIẢI",
     "publisher": "ĐẠI SƯ LIÊN TRÌ",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 513,
     "description": "Tác phẩm kinh điển \"GƯƠNG SÁNG NGƯỜI  XUẤT GIA\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1339,7 +1339,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "NĂM 2007",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 530,
     "description": "Tác phẩm kinh điển \"NXB TỔNG HỢP THÀNH PHỐ HỒ CHÍ MINH\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1350,7 +1350,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "DI ĐÀ HỢP GIẢI",
     "publisher": "TIỊNH ĐỘ QUYẾT NGHI LUẬN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 547,
     "description": "Tác phẩm kinh điển \"HÒA THƯỢNG THÍCH PHƯỚC SƠN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1361,7 +1361,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "DI ĐÀ HỢP GIẢI",
     "publisher": "NĂM 2013",
     "category": "Luận Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 564,
     "description": "Tác phẩm kinh điển \"GIÁO HỘI PHÂT GIÁO VIỆT NAM - DỊCH GIẢ HÒA THƯỢNG \" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1372,7 +1372,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "CHÚ GIẢNG KINH DƯỢC SƯ",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 581,
     "description": "Tác phẩm kinh điển \"TUỆ SĨ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1383,7 +1383,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "TRUNG LUẬN VÀ HỒI TRANH LUẬN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 598,
     "description": "Tác phẩm kinh điển \"NĂM 2001\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1394,7 +1394,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "THÍCH TRÍ THÔNG",
     "category": "Luận Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 615,
     "description": "Tác phẩm kinh điển \"VIÊN HOÀNH ĐẠO - TÂY PHƯƠNG HIỆP LUẬN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1405,7 +1405,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "DI ĐÀ HỢP GIẢI",
     "publisher": "TIỊNH ĐỘ ĐẠI THỪA TƯ TƯỞNG LUẬN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 632,
     "description": "Tác phẩm kinh điển \"NĂM 2004\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1416,7 +1416,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "DI ĐÀ HỢP GIẢI",
     "publisher": "NĂM 2006",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 649,
     "description": "Tác phẩm kinh điển \"DỊCH GIẢI HÒA THƯỢNG THÍCH ĐỨC NTỆM\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1427,7 +1427,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "HÒA THƯỢNG TỪ THÔNG - HIỆU NHƯ HUYỄN THIỀN SƯ",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 666,
     "description": "Tác phẩm kinh điển \"THỦ LĂNG NGHIÊM KINH TUYỂN TRẠCH TÂN TU\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1438,7 +1438,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "Tuyển tập",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 683,
     "description": "Tác phẩm kinh điển \"MÃ MINH BỒ TÁT\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1449,7 +1449,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "Tuyển tập",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 150,
     "description": "Tác phẩm kinh điển \"HÒA THƯỢNG THÍCH ĐỔNG MINH\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1460,7 +1460,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "Tuyển tập",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 167,
     "description": "Tác phẩm kinh điển \"TRƯỞNG GIẢ CẤP CÔ ĐỘC\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1471,7 +1471,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "DI ĐÀ HỢP GIẢI",
     "publisher": "Tuyển tập",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 184,
     "description": "Tác phẩm kinh điển \"THÁNH NỮ TỲ KHEO NI TIÊN HOA SẮC\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1482,7 +1482,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "Tuyển tập",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 201,
     "description": "Tác phẩm kinh điển \"THÁNH NỮ TỲ KHEO NI ( DI MẪU KIỀU ĐÀM DI)\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1493,7 +1493,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "800 NĂM PHỤNG SỰ NHÂN LOẠI VÀ VŨ TRỤ",
     "publisher": "PHẬT LỊCH 2561-DƯƠNG LỊCH 2017",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 218,
     "description": "Tác phẩm kinh điển \"TÔN GIẢ ( ĐỀ BÀ ĐẠT ĐA)\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1504,7 +1504,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT GIÁO MẬT TÔNG KIM CANG THỪA CHÚ GIẢI (TẬP 2)  PHẬT GIÁO",
     "publisher": "Biên dịch: Huyền Thanh",
     "category": "Lịch Sử Phật Giáo",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 235,
     "description": "Tác phẩm kinh điển \"PHẬT LỊCH 2561-DƯƠNG LỊCH 2018\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1515,7 +1515,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "THÍCH NGHUYÊN HIỆP DỊCH",
     "publisher": "NĂM 2025",
     "category": "Luận Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 252,
     "description": "Tác phẩm kinh điển \"DẪN LUẬN TRIẾT HỌC ẤN ĐỘ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1526,7 +1526,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "800 NĂM PHỤNG SỰ NHÂN LOẠI VÀ VŨ TRỤ",
     "publisher": "2 TẬP",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 269,
     "description": "Tác phẩm kinh điển \"KINH PHẬT THUYẾT ĐẠI THỪA VÔ .LƯỢNG THỌ TRANG NGHI\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1537,7 +1537,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "NXB HỒNG BẰNG",
     "publisher": "LỤC TỔ ĐÀN KINH",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 286,
     "description": "Tác phẩm kinh điển \"LÃO HÒA THƯỢNG TỊNH KHÔNG GIẢNG THUẬT\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1548,7 +1548,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "NHÀ XUẤT BẢN TÔN GIÁO",
     "publisher": "TRUYỆN LỤC TỔ HUỆ NĂNG",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 303,
     "description": "Tác phẩm kinh điển \"HÒA THƯỢNG TUYÊN HÓA LỰC GIẢNG\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1559,7 +1559,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "HÒA THƯỢNG TUYÊN HÓA GIẢNG GIẢI",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 320,
     "description": "Tác phẩm kinh điển \"KINH ĐỊA TẠNG BỒ TÁT BỔN NGUYỆN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1570,7 +1570,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "NGHIÊN CỨU VỀ TRÚC LÂM TÔNG CHỈ NGUYÊN THANH",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 337,
     "description": "Tác phẩm kinh điển \"năm 2008\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1581,7 +1581,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "NXB KHOA HỌC XÃ HỘI",
     "category": "Thiền Học",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 354,
     "description": "Tác phẩm kinh điển \"THIỀN SƯ THÍCH HẠNH TUỆ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1592,7 +1592,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "THIỀN SƯ THÍCH THANH PHƯỚC",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 371,
     "description": "Tác phẩm kinh điển \"DUY TUỆ THỊ NGHIỆP\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1603,7 +1603,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "DI ĐÀ HỢP GIẢI",
     "publisher": "NĂM 2011",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 388,
     "description": "Tác phẩm kinh điển \"NXB ĐỒNG NAI\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1614,7 +1614,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "THANH SĨ",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 405,
     "description": "Tác phẩm kinh điển \"HIỂN ĐẠO\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1625,7 +1625,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "VIỆN NGHIÊN CỨU PHẬT HỌC VIỆT NAM - LÊ MẠNH THÁT",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 422,
     "description": "Tác phẩm kinh điển \"LỤC ĐỘ TẬP KINH VÀ LỊCH SỬ KHỞI NGHUYÊN CỦA DÂN TỘ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1636,7 +1636,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "THÍCH NGHUYÊN HIỆP DỊCH",
     "publisher": "HÒA THƯỢNG THÍCH TÂM ĐIỀN",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 439,
     "description": "Tác phẩm kinh điển \"KINH ĐỊA TẠNG CẨM NANG CHỈ LỐI NHÂN SINH\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1647,7 +1647,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHÁT KHỞI BỒ TÁT THÙ THẮNG CHÍ NHẠO KINH LƯỢC GIẢNG",
     "publisher": "CHỦ GIẢNG PHÁP SƯ TỊNH KHÔNG",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 456,
     "description": "Tác phẩm kinh điển \"LÃO PHÁP SƯ TỊNH KHÔNG\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1658,7 +1658,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "HÒA THƯỢNG THÍCH TÂM ĐIỀN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 473,
     "description": "Tác phẩm kinh điển \"NĂM 2017\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1669,7 +1669,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "DI ĐÀ HỢP GIẢI",
     "publisher": "5 TẬP",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 490,
     "description": "Tác phẩm kinh điển \"ĐẠI PHẬT SỰ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1680,7 +1680,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "VẬN HÀNH CỦA NGHIỆP TẬP 1",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 507,
     "description": "Tác phẩm kinh điển \"TỲ KHEO NI MINH HUỆ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1691,7 +1691,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "HOA NGHIÊM XUẤT BẢN",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 524,
     "description": "Tác phẩm kinh điển \"GIẢNG GIẢI KINH ĐỊA TẠNG BỒ TÁT BỔN NGUYỆN(HT.TỊNH\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1702,7 +1702,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "VẬN HÀNH CỦA NGHIỆP TẬP 1",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 541,
     "description": "Tác phẩm kinh điển \"GIẢNG GIẢI KINH ĐỊA TẠNG BỒ TÁT BỔN NGUYỆN(HT.TUYÊ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1713,7 +1713,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "BÁT NHÃ TÂM KINH GIẢNG GIẢI",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 558,
     "description": "Tác phẩm kinh điển \"NĂM 2010\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1724,7 +1724,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT GIÁO MẬT TÔNG KIM CANG THỪA CHÚ GIẢI (TẬP 2)  PHẬT GIÁO",
     "publisher": "BÁT NHÃ TÂM KINH GIẢNG GIẢI",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 575,
     "description": "Tác phẩm kinh điển \"NĂM 2009\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1735,7 +1735,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "800 NĂM PHỤNG SỰ NHÂN LOẠI VÀ VŨ TRỤ",
     "publisher": "BÁT NHÃ TÂM KINH GIẢNG GIẢI",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 592,
     "description": "Tác phẩm kinh điển \"ĐẠI BI CHÚ GIẢNG GIẢI\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1746,7 +1746,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "NHÀ XUẤT BẢN TÔN GIÁO",
     "publisher": "HÒA THƯỢNG THÍCH THANH TỪ",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 609,
     "description": "Tác phẩm kinh điển \"KINH TỨ THẬP NHỊ CHƯƠNG GIẢNG GIẢI\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1757,7 +1757,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "MƯỜI BÀI GIẢNG KINH BÁT ĐẠO NHÂN GIÁC",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 626,
     "description": "Tác phẩm kinh điển \"KINH BÁT ĐẠI NHÂN GIÁC GIẢNG GIẢI\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1768,7 +1768,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "GIẢI NGHĨA ĐẠI BI SÁM",
     "category": "Lịch Sử Phật Giáo",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 643,
     "description": "Tác phẩm kinh điển \"PHẬT LỊCH 2545 - DƯƠNG LỊCH 2001\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1779,7 +1779,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "CHÚ GIẢI KINH PHẬT HUYẾT ĐẠI THỪA VÔ THỌ TRANG NGH",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 660,
     "description": "Tác phẩm kinh điển \"TỲ KHEO THÍCH MINH KIẾT\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1790,7 +1790,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "DỊCH GIẢ THÍCH CHÁNH QUANG",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 677,
     "description": "Tác phẩm kinh điển \"KINH ĐẠI THỪA VÔ LƯỢNG NGHĨA\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1801,7 +1801,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "TUỆ NHUẬN",
     "publisher": "LIÊN HOA TỊNH THẤT",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 144,
     "description": "Tác phẩm kinh điển \"KINH A DI ĐÀ YẾU GIẢI\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1812,7 +1812,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "YẾU CHỈ HOA NGHIÊM",
     "publisher": "3 BỘ",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 161,
     "description": "Tác phẩm kinh điển \"NĂM 1974\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1823,7 +1823,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "DI ĐÀ HỢP GIẢI",
     "publisher": "2 QUYỂN (2 TẬP)",
     "category": "Lịch Sử Phật Giáo",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 178,
     "description": "Tác phẩm kinh điển \"PHẬT GIÁO NGUYÊN THỦY VIỆT NAM SƠ LƯỢC\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1834,7 +1834,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "5 QUYỂN TỪ TẬP 1 ĐẾN TẬP 6 - THIẾU TẬP 2",
     "publisher": "HƯƠNG TÍCH PHẬT HỌC LUẬN TẬP",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 195,
     "description": "Tác phẩm kinh điển \"NĂM 1960\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1845,7 +1845,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "5 QUYỂN TỪ TẬP 1 ĐẾN TẬP 6 - THIẾU TẬP 2",
     "publisher": "LỊCH SỬ PHẬT GIÁO ẤN ĐỘ TỪ ĐỨC PHẬT THÍCH CA ĐẾN Đ",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 212,
     "description": "Tác phẩm kinh điển \"NHÀ XUẤT BẢN HỒNG ĐỨC VÀ HƯƠNG TÍCH\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1856,7 +1856,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "5 QUYỂN TỪ TẬP 1 ĐẾN TẬP 6 - THIẾU TẬP 2",
     "publisher": "NI SƯ AYYA KHEMA",
     "category": "Thiền Học",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 229,
     "description": "Tác phẩm kinh điển \"VÔ NGÃ VÔ ƯU - THIỀN QUÁN VỀ PHẬT ĐẠO\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1867,7 +1867,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "5 QUYỂN TỪ TẬP 1 ĐẾN TẬP 6 - THIẾU TẬP 2",
     "publisher": "TỲ-KHƯU GIỚI ĐỨC SILAGUNA BHIKKHU (MINH ĐỨC TRIỀU ",
     "category": "Lịch Sử Phật Giáo",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 246,
     "description": "Tác phẩm kinh điển \"PHẬT GIÁO NGUYÊN THUỶ VIỆT NAM SƠ LƯỢC\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1878,7 +1878,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "NĂM 2021",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 263,
     "description": "Tác phẩm kinh điển \"NXB HỒNG ĐỨC\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1889,7 +1889,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "LIÊN ĐĂNG - THÍCH TIẾN ĐẠT",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 280,
     "description": "Tác phẩm kinh điển \"TỊNH ĐỘ TÔNG YẾU\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1900,7 +1900,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "MAHA THONG KHAM MEDHIVONGS",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 297,
     "description": "Tác phẩm kinh điển \"38 PHÁP HẠNH PHÚC\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1911,7 +1911,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "SA MÔN THÍCH TIẾN ĐẠT dịch",
     "category": "Thiền Học",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 314,
     "description": "Tác phẩm kinh điển \"THIỀN LÂM BẢO HUẤN HỢP CHÚ QUYỂN 1-4\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1922,7 +1922,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "AJAHN BRAHM",
     "publisher": "KINH THỦ LĂNG NGHIÊM TRỰC CHỈ TRỌN BỘ",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 331,
     "description": "Tác phẩm kinh điển \"TỪ CHÁNH NIỆM ĐẾN GIÁC NGỘ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1933,7 +1933,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "BỘ MẬT TÔNG",
     "publisher": "KINH THỦ LĂNG NGHIÊM GIẢNG KÝ TRỌN BỘ",
     "category": "Thiền Học",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 348,
     "description": "Tác phẩm kinh điển \"THIỀN SƯ HÀM THỊ GIẢI THÍCH PHƯỚC HẢO DỊCH\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1944,7 +1944,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "NHÀ XUẤT BẢN TÔN GIÁO",
     "publisher": "KINH THỦ LĂNG NGHIÊM GIẢNG KÝ TRỌN BỘ",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 365,
     "description": "Tác phẩm kinh điển \"1 BỘ 4 QUYỂN (1-4)\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1955,7 +1955,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "KINH THỦ LĂNG NGHIÊM GIẢNG KÝ TRỌN BỘ",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 382,
     "description": "Tác phẩm kinh điển \"THÍCH THÔNG PHƯƠNG\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1966,7 +1966,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "TỲ KHEO NI HẢI TRIỀU ÂM",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 399,
     "description": "Tác phẩm kinh điển \"THỦ LĂNG NGHIÊM TOÁT YẾU\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1977,7 +1977,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "KINH THỦ LĂNG NGHIÊM GIẢNG NGHĨA PHẦN 2",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 416,
     "description": "Tác phẩm kinh điển \"KINH THỦ LĂNG NGHIÊM GIẢNG NGHĨA PHẦN 1\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1988,7 +1988,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "ĐI VÀO BẢN NGUYỆN TỊNH ĐỘ",
     "publisher": "Biên dịch: Nguyễn Hữu Kiệt",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 433,
     "description": "Tác phẩm kinh điển \"BỒ TÁT MÃ MINH\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -1999,7 +1999,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT GIÁO MẬT TÔNG KIM CANG THỪA CHÚ GIẢI (TẬP 2)  PHẬT GIÁO",
     "publisher": "CHÚ GIẢI KINH PHẬT HUYẾT ĐẠI THỪA VÔ THỌ TRANG NGH",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 450,
     "description": "Tác phẩm kinh điển \"THÍCH THÁI HÒA\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2010,7 +2010,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "01 QUYỂN",
     "category": "Luận Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 467,
     "description": "Tác phẩm kinh điển \"THIỀN VÀ PHÂN TÂM HỌC\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2021,7 +2021,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "VẬN HÀNH CỦA NGHIỆP TẬP 1",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 484,
     "description": "Tác phẩm kinh điển \"2550-2006\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2032,7 +2032,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "2553-2009",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 501,
     "description": "Tác phẩm kinh điển \"THÍCH HUYỀN CHÂU\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2043,7 +2043,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "HÒA THƯỢNG THÍCH PHỔ TUỆ",
     "publisher": "CHÙA RÁNG- TỔ ĐÌNH MINH VIÊN",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 518,
     "description": "Tác phẩm kinh điển \"Ý NGHĨA TỤNG KINH DƯỢC SƯ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2054,7 +2054,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT GIÁO MẬT TÔNG KIM CANG THỪA CHÚ GIẢI (TẬP 2)  PHẬT GIÁO",
     "publisher": "TỪ VÔ MINH ĐẾN MINH",
     "category": "Lịch Sử Phật Giáo",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 535,
     "description": "Tác phẩm kinh điển \"LỊCH SỬ TRUYỀN BÁ CHÍNH PHÁP VÀ CÁC BỘ PHÁI PHẬT G\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2065,7 +2065,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "TUỆ NHUẬN",
     "publisher": "NALINAKSHA DUTT",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 552,
     "description": "Tác phẩm kinh điển \"6 QUYỂN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2076,7 +2076,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "NHÀ XUẤT BẢN TÔN GIÁO",
     "publisher": "PHẬT HỌC PHỔ THÔNG",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 569,
     "description": "Tác phẩm kinh điển \"NĂM 2023\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2087,7 +2087,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "THÍCH NỮ TRÍ HẢI",
     "publisher": "NGUỒN THIÊN GIẢNG GIẢI",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 586,
     "description": "Tác phẩm kinh điển \"GIẢI THOÁT TRONG LÒNG TAY\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2098,7 +2098,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "DI ĐÀ HỢP GIẢI",
     "publisher": "NGÓN TAY CHỈ TRĂNG",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 603,
     "description": "Tác phẩm kinh điển \"HÒA THƯỢNG THÍCH NHẬT QUANG\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2109,7 +2109,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "DI ĐÀ HỢP GIẢI",
     "publisher": "NHƯ HUYỄN THIỀN SƯ",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 620,
     "description": "Tác phẩm kinh điển \"2 BỘ 18 QUYỂN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2120,7 +2120,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "THIÊN THAI TRÍ GIẢ ĐẠI SƯ",
     "category": "Thiền Học",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 637,
     "description": "Tác phẩm kinh điển \"THIỀN BA LA MẬT\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2131,7 +2131,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "DI ĐÀ HỢP GIẢI",
     "publisher": "MÃ NGÂN XUÂN",
     "category": "Thiền Học",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 654,
     "description": "Tác phẩm kinh điển \"NGỘ THIỀN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2142,7 +2142,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "UỐNG DÒNG SUỐI NÚI",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 671,
     "description": "Tác phẩm kinh điển \"ĐẠI SƯ TRÍ KHẢI- THÍCH THANH TỪ SOẠN DỊCH\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2153,7 +2153,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "DI ĐÀ HỢP GIẢI",
     "publisher": "NĂM 2002",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 688,
     "description": "Tác phẩm kinh điển \"LAMA KUNGA RINPOCHE & BRIAN CUTILLO\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2164,7 +2164,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "NGUỒN THIÊN GIẢNG GIẢI(HT-THÍCH THANH TỪ)",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 155,
     "description": "Tác phẩm kinh điển \"VIÊN THÔNG\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2175,7 +2175,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "NĂM 1999",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 172,
     "description": "Tác phẩm kinh điển \"HÒA THƯỢNG THICH THANH TỪ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2186,7 +2186,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "NHÀ XUẤT BẢN TÔN GIÁO",
     "publisher": "TRẦN TUẤN MẪN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 189,
     "description": "Tác phẩm kinh điển \"VÔ MÔN QUAN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2197,7 +2197,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "VĨNH GIA HUYỀN GIÁC",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 206,
     "description": "Tác phẩm kinh điển \"CHỨNG ĐẠO CA\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2208,7 +2208,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "HOA NGHIÊM XUẤT BẢN",
     "category": "Thiền Học",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 223,
     "description": "Tác phẩm kinh điển \"HUYỀN GIÁC THIỀN SƯ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2219,7 +2219,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "DI ĐÀ HỢP GIẢI",
     "publisher": "TRANH CHĂN TRÂU",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 240,
     "description": "Tác phẩm kinh điển \"NĂM 2003\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2230,7 +2230,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "PHẬT LỊCH 2540 - DƯƠNG LỊCH 1996",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 257,
     "description": "Tác phẩm kinh điển \"NXB THÀNH HỘI PHẬT GIÁO THÀNH PHỐ HỒ CHÍ MINH\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2241,7 +2241,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "NHÀ XUẤT BẢN TÔN GIÁO",
     "publisher": "HT THÍCH GIÁC NHIÊN",
     "category": "Thiền Học",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 274,
     "description": "Tác phẩm kinh điển \"PHÁP MÔN TỌA THIỀN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2252,7 +2252,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "TRUNG TÂM BIÊN PHIÊN DỊCH TƯ LIỆU PHẬT GIÁO QUỐC T",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 291,
     "description": "Tác phẩm kinh điển \"KINH DI ĐÀ LƯỢC GIẢI VIÊN TRUNG SAO\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2263,7 +2263,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "BỘ MẬT TÔNG",
     "publisher": "CHỦ GIẢNG: LÃO PHÁP SƯ THÍCH DIỄN BỒI - BÀNH TRẠCH",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 308,
     "description": "Tác phẩm kinh điển \"QUÁN THẾ ÂM BỒ TÁT PHỔ MÔN PHẨM GIẢNG LỤC QUÁN THẾ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2274,7 +2274,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "DỊCH GIẢ: HT THÍCH THIỀN TÂM",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 325,
     "description": "Tác phẩm kinh điển \"MẤY ĐIỆU SEN THANH TẬP 1\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2285,7 +2285,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "ĐẠI SƯ ẤN THUẬN",
     "publisher": "TƯ TƯỞNG TỊNH ĐỘ CỦA ĐẠI SƯ THIỆN ĐẠO",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 342,
     "description": "Tác phẩm kinh điển \"CON ĐƯỜNG THÀNH PHẬT\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2296,7 +2296,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "LUẬN ĐẠI TRÍ ĐỘ",
     "publisher": "15 QUYỂN (2 BỘ, LẺ 2 TẬP 2, 2 TẬP 1, 1 TẬP 4)",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 359,
     "description": "Tác phẩm kinh điển \"PHÁP SƯ TỊNH TÔNG  Dịch: Liên Mãn - Hiệu Đính: Đin\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2307,7 +2307,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "HƯƠNG HOA VƯỜN GIÁO PHÁP- PHÁP UYỂN CHÂU LÂM",
     "publisher": "A DI ĐÀ KINH SỚ SAO DIỄN NGHĨA",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 376,
     "description": "Tác phẩm kinh điển \"DỊCH GIẢ: HT THÍCH THIỆN SIÊU\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2318,7 +2318,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "5 QUYỂN TỪ TẬP 1 ĐẾN TẬP 6 - THIẾU TẬP 2",
     "publisher": "PS: TỊNH KHÔNG",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 393,
     "description": "Tác phẩm kinh điển \"9 QUYỂN ( TỪ TẬP 1-9)\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2329,7 +2329,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "5 QUYỂN TỪ TẬP 1 ĐẾN TẬP 6 - THIẾU TẬP 2",
     "publisher": "THUBTEN CHODRON",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 410,
     "description": "Tác phẩm kinh điển \"TÔI TỰ HỎI TẠI SAO\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2340,7 +2340,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "DI ĐÀ HỢP GIẢI",
     "publisher": "THÍCH CHƠN THIỆN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 427,
     "description": "Tác phẩm kinh điển \"TÌM VÀO THỰC TẠI\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2351,7 +2351,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "DI ĐÀ HỢP GIẢI",
     "publisher": "CHÂN LÝ VÀ BIỂU TƯỢNG",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 444,
     "description": "Tác phẩm kinh điển \"NĂM 2000\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2362,7 +2362,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "DI ĐÀ HỢP GIẢI",
     "publisher": "NXB PHƯƠNG ĐÔNG",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 461,
     "description": "Tác phẩm kinh điển \"KARL JASPERS\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2373,7 +2373,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "5 QUYỂN TỪ TẬP 1 ĐẾN TẬP 6 - THIẾU TẬP 2",
     "publisher": "TÂM THÁI CỦA THIỀN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 478,
     "description": "Tác phẩm kinh điển \"HOÀNG PHONG\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2384,7 +2384,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "LƯỚI TRỜI ĐẾ THÍCH",
     "publisher": "FRANCIS H. COOK",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 495,
     "description": "Tác phẩm kinh điển \"NXB THANH HOÁ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2395,7 +2395,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "5 QUYỂN TỪ TẬP 1 ĐẾN TẬP 6 - THIẾU TẬP 2",
     "publisher": "TÌNH YÊU PHỔ QUÁT",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 512,
     "description": "Tác phẩm kinh điển \"NXB TÔN GIÁO VÀ CTY VĂN HOÁ MINH TRÍ - NS. VĂN LAN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2406,7 +2406,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "5 QUYỂN TỪ TẬP 1 ĐẾN TẬP 6 - THIẾU TẬP 2",
     "publisher": "THIỀN TRONG NGHỆ THUẬT BẮN CUNG",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 529,
     "description": "Tác phẩm kinh điển \"GESHE KELSANG GYATSO\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2417,7 +2417,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "DI ĐÀ HỢP GIẢI",
     "publisher": "NĂM 2005",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 546,
     "description": "Tác phẩm kinh điển \"EUGEN HERRIGEL\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2428,7 +2428,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "DI ĐÀ HỢP GIẢI",
     "publisher": "TỨ KỆ TĨNH TÂM",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 563,
     "description": "Tác phẩm kinh điển \"THÍCH ĐẠT MA KHẾ ĐỊNH\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2439,7 +2439,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "BỘ MẬT TÔNG",
     "publisher": "VẬN HÀNH CỦA NGHIỆP TẬP 1",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 580,
     "description": "Tác phẩm kinh điển \"HỆ PHÁI KHẤT SĨ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2450,7 +2450,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT GIÁO MẬT TÔNG KIM CANG THỪA CHÚ GIẢI (TẬP 2)  PHẬT GIÁO",
     "publisher": "TƯ TƯỞNG VIỆT NAM",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 597,
     "description": "Tác phẩm kinh điển \"NXB TỔNG HỢP HỒ CHÍ MINH\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2461,7 +2461,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "NHÀ XUẤT BẢN TÔN GIÁO",
     "publisher": "THIÊN ĐỊA LINH VĂN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 614,
     "description": "Tác phẩm kinh điển \"TỲ KHEO CHƠN THIỆN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2472,7 +2472,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "SA MÔN THÍCH PHỔ TUỆ",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 631,
     "description": "Tác phẩm kinh điển \"KINH DI ĐÀ LƯỢC GIẢI VIÊN TRUNG SAO\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2483,7 +2483,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "CHÚ GIẢI KINH PHẬT HUYẾT ĐẠI THỪA VÔ THỌ TRANG NGH",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 648,
     "description": "Tác phẩm kinh điển \"LỜI DẠY CỦA THÍCH CA MÂU NI PHẬT\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2494,7 +2494,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "VẬN HÀNH CỦA NGHIỆP TẬP 1",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 665,
     "description": "Tác phẩm kinh điển \"TÔN GIẢ ANGULIMALA (VÔ NÃO)\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2505,7 +2505,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "KINH THẬP THIỆN LƯỢC GIẢI",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 682,
     "description": "Tác phẩm kinh điển \"LỆ NHƯ THÍCH TRUNG HẬU SƯU KHẢO\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2516,7 +2516,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "NHÀ XUẤT BẢN TÔN GIÁO",
     "publisher": "LƯỢC GIẢI KINH PHẬT THUYẾT A DI ĐÀ",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 149,
     "description": "Tác phẩm kinh điển \"2056-2020\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2527,7 +2527,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "HỢP TUYỂN LỜI PHẬT DẠY TỪ KINH TẠNG PALI",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 166,
     "description": "Tác phẩm kinh điển \"ĐẠI SƯ CHƠN HOA\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2538,7 +2538,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "`2018",
     "publisher": "TRUY MÔN CẢNH HUẤN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 183,
     "description": "Tác phẩm kinh điển \"NGUYÊN NHẬT TRẦN NHƯ MAI\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2549,7 +2549,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "TÔNG MÔN CẢNH HUẤN",
     "category": "Luận Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 200,
     "description": "Tác phẩm kinh điển \"HÒA THƯỢNG THÍCH TÂM CHÂU\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2560,7 +2560,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "THIỀN SƯ THÍCH THANH TỪ",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 217,
     "description": "Tác phẩm kinh điển \"1 BỘ 4 QUYỂN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2571,7 +2571,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "NHÀ XUẤT BẢN TÔN GIÁO",
     "publisher": "SA MÔ THÍCH TIẾN ĐẠT DỊCH",
     "category": "Thiền Học",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 234,
     "description": "Tác phẩm kinh điển \"THIỀN LÂM BẢO HUẤN HỢP CHÚ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2582,7 +2582,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "CƯ SĨ LÝ VIÊN TỊCH KẾT TẬP, ẤN QUANG ĐẠI SƯ GIÁM ĐỊNH, BỬU Q",
     "publisher": "VÂN THÊ QUY ƯỚC CÔNG TRỤ",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 251,
     "description": "Tác phẩm kinh điển \"ẤN QUANG ĐẠI SƯ GIA NGÔN LỤC\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2593,7 +2593,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "NGUYÊN THỦY TIỂU THỪA ĐẠI THỪA PHẬT GIÁO TƯ TƯỞNG LUẬN",
     "publisher": "3 QUYỂN (NGUYÊN THỦY TIỂU THỪA ĐẠI THỪA)",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 268,
     "description": "Tác phẩm kinh điển \"SA MÔN THÍCH TIẾN ĐẠT DỊCH\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2604,7 +2604,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "THANH TỊNH ĐẠO",
     "publisher": "6 QUYỂN (3 BỘ)",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 285,
     "description": "Tác phẩm kinh điển \"DỊCH GIẢ HT: THÍCH QUẢNG ĐỘ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2615,7 +2615,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "LUẬN SƯ GIÀ SƯ ĐỊA",
     "publisher": "9 QUYỂN (2 BỘ)",
     "category": "Luật Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 302,
     "description": "Tác phẩm kinh điển \"THÍCH NỮ TRÍ HẢI DỊCH        HT: THÍCH MINH CHÂU (\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2626,7 +2626,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "BỘ MẬT TÔNG",
     "publisher": "2 QUYỂN (2 TẬP)",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 319,
     "description": "Tác phẩm kinh điển \"GIẢNG THUẬT: BỒ TÁT DI LẶC     HÁN DỊCH: TAM TẠNG \" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2637,7 +2637,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "TRÍ TUỆ VÀ CHÂN THÀNH",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 336,
     "description": "Tác phẩm kinh điển \"3 QUỂN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2648,7 +2648,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "MẠN ĐÀM VỀ KINH NGHIỆM GIÁO DỤC PHẬT GIÁO TẠI ĐÀI ",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 353,
     "description": "Tác phẩm kinh điển \"TÁC GIẢ: LƯU TRI KỶ DỊCH VÀ CHÚ GIẢI: THÍCH ĐÀM TH\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2659,7 +2659,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "CỬA THIỀN HÉ MỞ",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 370,
     "description": "Tác phẩm kinh điển \"VĨNH NGHIÊM TÙNG THƯ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2670,7 +2670,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "NHÀ XUẤT BẢN TÔN GIÁO",
     "publisher": "THÍCH THÔNG HẢI",
     "category": "Thiền Học",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 387,
     "description": "Tác phẩm kinh điển \"THIỀN TẠI PHẬT HỌC TRUNG QUỐC\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2681,7 +2681,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "NHÀ XUẤT BẢN TÔN GIÁO",
     "publisher": "HT: QUẢNG THÂM",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 404,
     "description": "Tác phẩm kinh điển \"CẨM NANG TU ĐẠO\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2692,7 +2692,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "NHÀ XUẤT BẢN TÔN GIÁO",
     "publisher": "THÔNG ĐIỆP ĐỨC PHẬT RA ĐỜI",
     "category": "Luật Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 421,
     "description": "Tác phẩm kinh điển \"TÁC GIẢ: ĐẠI SƯ TÂY SƠN, DICH: THỊ GIỚI\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2703,7 +2703,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "NXB TỔNG HỢPTHÀNH HCM",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 438,
     "description": "Tác phẩm kinh điển \"TÁC GIẢ: THÍCH THÔNG PHƯƠNG\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2714,7 +2714,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "HT: TUYÊN HÓA",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 455,
     "description": "Tác phẩm kinh điển \"GẬY KIM CANG HÉT 2\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2725,7 +2725,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "SM: THÍCH THÔNG BỬU",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 472,
     "description": "Tác phẩm kinh điển \"GIẢNG SƯ BẢY ĐỨC TÍNH ƯU VIỆT\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2736,7 +2736,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "TỲ KHEO:THÍCH THANH ÂN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 489,
     "description": "Tác phẩm kinh điển \"GIẢNG SƯ CÔNG HẠNH VÀ KỸ NĂNG HOẰNG PHÁP\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2747,7 +2747,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "LAMA THUBTEN ZOPA RINPOCHE",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 506,
     "description": "Tác phẩm kinh điển \"CÁNH CỬA ĐƯA TỚI SỰ MÃN NGYỆN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2758,7 +2758,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "MINH TRIẾT TRONG ĐỜI SỐNG",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 523,
     "description": "Tác phẩm kinh điển \"DỊCH: CHƠN QUÁN TRẦN NGỌC LỢI\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2769,7 +2769,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "NHƯ NÓI VỚI TÔI",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 540,
     "description": "Tác phẩm kinh điển \"NXB VĂN NGHỆ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2780,7 +2780,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "VẬN HÀNH CỦA NGHIỆP TẬP 1",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 557,
     "description": "Tác phẩm kinh điển \"NHẬT QUANG\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2791,7 +2791,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "ĐẠI LÝ BA KINH MỘT LUẬN TỊNH ĐỘ",
     "publisher": "THIỀN SƯ PA-AUK TAWYA SAYDAW THIỀN SƯ U DHAMMAPALA",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 574,
     "description": "Tác phẩm kinh điển \"NXB TỔNG HỢP HCM\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2802,7 +2802,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "ĐẠI BI CHÚ GIẢNG GIẢI",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 591,
     "description": "Tác phẩm kinh điển \"PHÁP SƯ HUỆ TỊNH\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2813,7 +2813,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT GIÁO MẬT TÔNG KIM CANG THỪA CHÚ GIẢI (TẬP 2)  PHẬT GIÁO",
     "publisher": "1 BỘ 3 QUYỂN",
     "category": "Luận Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 608,
     "description": "Tác phẩm kinh điển \"THIỀN LUẬN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2824,7 +2824,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "LƯỢC GIẢI KINH PHÁP HOA",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 625,
     "description": "Tác phẩm kinh điển \"TỲ KHEO NI NHƯ THANH  TỔ ĐÌNH HUÊ LÂM\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2835,7 +2835,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "THÀNH HỘI PHẬT GIÁO TP HCM",
     "publisher": "VẬN HÀNH CỦA NGHIỆP TẬP 1",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 642,
     "description": "Tác phẩm kinh điển \"THƯỢNG TỌA THÍCH TRÍ QUẢNG\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2846,7 +2846,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "HÒA THƯỢNG THIỆN ĐẠO tập ký HÒA THƯỢNG THIỀN TÂM  dịch kinh ",
     "publisher": "KINH THỦ LĂNG NGHIÊM",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 659,
     "description": "Tác phẩm kinh điển \"QUÁN KINH TỨ THIẾP SỚ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2857,7 +2857,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "1 BỘ 5 QUYỂN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 676,
     "description": "Tác phẩm kinh điển \"NGUYỆT TRÍ VĂN TẬP\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2868,7 +2868,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "THỦ LĂNG NGHIÊM KINH TRỰC ĐỀ CƯƠNG TẬP 1",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 143,
     "description": "Tác phẩm kinh điển \"NXB HẢI PHÒNG\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2879,7 +2879,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "ĐẠI LÝ BA KINH MỘT LUẬN TỊNH ĐỘ",
     "publisher": "HUỲNH MAI TỊNH THẤT",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 160,
     "description": "Tác phẩm kinh điển \"THÍCH TỪ THÔNG\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2890,7 +2890,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "ĐẠI LÝ BA KINH MỘT LUẬN TỊNH ĐỘ",
     "publisher": "NHÂN GIAN PHẬT GIÁO NGỮ LỤC",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 177,
     "description": "Tác phẩm kinh điển \"DỊCH GIẢ: NI TRƯỜNG NHƯ ẨN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2901,7 +2901,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "NXB HỒNG ĐỨC - CÔNG TY SÁCH THỜI ĐẠI",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 194,
     "description": "Tác phẩm kinh điển \"ĐẠI SƯ TINH VÂN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2912,7 +2912,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "2 QUYỂN (2 TẬP)",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 211,
     "description": "Tác phẩm kinh điển \"SƯU TẬP: HẠNH VIÊN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2923,7 +2923,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT GIÁO MẬT TÔNG KIM CANG THỪA CHÚ GIẢI (TẬP 2)  PHẬT GIÁO",
     "publisher": "TS. BÙI XUÂN MAI",
     "category": "Thiền Học",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 228,
     "description": "Tác phẩm kinh điển \"THƠ THIỀN LÝ - TRẦN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2934,7 +2934,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "ĐẠI LÝ BA KINH MỘT LUẬN TỊNH ĐỘ",
     "publisher": "NHẬT KÝ ĐƯỜNG MÊ",
     "category": "Thiền Học",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 245,
     "description": "Tác phẩm kinh điển \"LÃNG DU VÀO CÕI THƠ THIỀN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2945,7 +2945,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "HOA NGHIÊM XUẤT BẢN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 262,
     "description": "Tác phẩm kinh điển \"NHƯ NHIÊN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2956,7 +2956,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "2553-2009",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 279,
     "description": "Tác phẩm kinh điển \"BẢN IN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2967,7 +2967,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "1 BỘ 5 QUYỂN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 296,
     "description": "Tác phẩm kinh điển \"SA MÔN GIÁC TOÀN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2978,7 +2978,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "BÁT NHÃ DƯ ÂM",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 313,
     "description": "Tác phẩm kinh điển \"KINH DIỆU PHÁP LIÊN HOA GIẢNG GIẢI\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -2989,7 +2989,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "NGUYỄN LANG",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 330,
     "description": "Tác phẩm kinh điển \"NXB HÀ NỘI\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3000,7 +3000,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "BÁT NHÃ CƯƠNG YẾU",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 347,
     "description": "Tác phẩm kinh điển \"BÁT NHÃ BA LA MẬT KINH TRỰC CHỈ ĐỀ CƯƠNG\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3011,7 +3011,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "LƯỢC GIẢI BỔN MÔN PHÁP HOA KINH",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 364,
     "description": "Tác phẩm kinh điển \"TỲ KHEO HỒNG ẨN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3022,7 +3022,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "HÒA THƯỢNG THÍCH THANH KIỂM",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 381,
     "description": "Tác phẩm kinh điển \"ĐẠI LÝ KINH PHÁP HOA\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3033,7 +3033,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "HT. THÍCH HUYỀN VI",
     "publisher": "HÒA THƯỢNG THÍCH THANH KIỂM",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 398,
     "description": "Tác phẩm kinh điển \"DIỆU LÝ KINH PHÁP HOA\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3044,7 +3044,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "HÒA THƯỢNG THÍCH THANH KIỂM",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 415,
     "description": "Tác phẩm kinh điển \"PHÁP HOA KINH THÂM NGHĨA ĐỀ CƯƠNG\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3055,7 +3055,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "DUY MA CẬT SỞ HUYẾT KINH",
     "publisher": "HÒA THƯỢNG THÍCH THANH KIỂM",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 432,
     "description": "Tác phẩm kinh điển \"PHÁP SƯ THÍCH TỪ THÔNG\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3066,7 +3066,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "HÒA THƯỢNG THÍCH THANH KIỂM",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 449,
     "description": "Tác phẩm kinh điển \"1 QUYỂN (I VÀ II)\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3077,7 +3077,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "ĐẠI BÁT NIẾT BÀN KINH  TRỰC CHỈ ĐỀ CƯƠNG",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 466,
     "description": "Tác phẩm kinh điển \"KIM CANG BÁT NHÃ BA LA MẬT KINH TRỰC CHỈ ĐỀ CƯƠNG\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3088,7 +3088,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "THÍCH THIỆN SIÊU",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 483,
     "description": "Tác phẩm kinh điển \"VỖ NGÃ LÀ NIẾT BÀN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3099,7 +3099,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "NĂM 1990",
     "category": "Lịch Sử Phật Giáo",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 500,
     "description": "Tác phẩm kinh điển \"VIỆN NGHIÊN CỨU PHẬT HỌC VIỆT NAM\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3110,7 +3110,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT GIÁO MẬT TÔNG KIM CANG THỪA CHÚ GIẢI (TẬP 2)  PHẬT GIÁO",
     "publisher": "THÍCH NGUYÊN THÀNH",
     "category": "Thiền Học",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 517,
     "description": "Tác phẩm kinh điển \"MỘNG ĐÔNG THIỀN SƯ DI TẬP\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3121,7 +3121,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "SA MÔN THÍCH THANH KIỂM",
     "publisher": "HOA NGHIÊM XUẤT BẢN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 534,
     "description": "Tác phẩm kinh điển \"KHÓA HƯ LỤC\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3132,7 +3132,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "SA MÔN TRÍ HẢI",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 551,
     "description": "Tác phẩm kinh điển \"KHÓA HƯ LỤC ( SA MÔN TRÍ HẢI)\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3143,7 +3143,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "3 QUYỀN",
     "category": "Thiền Học",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 568,
     "description": "Tác phẩm kinh điển \"THIỀN ĐỐN NGỘ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3154,7 +3154,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "LƯỢC GIẢI KINH PHẬT THUYẾT A DI ĐÀ",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 585,
     "description": "Tác phẩm kinh điển \"TRIẾT HỌC A TỲ ĐÀM CỦA PHẬT GIÁO TRUYỀN THỐNG\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3165,7 +3165,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "SƠN AM TẠP LỤC",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 602,
     "description": "Tác phẩm kinh điển \"TỲ KHEO GIÁC NGUYÊN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3176,7 +3176,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "DI ĐÀ HỢP GIẢI",
     "publisher": "TỪ CHÁNH NIỆM ĐẾN GIÁC NGỘ CẨM NANG CỦA NGƯỜI TU T",
     "category": "Thiền Học",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 619,
     "description": "Tác phẩm kinh điển \"THIỀN SƯ VÔ UẨN SOẠN - THÍCH MINH QUANG DỊCH\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3187,7 +3187,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "DI ĐÀ HỢP GIẢI",
     "publisher": "AJAHN CHAH",
     "category": "Luận Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 636,
     "description": "Tác phẩm kinh điển \"SUỐI NGUỒN TÂM LINH\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3198,7 +3198,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "NHÀ XUẤT BẢN TÔN GIÁO",
     "publisher": "HÒA THƯỢNG TỪ THÔNG",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 653,
     "description": "Tác phẩm kinh điển \"NHẬP PHẬT TRI KIÊN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3209,7 +3209,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "LÂM NHƯ TẠNG",
     "publisher": "TUỆ QUÁN NẺ VỀ CHÂN NHƯ",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 670,
     "description": "Tác phẩm kinh điển \"THỨC THỨ TÁM\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3220,7 +3220,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "NHÀ XUẤT BẢN TÔN GIÁO",
     "publisher": "1 QUYÊN",
     "category": "Luận Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 687,
     "description": "Tác phẩm kinh điển \"MINH TÂM BẢO GIÁM\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3231,7 +3231,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT GIÁO MẬT TÔNG KIM CANG THỪA CHÚ GIẢI (TẬP 2)  PHẬT GIÁO",
     "publisher": "NĂM 1998",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 154,
     "description": "Tác phẩm kinh điển \"TẠ THANH BẠCH\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3242,7 +3242,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "ĐẠI SƯ THÁI HƯ",
     "category": "Luận Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 171,
     "description": "Tác phẩm kinh điển \"NIỆM PHẬT LUẬN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3253,7 +3253,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "GIỚI NGHIÊM",
     "category": "Luật Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 188,
     "description": "Tác phẩm kinh điển \"A DI ĐÀ GIẢNG LUẬT\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3264,7 +3264,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "DỊCH GIẢ THÍCH DUY LỰC",
     "category": "Luận Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 205,
     "description": "Tác phẩm kinh điển \"ĐẠI THỪA TUYỆT ĐỐI LUẬN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3275,7 +3275,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "NGUYỄN LANG",
     "category": "Luận Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 222,
     "description": "Tác phẩm kinh điển \"LƯỢC GIẢNG LUẬN TRUNG QUÁN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3286,7 +3286,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "NHÀ XUẤT BẢN TÔN GIÁO",
     "publisher": "LUẬN SỬ TÔNG TỊNH ĐỘ",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 239,
     "description": "Tác phẩm kinh điển \"HÒA THƯỢNG ẤN THUẬN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3297,7 +3297,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "LƯỢC GIẢI KINH DUY MA",
     "category": "Lịch Sử Phật Giáo",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 256,
     "description": "Tác phẩm kinh điển \"BAN BẢO TRỢ PHIÊN DỊCH PHÁP TẠNG VIỆT NAM\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3308,7 +3308,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "ĐẠI BÁT NIẾT BÀN KINH  TRỰC CHỈ ĐỀ CƯƠNG",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 273,
     "description": "Tác phẩm kinh điển \"XUẤT GIA TĂNG CHÚNG ĐẠI PHÚC ĐIỀN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3319,7 +3319,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "SỨC SỐNG THIỀN MÔN TẬP 1",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 290,
     "description": "Tác phẩm kinh điển \"LIÊN ĐĂNG - THÍCH TIẾN ĐẠT\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3330,7 +3330,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "SỨC SỐNG THIỀN MÔN TẬP 1",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 307,
     "description": "Tác phẩm kinh điển \"DỊCH GIẢ: VIÊN DIỆU - PHỔ HUỆ KHẢ TRIẾT - CHÍ HẢI\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3341,7 +3341,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "KINH DUY MA CẬT SỞ THUYẾT",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 324,
     "description": "Tác phẩm kinh điển \"VÔ NGÃ LA NIẾT BÀN  TUYỂN TẬP\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3352,7 +3352,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "HOA NGHIÊM XUẤT BẢN",
     "category": "Luận Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 341,
     "description": "Tác phẩm kinh điển \"TRUNG TÂM DỊCH THUẬT HÁN NÔM HUỆ QUANG\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3363,7 +3363,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "HOA NGHIÊM XUẤT BẢN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 358,
     "description": "Tác phẩm kinh điển \"ĐỨC PHẬT VÀ PHẬT PHÁP\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3374,7 +3374,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "HOA NGHIÊM XUẤT BẢN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 375,
     "description": "Tác phẩm kinh điển \"PHẠM KIM KHÁNH DỊCH\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3385,7 +3385,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "THÀNH HỘI PHẬT GIÁO TP HCM",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 392,
     "description": "Tác phẩm kinh điển \"BÍCH NHAM LỤC\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3396,7 +3396,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "ĐẠO PHẬT VỚI TUỔI TRẺ",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 409,
     "description": "Tác phẩm kinh điển \"KHÓA HƯ LỤC GIẢNG GIẢI\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3407,7 +3407,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "DỊCH: DIỆU NHIÊM",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 426,
     "description": "Tác phẩm kinh điển \"THEO DẤU CHÂN BỤT 7\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3418,7 +3418,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "NHÀ XUẤT BẢN TÔN GIÁO",
     "publisher": "Ý NGHĨA SỰ SỐNG",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 443,
     "description": "Tác phẩm kinh điển \"SEEING THE WAY DỊCH: GIÁC NGUYÊN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3429,7 +3429,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "NXB VĂN HÓA SÀI GÒN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 460,
     "description": "Tác phẩm kinh điển \"DỊCH: HOÀNG PHONG\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3440,7 +3440,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "NI SƯ THÍCH NỮ GIỚI HƯƠNG",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 477,
     "description": "Tác phẩm kinh điển \"NẾP SỐNG TỈNH THỨC\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3451,7 +3451,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "PHẠM ĐÌNH NHÂN",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 494,
     "description": "Tác phẩm kinh điển \"GIÁ TRỊ THÂM DIỆU CỦA BÁT NHÃ THÂM KINH\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3462,7 +3462,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT GIÁO MẬT TÔNG KIM CANG THỪA CHÚ GIẢI (TẬP 2)  PHẬT GIÁO",
     "publisher": "DỊCH: THÍCH CHÂN TÍNH",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 511,
     "description": "Tác phẩm kinh điển \"TÔN GIÁO HỌC SO SÁNH\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3473,7 +3473,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "NHÀ XUẤT BẢN TÔN GIÁO",
     "publisher": "BIÊN SOẠN: CHÂN QUANG",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 528,
     "description": "Tác phẩm kinh điển \"NĂM ẤM LÀ GÌ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3484,7 +3484,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "THIỀN TRONG NGHỆ THUẬT BẮN CUNG",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 545,
     "description": "Tác phẩm kinh điển \"KHI HỒNG HẠC BAY VỀ VÀ NHỮNG ĐIỀU MẦU NHIỆM\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3495,7 +3495,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "TÓM TẮT NĂM UẨN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 562,
     "description": "Tác phẩm kinh điển \"THẦY HUYỀN DIỆU\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3506,7 +3506,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "TỪ NỤ ĐẾN HOA",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 579,
     "description": "Tác phẩm kinh điển \"THỂ NGHIỆM VỀ CÁI CHẾT\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3517,7 +3517,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "MXB THANH NIÊN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 596,
     "description": "Tác phẩm kinh điển \"SOKO MORINAGA\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3528,7 +3528,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "TRÍ TUỆ VÀ CHÂN THÀNH",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 613,
     "description": "Tác phẩm kinh điển \"ĐỨC PHẬT ĐÃ DẠY NHỮNG GÌ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3539,7 +3539,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "HOA NGHIÊM XUẤT BẢN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 630,
     "description": "Tác phẩm kinh điển \"NS: THÍCH NỮ TRÍ HẢI\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3550,7 +3550,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "HOA NGHIÊM XUẤT BẢN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 647,
     "description": "Tác phẩm kinh điển \"TRÍ TUỆ PHẬT PHÁP\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3561,7 +3561,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT GIÁO MẬT TÔNG KIM CANG THỪA CHÚ GIẢI (TẬP 2)  PHẬT GIÁO",
     "publisher": "TRẦN NHÂN TÔNG VỚI THIỀN PHÁI TRÚC LÂM",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 664,
     "description": "Tác phẩm kinh điển \"LAMA GENDUN RINPOCHE\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3572,7 +3572,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "5 QUYỂN TỪ TẬP 1 ĐẾN TẬP 6 - THIẾU TẬP 2",
     "publisher": "HAI QUÃNG ĐỜI CỦA SƠ TỔ TRÚC LÂM",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 681,
     "description": "Tác phẩm kinh điển \"HOA SEN TRONG BÙN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3583,7 +3583,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "DI ĐÀ HỢP GIẢI",
     "publisher": "HAI QUÃNG ĐỜI CỦA SƠ TỔ TRÚC LÂM",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 148,
     "description": "Tác phẩm kinh điển \"SA MÔN CHÂU HOẰNG SOẠN, TỲ KHEO THÍCH NHẬT QUANG (\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3594,7 +3594,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "HT THÍCH THANH TỪ",
     "category": "Thiền Học",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 165,
     "description": "Tác phẩm kinh điển \"TIẾN THẲNG VÀO THIỀN TÔNG\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3605,7 +3605,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "CON ĐƯỜNG VÀO THIỀN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 182,
     "description": "Tác phẩm kinh điển \"NXB TỔNG HỢP TP HCM\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3616,7 +3616,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "THÍCH THÁI HOÀ",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 199,
     "description": "Tác phẩm kinh điển \"YẾU CHỈ TU TẬP VÀ HÀNH ĐẠO\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3627,7 +3627,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "NHÀ XUẤT BẢN TÔN GIÁO",
     "publisher": "HT. THÍCH THANH TỪ",
     "category": "Thiền Học",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 216,
     "description": "Tác phẩm kinh điển \"THIỀN TÔNG VIỆT NAM\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3638,7 +3638,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "PHƯƠNG PHÁP THỰC HÀNH THIỀN ĐỊNH",
     "category": "Thiền Học",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 233,
     "description": "Tác phẩm kinh điển \"THIỀN SƯ PA-AUK TAWYA SAYADAW\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3649,7 +3649,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "HIỀN TINH GIẢI THOÁT",
     "publisher": "SƠN NHÂN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 250,
     "description": "Tác phẩm kinh điển \"CHÙA PHÚC MINH. SƯ THANH MINH\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3660,7 +3660,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "5 QUYỂN",
     "publisher": "SƯ THANH MINH",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 267,
     "description": "Tác phẩm kinh điển \"PHÁP DUYÊN SINH\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3671,7 +3671,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "5 QUYỂN",
     "publisher": "1 QUYỂN",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 284,
     "description": "Tác phẩm kinh điển \"MƯỜI BÀI GIẢNG KINH BÁT ĐẠI NHÂN GIÁC\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3682,7 +3682,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "5 QUYỂN",
     "publisher": "NĂM 2006",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 301,
     "description": "Tác phẩm kinh điển \"HT THÍCH TINH VÂN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3693,7 +3693,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "KINH VIÊN GIÁC",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 318,
     "description": "Tác phẩm kinh điển \"NXB TÔN GIÁO\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3704,7 +3704,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "DI ĐÀ HỢP GIẢI",
     "publisher": "THIỀN QUÁN 32 THỂ TRƯỢC",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 335,
     "description": "Tác phẩm kinh điển \"THÍCH PHƯỚC TÚ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3715,7 +3715,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "HỒNG THIỆN PHÁP",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 352,
     "description": "Tác phẩm kinh điển \"HÀNH TRÌNH TẦM CHÂN PHÁP\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3726,7 +3726,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "5 QUYỂN",
     "publisher": "MA CHƯỚNG TRÊN ĐƯỜNG TU",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 369,
     "description": "Tác phẩm kinh điển \"TRÚC THIÊN DỊCH\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3737,7 +3737,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "5 QUYỂN",
     "publisher": "NXB TỔNG HỢP TP HỒ CHÍ MINH",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 386,
     "description": "Tác phẩm kinh điển \"MINH PHÁP\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3748,7 +3748,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "5 QUYỂN",
     "publisher": "ÁNH SÁNG TỰ TÂM",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 403,
     "description": "Tác phẩm kinh điển \"THÍCH THÔNG PHƯƠNG\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3759,7 +3759,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "5 QUYỂN",
     "publisher": "NXB HỒNG ĐỨC",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 420,
     "description": "Tác phẩm kinh điển \"HẠNH CHIẾU\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3770,7 +3770,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "5 QUYỂN",
     "publisher": "TÂM PHÁP THIỀN SƯ",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 437,
     "description": "Tác phẩm kinh điển \"HIS HOLINESS THE DALAI LAMA\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3781,7 +3781,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "BÚT KÝ BÊN CỬA TRÚC (TRÚC SONG TÙY BÚT)",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 454,
     "description": "Tác phẩm kinh điển \"NHÀ XUẤT BẢN THANH HÓA\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3792,7 +3792,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "NHÀ XUẤT BẢN TÔN GIÁO",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 471,
     "description": "Tác phẩm kinh điển \"CHU HOÀNH ĐẠI SƯ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3803,7 +3803,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "TUỆ HẠNH",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 488,
     "description": "Tác phẩm kinh điển \"TĂNG TRIỆU VÀ TÁNH KHÔNG HỌC ĐÔNG PHƯƠNG\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3814,7 +3814,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "NHÀ XUẤT BẢN TÔN GIÁO",
     "publisher": "TỶ KHƯU MINH HUỆ",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 505,
     "description": "Tác phẩm kinh điển \"PHÁP DUYÊN KHỞI\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3825,7 +3825,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "THÍCH THÔNG PHƯƠNG GIẢNG",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 522,
     "description": "Tác phẩm kinh điển \"TÂM KINH BÁT NHÃ QUA CÁI NHÌN CỦA NHÀ THIỀN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3836,7 +3836,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "SƠN AM TẠP LỤC",
     "category": "Thiền Học",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 539,
     "description": "Tác phẩm kinh điển \"THIỀN VIỆN TRÚC LÂM\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3847,7 +3847,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "THÍCH THÔNG PHƯƠNG GIẢNG",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 556,
     "description": "Tác phẩm kinh điển \"PL. 2545-DL.2002\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3858,7 +3858,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "NHÀ XUẤT BẢN TÔN GIÁO",
     "publisher": "HOA NGHIÊM XUẤT BẢN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 573,
     "description": "Tác phẩm kinh điển \"TÔI LÀ AI\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3869,7 +3869,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "THIÊN NHIÊN TÂM",
     "publisher": "LUYỆN TÂM THANH TỊNH",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 590,
     "description": "Tác phẩm kinh điển \"NI SƯ AYYA KHEMA\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3880,7 +3880,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "5 QUYỂN",
     "publisher": "ẤN QUANG PHÁP SƯ VĂN SAO",
     "category": "Thiền Học",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 607,
     "description": "Tác phẩm kinh điển \"TRÊN CON ĐƯỜNG THIỀN TÔNG\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3891,7 +3891,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "5 QUYỂN",
     "publisher": "PHẬT-GIÁO TRIẾT-HỌC",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 624,
     "description": "Tác phẩm kinh điển \"CHUYỂN NGỮ: BỬU QUANG TỰ ĐỆ TỬ NHƯ HÒA\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3902,7 +3902,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "5 QUYỂN",
     "publisher": "PHẬT PHÁP TẠI THẾ GIAN (TẬP 2) - HƯỚNG ĐI CH",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 641,
     "description": "Tác phẩm kinh điển \"TỦ SÁCH TRIẾT-HỌC TÂN VIỆT\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3913,7 +3913,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "5 QUYỂN",
     "publisher": "NXB TỔNG HỢP TPHCM",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 658,
     "description": "Tác phẩm kinh điển \"THÍ́CH THANH TỪ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3924,7 +3924,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "5 QUYỂN",
     "publisher": "VƯỜN NAI",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 675,
     "description": "Tác phẩm kinh điển \"THÍCH CHÂN QUANG\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3935,7 +3935,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "Biên dịch: Vô Úy",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 142,
     "description": "Tác phẩm kinh điển \"NXB VĂN NGHỆ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3946,7 +3946,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT GIÁO MẬT TÔNG KIM CANG THỪA CHÚ GIẢI (TẬP 2)  PHẬT GIÁO",
     "publisher": "NHẤT HẠNH",
     "category": "Luận Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 159,
     "description": "Tác phẩm kinh điển \"ĐỜI SỐNG TÂM LINH\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3957,7 +3957,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "TĂNG GIÀ THỜI ĐỨC PHẬT",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 176,
     "description": "Tác phẩm kinh điển \"LÁ BỐI\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3968,7 +3968,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "TỶ KHEO TRÍ QUANG",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 193,
     "description": "Tác phẩm kinh điển \"ĐÃ HIỂU ĐÀN CHẨN TẾ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3979,7 +3979,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "HOANG PHONG CHUYỂN NGỮ",
     "category": "Luận Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 210,
     "description": "Tác phẩm kinh điển \"HÃY ĐỌC CÁC DÒNG CHỮ TRONG TÂM THỨC MÌNH\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -3990,7 +3990,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "LÂM NHƯ TẠNG",
     "publisher": "TỲ KHƯU GIÁC NGUYÊN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 227,
     "description": "Tác phẩm kinh điển \"CHÚNG SANH VÀ SANH THÚ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4001,7 +4001,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "PHÁP SƯ THÔNG KHAM",
     "category": "Luận Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 244,
     "description": "Tác phẩm kinh điển \"BA NGÀY LUẬN ĐẠO\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4012,7 +4012,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "HÒA THƯỢNG THÍCH TRÍ HẢI",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 261,
     "description": "Tác phẩm kinh điển \"NHÂN GIAN PHẬT GIÁO ĐẠI CƯƠNG\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4023,7 +4023,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "THÍCH CHÚC PHÚ",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 278,
     "description": "Tác phẩm kinh điển \"VÀI VẤN ĐỀ PHẬT GIÁO & NHÂN SINH\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4034,7 +4034,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "BIÊN NIÊN SỬ GIỚI ĐÀN TĂNG VIỆT NAM",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 295,
     "description": "Tác phẩm kinh điển \"VÀI VẤN ĐỀ PHẬT GIÁO & NHÂN SINH\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4045,7 +4045,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "Nhiều Tác Giả",
     "publisher": "NXB Tôn Giáo",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 312,
     "description": "Tác phẩm kinh điển \"TỲ KHEO THÍCH ĐỒNG BỔN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4056,7 +4056,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "ĐĐ. THÍCH CHIẾU TUỆ, CS. HUỆ AN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 329,
     "description": "Tác phẩm kinh điển \"TUYỂN TẬP NỘI SAN HOẰNG PHÁP\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4067,7 +4067,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "BƯỚC CHÂN HỘ NIÊM HƠI THỞ TỪ BI",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 346,
     "description": "Tác phẩm kinh điển \"ĐĐ. THÍCH CHIẾU TUỆ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4078,7 +4078,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "TT. THÍCH ĐẠT ĐẠO, ĐĐ. THÍCH NGUYÊN AN, MC. TÁNH T",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 363,
     "description": "Tác phẩm kinh điển \"NGHỆ THUẬT DIỄN GIẢNG VÀ XƯỚNG NGÔN LỄ HỘI PHẬT GI\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4089,7 +4089,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "NXB Tôn Giáo",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 380,
     "description": "Tác phẩm kinh điển \"HÒA THƯỢNG VÕ LĂNG (1921-1993) NIÊN PHỔ VÀ DI CẢO\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4100,7 +4100,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "800 NĂM PHỤNG SỰ NHÂN LOẠI VÀ VŨ TRỤ",
     "publisher": "ORGYEN KUSUM LINGPA  Biên dịch: Liên Hoa",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 397,
     "description": "Tác phẩm kinh điển \"ĐỆ TỬ THÍCH TIẾN ĐẠT BIÊN DỊCH\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4111,7 +4111,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "TT.THÍCH HOẰNG TRI, ĐĐ.THÍCH PHÁP ĐĂNG, CHƯ TĂNG T",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 414,
     "description": "Tác phẩm kinh điển \"TƯỞNG NIỆM ĐẠI LÃO HÒA THƯỢNG THÍCH TRÍ TỊNH (1917\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4122,7 +4122,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "2 QUYỂN (2 TẬP)",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 431,
     "description": "Tác phẩm kinh điển \"TƯỞNG NIỆM TRƯỞNG LÃO HÒA THƯỢNG THÍCH GIÁC NGỘ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4133,7 +4133,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "THIỆN BẠN HỮU (GOOD FRIENDS)",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 448,
     "description": "Tác phẩm kinh điển \"TÔI TỰ HỎI TẠI SAO\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4144,7 +4144,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "MỘT SỐ THAM LUẬN VỀ PHẬT GIÁO",
     "category": "Thiền Học",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 465,
     "description": "Tác phẩm kinh điển \"THIỀN SƯ PA-AUK TAWYA SAYADAW, THIỀN SƯ U DHAMMAPA\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4155,7 +4155,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "CON ĐƯỜNG VÀO THIỀN",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 482,
     "description": "Tác phẩm kinh điển \"ĐẠI Ý BA KINH MỘT LUẬT TỊNH ĐỘ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4166,7 +4166,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "5 QUYỂN",
     "publisher": "PHÁP BẢO SƯU TẬP",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 499,
     "description": "Tác phẩm kinh điển \"NGUYÊN TÁC: PHÁP SƯ HUỆ TỊNH, NGƯỜI DỊCH:NHUẬN HÀ-\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4177,7 +4177,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "5 QUYỂN",
     "publisher": "THỦ THUẬT NHÀ THIỀN",
     "category": "Thiền Học",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 516,
     "description": "Tác phẩm kinh điển \"NGUỒN THIỀN GIẢNG GIẢI\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4188,7 +4188,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "5 QUYỂN",
     "publisher": "PHẬT TÂM TUỆ NGỮ",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 533,
     "description": "Tác phẩm kinh điển \"NXB TPHCM\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4199,7 +4199,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "5 QUYỂN",
     "publisher": "NXB HÀ NỘI",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 550,
     "description": "Tác phẩm kinh điển \"BIÊN SOẠN: TẾ HÂN - NGỌC HUY NGƯỜI DỊCH: ĐẠO\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4210,7 +4210,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "5 QUYỂN",
     "publisher": "TƯ TƯỞNG VIỆT NAM NHÂN BẢN THỰC TẠI LUẬN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 567,
     "description": "Tác phẩm kinh điển \"SOGYAL KIM POCHE\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4221,7 +4221,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "5 QUYỂN",
     "publisher": "NXB TRẺ",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 584,
     "description": "Tác phẩm kinh điển \"THÍCH CHƠN THIỆN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4232,7 +4232,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "HÒA THƯỢNG TỪ THÔNG",
     "publisher": "TRIẾT HỌC A-TỲ-ĐÀM CỦA PHẬT GIÁO TRUYỀN TH",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 601,
     "description": "Tác phẩm kinh điển \"NHẬP PHẬT TRI KIẾN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4243,7 +4243,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT GIÁO MẬT TÔNG KIM CANG THỪA CHÚ GIẢI (TẬP 2)  PHẬT GIÁO",
     "publisher": "TRIẾT HỌC A-TỲ-ĐÀM CỦA PHẬT GIÁO TRUYỀN TH",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 618,
     "description": "Tác phẩm kinh điển \"DR. MEHM TIN MAN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4254,7 +4254,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "3 QUYỂN",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 635,
     "description": "Tác phẩm kinh điển \"NHỮNG LÁ THƯ GỬI THẦY\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4265,7 +4265,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT GIÁO MẬT TÔNG KIM CANG THỪA CHÚ GIẢI (TẬP 2)  PHẬT GIÁO",
     "publisher": "NHƯ NÓI VỚI TÔI",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 652,
     "description": "Tác phẩm kinh điển \"NHỮNG LÁ THƯ THẦY\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4276,7 +4276,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "TỔ ĐÌNH HUÊ LÂM",
     "publisher": "NXB TP HỒ CHÍ MINH",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 669,
     "description": "Tác phẩm kinh điển \"SƯ TRƯỞNG NHƯ THANH CUỘC ĐỜI VÀ SỰ NGHIỆP\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4287,7 +4287,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "11 QUYỂN",
     "publisher": "NS.TS.NHƯ NGUYỆT",
     "category": "Luật Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 686,
     "description": "Tác phẩm kinh điển \"DI SẢN SƯ TRƯỞNG NHƯ THANH KẾ THỪA - PHÁT TRIỂN NI\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4298,7 +4298,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "11 QUYỂN",
     "publisher": "TÌNH YÊU BẤT DIỆT",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 153,
     "description": "Tác phẩm kinh điển \"TỔ ĐÌNH HỘI SƠN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4309,7 +4309,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "DI ĐÀ HỢP GIẢI",
     "publisher": "CHÂN PHÁP ĐĂNG",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 170,
     "description": "Tác phẩm kinh điển \"2 QUYỂN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4320,7 +4320,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "KINH NGŨ BÁCH DANH",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 187,
     "description": "Tác phẩm kinh điển \"NGƯỜI DỊCH: THIỀN ĐỨC\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4331,7 +4331,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "CHƯ-KINH NHẬT-TỤNG",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 204,
     "description": "Tác phẩm kinh điển \"TÔN GIÁO\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4342,7 +4342,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "CHƯ-KINH NHẬT-TỤNG",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 221,
     "description": "Tác phẩm kinh điển \"TÔN GIÁO\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4353,7 +4353,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "DI ĐÀ HỢP GIẢI",
     "publisher": "PHẬT TỔ TAM KINH",
     "category": "Lịch Sử Phật Giáo",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 238,
     "description": "Tác phẩm kinh điển \"PHẬT LỊCH 2515,DƯƠNG LỊCH 2005\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4364,7 +4364,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "DI ĐÀ HỢP GIẢI",
     "publisher": "HỒNG ĐỨC",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 255,
     "description": "Tác phẩm kinh điển \"VIỆT DỊCH SA MÔN THÍCH PHỔ TỆ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4375,7 +4375,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "DI ĐÀ HỢP GIẢI",
     "publisher": "THÍCH DUY LỰC",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 272,
     "description": "Tác phẩm kinh điển \"KINH LĂNG NGHIÊM\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4386,7 +4386,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "DI ĐÀ HỢP GIẢI",
     "publisher": "KINH BỔN SANH",
     "category": "Lịch Sử Phật Giáo",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 289,
     "description": "Tác phẩm kinh điển \"PHẬT LỊCH 2559-DƯƠNG LỊCH 2015\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4397,7 +4397,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "SÁCH ẤN TỐNG-KINH BIẾU",
     "publisher": "THIỆN TÀI CẦU ĐẠO",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 306,
     "description": "Tác phẩm kinh điển \"HÒA THƯỢNG THÍCH MINH CHÂU\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4408,7 +4408,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "THÍCH CHÍNH TIẾN",
     "publisher": "TRÍ KINH TOÀN TẬP",
     "category": "Kinh Tạng",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 323,
     "description": "Tác phẩm kinh điển \"KINH ĐẠI PHƯƠNG TIỆN PHẬT BÁO ÂN\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4419,7 +4419,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "TRÍ QUẢNG TOÀN TẬP",
     "publisher": "TRÍCH TRÍ QUẢNG",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 340,
     "description": "Tác phẩm kinh điển \"THÍCH HOÀNG TRI\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4430,7 +4430,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "DI ĐÀ HỢP GIẢI",
     "publisher": "THANH TỪ TOÀN TẬP",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 357,
     "description": "Tác phẩm kinh điển \"HỒNG ĐỨC\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4441,7 +4441,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "THIÊN TÔNG VIỆT NAM",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 374,
     "description": "Tác phẩm kinh điển \"46 QUYỂN,48 TẬP\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4452,7 +4452,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT GIÁO MẬT TÔNG KIM CANG THỪA CHÚ GIẢI (TẬP 2)  PHẬT GIÁO",
     "publisher": "PHẬT TỔ TAM KINH",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 391,
     "description": "Tác phẩm kinh điển \"NÂRADA THERA\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4463,7 +4463,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "DI ĐÀ HỢP GIẢI",
     "publisher": "KINH NGŨ BÁCH DANH",
     "category": "Lịch Sử Phật Giáo",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 408,
     "description": "Tác phẩm kinh điển \"LỰC SỬ PHẬT GIÁO ẤN ĐỘ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4474,7 +4474,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "PHẬT LỊCH 2550 DƯƠNG LICH 2006",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 425,
     "description": "Tác phẩm kinh điển \"THÍCH THANH KIỂM\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4485,7 +4485,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "TẠI SAO TÔI ĐI TU ?",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 442,
     "description": "Tác phẩm kinh điển \"CẨM NAM PHẬT PHÁP\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4496,7 +4496,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "LƯỢC SỬ PHẬT GIÁO ẤN ĐỘ",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 459,
     "description": "Tác phẩm kinh điển \"CHÙA PHỔ TỪ\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4507,7 +4507,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "LƯỢC SỬ PHẬT GIÁO ẤN ĐỘ",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 476,
     "description": "Tác phẩm kinh điển \"KỶ  YẾU KHÓA TU PHẬT THẤT\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4518,7 +4518,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "PL 2548 DL 2004",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 493,
     "description": "Tác phẩm kinh điển \"CHÙA HOÀNG PHÁP\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4529,7 +4529,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "PHẬT HỌC TẠP CHÍ BỒ ĐỀ TÂN-THANH",
     "publisher": "PL 2546",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 510,
     "description": "Tác phẩm kinh điển \"KỶ  YẾU KHÓA TU PHẬT THẤT CHÙA HOÀNG PHÁP\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4540,7 +4540,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "Nhiều Tác Giả",
     "publisher": "NXB Tôn Giáo",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 527,
     "description": "Tác phẩm kinh điển \"ẤN BẢN LẦN ĐẦU 2015 TÁI BẢN LẦN THỨ NHẤT 2020\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4551,7 +4551,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "Nhiều Tác Giả",
     "publisher": "NXB Tôn Giáo",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 544,
     "description": "Tác phẩm kinh điển \"ẤN BẢN LẦN ĐẦU 2015 TÁI BẢN LẦN THỨ NHẤT 2020\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4562,7 +4562,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "Nhiều Tác Giả",
     "publisher": "NXB Tôn Giáo",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 561,
     "description": "Tác phẩm kinh điển \"ẤN BẢN LẦN ĐẦU 2015 TÁI BẢN LẦN THỨ NHẤT 2020\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4573,7 +4573,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "Nhiều Tác Giả",
     "publisher": "NXB Tôn Giáo",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 578,
     "description": "Tác phẩm kinh điển \"ẤN BẢN LẦN ĐẦU 2015 TÁI BẢN LẦN THỨ NHẤT 2020\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4584,7 +4584,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "Nhiều Tác Giả",
     "publisher": "NXB Tôn Giáo",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 595,
     "description": "Tác phẩm kinh điển \"ẤN BẢN LẦN ĐẦU 2015 TÁI BẢN LẦN THỨ NHẤT 2020\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4595,7 +4595,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "Nhiều Tác Giả",
     "publisher": "NXB Tôn Giáo",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 612,
     "description": "Tác phẩm kinh điển \"ẤN BẢN LẦN ĐẦU 2015 TÁI BẢN LẦN THỨ NHẤT 2020\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4606,7 +4606,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "Nhiều Tác Giả",
     "publisher": "NXB Tôn Giáo",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 629,
     "description": "Tác phẩm kinh điển \"ẤN BẢN LẦN ĐẦU 2015 TÁI BẢN LẦN THỨ NHẤT 2020\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4617,7 +4617,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "Nhiều Tác Giả",
     "publisher": "NXB Tôn Giáo",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 646,
     "description": "Tác phẩm kinh điển \"ẤN BẢN LẦN ĐẦU 2015 TÁI BẢN LẦN THỨ NHẤT 2020\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4628,7 +4628,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "Nhiều Tác Giả",
     "publisher": "NXB Tôn Giáo",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 663,
     "description": "Tác phẩm kinh điển \"ẤN BẢN LẦN ĐẦU 2015 TÁI BẢN LẦN THỨ NHẤT 2020\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4639,7 +4639,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "Nhiều Tác Giả",
     "publisher": "NXB Tôn Giáo",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     "pages": 680,
     "description": "Tác phẩm kinh điển \"ẤN BẢN LẦN ĐẦU 2015 TÁI BẢN LẦN THỨ NHẤT 2020\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4650,7 +4650,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "Nhiều Tác Giả",
     "publisher": "NXB Tôn Giáo",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1457369804613-52c61a468e7d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     "pages": 147,
     "description": "Tác phẩm kinh điển \"ẤN BẢN LẦN ĐẦU 2015 TÁI BẢN LẦN THỨ NHẤT 2020\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4661,7 +4661,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "Nhiều Tác Giả",
     "publisher": "NXB Tôn Giáo",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1516979187457-637abb4f9353?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     "pages": 164,
     "description": "Tác phẩm kinh điển \"ẤN BẢN LẦN ĐẦU 2015 TÁI BẢN LẦN THỨ NHẤT 2020\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4672,7 +4672,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "Nhiều Tác Giả",
     "publisher": "NXB Tôn Giáo",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     "pages": 181,
     "description": "Tác phẩm kinh điển \"ẤN BẢN LẦN ĐẦU 2015 TÁI BẢN LẦN THỨ NHẤT 2020\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4683,7 +4683,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "Nhiều Tác Giả",
     "publisher": "NXB Tôn Giáo",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     "pages": 198,
     "description": "Tác phẩm kinh điển \"ẤN BẢN LẦN ĐẦU 2015 TÁI BẢN LẦN THỨ NHẤT 2020\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4694,7 +4694,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "Nhiều Tác Giả",
     "publisher": "NXB Tôn Giáo",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1532012197267-da84d127e765?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "pages": 215,
     "description": "Tác phẩm kinh điển \"ẤN BẢN LẦN ĐẦU 2015 TÁI BẢN LẦN THỨ NHẤT 2020\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4705,7 +4705,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "Nhiều Tác Giả",
     "publisher": "NXB Tôn Giáo",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1512820790803-83ca734da794?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     "pages": 232,
     "description": "Tác phẩm kinh điển \"ẤN BẢN LẦN ĐẦU 2015 TÁI BẢN LẦN THỨ NHẤT 2020\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."
@@ -4716,7 +4716,7 @@ export const THU_VIEN_BOOKS: BookItem[] = [
     "author": "Nhiều Tác Giả",
     "publisher": "NXB Tôn Giáo",
     "category": "Phật Học Phổ Thông",
-    "coverUrl": "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?w=600&h=800&fit=crop",
+    "coverUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     "pages": 249,
     "description": "Tác phẩm kinh điển \"ẤN BẢN LẦN ĐẦU 2015 TÁI BẢN LẦN THỨ NHẤT 2020\" lưu trữ tại Thư viện Kinh sách Tùng Lâm Hòa Phúc, mở ra cánh cửa học hỏi tư tưởng Phật học cao quý.",
     "quote": "Nội tâm an định, trí tuệ phát sinh, vượt qua mọi chướng ngại phiền não."

@@ -11,7 +11,7 @@ export interface PostCardProps {
   className?: string;
 }
 
-const DEFAULT_TEMPLE_LOGO = 'https://tunglam.mocwp.com/wp-content/uploads/2026/07/bieu-tuong-tong-chi-tu-hoc-tung-lam-hoa-phuc.png';
+const DEFAULT_TEMPLE_LOGO = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/bieu-tuong-tong-chi-tu-hoc-tung-lam-hoa-phuc.webp';
 
 /**
  * Standardized Golden Ratio Post Card (φ ≈ 1.618)
@@ -49,7 +49,7 @@ export const PostCard: FC<PostCardProps> = ({
       {/* 1. Khung ảnh Thumbnail Tỷ Lệ Vàng (1.618 : 1) */}
       <div className="relative w-full aspect-[1.618/1] overflow-hidden bg-[#1A120B] shrink-0">
         <img
-          src={post.imageUrl || 'https://images.unsplash.com/photo-1618165220283-e85246c4171c?w=800&h=450&fit=crop'}
+          src={post.imageUrl || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp'}
           alt={post.title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
           loading="lazy"

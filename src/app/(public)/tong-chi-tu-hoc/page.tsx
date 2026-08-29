@@ -106,6 +106,48 @@ export default function TongChiTuHocPage() {
 
     async function loadData() {
       try {
+        // 1. Fetch Local Backend Articles (Chính xác 100% từ Admin, không lấy bài trùng từ WP)
+        try {
+          const localRes = await fetch('/api/admin/tong-chi', { signal, cache: 'no-store' });
+          if (localRes.ok) {
+            const localData = await localRes.json();
+            if (localData.success && Array.isArray(localData.data) && localData.data.length > 0) {
+              const categoryToSectionId: Record<string, string> = {
+                'tong-phong-truyen-thua': 'tong-phong',
+                'nen-tang-tu-hoc': 'nen-tang',
+                'phuong-phap-hanh-tri': 'phap-mon',
+                'lo-trinh-tu-hoc': 'lo-trinh',
+                'nep-song-thien-gia': 'nep-song',
+              };
+
+              setSectionsData((prev) =>
+                prev.map((sec) => {
+                  const matchingArticles = localData.data.filter((item: any) => {
+                    const targetSecId = categoryToSectionId[item.category];
+                    return targetSecId === sec.id;
+                  });
+
+                  if (matchingArticles.length > 0) {
+                    const cards = matchingArticles.map((item: any) => ({
+                      id: item.id,
+                      title: item.title,
+                      subtitle: item.subtitle || item.excerpt || 'Tông phong tu học Tùng Lâm Hòa Phúc.',
+                      imageUrl: item.bannerImage || '/images/toan-canh-chua.jpg',
+                      imagePosition: item.bannerPosition || 'center center',
+                      link: `/tong-chi-tu-hoc/${item.slug}`,
+                    }));
+                    return { ...sec, cards };
+                  }
+                  return sec;
+                })
+              );
+            }
+          }
+        } catch (localErr) {
+          console.log('Local tong chi fetch error:', localErr);
+        }
+
+        // 2. Fetch WordPress API (Chỉ lấy Banner & Intro Mô tả chung)
         const fetchCatBg = fetch('https://tunglam.mocwp.com/wp-json/tunglam/v1/danh-muc-tong-chi/12', { signal, cache: 'no-store' })
           .then((res) => (res.ok ? res.json() : null))
           .catch(() => null);
@@ -118,11 +160,7 @@ export default function TongChiTuHocPage() {
           })
           .catch(() => null);
 
-        const fetchPosts = fetch('https://tunglam.mocwp.com/wp-json/wp/v2/tong-chi?_embed', { signal, cache: 'no-store' })
-          .then((res) => (res.ok ? res.json() : null))
-          .catch(() => null);
-
-        const [catData, bannerData, postsData] = await Promise.all([fetchCatBg, fetchBanner, fetchPosts]);
+        const [catData, bannerData] = await Promise.all([fetchCatBg, fetchBanner]);
 
         if (catData) {
           const wpImageUrl = catData?.anh_nen?.url || catData?.anh_dai_dien?.url;
@@ -141,36 +179,6 @@ export default function TongChiTuHocPage() {
 
           const fullContent = bannerData?.content?.rendered || bannerData?.acf?.description || bannerData?.excerpt?.rendered || '';
           if (fullContent) setPageDescription(formatIntroHtml(fullContent));
-        }
-
-        if (Array.isArray(postsData) && postsData.length > 0) {
-          const wpCards = postsData
-            .filter((post: any) => post.id !== 388)
-            .map((post: any) => {
-              const imgUrl =
-                post._embedded?.['wp:featuredmedia']?.[0]?.source_url ||
-                extractImgFromContent(post.content?.rendered || '') ||
-                'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&q=80';
-
-              let subtitle = '';
-              if (post.excerpt?.rendered) {
-                subtitle = post.excerpt.rendered.replace(/<[^>]+>/g, '').normalize('NFC').trim();
-              }
-
-              return {
-                id: post.id,
-                title: post.title?.rendered || 'Chưa có tiêu đề',
-                subtitle: subtitle || 'Nội dung tóm tắt cập nhật từ Tùng Lâm Hòa Phúc.',
-                imageUrl: imgUrl,
-                link: `/tong-chi-tu-hoc/${post.slug}`,
-              };
-            });
-
-          if (wpCards.length > 0) {
-            setSectionsData((prev) =>
-              prev.map((sec) => (sec.id === 'tong-phong' ? { ...sec, cards: wpCards } : sec))
-            );
-          }
         }
       } catch (err) {
         console.error('Lỗi tải dữ liệu Tông Chỉ Tu Học:', err);

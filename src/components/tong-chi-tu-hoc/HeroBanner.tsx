@@ -2,11 +2,15 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { MoveVertical } from 'lucide-react';
 
 interface HeroBannerProps {
   id?: string;
   bannerUrl?: string;
   bgImage?: string; // Nhận thêm prop này để không bị mismatch dữ liệu
+  bannerPosition?: string; // Căn chỉnh vị trí ảnh (vd: 'center 20%', 'top', 'bottom')
+  isEditable?: boolean; // Cho phép kéo thả trực tiếp trên banner
+  onPositionChange?: (newPosition: string) => void;
   title?: string;
   subtitle?: string;
   backLink?: string;
@@ -19,6 +23,9 @@ export function HeroBanner({
   id = 'tong-chi-tu-hoc',
   bannerUrl,
   bgImage,
+  bannerPosition = 'center 50%',
+  isEditable = false,
+  onPositionChange,
   title = 'TÔNG CHỈ TU HỌC',
   subtitle = 'TÙNG LÂM HÒA PHÚC',
   backLink,
@@ -27,6 +34,16 @@ export function HeroBanner({
   // Lấy URL ảnh banner từ WP, prop hoặc ảnh mặc định
   const initialUrl = bannerUrl || bgImage || DEFAULT_BANNER_IMAGE;
   const [imgSrc, setImgSrc] = useState<string>(initialUrl);
+
+  // Kéo thả căn chỉnh vị trí chuột (Interactive Dragging)
+  const [isDragging, setIsDragging] = useState<boolean>(false);
+  const [dragStartY, setDragStartY] = useState<number>(0);
+  const [dragStartPercent, setDragStartPercent] = useState<number>(50);
+  const [currentPos, setCurrentPos] = useState<string>(bannerPosition);
+
+  useEffect(() => {
+    setCurrentPos(bannerPosition);
+  }, [bannerPosition]);
 
   useEffect(() => {
     const nextUrl = bannerUrl || bgImage;
@@ -37,12 +54,47 @@ export function HeroBanner({
     }
   }, [bannerUrl, bgImage]);
 
+  // Xử lý kéo thả vị trí chuột
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!isEditable) return;
+    setIsDragging(true);
+    setDragStartY(e.clientY);
+    const parsed = parseInt((currentPos || '50%').replace(/[^0-9]/g, ''), 10) || 50;
+    setDragStartPercent(parsed);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!isDragging || !isEditable) return;
+    const deltaY = e.clientY - dragStartY;
+    // Kéo chuột xuống -> lấy phần trên ảnh (giảm %); kéo chuột lên -> lấy phần dưới ảnh (tăng %)
+    const newPercent = Math.max(0, Math.min(100, Math.round(dragStartPercent + deltaY * 0.25)));
+    const nextPos = `center ${newPercent}%`;
+    setCurrentPos(nextPos);
+    if (onPositionChange) {
+      onPositionChange(nextPos);
+    }
+  };
+
+  const handleMouseUp = () => {
+    if (isDragging) {
+      setIsDragging(false);
+    }
+  };
+
   return (
     <section
       id={id}
-      className="relative w-full mb-6 flex flex-col items-center overflow-hidden"
+      className="relative w-full mb-6 flex flex-col items-center overflow-hidden select-none"
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseUp}
     >
-      <div className="relative w-full h-[350px] md:h-[480px] lg:h-[550px] overflow-hidden flex items-end justify-center bg-[#2c1c11]">
+      <div
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        className={`relative w-full h-[350px] md:h-[480px] lg:h-[550px] overflow-hidden flex items-end justify-center bg-[#2c1c11] ${
+          isEditable ? 'cursor-grab active:cursor-grabbing group/banner' : ''
+        }`}
+      >
         <Image
           src={imgSrc || DEFAULT_BANNER_IMAGE}
           alt={title || 'Hero Banner Tông Chỉ Tu Học'}
@@ -50,13 +102,47 @@ export function HeroBanner({
           priority
           unoptimized
           sizes="100vw"
-          className="object-cover object-center transition-all duration-1000 scale-105"
+          className="object-cover transition-all duration-300 scale-105 pointer-events-none"
+          style={{ objectPosition: currentPos || 'center' }}
           onError={() => {
             if (imgSrc !== DEFAULT_BANNER_IMAGE) {
               setImgSrc(DEFAULT_BANNER_IMAGE);
             }
           }}
         />
+
+        {/* 🌟 LƯỚI 3x3 VÀ CHỈ BÁO VỊ TRÍ KHI KÉO THẢ HOẶC HOVER VÀO BANNER */}
+        {isEditable && (
+          <div
+            className={`absolute inset-0 z-30 transition-opacity pointer-events-none ${
+              isDragging ? 'opacity-100 bg-black/20' : 'opacity-0 group-hover/banner:opacity-100'
+            }`}
+          >
+            {/* Lưới 9 ô 3x3 thanh mảnh */}
+            <div className="w-full h-full grid grid-cols-3 grid-rows-3 border border-[#F2C14E]/30">
+              <div className="border-r border-b border-[#F2C14E]/20" />
+              <div className="border-r border-b border-[#F2C14E]/20" />
+              <div className="border-b border-[#F2C14E]/20" />
+              <div className="border-r border-b border-[#F2C14E]/20" />
+              <div className="border-r border-b border-[#F2C14E]/20" />
+              <div className="border-b border-[#F2C14E]/20" />
+              <div className="border-r border-b border-[#F2C14E]/20" />
+              <div className="border-r border-b border-[#F2C14E]/20" />
+              <div />
+            </div>
+
+            {/* Badge vị trí nhỏ gọn đặt ở góc trên, không che mặt nhân vật */}
+            <div className="absolute top-3 left-3 z-40">
+              <span
+                style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                className="px-3 py-1 rounded-full bg-black/85 border border-[#F2C14E]/70 text-[#ffde59] text-[11px] font-bold shadow-lg backdrop-blur-md flex items-center gap-1.5"
+              >
+                <MoveVertical className="w-3.5 h-3.5 text-[#ffde59] shrink-0" />
+                <span>{isDragging ? currentPos : 'Kéo để căn chỉnh'}</span>
+              </span>
+            </div>
+          </div>
+        )}
         <div className="absolute inset-x-0 bottom-0 h-3/5 bg-gradient-to-t from-[#2c1c11] via-[#2c1c11]/80 to-transparent z-10 pointer-events-none" />
         <div className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-[#2c1c11] to-transparent z-10 pointer-events-none" />
         <div className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-[#2c1c11] to-transparent z-10 pointer-events-none" />

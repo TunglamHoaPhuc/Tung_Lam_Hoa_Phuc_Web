@@ -10,6 +10,7 @@ import CalendarSection from "@/features/home/components/CalendarSection";
 import GallerySection from "@/features/home/components/GallerySection";
 import { SmartSearchAIBar } from "@/components/public/SmartSearchAIBar";
 import { VerticalAnchorNav } from "@/components/common/VerticalAnchorNav";
+import { WelcomeNoticeModal } from "@/components/public/modals/WelcomeNoticeModal";
 
 const HOME_SECTIONS = [
   { id: "hero", label: "NƠI ĐỂ TRỞ VỀ" },
@@ -38,6 +39,9 @@ const Home: FC = () => {
     >
       {/* ── THANH NEO DỌC SANG BÊN PHẢI MÀN HÌNH ── */}
       <VerticalAnchorNav pageTitle="TRANG CHỦ" sections={HOME_SECTIONS} />
+
+      {/* ── POPUP THÔNG BÁO LẦN ĐẦU MỞ WEB (V1.0.0) ── */}
+      <WelcomeNoticeModal />
 
       <Header scrolled={scrollY > 64} />
 

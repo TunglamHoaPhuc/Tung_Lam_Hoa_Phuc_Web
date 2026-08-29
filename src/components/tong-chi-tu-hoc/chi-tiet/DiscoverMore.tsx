@@ -23,25 +23,25 @@ export function DiscoverMore({ relatedArticles }: PropsTimHieuThem) {
     {
       category: 'TÔNG PHONG TRUYỀN THỪA',
       title: 'Hành Trình Tiếp Nối Dòng Mạng Mạch Hoằng Pháp',
-      url: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&w=800&q=80',
+      url: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp',
       link: '#',
     },
     {
       category: 'NỀN TẢNG TU HỌC',
       title: 'Quy Củ Thiền Môn Và Pháp Môn Tịnh Độ Tu Tập',
-      url: 'https://images.unsplash.com/photo-1609137144813-7d9921338f24?auto=format&fit=crop&w=800&q=80',
+      url: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp',
       link: '#',
     },
     {
       category: 'CÔNG HẠNH SƯ TỔ',
       title: 'Tấm Gương Sáng Ngời Của Chư Vị Tổ Sư Khai Sơn',
-      url: 'https://images.unsplash.com/photo-1518241353330-0f7941c2d9b5?auto=format&fit=crop&w=800&q=80',
+      url: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp',
       link: '#',
     },
     {
       category: 'TRUYỀN THỐNG ĐẠO TRÀNG',
       title: 'Nét Đẹp Tâm Linh Trong Các Khóa Tu Mùa Hè',
-      url: 'https://images.unsplash.com/photo-1507692049790-de58290a4334?auto=format&fit=crop&w=800&q=80',
+      url: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp',
       link: '#',
     },
   ];
@@ -108,20 +108,20 @@ export function DiscoverMore({ relatedArticles }: PropsTimHieuThem) {
         {/* 🔴 3. DANH SÁCH BÀI VIẾT DẠNG TAXONOMY CARD TRƯỢT NGANG */}
         <div
           ref={scrollContainerRef}
-          className="flex items-center gap-5 sm:gap-6 overflow-x-auto no-scrollbar scroll-smooth py-2 w-full"
+          className="flex items-center gap-5 sm:gap-6 overflow-x-auto no-scrollbar scroll-smooth py-3 w-full"
         >
           {items.map((item, idx) => (
             <Link
               key={idx}
               href={item.link || '#'}
-              className="group relative flex-shrink-0 w-[260px] sm:w-[320px] aspect-[3/4] overflow-hidden rounded-xl border border-[#c8aa6e]/50 shadow-2xl bg-black block transition-all duration-500 hover:-translate-y-1.5 hover:border-[#ffde59]"
+              className="group relative flex-shrink-0 w-[260px] sm:w-[300px] h-[360px] sm:h-[380px] overflow-hidden rounded-xl border border-[#593b26] hover:border-[#f2cc8f] shadow-2xl block transition-all duration-300 hover:-translate-y-1.5 hover:shadow-[0_0_30px_rgba(242,204,143,0.35)]"
             >
-              {/* TỐI ƯU HÓA: Dùng img với fallback onError mượt mà */}
+              {/* Ảnh bìa */}
               <div className="w-full h-full relative">
                 <img
-                  src={item.url || 'https://tunglam.mocwp.com/wp-content/uploads/2026/07/default-bg.jpg'}
+                  src={item.url || '/images/toan-canh-chua.jpg'}
                   alt={item.title}
-                  className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 ease-out"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                   loading="lazy"
                   onError={(e) => {
                     (e.currentTarget as HTMLImageElement).src = '/images/toan-canh-chua.jpg';
@@ -129,21 +129,27 @@ export function DiscoverMore({ relatedArticles }: PropsTimHieuThem) {
                 />
               </div>
 
-              {/* OVERLAY GRADIENT ĐEN NÂU LÀM NỔI CHỮ */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/40 to-transparent group-hover:from-black/90 transition-colors z-10" />
+              {/* OVERLAY GRADIENT NÂU ĐỒNG MÀU VỚI NỀN TRANG */}
+              <div
+                className="absolute inset-x-0 bottom-0 h-[48%] pointer-events-none transition-all duration-300 group-hover:h-[58%]"
+                style={{
+                  background: 'linear-gradient(to top, rgba(35, 21, 12, 0.98) 0%, rgba(35, 21, 12, 0.85) 30%, rgba(35, 21, 12, 0.42) 65%, transparent 100%)',
+                }}
+              />
+              <div className="absolute inset-0 border-2 border-transparent group-hover:border-[#f2cc8f]/70 rounded-xl transition-colors duration-300 pointer-events-none" />
 
               {/* NỘI DUNG CARD: CHUYÊN MỤC TAXONOMY + TIÊU ĐỀ */}
-              <div className="absolute bottom-0 inset-x-0 p-4 sm:p-5 text-left space-y-1.5 z-20">
+              <div className="absolute bottom-0 inset-x-0 p-4 sm:p-5 text-left space-y-1 z-20">
                 <span
-                  style={{ fontFamily: "'UTM Niagara', 'UTM ClassizismAntiqua', serif" }}
-                  className="text-xl sm:text-2xl font-normal text-[#ffde59] uppercase block tracking-wider drop-shadow-md leading-none"
+                  style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                  className="text-[11px] sm:text-xs font-semibold text-[#F2C14E] uppercase tracking-wider block"
                 >
-                  {item.category || 'TÔNG PHONG'}
+                  {item.category || 'TÔNG CHỈ TU HỌC'}
                 </span>
 
                 <h3
                   style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                  className="text-sm sm:text-base font-bold text-white uppercase tracking-wide leading-snug group-hover:text-[#ffde59] transition-colors line-clamp-2"
+                  className="text-base sm:text-[17px] font-normal text-white uppercase tracking-wide leading-snug group-hover:font-bold group-hover:text-[#FFE5A3] transition-all line-clamp-2 drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]"
                 >
                   {item.title}
                 </h3>

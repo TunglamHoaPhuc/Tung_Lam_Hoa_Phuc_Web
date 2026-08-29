@@ -1,7 +1,7 @@
 'use client';
 
 import { FC, useState } from "react";
-import { Search, Filter, ZoomIn, X, Sparkles, BookOpen } from "lucide-react";
+import { Search, Filter, ZoomIn, X, Sparkles, BookOpen, Clock } from "lucide-react";
 import { PATRIARCH_NODES, WISDOM_CLUSTERS, PatriarchNode } from "@/data/wisdom-map-data";
 import { CustomDropdown } from "@/components/common/CustomDropdown";
 
@@ -75,7 +75,7 @@ export const WisdomMapOfPatriarchs: FC = () => {
           }}
         >
           <img
-            src="https://images.unsplash.com/photo-1506703719100-a0f3a48c0f86?w=1600&h=900&fit=crop"
+            src="https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp"
             alt="Bản đồ Ngân hà Tuệ Giác Danh Tăng"
             className="w-full h-full object-cover opacity-35"
             style={{ minHeight: "580px" }}
@@ -166,8 +166,9 @@ export const WisdomMapOfPatriarchs: FC = () => {
       >
         {/* 1. Tên Input */}
         <div>
-          <label className="text-[10px] uppercase font-bold text-[#F2C14E] tracking-wider block mb-1" style={{ fontFamily: "'UTM Avo', sans-serif", fontWeight: "bold" }}>
-            🔍 1. TÊN TỔ SƯ
+          <label className="text-[10px] uppercase font-bold text-[#F2C14E] tracking-wider mb-1 flex items-center gap-1.5" style={{ fontFamily: "'UTM Avo', sans-serif", fontWeight: "bold" }}>
+            <Search className="w-3.5 h-3.5 text-[#F2C14E]" />
+            <span>1. TÊN TỔ SƯ</span>
           </label>
           <input
             type="text"
@@ -186,8 +187,9 @@ export const WisdomMapOfPatriarchs: FC = () => {
 
         {/* 2. Thời kỳ Dropdown */}
         <div>
-          <label className="text-[10px] uppercase font-bold text-[#F2C14E] tracking-wider block mb-1" style={{ fontFamily: "'UTM Avo', sans-serif", fontWeight: "bold" }}>
-            ⏳ 2. THỜI KỲ
+          <label className="text-[10px] uppercase font-bold text-[#F2C14E] tracking-wider mb-1 flex items-center gap-1.5" style={{ fontFamily: "'UTM Avo', sans-serif", fontWeight: "bold" }}>
+            <Clock className="w-3.5 h-3.5 text-[#F2C14E]" />
+            <span>2. THỜI KỲ</span>
           </label>
           <CustomDropdown
             value={selectedPeriod}
@@ -207,8 +209,9 @@ export const WisdomMapOfPatriarchs: FC = () => {
 
         {/* 3. Hệ phái Dropdown */}
         <div>
-          <label className="text-[10px] uppercase font-bold text-[#F2C14E] tracking-wider block mb-1" style={{ fontFamily: "'UTM Avo', sans-serif", fontWeight: "bold" }}>
-            ☸ 3. HỆ PHÁI / VÙNG MIỀN
+          <label className="text-[10px] uppercase font-bold text-[#F2C14E] tracking-wider mb-1 flex items-center gap-1.5" style={{ fontFamily: "'UTM Avo', sans-serif", fontWeight: "bold" }}>
+            <Sparkles className="w-3.5 h-3.5 text-[#F2C14E]" />
+            <span>3. HỆ PHÁI / VÙNG MIỀN</span>
           </label>
           <CustomDropdown
             value={selectedSect}
@@ -229,8 +232,9 @@ export const WisdomMapOfPatriarchs: FC = () => {
 
         {/* 4. Quote chứa từ khóa Input */}
         <div>
-          <label className="text-[10px] uppercase font-bold text-[#F2C14E] tracking-wider block mb-1" style={{ fontFamily: "'UTM Avo', sans-serif", fontWeight: "bold" }}>
-            📜 4. PHÁP NGỮ / TỪ KHÓA
+          <label className="text-[10px] uppercase font-bold text-[#F2C14E] tracking-wider mb-1 flex items-center gap-1.5" style={{ fontFamily: "'UTM Avo', sans-serif", fontWeight: "bold" }}>
+            <BookOpen className="w-3.5 h-3.5 text-[#F2C14E]" />
+            <span>4. PHÁP NGỮ / TỪ KHÓA</span>
           </label>
           <input
             type="text"
@@ -250,7 +254,10 @@ export const WisdomMapOfPatriarchs: FC = () => {
         {/* 5. Mức độ Zoom Slider */}
         <div>
           <div className="flex items-center justify-between text-[10px] uppercase font-bold text-[#F2C14E] mb-1" style={{ fontFamily: "'UTM Avo', sans-serif", fontWeight: "bold" }}>
-            <span>🔍 5. ĐỘ ZOOM BẢN ĐỒ</span>
+            <span className="flex items-center gap-1.5">
+              <ZoomIn className="w-3.5 h-3.5 text-[#F2C14E]" />
+              <span>5. ĐỘ ZOOM BẢN ĐỒ</span>
+            </span>
             <span>{zoomLevel}%</span>
           </div>
           <input

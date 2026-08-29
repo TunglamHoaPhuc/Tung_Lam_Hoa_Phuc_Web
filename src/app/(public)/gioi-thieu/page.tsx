@@ -15,7 +15,7 @@ const INTRO_TOPICS = [
     subtitle: 'Nguồn gốc hình thành, các giai đoạn trùng tu và phát triển chốn thiền môn.',
     href: '/gioi-thieu/lich-su-tung-lam-hoa-phuc',
     icon: Landmark,
-    image: 'https://images.unsplash.com/photo-1618165220283-e85246c4171c?w=800&h=500&fit=crop',
+    image: '/images/toan-canh-chua.jpg',
     tag: 'Lịch Sử Bổn Tự',
   },
   {
@@ -24,7 +24,7 @@ const INTRO_TOPICS = [
     subtitle: 'Hành trạng và công hạnh của Đại sư Liên Đăng truyền thừa chánh pháp.',
     href: '/gioi-thieu/dai-su-lien-dang',
     icon: User,
-    image: 'https://images.unsplash.com/photo-1564834325499-cd770c8ed0ef?w=800&h=500&fit=crop',
+    image: '/images/anh-tho-cac-vi-cao-tang/1.jpg',
     tag: 'Bậc Tiền Bối',
   },
   {
@@ -33,7 +33,7 @@ const INTRO_TOPICS = [
     subtitle: 'Ân đức giáo dưỡng và dấu ấn hoằng truyền Tịnh độ của Sư ông.',
     href: '/gioi-thieu/su-ong-hoang-phap',
     icon: Scroll,
-    image: 'https://images.unsplash.com/photo-1609137144813-7d9921338f24?w=800&h=500&fit=crop',
+    image: '/images/anh-tho-cac-vi-cao-tang/2.jpg',
     tag: 'Ân Sư Giáo Dưỡng',
   },
   {
@@ -42,7 +42,7 @@ const INTRO_TOPICS = [
     subtitle: 'Thầy Thích Tâm Hòa - Người kiến thiết và lãnh đạo đạo tràng Tùng Lâm Hòa Phúc.',
     href: '/gioi-thieu/su-phu-tru-tri',
     icon: User,
-    image: 'https://images.unsplash.com/photo-1709064159097-91b634741c96?w=800&h=500&fit=crop',
+    image: '/images/trang-chu/Pháp hội niệm Phật.jpg',
     tag: 'Trụ Trì Bổn Tự',
   },
   {
@@ -51,7 +51,7 @@ const INTRO_TOPICS = [
     subtitle: 'Tôn vinh cuộc đời tu tập và đạo nghiệp của chư vị Tổ Sư khai sơn.',
     href: '/gioi-thieu/tieu-su-su-to',
     icon: BookOpen,
-    image: 'https://images.unsplash.com/photo-1618554565982-3497a2e70642?w=800&h=500&fit=crop',
+    image: '/images/anh-tho-cac-vi-cao-tang/2 (1).jpg',
     tag: 'Khai Sơn Truyền Thừa',
   },
   {
@@ -60,7 +60,7 @@ const INTRO_TOPICS = [
     subtitle: 'Quy củ, oai nghi tế hạnh và nếp sống đạo đức dành cho Phật tử viếng chùa.',
     href: '/gioi-thieu/van-hoa-ung-xu',
     icon: HeartHandshake,
-    image: 'https://images.unsplash.com/photo-1763994683525-885156ac4aa4?w=800&h=500&fit=crop',
+    image: '/images/trang-chu/cộng tu/1.jpg',
     tag: 'Thanh Quy Tự Viện',
   },
 ];
