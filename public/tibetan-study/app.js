@@ -448,26 +448,62 @@ function setupSnipCropTool() {
             return;
         }
 
-        const canvas = document.getElementById('pdfCanvas');
-        if (!canvas) {
+        const pageEl = document.getElementById('pdfPageImg') || document.getElementById('pdfPageContainer');
+        if (!pageEl) {
             exitCropMode();
             return;
         }
 
-        const canvasRect = canvas.getBoundingClientRect();
+        const canvasRect = pageEl.getBoundingClientRect();
         const minX = Math.min(cropStartX, currentX);
         const minY = Math.min(cropStartY, currentY);
         const maxX = Math.max(cropStartX, currentX);
         const maxY = Math.max(cropStartY, currentY);
 
-        const relX0 = minX - canvasRect.left;
-        const relY0 = minY - canvasRect.top;
-        const relX1 = maxX - canvasRect.left;
-        const relY1 = maxY - canvasRect.top;
+        const relX0 = Math.max(0, minX - canvasRect.left);
+        const relY0 = Math.max(0, minY - canvasRect.top);
+        const relX1 = Math.min(canvasRect.width, maxX - canvasRect.left);
+        const relY1 = Math.min(canvasRect.height, maxY - canvasRect.top);
+
+        // Tạo ảnh cắt xem trước trực tiếp trên client
+        let clientCroppedImage = null;
+        try {
+            const img = document.getElementById('pdfPageImg');
+            if (img && img.naturalWidth > 0 && canvasRect.width > 0) {
+                const scaleX = img.naturalWidth / canvasRect.width;
+                const scaleY = img.naturalHeight / canvasRect.height;
+                const sx = relX0 * scaleX;
+                const sy = relY0 * scaleY;
+                const sw = (relX1 - relX0) * scaleX;
+                const sh = (relY1 - relY0) * scaleY;
+
+                if (sw > 0 && sh > 0) {
+                    const offCanvas = document.createElement('canvas');
+                    offCanvas.width = sw;
+                    offCanvas.height = sh;
+                    const ctx = offCanvas.getContext('2d');
+                    ctx.drawImage(img, sx, sy, sw, sh, 0, 0, sw, sh);
+                    clientCroppedImage = offCanvas.toDataURL('image/png');
+                }
+            }
+        } catch (err) {
+            console.log('Client crop snapshot note:', err);
+        }
 
         exitCropMode();
         showToast('Đang nhận diện vùng quét...');
         openSliderWithLoading();
+
+        if (clientCroppedImage) {
+            const previewBox = document.getElementById('sliderCropPreview');
+            if (previewBox) {
+                previewBox.style.display = 'block';
+                previewBox.innerHTML = `
+                    <div style="font-size:11px; font-weight:700; color:var(--gold-light); margin-bottom:4px;">Ảnh chụp vùng quét:</div>
+                    <img src="${clientCroppedImage}" class="crop-preview-img" alt="Snippet">
+                `;
+            }
+        }
 
         try {
             const sel = window.getSelection().toString().trim();
@@ -478,16 +514,20 @@ function setupSnipCropTool() {
                     page_num: currentPageNum,
                     rect: [relX0, relY0, relX1, relY1],
                     canvas_size: [canvasRect.width, canvasRect.height],
-                    fallback_text: sel
+                    fallback_text: sel,
+                    cropped_image: clientCroppedImage
                 })
             });
 
             const data = await res.json();
             if (data.status === 'success') {
-                selectedTibetanText = data.detected_text;
+                if (clientCroppedImage && !data.cropped_image) {
+                    data.cropped_image = clientCroppedImage;
+                }
+                selectedTibetanText = data.detected_text || (data.analysis && data.analysis.detected_text) || '';
                 renderSliderWithCropResult(data);
-                if (data.detected_text) {
-                    playTTS(data.detected_text);
+                if (selectedTibetanText) {
+                    playTTS(selectedTibetanText);
                 }
             } else {
                 showToast('Lỗi khi nhận diện hình ảnh.');
@@ -503,38 +543,50 @@ function enterCropMode() {
     isCropMode = true;
     hideFloatingToolbar();
     const overlay = document.getElementById('cropOverlay');
-    overlay.style.display = 'block';
+    if (overlay) overlay.style.display = 'block';
     showToast('Kéo chuột vẽ vùng chữ Tạng muốn dịch');
 }
 
 function exitCropMode() {
     isCropMode = false;
     const overlay = document.getElementById('cropOverlay');
-    overlay.style.display = 'none';
+    if (overlay) overlay.style.display = 'none';
     const box = document.getElementById('cropSelectionBox');
-    box.style.display = 'none';
+    if (box) box.style.display = 'none';
 }
 
-// Global Keyboard Shortcuts (Shift + D & Ctrl + J)
+// Global Keyboard Shortcuts (Shift + D & Space + D & Ctrl + J)
 function setupKeyboardShortcuts() {
+    let isSpaceDown = false;
+
     document.addEventListener('keydown', (e) => {
         if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
 
-        // Shift + D -> Activate Snip / Crop Tool
-        if (e.shiftKey && (e.key === 'd' || e.key === 'D')) {
+        if (e.code === 'Space') {
+            isSpaceDown = true;
+        }
+
+        // Shift + D hoặc Space + D -> Bật chế độ quét vùng
+        if ((e.shiftKey || isSpaceDown) && (e.key === 'd' || e.key === 'D')) {
             e.preventDefault();
             enterCropMode();
         }
 
-        // Ctrl + J -> Toggle Assistant Slider
-        if (e.ctrlKey && (e.key === 'j' || e.key === 'J')) {
+        // Ctrl + J -> Đóng/Mở Trợ lý AI Slider
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'j' || e.key === 'J')) {
             e.preventDefault();
             toggleAssistantSlider();
         }
 
-        // ESC -> Cancel Crop Mode
+        // ESC -> Hủy chế độ quét
         if (e.key === 'Escape' && isCropMode) {
             exitCropMode();
+        }
+    });
+
+    document.addEventListener('keyup', (e) => {
+        if (e.code === 'Space') {
+            isSpaceDown = false;
         }
     });
 }
