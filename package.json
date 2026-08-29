@@ -1,13 +1,14 @@
 {
   "name": "tung-lam-hoa-phuc-web",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": true,
   "overrides": {
     "@prisma/dev": "0.24.14"
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
+    "postinstall": "prisma generate",
     "start": "next start",
     "lint": "eslint",
     "sync:sheet": "node scripts/sync-google-sheet.mjs"
