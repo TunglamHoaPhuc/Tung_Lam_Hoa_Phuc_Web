@@ -140,35 +140,79 @@ export default function TrangChiTietTongChi() {
   const params = useParams();
   const slug = params?.slug as string;
 
-  const isBoDeTam = slug === 'bo-de-tam-coi-nguon-thien-phap';
-
-  const navItems = isBoDeTam
-    ? [
-        { id: 'bo-de-tam-la-gi', label: 'Bồ Đề Tâm Là Gì' },
-        { id: 'bo-de-tam-la-nen-tang', label: 'Bồ Đề Tâm Là Nền Tảng' },
-        { id: 'bo-de-tam-la-dong-luc', label: 'Bồ Đề Tâm Là Động Lực' },
-        { id: 'bo-de-tam-la-suc-manh', label: 'Bồ Đề Tâm Là Sức Mạnh' },
-        { id: 'song-voi-bo-de-tam', label: 'Sống Với Bồ Đề Tâm' },
-        { id: 'de-bo-de-tam-them-lon', label: 'Để Bồ Đề Tâm Thêm Lớn' },
-        { id: 'trich-nguon-sach', label: 'Trích Nguồn Sách' },
-        { id: 'video-minh-hoa', label: 'Video Pháp Thoại' },
-        { id: 'bo-suu-tap-anh', label: 'Bộ Sưu Tập Ảnh' },
-        { id: 'tim-hieu-them', label: 'Bài Viết Liên Quan' },
-      ]
-    : [
-        { id: 'bai-tho', label: 'Bài Thơ / Nội Dung' },
-        { id: 'trich-nguon-sach', label: 'Trích Nguồn Sách' },
-        { id: 'video-minh-hoa', label: 'Video Minh Họa' },
-        { id: 'bai-viet-noibat', label: 'Bài Viết Nổi Bật' },
-        { id: 'bo-suu-tap-anh', label: 'Bộ Sưu Tập Ảnh' },
-        { id: 'tim-hieu-them', label: 'Tìm Hiểu Thêm' },
-      ];
+  const isBoDeTam = slug === 'bo-de-tam-coi-nguon-thien-phap' || slug === 'bo-de-tam';
 
   const [data, setData] = useState<DuLieuBaiVietChiTiet | null>(null);
   const [loading, setLoading] = useState(true);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [activeSection, setActiveSection] = useState(navItems[0]?.id || 'bai-tho');
   const [activePhotoIndex, setActivePhotoIndex] = useState<number | null>(null);
+
+  // 🪷 Tự động trích xuất các đề mục từ nội dung bài viết để tạo Menu điều hướng & Mục lục chuẩn xác 100%
+  const navItems = React.useMemo(() => {
+    const items: Array<{ id: string; label: string }> = [];
+
+    if (data?.poemContent) {
+      const lines = data.poemContent.split('\n');
+      for (const l of lines) {
+        const line = l.trim();
+        const isMdHeading = /^#{1,4}\s+/.test(line);
+        const isUpperHeading =
+          (line.startsWith('BỒ ĐỀ TÂM') ||
+            line.startsWith('SỐNG VỚI') ||
+            line.startsWith('ĐỂ BỒ ĐỀ TÂM') ||
+            line.startsWith('TAM QUY') ||
+            line.startsWith('NGŨ GIỚI')) &&
+          line.length < 80 &&
+          !line.includes('“') &&
+          !line.includes('”') &&
+          !line.startsWith('!');
+
+        if (isMdHeading || isUpperHeading) {
+          const cleanHeading = line.replace(/^#{1,4}\s+/, '').trim();
+          const id = cleanHeading
+            .toLowerCase()
+            .normalize('NFD')
+            .replace(/[\u0300-\u036f]/g, '')
+            .replace(/[đĐ]/g, 'd')
+            .replace(/[^a-z0-9]+/g, '-')
+            .replace(/^-+|-+$/g, '');
+
+          if (id && !items.some((it) => it.id === id)) {
+            const label = cleanHeading.length > 32 ? cleanHeading.slice(0, 30) + '...' : cleanHeading;
+            items.push({ id, label });
+          }
+        }
+      }
+    }
+
+    if (items.length === 0) {
+      items.push({ id: 'bai-tho', label: 'Bài Thơ / Nội Dung' });
+    }
+
+    if (data?.sourceBook) {
+      items.push({ id: 'trich-nguon-sach', label: 'Trích Nguồn Sách' });
+    }
+    if (data?.videoBlock?.videoUrl) {
+      items.push({ id: 'video-minh-hoa', label: 'Video Pháp Thoại' });
+    }
+    if (data?.featuredArticle?.title) {
+      items.push({ id: 'bai-viet-noibat', label: 'Bài Viết Nổi Bật' });
+    }
+    if (data?.photoGallery && data.photoGallery.length > 0) {
+      items.push({ id: 'bo-suu-tap-anh', label: 'Bộ Sưu Tập Ảnh' });
+    }
+    items.push({ id: 'tim-hieu-them', label: 'Bài Viết Liên Quan' });
+
+    return items;
+  }, [data]);
+
+  const [activeSection, setActiveSection] = useState('intro');
+
+  useEffect(() => {
+    if (navItems.length > 0 && !navItems.some((it) => it.id === activeSection)) {
+      setActiveSection(navItems[0].id);
+    }
+  }, [navItems, activeSection]);
 
   const sidebarTitle = isBoDeTam
     ? 'BỒ ĐỀ TÂM'

@@ -1,5 +1,19 @@
-﻿# 📜 NHẬT KÝ PHÁT TRIỂN & CẬP NHẬT PHIÊN BẢN (CHANGELOG)
+# 📜 NHẬT KÝ PHÁT TRIỂN & CẬP NHẬT PHIÊN BẢN (CHANGELOG)
 ### Cổng Thông Tin Điện Tử Tùng Lâm Hòa Phúc
+
+---
+
+## 🚀 [v1.0.3] - 2026-08-31
+### 🌟 Trình Soạn Thảo Tông Chỉ WordPress-Grade & Khớp Nối Giao Diện 100%
+- **Trình Soạn Thảo Admin Tông Chỉ Tu Học (`TongChiEditor`)**:
+  - **Thanh công cụ chuẩn WordPress**: Bổ sung đầy đủ công cụ định dạng trực quan (Đề mục H2, Đề mục nhỏ H3, In đậm **B**, In nghiêng *I*, Gạch chân <u>U</u>, Khối Kệ Thơ viền vàng trang nghiêm, Danh sách gạch đầu dòng, Chèn ảnh minh họa trực tiếp, Tạo nhanh Popup Từ Khóa từ đoạn văn bản được chọn).
+  - **Xem trước trực quan 1:1 (Live Preview & Split Screen Mode)**: Tích hợp trực tiếp engine `InfographicArticleRenderer` hiển thị tức thì mọi định dạng giống 100% giao diện người đọc thấy trên web.
+  - **Trải nghiệm Lưu bài viết mượt mà**: Bổ sung nút "Lưu thay đổi" (không bị chuyển trang mất dấu), nút "Lưu & Xem trên Web" (mở ngay tab mới), phím tắt nhanh `Ctrl + S` / `Cmd + S` và thanh hành động cố định nổi.
+- **Khắc Phục Lỗi Trang Bồ Đề Tâm & Tông Chỉ Tu Học**:
+  - Tự động trích xuất danh sách mục lục (Navigation Anchors) theo thời gian thực từ các thẻ đề mục (H2, H3) trong bài viết, loại bỏ hoàn toàn các liên kết tĩnh hardcoded.
+  - Khớp nối đồng bộ 100% giữa SubNavbar trên cùng, SidebarNav bên trái và các phần nội dung trong bài viết.
+- **Khắc Phục Vercel Deploy & Quản Lý Gói npm**:
+  - Tạo file cấu hình `.npmrc` với `legacy-peer-deps=true` giải quyết triệt để lỗi xung đột `Conflicting peer dependency: @tiptap/pm` trên môi trường build Vercel.
 
 ---
 
