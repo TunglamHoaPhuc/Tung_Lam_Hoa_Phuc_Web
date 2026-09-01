@@ -7,7 +7,7 @@ export default function HocTiengTangPage() {
     <div className="fixed inset-0 z-[9999] w-screen h-screen overflow-hidden bg-[#160E0C] block">
       {/* ── GIAO DIỆN NGUYÊN BẢN CỦA ỨNG DỤNG HỌC TIẾNG TẠNG SARA (TOÀN MÀN HÌNH KHÔNG BỊ HEADER CHE KHUẤT) ── */}
       <iframe
-        src="/tibetan-study/index.html"
+        src="/tibetan-study/index.html?v=20260901_1505"
         title="Ứng Dụng Học Tiếng Tạng & Giáo Trình Sara"
         className="w-full h-full border-none block"
         allow="autoplay; microphone"
