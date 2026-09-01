@@ -106,59 +106,277 @@ function tibetanToFullWylie(text: string): string {
   return wylie;
 }
 
-// ── TỪ ĐIỂN BÀI HỌC SARA BOOK CHUẨN ──
-const TIBETAN_CONSONANTS_DICT: Record<string, any> = {
-  'ཀ': { wylie: 'ka', phonetic: 'ka (âm cao, không bật hơi)', name: 'Phụ âm Ka', meaning: 'Chữ cái thứ 1 trong 30 phụ âm Tạng (Căn tự khởi đầu)', pos: 'Phụ âm gốc', teachings: 'Tượng trưng cho Tính Không và Bản tâm thanh tịnh vốn có (Ka-dak).' },
-  'ཁ': { wylie: 'kha', phonetic: 'kha (âm cao, bật hơi mạnh)', name: 'Phụ âm Kha', meaning: 'Chữ cái thứ 2 trong 30 phụ âm Tạng (Cái miệng / Lời nói / Tuyết)', pos: 'Phụ âm gốc / Danh từ', teachings: 'Tượng trưng cho Khẩu thanh tịnh — lời nói chân thật, hòa ái, không vọng ngữ.' },
-  'ག': { wylie: 'ga', phonetic: 'ga / ka (âm thấp)', name: 'Phụ âm Ga', meaning: 'Chữ cái thứ 3 trong 30 phụ âm Tạng (Âm thấp)', pos: 'Phụ âm gốc', teachings: 'Tượng trưng cho niềm hỷ lạc (Gawa) trên đường tu học giải thoát.' },
-  'ང': { wylie: 'nga', phonetic: 'nga (âm mũi thấp)', name: 'Phụ âm Nga', meaning: 'Chữ cái thứ 4 trong 30 phụ âm Tạng (Tôi / Bản thân / Ngã)', pos: 'Phụ âm gốc / Đại từ', teachings: 'Quán chiếu về "Ngã" để nhận diện tự tính vô ngã thanh lương.' },
-  'ཅ': { wylie: 'ca', phonetic: 'ca (âm cao)', name: 'Phụ âm Ca', meaning: 'Chữ cái thứ 5 trong 30 phụ âm Tạng', pos: 'Phụ âm gốc', teachings: 'Tâm chánh niệm trong từng sát-na.' },
-  'ཆ': { wylie: 'cha', phonetic: 'cha (bật hơi)', name: 'Phụ âm Cha', meaning: 'Chữ cái thứ 6 trong 30 phụ âm Tạng (Nước / Pháp)', pos: 'Phụ âm gốc', teachings: 'Pháp bảo thanh tịnh tưới mát tâm thức chúng sinh.' },
-  'ཇ': { wylie: 'ja', phonetic: 'ja (âm thấp)', name: 'Phụ âm Ja', meaning: 'Chữ cái thứ 7 trong 30 phụ âm Tạng (Nước trà / Chè)', pos: 'Phụ âm gốc / Danh từ', teachings: 'Uống trà trong chánh niệm — an trú trong giây phút hiện tại.' },
-  'ཉ': { wylie: 'nya', phonetic: 'nya (âm mũi thấp)', name: 'Phụ âm Nya', meaning: 'Chữ cái thứ 8 trong 30 phụ âm Tạng (Con cá / Ngày rằm)', pos: 'Phụ âm gốc / Danh từ', teachings: 'Đôi cá vàng cát tường — tự do bơi lội trong biển Phật pháp.' },
-  'ཝ': { wylie: 'wa', phonetic: 'wa (âm thấp)', name: 'Phụ âm Wa', meaning: 'Chữ cái thứ 20 trong 30 phụ âm Tạng (Con cáo)', pos: 'Phụ âm gốc / Danh từ', teachings: 'Sự uyển chuyển, thích nghi của trí tuệ phương tiện.' },
-  'ཟ': { wylie: 'za', phonetic: 'za (âm xát thấp)', name: 'Phụ âm Za', meaning: 'Chữ cái thứ 22 trong 30 phụ âm Tạng (Ăn / Dùng bữa)', pos: 'Phụ âm gốc / Động từ', teachings: 'Ăn uống trong chánh niệm nuôi dưỡng thân tâm thanh tịnh.' },
-  'ར': { wylie: 'ra', phonetic: 'ra (âm rung)', name: 'Phụ âm Ra', meaning: 'Chữ cái thứ 25 trong 30 phụ âm Tạng (Con dê / Núi cao)', pos: 'Phụ âm gốc / Danh từ', teachings: 'Núi cao biểu tượng cho sự vững chãi của bậc Đạo sư.' },
-  'ཤ': { wylie: 'sha', phonetic: 'sha (âm xát cao)', name: 'Phụ âm Sha', meaning: 'Chữ cái thứ 27 trong 30 phụ âm Tạng (Thịt / Hươu / Trí tuệ Bát-nhã)', pos: 'Phụ âm gốc / Danh từ', teachings: 'Trí Tuệ Bát Nhã (Sherab) soi chiếu cùng khắp muôn loài.' }
-};
+// ── BẢNG TỪ ĐIỂN TẠNG - VIỆT TOÀN DIỆN (LEXICON & COMPOUND PHRASES) ──
+interface LexiconEntry {
+  wylie: string;
+  phonetic: string;
+  meaning: string;
+  pos: string;
+  teachings?: string;
+}
 
-const GRAMMAR_TERMS_DICT: Record<string, any> = {
-  'ཨ་འགྲེང་པོ་': {
+const TIBETAN_LEXICON_DATABASE: Record<string, LexiconEntry> = {
+  // ── Tiêu đề & Thuật ngữ Giáo trình Sara Book ──
+  'སྐད་ཡིག་འཛིན་གྲྭ': {
+    wylie: "skad-yig 'dzin-grwa",
+    phonetic: 'ke-yik dzin-dra',
+    meaning: 'Lớp học ngôn ngữ / Khóa học tiếng Tạng',
+    pos: 'Cụm danh từ',
+    teachings: 'Học ngôn ngữ Phật pháp là phương tiện thù thắng để tiếp cận kho tàng kinh điển giác ngộ.'
+  },
+  'སྐད་ཡིག': {
+    wylie: 'skad-yig',
+    phonetic: 'ke-yik',
+    meaning: 'Ngôn ngữ / Văn tự / Tiếng nói và chữ viết',
+    pos: 'Danh từ',
+    teachings: 'Tạng ngữ lưu giữ trọn vẹn nhất kho tàng Đại tạng kinh Phật giáo Đại thừa và Kim Cương thừa.'
+  },
+  'འཛིན་གྲྭ': {
+    wylie: "'dzin-grwa",
+    phonetic: 'dzin-dra',
+    meaning: 'Lớp học / Khóa học / Lớp đào tạo',
+    pos: 'Danh từ'
+  },
+  'ས་རཱ': {
+    wylie: 'sa-ra',
+    phonetic: 'sa-ra',
+    meaning: 'Học viện Phật giáo Cao đẳng Sara (Dharamsala, Ấn Độ)',
+    pos: 'Danh từ riêng',
+    teachings: 'Viện Phật học danh tiếng đào tạo ngôn ngữ và triết học Phật giáo Tây Tạng.'
+  },
+  'བོད་ཀྱི་མཐོ་རིམ་སློབ་གཉེར་ཁང': {
+    wylie: "bod-kyi mtho-rim slob-gnyer-khang",
+    phonetic: 'pö-kyi tho-rim lob-nyer-khang',
+    meaning: 'Học viện Cao đẳng Phật học Tây Tạng',
+    pos: 'Cụm danh từ'
+  },
+  'མཐོ་རིམ': {
+    wylie: 'mtho-rim',
+    phonetic: 'tho-rim',
+    meaning: 'Bậc cao / Cao cấp / Bậc đại học',
+    pos: 'Tính từ'
+  },
+  'སློབ་གཉེར': {
+    wylie: 'slob-gnyer',
+    phonetic: 'lob-nyer',
+    meaning: 'Tu học / Nghiên cứu Phật pháp / Học tập',
+    pos: 'Động từ'
+  },
+  'སློབ་གཉེར་ཁང': {
+    wylie: 'slob-gnyer-khang',
+    phonetic: 'lob-nyer-khang',
+    meaning: 'Học viện / Trung tâm đào tạo Phật học',
+    pos: 'Danh từ'
+  },
+  'སློབ་དེབ': {
+    wylie: 'slob-deb',
+    phonetic: 'lob-dep',
+    meaning: 'Sách giáo khoa / Giáo trình học tập',
+    pos: 'Danh từ'
+  },
+  'སློབ་ཚན': {
+    wylie: 'slob-tshan',
+    phonetic: 'lob-tshen',
+    meaning: 'Bài học / Tiết học / Đề mục',
+    pos: 'Danh từ'
+  },
+  'དབྱངས་བཞི': {
+    wylie: 'dbyangs-bzhi',
+    phonetic: 'yang-zhi',
+    meaning: '4 Nguyên Âm Gốc trong tiếng Tạng (i, u, e, o: ི ུ ེ ོ)',
+    pos: 'Ngữ pháp',
+    teachings: 'Nguyên âm kết hợp với 30 phụ âm tạo thành toàn bộ thanh âm vi diệu của ngôn ngữ Tạng.'
+  },
+  'གསལ་བྱེད་སུམ་ཅུ': {
+    wylie: 'gsal-byed sum-cu',
+    phonetic: 'sal-je sum-chu',
+    meaning: 'Ba mươi phụ âm căn bản tiếng Tạng (từ Ka đến A)',
+    pos: 'Ngữ pháp',
+    teachings: '30 phụ âm do đại học giả Thonmi Sambhota sáng tạo dựa trên cổ ngữ Phạn ngữ.'
+  },
+  'སྦྱོར་ཀློག': {
+    wylie: 'sbyor-klog',
+    phonetic: 'jor-lok',
+    meaning: 'Học đánh vần & Ghép vần tiếng Tạng',
+    pos: 'Động từ / Ngữ pháp',
+    teachings: 'Phương pháp đánh vần truyền thống của các tu viện giúp phát âm chuẩn xác từng nét chữ.'
+  },
+  'མགོ་ཅན': {
+    wylie: 'mgo-can',
+    phonetic: 'go-chen',
+    meaning: 'Chữ đội đầu (Ra-mgo རྐ, La-mgo ལྐ, Sa-mgo སྐ)',
+    pos: 'Ngữ pháp'
+  },
+  'འདོགས་ཅན': {
+    wylie: "'dogs-can",
+    phonetic: 'dok-chen',
+    meaning: 'Chữ mang chân phụ (Ya-btags ཀྱ, Ra-btags ཀྲ, La-btags ཀླ, Wa-zur ཀྭ)',
+    pos: 'Ngữ pháp'
+  },
+  'སྔོན་འཇུག': {
+    wylie: "sngon-'jug",
+    phonetic: 'ngon-juk',
+    meaning: 'Tiền tự (5 chữ cái đứng trước căn tự: ག, ད, བ, མ, འ)',
+    pos: 'Ngữ pháp'
+  },
+  'རྗེས་འཇུག': {
+    wylie: "rjes-'jug",
+    phonetic: 'je-juk',
+    meaning: 'Hậu tự (10 chữ cái đứng sau căn tự: ག, ང, ད, ན, བ, མ, འ, ར, ལ, ས)',
+    pos: 'Ngữ pháp'
+  },
+  'ཨ་འགྲེང་པོ': {
     wylie: "a 'greng-po",
     phonetic: 'a dreng-po',
     meaning: "Cách ghép nguyên âm E ( ེ) trên chữ A: 'A dreng-po E' (ཨ +  ེ = ཨེ)",
+    pos: 'Ngữ pháp ghép vần',
     teachings: 'Nguyên âm thứ 3 trong 4 nguyên âm gốc tiếng Tạng.'
   },
-  'ཨ་གི་གུ་': {
+  'ཨ་གི་གུ': {
     wylie: 'a gi-gu',
     phonetic: 'a gi-gu',
     meaning: "Cách ghép nguyên âm I ( ི) trên chữ A: 'A gi-gu I' (ཨ +  ི = ཨི)",
+    pos: 'Ngữ pháp ghép vần',
     teachings: 'Nguyên âm thứ 1 trong 4 nguyên âm gốc tiếng Tạng.'
   },
-  'ཨ་ཞབས་བཅུ་': {
+  'ཨ་ཞབས་བཅུ': {
     wylie: 'a zhabs-kyu',
     phonetic: 'a shap-kyu',
     meaning: "Cách ghép nguyên âm U ( ུ) dưới chữ A: 'A zhabs-kyu U' (ཨ +  ུ = ཨུ)",
+    pos: 'Ngữ pháp ghép vần',
     teachings: 'Nguyên âm thứ 2 trong 4 nguyên âm gốc tiếng Tạng.'
   },
-  'ཨ་ན་རོ་': {
+  'ཨ་ན་རོ': {
     wylie: 'a na-ro',
     phonetic: 'a na-ro',
     meaning: "Cách ghép nguyên âm O ( ོ) trên chữ A: 'A na-ro O' (ཨ +  ོ = ཨོ)",
+    pos: 'Ngữ pháp ghép vần',
     teachings: 'Nguyên âm thứ 4 trong 4 nguyên âm gốc tiếng Tạng.'
   },
-  'དབྱངས་བཞི་': {
-    wylie: 'dbyangs-bzhi',
-    phonetic: 'yang-zhi',
-    meaning: '4 Nguyên Âm Gốc trong Tạng ngữ (i, u, e, o)',
-    teachings: 'Bốn dòng âm thanh nuôi dưỡng câu chữ và kinh văn.'
-  },
-  'གསལ་བྱེད་སུམ་ཅུ་': {
-    wylie: 'gsal-byed sum-cu',
-    phonetic: 'sal-je sum-cu',
-    meaning: '30 Phụ Âm Gốc trong bảng chữ cái tiếng Tạng',
-    teachings: '30 căn tự nền tảng tạo dựng toàn bộ Kinh điển và Chân ngôn.'
-  }
+
+  // ── Từ vựng, Căn tự & Âm tiết Đơn ──
+  'སྐད': { wylie: 'skad', phonetic: 'ke', meaning: 'Tiếng nói / Ngôn ngữ / Lời nói / Âm thanh', pos: 'Danh từ' },
+  'ཡིག': { wylie: 'yig', phonetic: 'yik', meaning: 'Chữ viết / Văn tự / Bức thư / Chữ Tạng', pos: 'Danh từ' },
+  'འཛིན': { wylie: "'dzin", phonetic: 'dzin', meaning: 'Nắm giữ / Tiếp nhận / Quản lý / Tiếp thu', pos: 'Động từ' },
+  'གྲྭ': { wylie: 'grwa', phonetic: 'dra', meaning: 'Lớp học / Trường học / Tăng xá / Hội chúng', pos: 'Danh từ' },
+  'དབྱངས': { wylie: 'dbyangs', phonetic: 'yang', meaning: 'Nguyên âm / Giai điệu / Thanh âm vi diệu', pos: 'Danh từ / Ngữ pháp' },
+  'བཞི': { wylie: 'bzhi', phonetic: 'zhi', meaning: 'Số 4 (Bốn)', pos: 'Số từ' },
+  'གསལ་བྱེད': { wylie: 'gsal-byed', phonetic: 'sal-je', meaning: 'Phụ âm (Chữ cái làm sáng rõ âm thanh)', pos: 'Ngữ pháp' },
+  'གསལ': { wylie: 'gsal', phonetic: 'sal', meaning: 'Sáng tỏ / Rõ ràng / Soi sáng', pos: 'Tính từ' },
+  'བྱེད': { wylie: 'byed', phonetic: 'je', meaning: 'Làm / Thực hiện / Tạo tác', pos: 'Động từ' },
+  'སྦྱོར': { wylie: 'sbyor', phonetic: 'jor', meaning: 'Ghép nối / Kết hợp / Liên kết', pos: 'Động từ' },
+  'ཀློག': { wylie: 'klog', phonetic: 'lok', meaning: 'Đọc / Đọc kinh / Trì tụng', pos: 'Động từ' },
+  'བོད': { wylie: 'bod', phonetic: 'pö', meaning: 'Tây Tạng (Xứ Tuyết)', pos: 'Danh từ riêng' },
+  'བོད་ཡིག': { wylie: 'bod-yig', phonetic: 'pö-yik', meaning: 'Chữ Tạng / Tạng ngữ / Tiếng Tạng', pos: 'Danh từ' },
+  'བོད་སྐད': { wylie: 'bod-skad', phonetic: 'pö-ke', meaning: 'Khẩu ngữ tiếng Tạng', pos: 'Danh từ' },
+  'བོད་པ': { wylie: 'bod-pa', phonetic: 'pö-pa', meaning: 'Người Tây Tạng', pos: 'Danh từ' },
+  'སློབ': { wylie: 'slob', phonetic: 'lob', meaning: 'Học tập / Huấn luyện / Rèn luyện', pos: 'Động từ' },
+  'སློབ་མ': { wylie: 'slob-ma', phonetic: 'lob-ma', meaning: 'Học trò / Học viên / Đệ tử', pos: 'Danh từ' },
+  'སློབ་ཕྲུག': { wylie: 'slob-phrug', phonetic: 'lob-thruk', meaning: 'Học sinh / Trẻ em đi học', pos: 'Danh từ' },
+  'སློབ་དཔོན': { wylie: 'slob-dpon', phonetic: 'lob-pön', meaning: 'Giảng sư / Bậc thầy / A-xà-lê (Acarya)', pos: 'Danh từ (Kính ngữ)' },
+  'དགེ་རྒན': { wylie: 'dge-rgan', phonetic: 'gen-gen', meaning: 'Giáo viên / Thầy giáo (Kính ngữ)', pos: 'Danh từ' },
+  'དགེ་འདུན': { wylie: "dge-'dun", phonetic: 'gen-dun', meaning: 'Tăng đoàn / Chư Tăng Ni thanh tịnh', pos: 'Danh từ' },
+  'དགེ་བ': { wylie: 'dge-ba', phonetic: 'ge-wa', meaning: 'Thiện lành / Đức hạnh / Phước đức', pos: 'Danh từ / Tính từ' },
+  'བླ་མ': { wylie: 'bla-ma', phonetic: 'la-ma', meaning: 'Bậc Đạo Sư tối thượng (Guru / Thầy)', pos: 'Danh từ (Kính ngữ)' },
+  'སངས་རྒྱས': { wylie: 'sangs-rgyas', phonetic: 'sang-gye', meaning: 'Đức Phật (Bậc Giác Ngộ hoàn toàn)', pos: 'Danh từ' },
+  'ཆོས': { wylie: 'chos', phonetic: 'chö', meaning: 'Phật pháp / Giáo pháp / Chân lý (Dharma)', pos: 'Danh từ' },
+  'བྱང་ཆུབ': { wylie: 'byang-chub', phonetic: 'jang-chub', meaning: 'Bồ-đề / Sự Giác Ngộ (Bodhi)', pos: 'Danh từ' },
+  'སེམས': { wylie: 'sems', phonetic: 'sem', meaning: 'Tâm / Tâm thức / Ý nghĩ (Citta)', pos: 'Danh từ' },
+  'བྱང་ཆུབ་སེམས': { wylie: 'byang-chub sems', phonetic: 'jang-chub sem', meaning: 'Bồ-đề tâm (Bodhicitta)', pos: 'Danh từ Phật học' },
+  'སྙིང་རྗེ': { wylie: 'snying-rje', phonetic: 'nying-je', meaning: 'Lòng Đại Từ Bi (Karuna)', pos: 'Danh từ Phật học' },
+  'ཤེས་རབ': { wylie: 'shes-rab', phonetic: 'she-rap', meaning: 'Trí tuệ Bát-nhã (Prajna)', pos: 'Danh từ Phật học' },
+  'སྟོང་པ་ཉིད': { wylie: 'stong-pa nyid', phonetic: 'tong-pa nyi', meaning: 'Bản thể Tính Không (Sunyata)', pos: 'Danh từ Phật học' },
+
+  // ── Các sự vật, hình ảnh minh họa bài học trong sách Sara ──
+  'རི': { wylie: 'ri', phonetic: 'ri', meaning: 'Ngọn núi / Núi tuyết', pos: 'Danh từ' },
+  'ཞི་མི': { wylie: 'zhi-mi', phonetic: 'zhi-mi', meaning: 'Con mèo', pos: 'Danh từ' },
+  'ཉི་མ': { wylie: 'nyi-ma', phonetic: 'nyi-ma', meaning: 'Mặt trời / Ánh nắng ban ngày', pos: 'Danh từ' },
+  'ཀུ་ཤུ': { wylie: 'ku-shu', phonetic: 'ku-shu', meaning: 'Quả táo', pos: 'Danh từ' },
+  'ཆུ': { wylie: 'chu', phonetic: 'chu', meaning: 'Nước / Nước uống / Dòng suối', pos: 'Danh từ' },
+  'མེ': { wylie: 'me', phonetic: 'me', meaning: 'Ngọn lửa / Lửa', pos: 'Danh từ' },
+  'ས': { wylie: 'sa', phonetic: 'sa', meaning: 'Đất đai / Mặt đất / Cõi giới', pos: 'Danh từ' },
+  'རླུང': { wylie: 'rlung', phonetic: 'lung', meaning: 'Gió / Khí / Sinh khí (Prana)', pos: 'Danh từ' },
+  'མིག': { wylie: 'mig', phonetic: 'mik', meaning: 'Con mắt / Tuệ nhãn', pos: 'Danh từ' },
+  'རྣ་བ': { wylie: 'rna-ba', phonetic: 'na-wa', meaning: 'Cái tai / Lỗ tai', pos: 'Danh từ' },
+  'ལག་པ': { wylie: 'lag-pa', phonetic: 'lak-pa', meaning: 'Bàn tay / Tay', pos: 'Danh từ' },
+  'རྐང་པ': { wylie: 'rkang-pa', phonetic: 'kang-pa', meaning: 'Bàn chân / Chân', pos: 'Danh từ' },
+  'ཉ': { wylie: 'nya', phonetic: 'nya', meaning: 'Con cá / Ngày rằm trăng tròn', pos: 'Danh từ' },
+  'ཉ་པ': { wylie: 'nya-pa', phonetic: 'nya-pa', meaning: 'Người đánh cá / Ngư phủ', pos: 'Danh từ' },
+  'ཀ་བ': { wylie: 'ka-ba', phonetic: 'ka-ba', meaning: 'Cột trụ / Cột đình nhà', pos: 'Danh từ' },
+  'ཁ་བ': { wylie: 'kha-ba', phonetic: 'kha-ba', meaning: 'Tuyết trắng / Vị đắng', pos: 'Danh từ / Tính từ' },
+  'ཇ': { wylie: 'ja', phonetic: 'ja', meaning: 'Trà / Nước chè', pos: 'Danh từ' },
+  'ཇ་པ': { wylie: 'ja-pa', phonetic: 'ja-pa', meaning: 'Người bán trà / Người pha trà', pos: 'Danh từ' },
+  'ཕ': { wylie: 'pha', phonetic: 'pha', meaning: 'Cha / Thân phụ', pos: 'Danh từ' },
+  'མ': { wylie: 'ma', phonetic: 'ma', meaning: 'Mẹ / Mẫu thân / Nguyên âm', pos: 'Danh từ' },
+  'བུ': { wylie: 'bu', phonetic: 'bu', meaning: 'Con trai / Đứa trẻ', pos: 'Danh từ' },
+  'བུ་མོ': { wylie: 'bu-mo', phonetic: 'pu-mo', meaning: 'Con gái / Cô gái', pos: 'Danh từ' },
+  'ཁྱི': { wylie: 'khyi', phonetic: 'khyi', meaning: 'Con chó', pos: 'Danh từ' },
+  'གླང': { wylie: 'glang', phonetic: 'lang', meaning: 'Con bò / Con voi', pos: 'Danh từ' },
+  'རྟ': { wylie: 'rta', phonetic: 'ta', meaning: 'Con ngựa', pos: 'Danh từ' },
+  'ལུག': { wylie: 'lug', phonetic: 'luk', meaning: 'Con cừu', pos: 'Danh từ' },
+  'བྱ': { wylie: 'bya', phonetic: 'ja', meaning: 'Con chim', pos: 'Danh từ' },
+  'ཤིང': { wylie: 'shing', phonetic: 'shing', meaning: 'Cây cối / Gỗ', pos: 'Danh từ' },
+  'མེ་ཏོག': { wylie: 'me-tog', phonetic: 'me-tok', meaning: 'Bông hoa / Hoa tươi', pos: 'Danh từ' },
+  'པདྨ': { wylie: 'pad-ma', phonetic: 'pe-ma', meaning: 'Hoa sen thanh tịnh', pos: 'Danh từ' },
+  'དཔེ་ཆ': { wylie: 'dpe-cha', phonetic: 'pe-cha', meaning: 'Kinh sách / Sách học', pos: 'Danh từ' },
+  'ཤག': { wylie: 'shag', phonetic: 'shak', meaning: 'Tăng phòng / Phòng ở trong tu viện', pos: 'Danh từ' },
+  'མིང': { wylie: 'ming', phonetic: 'ming', meaning: 'Tên / Danh xưng / Tên gọi', pos: 'Danh từ' },
+  'ཁྱེད': { wylie: 'khyed', phonetic: 'khye', meaning: 'Bạn / Ngài / Anh / Chị (Kính ngữ)', pos: 'Đại từ' },
+  'ཁྱེད་རང': { wylie: 'khyed-rang', phonetic: 'khye-rang', meaning: 'Bạn / Anh / Chị (Lịch sự)', pos: 'Đại từ' },
+  'ང': { wylie: 'nga', phonetic: 'nga', meaning: 'Tôi / Con / Bản thân tôi', pos: 'Đại từ' },
+  'ཁོང': { wylie: 'khong', phonetic: 'khong', meaning: 'Ngài ấy / Vị ấy (Tôn kính)', pos: 'Đại từ' },
+  'ཁོ': { wylie: 'kho', phonetic: 'kho', meaning: 'Anh ấy / Nó / Người ấy', pos: 'Đại từ' },
+  'མོ': { wylie: 'mo', phonetic: 'mo', meaning: 'Cô ấy / Bà ấy', pos: 'Đại từ' },
+  'འདི': { wylie: "'di", phonetic: 'di', meaning: 'Cái này / Đây / Điều này', pos: 'Đại từ chỉ định' },
+  'དེ': { wylie: 'de', phonetic: 'de', meaning: 'Cái kia / Đó / Điều ấy', pos: 'Đại từ chỉ định' },
+  'ཡིན': { wylie: 'yin', phonetic: 'yin', meaning: 'Là (Động từ to be - khẳng định ngôi 1)', pos: 'Trợ từ / Động từ' },
+  'རེད': { wylie: 'red', phonetic: 're', meaning: 'Là (Động từ to be - ngôi 2, 3)', pos: 'Trợ từ / Động từ' },
+  'ཡོད': { wylie: 'yod', phonetic: 'yö', meaning: 'Có / Hiện diện (ngôi 1)', pos: 'Động từ' },
+  'འདུག': { wylie: "'dug", phonetic: 'duk', meaning: 'Có / Đang có (trực kiến)', pos: 'Động từ' },
+  'མེད': { wylie: 'med', phonetic: 'me', meaning: 'Không có (Phủ định)', pos: 'Trợ từ phủ định' },
+  'མིན': { wylie: 'min', phonetic: 'min', meaning: 'Không phải là (Phủ định)', pos: 'Trợ từ phủ định' },
+  'ཀྱི': { wylie: 'kyi', phonetic: 'kyi', meaning: 'Của (Sở hữu cách đứng sau d, b, s)', pos: 'Hư từ sở hữu' },
+  'གྱི': { wylie: 'gyi', phonetic: 'gyi', meaning: 'Của (Sở hữu cách đứng sau g, ng)', pos: 'Hư từ sở hữu' },
+  'གྱིས': { wylie: 'gyis', phonetic: 'gyi', meaning: 'Bởi / Do (Tác cách đứng sau g, ng)', pos: 'Hư từ tác cách' },
+  'ཀྱིས': { wylie: 'kyis', phonetic: 'kyi', meaning: 'Bởi / Do (Tác cách đứng sau d, b, s)', pos: 'Hư từ tác cách' },
+  'ཀྱང': { wylie: 'kyang', phonetic: 'kyang', meaning: 'Cũng / Dẫu cho / Tuy nhiên', pos: 'Liên từ' },
+  'ཡང': { wylie: 'yang', phonetic: 'yang', meaning: 'Cũng / Lại nữa', pos: 'Liên từ' },
+  'དང་': { wylie: 'dang', phonetic: 'dang', meaning: 'Và / Cùng với / Kèm theo', pos: 'Liên từ' },
+  'ནས': { wylie: 'nas', phonetic: 'ne', meaning: 'Từ (nơi chốn) / Sau khi (thời gian)', pos: 'Giới từ' },
+  'ལ': { wylie: 'la', phonetic: 'la', meaning: 'Ở / Tại / Đến / Cho (Vị cách, hướng cách)', pos: 'Giới từ' },
+  'དང་པོ': { wylie: 'dang-po', phonetic: 'dang-po', meaning: 'Đầu tiên / Thứ nhất / Bài 1', pos: 'Số thứ tự' },
+  'གཉིས་པ': { wylie: 'gnyis-pa', phonetic: 'nyi-pa', meaning: 'Thứ hai / Bài 2', pos: 'Số thứ tự' },
+  'གསུམ་པ': { wylie: 'gsum-pa', phonetic: 'sum-pa', meaning: 'Thứ ba / Bài 3', pos: 'Số thứ tự' },
+  'བཞི་པ': { wylie: 'bzhi-pa', phonetic: 'zhi-pa', meaning: 'Thứ tư / Bài 4', pos: 'Số thứ tự' },
+  'ལྔ་པ': { wylie: 'lnga-pa', phonetic: 'nga-pa', meaning: 'Thứ năm / Bài 5', pos: 'Số thứ tự' },
+
+  // ── 30 Phụ Âm Căn Bản ──
+  'ཀ': { wylie: 'ka', phonetic: 'ka', meaning: 'Phụ âm Ka: Chữ cái thứ 1 trong 30 phụ âm Tạng (Căn tự khởi đầu)', pos: 'Phụ âm gốc', teachings: 'Tượng trưng cho Tính Không và Bản tâm thanh tịnh vốn có (Ka-dak).' },
+  'ཁ': { wylie: 'kha', phonetic: 'kha', meaning: 'Phụ âm Kha: Chữ cái thứ 2 trong 30 phụ âm Tạng (Cái miệng / Lời nói / Tuyết)', pos: 'Phụ âm gốc / Danh từ', teachings: 'Tượng trưng cho Khẩu thanh tịnh — lời nói chân thật, hòa ái, không vọng ngữ.' },
+  'ག': { wylie: 'ga', phonetic: 'ga', meaning: 'Phụ âm Ga: Chữ cái thứ 3 trong 30 phụ âm Tạng (Âm thấp)', pos: 'Phụ âm gốc', teachings: 'Tượng trưng cho niềm hỷ lạc (Gawa) trên đường tu học giải thoát.' },
+  'ཅ': { wylie: 'ca', phonetic: 'ca', meaning: 'Phụ âm Ca: Chữ cái thứ 5 trong 30 phụ âm Tạng', pos: 'Phụ âm gốc', teachings: 'Tâm chánh niệm trong từng sát-na.' },
+  'ཆ': { wylie: 'cha', phonetic: 'cha', meaning: 'Phụ âm Cha: Chữ cái thứ 6 trong 30 phụ âm Tạng (Nước / Pháp)', pos: 'Phụ âm gốc', teachings: 'Pháp bảo thanh tịnh tưới mát tâm thức chúng sinh.' },
+  'ཏ': { wylie: 'ta', phonetic: 'ta', meaning: 'Phụ âm Ta: Chữ cái thứ 9 trong 30 phụ âm Tạng', pos: 'Phụ âm gốc', teachings: 'Tâm kiên định như kim cương bất hoại.' },
+  'ཐ': { wylie: 'tha', phonetic: 'tha', meaning: 'Phụ âm Tha: Chữ cái thứ 10 trong 30 phụ âm Tạng (Giới hạn / Điểm cuối)', pos: 'Phụ âm gốc', teachings: 'Vượt qua mọi giới hạn nhị nguyên để đạt bờ giác.' },
+  'ད': { wylie: 'da', phonetic: 'da', meaning: 'Phụ âm Da: Chữ cái thứ 11 trong 30 phụ âm Tạng (Bây giờ / Hiện tại)', pos: 'Phụ âm gốc / Phó từ', teachings: 'An trú trọn vẹn trong giây phút hiện tại.' },
+  'ན': { wylie: 'na', phonetic: 'na', meaning: 'Phụ âm Na: Chữ cái thứ 12 trong 30 phụ âm Tạng (Nếu / Khi)', pos: 'Phụ âm gốc / Liên từ', teachings: 'Quán chiếu duyên khởi của vạn pháp.' },
+  'པ': { wylie: 'pa', phonetic: 'pa', meaning: 'Phụ âm Pa: Chữ cái thứ 13 trong 30 phụ âm Tạng', pos: 'Phụ âm gốc', teachings: 'Bước đầu tiên trên con đường Bát Chánh Đạo.' },
+  'ཕ': { wylie: 'pha', phonetic: 'pha', meaning: 'Phụ âm Pha: Chữ cái thứ 14 trong 30 phụ âm Tạng (Cha / Bờ bên kia / Pha-rol)', pos: 'Phụ âm gốc / Danh từ', teachings: 'Ba-la-mật-đa (Paramita) — Đưa chúng sinh vượt qua bờ mê sang bến giác.' },
+  'བ': { wylie: 'ba', phonetic: 'ba', meaning: 'Phụ âm Ba: Chữ cái thứ 15 trong 30 phụ âm Tạng (Con bò / Bò cái)', pos: 'Phụ âm gốc / Danh từ', teachings: 'Tâm nhẫn nhục, chịu thương chịu khó vì lợi lạc hữu tình.' },
+  'ཙ': { wylie: 'tsa', phonetic: 'tsa', meaning: 'Phụ âm Tsa: Chữ cái thứ 17 trong 30 phụ âm Tạng (Cỏ / Rễ cây)', pos: 'Phụ âm gốc / Danh từ', teachings: 'Gốc rễ của Bồ-đề tâm là Đại Bi.' },
+  'ཚ': { wylie: 'tsha', phonetic: 'tsha', meaning: 'Phụ âm Tsha: Chữ cái thứ 18 trong 30 phụ âm Tạng (Nóng / Vị mặn / Muối)', pos: 'Phụ âm gốc / Danh từ', teachings: 'Lửa trí tuệ thiêu đốt mọi phiền não vô minh.' },
+  'ཛ': { wylie: 'dza', phonetic: 'dza', meaning: 'Phụ âm Dza: Chữ cái thứ 19 trong 30 phụ âm Tạng (Bảo tạng Jambhala)', pos: 'Phụ âm gốc', teachings: 'Tài bảo tâm linh vô tận của bậc Giác Ngộ.' },
+  'ཝ': { wylie: 'wa', phonetic: 'wa', meaning: 'Phụ âm Wa: Chữ cái thứ 20 trong 30 phụ âm Tạng (Con cáo)', pos: 'Phụ âm gốc / Danh từ', teachings: 'Sự uyển chuyển, thích nghi của trí tuệ phương tiện.' },
+  'ཞ': { wylie: 'zha', phonetic: 'zha', meaning: 'Phụ âm Zha: Chữ cái thứ 21 trong 30 phụ âm Tạng (Cái mũ / Mũ pháp)', pos: 'Phụ âm gốc / Danh từ', teachings: 'Mũ miện trí tuệ của chư vị Đạo sư.' },
+  'ཟ': { wylie: 'za', phonetic: 'za', meaning: 'Phụ âm Za: Chữ cái thứ 22 trong 30 phụ âm Tạng (Ăn / Dùng bữa)', pos: 'Phụ âm gốc / Động từ', teachings: 'Ăn uống trong chánh niệm nuôi dưỡng thân tâm thanh tịnh.' },
+  'འ': { wylie: "'a", phonetic: "'a", meaning: "Chữ 'A-chung: Chữ cái thứ 23 trong 30 phụ âm Tạng", pos: 'Phụ âm gốc', teachings: 'Âm thanh vi diệu kết nối các tầng nghĩa sâu xa.' },
+  'ཡ': { wylie: 'ya', phonetic: 'ya', meaning: 'Phụ âm Ya: Chữ cái thứ 24 trong 30 phụ âm Tạng (Phía trên / Hướng lên)', pos: 'Phụ âm gốc / Phó từ', teachings: 'Tâm nguyện hướng thượng, cầu thành tựu Phật quả.' },
+  'ར': { wylie: 'ra', phonetic: 'ra', meaning: 'Phụ âm Ra: Chữ cái thứ 25 trong 30 phụ âm Tạng (Con dê / Núi cao)', pos: 'Phụ âm gốc / Danh từ', teachings: 'Núi cao biểu tượng cho sự vững chãi của bậc Đạo sư.' },
+  'ལ': { wylie: 'la', phonetic: 'la', meaning: 'Phụ âm La: Chữ cái thứ 26 trong 30 phụ âm Tạng (Đèo núi / Giới từ Tại)', pos: 'Phụ âm gốc / Giới từ', teachings: 'Vượt qua đèo cao thử thách của luân hồi.' },
+  'ཤ': { wylie: 'sha', phonetic: 'sha', meaning: 'Phụ âm Sha: Chữ cái thứ 27 trong 30 phụ âm Tạng (Thịt / Trí tuệ Sherab)', pos: 'Phụ âm gốc / Danh từ', teachings: 'Trí Tuệ Bát Nhã (Sherab) soi chiếu cùng khắp muôn loài.' },
+  'ས': { wylie: 'sa', phonetic: 'sa', meaning: 'Phụ âm Sa: Chữ cái thứ 28 trong 30 phụ âm Tạng (Đất đai / Thập địa Bồ Tát)', pos: 'Phụ âm gốc / Danh từ', teachings: 'Đất mẹ nâng đỡ muôn loài — mười địa Bồ Tát viên mãn.' },
+  'ཧ': { wylie: 'ha', phonetic: 'ha', meaning: 'Phụ âm Ha: Chữ cái thứ 29 trong 30 phụ âm Tạng (Tiếng cười Hỷ Lạc)', pos: 'Phụ âm gốc', teachings: 'Tiếng cười phá tan chấp thủ của vô minh.' },
+  'ཨ': { wylie: 'a', phonetic: 'a', meaning: 'Phụ âm A: Chữ cái thứ 30 tối thượng trong Tạng ngữ (Bất sinh bất diệt)', pos: 'Phụ âm gốc', teachings: 'Chữ A tượng trưng cho Bản tâm vô sinh, nguồn cội của mọi Chân ngôn và Kinh điển.' }
 };
 
 function getWordsCoordsMap() {
@@ -345,83 +563,66 @@ Trả về DUY NHẤT một chuỗi JSON hợp lệ (không kèm markdown \`\`\`
 }
 
 function generateNativeAnalysis(text: string, wylie: string) {
-  // Kiểm tra nếu là thuật ngữ ngữ pháp bài học (ví dụ: ཨ་འགྲེང་པོ་)
-  const normalizedKey = text.replace(/[་།\s]+/g, ' ').trim();
-  for (const [key, term] of Object.entries(GRAMMAR_TERMS_DICT)) {
-    if (normalizedKey.includes(key.replace(/[་།\s]+/g, ' '))) {
-      return {
-        wylie: wylie || term.wylie,
-        full_translation: `${text} (${wylie || term.wylie}): ${term.meaning}`,
-        dictionary: {
-          vn: term.meaning,
-          usage: 'Bài học 4 Nguyên Âm & Cách Ghép Vần — Giáo trình Sara Book'
-        },
-        table_rows: [
-          {
-            tibetan: text,
-            phonetic: term.phonetic,
-            wylie: wylie || term.wylie,
-            meaning: term.meaning,
-            pos: 'Ngữ pháp ghép vần'
-          }
-        ],
-        syllables: text.split(/[་\s]+/).filter(Boolean).map(s => ({
-          syllable: s,
-          wylie: tibetanToFullWylie(s),
-          root: s.slice(0, 1),
-          prefix: '-',
-          suffix: '-',
-          vowel: s.includes('ེ') ? 'e' : (s.includes('ི') ? 'i' : (s.includes('ུ') ? 'u' : (s.includes('ོ') ? 'o' : 'a'))),
-          spelling_steps: [`Đọc âm tiết: ${tibetanToFullWylie(s)}`],
-          coach_guide: {
-            correction_tips: ['Mở khẩu hình tự nhiên, phát âm giọng nam trầm khỏe dứt khoát.']
-          }
-        })),
-        usage_context: {
-          situation: 'Luyện tập đánh vần truyền thống Phật học viện Sara.',
-          cultural_notes: 'Chữ Tạng mang âm ba thanh tịnh.',
-          dialogue_examples: []
-        },
-        buddhist_context: {
-          scripture_quote: text,
-          teachings: term.teachings,
-          philosophy_reflection: 'An định tâm thức trong từng âm tự pháp bảo.'
-        }
-      };
+  const normalizedKey = text.replace(/[་།\s]+/g, '').trim();
+
+  // 1. Khớp từ ghép / Cụm từ lớn trong từ điển
+  let matchedCompound: LexiconEntry | null = null;
+  for (const [key, item] of Object.entries(TIBETAN_LEXICON_DATABASE)) {
+    const cleanKey = key.replace(/[་།\s]+/g, '');
+    if (normalizedKey === cleanKey || (normalizedKey.length > 2 && normalizedKey.includes(cleanKey))) {
+      matchedCompound = item;
+      break;
     }
   }
 
-  // Nếu là 1 trong 30 phụ âm
-  if (TIBETAN_CONSONANTS_DICT[text]) {
-    const meta = TIBETAN_CONSONANTS_DICT[text];
+  // 2. Tách từng âm tiết / từ đơn
+  const syllables = text.split(/[་\s།➔\->+=|]+/).filter(Boolean);
+  const table_rows = syllables.map(s => {
+    const cleanS = s.replace(/[་།\s]/g, '');
+    const found = TIBETAN_LEXICON_DATABASE[cleanS] || TIBETAN_LEXICON_DATABASE[s];
+    const sWylie = tibetanToFullWylie(s);
+
+    if (found) {
+      return {
+        tibetan: s,
+        phonetic: found.phonetic || sWylie,
+        wylie: found.wylie || sWylie,
+        meaning: found.meaning,
+        pos: found.pos
+      };
+    }
+
+    // Tra cứu chữ cái gốc
+    const rootChar = s.slice(0, 1);
+    const rootMeta = TIBETAN_LEXICON_DATABASE[rootChar];
     return {
-      wylie: meta.wylie,
-      full_translation: `${meta.name} (Âm "${meta.wylie}"): ${meta.meaning}`,
-      dictionary: { vn: meta.meaning, usage: '30 Phụ âm gốc — Giáo trình Sara' },
-      table_rows: [{ tibetan: text, phonetic: meta.phonetic, wylie: meta.wylie, meaning: meta.meaning, pos: meta.pos }],
-      syllables: [{
-        syllable: text, wylie: meta.wylie, root: text, prefix: '-', suffix: '-', vowel: 'a',
-        spelling_steps: [`Đọc căn tự: ${meta.wylie}`],
-        coach_guide: { correction_tips: ['Khẩu hình mở tự nhiên, phát âm giọng nam trầm vang chuẩn xác.'] }
-      }],
-      usage_context: { situation: 'Học căn tự cơ bản.', cultural_notes: '', dialogue_examples: [] },
-      buddhist_context: { scripture_quote: text, teachings: meta.teachings, philosophy_reflection: 'Quán niệm âm thanh thanh tịnh.' }
+      tibetan: s,
+      phonetic: sWylie,
+      wylie: sWylie,
+      meaning: rootMeta ? `Âm tiết gốc (${rootMeta.wylie}): ${rootMeta.meaning}` : `Âm tiết Tạng ngữ [${sWylie}]`,
+      pos: rootMeta ? rootMeta.pos : 'Từ vựng'
     };
+  });
+
+  // 3. Xây dựng dịch nghĩa hoàn chỉnh
+  let full_translation = '';
+  if (matchedCompound) {
+    full_translation = `${matchedCompound.meaning}`;
+  } else if (table_rows.length === 1) {
+    full_translation = `${table_rows[0].meaning}`;
+  } else {
+    const combinedMeanings = table_rows.map(r => r.meaning.split('/')[0].trim()).join(' — ');
+    full_translation = `${combinedMeanings}`;
   }
 
-  // Phân tích câu / từ ghép tổng quát
-  const syllables = text.split(/[་\s།]+/).filter(Boolean);
   return {
     wylie: wylie || text,
-    full_translation: `Bản dịch nghĩa: "${text}" (${wylie})`,
-    dictionary: { vn: `Ý nghĩa Tạng ngữ: ${text}`, usage: 'Giáo trình Phật học viện Sara (Dharamsala)' },
-    table_rows: syllables.map(s => ({
-      tibetan: s,
-      phonetic: tibetanToFullWylie(s),
-      wylie: tibetanToFullWylie(s),
-      meaning: TIBETAN_CONSONANTS_DICT[s]?.meaning || 'Ngữ liệu tiếng Tạng trong bài học',
-      pos: 'Ngữ pháp'
-    })),
+    full_translation,
+    dictionary: {
+      vn: full_translation,
+      usage: 'Giáo trình Tạng ngữ Phật học viện Sara (Dharamsala)'
+    },
+    table_rows,
     syllables: syllables.map(s => ({
       syllable: s,
       wylie: tibetanToFullWylie(s),
@@ -430,9 +631,19 @@ function generateNativeAnalysis(text: string, wylie: string) {
       suffix: '-',
       vowel: s.includes('ེ') ? 'e' : (s.includes('ི') ? 'i' : (s.includes('ུ') ? 'u' : (s.includes('ོ') ? 'o' : 'a'))),
       spelling_steps: [`Đọc âm tiết: ${tibetanToFullWylie(s)}`],
-      coach_guide: { correction_tips: ['Phát âm giọng nam trầm ấm, tròn vành rõ chữ.'] }
+      coach_guide: {
+        correction_tips: ['Khẩu hình mở tự nhiên, phát âm giọng nam trầm ấm, tròn vành rõ chữ.']
+      }
     })),
-    usage_context: { situation: 'Luyện tập đàm thoại và tụng niệm hàng ngày.', cultural_notes: '', dialogue_examples: [] },
-    buddhist_context: { scripture_quote: text, teachings: 'Trí tuệ thanh lương qua từng câu chữ pháp bảo.', philosophy_reflection: 'Thân - Khẩu - Ý thanh tịnh khi thực hành tu học.' }
+    usage_context: {
+      situation: 'Luyện đọc, nhận diện mặt chữ và đàm thoại giáo trình Sara.',
+      cultural_notes: matchedCompound?.teachings || 'Chữ Tạng mang âm ba thanh tịnh và trí tuệ giải thoát.',
+      dialogue_examples: []
+    },
+    buddhist_context: {
+      scripture_quote: text,
+      teachings: matchedCompound?.teachings || 'Mỗi câu chữ Tạng văn là phương tiện nuôi dưỡng tuệ giác và tâm từ bi.',
+      philosophy_reflection: 'Thân - Khẩu - Ý thanh tịnh khi trì tụng và học tập giáo pháp.'
+    }
   };
 }
