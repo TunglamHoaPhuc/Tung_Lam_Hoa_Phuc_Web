@@ -28,6 +28,11 @@ import {
   FileText,
   BookmarkPlus,
   Columns,
+  Edit3,
+  BookOpen,
+  Layers,
+  Search,
+  Check,
 } from 'lucide-react';
 import { KeywordTooltipModal } from '@/components/tong-chi-tu-hoc/KeywordTooltipModal';
 import { UnsavedChangesModal } from '@/components/admin/UnsavedChangesModal';
@@ -58,12 +63,133 @@ const CATEGORIES = [
   { id: 'kinh-ke-phap-bao', name: 'KINH KỆ & PHÁP BẢO' },
 ];
 
+// 🪷 Parser biến mã HTML WordPress Gutenberg thành Markdown/Clean format chuẩn cho InfographicArticleRenderer
+function convertWpHtmlToCleanContent(wpRawHtml: string): { cleanedContent: string; extractedSubtitle?: string } {
+  if (!wpRawHtml) return { cleanedContent: '' };
+
+  let html = wpRawHtml
+    .replace(/&#8211;/g, '–')
+    .replace(/&#8230;/g, '...')
+    .replace(/&hellip;/g, '...')
+    .replace(/&amp;/g, '&')
+    .replace(/&nbsp;/g, ' ')
+    .normalize('NFC');
+
+  // 1. Bóc tách thẻ phụ (Subtitle)
+  let extractedSubtitle: string | undefined = undefined;
+  const firstP = html.match(/^<p[^>]*>(?:<em><strong>|<strong><em>|<em>|<strong>)([\s\S]*?)(?:<\/strong><\/em>|<\/em><\/strong>|<\/em>|<\/strong>)<\/p>/i);
+  if (firstP) {
+    const rawSub = firstP[1].replace(/<[^>]+>/g, '').trim();
+    if (rawSub.length > 0 && rawSub.length < 80 && !rawSub.includes('“') && !rawSub.includes('”')) {
+      extractedSubtitle = rawSub;
+      html = html.replace(firstP[0], '');
+    }
+  }
+
+  // 2. Headings
+  html = html.replace(/<h[1-3][^>]*>(.*?)<\/h[1-3]>/gi, (_m, inner) => {
+    const cleanText = inner.replace(/<[^>]+>/g, '').trim();
+    return `\n\n### ${cleanText}\n\n`;
+  });
+
+  // 3. Blockquotes chuẩn của WordPress Gutenberg
+  html = html.replace(/<blockquote[^>]*>([\s\S]*?)<\/blockquote>/gi, (_m, bqInner) => {
+    const clean = bqInner
+      .replace(/<p[^>]*>/gi, '')
+      .replace(/<\/p>/gi, '\n')
+      .replace(/<br\s*[\/]?>/gi, '\n')
+      .replace(/<[^>]+>/g, '')
+      .replace(/^[“"”\s]+|[“"”\s]+$/g, '');
+    const lines = clean.split('\n').map((l: string) => l.trim()).filter(Boolean);
+    const quoteLines = lines.map((l: string) => `> ${l}`);
+    return `\n\n${quoteLines.join('\n')}\n\n`;
+  });
+
+  // 4. Khối Hình Ảnh WordPress Gutenberg (<figure>...<img ...>...<figcaption>...</figcaption>...</figure>)
+  html = html.replace(/<figure[^>]*>([\s\S]*?)<\/figure>/gi, (_m, figInner) => {
+    const srcMatch = figInner.match(/src=["']([^"']+)["']/i);
+    const altMatch = figInner.match(/alt=["']([^"']*)["']/i);
+    const capMatch = figInner.match(/<figcaption[^>]*>([\s\S]*?)<\/figcaption>/i);
+    const src = srcMatch ? srcMatch[1] : '';
+    const caption = capMatch ? capMatch[1].replace(/<[^>]+>/g, '').trim() : (altMatch ? altMatch[1].trim() : '');
+    if (!src) return '';
+    return `\n\n![${caption}](${src})\n\n`;
+  });
+
+  // 5. Ảnh thông thường dạng standalone <img>
+  html = html.replace(/<img[^>]+src=["']([^"']+)["'][^>]*alt=["']([^"']*)["'][^>]*\/?>/gi, '\n\n![$2]($1)\n\n');
+  html = html.replace(/<img[^>]+src=["']([^"']+)["'][^>]*\/?>/gi, '\n\n![]($1)\n\n');
+
+  // 6. HR (Loại bỏ hoàn toàn)
+  html = html.replace(/<hr[^>]*\/?>/gi, '\n\n');
+
+  // 7. Quotes dạng đoạn văn in đậm có ngoặc kép
+  html = html.replace(/<p[^>]*><strong><em>[“"”]?([\s\S]*?)[”"”]?<\/em><\/strong><\/p>/gi, (_m, quoteText) => {
+    const lines = quoteText.replace(/<br\s*[\/]?>/gi, '\n').replace(/<[^>]+>/g, '').split('\n');
+    const quoteLines = lines.map((l: string) => `> ${l.trim()}`).filter((l: string) => l !== '>');
+    return `\n\n${quoteLines.join('\n')}\n\n`;
+  });
+
+  html = html.replace(/<p[^>]*><strong>[“"”]?([\s\S]*?)[”"”]?<\/strong><\/p>/gi, (_m, quoteText) => {
+    if (quoteText.includes('“') || quoteText.includes('”') || quoteText.includes('Con nguyện') || quoteText.includes('Sống là cống hiến') || quoteText.includes('Sống Là Cống Hiến')) {
+      const lines = quoteText.replace(/<br\s*[\/]?>/gi, '\n').replace(/<[^>]+>/g, '').split('\n');
+      const quoteLines = lines.map((l: string) => `> ${l.trim()}`).filter((l: string) => l !== '>');
+      return `\n\n${quoteLines.join('\n')}\n\n`;
+    }
+    return `\n\n**${quoteText.replace(/<[^>]+>/g, '').trim()}**\n\n`;
+  });
+
+  // 8. Tác giả
+  html = html.replace(/<p[^>]*>(?:<em>)?(Vô Trí\s*[-–]\s*Tâm Hòa|Sa Môn Vô Trí[^\n<]*)(?:<\/em>)?<\/p>/gi, '\n\n*$1*\n\n');
+
+  // 9. Paragraphs
+  html = html.replace(/<p[^>]*>(.*?)<\/p>/gi, (_m, pText) => {
+    const cleanP = pText.replace(/<br\s*[\/]?>/gi, '\n').replace(/<span[^>]*>/gi, '').replace(/<\/span>/gi, '').trim();
+    if (!cleanP) return '';
+    return `\n\n${cleanP}\n\n`;
+  });
+
+  // 10. Clean markdown & Loại bỏ các dòng ghi chú dàn bài thừa & đường gạch phân cách
+  html = html
+    .replace(/<strong[^>]*>(.*?)<\/strong>/gi, '**$1**')
+    .replace(/<b[^>]*>(.*?)<\/b>/gi, '**$1**')
+    .replace(/<em[^>]*>(.*?)<\/em>/gi, '*$1*')
+    .replace(/<i[^>]*>(.*?)<\/i>/gi, '*$1*')
+    .replace(/<a\s+href="([^"]+)"[^>]*>(.*?)<\/a>/gi, '[$2]($1)')
+    .replace(/<[^>]+>/g, '');
+
+  const cleanedLines = html
+    .split('\n')
+    .filter((l) => {
+      const trimmed = l.trim();
+      if (!trimmed) return true;
+      if (/^(?:-{2,}|\*{2,}|_{2,}|\u2014{2,})$/.test(trimmed)) return false;
+      if (/^Infographic\s*\d*\s*card/i.test(trimmed)) return false;
+      if (/^\d*\s*Ngăn\s*kéo\s*card/i.test(trimmed)) return false;
+      if (/^Click\s*ra\s*trang\s*chi\s*tiết/i.test(trimmed)) return false;
+      if (/^QUOTE\s*CUỐI\s*TRANG/i.test(trimmed)) return false;
+      if (/^TÀI\s*LIỆU\s*THAM\s*KHẢO/i.test(trimmed)) return false;
+      if (trimmed === '↓' || trimmed === '->' || trimmed === '-->') return false;
+      return true;
+    })
+    .join('\n');
+
+  const finalHtml = cleanedLines.replace(/\n{3,}/g, '\n\n').trim();
+
+  return { cleanedContent: finalHtml, extractedSubtitle };
+}
+
 export function TongChiEditor({ initialData, isEdit }: TongChiEditorProps) {
   const router = useRouter();
   const [saving, setSaving] = useState(false);
   const [saveSuccessMessage, setSaveSuccessMessage] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'editor' | 'preview' | 'split'>('editor');
   const [previewModal, setPreviewModal] = useState<any | null>(null);
+
+  // WordPress Sync Bridge State
+  const [wpPostId, setWpPostId] = useState<string>(initialData?.wpPostId || initialData?.id?.toString() || '470');
+  const [isSyncingWp, setIsSyncingWp] = useState(false);
+  const [syncMessage, setSyncMessage] = useState<string | null>(null);
 
   // Quản lý trạng thái chưa lưu
   const [isDirty, setIsDirty] = useState(false);
@@ -101,8 +227,113 @@ export function TongChiEditor({ initialData, isEdit }: TongChiEditorProps) {
   const [authorLink, setAuthorLink] = useState(initialData?.authorLink || '/gioi-thieu/su-phu-tru-tri');
   const [keywords, setKeywords] = useState<KeywordItem[]>(initialData?.keywords || []);
 
+  // 📚 Quản lý Tủ Sách Tham Khảo Tàng Kinh Các (Phương án 1 Dùng Chung)
+  const [sourceBooks, setSourceBooks] = useState<any[]>(() => {
+    if (Array.isArray(initialData?.sourceBook)) return initialData.sourceBook;
+    if (initialData?.sourceBook && typeof initialData.sourceBook === 'object') return [initialData.sourceBook];
+    return [
+      {
+        id: 'khuyen-phat-bo-de-tam-giang-luan',
+        title: 'KHUYẾN PHÁT BỒ ĐỀ TÂM GIẢNG LUẬN',
+        author: 'Đại Đức Thích Tâm Hòa',
+        description: 'Bộ sách giảng giải chi tiết về tầm quan trọng và phương pháp phát khởi Bồ Đề tâm của người học Phật.',
+        coverImage: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/uploads/chua-pho-chieu-hai-phong-1787464212629.webp',
+        pdfUrl: 'https://drive.google.com/file/d/1bIo3HRT7asCbIeVF_NTs5u4kqTGw3Ear/view?usp=sharing',
+        linkUrl: '/vu-tru-phat-giao/tang-kinh-cac',
+      },
+      {
+        id: 'di-qua-kho-vui-cuoc-doi',
+        title: 'ĐI QUA KHỔ VUI CUỘC ĐỜI (QUYỂN 01, 02, 03)',
+        author: 'Sa Môn Vô Trí (hiệu Tâm Hòa)',
+        description: 'Những chia sẻ chân thật và sâu sắc về hành trình tu học, vượt qua nghịch cảnh và kiến tạo đời sống an lạc.',
+        coverImage: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/uploads/tong-chi-tu-hoc_tong-phong-truyen-thua_tiep-buoc-thay-toi_thay_-chu-thich-popup-sach-dqkvcd-1787464550735.jpg',
+        linkUrl: '/vu-tru-phat-giao/tang-kinh-cac',
+      },
+      {
+        id: 'loi-duc-phat-day',
+        title: 'LỜI ĐỨC PHẬT DẠY & CÁC BÀI GIẢNG',
+        author: 'Tùng Lâm Hòa Phúc',
+        description: 'Tập hợp các lời dạy căn bản của Đức Phật và các bài pháp thoại trong các khóa tu tại Tùng Lâm Hòa Phúc.',
+        coverImage: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/uploads/chua-hoang-phap--kien-an-tinh-hai-phong-1787463859334.jpg',
+        linkUrl: 'https://www.youtube.com/playlist?list=PL2aRqXTU1nn456nh72vOF1W7Au764sTVN',
+      },
+    ];
+  });
+
+  const [allLibraryBooks, setAllLibraryBooks] = useState<any[]>([]);
+  const [librarySearch, setLibrarySearch] = useState('');
+  const [libraryCategory, setLibraryCategory] = useState('Tất cả');
+  const [isAddingNewBook, setIsAddingNewBook] = useState(false);
+  const [newBookForm, setNewBookForm] = useState({
+    title: '',
+    author: 'Sa Môn Vô Trí (Thích Tâm Hòa)',
+    description: '',
+    coverImage: '',
+    pdfUrl: '',
+    category: 'Phật Học Phổ Thông',
+  });
+
+  useEffect(() => {
+    async function loadLibraryBooks() {
+      try {
+        const res = await fetch('/api/admin/reference-books');
+        if (res.ok) {
+          const resData = await res.json();
+          if (resData.success && Array.isArray(resData.data)) {
+            setAllLibraryBooks(resData.data);
+          }
+        }
+      } catch (err) {
+        console.error('Failed to load library books:', err);
+      }
+    }
+    loadLibraryBooks();
+  }, []);
+
   const [isUploadingBanner, setIsUploadingBanner] = useState(false);
   const [isDragOverBanner, setIsDragOverBanner] = useState(false);
+
+  // Xử lý Đồng Bộ Tự Động Từ WordPress Gutenberg
+  const handleSyncFromWordPress = async () => {
+    if (!wpPostId || !wpPostId.trim()) {
+      alert('Vui lòng nhập WordPress Post ID (ví dụ: 470, 480, 481...)');
+      return;
+    }
+    setIsSyncingWp(true);
+    setSyncMessage(null);
+    try {
+      const res = await fetch(`https://admin.tunglamhoaphuc.com/wp-json/wp/v2/tong-chi/${wpPostId.trim()}?_embed`, {
+        cache: 'no-store',
+        headers: { 'User-Agent': 'Mozilla/5.0' },
+      });
+      if (!res.ok) {
+        throw new Error(`WordPress API trả về mã lỗi HTTP ${res.status}. Vui lòng kiểm tra lại Post ID hoặc chắc chắn bài viết đã được bấm "Đăng (Publish)".`);
+      }
+      const post = await res.json();
+      const rawHtml = post.content?.rendered || '';
+      const parsed = convertWpHtmlToCleanContent(rawHtml);
+
+      if (post.title?.rendered) setTitle(post.title.rendered);
+      if (post.acf?.tieu_de_phu || parsed.extractedSubtitle) {
+        setSubtitle(post.acf?.tieu_de_phu || parsed.extractedSubtitle || '');
+      }
+      if (parsed.cleanedContent) setContent(parsed.cleanedContent);
+      if (post.slug && (!slug || slug === 'new' || slug === '470')) {
+        setSlug(post.slug);
+      }
+
+      const wpBanner = post.acf?.anh_nen || post._embedded?.['wp:featuredmedia']?.[0]?.source_url;
+      if (wpBanner) setBannerImage(wpBanner);
+
+      setIsDirty(true);
+      setSyncMessage(`✅ Đã đồng bộ thành công nội dung bài viết #${wpPostId} từ WordPress!`);
+      setTimeout(() => setSyncMessage(null), 6000);
+    } catch (err: any) {
+      alert(err.message || 'Lỗi khi đồng bộ từ WordPress');
+    } finally {
+      setIsSyncingWp(false);
+    }
+  };
 
   // Phím tắt Ctrl + S để lưu tức thì
   useEffect(() => {
@@ -248,6 +479,7 @@ export function TongChiEditor({ initialData, isEdit }: TongChiEditorProps) {
       author,
       authorLink,
       keywords: keywords.filter((k) => k.keyword.trim()),
+      sourceBook: sourceBooks,
     };
 
     try {
@@ -279,6 +511,18 @@ export function TongChiEditor({ initialData, isEdit }: TongChiEditorProps) {
       setSaving(false);
     }
   };
+
+  // ⌨️ Bắt phím tắt Ctrl+S / Cmd+S để lưu ngay lập tức
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
+        e.preventDefault();
+        handleSave({ stay: true });
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [title, subtitle, slug, category, bannerImage, bannerPosition, excerpt, content, author, authorLink, keywords, isEdit]);
 
   const handleBackClick = (e: React.MouseEvent) => {
     if (isDirty) {
@@ -640,6 +884,64 @@ export function TongChiEditor({ initialData, isEdit }: TongChiEditorProps) {
                 </span>
               </div>
 
+              {/* 🌉 CẦU NỐI WORDPRESS GUTENBERG (1-CLICK SYNC) */}
+              <div className="p-3.5 bg-gradient-to-r from-[#2A1B10] via-[#24170E] to-[#1C120A] border-2 border-[#F2C14E]/50 rounded-xl shadow-lg flex flex-wrap items-center justify-between gap-3">
+                <div className="flex items-center gap-2">
+                  <span className="p-1.5 rounded-lg bg-[#F2C14E] text-[#120A05] font-black text-xs">WP</span>
+                  <div>
+                    <h4 className="text-xs font-bold text-[#FFDE59] flex items-center gap-1.5">
+                      <span>Cầu Nối Soạn Thảo WordPress Gutenberg</span>
+                    </h4>
+                    <p className="text-[11px] text-[#c9b896]/80">
+                      Soạn thảo bài viết trên WordPress ➔ Nhập Post ID ➔ Bấm nút để lấy nội dung sang đây
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 flex-wrap">
+                  <div className="flex items-center gap-1.5 bg-[#170E08] px-2.5 py-1 rounded-lg border border-[#F2C14E]/40">
+                    <span className="text-[11px] text-[#FFE5A3] font-medium">Post ID:</span>
+                    <input
+                      type="text"
+                      value={wpPostId}
+                      onChange={(e) => setWpPostId(e.target.value)}
+                      placeholder="470, 480..."
+                      className="w-16 px-1.5 py-0.5 bg-[#25170E] border border-[#F2C14E]/50 rounded text-xs font-bold text-[#FFDE59] text-center focus:outline-none focus:border-[#F2C14E]"
+                    />
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={handleSyncFromWordPress}
+                    disabled={isSyncingWp}
+                    className="px-3 py-1.5 rounded-lg bg-[#F2C14E] hover:bg-[#ffde59] text-[#120A05] text-xs font-bold transition-all shadow flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+                    title="Lấy trực tiếp tiêu đề, thẻ phụ và toàn bộ nội dung từ WordPress"
+                  >
+                    {isSyncingWp ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Sparkles className="w-3.5 h-3.5 text-[#120A05]" />}
+                    <span>{isSyncingWp ? 'Đang đồng bộ...' : '📥 Đồng Bộ Từ WordPress'}</span>
+                  </button>
+
+                  <a
+                    href={`https://admin.tunglamhoaphuc.com/wp-admin/post.php?post=${wpPostId || '470'}&action=edit`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="px-3 py-1.5 rounded-lg bg-[#2A1D14] hover:bg-[#3A2718] border border-[#F2C14E]/40 text-[#FFE5A3] text-xs font-medium transition-all flex items-center gap-1.5 cursor-pointer"
+                  >
+                    <Edit3 className="w-3.5 h-3.5 text-[#F2C14E]" />
+                    <span>Mở Tab Soạn Thảo WP</span>
+                    <ExternalLink className="w-3 h-3 text-[#c9b896]" />
+                  </a>
+                </div>
+              </div>
+
+              {/* Thông báo kết quả đồng bộ nếu có */}
+              {syncMessage && (
+                <div className="p-2.5 rounded-xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 text-xs font-semibold flex items-center gap-2 animate-in fade-in">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span>{syncMessage}</span>
+                </div>
+              )}
+
               {/* WORDPRESS-STYLE WYSIWYG TOOLBAR */}
               <div className="flex flex-wrap items-center gap-1.5 p-2 bg-[#25170E] border border-[#F2C14E]/30 rounded-xl shadow-inner">
                 {/* Heading 2 */}
@@ -910,6 +1212,270 @@ export function TongChiEditor({ initialData, isEdit }: TongChiEditorProps) {
                   ))}
                 </div>
               )}
+            </div>
+
+            {/* 4. NGUỒN TÀI LIỆU THAM KHẢO (TỦ SÁCH TÀNG KINH CÁC DÙNG CHUNG) */}
+            <div className="bg-[#1C120A] border border-[#F2C14E]/25 rounded-2xl p-5 sm:p-6 space-y-4 shadow-xl">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#F2C14E]/15 pb-3">
+                <div>
+                  <h2 className="text-xs sm:text-sm font-bold text-[#F2C14E] uppercase tracking-wider flex items-center gap-2">
+                    <Layers className="w-4 h-4 text-[#F2C14E]" />
+                    <span>4. Nguồn Tài Liệu Tham Khảo (Tủ Sách Tàng Kinh Các)</span>
+                  </h2>
+                  <p className="text-[11px] text-[#c9b896]/70 mt-0.5">
+                    Chọn nhanh các đầu sách từ kho 400+ ấn phẩm số Tàng Kinh Các để hiển thị dưới bài viết
+                  </p>
+                </div>
+
+                <div className="flex items-center gap-2 self-start sm:self-auto">
+                  <span className="px-2.5 py-1 rounded-full bg-[#2A160C] border border-[#F2C14E]/40 text-[#FFE5A3] text-xs font-semibold">
+                    {sourceBooks.length} Tác phẩm đã chọn
+                  </span>
+
+                  <button
+                    type="button"
+                    onClick={() => setIsAddingNewBook(!isAddingNewBook)}
+                    className="px-3 py-1.5 rounded-xl bg-[#2A1D14] hover:bg-[#3A2718] border border-[#F2C14E]/40 text-[#FFE5A3] text-xs font-medium transition-all flex items-center gap-1 cursor-pointer"
+                  >
+                    <Plus className="w-3.5 h-3.5 text-[#F2C14E]" />
+                    <span>{isAddingNewBook ? 'Đóng Form' : '+ Thêm Sách Mới'}</span>
+                  </button>
+                </div>
+              </div>
+
+              {/* Form Thêm Sách Mới Nhanh */}
+              {isAddingNewBook && (
+                <div className="p-4 rounded-xl bg-[#25170E] border border-[#F2C14E]/40 space-y-3 animate-in fade-in">
+                  <h4 className="text-xs font-bold text-[#FFDE59] uppercase">Thêm ấn phẩm mới vào Tủ sách Tàng Kinh Các</h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <input
+                      type="text"
+                      placeholder="Tên sách (Ví dụ: KHUYẾN PHÁT BỒ ĐỀ TÂM...)"
+                      value={newBookForm.title}
+                      onChange={(e) => setNewBookForm({ ...newBookForm, title: e.target.value })}
+                      className="px-3 py-1.5 bg-[#1C120A] border border-[#F2C14E]/40 rounded-lg text-xs text-white"
+                    />
+                    <input
+                      type="text"
+                      placeholder="Tác giả (Sa Môn Vô Trí...)"
+                      value={newBookForm.author}
+                      onChange={(e) => setNewBookForm({ ...newBookForm, author: e.target.value })}
+                      className="px-3 py-1.5 bg-[#1C120A] border border-[#F2C14E]/40 rounded-lg text-xs text-white"
+                    />
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <input
+                      type="text"
+                      placeholder="Link ảnh bìa (hoặc upload)..."
+                      value={newBookForm.coverImage}
+                      onChange={(e) => setNewBookForm({ ...newBookForm, coverImage: e.target.value })}
+                      className="px-3 py-1.5 bg-[#1C120A] border border-[#F2C14E]/40 rounded-lg text-xs text-white"
+                    />
+                    <input
+                      type="text"
+                      placeholder="Link đọc Ebook / Google Drive PDF..."
+                      value={newBookForm.pdfUrl}
+                      onChange={(e) => setNewBookForm({ ...newBookForm, pdfUrl: e.target.value })}
+                      className="px-3 py-1.5 bg-[#1C120A] border border-[#F2C14E]/40 rounded-lg text-xs text-white"
+                    />
+                  </div>
+                  <textarea
+                    rows={2}
+                    placeholder="Mô tả ngắn gọn về tác phẩm..."
+                    value={newBookForm.description}
+                    onChange={(e) => setNewBookForm({ ...newBookForm, description: e.target.value })}
+                    className="w-full p-2 bg-[#1C120A] border border-[#F2C14E]/40 rounded-lg text-xs text-white"
+                  />
+                  <div className="flex justify-end gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setIsAddingNewBook(false)}
+                      className="px-3 py-1 bg-black/40 text-[#FFE5A3] text-xs rounded-lg"
+                    >
+                      Hủy
+                    </button>
+                    <button
+                      type="button"
+                      onClick={async () => {
+                        if (!newBookForm.title.trim()) {
+                          alert('Vui lòng nhập tên sách');
+                          return;
+                        }
+                        try {
+                          const res = await fetch('/api/admin/reference-books', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(newBookForm),
+                          });
+                          const resData = await res.json();
+                          if (resData.success && resData.data) {
+                            setAllLibraryBooks((prev) => [resData.data, ...prev]);
+                            setSourceBooks((prev) => [resData.data, ...prev]);
+                            setIsDirty(true);
+                            setIsAddingNewBook(false);
+                            setNewBookForm({
+                              title: '',
+                              author: 'Sa Môn Vô Trí (Thích Tâm Hòa)',
+                              description: '',
+                              coverImage: '',
+                              pdfUrl: '',
+                              category: 'Phật Học Phổ Thông',
+                            });
+                          }
+                        } catch (err) {
+                          alert('Lỗi khi thêm sách vào thư viện');
+                        }
+                      }}
+                      className="px-4 py-1 bg-[#F2C14E] text-[#1C120A] font-bold text-xs rounded-lg cursor-pointer"
+                    >
+                      Lưu &amp; Thêm Vào Bài
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Danh sách sách đã chọn cho bài viết */}
+              {sourceBooks.length > 0 && (
+                <div className="space-y-2">
+                  <label className="text-[11px] font-bold text-[#FFDE59] uppercase tracking-wider">
+                    Các tác phẩm đang hiển thị trong bài viết này:
+                  </label>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+                    {sourceBooks.map((sb, sIdx) => (
+                      <div
+                        key={sIdx}
+                        className="p-2.5 rounded-xl bg-[#25170E] border border-[#F2C14E]/30 flex items-center justify-between gap-3 shadow-sm"
+                      >
+                        <div className="flex items-center gap-3 min-w-0">
+                          <img
+                            src={sb.coverImage || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/uploads/chua-pho-chieu-hai-phong-1787464212629.webp'}
+                            alt={sb.bookTitle || sb.title}
+                            className="w-9 h-11 rounded-lg object-cover border border-[#F2C14E]/30 shrink-0"
+                          />
+                          <div className="min-w-0">
+                            <p className="text-xs font-bold text-[#FFDE59] uppercase truncate">
+                              {sb.bookTitle || sb.title}
+                            </p>
+                            <p className="text-[11px] text-[#FFE5A3]/70 truncate">
+                              {sb.author || 'Sa Môn Vô Trí'}
+                            </p>
+                          </div>
+                        </div>
+
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setIsDirty(true);
+                            setSourceBooks(sourceBooks.filter((_, i) => i !== sIdx));
+                          }}
+                          className="w-7 h-7 rounded-lg bg-red-950/40 hover:bg-red-900 border border-red-800/40 text-red-300 flex items-center justify-center shrink-0 cursor-pointer"
+                          title="Bỏ chọn tác phẩm này"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Bộ chọn sách nhanh từ Kho Tàng Kinh Các (400+ đầu sách) */}
+              <div className="pt-3 border-t border-[#F2C14E]/15 space-y-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <label className="text-xs font-bold text-[#FFE5A3]">
+                    Kho Tủ Sách Tàng Kinh Các ({allLibraryBooks.length} đầu sách):
+                  </label>
+                  <div className="relative w-full sm:w-64">
+                    <Search className="w-3.5 h-3.5 text-[#F2C14E]/70 absolute left-2.5 top-1/2 -translate-y-1/2" />
+                    <input
+                      type="text"
+                      value={librarySearch}
+                      onChange={(e) => setLibrarySearch(e.target.value)}
+                      placeholder="Tìm theo tên sách, tác giả..."
+                      className="w-full pl-8 pr-3 py-1 bg-[#25170E] border border-[#F2C14E]/30 rounded-lg text-xs text-white placeholder-[#c9b896]/40 focus:outline-none focus:border-[#F2C14E]"
+                    />
+                  </div>
+                </div>
+
+                <div className="max-h-60 overflow-y-auto space-y-1.5 p-2 bg-[#120A05] border border-[#F2C14E]/20 rounded-xl">
+                  {allLibraryBooks
+                    .filter((b) => {
+                      if (!librarySearch.trim()) return true;
+                      const s = librarySearch.toLowerCase();
+                      return (
+                        b.title?.toLowerCase().includes(s) ||
+                        b.author?.toLowerCase().includes(s) ||
+                        b.description?.toLowerCase().includes(s)
+                      );
+                    })
+                    .slice(0, 50)
+                    .map((book) => {
+                      const isSelected = sourceBooks.some(
+                        (sb) =>
+                          (sb.id && sb.id === book.id) ||
+                          (sb.bookTitle && sb.bookTitle.toLowerCase() === book.title.toLowerCase()) ||
+                          (sb.title && sb.title.toLowerCase() === book.title.toLowerCase())
+                      );
+
+                      return (
+                        <div
+                          key={book.id}
+                          onClick={() => {
+                            setIsDirty(true);
+                            if (isSelected) {
+                              setSourceBooks(
+                                sourceBooks.filter(
+                                  (sb) =>
+                                    (sb.id !== book.id) &&
+                                    (sb.bookTitle?.toLowerCase() !== book.title.toLowerCase()) &&
+                                    (sb.title?.toLowerCase() !== book.title.toLowerCase())
+                                )
+                              );
+                            } else {
+                              setSourceBooks([
+                                ...sourceBooks,
+                                {
+                                  id: book.id,
+                                  title: book.title,
+                                  bookTitle: book.title,
+                                  author: book.author,
+                                  description: book.description,
+                                  coverImage: book.coverImage || book.coverUrl,
+                                  pdfUrl: book.pdfUrl || '',
+                                  linkUrl: book.linkUrl || `/vu-tru-phat-giao/tang-kinh-cac?sach=${book.id}`,
+                                },
+                              ]);
+                            }
+                          }}
+                          className={`p-2 rounded-lg flex items-center justify-between gap-3 cursor-pointer transition-all ${
+                            isSelected
+                              ? 'bg-[#F2C14E]/20 border border-[#F2C14E]'
+                              : 'bg-[#1C120A] border border-transparent hover:border-[#F2C14E]/30'
+                          }`}
+                        >
+                          <div className="flex items-center gap-2.5 min-w-0">
+                            <input
+                              type="checkbox"
+                              checked={isSelected}
+                              onChange={() => {}}
+                              className="accent-[#F2C14E] w-4 h-4 rounded"
+                            />
+                            <div className="min-w-0">
+                              <p className="text-xs font-bold text-[#FFE5A3] truncate">{book.title}</p>
+                              <p className="text-[10px] text-[#c9b896]/60 truncate">
+                                {book.author} {book.category ? `• ${book.category}` : ''}
+                              </p>
+                            </div>
+                          </div>
+
+                          <span className="text-[10px] text-[#F2C14E] shrink-0 font-medium">
+                            {isSelected ? '✓ Đã chọn' : '+ Chọn'}
+                          </span>
+                        </div>
+                      );
+                    })}
+                </div>
+              </div>
             </div>
           </div>
 

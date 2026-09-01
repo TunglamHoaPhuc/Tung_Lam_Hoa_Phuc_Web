@@ -405,41 +405,38 @@ function setupSnipCropTool() {
     const overlay = document.getElementById('cropOverlay');
     const box = document.getElementById('cropSelectionBox');
 
-    overlay.addEventListener('mousedown', (e) => {
+    const handleStart = (clientX, clientY) => {
         isCropping = true;
-        cropStartX = e.clientX;
-        cropStartY = e.clientY;
+        cropStartX = clientX;
+        cropStartY = clientY;
 
         box.style.left = `${cropStartX}px`;
         box.style.top = `${cropStartY}px`;
         box.style.width = '0px';
         box.style.height = '0px';
         box.style.display = 'block';
-    });
+    };
 
-    overlay.addEventListener('mousemove', (e) => {
+    const handleMove = (clientX, clientY) => {
         if (!isCropping) return;
 
-        const currentX = e.clientX;
-        const currentY = e.clientY;
-
-        const x = Math.min(cropStartX, currentX);
-        const y = Math.min(cropStartY, currentY);
-        const w = Math.abs(currentX - cropStartX);
-        const h = Math.abs(currentY - cropStartY);
+        const x = Math.min(cropStartX, clientX);
+        const y = Math.min(cropStartY, clientY);
+        const w = Math.abs(clientX - cropStartX);
+        const h = Math.abs(clientY - cropStartY);
 
         box.style.left = `${x}px`;
         box.style.top = `${y}px`;
         box.style.width = `${w}px`;
         box.style.height = `${h}px`;
-    });
+    };
 
-    overlay.addEventListener('mouseup', async (e) => {
+    const handleEnd = async (clientX, clientY) => {
         if (!isCropping) return;
         isCropping = false;
 
-        const currentX = e.clientX;
-        const currentY = e.clientY;
+        const currentX = clientX;
+        const currentY = clientY;
         const w = Math.abs(currentX - cropStartX);
         const h = Math.abs(currentY - cropStartY);
 
@@ -465,7 +462,7 @@ function setupSnipCropTool() {
         const relX1 = Math.min(canvasRect.width, maxX - canvasRect.left);
         const relY1 = Math.min(canvasRect.height, maxY - canvasRect.top);
 
-        // Tạo ảnh cắt xem trước trực tiếp trên client
+        // Tạo ảnh cắt xem trước trực tiếp trên client với độ nét cao
         let clientCroppedImage = null;
         try {
             const img = document.getElementById('pdfPageImg');
@@ -482,8 +479,12 @@ function setupSnipCropTool() {
                     offCanvas.width = sw;
                     offCanvas.height = sh;
                     const ctx = offCanvas.getContext('2d');
-                    ctx.drawImage(img, sx, sy, sw, sh, 0, 0, sw, sh);
-                    clientCroppedImage = offCanvas.toDataURL('image/png');
+                    if (ctx) {
+                        ctx.imageSmoothingEnabled = true;
+                        ctx.imageSmoothingQuality = 'high';
+                        ctx.drawImage(img, sx, sy, sw, sh, 0, 0, sw, sh);
+                        clientCroppedImage = offCanvas.toDataURL('image/png');
+                    }
                 }
             }
         } catch (err) {
@@ -535,6 +536,28 @@ function setupSnipCropTool() {
         } catch (err) {
             console.error('Crop analyze error:', err);
             showToast('Lỗi kết nối máy chủ.');
+        }
+    };
+
+    overlay.addEventListener('mousedown', (e) => handleStart(e.clientX, e.clientY));
+    overlay.addEventListener('mousemove', (e) => handleMove(e.clientX, e.clientY));
+    overlay.addEventListener('mouseup', (e) => handleEnd(e.clientX, e.clientY));
+
+    overlay.addEventListener('touchstart', (e) => {
+        if (e.touches.length > 0) {
+            handleStart(e.touches[0].clientX, e.touches[0].clientY);
+        }
+    }, { passive: true });
+
+    overlay.addEventListener('touchmove', (e) => {
+        if (e.touches.length > 0) {
+            handleMove(e.touches[0].clientX, e.touches[0].clientY);
+        }
+    }, { passive: true });
+
+    overlay.addEventListener('touchend', (e) => {
+        if (e.changedTouches.length > 0) {
+            handleEnd(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
         }
     });
 }
@@ -777,21 +800,119 @@ function closeAssistantSlider() {
     if (vp) vp.style.paddingRight = '';
 }
 
+// ── IN-BOOK SARA CONTEXT FINDER & OCCURRENCE ENGINE ──
+let saraBookCoordsData = null;
+
+async function loadSaraBookCoords() {
+    if (saraBookCoordsData) return saraBookCoordsData;
+    try {
+        const res = await fetch('./sara_words_coords.json');
+        if (res.ok) {
+            saraBookCoordsData = await res.json();
+            return saraBookCoordsData;
+        }
+    } catch (e) {
+        console.log('Load sara coords notice:', e);
+    }
+    return null;
+}
+loadSaraBookCoords();
+
+function findOccurrencesInSaraBook(targetText) {
+    if (!saraBookCoordsData || !targetText) return [];
+    const clean = targetText.replace(/[་།\s]/g, '').trim();
+    if (!clean) return [];
+
+    const foundPages = [];
+    for (const [pNumStr, pData] of Object.entries(saraBookCoordsData)) {
+        const pNum = parseInt(pNumStr, 10);
+        if (pNum === currentPageNum) continue; // Không liệt kê lại chính trang đang đứng
+
+        const words = pData.words || [];
+        const hasWord = words.some(w => {
+            const wText = (w[4] || '').replace(/[་།\s]/g, '');
+            return wText.includes(clean) || clean.includes(wText);
+        });
+
+        if (hasWord) {
+            foundPages.push(pNum);
+            if (foundPages.length >= 4) break;
+        }
+    }
+    return foundPages;
+}
+
+// ── KINH ĐIỂN PHẬT GIÁO DANH TIẾNG (NHẬP BỒ TÁT HẠNH & LAMRIM CHENMO) ──
+const BUDDHIST_CANONICAL_DATABASE = [
+    {
+        keywords: ['བྱང་ཆུབ', 'སེམས', 'བདེ', 'ལེགས', 'སྙིང་རྗེ', 'དགེ'],
+        source: 'Nhập Bồ Tát Hạnh (Bodhicaryavatara / སྤྱོད་འཇུག - Ngài Tịch Thiên Shantideva)',
+        sutra_tibetan: 'བྱང་ཆུབ་སེམས་ནི་རིན་པོ་ཆེ། །མ་སྐྱེས་པ་རྣམས་སྐྱེ་གྱུར་ཅིག །སྐྱེས་པ་ཉམས་པ་མེད་པ་ཡང༌། །གོང་ནས་གོང་དུ་འཕེལ་བར་ཤོག',
+        sutra_wylie: "byang-chub sems ni rin-po-che / ma-skyes-pa rnams skye-gyur cig / skyes-pa nyams-pa med-pa yang / gong-nas gong-du 'phel-bar shog",
+        sutra_translation: 'Nguyện Bồ-đề tâm tối thượng tôn quý, Nơi nào chưa sinh xin cho sinh khởi, Nơi nào đã sinh không hề suy giảm, Mà ngày càng tăng trưởng viên mãn vô cùng.',
+        teachings: 'Tâm Bồ-đề là cội nguồn của mọi an lạc và phúc đức cho muôn loài trong khắp mười phương.'
+    },
+    {
+        keywords: ['ལམ', 'རིམ', 'ཆོས', 'བླ་མ', 'དགེ་འདུན', 'སློབ'],
+        source: 'Đại Luận Lamrim Chenmo (ལམ་རིམ་ཆེན་མོ - Đức Tsongkhapa / Tông-khách-ba)',
+        sutra_tibetan: 'ཐོག་མར་དགེ་བ་བར་དུ་དགེ་བ། །མཐའ་མར་དགེ་བའི་ཆོས་ཚུལ་འདི། །བློ་ལྡན་རྣམས་ཀྱིས་ཐོས་བསམ་སྒོམ་པས། །ཐར་པའི་ལམ་དུ་བགྲོད་པར་ཤོག',
+        sutra_wylie: "thog-mar dge-ba bar-du dge-ba / mtha'-mar dge-ba'i chos-tshul 'di / blo-ldan rnams-kyis thos bsam sgom-pas / thar-pa'i lam-du bgrod-par shog",
+        sutra_translation: 'Chánh pháp tối thượng sơ thiện, trung thiện và hậu thiện — Nguyện cho những bậc trí tuệ nhờ Văn - Tư - Tu mà vững bước trên con đường giải thoát.',
+        teachings: 'Thực hành tuần tự theo các thứ lớp của Đạo Giác Ngộ để chuyển hóa phiền não thành đại trí tuệ.'
+    },
+    {
+        keywords: ['སྟོང་པ', 'ཤེས་རབ', 'ཡེ་ཤེས', 'སྙིང་པོ', 'ཀ', 'ཁ', 'ག'],
+        source: 'Bát Nhã Ba La Mật Đa Tâm Kinh (Prajnaparamita Hrdaya / ཤེས་རབ་སྙིང་པོ)',
+        sutra_tibetan: 'གཟུགས་སྟོང་པའོ། སྟོང་པ་ཉིད་གཟུགས་སོ། གཟུགས་ལས་ཀྱང་སྟོང་པ་ཉིད་གཞན་མ་ཡིན།',
+        sutra_wylie: "gzugs stong-pa'o / stong-pa nyid gzugs-so / gzugs las kyang stong-pa nyid gzhan ma-yin",
+        sutra_translation: 'Sắc tức thị Không, Không tức thị Sắc, Sắc chẳng khác Không, Không chẳng khác Sắc.',
+        teachings: 'Trí tuệ Bát-nhã thấu suốt bản thể Tính Không của vạn pháp, vượt qua mọi khổ ách trần gian.'
+    },
+    {
+        keywords: ['default'],
+        source: 'Lục Tự Đại Minh Chân Ngôn (ཨོཾ་མ་ཎི་པདྨེ་ཧཱུྃ - Quán Thế Âm Bồ Tát)',
+        sutra_tibetan: 'ཨོཾ་མ་ཎི་པདྨེ་ཧཱུྃ། ན་མོ་རཏྣ་ཏྲ་ཡཱ་ཡ།',
+        sutra_wylie: "om ma-ni pad-me hum / na-mo rat-na tra-ya-ya",
+        sutra_translation: 'Quy mạng Viên Ngọc Quý Ngự Trong Hoa Sen Thanh Tịnh — Cứu độ sáu cõi luân hồi.',
+        teachings: 'Sáu âm tiết chân ngôn tịnh hóa sáu độc (tham, sân, si, mạn, nghi, ác kiến) thành sáu trí tuệ Phật.'
+    }
+];
+
+function getCanonicalCitation(tibetanText) {
+    const text = tibetanText || '';
+    for (const canon of BUDDHIST_CANONICAL_DATABASE) {
+        if (canon.keywords.some(k => text.includes(k))) {
+            return canon;
+        }
+    }
+    return BUDDHIST_CANONICAL_DATABASE[BUDDHIST_CANONICAL_DATABASE.length - 1];
+}
+
+function getSandhiLiaisonNotes(tibetanText) {
+    const text = (tibetanText || '').trim();
+    if (text.includes('བོད་ཡིག')) return 'Quy tắc nối âm: [bod] + [yig] biến âm thành "pö-yik" (hạ thanh điệu, nối âm mượt mà).';
+    if (text.includes('བཀྲ་ཤིས་བདེ་ལེགས')) return 'Quy tắc nối âm: [tashi] + [delek] đọc liền cụm "tashi-delek" mang âm hưởng cát tường tu viện.';
+    if (text.includes('སློབ་མའི')) return 'Quy tắc nối âm: [slob] + [ma\'i] biến âm thành "lob-mä" (âm nguyên âm đôi ä).';
+    if (text.includes('དབྱངས་བཞི')) return 'Quy tắc nối âm: [dbyangs] + [bzhi] biến âm thành "yang-zhi" (rút gọn tiền tố d-).';
+    if (text.includes('ཕྱི་རྒྱལ')) return 'Quy tắc nối âm: [phyi] + [rgyal] nối âm thành "chi-gyal" trong giọng Lhasa.';
+    return 'Quy tắc phát âm: Giữ khẩu hình tự nhiên, phát âm tròn vành rõ chữ từng căn tự và nối âm theo nhịp thở tu viện.';
+}
+
 function renderSliderContent(raw) {
     if (!raw) raw = {};
     const data = raw.analysis || raw;
     const dict = data.dictionary || {};
     const syllables = data.syllables || [];
     const tableRows = data.table_rows || [];
+    const detectedTib = data.detected_text || selectedTibetanText || '';
     const fullTrans = data.full_translation || dict.vn || data.meaning || 'Đang cập nhật ý nghĩa câu...';
-    const buddhist = data.buddhist_context || {};
     const usageContext = data.usage_context || {};
 
     collectVocabFromAnalysis(data);
 
     document.getElementById('sliderWylie').textContent = `Chuyển tự Wylie (EWTS): ${data.wylie || ''}`;
 
-    // 1. Meaning & Grammar Tab: Full Sentence Translation + 3-Column Table
+    // 1. Meaning & Grammar Tab
     let tableHTML = '';
     if (tableRows.length > 0) {
         const rowsHTML = tableRows.map(r => `
@@ -817,7 +938,7 @@ function renderSliderContent(raw) {
             <div class="slider-card" style="padding:10px 12px;">
                 <div class="slider-card-title" style="margin-bottom:8px;">
                     <svg class="svg-icon gold-icon" viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" stroke-width="2" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
-                    <span>BẢNG TỪ VỰNG & PHÁT ÂM CHI TIẾT (3 CỘT):</span>
+                    <span>BẢNG TỪ VỰNG CHI TIẾT TỪNG TỪ:</span>
                 </div>
                 <div class="table-scroll-wrapper">
                     <table class="tibetan-vocab-table">
@@ -825,7 +946,7 @@ function renderSliderContent(raw) {
                             <tr>
                                 <th style="width:28%;">Chữ Tạng</th>
                                 <th style="width:32%;">Phát âm / Wylie</th>
-                                <th style="width:40%;">Ý nghĩa ngữ pháp</th>
+                                <th style="width:40%;">Ý nghĩa & Từ loại</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -837,68 +958,61 @@ function renderSliderContent(raw) {
         `;
     }
 
-    // Practical Dialogue Examples
-    const dialogueList = usageContext.dialogue_examples || [];
-    let dialoguesHTML = '';
-    if (dialogueList.length > 0) {
-        dialoguesHTML = dialogueList.map(d => `
-            <div class="dialogue-card-row">
-                <div class="dialogue-speaker-badge">${escapeHtml(d.speaker)}:</div>
-                <div class="dialogue-content">
-                    <div class="dialogue-tibetan-row">
-                        <span class="tibetan-text dialogue-tibetan">${escapeHtml(d.tibetan)}</span>
-                        <button class="btn-table-play" onclick="playTTS('${escapeHtml(d.tibetan)}')" title="Nghe phát âm câu mẫu">
-                            <svg class="svg-icon" viewBox="0 0 24 24" width="11" height="11" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+    // In-Book Sara Occurrences Finder
+    const bookOccurrences = findOccurrencesInSaraBook(detectedTib);
+    let occurrencesHTML = '';
+    if (bookOccurrences.length > 0) {
+        occurrencesHTML = `
+            <div class="usage-situation-item" style="margin-top:8px;">
+                <span class="usage-tag">Vị trí trong sách Sara:</span>
+                <div style="display:flex; gap:6px; flex-wrap:wrap; margin-top:4px;">
+                    ${bookOccurrences.map(p => `
+                        <button class="btn-tool" style="font-size:11px; padding:3px 8px; border-radius:6px;" onclick="renderPDFPage(${p})" title="Xem trang ${p} trong sách">
+                            Trang ${p}
                         </button>
-                    </div>
-                    <div class="dialogue-wylie">${escapeHtml(d.wylie)}</div>
-                    <div class="dialogue-vn">"${escapeHtml(d.vn)}"</div>
+                    `).join('')}
                 </div>
             </div>
-        `).join('');
+        `;
     }
+
+    // Sandhi Liaison & Tone Rule
+    const sandhiNote = getSandhiLiaisonNotes(detectedTib);
 
     document.getElementById('sliderTabMeaning').innerHTML = `
         <!-- Section 1: Full Sentence Translation -->
         <div class="slider-card full-trans-card">
             <div class="slider-card-title">
                 <svg class="svg-icon gold-icon" viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
-                <span>DỊCH NGHĨA HOÀN CHỈNH TOÀN CÂU:</span>
+                <span>DỊCH NGHĨA HOÀN CHỈNH:</span>
             </div>
             <div class="full-trans-quote">"${escapeHtml(fullTrans)}"</div>
+            <div style="font-size:11px; color:var(--gold-light); margin-top:6px; font-style:italic;">
+                ${escapeHtml(sandhiNote)}
+            </div>
         </div>
 
         <!-- Section 2: 3-Column Vocabulary Breakdown Table -->
         ${tableHTML}
 
-        <!-- Section 3: Rich Practical Usage & Real-World Dialogues -->
+        <!-- Section 3: In-Book Context & Practical Usage -->
         <div class="slider-card usage-practical-card">
             <div class="slider-card-title">
-                <svg class="svg-icon gold-icon" viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
-                <span>NGỮ CẢNH & CÁCH SỬ DỤNG THỰC TẾ:</span>
+                <svg class="svg-icon gold-icon" viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                <span>NGỮ CẢNH TRONG GIÁO TRÌNH SARA:</span>
             </div>
             
             <div class="usage-situation-box">
                 <div class="usage-situation-item">
-                    <span class="usage-tag">🎯 Hoàn cảnh:</span>
-                    <span class="usage-text">${escapeHtml(usageContext.situation || dict.usage || 'Đàm thoại giao tiếp hàng ngày')}</span>
+                    <span class="usage-tag">Mục đích bài học:</span>
+                    <span class="usage-text">${escapeHtml(usageContext.situation || dict.usage || 'Luyện đọc, nhận diện mặt chữ và đàm thoại Tạng ngữ')}</span>
                 </div>
-                ${usageContext.cultural_notes ? `
-                <div class="usage-situation-item" style="margin-top:6px;">
-                    <span class="usage-tag">💡 Văn hóa & Kính ngữ:</span>
-                    <span class="usage-text">${escapeHtml(usageContext.cultural_notes)}</span>
-                </div>` : ''}
+                ${occurrencesHTML}
             </div>
-
-            ${dialoguesHTML ? `
-            <div class="usage-dialogues-container">
-                <div class="dialogues-header-label">🗣️ MẪU CÂU ĐÀM THOẠI ỨNG DỤNG THỰC TẾ:</div>
-                ${dialoguesHTML}
-            </div>` : ''}
         </div>
     `;
 
-    // 2. Spelling Tab (Visual Step-by-Step Monastic Spelling Cards with Big Tibetan Font)
+    // 2. Spelling Tab (Step-by-Step Monastic Spelling Cards)
     let syllsHTML = '';
     syllables.forEach((s) => {
         let stepsList = (s.spelling_steps || []).map(st => `
@@ -921,14 +1035,13 @@ function renderSliderContent(raw) {
                     </div>
                 </div>
                 <div class="syllable-badges-grid">
-                    <span class="badge-part badge-root">Căn tự gốc: <b class="tibetan-text">${escapeHtml(s.root || '-')}</b></span>
-                    <span class="badge-part badge-prefix">Tiền tự trước: <b class="tibetan-text">${escapeHtml(s.prefix || '-')}</b></span>
-                    <span class="badge-part badge-suffix">Hậu tự đuôi: <b class="tibetan-text">${escapeHtml(s.suffix || '-')}</b></span>
+                    <span class="badge-part badge-root" style="cursor:pointer;" onclick="playTTS('${escapeHtml(s.root || s.syllable)}')" title="Bấm để nghe căn tự ${escapeHtml(s.root || '')}">Căn tự gốc: <b class="tibetan-text">${escapeHtml(s.root || '-')}</b> 🔊</span>
+                    <span class="badge-part badge-prefix" ${s.prefix && s.prefix !== '-' ? `style="cursor:pointer;" onclick="playTTS('${escapeHtml(s.prefix)}')"` : ''}>Tiền tự: <b class="tibetan-text">${escapeHtml(s.prefix || '-')}</b></span>
+                    <span class="badge-part badge-suffix" ${s.suffix && s.suffix !== '-' ? `style="cursor:pointer;" onclick="playTTS('${escapeHtml(s.suffix)}')"` : ''}>Hậu tự: <b class="tibetan-text">${escapeHtml(s.suffix || '-')}</b></span>
                     <span class="badge-part badge-vowel">Nguyên âm: <b>${escapeHtml(s.vowel || 'a')}</b></span>
                 </div>
                 <div class="monastery-formula-box">
-                    <div class="formula-title">📖 CÁCH GHÉP VẦN TỪNG BƯỚC:</div>
-                    <div class="formula-desc-note">Ghép từng chữ gốc, chân phụ, nguyên âm và chữ đuôi:</div>
+                    <div class="formula-title">CÁCH GHÉP VẦN TU VIỆN:</div>
                     ${stepsList || '<div style="font-size:11px; color:var(--text-muted);">Âm tiết đơn phát âm trực tiếp theo căn tự.</div>'}
                 </div>
                 ${tips.length > 0 ? `<div class="articulation-tip-box">${tips.map(escapeHtml).join('<br>')}</div>` : ''}
@@ -939,39 +1052,37 @@ function renderSliderContent(raw) {
     document.getElementById('sliderTabSpelling').innerHTML = `
         <div class="slider-card-title" style="margin-bottom:8px;">
             <svg class="svg-icon gold-icon" viewBox="0 0 24 24" width="15" height="15" stroke="currentColor" stroke-width="2" fill="none"><polyline points="4 7 4 4 20 4 20 7"></polyline><line x1="9" y1="20" x2="15" y2="20"></line><line x1="12" y1="4" x2="12" y2="20"></line></svg>
-            <span>HƯỚNG DẪN ĐÁNH VẦN TỪNG BƯỚC:</span>
-        </div>
-        <div class="spelling-intro-banner">
-            💡 <b>Đánh vần tiếng Tạng là gì?</b> Là phương pháp ghép chữ cái gốc với chân phụ, nguyên âm và chữ đuôi để đọc chuẩn 100% âm thanh tu viện.
+            <span>HƯỚNG DẪN ĐÁNH VẦN TU VIỆN TỪNG BƯỚC:</span>
         </div>
         ${syllsHTML || '<div style="font-size:12px; color:var(--text-muted); padding:10px;">Không có dữ liệu âm tiết.</div>'}
     `;
 
-    // 3. Buddhist Tab (Rich Canonical Quotes & Chanting)
-    const sTib = buddhist.sutra_tibetan || 'ན་མོ་གུ་རུ་བྷྱཿ ན་མོ་བུདྡྷཱ་ཡ། ན་མོ་དྷརྨཱ་ཡ། ན་མོ་སངྒྷཱ་ཡ།';
-    const sChant = buddhist.sutra_chanting || 'Nam-mô Gu-ru-bê, Nam-mô Bút-đa-da, Nam-mô Đạt-ma-da, Nam-mô Sang-ga-da';
-    const sTrans = buddhist.sutra_translation || 'Con xin quy y Bậc Đạo Sư, Quy y Phật, Quy y Pháp, Quy y Tăng thanh tịnh.';
-    const dInsight = buddhist.dharma_insight || dict.buddhist || 'Thuật ngữ mang ý nghĩa thanh tịnh trong kinh điển Đại thừa và Kim Cương thừa.';
+    // 3. Buddhist Tab (Authentic Shantideva & Tsongkhapa Canonical Scriptures)
+    const canonQuote = getCanonicalCitation(detectedTib);
 
     document.getElementById('sliderTabBuddhist').innerHTML = `
         <div class="slider-card buddhist-card-highlight">
             <div class="slider-card-title">
                 <svg class="svg-icon gold-icon" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="3"></circle><line x1="12" y1="3" x2="12" y2="9"></line><line x1="12" y1="15" x2="12" y2="21"></line><line x1="3" y1="12" x2="9" y2="12"></line><line x1="15" y1="12" x2="21" y2="12"></line></svg>
-                <span>ĐOẠN KINH ĐIỂN / CHÂN NGÔN LIÊN QUAN:</span>
+                <span>TRÍCH ĐOẠN KINH ĐIỂN TÂY TẠNG:</span>
             </div>
             
+            <div style="font-size:11px; font-weight:700; color:var(--gold-light); margin-bottom:6px;">
+                ${escapeHtml(canonQuote.source)}
+            </div>
+
             <div class="buddhist-sutra-box">
-                <div class="sutra-tibetan-text tibetan-text">${escapeHtml(sTib)}</div>
-                <div class="sutra-chanting-label">🗣️ CÁCH ĐỌC TỤNG:</div>
-                <div class="sutra-chanting-text">${escapeHtml(sChant)}</div>
-                <div class="sutra-trans-label">🌺 BẢN DỊCH NGHĨA:</div>
-                <div class="sutra-trans-text">"${escapeHtml(sTrans)}"</div>
+                <div class="sutra-tibetan-text tibetan-text">${escapeHtml(canonQuote.sutra_tibetan)}</div>
+                <div class="sutra-chanting-label">PHIÊN ÂM WYLIE:</div>
+                <div class="sutra-chanting-text">${escapeHtml(canonQuote.sutra_wylie)}</div>
+                <div class="sutra-trans-label">BẢN DỊCH VIỆT NGỮ:</div>
+                <div class="sutra-trans-text">"${escapeHtml(canonQuote.sutra_translation)}"</div>
             </div>
 
             <div style="margin-top:10px;">
-                <div class="sutra-trans-label">☸️ Ý NGHĨA PHẬT HỌC & QUÁN CHIẾU:</div>
+                <div class="sutra-trans-label">Ý NGHĨA GIÁO LÝ PHẬT PHÁP:</div>
                 <div class="slider-usage-text" style="color:var(--gold-light); line-height:1.7;">
-                    ${escapeHtml(dInsight)}
+                    ${escapeHtml(canonQuote.teachings)}
                 </div>
             </div>
         </div>
@@ -1056,10 +1167,8 @@ function playSelectedTTS() {
 let currentVoiceEngine = localStorage.getItem('tibetan_voice_engine') || 'native_studio';
 
 const VOICE_LABELS = {
-    'native_studio': '🎙️ Tu Viện',
-    'neural_female': '🌸 Nữ AI',
-    'neural_male': '🧘 Nam AI',
-    'phonetic_ipa': '🌐 IPA'
+    'native_studio': '🎙️ Thầy Tu Viện',
+    'neural_male': '🧘 Giảng Sư Trầm Ấm'
 };
 
 // ==========================================================================
@@ -1341,44 +1450,55 @@ function initWebAudioDSP() {
     }
 }
 
-// Multi-Engine Universal Speech Player (Fast & Crystal-Clear)
+const CLIENT_NATIVE_AUDIO_MAP = {
+    'ཀ': './audio/cons_1_ka.mp3', 'ཁ': './audio/cons_2_kha.mp3', 'ག': './audio/cons_3_ga.mp3', 'ང': './audio/cons_4_nga.mp3',
+    'ཅ': './audio/cons_5_ca.mp3', 'ཆ': './audio/cons_6_cha.mp3', 'ཇ': './audio/cons_7_ja.mp3', 'ཉ': './audio/cons_8_nya.mp3',
+    'ཏ': './audio/cons_9_ta.mp3', 'ཐ': './audio/cons_10_tha.mp3', 'ད': './audio/cons_11_da.mp3', 'ན': './audio/cons_12_na.mp3',
+    'པ': './audio/cons_13_pa.mp3', 'ཕ': './audio/cons_14_pha.mp3', 'བ': './audio/cons_15_ba.mp3', 'མ': './audio/cons_16_ma.mp3',
+    'ཙ': './audio/cons_17_tsa.mp3', 'ཚ': './audio/cons_18_tsha.mp3', 'ཛ': './audio/cons_19_dza.mp3', 'ཝ': './audio/cons_20_wa.mp3',
+    'ཞ': './audio/cons_21_zha.mp3', 'ཟ': './audio/cons_22_za.mp3', 'འ': './audio/cons_23_a_chung.mp3', 'ཡ': './audio/cons_24_ya.mp3',
+    'ར': './audio/cons_25_ra.mp3', 'ལ': './audio/cons_26_la.mp3', 'ཤ': './audio/cons_27_sha.mp3', 'ས': './audio/cons_28_sa.mp3',
+    'ཧ': './audio/cons_29_ha.mp3', 'ཨ': './audio/cons_30_a.mp3',
+    'ི': './audio/vowel_1_i.mp3', 'ུ': './audio/vowel_2_u.mp3', 'ེ': './audio/vowel_3_e.mp3', 'ོ': './audio/vowel_4_o.mp3',
+    'ཨི': './audio/vowel_1_i.mp3', 'ཨུ': './audio/vowel_2_u.mp3', 'ཨེ': './audio/vowel_3_e.mp3', 'ཨོ': './audio/vowel_4_o.mp3'
+};
+
+// Multi-Engine Universal Speech Player (100% Authentic Tibetan Monastery & Neural Voice)
 async function playTTS(text, explicitPhonetic = '') {
     if (!text || !text.trim()) return;
-    const cleanText = text.trim();
-    const phoneticText = explicitPhonetic || tibetanToPhonetic(cleanText);
+    const cleanText = text.replace(/[➔\->+=|]+/g, ' ').replace(/\s+/g, ' ').trim();
+    if (!cleanText) return;
 
-    // 1. Neural Female Voice (0ms Instant Web Speech API with Native Slow Articulation)
-    if (currentVoiceEngine === 'neural_female') {
-        const spoken = speakWebSpeech(phoneticText || cleanText, 'female', currentAudioSpeed || 0.75);
-        if (spoken) return;
+    // 0. ƯU TIÊN 1: File thu âm Studio thực tế của Thầy Tây Tạng (0ms Latency Cho Chữ Cái / Nguyên Âm Đơn)
+    const singleChar = cleanText.replace(/[་།\s]/g, '');
+    if (CLIENT_NATIVE_AUDIO_MAP[singleChar]) {
+        playAudioElement(CLIENT_NATIVE_AUDIO_MAP[singleChar]);
+        return;
     }
 
-    // 2. International Phonetic Voice (IPA / EWTS)
-    if (currentVoiceEngine === 'phonetic_ipa') {
-        const spoken = speakWebSpeech(phoneticText || cleanText, 'ipa', currentAudioSpeed || 0.75);
-        if (spoken) return;
+    // 0.1. Tự động ghép chuỗi âm thanh studio cho từ ghép nếu các âm tiết có sẵn
+    const syllables = cleanText.split(/[་\s]+/).filter(Boolean);
+    if (syllables.length > 1 && syllables.every(s => CLIENT_NATIVE_AUDIO_MAP[s.replace(/[་།]/g, '')])) {
+        await playNativeAudioSequence(syllables, currentAudioSpeed || 0.75);
+        return;
     }
 
-    // 3. Fast Memory Cache Check (Instant 0ms latency if already loaded)
+    // 1. Kiểm tra bộ nhớ đệm âm thanh (0ms nếu đã tải trước đó)
     if (audioMemoryCache.has(cleanText)) {
         const cachedUrl = audioMemoryCache.get(cleanText);
         playAudioElement(cachedUrl);
         return;
     }
 
-    // 4. Native Studio & Neural Male Backend
+    // 2. PHÁT ÂM CHUẨN TÂY TẠNG BẰNG MÔ HÌNH NEURAL TIBETAN MALE (Giọng Thầy Bản Xứ)
+    showToast('Đang phát giọng đọc Thầy Tây Tạng...');
     try {
-        initWebAudioDSP();
-        if (webAudioCtx && webAudioCtx.state === 'suspended') {
-            webAudioCtx.resume();
-        }
-
         const res = await fetch('/api/tts', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 
                 text: cleanText,
-                engine: currentVoiceEngine 
+                engine: 'native_male' 
             })
         });
 
@@ -1391,9 +1511,36 @@ async function playTTS(text, explicitPhonetic = '') {
     } catch (err) {
         console.error('TTS Backend notice:', err);
     }
+}
 
-    // Fallback: Immediate crystal-clear phonetic voice
-    speakWebSpeech(phoneticText || cleanText, 'female', currentAudioSpeed || 0.75);
+// Ghép và phát chuỗi âm thanh tu viện mượt mà theo từng âm tiết
+async function playNativeAudioSequence(syllables, speed = 0.75) {
+    for (const syl of syllables) {
+        const cleanSyl = syl.replace(/[་།\s]/g, '');
+        const src = CLIENT_NATIVE_AUDIO_MAP[cleanSyl];
+        if (src) {
+            await new Promise((resolve) => {
+                const aud = new Audio(src);
+                aud.playbackRate = Math.max(0.5, Math.min(1.2, speed));
+                aud.onended = () => setTimeout(resolve, 120);
+                aud.onerror = () => resolve();
+                aud.play().catch(() => resolve());
+            });
+        }
+    }
+}
+
+// Phát lặp lại N lần để học viên ghi nhớ sâu
+async function playSelectedTTSRepeat(times = 3) {
+    const text = document.getElementById('sliderTibetanInput')?.value.trim() || selectedTibetanText;
+    if (!text) return;
+    showToast(`Đang phát giọng nam trầm ấm lặp lại ${times} lần...`);
+    for (let i = 0; i < times; i++) {
+        await playTTS(text);
+        if (i < times - 1) {
+            await new Promise(r => setTimeout(r, 900));
+        }
+    }
 }
 
 function playAudioElement(audioUrl) {
@@ -1402,7 +1549,6 @@ function playAudioElement(audioUrl) {
         currentAudio.currentTime = 0;
         currentAudio.src = audioUrl;
         
-        // Anti-distortion speed configuration
         const speed = currentAudioSpeed || 0.75;
         currentAudio.playbackRate = Math.max(0.5, Math.min(1.2, speed));
         if ('preservesPitch' in currentAudio) {
@@ -1411,54 +1557,42 @@ function playAudioElement(audioUrl) {
         if ('mozPreservesPitch' in currentAudio) {
             currentAudio.mozPreservesPitch = true;
         }
-        if ('webkitPreservesPitch' in currentAudio) {
-            currentAudio.webkitPreservesPitch = true;
+
+        const playPromise = currentAudio.play();
+        if (playPromise !== undefined) {
+            playPromise.catch((err) => {
+                console.log('Audio playback fallback notice:', err);
+                const text = document.getElementById('sliderTibetanInput')?.value || selectedTibetanText;
+                speakWebSpeech(text, 'male', currentAudioSpeed || 0.75);
+            });
         }
-        
-        currentAudio.play().catch(e => console.log('Audio playback notice:', e));
     } catch (e) {
-        console.error('Error playing audio element:', e);
+        console.error('Audio play error:', e);
     }
 }
 
-function speakWebSpeech(textToSpeak, voiceMode = 'female', speed = 0.75) {
-    if (!window.speechSynthesis) return false;
-
+// Trình phát âm tổng hợp giọng nam khỏe khoắn, dõng dạc (Male Monastery Voice)
+function speakWebSpeech(text, voiceMode = 'male', speed = 0.75) {
+    if (!('speechSynthesis' in window)) return false;
     window.speechSynthesis.cancel();
-    
-    // Automatically convert Tibetan script to phonetic Latin phonemes if needed
-    let speakable = textToSpeak;
-    if (/[\u0F00-\u0FDA]/.test(textToSpeak)) {
-        speakable = tibetanToPhonetic(textToSpeak);
-    }
-    if (!speakable || !speakable.trim()) return false;
 
-    const utterance = new SpeechSynthesisUtterance(speakable.trim());
+    let speakable = text.replace(/[➔\->+=|]+/g, ' ').replace(/\s+/g, ' ').trim();
+    if (!speakable) return false;
+
+    const utterance = new SpeechSynthesisUtterance(speakable);
     
-    // Smooth native speed scaling without time-stretch distortion
-    utterance.rate = Math.max(0.55, Math.min(1.1, speed * 0.95));
-    utterance.pitch = voiceMode === 'female' ? 1.15 : (voiceMode === 'ipa' ? 1.0 : 0.9);
+    // Tốc độ chậm rãi, uy nghiêm (monastic tempo)
+    utterance.rate = Math.max(0.65, Math.min(0.95, speed * 0.9));
+    // Âm vực trầm ấm, vang khỏe của giọng nam bác/thầy tu viện
+    utterance.pitch = 0.82;
 
     const voices = window.speechSynthesis.getVoices();
-    let chosenVoice = null;
-
-    if (voiceMode === 'female') {
-        chosenVoice = voices.find(v => (v.lang.includes('hi') || v.lang.includes('ne') || v.lang.includes('zh') || v.lang.includes('ja')) && v.name.toLowerCase().includes('female'))
-            || voices.find(v => v.lang.includes('hi') || v.lang.includes('ne'))
-            || voices.find(v => v.name.toLowerCase().includes('natural') && v.name.toLowerCase().includes('female'))
-            || voices.find(v => v.name.toLowerCase().includes('zira') || v.name.toLowerCase().includes('samantha') || v.name.toLowerCase().includes('female'))
-            || voices.find(v => v.lang.startsWith('en') && v.name.toLowerCase().includes('female'))
-            || voices[0];
-    } else if (voiceMode === 'ipa') {
-        chosenVoice = voices.find(v => (v.lang.includes('hi') || v.lang.includes('ne') || v.lang.includes('in')))
-            || voices.find(v => v.name.toLowerCase().includes('natural'))
-            || voices.find(v => v.name.toLowerCase().includes('david') || v.name.toLowerCase().includes('george'))
-            || voices[0];
-    } else {
-        chosenVoice = voices.find(v => (v.lang.includes('hi') || v.lang.includes('ne')) && v.name.toLowerCase().includes('male'))
-            || voices.find(v => v.name.toLowerCase().includes('david') || v.name.toLowerCase().includes('male'))
-            || voices[0];
-    }
+    let chosenVoice = voices.find(v => (v.lang.includes('hi') || v.lang.includes('ne')) && v.name.toLowerCase().includes('male'))
+        || voices.find(v => (v.lang.includes('vi') || v.lang.includes('vn')) && (v.name.toLowerCase().includes('nam') || v.name.toLowerCase().includes('minh') || v.name.toLowerCase().includes('male')))
+        || voices.find(v => v.name.toLowerCase().includes('natural') && (v.name.toLowerCase().includes('david') || v.name.toLowerCase().includes('guy') || v.name.toLowerCase().includes('male')))
+        || voices.find(v => v.name.toLowerCase().includes('david') || v.name.toLowerCase().includes('george') || v.name.toLowerCase().includes('male'))
+        || voices.find(v => v.lang.startsWith('en') && !v.name.toLowerCase().includes('female') && !v.name.toLowerCase().includes('zira'))
+        || voices[0];
 
     if (chosenVoice) {
         utterance.voice = chosenVoice;
@@ -1804,10 +1938,21 @@ function markCard(isKnown) {
             localStorage.setItem('tibetan_saved_vocab', JSON.stringify(currentFlashcardDeck));
         } catch (e) {}
     }
-    showToast(isKnown ? '✅ Đã thuộc!' : '⚠️ Cần ôn lại!');
+    showToast(isKnown ? 'Đã thuộc!' : 'Cần ôn lại!');
     setTimeout(() => {
         nextFlashcard();
     }, 280);
+}
+
+function resetFlashcardDeck() {
+    localStorage.removeItem('tibetan_saved_vocab');
+    localStorage.removeItem('tibetan_last_milestone');
+    currentFlashcardDeck = [...DEFAULT_STARTER_VOCAB];
+    currentCardIndex = 0;
+    isCardFlipped = false;
+    updateVocabBadgeCount();
+    renderCurrentCard();
+    showToast('Đã làm mới và xóa bộ nhớ từ vựng cũ!');
 }
 
 function shuffleFlashcards() {
@@ -1816,7 +1961,7 @@ function shuffleFlashcards() {
         [currentFlashcardDeck[i], currentFlashcardDeck[j]] = [currentFlashcardDeck[j], currentFlashcardDeck[i]];
     }
     currentCardIndex = 0;
-    showToast('🔀 Đã trộn ngẫu nhiên bộ thẻ!');
+    showToast('Đã trộn ngẫu nhiên bộ thẻ!');
     renderCurrentCard();
 }
 

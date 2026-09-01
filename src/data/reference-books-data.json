@@ -1,0 +1,60 @@
+[
+  {
+    "id": "khuyen-phat-bo-de-tam-giang-luan",
+    "title": "KHUYẾN PHÁT BỒ ĐỀ TÂM GIẢNG LUẬN",
+    "subtitle": "Bộ 4 Quyển Giảng Giải Chi Tiết",
+    "author": "Đại Đức Thích Tâm Hòa",
+    "description": "Bộ sách giảng giải chi tiết về tầm quan trọng và phương pháp phát khởi Bồ Đề tâm của người học Phật.",
+    "coverImage": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/uploads/chua-pho-chieu-hai-phong-1787464212629.webp",
+    "pdfUrl": "https://drive.google.com/file/d/1bIo3HRT7asCbIeVF_NTs5u4kqTGw3Ear/view?usp=sharing",
+    "linkUrl": "/vu-tru-phat-giao/tang-kinh-cac",
+    "category": "Kinh Luận",
+    "isFeatured": true
+  },
+  {
+    "id": "di-qua-kho-vui-cuoc-doi",
+    "title": "ĐI QUA KHỔ VUI CUỘC ĐỜI (QUYỂN 01, 02, 03)",
+    "subtitle": "Tập Ký Hồi Ức Chiêm Nghiệm & Tri Ân Tam Bảo",
+    "author": "Sa Môn Vô Trí (hiệu Tâm Hòa)",
+    "description": "Những chia sẻ chân thật và sâu sắc về hành trình tu học, vượt qua nghịch cảnh và kiến tạo đời sống an lạc.",
+    "coverImage": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/uploads/tong-chi-tu-hoc_tong-phong-truyen-thua_tiep-buoc-thay-toi_thay_-chu-thich-popup-sach-dqkvcd-1787464550735.jpg",
+    "pdfUrl": "https://drive.google.com/file/d/1bIo3HRT7asCbIeVF_NTs5u4kqTGw3Ear/view?usp=sharing",
+    "linkUrl": "/vu-tru-phat-giao/tang-kinh-cac",
+    "category": "Hồi Ký & Tu Tập",
+    "isFeatured": true
+  },
+  {
+    "id": "loi-duc-phat-day",
+    "title": "LỜI ĐỨC PHẬT DẠY & CÁC BÀI GIẢNG",
+    "subtitle": "Tuyển Tập Lời Dạy Căn Bản",
+    "author": "Tùng Lâm Hòa Phúc",
+    "description": "Tập hợp các lời dạy căn bản của Đức Phật và các bài pháp thoại trong các khóa tu tại Tùng Lâm Hòa Phúc.",
+    "coverImage": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/uploads/chua-hoang-phap--kien-an-tinh-hai-phong-1787463859334.jpg",
+    "pdfUrl": "https://www.youtube.com/playlist?list=PL2aRqXTU1nn456nh72vOF1W7Au764sTVN",
+    "linkUrl": "/vu-tru-phat-giao/tang-kinh-cac",
+    "category": "Kinh Tạng",
+    "isFeatured": true
+  },
+  {
+    "id": "37-pham-tro-dao-dien-tho",
+    "title": "37 PHẨM TRỢ ĐẠO DIỄN THƠ",
+    "subtitle": "Diễn Ca Pháp Học",
+    "author": "Sa Môn Vô Trí (hiệu Thích Tâm Hòa)",
+    "description": "Chuyển thể 37 phẩm trợ đạo thành những vần thơ lục bát mộc mạc, dễ nhớ, dễ hành trì trong đời sống thường nhật.",
+    "coverImage": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/uploads/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-doi-thay-_thumbnail_herobanner-1787463508324.jpg",
+    "linkUrl": "/vu-tru-phat-giao/tang-kinh-cac",
+    "category": "Thiền Học",
+    "isFeatured": true
+  },
+  {
+    "id": "ba-nuong-tua-va-nam-thuc-hanh",
+    "title": "BA NƯƠNG TỰA VÀ NĂM THỰC HÀNH",
+    "subtitle": "Tam Quy & Ngũ Giới Giảng Giải",
+    "author": "Sa Môn Vô Trí (hiệu Thích Tâm Hòa)",
+    "description": "Cẩm nang nền tảng soi sáng con đường quy y Tam Bảo và giữ gìn năm giới thanh tịnh cho người Phật tử tại gia.",
+    "coverImage": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/uploads/cac-su-he-phai-khat-si-ve-tham-chua-hoang-phap-truoc-giai-phong-chup-trc-hien-chinh-dien---tam-bao-trong-1787464519312.jpg",
+    "linkUrl": "/vu-tru-phat-giao/tang-kinh-cac",
+    "category": "Phật Học Phổ Thông",
+    "isFeatured": true
+  }
+]

@@ -452,31 +452,41 @@ function parseSections(raw: string): { sections: SectionBlock[]; endQuote?: { te
     }
 
     // Check if line is a Section Heading (Markdown #, ##, ###, #### or uppercase heading)
+    const strippedLine = line.replace(/^#{1,4}\s+/, '').replace(/^\*\*|\*\*$/g, '').replace(/<[^>]+>/g, '').trim();
     const isMdHeading = /^#{1,4}\s+/.test(line);
     const isHeading =
       isMdHeading ||
-      ((line.startsWith('BỒ ĐỀ TÂM') ||
-        line.startsWith('SỐNG VỚI') ||
-        line.startsWith('ĐỂ BỒ ĐỀ TÂM') ||
-        line.startsWith('TAM QUY') ||
-        line.startsWith('NGŨ GIỚI') ||
-        (line === line.toUpperCase() && !line.startsWith('>') && !line.startsWith('!['))) &&
-      line.length < 80 &&
-      !line.includes('“') &&
-      !line.includes('”') &&
-      !line.startsWith('📘') &&
-      !line.startsWith('VIDEO:'));
+      ((strippedLine.startsWith('BỒ ĐỀ TÂM') ||
+        strippedLine.startsWith('SỐNG VỚI') ||
+        strippedLine.startsWith('ĐỂ BỒ ĐỀ TÂM') ||
+        strippedLine.startsWith('TAM QUY') ||
+        strippedLine.startsWith('NGŨ GIỚI') ||
+        (strippedLine === strippedLine.toUpperCase() && !strippedLine.startsWith('>') && !strippedLine.startsWith('!['))) &&
+      strippedLine.length < 80 &&
+      strippedLine.length > 3 &&
+      !strippedLine.includes('“') &&
+      !strippedLine.includes('”') &&
+      !strippedLine.startsWith('📘') &&
+      !strippedLine.startsWith('VIDEO:') &&
+      !strippedLine.startsWith('Sa Môn') &&
+      !strippedLine.startsWith('Vô Trí'));
 
     if (isHeading) {
       if (currentSection) {
         sections.push(currentSection);
       }
-      const cleanHeading = line.replace(/^#{1,4}\s+/, '').trim();
+      const cleanHeading = line.replace(/^#{1,4}\s+/, '').replace(/^\*\*|\*\*$/g, '').replace(/<[^>]+>/g, '').trim();
       currentSection = {
         heading: cleanHeading,
         sectionId: toSectionId(cleanHeading),
         elements: [],
       };
+      i++;
+      continue;
+    }
+
+    // Bỏ qua hoàn toàn các dấu ngắt / đường phân cách (---, ***, ___, em-dash, <hr>)
+    if (/^(?:-{2,}|\*{2,}|_{2,}|\u2014{2,}|<hr[^>]*\/?>)$/i.test(line.trim())) {
       i++;
       continue;
     }
@@ -490,6 +500,7 @@ function parseSections(raw: string): { sections: SectionBlock[]; endQuote?: { te
     if (isQuoteExplicit) {
       let cleanFirstLine = line
         .replace(/^(?:>|&gt;|Quote:)\s*/i, '')
+        .replace(/<[^>]+>/g, '')
         .replace(/^[“"”]{1,3}|[“"”]{1,3}$/g, '')
         .trim();
       const qLines = cleanFirstLine ? [cleanFirstLine] : [];
@@ -616,7 +627,7 @@ function parseSections(raw: string): { sections: SectionBlock[]; endQuote?: { te
       if (currentSection) currentSection.hasFourPillars = true;
       i++;
       while (i < lines.length) {
-        const nextL = lines[i].trim();
+        const nextL = lines[i].trim().replace(/^#{1,4}\s+/, '').replace(/^\*\*|\*\*$/g, '').trim();
         if (/^(ĐỂ BỒ ĐỀ TÂM|SỐNG VỚI|4 Ngăn kéo|Ngăn kéo card|QUOTE CUỐI|TÀI LIỆU)/i.test(nextL)) {
           break;
         }
@@ -629,7 +640,7 @@ function parseSections(raw: string): { sections: SectionBlock[]; endQuote?: { te
       if (currentSection) currentSection.hasFourDrawers = true;
       i++;
       while (i < lines.length) {
-        const nextL = lines[i].trim();
+        const nextL = lines[i].trim().replace(/^#{1,4}\s+/, '').replace(/^\*\*|\*\*$/g, '').trim();
         if (/^(QUOTE CUỐI|TÀI LIỆU)/i.test(nextL) || (nextL.includes('“Bạn nên hiểu') && nextL.includes('bình an là sự thực tập'))) {
           break;
         }
@@ -638,16 +649,9 @@ function parseSections(raw: string): { sections: SectionBlock[]; endQuote?: { te
       continue;
     }
 
-    // Skip isolated Infographic diagram text if it exists
-    if (/^(Infographic|Hình tam giác)/i.test(line) || (line.includes('Sức mạnh') && line.includes('BỒ ĐỀ TÂM'))) {
+    // Skip isolated Infographic diagram text if it exists (không nhảy cóc bỏ qua ảnh hay đoạn văn phía dưới)
+    if (/^(?:Infographic|Hình tam giác)\s*$/i.test(line)) {
       i++;
-      while (i < lines.length) {
-        const nextL = lines[i].trim();
-        if (/^(BỒ ĐỀ TÂM|SỐNG VỚI|ĐỂ BỒ ĐỀ TÂM|TAM QUY|NGŨ GIỚI|!\[)/i.test(nextL)) {
-          break;
-        }
-        i++;
-      }
       continue;
     }
 
@@ -690,7 +694,8 @@ function parseSections(raw: string): { sections: SectionBlock[]; endQuote?: { te
         /^<img/i.test(nextL) ||
         /^\[(?:ẢNH|HÌNH|ANH|IMAGE):/i.test(nextL) ||
         /^(Infographic|Hình tam giác|4 card|4 Ngăn kéo|Ngăn kéo card|QUOTE CUỐI|TÀI LIỆU)/i.test(nextL) ||
-        ((nextL.startsWith('BỒ ĐỀ TÂM') || nextL.startsWith('SỐNG VỚI') || nextL.startsWith('ĐỂ BỒ ĐỀ TÂM')) && nextL.length < 80)
+        ((nextL.startsWith('BỒ ĐỀ TÂM') || nextL.startsWith('SỐNG VỚI') || nextL.startsWith('ĐỂ BỒ ĐỀ TÂM')) && nextL.length < 80) ||
+        /^(?:-{2,}|\*{2,}|_{2,}|\u2014{2,}|<hr[^>]*\/?>)$/i.test(nextL.trim())
       ) {
         break;
       }
@@ -702,8 +707,14 @@ function parseSections(raw: string): { sections: SectionBlock[]; endQuote?: { te
       i++;
     }
 
-    // Lọc bỏ dòng tác giả nếu lọt vào pLines
-    const filteredPLines = pLines.filter((pl) => !/^(?:\*|_|<i>|<em|)(?:Tác giả[:\s]*|)(Vô Trí\s*-\s*Tâm Hòa|Thích Tâm Hòa|Sa Môn Vô Trí|Tâm Hòa)(?:\*|_|<\/i>|<\/em>|\s)*$/i.test(pl.trim()));
+    // Lọc bỏ dòng tác giả & các dòng phân cách (---) nếu lọt vào pLines
+    const filteredPLines = pLines.filter((pl) => {
+      const t = pl.trim();
+      if (!t) return false;
+      if (/^(?:\*|_|<i>|<em|)(?:Tác giả[:\s]*|)(Vô Trí\s*-\s*Tâm Hòa|Thích Tâm Hòa|Sa Môn Vô Trí|Tâm Hòa)(?:\*|_|<\/i>|<\/em>|\s)*$/i.test(t)) return false;
+      if (/^(?:-{2,}|\*{2,}|_{2,}|\u2014{2,}|<hr[^>]*\/?>)$/i.test(t)) return false;
+      return true;
+    });
     if (filteredPLines.length === 0) {
       continue;
     }

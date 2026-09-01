@@ -55,7 +55,12 @@ export async function PUT(
     const body = await request.json();
     const articles = getArticles();
     const index = articles.findIndex(
-      (a: any) => String(a.id) === id || a.slug === id
+      (a: any) =>
+        String(a.id) === id ||
+        a.slug === id ||
+        (id === 'bo-de-tam' && (a.slug === 'bo-de-tam-coi-nguon-thien-phap' || a.id === 4)) ||
+        (id === 'tiep-buoc-thay-toi' && (a.slug === 'tong-phong-truyen-thua-truc-lam' || a.id === 1)) ||
+        (id === 'tong-phong-truyen-thua-truc-lam' && (a.slug === 'tiep-buoc-thay-toi' || a.id === 1))
     );
 
     if (index === -1) {

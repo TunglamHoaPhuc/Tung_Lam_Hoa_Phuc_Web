@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
 import {
   Save,
   Plus,
@@ -1125,25 +1126,7 @@ export function SpreadsheetTongChi() {
       // 1. Ctrl+S: Lưu bài viết
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') {
         e.preventDefault();
-        let currentArticles = [...articles];
-        if (bigEditor) {
-          const updatedVal = getCurrentEditorMarkdown();
-          currentArticles[bigEditor.rowIndex] = {
-            ...currentArticles[bigEditor.rowIndex],
-            [bigEditor.field]: updatedVal,
-          };
-          setArticles(currentArticles);
-          setBigEditor((prev) => (prev ? { ...prev, value: updatedVal } : null));
-          if (wysiwygEditorRef.current && typeof window !== 'undefined') {
-            try {
-              const rowId = currentArticles[bigEditor.rowIndex]?.id || bigEditor.rowIndex;
-              localStorage.setItem(`tong_chi_draft_${rowId}`, wysiwygEditorRef.current.innerHTML);
-            } catch (err) {
-              // ignore
-            }
-          }
-        }
-        saveArticlesToBackend(currentArticles, false);
+        saveArticlesToBackend(articles, false);
       }
 
       // 2. Ctrl+B trong Editor: Chuẩn toggle bold (in đậm / hủy in đậm) & TỰ ĐỘNG GỠ CHÚ THÍCH KHI HỦY BOLD
@@ -1704,25 +1687,51 @@ export function SpreadsheetTongChi() {
                         </div>
                       </td>
 
-                      {/* 8. Thao Tác (Xem Trước Toàn Trang / Xóa) */}
-                      <td className="p-2 w-[85px] min-w-[85px] text-center align-middle">
-                        <div className="flex items-center justify-center gap-1.5">
+                      {/* 8. Thao Tác (Soạn Thảo Đầy Đủ / Xem Trước / Xem Web / Xóa) */}
+                      <td className="p-2 w-[120px] min-w-[120px] text-center align-middle">
+                        <div className="flex items-center justify-center gap-1">
+                          {/* Nút Mở Trình Soạn Thảo WordPress Đầy Đủ */}
+                          <Link
+                            href={`/admin/tong-chi/${row.id}`}
+                            className="p-2 rounded-xl bg-[#2A1D14] hover:bg-[#F2C14E] border border-[#F2C14E]/40 text-[#FFE5A3] hover:text-black transition-all cursor-pointer shadow-sm hover:scale-105"
+                            title="Mở trình soạn thảo WordPress chuyên nghiệp đầy đủ"
+                          >
+                            <Edit3 className="w-3.5 h-3.5 text-[#F2C14E] hover:text-black" />
+                          </Link>
+
+                          {/* Nút Xem Web Trực Tiếp */}
+                          {row.slug && (
+                            <Link
+                              href={`/tong-chi-tu-hoc/${row.slug}`}
+                              target="_blank"
+                              className="p-2 rounded-xl bg-[#2A1D14] hover:bg-[#3A2718] border border-[#F2C14E]/30 text-[#FFE5A3] hover:text-[#FFDE59] transition-all cursor-pointer shadow-sm hover:scale-105"
+                              title="Mở bài viết trên trang web chính thức (tab mới)"
+                            >
+                              <ExternalLink className="w-3.5 h-3.5" />
+                            </Link>
+                          )}
+
+                          {/* Nút Xem Trước Nhanh */}
                           <button
                             type="button"
                             onClick={() => setPreviewModal(row)}
-                            className="p-2 rounded-xl bg-[#2A1D14] hover:bg-[#F2C14E] border border-[#F2C14E]/40 text-[#FFE5A3] hover:text-black transition-all cursor-pointer shadow-sm"
+                            className="p-2 rounded-xl bg-[#2A1D14] hover:bg-[#F2C14E] border border-[#F2C14E]/40 text-[#FFE5A3] hover:text-black transition-all cursor-pointer shadow-sm hover:scale-105"
                             title="Xem trước & chỉnh sửa giao diện trực quan"
                           >
-                            <Eye className="w-4 h-4" />
+                            <Eye className="w-3.5 h-3.5" />
                           </button>
+
+                          {/* Nút Xóa */}
                           <button
-                          className="p-2 rounded-xl bg-red-950/40 hover:bg-red-800 border border-red-500/40 text-red-300 hover:text-white transition-all cursor-pointer shadow-sm"
-                          title="Xóa bài viết này"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
-                      </div>
-                    </td>
+                            type="button"
+                            onClick={() => handleDeleteRow(actualIdx)}
+                            className="p-2 rounded-xl bg-red-950/40 hover:bg-red-800 border border-red-500/40 text-red-300 hover:text-white transition-all cursor-pointer shadow-sm hover:scale-105"
+                            title="Xóa bài viết này"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </td>
                   </tr>
                 );
               })
@@ -1765,8 +1774,49 @@ export function SpreadsheetTongChi() {
               </div>
             </div>
 
-            {/* Window Controls (Maximize / Close) */}
-            <div className="flex items-center gap-1.5 shrink-0">
+            {/* Window Controls & Action Save Buttons */}
+            <div className="flex items-center gap-2 shrink-0">
+              {/* Nút Xem Trên Web */}
+              {articles[bigEditor.rowIndex]?.slug && (
+                <Link
+                  href={`/tong-chi-tu-hoc/${articles[bigEditor.rowIndex].slug}`}
+                  target="_blank"
+                  className="px-3 py-1.5 rounded-xl bg-[#25170E] hover:bg-[#3A2718] border border-[#F2C14E]/30 text-[#FFE5A3] hover:text-[#FFDE59] text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer hover:scale-105"
+                  title="Mở bài viết trực tiếp trên trang web (tab mới)"
+                >
+                  <ExternalLink className="w-3.5 h-3.5 text-[#F2C14E]" />
+                  <span className="hidden sm:inline">Xem Web</span>
+                </Link>
+              )}
+
+              {/* Nút Mở Trình Soạn Thảo Đầy Đủ */}
+              {articles[bigEditor.rowIndex]?.id && (
+                <Link
+                  href={`/admin/tong-chi/${articles[bigEditor.rowIndex].id}`}
+                  className="px-3 py-1.5 rounded-xl bg-[#25170E] hover:bg-[#3A2718] border border-[#F2C14E]/40 text-[#FFE5A3] hover:text-[#FFDE59] text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer hover:scale-105"
+                  title="Mở trang soạn thảo chuyên sâu toàn màn hình (WordPress style)"
+                >
+                  <Edit3 className="w-3.5 h-3.5 text-[#F2C14E]" />
+                  <span className="hidden md:inline">Trình Soạn Thảo Đầy Đủ</span>
+                </Link>
+              )}
+
+              {/* NÚT LƯU BÀI VIẾT CHÍNH */}
+              <button
+                type="button"
+                onClick={() => saveArticlesToBackend(articles, false)}
+                disabled={saving}
+                className="px-4 py-1.5 rounded-xl bg-gradient-to-r from-[#F2C14E] to-[#FFDE59] hover:from-[#FFDE59] hover:to-[#F2C14E] text-[#1A120B] font-bold text-xs sm:text-sm transition-all shadow-[0_0_15px_rgba(242,193,78,0.4)] flex items-center gap-1.5 cursor-pointer disabled:opacity-50 hover:scale-105"
+                title="Lưu ngay bài viết này (Phím tắt: Ctrl + S)"
+              >
+                {saving ? (
+                  <RefreshCw className="w-4 h-4 animate-spin text-[#1A120B]" />
+                ) : (
+                  <Save className="w-4 h-4 text-[#1A120B] stroke-[2.5]" />
+                )}
+                <span>{saving ? 'Đang Lưu...' : 'Lưu Bài Viết'}</span>
+              </button>
+
               <button
                 type="button"
                 onClick={() => setIsEditorMaximized(!isEditorMaximized)}
@@ -2070,6 +2120,47 @@ export function SpreadsheetTongChi() {
                 </div>
               );
             })()}
+            </div>
+
+            {/* 🌟 STICKY FOOTER ACTION BAR CỦA TRÌNH SOẠN THẢO */}
+            <div className="pt-3 border-t border-[#F2C14E]/30 flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0">
+              <div className="flex items-center gap-2 text-xs text-[#FFE5A3]">
+                <span>{isDirty ? '⚠️ Có thay đổi chưa lưu' : '✅ Dữ liệu đã đồng bộ'}</span>
+                {lastSavedTime && <span className="text-[10px] text-[#c9b896]/60">• Đã lưu lúc {lastSavedTime}</span>}
+              </div>
+
+              <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
+                <button
+                  type="button"
+                  onClick={() => setBigEditor(null)}
+                  className="px-4 py-2 rounded-xl bg-[#25170E] hover:bg-[#3A2718] border border-[#F2C14E]/30 text-[#FFE5A3] text-xs font-bold transition-all cursor-pointer"
+                >
+                  Đóng
+                </button>
+
+                <button
+                  type="button"
+                  onClick={async () => {
+                    await saveArticlesToBackend(articles, false);
+                    setBigEditor(null);
+                  }}
+                  disabled={saving}
+                  className="px-4 py-2 rounded-xl bg-[#3A2718] hover:bg-[#523824] border border-[#F2C14E]/60 text-[#FFDE59] text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
+                >
+                  <CheckCircle2 className="w-4 h-4 text-[#F2C14E]" />
+                  <span>Lưu &amp; Đóng</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => saveArticlesToBackend(articles, false)}
+                  disabled={saving}
+                  className="px-6 py-2 rounded-xl bg-gradient-to-r from-[#F2C14E] to-[#FFDE59] hover:from-[#FFDE59] hover:to-[#F2C14E] text-[#1A120B] text-xs sm:text-sm font-bold transition-all shadow-[0_0_15px_rgba(242,193,78,0.4)] flex items-center gap-1.5 cursor-pointer disabled:opacity-50 hover:scale-105"
+                >
+                  {saving ? <RefreshCw className="w-4 h-4 animate-spin text-[#1A120B]" /> : <Save className="w-4 h-4 text-[#1A120B] stroke-[2.5]" />}
+                  <span>{saving ? 'Đang Lưu...' : 'Lưu Bài Viết (Ctrl+S)'}</span>
+                </button>
+              </div>
             </div>
           </div>
         </div>
