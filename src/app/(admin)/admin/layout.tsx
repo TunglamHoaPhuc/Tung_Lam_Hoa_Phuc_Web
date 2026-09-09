@@ -29,15 +29,21 @@ const NAV_ITEMS = [
     icon: LayoutDashboard,
   },
   {
-    name: 'Giới Thiệu Tông Phong',
-    href: '/admin/gioi-thieu',
-    icon: Landmark,
-    badge: 'Bổn Tự',
+    name: 'Tông Chỉ Tu Học',
+    href: '/admin/tong-chi',
+    icon: Scroll,
+    badge: 'Cốt Lõi',
   },
   {
     name: 'Dòng Chảy Hoằng Pháp',
     href: '/admin/posts',
     icon: Waves,
+  },
+  {
+    name: 'Giới Thiệu Tông Phong',
+    href: '/admin/gioi-thieu',
+    icon: Landmark,
+    badge: 'Bổn Tự',
   },
   {
     name: 'Vũ Trụ Phật Giáo',

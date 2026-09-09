@@ -73,35 +73,41 @@ export default function AdminDashboardPage() {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-        <div className="bg-[#1F140C] border border-[#F2C14E]/25 rounded-2xl p-5 space-y-3 shadow-lg hover:border-[#F2C14E]/50 transition-all">
+        <Link
+          href="/admin/tong-chi"
+          className="bg-[#1F140C] border border-[#F2C14E]/25 rounded-2xl p-5 space-y-3 shadow-lg hover:border-[#F2C14E]/60 hover:bg-[#25170E] transition-all group block"
+        >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-[#c9b896] uppercase tracking-wider">
+            <span className="text-xs font-bold text-[#c9b896] group-hover:text-[#FFE5A3] transition-colors uppercase tracking-wider">
               Tông Chỉ Tu Học
             </span>
-            <div className="w-9 h-9 rounded-xl bg-[#F2C14E]/15 border border-[#F2C14E]/30 flex items-center justify-center text-[#F2C14E]">
+            <div className="w-9 h-9 rounded-xl bg-[#F2C14E]/15 border border-[#F2C14E]/30 flex items-center justify-center text-[#F2C14E] group-hover:scale-110 transition-transform">
               <BookOpen className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-3xl font-bold text-white font-mono">{tongChiCount}</div>
-          <div className="text-[11px] text-green-400 flex items-center gap-1">
-            <CheckCircle2 className="w-3.5 h-3.5" /> Có hỗ trợ chú thích từ khóa Popup
+          <div className="text-3xl font-bold text-white font-mono">{tongChiCount} Bài Viết</div>
+          <div className="text-[11px] text-[#F2C14E] flex items-center gap-1">
+            <CheckCircle2 className="w-3.5 h-3.5 text-green-400" /> Quản lý nội dung &amp; mở Gutenberg →
           </div>
-        </div>
+        </Link>
 
-        <div className="bg-[#1F140C] border border-[#F2C14E]/25 rounded-2xl p-5 space-y-3 shadow-lg hover:border-[#F2C14E]/50 transition-all">
+        <Link
+          href="/admin/bao-tuong"
+          className="bg-[#1F140C] border border-[#F2C14E]/25 rounded-2xl p-5 space-y-3 shadow-lg hover:border-[#F2C14E]/60 hover:bg-[#25170E] transition-all group block"
+        >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-[#c9b896] uppercase tracking-wider">
+            <span className="text-xs font-bold text-[#c9b896] group-hover:text-[#FFE5A3] transition-colors uppercase tracking-wider">
               Bảo Tượng Phật Giáo
             </span>
-            <div className="w-9 h-9 rounded-xl bg-[#F2C14E]/15 border border-[#F2C14E]/30 flex items-center justify-center text-[#F2C14E]">
+            <div className="w-9 h-9 rounded-xl bg-[#F2C14E]/15 border border-[#F2C14E]/30 flex items-center justify-center text-[#F2C14E] group-hover:scale-110 transition-transform">
               <Sparkles className="w-4 h-4" />
             </div>
           </div>
-          <div className="text-3xl font-bold text-white font-mono">{statueCount}</div>
+          <div className="text-3xl font-bold text-white font-mono">{statueCount} Tôn Tượng</div>
           <div className="text-[11px] text-[#F2C14E] flex items-center gap-1">
-            <span>8 Chúng Hội • 11 Khu Vực</span>
+            <span>28 Pho tượng • Xoay ảnh 90° &amp; Lịch sử →</span>
           </div>
-        </div>
+        </Link>
 
         <div className="bg-[#1F140C] border border-[#F2C14E]/25 rounded-2xl p-5 space-y-3 shadow-lg hover:border-[#F2C14E]/50 transition-all">
           <div className="flex items-center justify-between">
