@@ -82,3 +82,4 @@ danh_sach_file_anh.txt
 .agents/
 drive_download/
 Ket_Noi_S3_Hoa_Phuc.bat
+.env*
