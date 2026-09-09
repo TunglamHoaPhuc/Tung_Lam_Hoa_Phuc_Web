@@ -194,7 +194,7 @@ export const StatueDetailCoreLayout: FC<StatueDetailCoreLayoutProps> = ({ statue
             style={{
               backgroundImage: `url('${statue.imgUrl || '/images/toan-canh-chua.jpg'}')`,
               opacity: bgOpacity,
-              transform: `scale(${bgScale}) translateY(${heroProgress * 30}px)`,
+              transform: `${statue.imgRotation ? `rotate(${statue.imgRotation}deg) ` : ''}scale(${bgScale}) translateY(${heroProgress * 30}px)`,
             }}
           />
           <div className="absolute inset-0 bg-gradient-to-b from-black/55 via-[#2A1D14]/40 to-[#2A1D14] pointer-events-none" />
@@ -361,6 +361,9 @@ export const StatueDetailCoreLayout: FC<StatueDetailCoreLayoutProps> = ({ statue
                     src={statue.avatarUrl || statue.imgUrl}
                     alt={statue.name}
                     className="w-full h-full rounded-full object-cover object-[center_28%] group-hover:scale-105 transition-transform duration-500"
+                    style={{
+                      transform: statue.imgRotation ? `rotate(${statue.imgRotation}deg)` : undefined,
+                    }}
                   />
                 </div>
               </div>
@@ -476,7 +479,10 @@ export const StatueDetailCoreLayout: FC<StatueDetailCoreLayoutProps> = ({ statue
                   <img
                     src={statue.imgUrl}
                     alt={statue.name}
-                    className="w-full h-full object-cover object-[center_28%] rounded-lg"
+                    className="w-full h-full object-cover object-[center_28%] rounded-lg transition-transform duration-300"
+                    style={{
+                      transform: statue.imgRotation ? `rotate(${statue.imgRotation}deg)` : undefined,
+                    }}
                   />
                 </div>
               </div>

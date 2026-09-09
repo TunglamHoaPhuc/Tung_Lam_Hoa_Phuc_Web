@@ -315,6 +315,7 @@ export function SpreadsheetGioiThieu() {
   // Filters & Search
   const [selectedGroup, setSelectedGroup] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [openingWpId, setOpeningWpId] = useState<string | null>(null);
 
   // S3 Library Modal
   const [imageLibraryOpen, setImageLibraryOpen] = useState(false);
@@ -731,21 +732,55 @@ export function SpreadsheetGioiThieu() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [topics, bigEditor]);
 
-  const openBigEditor = (index: number) => {
-    const top = topics[index];
-    if (!top) return;
-    setBigEditor({
-      rowIndex: index,
-      value: top.content || '',
-    });
-    setEditorPreviewMode(false);
+  // 🌟 MỞ TRỰC TIẾP TRÌNH SOẠN THẢO WORDPRESS GUTENBERG (1-CLICK)
+  const handleOpenGutenberg = async (row: GioiThieuRecord, index: number) => {
+    setOpeningWpId(row.id);
+    showToast('⚡ Đang kết nối WordPress và nạp nội dung bài viết vào Gutenberg...');
 
-    setTimeout(() => {
-      if (wysiwygEditorRef.current) {
-        wysiwygEditorRef.current.innerHTML = markdownToWysiwygHtml(top.content || '');
-        updateEditorSelectionAndFormat();
+    // Mở tab trống trước để chống popup blocker của trình duyệt
+    const newTab = window.open('about:blank', '_blank');
+
+    try {
+      const res = await fetch('/api/admin/wp-post-create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: row.wpPostId,
+          title: row.title || 'Chủ đề Giới Thiệu Mới',
+          subtitle: row.subtitle || row.overviewSummary || '',
+          content: (row as any).contentHtml || (row as any).content || row.overviewSummary || row.subtitle || '',
+          contentHtml: (row as any).contentHtml || '',
+          summary: row.overviewSummary || row.subtitle || '',
+          category: 'gioi-thieu',
+          postType: 'post',
+        }),
+      });
+      const data = await res.json();
+      if (data.success && data.editUrl) {
+        if (data.wpPostId && String(data.wpPostId) !== String(row.wpPostId)) {
+          const updated = [...topics];
+          updated[index].wpPostId = String(data.wpPostId);
+          setTopics(updated);
+          await saveTopicsToBackend(updated, true);
+        }
+        if (newTab) {
+          newTab.location.href = data.editUrl;
+        } else {
+          window.open(data.editUrl, '_blank', 'noopener,noreferrer');
+        }
+        showToast('✨ Đã mở trình soạn thảo WordPress Gutenberg với đầy đủ nội dung bài viết!');
+      } else {
+        const fallbackUrl = 'https://admin.tunglamhoaphuc.com/wp-admin/post-new.php';
+        if (newTab) newTab.location.href = fallbackUrl;
+        else window.open(fallbackUrl, '_blank', 'noopener,noreferrer');
       }
-    }, 50);
+    } catch {
+      const fallbackUrl = 'https://admin.tunglamhoaphuc.com/wp-admin/post-new.php';
+      if (newTab) newTab.location.href = fallbackUrl;
+      else window.open(fallbackUrl, '_blank', 'noopener,noreferrer');
+    } finally {
+      setOpeningWpId(null);
+    }
   };
 
   const handleAddNewTopic = () => {
@@ -774,7 +809,6 @@ export function SpreadsheetGioiThieu() {
     setTopics(updated);
     setIsDirty(true);
     showToast('✨ Đã thêm dòng chủ đề giới thiệu mới!');
-    openBigEditor(0);
   };
 
   const handleDeleteTopic = (index: number) => {
@@ -813,229 +847,170 @@ export function SpreadsheetGioiThieu() {
         </div>
       )}
 
-      {/* 🌟 1. BANNER TIÊU ĐỀ & THỐNG KÊ */}
-      <div className="bg-[#1C120A] border border-[#F2C14E]/30 rounded-3xl p-6 sm:p-8 mb-6 shadow-[0_0_40px_rgba(242,193,78,0.15)] relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-[#F2C14E]/5 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative z-10">
-          <div>
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-10 h-10 rounded-2xl bg-[#2D1B10] border border-[#F2C14E]/60 flex items-center justify-center text-[#F2C14E] shadow-inner">
-                <Landmark className="w-5 h-5" />
-              </div>
-              <h1
-                style={{ fontFamily: "'UTM Niagara', serif" }}
-                className="text-3xl sm:text-4xl text-[#ffde59] uppercase tracking-wider font-normal drop-shadow-md"
-              >
-                QUẢN LÝ GIỚI THIỆU TÔNG PHONG & LỊCH SỬ CHÙA
-              </h1>
-            </div>
-            <p className="text-xs sm:text-sm text-[#c9b896] max-w-2xl">
-              Hệ thống Bảng tính chuyên biệt quản lý 3 mảng lớn: Lịch sử chùa & Đại sự liên đăng, Chư Tôn Đức & Tổ Sư, Thanh quy tu tập & Văn hóa ứng xử Tùng Lâm.
-            </p>
+      {/* 🌟 1. TOOLBAR TINH GỌN (CHỈ DÙNG BIỂU TƯỢNG VÀ NÚT VUÔNG ĐỒNG BỘ) */}
+      <div className="bg-[#1C120A] border border-[#F2C14E]/30 rounded-2xl p-4 sm:p-5 mb-5 shadow-lg flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-[#2D1B10] border border-[#F2C14E]/60 flex items-center justify-center text-[#F2C14E] shadow-inner shrink-0">
+            <Landmark className="w-5 h-5" />
           </div>
-
-          {/* Action Buttons */}
-          <div className="flex flex-wrap items-center gap-2.5">
-            <button
-              type="button"
-              onClick={handleAddNewTopic}
-              className="px-4 py-2.5 rounded-xl bg-[#F2C14E] hover:bg-[#ffde59] text-[#140D07] text-xs font-bold flex items-center gap-2 shadow-[0_0_20px_rgba(242,193,78,0.4)] transition-all cursor-pointer hover:scale-105"
-            >
-              <Plus className="w-4 h-4 stroke-[3]" />
-              <span>Thêm Chủ Đề Mới</span>
-            </button>
-
-            <button
-              type="button"
-              disabled={saving}
-              onClick={() => saveTopicsToBackend(topics, false)}
-              className="px-4 py-2.5 rounded-xl bg-[#2D1B10] hover:bg-[#F2C14E] text-[#FFE5A3] hover:text-[#140D07] border border-[#F2C14E]/40 text-xs font-bold flex items-center gap-2 transition-all cursor-pointer hover:scale-105 disabled:opacity-50"
-              title="Lưu toàn bộ thay đổi (Ctrl+S)"
-            >
-              {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-              <span>{saving ? 'Đang lưu...' : 'Lưu Thay Đổi (Ctrl+S)'}</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={fetchTopics}
-              className="w-10 h-10 rounded-xl bg-[#2D1B10] hover:bg-[#3A2718] border border-[#F2C14E]/30 text-[#FFE5A3] flex items-center justify-center transition-all cursor-pointer"
-              title="Tải lại dữ liệu"
-            >
-              <RefreshCw className="w-4 h-4" />
-            </button>
+          <div>
+            <h2 className="text-base sm:text-lg font-bold text-[#FFE5A3] flex items-center gap-2">
+              <span>Bảng Quản Trị Giới Thiệu Tông Phong & Bổn Tự</span>
+              <span className="px-2 py-0.5 rounded-full bg-[#F2C14E]/20 text-[#F2C14E] text-xs font-mono font-bold border border-[#F2C14E]/40">
+                {topics.length} Chủ Đề
+              </span>
+            </h2>
+            <p className="text-[11px] text-[#c9b896] flex items-center gap-1.5 flex-wrap">
+              <span>Lịch sử chùa, Chư Tôn Đức & Tổ Sư, Thanh quy tu học</span>
+              <span>•</span>
+              <span>Bấm vào ô &quot;Nội Dung&quot; để mở trình soạn thảo</span>
+            </p>
           </div>
         </div>
 
-        {/* 3 Quick Stat Badges */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-6 pt-6 border-t border-[#F2C14E]/20 text-xs">
-          <div className="p-3 rounded-2xl bg-[#25170E]/80 border border-[#F2C14E]/20 flex items-center justify-between">
-            <span className="text-[#c9b896]">1. Lịch Sử Chùa & Đại Sự:</span>
-            <span className="font-bold text-[#ffde59] text-base">
-              {topics.filter((t) => t.groupCategory === 'lich-su-chua').length}
-            </span>
-          </div>
-          <div className="p-3 rounded-2xl bg-[#25170E]/80 border border-[#F2C14E]/20 flex items-center justify-between">
-            <span className="text-[#c9b896]">2. Chư Tôn Đức & Tổ Sư:</span>
-            <span className="font-bold text-[#ffde59] text-base">
-              {topics.filter((t) => t.groupCategory === 'nguoi-lien-quan').length}
-            </span>
-          </div>
-          <div className="p-3 rounded-2xl bg-[#25170E]/80 border border-[#F2C14E]/20 flex items-center justify-between">
-            <span className="text-[#c9b896]">3. Thanh Quy & Văn Hóa:</span>
-            <span className="font-bold text-[#ffde59] text-base">
-              {topics.filter((t) => t.groupCategory === 'thanh-quy-van-hoa').length}
-            </span>
-          </div>
+        {/* Action Buttons */}
+        <div className="flex items-center gap-2 self-end md:self-auto">
+          {/* Nút 0: Quản Lý Tệp S3 Đám Mây */}
+          <button
+            type="button"
+            onClick={() => {
+              setTargetImageCallback(null);
+              setImageLibraryOpen(true);
+            }}
+            className="w-10 h-10 rounded-xl bg-[#2A1D14] hover:bg-[#3A2718] border border-[#F2C14E]/50 text-[#F2C14E] hover:text-[#ffde59] flex items-center justify-center transition-all cursor-pointer shadow-md hover:scale-105"
+            title="Mở Trình Quản Lý Tệp S3 Đám Mây (Cây Thư Mục & Quản Lý Ảnh)"
+          >
+            <ImageIcon className="w-5 h-5" />
+          </button>
+
+          {/* Nút 1: Thêm Chủ Đề Mới */}
+          <button
+            type="button"
+            onClick={handleAddNewTopic}
+            className="w-10 h-10 rounded-xl bg-[#2A1D14] hover:bg-[#3A2718] border border-[#F2C14E]/50 text-[#F2C14E] hover:text-[#ffde59] flex items-center justify-center transition-all cursor-pointer shadow-md hover:scale-105"
+            title="Thêm Chủ Đề Giới Thiệu Mới"
+          >
+            <Plus className="w-5 h-5" />
+          </button>
+
+          {/* Nút 2: Tải lại */}
+          <button
+            type="button"
+            onClick={fetchTopics}
+            className="w-10 h-10 rounded-xl bg-[#2A1D14] hover:bg-[#3A2718] border border-[#F2C14E]/50 text-[#F2C14E] hover:text-[#ffde59] flex items-center justify-center transition-all cursor-pointer shadow-md hover:scale-105"
+            title="Tải lại dữ liệu bài viết"
+          >
+            <RefreshCw className="w-5 h-5" />
+          </button>
+
+          {/* Nút 3: Lưu Bảng Tính */}
+          <button
+            type="button"
+            onClick={() => saveTopicsToBackend(topics, false)}
+            disabled={saving}
+            className="w-10 h-10 rounded-xl bg-[#2A1D14] hover:bg-[#F2C14E] border border-[#F2C14E]/50 text-[#F2C14E] hover:text-[#1A120B] flex items-center justify-center transition-all cursor-pointer shadow-md hover:scale-105 disabled:opacity-50"
+            title="Lưu toàn bộ bảng tính ngay (Ctrl+S)"
+          >
+            {saving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
+          </button>
         </div>
       </div>
 
-      {/* 🌟 2. BỘ LỌC 3 NHÓM LỚN VÀ TÌM KIẾM */}
-      <div className="space-y-4 mb-6">
-        <div className="flex items-center gap-2 p-1.5 bg-[#1C120A] rounded-2xl border border-[#F2C14E]/30 overflow-x-auto custom-scrollbar">
-          {GIOI_THIEU_GROUPS.map((grp) => {
-            const Icon = grp.icon;
-            const isActive = selectedGroup === grp.id;
-            return (
-              <button
-                key={grp.id}
-                type="button"
-                onClick={() => setSelectedGroup(grp.id)}
-                className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap cursor-pointer ${
-                  isActive
-                    ? 'bg-[#F2C14E] text-[#140D07] shadow-md'
-                    : 'text-[#c9b896] hover:text-white hover:bg-[#25170E]'
-                }`}
-              >
-                <Icon className="w-4 h-4" />
-                <span>{grp.label}</span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Thanh tìm kiếm */}
-        <div className="relative w-full sm:w-80">
-          <Search className="w-4 h-4 text-[#c9b896] absolute left-3.5 top-1/2 -translate-y-1/2" />
+      {/* Filter and Search Bar */}
+      <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3 mb-5">
+        <div className="relative flex-1">
+          <Search className="w-4 h-4 text-[#F2C14E] absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Tìm kiếm chủ đề, lịch sử, nhân vật..."
-            className="w-full pl-9 pr-4 py-2 bg-[#1C120A] border border-[#F2C14E]/30 rounded-xl text-xs text-white placeholder-[#c9b896]/60 focus:outline-none focus:border-[#F2C14E]"
+            placeholder="Tìm kiếm theo tiêu đề chủ đề, nhân vật hoặc nội dung..."
+            className="w-full pl-9 pr-3 py-2.5 bg-[#1C120A] border border-[#F2C14E]/30 rounded-xl text-xs text-[#FFE5A3] placeholder-[#c9b896]/40 focus:outline-none focus:border-[#F2C14E] shadow-sm"
           />
         </div>
+
+        {/* Dropdown Lọc Phân Nhóm */}
+        <select
+          value={selectedGroup}
+          onChange={(e) => setSelectedGroup(e.target.value)}
+          className="px-3.5 py-2.5 bg-[#22140A] border border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E] rounded-xl text-xs text-[#FFE5A3] font-bold focus:outline-none cursor-pointer shadow-sm min-w-[240px]"
+        >
+          {GIOI_THIEU_GROUPS.map((grp) => {
+            const count =
+              grp.id === 'all'
+                ? topics.length
+                : topics.filter((t) => t.groupCategory === grp.id).length;
+            return (
+              <option key={grp.id} value={grp.id}>
+                {grp.label} ({count})
+              </option>
+            );
+          })}
+        </select>
       </div>
 
-      {/* 🌟 3. BẢNG TÍNH SPREADSHEET CHỦ ĐỀ GIỚI THIỆU */}
-      <div className="bg-[#1C120A] border border-[#F2C14E]/30 rounded-3xl overflow-hidden shadow-2xl">
-        <div className="overflow-x-auto custom-scrollbar">
-          <table className="w-full text-left border-collapse text-xs">
-            <thead>
-              <tr className="bg-[#24160C] text-[#ffde59] border-b border-[#F2C14E]/30 font-bold uppercase tracking-wider select-none">
-                <th className="p-3 text-center w-12 border-r border-[#F2C14E]/20">STT</th>
-                <th className="p-3 text-center w-20 border-r border-[#F2C14E]/20">Ảnh bìa</th>
-                <th className="p-3 min-w-[260px] border-r border-[#F2C14E]/20">Tiêu đề & Slug</th>
-                <th className="p-3 min-w-[180px] border-r border-[#F2C14E]/20">Nhóm phân loại</th>
-                <th className="p-3 min-w-[240px] border-r border-[#F2C14E]/20">Tổng quan tóm tắt</th>
-                <th className="p-3 min-w-[140px] text-center border-r border-[#F2C14E]/20">Niên biểu & Media</th>
-                <th className="p-3 text-center w-28">Thao tác</th>
+      {/* 🌟 2. BẢNG TÍNH SPREADSHEET 8 CỘT CHUẨN HÓA */}
+      <div className="rounded-2xl border border-[#F2C14E]/35 bg-[#1C120A] overflow-hidden shadow-2xl">
+        <div className="overflow-x-auto max-h-[78vh] custom-scrollbar">
+          <table className="w-full border-collapse text-xs text-left min-w-[1100px] table-fixed">
+            <thead className="sticky top-0 z-20 bg-[#321F14] text-[#F2C14E] uppercase tracking-wider font-bold border-b border-[#F2C14E]/40 select-none shadow-md">
+              <tr>
+                <th className="p-3 w-[45px] min-w-[45px] text-center border-r border-[#F2C14E]/20">#</th>
+                <th className="p-3 w-[160px] min-w-[160px] border-r border-[#F2C14E]/20 text-center">Phân Nhóm</th>
+                <th className="p-3 w-[80px] min-w-[80px] text-center border-r border-[#F2C14E]/20">Ảnh Bìa</th>
+                <th className="p-3 w-[220px] min-w-[220px] border-r border-[#F2C14E]/20">Tiêu Đề Chủ Đề</th>
+                <th className="p-3 w-[200px] min-w-[200px] border-r border-[#F2C14E]/20">Phụ Đề / Tác Giả</th>
+                <th className="p-3 w-[140px] min-w-[140px] border-r border-[#F2C14E]/20 text-center">Đa Phương Tiện</th>
+                <th
+                  className="p-3 border-r border-[#F2C14E]/20 cursor-help"
+                  title="Bấm vào từng ô để mở trình soạn thảo toàn màn hình"
+                >
+                  <div className="flex items-center gap-1.5">
+                    <span>Nội Dung Chi Tiết</span>
+                    <Edit3 className="w-3.5 h-3.5 text-[#F2C14E]/80 shrink-0" />
+                  </div>
+                </th>
+                <th className="p-3 w-[85px] min-w-[85px] text-center">Thao Tác</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[#F2C14E]/15">
               {loading ? (
                 <tr>
-                  <td colSpan={7} className="p-12 text-center text-[#FFE5A3]">
+                  <td colSpan={8} className="p-12 text-center text-[#c9b896]/70">
                     <Loader2 className="w-8 h-8 animate-spin mx-auto mb-2 text-[#F2C14E]" />
                     <span>Đang tải danh mục giới thiệu...</span>
                   </td>
                 </tr>
               ) : filteredTopics.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="p-12 text-center text-[#c9b896]">
+                  <td colSpan={8} className="p-12 text-center text-[#c9b896]/70">
                     Không có chủ đề nào trong mục này.
                   </td>
                 </tr>
               ) : (
-                filteredTopics.map((row, index) => {
-                  const origIndex = topics.findIndex((t) => t.id === row.id);
+                filteredTopics.map((row, filterIdx) => {
+                  const targetIdx = topics.findIndex((t) => t.id === row.id);
+                  const origIndex = targetIdx !== -1 ? targetIdx : filterIdx;
                   const msCount = row.milestones?.length || 0;
                   const galleryCount = row.galleryImages?.length || 0;
                   const hasVideo = Boolean(row.videoBlock?.videoUrl);
                   const hasQuote = Boolean(row.quoteContent && row.quoteContent.length > 0);
+                  const publicUrl = `/gioi-thieu/${row.slug}`;
 
                   return (
                     <tr
-                      key={row.id || index}
-                      className="hover:bg-[#25170E]/60 transition-colors group"
+                      key={row.id || filterIdx}
+                      className={`transition-colors group focus-within:bg-[#2D1B0F] ${
+                        filterIdx % 2 === 0 ? 'bg-[#170E08]' : 'bg-[#120A05]'
+                      } hover:bg-[#26160B]`}
                     >
                       {/* 1. STT */}
-                      <td className="p-3 text-center font-mono font-bold text-[#c9b896] border-r border-[#F2C14E]/15">
-                        {index + 1}
+                      <td className="p-3 w-[45px] min-w-[45px] text-center font-mono font-bold text-[#F2C14E] border-r border-[#F2C14E]/15 bg-[#140D07]/60 align-middle">
+                        {origIndex + 1}
                       </td>
 
-                      {/* 2. Ảnh bìa */}
-                      <td className="p-2 text-center border-r border-[#F2C14E]/15">
-                        <div
-                          onClick={() =>
-                            openS3Library((url) => {
-                              const updated = [...topics];
-                              updated[origIndex].heroBanner = url;
-                              setTopics(updated);
-                              setIsDirty(true);
-                            })
-                          }
-                          className="w-14 h-14 rounded-xl overflow-hidden border border-[#F2C14E]/40 mx-auto relative group/thumb cursor-pointer bg-black/60 shadow-md"
-                          title="Bấm để đổi ảnh banner từ S3"
-                        >
-                          <img
-                            src={row.heroBanner || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp'}
-                            alt="Ảnh"
-                            style={{ objectPosition: row.heroBannerPosition || 'center 50%' }}
-                            className="w-full h-full object-cover group-hover/thumb:scale-110 transition-transform"
-                          />
-                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/thumb:opacity-100 flex items-center justify-center transition-opacity text-[#ffde59]">
-                            <ImageIcon className="w-4 h-4" />
-                          </div>
-                        </div>
-                      </td>
-
-                      {/* 3. Tiêu đề & Slug */}
-                      <td className="p-3 border-r border-[#F2C14E]/15">
-                        <div className="space-y-1">
-                          <input
-                            type="text"
-                            value={row.title || ''}
-                            onChange={(e) => {
-                              const updated = [...topics];
-                              updated[origIndex].title = e.target.value;
-                              setTopics(updated);
-                              setIsDirty(true);
-                            }}
-                            placeholder="Nhập tiêu đề chủ đề..."
-                            className="w-full font-bold text-white bg-transparent hover:bg-[#2D1B10]/60 focus:bg-[#2D1B10] px-2 py-1 rounded-lg border border-transparent focus:border-[#F2C14E]/60 focus:outline-none text-xs sm:text-sm"
-                          />
-                          <div className="flex items-center gap-1.5 px-2">
-                            <span className="text-[10px] text-[#c9b896]/60 font-mono">/gioi-thieu/</span>
-                            <input
-                              type="text"
-                              value={row.slug || ''}
-                              onChange={(e) => {
-                                const updated = [...topics];
-                                updated[origIndex].slug = e.target.value;
-                                setTopics(updated);
-                                setIsDirty(true);
-                              }}
-                              placeholder="slug-chu-de"
-                              className="w-full text-[11px] text-[#FFE5A3]/70 font-mono bg-transparent hover:bg-[#2D1B10]/40 focus:bg-[#2D1B10] px-1 py-0.5 rounded border border-transparent focus:border-[#F2C14E]/40 focus:outline-none"
-                            />
-                          </div>
-                        </div>
-                      </td>
-
-                      {/* 4. Nhóm phân loại */}
-                      <td className="p-3 border-r border-[#F2C14E]/15">
+                      {/* 2. Nhóm phân loại */}
+                      <td className="p-2.5 w-[160px] min-w-[160px] border-r border-[#F2C14E]/15 align-middle">
                         <select
                           value={row.groupCategory}
                           onChange={(e) => {
@@ -1050,107 +1025,212 @@ export function SpreadsheetGioiThieu() {
                             setTopics(updated);
                             setIsDirty(true);
                           }}
-                          className="w-full px-2.5 py-1.5 rounded-xl bg-[#25170E] border border-[#F2C14E]/30 text-[#ffde59] text-xs font-bold focus:outline-none focus:border-[#F2C14E]"
+                          className="w-full px-2.5 py-2.5 bg-[#22140A] border border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E] rounded-xl text-xs text-[#FFE5A3] font-bold focus:outline-none transition-all cursor-pointer shadow-sm"
                         >
-                          <option value="lich-su-chua">1. Lịch Sử Chùa & Đại Sự</option>
-                          <option value="nguoi-lien-quan">2. Chư Tôn Đức & Tổ Sư</option>
-                          <option value="thanh-quy-van-hoa">3. Thanh Quy & Văn Hóa</option>
+                          <option value="lich-su-chua">1. Lịch Sử Chùa</option>
+                          <option value="nguoi-lien-quan">2. Chư Tôn Đức</option>
+                          <option value="thanh-quy-van-hoa">3. Thanh Quy</option>
                         </select>
                       </td>
 
-                      {/* 5. Tóm tắt tổng quan */}
-                      <td className="p-3 border-r border-[#F2C14E]/15">
-                        <textarea
-                          rows={2}
-                          value={row.overviewSummary || ''}
-                          onChange={(e) => {
-                            const updated = [...topics];
-                            updated[origIndex].overviewSummary = e.target.value;
-                            setTopics(updated);
-                            setIsDirty(true);
-                          }}
-                          placeholder="Mô tả tóm tắt..."
-                          className="w-full px-2 py-1 rounded-lg bg-transparent hover:bg-[#25170E] focus:bg-[#25170E] border border-transparent focus:border-[#F2C14E]/40 text-xs text-[#FFE5A3] focus:outline-none"
-                        />
-                      </td>
-
-                      {/* 6. Niên biểu & Media Badges */}
-                      <td className="p-3 text-center border-r border-[#F2C14E]/15">
-                        <div className="flex flex-wrap items-center justify-center gap-1.5">
-                          {msCount > 0 && (
-                            <span
-                              className="px-2 py-0.5 rounded-md bg-[#352012] border border-[#F2C14E]/40 text-[#ffde59] text-[10px] font-bold flex items-center gap-1"
-                              title={`${msCount} mốc niên biểu`}
-                            >
-                              <History className="w-3 h-3 text-[#F2C14E]" />
-                              <span>{msCount}</span>
-                            </span>
-                          )}
-                          {galleryCount > 0 && (
-                            <span
-                              className="px-2 py-0.5 rounded-md bg-[#352012] border border-[#F2C14E]/40 text-[#ffde59] text-[10px] font-bold flex items-center gap-1"
-                              title={`${galleryCount} ảnh tư liệu`}
-                            >
-                              <Images className="w-3 h-3 text-[#F2C14E]" />
-                              <span>{galleryCount}</span>
-                            </span>
-                          )}
-                          {hasQuote && (
-                            <span
-                              className="px-2 py-0.5 rounded-md bg-[#352012] border border-[#F2C14E]/40 text-[#ffde59] text-[10px] font-bold flex items-center gap-1"
-                              title="Có lời dạy / trích dẫn thiền môn"
-                            >
-                              <Quote className="w-3 h-3 text-[#F2C14E]" />
-                            </span>
-                          )}
-                          {hasVideo && (
-                            <span
-                              className="px-2 py-0.5 rounded-md bg-[#352012] border border-[#F2C14E]/40 text-[#ffde59] text-[10px] font-bold flex items-center gap-1"
-                              title="Có video tư liệu"
-                            >
-                              <Video className="w-3 h-3 text-[#F2C14E]" />
-                            </span>
-                          )}
+                      {/* 3. Ảnh bìa */}
+                      <td className="p-2 w-[80px] min-w-[80px] border-r border-[#F2C14E]/15 align-middle text-center">
+                        <div
+                          onClick={() =>
+                            openS3Library((url) => {
+                              const updated = [...topics];
+                              updated[origIndex].heroBanner = url;
+                              setTopics(updated);
+                              setIsDirty(true);
+                            })
+                          }
+                          className="relative w-14 h-12 mx-auto rounded-xl overflow-hidden border border-[#F2C14E]/40 hover:border-[#F2C14E] bg-black/60 cursor-pointer group/banner shadow-sm transition-all hover:scale-105"
+                          title="Bấm để đổi ảnh banner từ S3"
+                        >
+                          <img
+                            src={row.heroBanner || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp'}
+                            alt="Banner"
+                            style={{ objectPosition: row.heroBannerPosition || 'center 50%' }}
+                            className="w-full h-full object-cover"
+                          />
+                          <div className="absolute inset-0 bg-black/50 opacity-0 group-hover/banner:opacity-100 transition-opacity flex items-center justify-center text-[10px] text-white font-bold">
+                            Sửa
+                          </div>
                         </div>
                       </td>
 
-                      {/* 7. Thao tác */}
-                      <td className="p-3 text-center align-middle">
+                      {/* 4. Tiêu đề chủ đề */}
+                      <td className="p-2.5 w-[220px] min-w-[220px] border-r border-[#F2C14E]/15 align-middle">
+                        <input
+                          type="text"
+                          value={row.title || ''}
+                          onChange={(e) => {
+                            const updated = [...topics];
+                            updated[origIndex].title = e.target.value;
+                            setTopics(updated);
+                            setIsDirty(true);
+                          }}
+                          placeholder="Tiêu đề chủ đề..."
+                          className="w-full px-2.5 py-2 bg-[#22140A] border border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E] rounded-xl text-xs text-[#FFE5A3] font-bold focus:outline-none transition-all shadow-sm"
+                        />
+                      </td>
+
+                      {/* 5. Phụ đề / Tác giả */}
+                      <td className="p-2.5 w-[200px] min-w-[200px] border-r border-[#F2C14E]/15 align-middle">
+                        <input
+                          type="text"
+                          value={row.subtitle || row.quoteAuthor || ''}
+                          onChange={(e) => {
+                            const updated = [...topics];
+                            updated[origIndex].subtitle = e.target.value;
+                            setTopics(updated);
+                            setIsDirty(true);
+                          }}
+                          placeholder="Phụ đề / tác giả..."
+                          className="w-full px-2.5 py-2 bg-[#22140A] border border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E] rounded-xl text-xs text-[#FFE5A3] focus:outline-none transition-all shadow-sm"
+                        />
+                      </td>
+
+                      {/* 6. Đa Phương Tiện & Niên Biểu (3 Nút Vector Chuẩn Hóa) */}
+                      <td className="p-2.5 w-[140px] min-w-[140px] border-r border-[#F2C14E]/15 align-middle text-center">
                         <div className="flex items-center justify-center gap-1.5">
+                          {/* Nút Video */}
                           <button
                             type="button"
-                            onClick={() => openBigEditor(origIndex)}
-                            className="p-2 rounded-xl bg-[#2A1D14] hover:bg-[#F2C14E] border border-[#F2C14E]/40 text-[#FFE5A3] hover:text-black transition-all cursor-pointer shadow-sm hover:scale-105"
-                            title="Soạn thảo bài viết Google Docs"
+                            onClick={() => setMediaModal({ isOpen: true, rowIndex: origIndex, tab: 'video' })}
+                            className={`p-2 rounded-xl border flex items-center justify-center relative transition-all cursor-pointer shadow-sm hover:scale-110 ${
+                              hasVideo
+                                ? 'bg-[#352012] border-[#F2C14E] text-[#ffde59] shadow-[0_0_10px_rgba(242,193,78,0.2)]'
+                                : 'bg-[#1C120A] border-[#52331C] text-[#c9b896]/60 hover:text-[#FFE5A3]'
+                            }`}
+                            title={hasVideo ? `Video: ${row.videoBlock?.title}` : 'Cài đặt Video tư liệu'}
                           >
-                            <Edit3 className="w-3.5 h-3.5" />
+                            <Video className="w-4 h-4" />
+                            {hasVideo && (
+                              <span className="absolute -top-1 -right-1 w-2 h-2 bg-[#F2C14E] rounded-full animate-ping" />
+                            )}
                           </button>
 
+                          {/* Nút Niên Biểu */}
                           <button
                             type="button"
-                            onClick={() => setMediaModal({ isOpen: true, rowIndex: origIndex, tab: 'banner' })}
-                            className="p-2 rounded-xl bg-[#2A1D14] hover:bg-[#F2C14E] border border-[#F2C14E]/40 text-[#FFE5A3] hover:text-black transition-all cursor-pointer shadow-sm hover:scale-105"
-                            title="Quản lý Niên biểu, Lời dạy, Đa phương tiện"
+                            onClick={() => setMediaModal({ isOpen: true, rowIndex: origIndex, tab: 'milestones' })}
+                            className={`p-2 rounded-xl border flex items-center justify-center relative transition-all cursor-pointer shadow-sm hover:scale-110 ${
+                              msCount > 0
+                                ? 'bg-[#352012] border-[#F2C14E] text-[#ffde59] shadow-[0_0_10px_rgba(242,193,78,0.2)]'
+                                : 'bg-[#1C120A] border-[#52331C] text-[#c9b896]/60 hover:text-[#FFE5A3]'
+                            }`}
+                            title={`Mốc niên biểu (${msCount} mốc)`}
                           >
-                            <Layers className="w-3.5 h-3.5" />
+                            <History className="w-4 h-4" />
+                            {msCount > 0 && (
+                              <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-[#F2C14E] text-[#1A120B] text-[9px] font-bold rounded-full flex items-center justify-center">
+                                {msCount}
+                              </span>
+                            )}
                           </button>
 
+                          {/* Nút Album Ảnh */}
                           <button
                             type="button"
-                            onClick={() => setPreviewModal(row)}
-                            className="p-2 rounded-xl bg-[#2A1D14] hover:bg-[#F2C14E] border border-[#F2C14E]/40 text-[#FFE5A3] hover:text-black transition-all cursor-pointer shadow-sm hover:scale-105"
-                            title="Xem trước giao diện thực tế"
+                            onClick={() => setMediaModal({ isOpen: true, rowIndex: origIndex, tab: 'gallery' })}
+                            className={`p-2 rounded-xl border flex items-center justify-center relative transition-all cursor-pointer shadow-sm hover:scale-110 ${
+                              galleryCount > 0
+                                ? 'bg-[#352012] border-[#F2C14E] text-[#ffde59] shadow-[0_0_10px_rgba(242,193,78,0.2)]'
+                                : 'bg-[#1C120A] border-[#52331C] text-[#c9b896]/60 hover:text-[#FFE5A3]'
+                            }`}
+                            title={`Bộ sưu tập ảnh (${galleryCount} ảnh)`}
                           >
-                            <Eye className="w-3.5 h-3.5" />
+                            <Images className="w-4 h-4" />
+                            {galleryCount > 0 && (
+                              <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#F2C14E] text-[#1A120B] text-[9px] font-bold rounded-full flex items-center justify-center">
+                                {galleryCount}
+                              </span>
+                            )}
                           </button>
+                        </div>
+                      </td>
 
+                      {/* 7. Nội Dung Chi Tiết (Bấm Mở Trực Tiếp WordPress Gutenberg) */}
+                      <td className="p-2.5 border-r border-[#F2C14E]/15 align-middle max-w-full overflow-hidden">
+                        <div
+                          onClick={() => handleOpenGutenberg(row, origIndex)}
+                          className="w-full min-h-[72px] p-2.5 bg-[#22140A] hover:bg-[#2C1A0E] border border-[#52331C] hover:border-[#F2C14E] rounded-xl cursor-pointer transition-all flex flex-col justify-between group/cell shadow-inner overflow-hidden"
+                          title="Bấm vào để mở trực tiếp trong trình soạn thảo WordPress Gutenberg"
+                        >
+                          <p className="text-xs text-[#F5EADB]/80 line-clamp-2 leading-relaxed truncate">
+                            {row.content
+                              ? row.content.replace(/!\[.*?\]\(.*?\)/g, '[Hình Ảnh]').replace(/<[^>]+>/g, '').slice(0, 140) + '...'
+                              : row.overviewSummary
+                              ? row.overviewSummary.slice(0, 140) + '...'
+                              : 'Chưa có nội dung...'}
+                          </p>
+                          <div className="flex items-center justify-between gap-1 mt-2 pt-1.5 border-t border-[#F2C14E]/15 text-[11px] text-[#F2C14E] overflow-hidden">
+                            <span className="flex items-center gap-1.5 font-bold text-[#F2C14E] group-hover/cell:text-[#ffde59]">
+                              {openingWpId === row.id ? (
+                                <Loader2 className="w-3.5 h-3.5 shrink-0 text-[#F2C14E] animate-spin" />
+                              ) : (
+                                <Edit3 className="w-3.5 h-3.5 shrink-0 text-[#F2C14E]" />
+                              )}
+                              <span className="text-[10px] font-bold uppercase tracking-wider text-[#ffde59]">
+                                {openingWpId === row.id
+                                  ? 'Đang mở WP...'
+                                  : row.wpPostId
+                                  ? `Gutenberg #${row.wpPostId}`
+                                  : 'Mở Gutenberg'}
+                              </span>
+                            </span>
+                            <div className="flex items-center gap-1 text-[10px] text-[#c9b896]/75 shrink-0">
+                              {hasQuote && (
+                                <span
+                                  title="Có trích dẫn thiền môn"
+                                  className="px-1.5 py-0.5 rounded-lg bg-[#180E07] border border-[#F2C14E]/30 text-[#FFE5A3] flex items-center gap-1 font-bold text-[10px]"
+                                >
+                                  <Quote className="w-2.5 h-2.5 text-[#F2C14E]" />
+                                  <span>Trích dẫn</span>
+                                </span>
+                              )}
+                              {msCount > 0 && (
+                                <span
+                                  title={`${msCount} mốc niên biểu`}
+                                  className="px-1.5 py-0.5 rounded-lg bg-[#352012] border border-[#F2C14E]/40 text-[#ffde59] flex items-center gap-1 font-bold text-[10px]"
+                                >
+                                  <History className="w-2.5 h-2.5 text-[#F2C14E]" />
+                                  <span>{msCount} mốc</span>
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+
+                      {/* 8. Thao Tác (Xem Web Trực Tiếp & Xóa) */}
+                      <td className="p-2 w-[85px] min-w-[85px] text-center align-middle">
+                        <div className="flex items-center justify-center gap-1.5">
+                          {/* Nút Xem Web Trực Tiếp */}
+                          {row.slug ? (
+                            <Link
+                              href={publicUrl}
+                              target="_blank"
+                              className="p-2 rounded-xl bg-[#2A1D14] hover:bg-[#3A2718] border border-[#F2C14E]/40 text-[#FFE5A3] hover:text-[#FFDE59] transition-all cursor-pointer shadow-sm hover:scale-105"
+                              title="Mở bài viết trên trang web chính thức (tab mới)"
+                            >
+                              <ExternalLink className="w-4 h-4" />
+                            </Link>
+                          ) : (
+                            <span className="p-2 rounded-xl bg-[#1A110A] border border-[#52331C]/30 text-[#6B5A4E] opacity-50 cursor-not-allowed">
+                              <ExternalLink className="w-4 h-4" />
+                            </span>
+                          )}
+
+                          {/* Nút Xóa */}
                           <button
                             type="button"
                             onClick={() => handleDeleteTopic(origIndex)}
                             className="p-2 rounded-xl bg-red-950/40 hover:bg-red-800 border border-red-500/40 text-red-300 hover:text-white transition-all cursor-pointer shadow-sm hover:scale-105"
                             title="Xóa chủ đề này"
                           >
-                            <Trash2 className="w-3.5 h-3.5" />
+                            <Trash2 className="w-4 h-4" />
                           </button>
                         </div>
                       </td>
@@ -1162,94 +1242,6 @@ export function SpreadsheetGioiThieu() {
           </table>
         </div>
       </div>
-
-      {/* ============================================================ */}
-      {/* 🌟 4. TRÌNH SOẠN THẢO WYSIWYG TOÀN MÀN HÌNH (BIG EDITOR MODAL) */}
-      {/* ============================================================ */}
-      {bigEditor && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/90 backdrop-blur-md animate-in fade-in">
-          <div
-            className={`bg-[#1C120A] border-2 border-[#F2C14E] flex flex-col shadow-[0_0_60px_rgba(242,193,78,0.4)] transition-all duration-200 ${
-              isEditorMaximized
-                ? 'fixed inset-0 rounded-none w-screen h-screen max-w-none max-h-none p-4 sm:p-6'
-                : 'rounded-3xl p-5 sm:p-7 w-full max-w-5xl max-h-[94vh]'
-            }`}
-          >
-            {/* Modal Header */}
-            <div className="flex items-center justify-between pb-3 border-b border-[#F2C14E]/30 shrink-0">
-              <div className="flex items-center gap-3 min-w-0">
-                <div className="w-9 h-9 rounded-xl bg-[#3A2718] border border-[#F2C14E] flex items-center justify-center text-[#ffde59] shrink-0">
-                  <Edit3 className="w-4 h-4" />
-                </div>
-                <h3
-                  style={{ fontFamily: "'UTM Niagara', serif" }}
-                  className="text-2xl sm:text-3xl text-[#ffde59] uppercase tracking-wider font-normal truncate max-w-lg"
-                >
-                  {topics[bigEditor.rowIndex]?.title || 'Soạn thảo chủ đề giới thiệu'}
-                </h3>
-              </div>
-
-              <div className="flex items-center gap-1.5 shrink-0">
-                <button
-                  type="button"
-                  onClick={() => setIsEditorMaximized(!isEditorMaximized)}
-                  className="p-2 rounded-xl hover:bg-[#25170E] text-[#FFE5A3] transition-all cursor-pointer"
-                >
-                  {isEditorMaximized ? <Minimize2 className="w-5 h-5" /> : <Maximize2 className="w-5 h-5" />}
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    const md = getCurrentEditorMarkdown();
-                    const updated = [...topics];
-                    updated[bigEditor.rowIndex].content = md;
-                    setTopics(updated);
-                    setBigEditor(null);
-                  }}
-                  className="p-2 rounded-xl hover:bg-red-900/60 text-[#c9b896] hover:text-white transition-all cursor-pointer"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-            </div>
-
-            {/* Modal Body */}
-            <div className="flex-1 py-3 flex flex-col min-h-0 space-y-3 relative">
-              {editorPreviewMode ? (
-                <div className="flex-1 overflow-y-auto custom-scrollbar bg-[#1C120A] rounded-2xl p-6 border border-[#F2C14E]/30 shadow-inner">
-                  <HeroBanner
-                    bannerUrl={topics[bigEditor.rowIndex].heroBanner}
-                    bannerPosition={topics[bigEditor.rowIndex].heroBannerPosition || 'center 50%'}
-                    title={topics[bigEditor.rowIndex].title}
-                    subtitle={topics[bigEditor.rowIndex].subtitle}
-                  />
-                  <div className="max-w-4xl mx-auto py-8">
-                    <InfographicArticleRenderer
-                      rawContent={topics[bigEditor.rowIndex].content || ''}
-                      title={topics[bigEditor.rowIndex].title}
-                      subtitle={topics[bigEditor.rowIndex].subtitle}
-                    />
-                  </div>
-                </div>
-              ) : (
-                <ZenTipTapEditor
-                  content={topics[bigEditor.rowIndex].content || ''}
-                  onChange={(newMd) => {
-                    const updated = [...topics];
-                    updated[bigEditor.rowIndex].content = newMd;
-                    setTopics(updated);
-                    setIsDirty(true);
-                  }}
-                  folderPath="gioi-thieu"
-                  onOpenS3Explorer={() => setImageLibraryOpen(true)}
-                  previewMode={editorPreviewMode}
-                  onTogglePreview={() => setEditorPreviewMode(!editorPreviewMode)}
-                />
-              )}
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* ============================================================ */}
       {/* 🌟 5. MODAL QUẢN LÝ NIÊN BIỂU, LỜI DẠY, ĐA PHƯƠNG TIỆN      */}

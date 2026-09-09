@@ -395,10 +395,10 @@ export default function TrangChiTietTongChi() {
           console.log('Local fetch failed:', localErr);
         }
 
-        // 2. Lấy nội dung bài viết trực tiếp từ WordPress Live API
+        // 2. Lấy nội dung bài viết trực tiếp từ WordPress Live API (Nguồn nội dung chính thống duy nhất)
         const isNumericId = /^\d+$/.test(slug);
-        const wpTargetId = isBoDeTam ? '470' : (localItem?.wpPostId || slug);
-        const wpUrl = isNumericId || isBoDeTam || localItem?.wpPostId
+        const wpTargetId = localItem?.wpPostId || (isBoDeTam ? '470' : slug === 'tam-quy' ? '488' : slug);
+        const wpUrl = isNumericId || localItem?.wpPostId || isBoDeTam || slug === 'tam-quy'
           ? `https://admin.tunglamhoaphuc.com/wp-json/wp/v2/tong-chi/${wpTargetId}?_embed`
           : `https://admin.tunglamhoaphuc.com/wp-json/wp/v2/tong-chi?slug=${slug}&_embed`;
 
@@ -412,7 +412,7 @@ export default function TrangChiTietTongChi() {
           const res = await fetch(wpUrl, { cache: 'no-store' });
           if (res.ok) {
             const rawData = await res.json();
-            const post = (isNumericId || isBoDeTam || localItem?.wpPostId) ? rawData : (Array.isArray(rawData) && rawData.length > 0 ? rawData[0] : null);
+            const post = (isNumericId || localItem?.wpPostId || isBoDeTam || slug === 'tam-quy') ? rawData : (Array.isArray(rawData) && rawData.length > 0 ? rawData[0] : null);
 
             if (post && post.id) {
               const acf = post.acf || {};
@@ -427,15 +427,15 @@ export default function TrangChiTietTongChi() {
             }
           }
         } catch (wpErr) {
-          console.log('WordPress fetch failed, using local content:', wpErr);
+          console.log('WordPress fetch failed, fallback to local content:', wpErr);
         }
 
-        // 3. Hợp nhất: Hero Banner lấy 100% từ Admin CMS, Nội dung lấy từ WordPress Gutenberg
+        // 3. WordPress Gutenberg là nguồn nội dung duy nhất; Banner quản trị lấy từ CMS
         const finalBanner = localItem?.bannerImage || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/nen-tang-tu-hoc/tong-chi-tu-hoc-nen-tang-tu-hoc-bo-de-tam-herobanner-thumbnail.webp';
         const finalBannerPosition = localItem?.bannerPosition || 'center 47%';
         const finalContent = wpContent || localItem?.content || '';
-        const finalTitle = localItem?.title || wpTitle || (isBoDeTam ? 'BỒ ĐỀ TÂM' : 'TÔNG CHỈ TU HỌC');
-        const finalSubtitle = localItem?.subtitle || wpSubtitle || (isBoDeTam ? 'Cội nguồn thiện pháp' : '');
+        const finalTitle = wpTitle || localItem?.title || (isBoDeTam ? 'BỒ ĐỀ TÂM' : 'TÔNG CHỈ TU HỌC');
+        const finalSubtitle = wpSubtitle || localItem?.subtitle || (isBoDeTam ? 'Cội nguồn thiện pháp' : '');
 
         const defaultSourceBooks = [
           {

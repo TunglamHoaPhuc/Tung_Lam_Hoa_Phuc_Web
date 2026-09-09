@@ -51,7 +51,11 @@ import {
   Flame,
   ArrowLeft,
   ChevronRight,
-  Bell
+  Bell,
+  Cloud,
+  Star,
+  Table as TableIcon,
+  Globe
 } from 'lucide-react';
 
 import ZenTipTapEditor from './ZenTipTapEditor';
@@ -344,29 +348,13 @@ function cleanAndExtractContent(raw: string, currentArticle?: Partial<PostRecord
   };
 }
 
-// DANH MỤC LỚN PHÂN HỆ
-const MAIN_CATEGORIES = [
-  { id: 'all', label: 'Tất Cả Phân Hệ', icon: BookOpen },
-  { id: 'dong-chay-hoang-phap', label: 'Dòng Chảy Hoằng Pháp', icon: Waves },
-  { id: 'tri-tue-phat-phap', label: 'Trí Tuệ Phật Pháp', icon: Sparkles },
-  { id: 'gioi-thieu', label: 'Giới Thiệu Tông Phong', icon: Landmark },
-];
-
-const SUB_CATEGORIES_HOANG_PHAP = [
-  { id: 'all', label: 'Tất cả 4 mục' },
-  { id: 'cong-tu', label: '1. Cộng Tu' },
-  { id: 'khoa-le-truyen-thong', label: '2. Khóa Lễ Truyền Thống' },
-  { id: 'dai-le-su-kien', label: '3. Đại Lễ Sự Kiện' },
-  { id: 'tinh-do-nhan-gian', label: '4. Tịnh Độ Nhân Gian' },
-];
-
-const SUB_CATEGORIES_TRI_TUE = [
-  { id: 'all', label: 'Tất cả danh mục' },
-  { id: 'giao-ly-kinh-dien', label: 'Giáo Lý & Kinh Điển' },
-  { id: 'phap-thoai', label: 'Pháp Thoại & Bài Giảng' },
-  { id: 'cau-chuyen-dao', label: 'Câu Chuyện Đạo & Nhân Quả' },
-  { id: 'phap-nhac', label: 'Pháp Nhạc & Thi Ca' },
-  { id: 'an-pham-sach', label: 'Ấn Phẩm & Sách' },
+// 🌟 DANH MỤC DÒNG CHẢY HOẰNG PHÁP (4 MỤC CHUẨN ĐỒNG BỘ TRANG CHỦ)
+export const HOANG_PHAP_CATEGORIES = [
+  { id: 'all', name: 'Tất Cả Mục Hoằng Pháp' },
+  { id: 'cong-tu', name: '1. Cộng Tu Định Kỳ' },
+  { id: 'khoa-le-truyen-thong', name: '2. Khóa Lễ Truyền Thống' },
+  { id: 'dai-le-su-kien', name: '3. Đại Lễ Sự Kiện' },
+  { id: 'tinh-do-nhan-gian', name: '4. Tịnh Độ Nhân Gian' },
 ];
 
 export function SpreadsheetPosts() {
@@ -377,11 +365,10 @@ export function SpreadsheetPosts() {
   const [lastSavedTime, setLastSavedTime] = useState<string | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  // Filters & Search
-  const [mainTab, setMainTab] = useState('all');
-  const [subTab, setSubTab] = useState('all');
-  const [statusFilter, setStatusFilter] = useState<'all' | 'published' | 'draft'>('all');
+  // Filters & Search (Tối giản 1 dropdown & 1 ô tìm kiếm giống Tông Chỉ)
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [openingWpId, setOpeningWpId] = useState<string | null>(null);
 
   // 🌟 S3 File Explorer Modal
   const [imageLibraryOpen, setImageLibraryOpen] = useState(false);
@@ -454,6 +441,29 @@ export function SpreadsheetPosts() {
       showToast(`Lỗi khi tải dữ liệu bài viết: ${err.message}`);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const [syncingWp, setSyncingWp] = useState(false);
+
+  // 🔄 Đồng bộ bài viết và phân loại ảnh từ WordPress tunglamhoaphuc.com
+  const handleSyncWordPress = async () => {
+    if (syncingWp) return;
+    setSyncingWp(true);
+    showToast('⚡ Đang đồng bộ bài viết & sao chép ảnh S3 từ WordPress tunglamhoaphuc.com...');
+    try {
+      const res = await fetch('/api/admin/sync-wp-posts', { method: 'POST' });
+      const data = await res.json();
+      if (data.success) {
+        showToast(`✅ Đã đồng bộ thành công ${data.syncedWpPosts} bài viết từ WordPress!`);
+        await fetchPosts();
+      } else {
+        showToast(`❌ Lỗi đồng bộ: ${data.error}`);
+      }
+    } catch (err: any) {
+      showToast(`❌ Lỗi kết nối: ${err.message}`);
+    } finally {
+      setSyncingWp(false);
     }
   };
 
@@ -753,24 +763,29 @@ export function SpreadsheetPosts() {
     return bigEditor?.value || '';
   };
 
-  // 💾 Core function lưu toàn bộ dữ liệu vào Backend
+  // 💾 Core function lưu toàn bộ dữ liệu vào Backend (Tự động xuất bản 100%)
   const savePostsToBackend = async (postsToSave: PostRecord[], silent: boolean = false) => {
     if (saving) return;
     setSaving(true);
+
+    const normalized = postsToSave.map((p) => ({
+      ...p,
+      status: 'published' as const,
+    }));
 
     try {
       const res = await fetch('/api/admin/posts', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(postsToSave),
+        body: JSON.stringify(normalized),
       });
       const data = await res.json();
       if (data.success) {
-        setPosts(postsToSave);
+        setPosts(normalized);
         setIsDirty(false);
         const timeStr = new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
         setLastSavedTime(timeStr);
-        if (!silent) showToast(`✅ Đã lưu thành công ${postsToSave.length} bài viết!`);
+        if (!silent) showToast(`✅ Đã lưu thành công ${normalized.length} bài viết!`);
       } else {
         showToast(data.error || 'Có lỗi xảy ra khi lưu bài viết');
       }
@@ -822,19 +837,74 @@ export function SpreadsheetPosts() {
     }, 50);
   };
 
-  // Thêm bài viết mới
+  // 🌟 MỞ TRỰC TIẾP TRÌNH SOẠN THẢO WORDPRESS GUTENBERG (1-CLICK)
+  const handleOpenGutenberg = async (row: PostRecord, index: number) => {
+    setOpeningWpId(row.id);
+    showToast('⚡ Đang kết nối WordPress và nạp nội dung bài viết vào Gutenberg...');
+
+    // Mở tab trống trước để chống popup blocker của trình duyệt
+    const newTab = window.open('about:blank', '_blank');
+
+    try {
+      const res = await fetch('/api/admin/wp-post-create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: row.wpPostId,
+          title: row.title || 'Bài viết mới',
+          subtitle: row.subtitle || row.summary || '',
+          content: (row as any).contentHtml || (row as any).content || row.summary || '',
+          contentHtml: (row as any).contentHtml || '',
+          summary: row.summary || row.subtitle || '',
+          category: row.mainCategory || 'dong-chay-hoang-phap',
+          postType: 'post',
+          photoGallery: row.photoGallery || [],
+        }),
+      });
+      const data = await res.json();
+      if (data.success && data.editUrl) {
+        if (data.wpPostId && String(data.wpPostId) !== String(row.wpPostId)) {
+          const updated = [...posts];
+          updated[index].wpPostId = String(data.wpPostId);
+          setPosts(updated);
+          await savePostsToBackend(updated, true);
+        }
+        if (newTab) {
+          newTab.location.href = data.editUrl;
+        } else {
+          window.open(data.editUrl, '_blank', 'noopener,noreferrer');
+        }
+        showToast('✨ Đã mở trình soạn thảo WordPress Gutenberg với đầy đủ nội dung bài viết!');
+      } else {
+        const fallbackUrl = 'https://admin.tunglamhoaphuc.com/wp-admin/post-new.php';
+        if (newTab) newTab.location.href = fallbackUrl;
+        else window.open(fallbackUrl, '_blank', 'noopener,noreferrer');
+      }
+    } catch (err: any) {
+      const fallbackUrl = 'https://admin.tunglamhoaphuc.com/wp-admin/post-new.php';
+      if (newTab) newTab.location.href = fallbackUrl;
+      else window.open(fallbackUrl, '_blank', 'noopener,noreferrer');
+    } finally {
+      setOpeningWpId(null);
+    }
+  };
+
+  // Thêm bài viết mới (Chuyên biệt cho Dòng Chảy Hoằng Pháp)
   const handleAddNewPost = () => {
+    const subCat = selectedCategory !== 'all' ? selectedCategory : 'cong-tu';
+    const catName = HOANG_PHAP_CATEGORIES.find((c) => c.id === subCat)?.name.replace(/^\d+\.\s*/, '') || 'Cộng Tu';
+
     const newPost: PostRecord = {
       id: `post-${Date.now()}`,
-      slug: `bai-viet-moi-${Date.now().toString().slice(-4)}`,
-      title: 'Bài viết mới chưa đặt tên',
+      slug: `hoang-phap-${Date.now().toString().slice(-4)}`,
+      title: 'Bài viết hoằng pháp mới',
       subtitle: 'Tùng Lâm Hòa Phúc',
-      mainCategory: mainTab !== 'all' ? (mainTab as any) : 'dong-chay-hoang-phap',
-      subCategory: subTab !== 'all' ? subTab : 'cong-tu',
-      categoryName: 'Cộng Tu',
+      mainCategory: 'dong-chay-hoang-phap',
+      subCategory: subCat,
+      categoryName: catName,
       author: 'Ban Văn Hóa Tùng Lâm',
       publishedDate: new Date().toISOString().split('T')[0],
-      status: 'draft',
+      status: 'published',
       viewsCount: 0,
       thumbnailUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp',
       thumbnailPosition: 'center 50%',
@@ -851,8 +921,7 @@ export function SpreadsheetPosts() {
     const updated = [newPost, ...posts];
     setPosts(updated);
     setIsDirty(true);
-    showToast('✨ Đã thêm dòng bài viết mới vào đầu bảng tính!');
-    openBigEditor(0);
+    showToast('✨ Đã thêm bài viết mới vào Dòng Chảy Hoằng Pháp!');
   };
 
   // Xóa bài viết
@@ -868,17 +937,14 @@ export function SpreadsheetPosts() {
     showToast(`🗑️ Đã xóa bài viết "${target.title}"`);
   };
 
-  // Filtered Posts for Spreadsheet Display
+  // Filtered Posts: Chỉ quản lý DÒNG CHẢY HOẰNG PHÁP
   const filteredPosts = useMemo(() => {
     return posts.filter((p) => {
-      if (mainTab !== 'all') {
-        if (p.mainCategory !== mainTab && p.subCategory !== mainTab) return false;
-      }
-      if (subTab !== 'all') {
-        if (p.subCategory !== subTab && p.mainCategory !== subTab) return false;
-      }
-      if (statusFilter !== 'all') {
-        if (p.status !== statusFilter) return false;
+      // 🌟 Chỉ hiển thị bài viết thuộc Dòng Chảy Hoằng Pháp
+      if (p.mainCategory !== 'dong-chay-hoang-phap') return false;
+
+      if (selectedCategory !== 'all') {
+        if (p.subCategory !== selectedCategory) return false;
       }
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase();
@@ -890,507 +956,427 @@ export function SpreadsheetPosts() {
       }
       return true;
     });
-  }, [posts, mainTab, subTab, statusFilter, searchQuery]);
+  }, [posts, selectedCategory, searchQuery]);
+
+  const hoangPhapCount = posts.filter((p) => p.mainCategory === 'dong-chay-hoang-phap').length;
 
   return (
-    <div className="w-full min-h-screen bg-[#140D07] text-[#FFE5A3] p-4 sm:p-6 lg:p-8 font-sans selection:bg-[#F2C14E] selection:text-black">
+    <div style={{ fontFamily: "'UTM Avo', sans-serif" }} className="space-y-4">
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-[999] px-5 py-3 rounded-2xl bg-[#2A1D14] border-2 border-[#F2C14E] text-[#ffde59] text-xs sm:text-sm font-bold shadow-[0_10px_30px_rgba(0,0,0,0.8)] backdrop-blur-md animate-in fade-in slide-in-from-bottom-5">
-          {toastMessage}
+        <div className="fixed bottom-6 right-6 z-[999] px-5 py-3 rounded-2xl bg-[#25170E] border-2 border-[#F2C14E] text-[#FFE5A3] font-bold text-xs shadow-[0_10px_35px_rgba(0,0,0,0.8)] animate-in fade-in slide-in-from-bottom-5 flex items-center gap-2.5 backdrop-blur-md">
+          <span>{toastMessage}</span>
         </div>
       )}
 
-      {/* 🌟 1. BANNER TIÊU ĐỀ & THỐNG KÊ (ZEN MINIMALIST) */}
-      <div className="bg-[#1C120A] border border-[#F2C14E]/30 rounded-3xl p-6 sm:p-8 mb-6 shadow-[0_0_40px_rgba(242,193,78,0.15)] relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-[#F2C14E]/5 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 relative z-10">
+      {/* Action Header Toolbar (ICON-ONLY MINIMAL) */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#25170E] p-4 rounded-2xl border border-[#F2C14E]/30 shadow-lg">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-[#3A2718] border border-[#F2C14E]/50 flex items-center justify-center text-[#F2C14E] shrink-0">
+            <Waves className="w-5 h-5" />
+          </div>
           <div>
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-10 h-10 rounded-2xl bg-[#2D1B10] border border-[#F2C14E]/60 flex items-center justify-center text-[#F2C14E] shadow-inner">
-                <FileSpreadsheet className="w-5 h-5" />
-              </div>
-              <h1
-                style={{ fontFamily: "'UTM Niagara', serif" }}
-                className="text-3xl sm:text-4xl text-[#ffde59] uppercase tracking-wider font-normal drop-shadow-md"
-              >
-                QUẢN LÝ BÀI VIẾT & SỰ KIỆN TOÀN NĂNG
-              </h1>
-            </div>
-            <p className="text-xs sm:text-sm text-[#c9b896] max-w-2xl">
-              Hệ thống Bảng Tính Sheet đồng bộ 100% đa phương tiện, video pháp thoại, album ảnh tư liệu, trích nguồn sách, chú thích từ khóa và sự kiện sắp tới.
+            <h2 className="text-sm font-bold text-[#ffde59] uppercase tracking-wider flex items-center gap-2 flex-wrap">
+              <span>Bảng Quản Trị Dòng Chảy Hoằng Pháp</span>
+              <span className="px-2 py-0.5 rounded-full bg-green-500/20 text-green-400 text-[10px] font-bold border border-green-500/40 flex items-center gap-1">
+                <Cloud className="w-3 h-3" /> S3 Sẵn Sàng
+              </span>
+              <span className="px-2 py-0.5 rounded-full bg-[#F2C14E]/20 text-[#FFE5A3] text-[10px] font-bold border border-[#F2C14E]/40">
+                {hoangPhapCount} Bài Viết
+              </span>
+            </h2>
+            <p className="text-[11px] text-[#c9b896] flex items-center gap-1.5 flex-wrap">
+              <span>Thời khóa cộng tu, khóa lễ truyền thống, đại lễ sự kiện &amp; tịnh độ nhân gian</span>
+              <span>•</span>
+              <span>Bấm ô &quot;Nội Dung&quot; mở Gutenberg</span>
+              <span>•</span>
+              <span>Tự động xuất bản</span>
             </p>
           </div>
-
-          {/* Action Buttons */}
-          <div className="flex flex-wrap items-center gap-2.5">
-            <button
-              type="button"
-              onClick={handleAddNewPost}
-              className="px-4 py-2.5 rounded-xl bg-[#F2C14E] hover:bg-[#ffde59] text-[#140D07] text-xs font-bold flex items-center gap-2 shadow-[0_0_20px_rgba(242,193,78,0.4)] transition-all cursor-pointer hover:scale-105"
-            >
-              <Plus className="w-4 h-4 stroke-[3]" />
-              <span>Thêm Bài Viết Mới</span>
-            </button>
-
-            <button
-              type="button"
-              disabled={saving}
-              onClick={() => savePostsToBackend(posts, false)}
-              className="px-4 py-2.5 rounded-xl bg-[#2D1B10] hover:bg-[#F2C14E] text-[#FFE5A3] hover:text-[#140D07] border border-[#F2C14E]/40 text-xs font-bold flex items-center gap-2 transition-all cursor-pointer hover:scale-105 disabled:opacity-50"
-              title="Lưu toàn bộ thay đổi (Ctrl+S)"
-            >
-              {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
-              <span>{saving ? 'Đang lưu...' : 'Lưu Thay Đổi (Ctrl+S)'}</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={fetchPosts}
-              className="w-10 h-10 rounded-xl bg-[#2D1B10] hover:bg-[#3A2718] border border-[#F2C14E]/30 text-[#FFE5A3] flex items-center justify-center transition-all cursor-pointer"
-              title="Tải lại dữ liệu"
-            >
-              <RefreshCw className="w-4 h-4" />
-            </button>
-          </div>
         </div>
 
-        {/* 4 Quick Stat Badges */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-6 pt-6 border-t border-[#F2C14E]/20 text-xs">
-          <div className="p-3 rounded-2xl bg-[#25170E]/80 border border-[#F2C14E]/20 flex items-center justify-between">
-            <span className="text-[#c9b896]">Tổng bài viết:</span>
-            <span className="font-bold text-[#ffde59] text-base">{posts.length}</span>
-          </div>
-          <div className="p-3 rounded-2xl bg-[#25170E]/80 border border-[#F2C14E]/20 flex items-center justify-between">
-            <span className="text-[#c9b896]">Hoằng Pháp:</span>
-            <span className="font-bold text-[#ffde59] text-base">
-              {posts.filter((p) => p.mainCategory === 'dong-chay-hoang-phap').length}
-            </span>
-          </div>
-          <div className="p-3 rounded-2xl bg-[#25170E]/80 border border-[#F2C14E]/20 flex items-center justify-between">
-            <span className="text-[#c9b896]">Trí Tuệ Phật Pháp:</span>
-            <span className="font-bold text-[#ffde59] text-base">
-              {posts.filter((p) => p.mainCategory === 'tri-tue-phat-phap').length}
-            </span>
-          </div>
-          <div className="p-3 rounded-2xl bg-[#25170E]/80 border border-[#F2C14E]/20 flex items-center justify-between">
-            <span className="text-[#c9b896]">Đã xuất bản:</span>
-            <span className="font-bold text-emerald-400 text-base">
-              {posts.filter((p) => p.status === 'published').length}
-            </span>
-          </div>
+        {/* ICON-ONLY BUTTONS */}
+        <div className="flex items-center gap-2">
+          {/* Nút 0: Quản Lý Tệp S3 Đám Mây */}
+          <button
+            type="button"
+            onClick={() => {
+              setTargetImageCallback(null);
+              setImageLibraryOpen(true);
+            }}
+            className="w-10 h-10 rounded-xl bg-[#2A1D14] hover:bg-[#3A2718] border border-[#F2C14E]/50 text-[#F2C14E] hover:text-[#ffde59] flex items-center justify-center transition-all cursor-pointer shadow-md hover:scale-105"
+            title="Mở Trình Quản Lý Tệp S3 Đám Mây (Cây Thư Mục & Quản Lý Ảnh)"
+          >
+            <Cloud className="w-5 h-5" />
+          </button>
+
+          {/* Nút 1: Thêm Bài Viết */}
+          <button
+            type="button"
+            onClick={handleAddNewPost}
+            className="w-10 h-10 rounded-xl bg-[#2A1D14] hover:bg-[#3A2718] border border-[#F2C14E]/50 text-[#F2C14E] hover:text-[#ffde59] flex items-center justify-center transition-all cursor-pointer shadow-md hover:scale-105"
+            title="Thêm Bài Viết Mới vào Dòng Chảy Hoằng Pháp"
+          >
+            <Plus className="w-5 h-5" />
+          </button>
+
+          {/* Nút 2: Tải lại */}
+          <button
+            type="button"
+            onClick={fetchPosts}
+            className="w-10 h-10 rounded-xl bg-[#2A1D14] hover:bg-[#3A2718] border border-[#F2C14E]/50 text-[#F2C14E] hover:text-[#ffde59] flex items-center justify-center transition-all cursor-pointer shadow-md hover:scale-105"
+            title="Tải lại dữ liệu bài viết"
+          >
+            <RefreshCw className="w-5 h-5" />
+          </button>
+
+          {/* Nút 2.5: Đồng bộ WordPress tunglamhoaphuc.com */}
+          <button
+            type="button"
+            onClick={handleSyncWordPress}
+            disabled={syncingWp}
+            className="w-10 h-10 rounded-xl bg-[#2A1D14] hover:bg-[#3A2718] border border-[#F2C14E]/50 text-[#F2C14E] hover:text-[#ffde59] flex items-center justify-center transition-all cursor-pointer shadow-md hover:scale-105 disabled:opacity-50"
+            title="Đồng bộ toàn bộ bài viết mới từ WordPress tunglamhoaphuc.com & sao chép ảnh S3"
+          >
+            {syncingWp ? <RefreshCw className="w-5 h-5 animate-spin" /> : <Globe className="w-5 h-5" />}
+          </button>
+
+          {/* Nút 3: Lưu Bảng Tính */}
+          <button
+            type="button"
+            onClick={() => savePostsToBackend(posts, false)}
+            disabled={saving}
+            className="w-10 h-10 rounded-xl bg-[#2A1D14] hover:bg-[#F2C14E] border border-[#F2C14E]/50 text-[#F2C14E] hover:text-[#1A120B] flex items-center justify-center transition-all cursor-pointer shadow-md hover:scale-105 disabled:opacity-50"
+            title="Lưu toàn bộ bài viết (Ctrl+S)"
+          >
+            {saving ? <RefreshCw className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
+          </button>
         </div>
       </div>
 
-      {/* 🌟 2. BỘ LỌC PHÂN HỆ VÀ TÌM KIẾM ĐA CẤP */}
-      <div className="space-y-4 mb-6">
-        {/* Phân hệ chính (Dòng Chảy Hoằng Pháp / Trí Tuệ Phật Pháp / Giới Thiệu) */}
-        <div className="flex items-center gap-2 p-1.5 bg-[#1C120A] rounded-2xl border border-[#F2C14E]/30 overflow-x-auto custom-scrollbar">
-          {MAIN_CATEGORIES.map((cat) => {
-            const Icon = cat.icon;
-            const isActive = mainTab === cat.id;
+      {/* Filter and Search Bar */}
+      <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3">
+        <div className="relative flex-1">
+          <Search className="w-4 h-4 text-[#F2C14E] absolute left-3 top-1/2 -translate-y-1/2" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Tìm kiếm theo tiêu đề bài viết, tác giả hoặc nội dung..."
+            className="w-full pl-9 pr-3 py-2.5 bg-[#1C120A] border border-[#F2C14E]/30 rounded-xl text-xs text-[#FFE5A3] placeholder-[#c9b896]/40 focus:outline-none focus:border-[#F2C14E] shadow-sm"
+          />
+        </div>
+
+        {/* Dropdown Lọc Chuyên Mục Hoằng Pháp */}
+        <select
+          value={selectedCategory}
+          onChange={(e) => setSelectedCategory(e.target.value)}
+          className="px-3.5 py-2.5 bg-[#22140A] border border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E] rounded-xl text-xs text-[#FFE5A3] font-bold focus:outline-none cursor-pointer shadow-sm min-w-[240px]"
+        >
+          {HOANG_PHAP_CATEGORIES.map((c) => {
+            const count =
+              c.id === 'all'
+                ? posts.filter((p) => p.mainCategory === 'dong-chay-hoang-phap').length
+                : posts.filter((p) => p.mainCategory === 'dong-chay-hoang-phap' && p.subCategory === c.id).length;
             return (
-              <button
-                key={cat.id}
-                type="button"
-                onClick={() => {
-                  setMainTab(cat.id);
-                  setSubTab('all');
-                }}
-                className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center gap-2 whitespace-nowrap cursor-pointer ${
-                  isActive
-                    ? 'bg-[#F2C14E] text-[#140D07] shadow-md'
-                    : 'text-[#c9b896] hover:text-white hover:bg-[#25170E]'
-                }`}
-              >
-                <Icon className="w-4 h-4" />
-                <span>{cat.label}</span>
-              </button>
+              <option key={c.id} value={c.id}>
+                {c.name} ({count})
+              </option>
             );
           })}
-        </div>
-
-        {/* Danh mục con (4 Mục Lớn Hoằng Pháp hoặc Trí Tuệ Phật Pháp) */}
-        {(mainTab === 'dong-chay-hoang-phap' || mainTab === 'all') && (
-          <div className="flex items-center gap-2 p-1.5 bg-[#25170E]/60 rounded-xl border border-[#F2C14E]/20 overflow-x-auto custom-scrollbar text-xs">
-            <span className="text-[11px] font-bold text-[#F2C14E] uppercase px-2 shrink-0 flex items-center gap-1">
-              <Waves className="w-3.5 h-3.5" />
-              <span>Hoằng Pháp:</span>
-            </span>
-            {SUB_CATEGORIES_HOANG_PHAP.map((sub) => (
-              <button
-                key={sub.id}
-                type="button"
-                onClick={() => {
-                  if (mainTab === 'all') setMainTab('dong-chay-hoang-phap');
-                  setSubTab(sub.id);
-                }}
-                className={`px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap cursor-pointer ${
-                  subTab === sub.id && mainTab === 'dong-chay-hoang-phap'
-                    ? 'bg-[#F2C14E] text-[#140D07] shadow-sm'
-                    : 'text-[#FFE5A3]/80 hover:text-white hover:bg-[#352012]'
-                }`}
-              >
-                {sub.label}
-              </button>
-            ))}
-          </div>
-        )}
-
-        {mainTab === 'tri-tue-phat-phap' && (
-          <div className="flex items-center gap-2 p-1.5 bg-[#25170E]/60 rounded-xl border border-[#F2C14E]/20 overflow-x-auto custom-scrollbar text-xs">
-            <span className="text-[11px] font-bold text-[#F2C14E] uppercase px-2 shrink-0 flex items-center gap-1">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>Trí Tuệ:</span>
-            </span>
-            {SUB_CATEGORIES_TRI_TUE.map((sub) => (
-              <button
-                key={sub.id}
-                type="button"
-                onClick={() => setSubTab(sub.id)}
-                className={`px-3 py-1.5 rounded-lg font-bold transition-all whitespace-nowrap cursor-pointer ${
-                  subTab === sub.id
-                    ? 'bg-[#F2C14E] text-[#140D07] shadow-sm'
-                    : 'text-[#FFE5A3]/80 hover:text-white hover:bg-[#352012]'
-                }`}
-              >
-                {sub.label}
-              </button>
-            ))}
-          </div>
-        )}
-
-        {/* Thanh tìm kiếm & Trạng thái */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-1">
-          <div className="relative w-full sm:w-80">
-            <Search className="w-4 h-4 text-[#c9b896] absolute left-3.5 top-1/2 -translate-y-1/2" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Tìm theo tiêu đề, tác giả, nội dung..."
-              className="w-full pl-9 pr-4 py-2 bg-[#1C120A] border border-[#F2C14E]/30 rounded-xl text-xs text-white placeholder-[#c9b896]/60 focus:outline-none focus:border-[#F2C14E]"
-            />
-          </div>
-
-          <div className="flex items-center gap-2 self-end sm:self-auto text-xs">
-            <span className="text-[#c9b896]">Trạng thái:</span>
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value as any)}
-              className="px-3 py-1.5 bg-[#1C120A] border border-[#F2C14E]/30 rounded-xl text-xs text-[#ffde59] font-bold focus:outline-none focus:border-[#F2C14E]"
-            >
-              <option value="all">Tất cả ({posts.length})</option>
-              <option value="published">Đã xuất bản</option>
-              <option value="draft">Bản nháp</option>
-            </select>
-          </div>
-        </div>
+        </select>
       </div>
 
-      {/* 🌟 3. BẢNG TÍNH SHEET TOÀN NĂNG (SPREADSHEET POSTS TABLE) */}
-      <div className="bg-[#1C120A] border border-[#F2C14E]/30 rounded-3xl overflow-hidden shadow-2xl">
-        <div className="overflow-x-auto custom-scrollbar">
-          <table className="w-full text-left border-collapse text-xs">
-            <thead>
-              <tr className="bg-[#24160C] text-[#ffde59] border-b border-[#F2C14E]/30 font-bold uppercase tracking-wider select-none">
-                <th className="p-3 text-center w-12 border-r border-[#F2C14E]/20">STT</th>
-                <th className="p-3 text-center w-24 border-r border-[#F2C14E]/20">Trạng thái</th>
-                <th className="p-3 text-center w-20 border-r border-[#F2C14E]/20">Ảnh bìa</th>
-                <th className="p-3 min-w-[280px] border-r border-[#F2C14E]/20">Tiêu đề & Đường dẫn (Slug)</th>
-                <th className="p-3 min-w-[160px] border-r border-[#F2C14E]/20">Phân loại & Danh mục</th>
-                <th className="p-3 min-w-[140px] border-r border-[#F2C14E]/20">Tác giả</th>
-                <th className="p-3 min-w-[110px] border-r border-[#F2C14E]/20">Ngày đăng</th>
-                <th className="p-3 min-w-[140px] text-center border-r border-[#F2C14E]/20">Đa phương tiện</th>
-                <th className="p-3 text-center w-28">Thao tác</th>
+      {/* Excel Table Grid (Gọn Gàng Cốt Lõi) */}
+      <div className="rounded-2xl border border-[#F2C14E]/35 bg-[#1C120A] overflow-hidden shadow-2xl">
+        <div className="overflow-x-auto max-h-[78vh] custom-scrollbar">
+          <table className="w-full border-collapse text-xs text-left min-w-[1100px] table-fixed">
+            <thead className="sticky top-0 z-20 bg-[#321F14] text-[#F2C14E] uppercase tracking-wider font-bold border-b border-[#F2C14E]/40 select-none shadow-md">
+              <tr>
+                <th className="p-3 w-[45px] min-w-[45px] text-center border-r border-[#F2C14E]/20">#</th>
+                <th className="p-3 w-[160px] min-w-[160px] border-r border-[#F2C14E]/20 text-center">Chuyên Mục</th>
+                <th className="p-3 w-[80px] min-w-[80px] text-center border-r border-[#F2C14E]/20">Ảnh Bìa</th>
+                <th className="p-3 w-[220px] min-w-[220px] border-r border-[#F2C14E]/20">Tiêu Đề Bài Viết</th>
+                <th className="p-3 w-[200px] min-w-[200px] border-r border-[#F2C14E]/20">Tác Giả & Ngày</th>
+                <th className="p-3 w-[140px] min-w-[140px] border-r border-[#F2C14E]/20 text-center">Đa Phương Tiện</th>
+                <th
+                  className="p-3 border-r border-[#F2C14E]/20 cursor-help"
+                  title="Bấm vào từng ô để mở trực tiếp trong trình soạn thảo WordPress Gutenberg"
+                >
+                  <div className="flex items-center gap-1.5">
+                    <span>Nội Dung Chi Tiết</span>
+                    <Edit3 className="w-3.5 h-3.5 text-[#F2C14E]/80 shrink-0" />
+                  </div>
+                </th>
+                <th className="p-3 w-[85px] min-w-[85px] text-center">Thao Tác</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[#F2C14E]/15">
               {loading ? (
                 <tr>
-                  <td colSpan={9} className="p-12 text-center text-[#FFE5A3]">
+                  <td colSpan={8} className="p-12 text-center text-[#c9b896]/70">
                     <Loader2 className="w-8 h-8 animate-spin mx-auto mb-2 text-[#F2C14E]" />
                     <span>Đang tải dữ liệu bài viết...</span>
                   </td>
                 </tr>
               ) : filteredPosts.length === 0 ? (
                 <tr>
-                  <td colSpan={9} className="p-12 text-center text-[#c9b896]">
-                    Không tìm thấy bài viết nào phù hợp với bộ lọc.
+                  <td colSpan={8} className="p-12 text-center text-[#c9b896]/70">
+                    Chưa có bài viết nào trong chuyên mục Hoằng Pháp này.
                   </td>
                 </tr>
               ) : (
-                filteredPosts.map((row, index) => {
-                  const origIndex = posts.findIndex((p) => p.id === row.id);
-                  const isHoangPhap = row.mainCategory === 'dong-chay-hoang-phap';
-                  const publicUrl = isHoangPhap
-                    ? `/dong-chay-hoang-phap/${row.slug}`
-                    : row.mainCategory === 'tri-tue-phat-phap'
-                    ? `/tri-tue-phat-phap/${row.slug}`
-                    : `/gioi-thieu`;
+                filteredPosts.map((row, filterIdx) => {
+                  const targetIdx = posts.findIndex((p) => p.id === row.id);
+                  const actualIdx = targetIdx !== -1 ? targetIdx : filterIdx;
 
                   const kwCount = row.keywords?.length || 0;
                   const galleryCount = row.photoGallery?.length || 0;
                   const hasVideo = Boolean(row.videoBlock?.videoUrl);
                   const hasBook = Boolean(row.sourceBook);
-                  const editionsCount = row.previousEditions?.length || 0;
-                  const eventsCount = row.upcomingEvents?.length || 0;
+                  const hasFeatured = Boolean(row.featuredArticle?.title);
+                  const publicUrl = `/dong-chay-hoang-phap/${row.slug}`;
 
                   return (
                     <tr
-                      key={row.id || index}
-                      className="hover:bg-[#25170E]/60 transition-colors group"
+                      key={row.id || filterIdx}
+                      className={`transition-colors group focus-within:bg-[#2D1B0F] ${
+                        filterIdx % 2 === 0 ? 'bg-[#170E08]' : 'bg-[#120A05]'
+                      } hover:bg-[#26160B]`}
                     >
                       {/* 1. STT */}
-                      <td className="p-3 text-center font-mono font-bold text-[#c9b896] border-r border-[#F2C14E]/15">
-                        {index + 1}
+                      <td className="p-3 w-[45px] min-w-[45px] text-center font-mono font-bold text-[#F2C14E] border-r border-[#F2C14E]/15 bg-[#140D07]/60 align-middle">
+                        {actualIdx + 1}
                       </td>
 
-                      {/* 2. Trạng thái */}
-                      <td className="p-3 text-center border-r border-[#F2C14E]/15">
-                        <button
-                          type="button"
-                          onClick={() => {
+                      {/* 2. Chuyên Mục Hoằng Pháp */}
+                      <td className="p-2.5 w-[160px] min-w-[160px] border-r border-[#F2C14E]/15 align-middle">
+                        <select
+                          value={row.subCategory || 'cong-tu'}
+                          onChange={(e) => {
                             const updated = [...posts];
-                            updated[origIndex].status =
-                              updated[origIndex].status === 'published' ? 'draft' : 'published';
+                            updated[actualIdx].mainCategory = 'dong-chay-hoang-phap';
+                            updated[actualIdx].subCategory = e.target.value;
+                            const matched = HOANG_PHAP_CATEGORIES.find((c) => c.id === e.target.value);
+                            if (matched) updated[actualIdx].categoryName = matched.name.replace(/^\d+\.\s*/, '');
                             setPosts(updated);
                             setIsDirty(true);
                           }}
-                          className={`px-2 py-1 rounded-full text-[10px] font-bold border transition-all cursor-pointer ${
-                            row.status === 'published'
-                              ? 'bg-emerald-950/70 border-emerald-500/50 text-emerald-300 hover:bg-emerald-900'
-                              : 'bg-amber-950/70 border-amber-500/50 text-amber-300 hover:bg-amber-900'
-                          }`}
+                          className="w-full px-2.5 py-2.5 bg-[#22140A] border border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E] rounded-xl text-xs text-[#FFE5A3] font-bold focus:outline-none transition-all cursor-pointer shadow-sm"
                         >
-                          {row.status === 'published' ? 'Xuất bản' : 'Bản nháp'}
-                        </button>
+                          {HOANG_PHAP_CATEGORIES.filter((c) => c.id !== 'all').map((c) => (
+                            <option key={c.id} value={c.id}>
+                              {c.name}
+                            </option>
+                          ))}
+                        </select>
                       </td>
 
-                      {/* 3. Ảnh bìa (Thumbnail) */}
-                      <td className="p-2 text-center border-r border-[#F2C14E]/15">
+                      {/* 3. Ảnh Bìa / Đại diện */}
+                      <td className="p-2 w-[80px] min-w-[80px] border-r border-[#F2C14E]/15 align-middle text-center">
                         <div
-                          onClick={() =>
-                            openS3Library((url) => {
-                              const updated = [...posts];
-                              updated[origIndex].thumbnailUrl = url;
-                              if (!updated[origIndex].bannerUrl) updated[origIndex].bannerUrl = url;
-                              setPosts(updated);
-                              setIsDirty(true);
-                            })
-                          }
-                          className="w-14 h-14 rounded-xl overflow-hidden border border-[#F2C14E]/40 mx-auto relative group/thumb cursor-pointer bg-black/60 shadow-md"
-                          title="Bấm để đổi ảnh thumbnail từ S3"
+                          onClick={() => setMediaModal({ isOpen: true, rowIndex: actualIdx, tab: 'banner' })}
+                          className="relative w-14 h-12 mx-auto rounded-xl overflow-hidden border border-[#F2C14E]/40 hover:border-[#F2C14E] bg-black/60 cursor-pointer group/banner shadow-sm transition-all hover:scale-105"
+                          title="Bấm để cài đặt ảnh Banner / Đại diện"
                         >
                           <img
-                            src={row.thumbnailUrl || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp'}
-                            alt="Ảnh"
-                            style={{ objectPosition: row.thumbnailPosition || 'center 50%' }}
-                            className="w-full h-full object-cover group-hover/thumb:scale-110 transition-transform"
+                            src={row.thumbnailUrl || row.bannerUrl || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp'}
+                            alt="Banner"
+                            className="w-full h-full object-cover"
                           />
-                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/thumb:opacity-100 flex items-center justify-center transition-opacity text-[#ffde59]">
-                            <ImageIcon className="w-4 h-4" />
+                          <div className="absolute inset-0 bg-black/50 opacity-0 group-hover/banner:opacity-100 transition-opacity flex items-center justify-center text-[10px] text-white font-bold">
+                            Sửa
                           </div>
                         </div>
                       </td>
 
-                      {/* 4. Tiêu đề & Slug */}
-                      <td className="p-3 border-r border-[#F2C14E]/15">
-                        <div className="space-y-1">
-                          <input
-                            type="text"
-                            value={row.title || ''}
-                            onChange={(e) => {
-                              const updated = [...posts];
-                              updated[origIndex].title = e.target.value;
-                              setPosts(updated);
-                              setIsDirty(true);
-                            }}
-                            placeholder="Nhập tiêu đề bài viết..."
-                            className="w-full font-bold text-white bg-transparent hover:bg-[#2D1B10]/60 focus:bg-[#2D1B10] px-2 py-1 rounded-lg border border-transparent focus:border-[#F2C14E]/60 focus:outline-none text-xs sm:text-sm"
-                          />
-                          <div className="flex items-center gap-1.5 px-2">
-                            <span className="text-[10px] text-[#c9b896]/60 font-mono">/</span>
-                            <input
-                              type="text"
-                              value={row.slug || ''}
-                              onChange={(e) => {
-                                const updated = [...posts];
-                                updated[origIndex].slug = e.target.value;
-                                setPosts(updated);
-                                setIsDirty(true);
-                              }}
-                              placeholder="slug-duong-dan"
-                              className="w-full text-[11px] text-[#FFE5A3]/70 font-mono bg-transparent hover:bg-[#2D1B10]/40 focus:bg-[#2D1B10] px-1 py-0.5 rounded border border-transparent focus:border-[#F2C14E]/40 focus:outline-none"
-                            />
-                          </div>
-                        </div>
+                      {/* 4. Tiêu Đề Bài Viết (Không còn ô slug) */}
+                      <td className="p-2.5 w-[220px] min-w-[220px] border-r border-[#F2C14E]/15 align-middle">
+                        <textarea
+                          rows={3}
+                          value={row.title || ''}
+                          onChange={(e) => {
+                            const updated = [...posts];
+                            updated[actualIdx].title = e.target.value;
+                            setPosts(updated);
+                            setIsDirty(true);
+                          }}
+                          placeholder="Nhập tiêu đề bài viết..."
+                          className="w-full min-h-[72px] px-2.5 py-2.5 bg-[#22140A] border border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E] rounded-xl text-xs font-bold text-[#ffde59] uppercase focus:outline-none leading-snug transition-all resize-none shadow-sm flex items-center"
+                        />
                       </td>
 
-                      {/* 5. Phân loại & Danh mục */}
-                      <td className="p-3 border-r border-[#F2C14E]/15">
+                      {/* 5. Tác Giả & Ngày Đăng */}
+                      <td className="p-2.5 w-[200px] min-w-[200px] border-r border-[#F2C14E]/15 align-middle">
                         <div className="space-y-1.5">
-                          <select
-                            value={row.mainCategory || 'dong-chay-hoang-phap'}
-                            onChange={(e) => {
-                              const updated = [...posts];
-                              updated[origIndex].mainCategory = e.target.value as any;
-                              setPosts(updated);
-                              setIsDirty(true);
-                            }}
-                            className="w-full px-2 py-1 rounded-lg bg-[#25170E] border border-[#F2C14E]/30 text-[#ffde59] text-[11px] font-bold focus:outline-none focus:border-[#F2C14E]"
-                          >
-                            <option value="dong-chay-hoang-phap">Dòng Chảy Hoằng Pháp</option>
-                            <option value="tri-tue-phat-phap">Trí Tuệ Phật Pháp</option>
-                            <option value="gioi-thieu">Giới Thiệu Tông Phong</option>
-                          </select>
-
                           <input
                             type="text"
-                            value={row.subCategory || ''}
+                            value={row.author || ''}
                             onChange={(e) => {
                               const updated = [...posts];
-                              updated[origIndex].subCategory = e.target.value;
+                              updated[actualIdx].author = e.target.value;
                               setPosts(updated);
                               setIsDirty(true);
                             }}
-                            placeholder="cong-tu, dai-le..."
-                            className="w-full px-2 py-1 rounded-lg bg-[#25170E]/60 border border-[#F2C14E]/20 text-[#FFE5A3] text-[10px] font-mono focus:outline-none focus:border-[#F2C14E]"
+                            placeholder="Tác giả / Người biên soạn..."
+                            className="w-full px-2.5 py-1.5 bg-[#22140A] border border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E] rounded-xl text-xs text-[#FFE5A3] font-medium focus:outline-none"
+                          />
+                          <input
+                            type="date"
+                            value={row.publishedDate || ''}
+                            onChange={(e) => {
+                              const updated = [...posts];
+                              updated[actualIdx].publishedDate = e.target.value;
+                              setPosts(updated);
+                              setIsDirty(true);
+                            }}
+                            className="w-full px-2.5 py-1 bg-[#22140A] border border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E] rounded-xl text-[11px] text-[#FFE5A3]/80 font-mono focus:outline-none"
                           />
                         </div>
                       </td>
 
-                      {/* 6. Tác giả */}
-                      <td className="p-3 border-r border-[#F2C14E]/15">
-                        <input
-                          type="text"
-                          value={row.author || ''}
-                          onChange={(e) => {
-                            const updated = [...posts];
-                            updated[origIndex].author = e.target.value;
-                            setPosts(updated);
-                            setIsDirty(true);
-                          }}
-                          placeholder="Tác giả / Biên soạn..."
-                          className="w-full px-2 py-1 rounded-lg bg-transparent hover:bg-[#25170E] focus:bg-[#25170E] border border-transparent focus:border-[#F2C14E]/40 text-white text-xs focus:outline-none"
-                        />
-                      </td>
+                      {/* 6. Đa Phương Tiện (3 Nút Vector SVG) */}
+                      <td className="p-2.5 w-[140px] min-w-[140px] border-r border-[#F2C14E]/15 align-middle">
+                        <div className="flex items-center justify-center gap-1.5">
+                          {/* Nút Video */}
+                          <button
+                            type="button"
+                            onClick={() => setMediaModal({ isOpen: true, rowIndex: actualIdx, tab: 'video' })}
+                            className={`p-2 rounded-xl border flex items-center justify-center relative transition-all cursor-pointer shadow-sm hover:scale-110 ${
+                              hasVideo
+                                ? 'bg-[#352012] border-[#F2C14E] text-[#ffde59] shadow-[0_0_10px_rgba(242,193,78,0.2)]'
+                                : 'bg-[#1C120A] border-[#52331C] text-[#c9b896]/60 hover:text-[#FFE5A3]'
+                            }`}
+                            title={hasVideo ? `Video: ${row.videoBlock?.title || 'Đã cài đặt video'}` : 'Quản lý Video Minh Họa'}
+                          >
+                            <Video className="w-4 h-4" />
+                            {hasVideo && (
+                              <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-[#F2C14E] text-[#1A120B] text-[9px] font-bold rounded-full flex items-center justify-center">
+                                1
+                              </span>
+                            )}
+                          </button>
 
-                      {/* 7. Ngày đăng */}
-                      <td className="p-3 border-r border-[#F2C14E]/15">
-                        <input
-                          type="date"
-                          value={row.publishedDate || ''}
-                          onChange={(e) => {
-                            const updated = [...posts];
-                            updated[origIndex].publishedDate = e.target.value;
-                            setPosts(updated);
-                            setIsDirty(true);
-                          }}
-                          className="w-full px-2 py-1 rounded-lg bg-transparent hover:bg-[#25170E] focus:bg-[#25170E] border border-transparent focus:border-[#F2C14E]/40 text-[#FFE5A3] text-xs font-mono focus:outline-none"
-                        />
-                      </td>
+                          {/* Nút Nổi Bật */}
+                          <button
+                            type="button"
+                            onClick={() => setMediaModal({ isOpen: true, rowIndex: actualIdx, tab: 'featured' })}
+                            className={`p-2 rounded-xl border flex items-center justify-center relative transition-all cursor-pointer shadow-sm hover:scale-110 ${
+                              hasFeatured
+                                ? 'bg-[#352012] border-[#F2C14E] text-[#ffde59] shadow-[0_0_10px_rgba(242,193,78,0.2)]'
+                                : 'bg-[#1C120A] border-[#52331C] text-[#c9b896]/60 hover:text-[#FFE5A3]'
+                            }`}
+                            title={hasFeatured ? `Nổi bật: ${row.featuredArticle?.title}` : 'Quản lý Bài Viết Nổi Bật'}
+                          >
+                            <Star className="w-4 h-4" />
+                            {hasFeatured && (
+                              <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-[#F2C14E] text-[#1A120B] text-[9px] font-bold rounded-full flex items-center justify-center">
+                                1
+                              </span>
+                            )}
+                          </button>
 
-                      {/* 8. Đa phương tiện Badges */}
-                      <td className="p-3 text-center border-r border-[#F2C14E]/15">
-                        <div className="flex flex-wrap items-center justify-center gap-1.5">
-                          {kwCount > 0 && (
-                            <span
-                              className="px-2 py-0.5 rounded-md bg-[#352012] border border-[#F2C14E]/40 text-[#ffde59] text-[10px] font-bold flex items-center gap-1"
-                              title={`${kwCount} chú thích từ khóa`}
-                            >
-                              <Sparkles className="w-3 h-3 text-[#F2C14E]" />
-                              <span>{kwCount}</span>
-                            </span>
-                          )}
-                          {galleryCount > 0 && (
-                            <span
-                              className="px-2 py-0.5 rounded-md bg-[#352012] border border-[#F2C14E]/40 text-[#ffde59] text-[10px] font-bold flex items-center gap-1"
-                              title={`${galleryCount} ảnh trong album`}
-                            >
-                              <Images className="w-3 h-3 text-[#F2C14E]" />
-                              <span>{galleryCount}</span>
-                            </span>
-                          )}
-                          {hasVideo && (
-                            <span
-                              className="px-2 py-0.5 rounded-md bg-[#352012] border border-[#F2C14E]/40 text-[#ffde59] text-[10px] font-bold flex items-center gap-1"
-                              title="Có video pháp thoại minh họa"
-                            >
-                              <Video className="w-3 h-3 text-[#F2C14E]" />
-                            </span>
-                          )}
-                          {hasBook && (
-                            <span
-                              className="px-2 py-0.5 rounded-md bg-[#352012] border border-[#F2C14E]/40 text-[#ffde59] text-[10px] font-bold flex items-center gap-1"
-                              title="Có trích dẫn nguồn sách"
-                            >
-                              <BookOpen className="w-3 h-3 text-[#F2C14E]" />
-                            </span>
-                          )}
-                          {editionsCount > 0 && (
-                            <span
-                              className="px-2 py-0.5 rounded-md bg-[#352012] border border-[#F2C14E]/40 text-[#ffde59] text-[10px] font-bold flex items-center gap-1"
-                              title={`${editionsCount} kỳ khóa tu trước`}
-                            >
-                              <Clock className="w-3 h-3 text-[#F2C14E]" />
-                              <span>{editionsCount}</span>
-                            </span>
-                          )}
-                          {eventsCount > 0 && (
-                            <span
-                              className="px-2 py-0.5 rounded-md bg-[#352012] border border-[#F2C14E]/40 text-[#ffde59] text-[10px] font-bold flex items-center gap-1"
-                              title={`${eventsCount} chương trình sắp tới`}
-                            >
-                              <Calendar className="w-3 h-3 text-[#F2C14E]" />
-                              <span>{eventsCount}</span>
-                            </span>
-                          )}
+                          {/* Nút Album Ảnh */}
+                          <button
+                            type="button"
+                            onClick={() => setMediaModal({ isOpen: true, rowIndex: actualIdx, tab: 'gallery' })}
+                            className={`p-2 rounded-xl border flex items-center justify-center relative transition-all cursor-pointer shadow-sm hover:scale-110 ${
+                              galleryCount > 0
+                                ? 'bg-[#352012] border-[#F2C14E] text-[#ffde59] shadow-[0_0_10px_rgba(242,193,78,0.2)]'
+                                : 'bg-[#1C120A] border-[#52331C] text-[#c9b896]/60 hover:text-[#FFE5A3]'
+                            }`}
+                            title={`Bộ sưu tập ảnh (${galleryCount} ảnh)`}
+                          >
+                            <Images className="w-4 h-4" />
+                            {galleryCount > 0 && (
+                              <span className="absolute -top-1 -right-1 w-4 h-4 bg-[#F2C14E] text-[#1A120B] text-[9px] font-bold rounded-full flex items-center justify-center">
+                                {galleryCount}
+                              </span>
+                            )}
+                          </button>
                         </div>
                       </td>
 
-                      {/* 9. Thao tác */}
-                      <td className="p-3 text-center align-middle">
+                      {/* 7. Nội Dung Chi Tiết (Bấm Mở Trực Tiếp WordPress Gutenberg) */}
+                      <td className="p-2.5 border-r border-[#F2C14E]/15 align-middle max-w-full overflow-hidden">
+                        <div
+                          onClick={() => handleOpenGutenberg(row, actualIdx)}
+                          className="w-full min-h-[72px] p-2.5 bg-[#22140A] hover:bg-[#2C1A0E] border border-[#52331C] hover:border-[#F2C14E] rounded-xl cursor-pointer transition-all flex flex-col justify-between group/cell shadow-inner overflow-hidden"
+                          title="Bấm vào để mở trực tiếp trong trình soạn thảo WordPress Gutenberg"
+                        >
+                          <p className="text-xs text-[#F5EADB]/80 line-clamp-2 leading-relaxed truncate">
+                            {row.content
+                              ? row.content.replace(/!\[.*?\]\(.*?\)/g, '[Hình Ảnh]').replace(/<[^>]+>/g, '').slice(0, 140) + '...'
+                              : row.summary
+                              ? row.summary.slice(0, 140) + '...'
+                              : row.contentHtml
+                              ? row.contentHtml.replace(/<[^>]+>/g, '').slice(0, 140) + '...'
+                              : 'Chưa có nội dung...'}
+                          </p>
+                          <div className="flex items-center justify-between gap-1 mt-2 pt-1.5 border-t border-[#F2C14E]/15 text-[11px] text-[#F2C14E] overflow-hidden">
+                            <span className="flex items-center gap-1.5 font-bold text-[#F2C14E] group-hover/cell:text-[#ffde59]">
+                              <Edit3 className="w-3.5 h-3.5 shrink-0 text-[#F2C14E]" />
+                              <span className="text-[10px] font-bold uppercase tracking-wider text-[#ffde59]">
+                                {openingWpId === row.id
+                                  ? 'Đang mở WP...'
+                                  : row.wpPostId
+                                  ? `Gutenberg #${row.wpPostId}`
+                                  : 'Mở Gutenberg'}
+                              </span>
+                            </span>
+                            <div className="flex items-center gap-1 text-[10px] text-[#c9b896]/75 shrink-0">
+                              {kwCount > 0 && (
+                                <span
+                                  title={`${kwCount} chú thích từ khóa`}
+                                  style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                                  className="px-1.5 py-0.5 rounded-lg bg-[#180E07] border border-[#F2C14E]/30 text-[#FFE5A3] flex items-center gap-1 font-bold text-[10px]"
+                                >
+                                  <Sparkles className="w-2.5 h-2.5 text-[#F2C14E]" />
+                                  <span>{kwCount}</span>
+                                </span>
+                              )}
+                              {hasBook && (
+                                <span
+                                  title="Nguồn sách tham khảo"
+                                  style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                                  className="px-1.5 py-0.5 rounded-lg bg-[#352012] border border-[#F2C14E]/40 text-[#ffde59] flex items-center gap-1 font-bold text-[10px]"
+                                >
+                                  <BookOpen className="w-2.5 h-2.5 text-[#F2C14E]" />
+                                  <span>1</span>
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+
+                      {/* 8. Thao Tác (Chỉ giữ Xem Trang Trực Tiếp & Xóa) */}
+                      <td className="p-2 w-[85px] min-w-[85px] text-center align-middle">
                         <div className="flex items-center justify-center gap-1.5">
-                          {/* Nút Soạn thảo văn bản */}
-                          <button
-                            type="button"
-                            onClick={() => openBigEditor(origIndex)}
-                            className="p-2 rounded-xl bg-[#2A1D14] hover:bg-[#F2C14E] border border-[#F2C14E]/40 text-[#FFE5A3] hover:text-black transition-all cursor-pointer shadow-sm hover:scale-105"
-                            title="Mở trình soạn thảo văn bản Google Docs"
-                          >
-                            <Edit3 className="w-3.5 h-3.5" />
-                          </button>
-
-                          {/* Nút Quản lý Đa phương tiện */}
-                          <button
-                            type="button"
-                            onClick={() => setMediaModal({ isOpen: true, rowIndex: origIndex, tab: 'banner' })}
-                            className="p-2 rounded-xl bg-[#2A1D14] hover:bg-[#F2C14E] border border-[#F2C14E]/40 text-[#FFE5A3] hover:text-black transition-all cursor-pointer shadow-sm hover:scale-105"
-                            title="Quản lý Đa Phương Tiện (Banner, Video, Album ảnh, Sự kiện sắp tới)"
-                          >
-                            <Layers className="w-3.5 h-3.5" />
-                          </button>
-
-                          {/* Nút Xem trước */}
-                          <button
-                            type="button"
-                            onClick={() => setPreviewModal(row)}
-                            className="p-2 rounded-xl bg-[#2A1D14] hover:bg-[#F2C14E] border border-[#F2C14E]/40 text-[#FFE5A3] hover:text-black transition-all cursor-pointer shadow-sm hover:scale-105"
-                            title="Xem trước giao diện thực tế"
-                          >
-                            <Eye className="w-3.5 h-3.5" />
-                          </button>
+                          {/* Nút Xem Web Trực Tiếp */}
+                          {row.slug ? (
+                            <Link
+                              href={publicUrl}
+                              target="_blank"
+                              className="p-2 rounded-xl bg-[#2A1D14] hover:bg-[#3A2718] border border-[#F2C14E]/40 text-[#FFE5A3] hover:text-[#FFDE59] transition-all cursor-pointer shadow-sm hover:scale-105"
+                              title="Mở bài viết trên trang web chính thức (tab mới)"
+                            >
+                              <ExternalLink className="w-4 h-4" />
+                            </Link>
+                          ) : (
+                            <span className="p-2 rounded-xl bg-[#1A110A] border border-[#52331C]/30 text-[#6B5A4E] opacity-50 cursor-not-allowed">
+                              <ExternalLink className="w-4 h-4" />
+                            </span>
+                          )}
 
                           {/* Nút Xóa */}
                           <button
                             type="button"
-                            onClick={() => handleDeletePost(origIndex)}
+                            onClick={() => handleDeletePost(actualIdx)}
                             className="p-2 rounded-xl bg-red-950/40 hover:bg-red-800 border border-red-500/40 text-red-300 hover:text-white transition-all cursor-pointer shadow-sm hover:scale-105"
                             title="Xóa bài viết này"
                           >
-                            <Trash2 className="w-3.5 h-3.5" />
+                            <Trash2 className="w-4 h-4" />
                           </button>
                         </div>
                       </td>
@@ -1855,12 +1841,15 @@ export function SpreadsheetPosts() {
                     <p className="text-xs text-[#FFE5A3]/80">Kéo thả nhiều ảnh cùng lúc vào đây để tự động tải lên S3 & thêm vào album</p>
                   </div>
 
-                  {/* Photos list */}
-                  <div className="space-y-3">
+                  {/* Photos list in Adaptive Responsive Grid */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[480px] overflow-y-auto pr-1">
                     {posts[mediaModal.rowIndex].photoGallery?.map((item, pIdx) => (
-                      <div key={pIdx} className="p-3 bg-[#25170E] border border-[#F2C14E]/30 rounded-2xl flex flex-col sm:flex-row gap-3">
-                        <div className="w-28 h-28 shrink-0 rounded-xl overflow-hidden bg-black border border-[#F2C14E]/40 relative">
-                          <img src={item.imageUrl} alt="Ảnh" className="w-full h-full object-cover" />
+                      <div key={pIdx} className="p-3 bg-[#25170E] border border-[#F2C14E]/30 rounded-2xl flex gap-3 relative group/card hover:border-[#F2C14E] transition-all">
+                        <div className="w-24 h-24 shrink-0 rounded-xl overflow-hidden bg-black border border-[#F2C14E]/40 relative">
+                          <img src={item.imageUrl} alt={item.title || 'Ảnh'} className="w-full h-full object-cover" />
+                          <span className="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-black/70 text-[#ffde59] text-[9px] font-bold">
+                            #{pIdx + 1}
+                          </span>
                           <button
                             type="button"
                             onClick={() => {
@@ -1868,13 +1857,13 @@ export function SpreadsheetPosts() {
                               updated[mediaModal.rowIndex].photoGallery!.splice(pIdx, 1);
                               setPosts(updated);
                             }}
-                            className="absolute top-1 right-1 p-1 rounded-md bg-red-900/80 text-white hover:bg-red-700"
+                            className="absolute top-1 right-1 p-1 rounded-md bg-red-900/90 text-white hover:bg-red-700 transition-colors"
                             title="Xóa ảnh này"
                           >
-                            <Trash2 className="w-3.5 h-3.5" />
+                            <Trash2 className="w-3 h-3" />
                           </button>
                         </div>
-                        <div className="flex-1 space-y-2 text-xs">
+                        <div className="flex-1 space-y-1.5 text-xs">
                           <input
                             type="text"
                             value={item.title || ''}
@@ -1884,18 +1873,18 @@ export function SpreadsheetPosts() {
                               setPosts(updated);
                             }}
                             placeholder="Tiêu đề ảnh..."
-                            className="w-full px-3 py-1.5 bg-[#1C120A] border border-[#F2C14E]/30 rounded-xl text-white font-bold"
+                            className="w-full px-2.5 py-1.5 bg-[#1C120A] border border-[#F2C14E]/30 rounded-xl text-white font-bold text-xs"
                           />
-                          <input
-                            type="text"
+                          <textarea
+                            rows={2}
                             value={item.noiDung || ''}
                             onChange={(e) => {
                               const updated = [...posts];
                               updated[mediaModal.rowIndex].photoGallery![pIdx].noiDung = e.target.value;
                               setPosts(updated);
                             }}
-                            placeholder="Mô tả sự kiện chi tiết..."
-                            className="w-full px-3 py-1.5 bg-[#1C120A] border border-[#F2C14E]/30 rounded-xl text-[#FFE5A3]"
+                            placeholder="Chú thích ảnh chi tiết..."
+                            className="w-full px-2.5 py-1 bg-[#1C120A] border border-[#F2C14E]/30 rounded-xl text-[#FFE5A3] text-xs resize-none"
                           />
                         </div>
                       </div>

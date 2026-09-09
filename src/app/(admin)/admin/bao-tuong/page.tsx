@@ -25,6 +25,7 @@ import {
   Layers,
   ChevronDown,
   RotateCcw,
+  RotateCw,
 } from 'lucide-react';
 import { ImageFocalPositionerModal } from '@/components/admin/ImageFocalPositionerModal';
 import S3FileExplorerModal from '@/components/admin/S3FileExplorerModal';
@@ -44,10 +45,13 @@ export interface StatueAdminItem {
   location?: string;
   imgUrl: string;
   imgPosition?: string;
+  imgRotation?: number;
   quote?: string;
   quoteAuthor?: string;
   summary?: string;
+  description?: string;
   fullHistoryHtml?: string;
+  articleContent?: string;
   slug?: string;
   artVariations?: Array<{
     id: string;
@@ -196,6 +200,41 @@ export default function AdminBaoTuongPage() {
       handleUpdateStatue(s3TargetStatueId, { imgUrl: url });
       setS3TargetStatueId(null);
       setS3ModalOpen(false);
+    }
+  };
+
+  // Rotate Statue Image 90 Degrees
+  const handleRotateStatue = async (st: StatueAdminItem, e?: React.MouseEvent) => {
+    if (e) e.stopPropagation();
+    const currentRot = st.imgRotation || 0;
+    const nextRot = (currentRot + 90) % 360;
+
+    // Optimistic UI update
+    setStatues((prev) =>
+      prev.map((s) => (s.id === st.id ? { ...s, imgRotation: nextRot } : s))
+    );
+    if (editingStatue && (editingStatue.id === st.id || editingStatue.code === st.code)) {
+      setEditingStatue({ ...editingStatue, imgRotation: nextRot });
+    }
+
+    try {
+      const res = await fetch('/api/admin/bao-tuong', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: st.id,
+          code: st.code,
+          updates: { imgRotation: nextRot },
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        showToast(`🔄 Đã xoay ảnh ${st.code || st.name} sang ${nextRot}°!`);
+      } else {
+        showToast(`❌ ${data.error || 'Lỗi lưu xoay ảnh'}`);
+      }
+    } catch (err: any) {
+      showToast('❌ Lỗi kết nối khi lưu xoay ảnh');
     }
   };
 
@@ -372,8 +411,11 @@ export default function AdminBaoTuongPage() {
                     <img
                       src={st.imgUrl}
                       alt={st.name}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      style={{ objectPosition: focalPos }}
+                      className="w-full h-full object-cover transition-all duration-300 group-hover:scale-105"
+                      style={{
+                        objectPosition: focalPos,
+                        transform: st.imgRotation ? `rotate(${st.imgRotation}deg)` : undefined,
+                      }}
                       onError={(e) => {
                         (e.target as HTMLImageElement).src = '/images/vu-tru-phat-giao/toan-canh-chua.jpg';
                       }}
@@ -382,9 +424,16 @@ export default function AdminBaoTuongPage() {
 
                     {/* Top Badges */}
                     <div className="absolute top-2 left-2 right-2 flex items-center justify-between pointer-events-none">
-                      <span className="px-2 py-0.5 rounded-md bg-black/80 backdrop-blur-md text-[#F2C14E] font-mono text-[10px] font-bold border border-[#F2C14E]/40">
-                        {st.code}
-                      </span>
+                      <div className="flex items-center gap-1.5">
+                        <span className="px-2 py-0.5 rounded-md bg-black/80 backdrop-blur-md text-[#F2C14E] font-mono text-[10px] font-bold border border-[#F2C14E]/40">
+                          {st.code}
+                        </span>
+                        {st.imgRotation ? (
+                          <span className="px-1.5 py-0.5 rounded-md bg-amber-500/90 text-black font-mono text-[9px] font-extrabold shadow-sm">
+                            {st.imgRotation}°
+                          </span>
+                        ) : null}
+                      </div>
                       <span
                         className={`px-2 py-0.5 rounded-md text-[9px] font-bold uppercase backdrop-blur-md ${
                           st.categoryType === 'TƯỢNG CHÍNH'
@@ -396,8 +445,17 @@ export default function AdminBaoTuongPage() {
                       </span>
                     </div>
 
-                    {/* Interactive Focal Reticle Button on Card */}
+                    {/* Interactive Action Buttons on Card */}
                     <div className="absolute bottom-2 right-2 flex items-center gap-1.5 z-10">
+                      <button
+                        type="button"
+                        onClick={(e) => handleRotateStatue(st, e)}
+                        className="w-7 h-7 rounded-lg bg-black/85 hover:bg-[#F2C14E] border border-[#F2C14E]/60 text-[#ffde59] hover:text-black flex items-center justify-center transition-all cursor-pointer shadow-lg hover:scale-110"
+                        title={`Xoay ảnh 90° (Hiện tại: ${st.imgRotation || 0}°)`}
+                      >
+                        <RotateCw className="w-3.5 h-3.5" />
+                      </button>
+
                       <button
                         type="button"
                         onClick={() => {
@@ -514,8 +572,11 @@ export default function AdminBaoTuongPage() {
                           <img
                             src={st.imgUrl}
                             alt={st.name}
-                            className="w-full h-full object-cover"
-                            style={{ objectPosition: focalPos }}
+                            className="w-full h-full object-cover transition-all duration-300"
+                            style={{
+                              objectPosition: focalPos,
+                              transform: st.imgRotation ? `rotate(${st.imgRotation}deg)` : undefined,
+                            }}
                           />
                           <button
                             type="button"
@@ -560,6 +621,15 @@ export default function AdminBaoTuongPage() {
                       </td>
                       <td className="p-3 text-right">
                         <div className="flex items-center justify-end gap-1.5">
+                          <button
+                            type="button"
+                            onClick={(e) => handleRotateStatue(st, e)}
+                            className="p-2 rounded-lg bg-[#2A1D14] hover:bg-[#3A2718] border border-[#F2C14E]/30 text-[#F2C14E] transition-all cursor-pointer"
+                            title={`Xoay ảnh 90° (Hiện tại: ${st.imgRotation || 0}°)`}
+                          >
+                            <RotateCw className="w-3.5 h-3.5" />
+                          </button>
+
                           <button
                             type="button"
                             onClick={() => {
@@ -637,21 +707,88 @@ export default function AdminBaoTuongPage() {
         onSelectImage={handleSelectS3Image}
       />
 
-      {/* ── MODAL CHỈNH SỬA THÔNG TIN NHANH ── */}
+      {/* ── MODAL CHỈNH SỬA THÔNG TIN BẢO TƯỢNG (KÈM BÀI VIẾT & XOAY ẢNH) ── */}
       {editingStatue && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
-          <div className="bg-[#180E07] border-2 border-[#F2C14E] rounded-3xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl flex flex-col gap-4 text-white">
+          <div className="bg-[#180E07] border-2 border-[#F2C14E] rounded-3xl p-6 w-full max-w-3xl max-h-[92vh] overflow-y-auto shadow-2xl flex flex-col gap-4 text-white">
             <div className="flex items-center justify-between border-b border-[#F2C14E]/30 pb-3">
-              <h3 style={{ fontFamily: "'UTM Niagara', serif" }} className="text-3xl text-[#ffde59] uppercase">
-                CHỈNH SỬA BẢO TƯỢNG {editingStatue.code}
-              </h3>
+              <div className="flex items-center gap-3">
+                <h3 style={{ fontFamily: "'UTM Niagara', serif" }} className="text-3xl text-[#ffde59] uppercase">
+                  CHỈNH SỬA BẢO TƯỢNG {editingStatue.code}
+                </h3>
+                {editingStatue.imgRotation ? (
+                  <span className="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[10px] font-bold">
+                    Đã xoay {editingStatue.imgRotation}°
+                  </span>
+                ) : null}
+              </div>
               <button
                 type="button"
                 onClick={() => setEditingStatue(null)}
-                className="w-8 h-8 rounded-xl bg-[#2A1D14] hover:bg-[#3A2718] border border-[#F2C14E]/30 text-[#FFE5A3] flex items-center justify-center"
+                className="w-8 h-8 rounded-xl bg-[#2A1D14] hover:bg-[#3A2718] border border-[#F2C14E]/30 text-[#FFE5A3] flex items-center justify-center cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
+            </div>
+
+            {/* Quick Image Preview & Instant Actions */}
+            <div className="flex flex-col sm:flex-row items-center gap-4 p-3.5 rounded-2xl bg-[#25170E]/70 border border-[#F2C14E]/25">
+              <div className="relative w-24 h-32 rounded-xl overflow-hidden bg-black/70 border border-[#F2C14E]/50 shrink-0 shadow-md">
+                <img
+                  src={editingStatue.imgUrl}
+                  alt={editingStatue.name}
+                  className="w-full h-full object-cover transition-all duration-300"
+                  style={{
+                    objectPosition: editingStatue.imgPosition || '50% 25%',
+                    transform: editingStatue.imgRotation ? `rotate(${editingStatue.imgRotation}deg)` : undefined,
+                  }}
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = '/images/vu-tru-phat-giao/toan-canh-chua.jpg';
+                  }}
+                />
+              </div>
+
+              <div className="flex-1 space-y-2 text-xs w-full">
+                <div className="flex flex-wrap items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => handleRotateStatue(editingStatue)}
+                    className="px-3 py-1.5 rounded-xl bg-[#3A2718] hover:bg-[#F2C14E] border border-[#F2C14E]/50 text-[#FFE5A3] hover:text-black font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow"
+                    title="Xoay ảnh 90 độ theo chiều kim đồng hồ"
+                  >
+                    <RotateCw className="w-3.5 h-3.5" />
+                    <span>Xoay ảnh 90° ({editingStatue.imgRotation || 0}°)</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setS3TargetStatueId(editingStatue.id);
+                      setS3ModalOpen(true);
+                    }}
+                    className="px-3 py-1.5 rounded-xl bg-[#F2C14E] text-black font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow"
+                  >
+                    <Cloud className="w-3.5 h-3.5" />
+                    <span>Chọn ảnh từ S3</span>
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setFocalTargetStatue(editingStatue);
+                      setFocalModalOpen(true);
+                    }}
+                    className="px-3 py-1.5 rounded-xl bg-[#3A2718] hover:bg-[#4A3220] border border-[#F2C14E]/40 text-[#FFE5A3] font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow"
+                  >
+                    <Crosshair className="w-3.5 h-3.5 text-[#F2C14E]" />
+                    <span>Căn tiêu điểm</span>
+                  </button>
+                </div>
+
+                <div className="text-[11px] text-[#c9b896]/70 truncate">
+                  Đường dẫn: <span className="font-mono text-[#FFE5A3]">{editingStatue.imgUrl}</span>
+                </div>
+              </div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
@@ -698,11 +835,40 @@ export default function AdminBaoTuongPage() {
               <div className="sm:col-span-2">
                 <label className="block text-[#c9b896] font-bold mb-1">Lời Dạy Sư Phụ (Quote Pháp Ngữ)</label>
                 <textarea
-                  rows={3}
+                  rows={2}
                   value={editingStatue.quote || ''}
                   onChange={(e) => setEditingStatue({ ...editingStatue, quote: e.target.value })}
                   className="w-full px-3 py-2 bg-[#25170E] border border-[#F2C14E]/40 rounded-xl text-[#FFE5A3] focus:outline-none focus:border-[#F2C14E]"
                   placeholder="Nhập lời dạy của Sư Phụ hoặc ý nghĩa biểu tượng..."
+                />
+              </div>
+
+              <div className="sm:col-span-2">
+                <label className="block text-[#c9b896] font-bold mb-1">Mô tả tóm tắt tôn tượng</label>
+                <textarea
+                  rows={3}
+                  value={editingStatue.description || ''}
+                  onChange={(e) => setEditingStatue({ ...editingStatue, description: e.target.value })}
+                  className="w-full px-3 py-2 bg-[#25170E] border border-[#F2C14E]/40 rounded-xl text-[#FFE5A3] focus:outline-none focus:border-[#F2C14E]"
+                  placeholder="Tóm tắt ý nghĩa, biểu tượng hoặc lược sử..."
+                />
+              </div>
+
+              <div className="sm:col-span-2">
+                <div className="flex items-center justify-between mb-1">
+                  <label className="block text-[#c9b896] font-bold">
+                    Bài viết chi tiết &amp; Lịch sử tôn tượng (HTML / Toàn văn bài viết)
+                  </label>
+                  <span className="text-[10px] text-[#F2C14E]/80 font-mono">
+                    {editingStatue.fullHistoryHtml?.length || 0} ký tự
+                  </span>
+                </div>
+                <textarea
+                  rows={8}
+                  value={editingStatue.fullHistoryHtml || ''}
+                  onChange={(e) => setEditingStatue({ ...editingStatue, fullHistoryHtml: e.target.value })}
+                  className="w-full px-3 py-2 bg-[#25170E] border border-[#F2C14E]/40 rounded-xl text-[#FFE5A3] font-mono text-[11px] leading-relaxed focus:outline-none focus:border-[#F2C14E] resize-y"
+                  placeholder="Nhập toàn văn bài viết, tiểu sử, thần tích hoặc lịch sử an vị tôn tượng..."
                 />
               </div>
 
@@ -721,7 +887,7 @@ export default function AdminBaoTuongPage() {
                       setS3TargetStatueId(editingStatue.id);
                       setS3ModalOpen(true);
                     }}
-                    className="px-3 py-2 rounded-xl bg-[#F2C14E] text-black font-bold flex items-center gap-1 cursor-pointer"
+                    className="px-3 py-2 rounded-xl bg-[#F2C14E] text-black font-bold flex items-center gap-1 cursor-pointer shrink-0"
                   >
                     <Cloud className="w-3.5 h-3.5" />
                     <span>Chọn S3</span>
@@ -734,7 +900,7 @@ export default function AdminBaoTuongPage() {
               <button
                 type="button"
                 onClick={() => setEditingStatue(null)}
-                className="px-5 py-2 rounded-xl bg-[#2A1D14] hover:bg-[#3A2718] border border-[#F2C14E]/30 text-[#FFE5A3] font-bold text-xs"
+                className="px-5 py-2 rounded-xl bg-[#2A1D14] hover:bg-[#3A2718] border border-[#F2C14E]/30 text-[#FFE5A3] font-bold text-xs cursor-pointer"
               >
                 Hủy Bỏ
               </button>
@@ -744,7 +910,7 @@ export default function AdminBaoTuongPage() {
                   handleUpdateStatue(editingStatue.id, editingStatue);
                   setEditingStatue(null);
                 }}
-                className="px-6 py-2 rounded-xl bg-gradient-to-r from-[#F2C14E] to-[#ffde59] text-black font-bold text-xs uppercase tracking-wider flex items-center gap-1.5 shadow-lg"
+                className="px-6 py-2 rounded-xl bg-gradient-to-r from-[#F2C14E] to-[#ffde59] text-black font-bold text-xs uppercase tracking-wider flex items-center gap-1.5 shadow-lg cursor-pointer hover:scale-102 transition-transform"
               >
                 <Save className="w-4 h-4" />
                 <span>Lưu Thay Đổi</span>

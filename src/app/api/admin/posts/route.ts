@@ -88,6 +88,7 @@ export interface PostRecord {
   photoGallery?: PhotoItem[];
   previousEditions?: RelatedEdition[];
   upcomingEvents?: UpcomingEvent[];
+  wpPostId?: string | number;
 }
 
 function getPosts(): PostRecord[] {
@@ -157,12 +158,17 @@ export async function PUT(req: NextRequest) {
     const currentPosts = getPosts();
     const currentMap = new Map(currentPosts.map((p) => [p.id, p]));
 
-    // Safeguard bảo vệ không bao giờ làm rỗng nội dung nếu client gửi rỗng ngoài ý muốn
+    // Safeguard bảo vệ không bao giờ làm rỗng nội dung nếu client gửi rỗng ngoài ý muốn, tự động xuất bản
     const validatedPosts = body.map((p: PostRecord) => {
       const orig = currentMap.get(p.id);
       if (orig && (!p.content || p.content.trim() === '') && orig.content && orig.content.trim() !== '') {
         p.content = orig.content;
       }
+      if (orig && !p.wpPostId && orig.wpPostId) {
+        p.wpPostId = orig.wpPostId;
+      }
+      // Tự động xuất bản 100% bài viết khi cập nhật
+      p.status = 'published';
       return p;
     });
 

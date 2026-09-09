@@ -33,11 +33,13 @@ import {
   Layers,
   Search,
   Check,
+  RefreshCw,
 } from 'lucide-react';
 import { KeywordTooltipModal } from '@/components/tong-chi-tu-hoc/KeywordTooltipModal';
 import { UnsavedChangesModal } from '@/components/admin/UnsavedChangesModal';
 import { ImageFocalPositionerModal } from '@/components/admin/ImageFocalPositionerModal';
 import { InfographicArticleRenderer } from '@/components/tong-chi-tu-hoc/chi-tiet/InfographicArticleRenderer';
+import { WordPressMediaModal, WordPressMediaItem } from '@/components/admin/WordPressMediaModal';
 
 interface KeywordItem {
   keyword: string;
@@ -186,10 +188,49 @@ export function TongChiEditor({ initialData, isEdit }: TongChiEditorProps) {
   const [activeTab, setActiveTab] = useState<'editor' | 'preview' | 'split'>('editor');
   const [previewModal, setPreviewModal] = useState<any | null>(null);
 
-  // WordPress Sync Bridge State
-  const [wpPostId, setWpPostId] = useState<string>(initialData?.wpPostId || initialData?.id?.toString() || '470');
+  // WordPress Sync Bridge State - Lưu cố định Post ID, không bị nhảy loạn
+  const [wpPostId, setWpPostId] = useState<string>(() => {
+    if (initialData?.wpPostId) return String(initialData.wpPostId);
+    if (initialData?.id === 4 || initialData?.slug?.includes('bo-de-tam')) return '470';
+    return '';
+  });
   const [isSyncingWp, setIsSyncingWp] = useState(false);
   const [syncMessage, setSyncMessage] = useState<string | null>(null);
+  const [wpPostsList, setWpPostsList] = useState<Array<{ id: number; title: string; slug: string }>>([]);
+  const [loadingWpList, setLoadingWpList] = useState(false);
+
+  // Tải danh sách bài viết thực tế trên WordPress để người soạn thảo chọn nhanh 1 cú click
+  useEffect(() => {
+    async function loadWpList() {
+      setLoadingWpList(true);
+      try {
+        const res = await fetch('/api/admin/fetch-wp-posts');
+        if (res.ok) {
+          const json = await res.json();
+          if (json.success && Array.isArray(json.posts)) {
+            setWpPostsList(json.posts);
+          }
+        }
+      } catch (err) {
+        console.error('Error fetching WP posts list:', err);
+      } finally {
+        setLoadingWpList(false);
+      }
+    }
+    loadWpList();
+  }, []);
+
+  // Quản lý hiển thị bảng kỹ thuật nâng cao & Trình soạn thảo WordPress Gutenberg
+  const [showWpSyncPanel, setShowWpSyncPanel] = useState(false);
+  const [showAdvancedSeo, setShowAdvancedSeo] = useState(false);
+  const [showManualSourceCode, setShowManualSourceCode] = useState(false);
+  const [showGutenbergIframe, setShowGutenbergIframe] = useState(false);
+  const [autoSyncOnFocus, setAutoSyncOnFocus] = useState(true);
+  const [isAutoCreatingWp, setIsAutoCreatingWp] = useState(false);
+
+  // Modal Thư Viện Ảnh WordPress Dùng Chung
+  const [wpMediaModalOpen, setWpMediaModalOpen] = useState(false);
+  const [wpMediaTarget, setWpMediaTarget] = useState<'banner' | 'content'>('banner');
 
   // Quản lý trạng thái chưa lưu
   const [isDirty, setIsDirty] = useState(false);
@@ -294,28 +335,31 @@ export function TongChiEditor({ initialData, isEdit }: TongChiEditorProps) {
   const [isDragOverBanner, setIsDragOverBanner] = useState(false);
 
   // Xử lý Đồng Bộ Tự Động Từ WordPress Gutenberg
-  const handleSyncFromWordPress = async () => {
+  const handleSyncFromWordPress = async (silent = false) => {
     if (!wpPostId || !wpPostId.trim()) {
-      alert('Vui lòng nhập WordPress Post ID (ví dụ: 470, 480, 481...)');
+      if (!silent) alert('Vui lòng chọn hoặc nhập WordPress Post ID (ví dụ: 470, 480, 481...)');
       return;
     }
     setIsSyncingWp(true);
-    setSyncMessage(null);
+    if (!silent) setSyncMessage(null);
     try {
       const res = await fetch(`https://admin.tunglamhoaphuc.com/wp-json/wp/v2/tong-chi/${wpPostId.trim()}?_embed`, {
         cache: 'no-store',
         headers: { 'User-Agent': 'Mozilla/5.0' },
       });
       if (!res.ok) {
-        throw new Error(`WordPress API trả về mã lỗi HTTP ${res.status}. Vui lòng kiểm tra lại Post ID hoặc chắc chắn bài viết đã được bấm "Đăng (Publish)".`);
+        if (!silent) {
+          throw new Error(`WordPress API trả về mã lỗi HTTP ${res.status}. Vui lòng kiểm tra lại Post ID hoặc chắc chắn bài viết đã được bấm "Đăng (Publish)".`);
+        }
+        return;
       }
       const post = await res.json();
       const rawHtml = post.content?.rendered || '';
       const parsed = convertWpHtmlToCleanContent(rawHtml);
 
       if (post.title?.rendered) setTitle(post.title.rendered);
-      if (post.acf?.tieu_de_phu || parsed.extractedSubtitle) {
-        setSubtitle(post.acf?.tieu_de_phu || parsed.extractedSubtitle || '');
+      if (post.acf?.tieu_de_phu || post.acf?.sub_title || parsed.extractedSubtitle) {
+        setSubtitle(post.acf?.tieu_de_phu || post.acf?.sub_title || parsed.extractedSubtitle || '');
       }
       if (parsed.cleanedContent) setContent(parsed.cleanedContent);
       if (post.slug && (!slug || slug === 'new' || slug === '470')) {
@@ -329,9 +373,78 @@ export function TongChiEditor({ initialData, isEdit }: TongChiEditorProps) {
       setSyncMessage(`✅ Đã đồng bộ thành công nội dung bài viết #${wpPostId} từ WordPress!`);
       setTimeout(() => setSyncMessage(null), 6000);
     } catch (err: any) {
-      alert(err.message || 'Lỗi khi đồng bộ từ WordPress');
+      if (!silent) {
+        alert(err.message || 'Lỗi khi đồng bộ từ WordPress');
+      }
     } finally {
       setIsSyncingWp(false);
+    }
+  };
+
+  // Tự động kiểm tra và đồng bộ khi biên tập viên quay lại tab Next.js từ WordPress
+  useEffect(() => {
+    const handleWindowFocus = () => {
+      if (autoSyncOnFocus && wpPostId && wpPostId.trim()) {
+        handleSyncFromWordPress(true);
+      }
+    };
+    window.addEventListener('focus', handleWindowFocus);
+    return () => window.removeEventListener('focus', handleWindowFocus);
+  }, [autoSyncOnFocus, wpPostId]);
+
+  // Xử lý mở trình soạn thảo WordPress Gutenberg (Tự tạo bài nếu chưa có Post ID)
+  const handleOpenGutenberg = async () => {
+    setIsAutoCreatingWp(true);
+    const newTab = window.open('about:blank', '_blank');
+
+    try {
+      const res = await fetch('/api/admin/wp-post-create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: wpPostId,
+          title: title || 'Bài viết Tông Chỉ Mới',
+          subtitle,
+          content: content || excerpt || subtitle || '',
+          excerpt: excerpt || subtitle || '',
+          category,
+          postType: 'tong-chi',
+        }),
+      });
+      const data = await res.json();
+      if (data.success && data.editUrl) {
+        if (data.wpPostId) {
+          setWpPostId(String(data.wpPostId));
+          setIsDirty(true);
+        }
+        if (newTab) {
+          newTab.location.href = data.editUrl;
+        } else {
+          window.open(data.editUrl, '_blank', 'noopener,noreferrer');
+        }
+      } else {
+        const fallbackUrl = 'https://admin.tunglamhoaphuc.com/wp-admin/post-new.php';
+        if (newTab) newTab.location.href = fallbackUrl;
+        else window.open(fallbackUrl, '_blank', 'noopener,noreferrer');
+      }
+    } catch (err: any) {
+      const fallbackUrl = 'https://admin.tunglamhoaphuc.com/wp-admin/post-new.php';
+      if (newTab) newTab.location.href = fallbackUrl;
+      else window.open(fallbackUrl, '_blank', 'noopener,noreferrer');
+    } finally {
+      setIsAutoCreatingWp(false);
+    }
+  };
+
+  // Xử lý chọn ảnh từ Thư Viện WordPress
+  const handleSelectWpMedia = (url: string, item: WordPressMediaItem) => {
+    if (wpMediaTarget === 'banner') {
+      setBannerImage(url);
+      setIsDirty(true);
+    } else if (wpMediaTarget === 'content') {
+      const imgTitle = item?.title ? item.title.replace(/[\[\]]/g, '') : 'Hình ảnh minh họa';
+      insertFormatting(`\n![${imgTitle}](${url})\n`);
+      setIsDirty(true);
     }
   };
 
@@ -480,6 +593,7 @@ export function TongChiEditor({ initialData, isEdit }: TongChiEditorProps) {
       authorLink,
       keywords: keywords.filter((k) => k.keyword.trim()),
       sourceBook: sourceBooks,
+      wpPostId: wpPostId ? wpPostId.trim() : undefined,
     };
 
     try {
@@ -729,16 +843,16 @@ export function TongChiEditor({ initialData, isEdit }: TongChiEditorProps) {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <label className="text-xs font-semibold text-[#FFE5A3]">Chuyên mục tu học</label>
+                  <label className="text-xs font-semibold text-[#FFE5A3]">Chuyên mục tu học *</label>
                   <select
                     value={category}
                     onChange={(e) => {
                       setIsDirty(true);
                       setCategory(e.target.value);
                     }}
-                    className="w-full px-3 py-2 bg-[#25170E] border border-[#F2C14E]/40 rounded-xl text-xs text-white focus:outline-none focus:border-[#F2C14E]"
+                    className="w-full px-3 py-2 bg-[#25170E] border border-[#F2C14E]/40 rounded-xl text-xs sm:text-sm text-white focus:outline-none focus:border-[#F2C14E]"
                   >
                     {CATEGORIES.map((cat) => (
                       <option key={cat.id} value={cat.id}>
@@ -749,21 +863,7 @@ export function TongChiEditor({ initialData, isEdit }: TongChiEditorProps) {
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-xs font-semibold text-[#FFE5A3]">Đường dẫn tĩnh (Slug URL)</label>
-                  <input
-                    type="text"
-                    value={slug}
-                    onChange={(e) => {
-                      setIsDirty(true);
-                      setSlug(e.target.value);
-                    }}
-                    placeholder="Tự sinh từ tiêu đề nếu để trống"
-                    className="w-full px-3 py-2 bg-[#25170E] border border-[#F2C14E]/40 rounded-xl text-xs text-white placeholder-[#c9b896]/40 focus:outline-none focus:border-[#F2C14E]"
-                  />
-                </div>
-
-                <div className="space-y-1">
-                  <label className="text-xs font-semibold text-[#FFE5A3]">Tác giả / Lời kệ</label>
+                  <label className="text-xs font-semibold text-[#FFE5A3]">Tác giả bài viết / Lời kệ</label>
                   <input
                     type="text"
                     value={author}
@@ -772,9 +872,38 @@ export function TongChiEditor({ initialData, isEdit }: TongChiEditorProps) {
                       setAuthor(e.target.value);
                     }}
                     placeholder="Sa Môn Vô Trí (Thích Tâm Hòa)"
-                    className="w-full px-3 py-2 bg-[#25170E] border border-[#F2C14E]/40 rounded-xl text-xs text-white placeholder-[#c9b896]/40 focus:outline-none focus:border-[#F2C14E]"
+                    className="w-full px-3 py-2 bg-[#25170E] border border-[#F2C14E]/40 rounded-xl text-xs sm:text-sm text-white placeholder-[#c9b896]/40 focus:outline-none focus:border-[#F2C14E]"
                   />
                 </div>
+              </div>
+
+              {/* Tùy chọn đường dẫn tĩnh Slug (Mặc định ẩn) */}
+              <div className="pt-0.5">
+                <button
+                  type="button"
+                  onClick={() => setShowAdvancedSeo(!showAdvancedSeo)}
+                  className="text-[11px] text-[#c9b896]/70 hover:text-[#F2C14E] flex items-center gap-1 transition-colors cursor-pointer font-medium"
+                >
+                  <span>{showAdvancedSeo ? '▲ Thu gọn Tùy chỉnh Đường dẫn tĩnh (Slug)' : '⚙️ Tùy chỉnh Đường dẫn tĩnh (Slug URL) — Dành cho Kỹ thuật / SEO'}</span>
+                </button>
+                {showAdvancedSeo && (
+                  <div className="mt-2 p-3 rounded-xl bg-[#25170E] border border-[#F2C14E]/30 space-y-2 animate-in fade-in">
+                    <label className="text-xs font-semibold text-[#FFE5A3]">Đường dẫn tĩnh (Slug URL)</label>
+                    <input
+                      type="text"
+                      value={slug}
+                      onChange={(e) => {
+                        setIsDirty(true);
+                        setSlug(e.target.value);
+                      }}
+                      placeholder="Mặc định hệ thống tự sinh từ tiêu đề (ví dụ: bo-de-tam-coi-nguon-thien-phap)"
+                      className="w-full px-3 py-2 bg-[#1C120A] border border-[#F2C14E]/40 rounded-xl text-xs text-white placeholder-[#c9b896]/40 focus:outline-none focus:border-[#F2C14E]"
+                    />
+                    <p className="text-[10px] text-[#c9b896]/60">
+                      Ghi chú: Nếu để trống, hệ thống sẽ tự động tạo đường dẫn chuẩn SEO từ tiêu đề bài viết.
+                    </p>
+                  </div>
+                )}
               </div>
 
               {/* Banner Image */}
@@ -793,6 +922,18 @@ export function TongChiEditor({ initialData, isEdit }: TongChiEditorProps) {
                         <span>Căn tiêu điểm ({bannerPosition})</span>
                       </button>
                     )}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setWpMediaTarget('banner');
+                        setWpMediaModalOpen(true);
+                      }}
+                      className="px-2.5 py-1 rounded-lg bg-[#F2C14E]/20 hover:bg-[#F2C14E]/30 text-[#FFDE59] border border-[#F2C14E]/40 text-[11px] font-bold flex items-center gap-1 transition-all cursor-pointer shadow-sm"
+                      title="Chọn ảnh từ Thư viện WordPress dùng chung"
+                    >
+                      <ImageIcon className="w-3.5 h-3.5 text-[#F2C14E]" />
+                      <span>🖼️ Thư Viện Ảnh WP</span>
+                    </button>
                     <label className="cursor-pointer text-[11px] text-[#F2C14E] hover:underline flex items-center gap-1 font-bold">
                       <Upload className="w-3.5 h-3.5" />
                       <span>Tải ảnh máy tính</span>
@@ -872,205 +1013,253 @@ export function TongChiEditor({ initialData, isEdit }: TongChiEditorProps) {
               </div>
             </div>
 
-            {/* 2. TRÌNH SOẠN THẢO CHUYÊN NGHIỆP CÓ TOOLBAR WORDPRESS */}
-            <div className="bg-[#1C120A] border border-[#F2C14E]/25 rounded-2xl p-5 sm:p-6 space-y-3 shadow-xl">
-              <div className="flex items-center justify-between border-b border-[#F2C14E]/15 pb-2">
-                <h2 className="text-xs sm:text-sm font-bold text-[#F2C14E] uppercase tracking-wider flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-[#FFDE59]" />
-                  <span>2. Nội Dung &amp; Kệ Thơ Phật Học</span>
-                </h2>
-                <span className="text-[11px] text-[#c9b896]/70 hidden sm:inline">
-                  Hỗ trợ Markdown &amp; HTML mượt mà chuẩn WordPress
-                </span>
-              </div>
-
-              {/* 🌉 CẦU NỐI WORDPRESS GUTENBERG (1-CLICK SYNC) */}
-              <div className="p-3.5 bg-gradient-to-r from-[#2A1B10] via-[#24170E] to-[#1C120A] border-2 border-[#F2C14E]/50 rounded-xl shadow-lg flex flex-wrap items-center justify-between gap-3">
-                <div className="flex items-center gap-2">
-                  <span className="p-1.5 rounded-lg bg-[#F2C14E] text-[#120A05] font-black text-xs">WP</span>
-                  <div>
-                    <h4 className="text-xs font-bold text-[#FFDE59] flex items-center gap-1.5">
-                      <span>Cầu Nối Soạn Thảo WordPress Gutenberg</span>
-                    </h4>
-                    <p className="text-[11px] text-[#c9b896]/80">
-                      Soạn thảo bài viết trên WordPress ➔ Nhập Post ID ➔ Bấm nút để lấy nội dung sang đây
-                    </p>
-                  </div>
+            {/* 2. KHÔNG GIAN SOẠN THẢO VĂN BẢN LIỀN MẠCH (KHÔNG KHỐI) & KẾT NỐI WORDPRESS */}
+            <div className="bg-[#1C120A] border-2 border-[#F2C14E]/35 rounded-2xl p-5 sm:p-6 space-y-4 shadow-2xl">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#F2C14E]/20 pb-3">
+                <div>
+                  <h2 className="text-xs sm:text-sm font-bold text-[#FFDE59] uppercase tracking-wider flex items-center gap-2">
+                    <Sparkles className="w-4 h-4 text-[#F2C14E]" />
+                    <span>2. Soạn Thảo Văn Bản &amp; Kệ Thơ Phật Học (Liền Mạch Không Khối)</span>
+                  </h2>
+                  <p className="text-[11px] text-[#c9b896]/80 mt-0.5">
+                    Soạn thảo tự nhiên như văn bản Word. Dùng thanh công cụ hoàng kim 1-click để chèn Kệ Thơ viền vàng, Thư viện ảnh WordPress, và gán Popup Từ Khóa.
+                  </p>
                 </div>
 
+                {/* Nút Kết Nối / Đồng Bộ WordPress */}
                 <div className="flex items-center gap-2 flex-wrap">
-                  <div className="flex items-center gap-1.5 bg-[#170E08] px-2.5 py-1 rounded-lg border border-[#F2C14E]/40">
-                    <span className="text-[11px] text-[#FFE5A3] font-medium">Post ID:</span>
-                    <input
-                      type="text"
-                      value={wpPostId}
-                      onChange={(e) => setWpPostId(e.target.value)}
-                      placeholder="470, 480..."
-                      className="w-16 px-1.5 py-0.5 bg-[#25170E] border border-[#F2C14E]/50 rounded text-xs font-bold text-[#FFDE59] text-center focus:outline-none focus:border-[#F2C14E]"
-                    />
-                  </div>
-
+                  {wpPostId ? (
+                    <span className="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-[10px] font-bold flex items-center gap-1 shadow-sm">
+                      <CheckCircle2 className="w-3 h-3 text-emerald-400" />
+                      <span>Post WP #{wpPostId}</span>
+                    </span>
+                  ) : null}
                   <button
                     type="button"
-                    onClick={handleSyncFromWordPress}
-                    disabled={isSyncingWp}
-                    className="px-3 py-1.5 rounded-lg bg-[#F2C14E] hover:bg-[#ffde59] text-[#120A05] text-xs font-bold transition-all shadow flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
-                    title="Lấy trực tiếp tiêu đề, thẻ phụ và toàn bộ nội dung từ WordPress"
+                    onClick={() => setShowWpSyncPanel(!showWpSyncPanel)}
+                    className="px-3 py-1 rounded-xl bg-[#2A1D14] hover:bg-[#3A2718] border border-[#F2C14E]/40 text-xs font-bold text-[#FFE5A3] hover:text-[#FFDE59] flex items-center gap-1.5 transition-all cursor-pointer shadow"
+                    title="Mở công cụ liên kết & đồng bộ với WordPress Gutenberg"
                   >
-                    {isSyncingWp ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Sparkles className="w-3.5 h-3.5 text-[#120A05]" />}
-                    <span>{isSyncingWp ? 'Đang đồng bộ...' : '📥 Đồng Bộ Từ WordPress'}</span>
+                    <span>{showWpSyncPanel ? '▲ Thu Gọn WP' : '🌐 Kết Nối WP'}</span>
                   </button>
-
-                  <a
-                    href={`https://admin.tunglamhoaphuc.com/wp-admin/post.php?post=${wpPostId || '470'}&action=edit`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="px-3 py-1.5 rounded-lg bg-[#2A1D14] hover:bg-[#3A2718] border border-[#F2C14E]/40 text-[#FFE5A3] text-xs font-medium transition-all flex items-center gap-1.5 cursor-pointer"
-                  >
-                    <Edit3 className="w-3.5 h-3.5 text-[#F2C14E]" />
-                    <span>Mở Tab Soạn Thảo WP</span>
-                    <ExternalLink className="w-3 h-3 text-[#c9b896]" />
-                  </a>
                 </div>
               </div>
 
-              {/* Thông báo kết quả đồng bộ nếu có */}
+              {/* BẢNG CÔNG CỤ KẾT NỐI WORDPRESS (KHI BẬT) */}
+              {showWpSyncPanel && (
+                <div className="p-4 rounded-xl bg-gradient-to-r from-[#2A1B10] via-[#21140B] to-[#170E08] border border-[#F2C14E]/30 space-y-3 animate-in fade-in">
+                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
+                    <button
+                      type="button"
+                      onClick={handleOpenGutenberg}
+                      disabled={isAutoCreatingWp}
+                      className="flex-1 py-2 px-4 rounded-xl bg-gradient-to-r from-[#F2C14E] to-[#FFDE59] text-[#120A05] text-xs font-bold shadow flex items-center justify-center gap-1.5 cursor-pointer hover:brightness-110"
+                    >
+                      {isAutoCreatingWp ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Sparkles className="w-3.5 h-3.5 text-[#120A05]" />}
+                      <span>{wpPostId ? `Mở Gutenberg (Post #${wpPostId})` : 'Tạo & Mở Gutenberg'}</span>
+                      <ExternalLink className="w-3 h-3 text-[#120A05]" />
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => handleSyncFromWordPress(false)}
+                      disabled={isSyncingWp || !wpPostId}
+                      className="py-2 px-3 rounded-xl bg-[#1C120A] hover:bg-[#3A2718] border border-[#F2C14E]/40 text-[#FFE5A3] text-xs font-bold flex items-center justify-center gap-1 cursor-pointer disabled:opacity-40"
+                    >
+                      {isSyncingWp ? <Loader2 className="w-3.5 h-3.5 animate-spin text-[#F2C14E]" /> : <RefreshCw className="w-3.5 h-3.5 text-[#F2C14E]" />}
+                      <span>Đồng Bộ Về Web</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => setShowGutenbergIframe(!showGutenbergIframe)}
+                      className="py-2 px-3 rounded-xl bg-[#1C120A] border border-[#F2C14E]/30 text-xs font-semibold text-[#c9b896] hover:text-white cursor-pointer"
+                    >
+                      {showGutenbergIframe ? 'Đóng iframe' : 'Nhúng iframe'}
+                    </button>
+                  </div>
+
+                  {/* KHUNG IFRAME NẾU BẬT */}
+                  {showGutenbergIframe && (
+                    <div className="mt-2 rounded-xl overflow-hidden border border-[#F2C14E]/40 shadow-xl">
+                      <iframe
+                        src={`https://admin.tunglamhoaphuc.com/wp-admin/post.php?post=${wpPostId || '470'}&action=edit`}
+                        className="w-full h-[600px] bg-white"
+                        title="WordPress Gutenberg"
+                      />
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* THÔNG BÁO ĐỒNG BỘ NẾU CÓ */}
               {syncMessage && (
-                <div className="p-2.5 rounded-xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 text-xs font-semibold flex items-center gap-2 animate-in fade-in">
+                <div className="p-3 rounded-xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 text-xs font-semibold flex items-center gap-2 animate-in fade-in">
                   <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
                   <span>{syncMessage}</span>
                 </div>
               )}
 
-              {/* WORDPRESS-STYLE WYSIWYG TOOLBAR */}
-              <div className="flex flex-wrap items-center gap-1.5 p-2 bg-[#25170E] border border-[#F2C14E]/30 rounded-xl shadow-inner">
-                {/* Heading 2 */}
-                <button
-                  type="button"
-                  onClick={() => insertFormatting('## ', '\n', 'TIÊU ĐỀ LỚN')}
-                  className="px-2.5 py-1.5 rounded-lg bg-[#1C120A] hover:bg-[#3A2718] text-[#FFE5A3] hover:text-[#FFDE59] border border-[#F2C14E]/20 text-xs font-bold flex items-center gap-1 transition-all cursor-pointer"
-                  title="Tiêu đề đề mục lớn (H2)"
-                >
-                  <Heading2 className="w-3.5 h-3.5 text-[#F2C14E]" />
-                  <span>H2</span>
-                </button>
+              {/* THANH CÔNG CỤ HOÀNG KIM (GOLDEN BUDDHIST TOOLBAR - 1 CLICK) */}
+              <div className="flex flex-wrap items-center gap-1.5 p-2.5 bg-[#23170F] border border-[#F2C14E]/30 rounded-xl shadow-inner">
+                {/* Nhóm Tiêu đề Heading */}
+                <div className="flex items-center gap-1 bg-[#170E08] p-1 rounded-lg border border-[#F2C14E]/20">
+                  <button
+                    type="button"
+                    onClick={() => insertFormatting('\n## ', '\n\n', 'TIÊU ĐỀ ĐỀ MỤC LỚN')}
+                    className="px-2.5 py-1 rounded bg-[#2A1B10] hover:bg-[#F2C14E] text-[#FFE5A3] hover:text-[#120A05] text-xs font-bold transition-all flex items-center gap-1 cursor-pointer"
+                    title="Tiêu đề đề mục lớn (Heading 2)"
+                  >
+                    <Heading2 className="w-3.5 h-3.5" />
+                    <span>H2</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => insertFormatting('\n### ', '\n\n', 'Tiêu đề mục nhỏ')}
+                    className="px-2.5 py-1 rounded bg-[#2A1B10] hover:bg-[#F2C14E] text-[#FFE5A3] hover:text-[#120A05] text-xs font-bold transition-all flex items-center gap-1 cursor-pointer"
+                    title="Tiêu đề mục nhỏ (Heading 3)"
+                  >
+                    <Heading3 className="w-3.5 h-3.5" />
+                    <span>H3</span>
+                  </button>
+                </div>
 
-                {/* Heading 3 */}
-                <button
-                  type="button"
-                  onClick={() => insertFormatting('### ', '\n', 'TIÊU ĐỀ MỤC NHỎ')}
-                  className="px-2.5 py-1.5 rounded-lg bg-[#1C120A] hover:bg-[#3A2718] text-[#FFE5A3] hover:text-[#FFDE59] border border-[#F2C14E]/20 text-xs font-bold flex items-center gap-1 transition-all cursor-pointer"
-                  title="Tiêu đề mục nhỏ (H3 - Tự tạo Anchor mục lục bên trái)"
-                >
-                  <Heading3 className="w-3.5 h-3.5 text-[#F2C14E]" />
-                  <span>H3</span>
-                </button>
+                {/* Nhóm Định dạng văn bản */}
+                <div className="flex items-center gap-1 bg-[#170E08] p-1 rounded-lg border border-[#F2C14E]/20">
+                  <button
+                    type="button"
+                    onClick={() => insertFormatting('**', '**', 'Chữ in đậm')}
+                    className="p-1.5 px-2 rounded bg-[#2A1B10] hover:bg-[#F2C14E] text-[#FFE5A3] hover:text-[#120A05] text-xs font-bold transition-all cursor-pointer"
+                    title="In đậm (Ctrl+B)"
+                  >
+                    <Bold className="w-3.5 h-3.5" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => insertFormatting('*', '*', 'Chữ in nghiêng')}
+                    className="p-1.5 px-2 rounded bg-[#2A1B10] hover:bg-[#F2C14E] text-[#FFE5A3] hover:text-[#120A05] text-xs font-bold transition-all cursor-pointer"
+                    title="In nghiêng (Italic)"
+                  >
+                    <Italic className="w-3.5 h-3.5" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => insertFormatting('<u>', '</u>', 'Chữ gạch chân')}
+                    className="p-1.5 px-2 rounded bg-[#2A1B10] hover:bg-[#F2C14E] text-[#FFE5A3] hover:text-[#120A05] text-xs font-bold transition-all cursor-pointer"
+                    title="Gạch chân (Underline)"
+                  >
+                    <UnderlineIcon className="w-3.5 h-3.5" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => insertFormatting('\n- ', '\n', 'Nội dung danh sách')}
+                    className="p-1.5 px-2 rounded bg-[#2A1B10] hover:bg-[#F2C14E] text-[#FFE5A3] hover:text-[#120A05] text-xs font-bold transition-all cursor-pointer"
+                    title="Danh sách gạch đầu dòng"
+                  >
+                    <List className="w-3.5 h-3.5" />
+                  </button>
+                </div>
 
-                <div className="w-[1px] h-5 bg-[#F2C14E]/30 mx-1" />
+                {/* Nhóm Phật Học Tùng Lâm Hòa Phúc Độc Bản */}
+                <div className="flex items-center gap-1.5 bg-[#170E08] p-1 rounded-lg border border-[#F2C14E]/30">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      insertFormatting(
+                        '\n> Con nguyện giữ tâm Bồ đề kiên cố\n> Con nguyện hành hạnh tự lợi, lợi tha\n> Đem an vui chan rải đến muôn nhà\n> Để tâm Phật chan hòa trong vũ trụ.\n\n*Vô Trí - Tâm Hòa*\n\n'
+                      );
+                    }}
+                    className="px-3 py-1 rounded bg-gradient-to-r from-[#8B5A2B]/40 to-[#CD853F]/40 hover:from-[#F2C14E] hover:to-[#FFDE59] text-[#FFE5A3] hover:text-[#120A05] text-xs font-bold transition-all flex items-center gap-1.5 border border-[#F2C14E]/40 cursor-pointer shadow-sm"
+                    title="Chèn mẫu Kệ Thơ Phật Học viền vàng trang nghiêm"
+                  >
+                    <Quote className="w-3.5 h-3.5 text-[#F2C14E]" />
+                    <span>📜 Chèn Kệ Thơ</span>
+                  </button>
 
-                {/* Bold */}
-                <button
-                  type="button"
-                  onClick={() => insertFormatting('**', '**', 'chữ in đậm')}
-                  className="p-1.5 rounded-lg bg-[#1C120A] hover:bg-[#3A2718] text-[#FFE5A3] hover:text-[#FFDE59] border border-[#F2C14E]/20 transition-all cursor-pointer"
-                  title="In đậm (Bold)"
-                >
-                  <Bold className="w-3.5 h-3.5" />
-                </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setWpMediaTarget('content');
+                      setWpMediaModalOpen(true);
+                    }}
+                    className="px-3 py-1 rounded bg-[#2A1B10] hover:bg-[#F2C14E] text-[#FFE5A3] hover:text-[#120A05] text-xs font-bold transition-all flex items-center gap-1.5 border border-[#F2C14E]/40 cursor-pointer shadow-sm"
+                    title="Chọn ảnh minh họa từ Thư viện WordPress dùng chung"
+                  >
+                    <ImageIcon className="w-3.5 h-3.5 text-[#F2C14E]" />
+                    <span>🖼️ Thư Viện Ảnh WP</span>
+                  </button>
 
-                {/* Italic */}
-                <button
-                  type="button"
-                  onClick={() => insertFormatting('*', '*', 'chữ in nghiêng')}
-                  className="p-1.5 rounded-lg bg-[#1C120A] hover:bg-[#3A2718] text-[#FFE5A3] hover:text-[#FFDE59] border border-[#F2C14E]/20 transition-all cursor-pointer"
-                  title="In nghiêng (Italic)"
-                >
-                  <Italic className="w-3.5 h-3.5" />
-                </button>
+                  <button
+                    type="button"
+                    onClick={() => inlineImageInputRef.current?.click()}
+                    className="px-3 py-1 rounded bg-[#2A1B10] hover:bg-[#F2C14E] text-[#FFE5A3] hover:text-[#120A05] text-xs font-bold transition-all flex items-center gap-1.5 border border-[#F2C14E]/40 cursor-pointer shadow-sm"
+                    title="Tải ảnh trực tiếp từ máy tính lên"
+                  >
+                    <Upload className="w-3.5 h-3.5 text-[#F2C14E]" />
+                    <span>📷 Tải Ảnh Máy</span>
+                  </button>
 
-                {/* Underline */}
-                <button
-                  type="button"
-                  onClick={() => insertFormatting('<u>', '</u>', 'chữ gạch chân')}
-                  className="p-1.5 rounded-lg bg-[#1C120A] hover:bg-[#3A2718] text-[#FFE5A3] hover:text-[#FFDE59] border border-[#F2C14E]/20 transition-all cursor-pointer"
-                  title="Gạch chân (Underline)"
-                >
-                  <UnderlineIcon className="w-3.5 h-3.5" />
-                </button>
-
-                <div className="w-[1px] h-5 bg-[#F2C14E]/30 mx-1" />
-
-                {/* Quote / Kệ thơ */}
-                <button
-                  type="button"
-                  onClick={() =>
-                    insertFormatting(
-                      '\n> Con nguyện giữ tâm Bồ đề kiên cố\n> Con nguyện hành hạnh tự lợi, lợi tha\n> Đem an vui chan rải đến muôn nhà\n> Để tâm Phật chan hòa trong vũ trụ.\n\n*Vô Trí - Tâm Hòa*\n\n'
-                    )
-                  }
-                  className="px-2 py-1.5 rounded-lg bg-[#1C120A] hover:bg-[#3A2718] text-[#FFE5A3] hover:text-[#FFDE59] border border-[#F2C14E]/20 text-xs flex items-center gap-1 transition-all cursor-pointer"
-                  title="Chèn Khối Kệ Thơ / Lời Thầy Viền Vàng Trang Nghiêm"
-                >
-                  <Quote className="w-3.5 h-3.5 text-[#F2C14E]" />
-                  <span>Kệ Thơ</span>
-                </button>
-
-                {/* Danh sách List */}
-                <button
-                  type="button"
-                  onClick={() => insertFormatting('\n- Điểm tu học 1\n- Điểm tu học 2\n- Điểm tu học 3\n')}
-                  className="p-1.5 rounded-lg bg-[#1C120A] hover:bg-[#3A2718] text-[#FFE5A3] hover:text-[#FFDE59] border border-[#F2C14E]/20 transition-all cursor-pointer"
-                  title="Danh sách gạch đầu dòng"
-                >
-                  <List className="w-3.5 h-3.5" />
-                </button>
-
-                {/* Chèn Hình Ảnh */}
-                <label className="px-2 py-1.5 rounded-lg bg-[#1C120A] hover:bg-[#3A2718] text-[#FFE5A3] hover:text-[#FFDE59] border border-[#F2C14E]/20 text-xs flex items-center gap-1 transition-all cursor-pointer">
-                  <ImageIcon className="w-3.5 h-3.5 text-[#F2C14E]" />
-                  <span>Chèn Ảnh</span>
+                  {/* Input file ẩn cho tải ảnh từ máy tính */}
                   <input
-                    ref={inlineImageInputRef}
                     type="file"
+                    ref={inlineImageInputRef}
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+                      await handleUpload(file, (uploadedUrl) => {
+                        insertFormatting(`\n\n![${file.name.replace(/\.[^/.]+$/, '')}](${uploadedUrl})\n\n`);
+                      });
+                      if (inlineImageInputRef.current) inlineImageInputRef.current.value = '';
+                    }}
                     accept="image/*"
                     className="hidden"
-                    onChange={(e) => {
-                      const file = e.target.files?.[0];
-                      if (file) {
-                        handleUpload(file, (url) => {
-                          insertFormatting(`\n![Hình ảnh minh họa](${url})\n`);
-                        });
-                      }
-                    }}
                   />
-                </label>
+                </div>
 
-                {/* NÚT TẠO NHANH TỪ KHÓA POPUP TỪ SELECTION */}
+                {/* Nút Tạo Popup Từ Khóa */}
                 <button
                   type="button"
                   onClick={handleCreateKeywordFromSelection}
-                  className="px-2.5 py-1.5 rounded-lg bg-[#F2C14E]/20 hover:bg-[#F2C14E] text-[#FFDE59] hover:text-[#1A120B] border border-[#F2C14E]/50 text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer ml-auto shadow-sm"
-                  title="Bôi đen một từ trong văn bản rồi bấm nút này để tạo Popup Chú Thích"
+                  className="px-3 py-1.5 rounded-lg bg-gradient-to-r from-[#D4AF37]/30 to-[#F2C14E]/40 hover:from-[#F2C14E] hover:to-[#FFDE59] text-[#FFE5A3] hover:text-[#120A05] text-xs font-bold transition-all flex items-center gap-1.5 border border-[#F2C14E]/50 cursor-pointer shadow ml-auto"
+                  title="Bôi đen một từ ngữ trong bài rồi bấm nút này để tạo chú thích popup tức thì"
                 >
-                  <BookmarkPlus className="w-3.5 h-3.5" />
-                  <span>Gán Popup Từ Khóa</span>
+                  <Sparkles className="w-3.5 h-3.5 text-[#F2C14E]" />
+                  <span>✨ Gán Popup Từ Khóa</span>
                 </button>
               </div>
 
-              {/* KHUNG SOẠN THẢO CHÍNH */}
-              <textarea
-                ref={contentTextareaRef}
-                rows={16}
-                value={content}
-                onChange={(e) => {
-                  setIsDirty(true);
-                  setContent(e.target.value);
-                }}
-                placeholder="Nhập toàn văn bài thơ hoặc bài viết ở đây...&#10;&#10;Sử dụng:&#10;### TIÊU ĐỀ ĐỀ MỤC (Tự tạo mục lục cuộn trang)&#10;> Khối kệ thơ hoặc lời Thầy viền vàng...&#10;**Từ khóa in đậm** (Tự động gắn Popup nếu trùng tên từ khóa bên dưới)..."
-                required
-                style={{ fontFamily: "var(--font-montserrat), 'Montserrat', 'UTM Avo', sans-serif" }}
-                className="w-full p-4 bg-[#25170E] border border-[#F2C14E]/40 rounded-xl text-xs sm:text-sm text-white placeholder-[#c9b896]/40 focus:outline-none focus:border-[#F2C14E] leading-relaxed shadow-inner"
-              />
+              {/* KHUNG SOẠN THẢO VĂN BẢN PHẬT HỌC LIỀN MẠCH (KHÔNG CHIA KHỐI) */}
+              <div className="relative rounded-xl overflow-hidden border border-[#F2C14E]/30 bg-[#140C07] focus-within:border-[#F2C14E] focus-within:ring-1 focus-within:ring-[#F2C14E]/50 transition-all shadow-inner">
+                <textarea
+                  ref={contentTextareaRef}
+                  value={content}
+                  onChange={(e) => {
+                    setIsDirty(true);
+                    setContent(e.target.value);
+                  }}
+                  rows={24}
+                  placeholder={`Soạn thảo bài viết liền mạch tại đây...\n\nVí dụ:\n## BÀI HỌC TÂM LINH\n\nĐây là đoạn văn xuôi giải thích giáo lý thanh tịnh của Tùng Lâm Hòa Phúc...\n\n> Con nguyện giữ tâm Bồ đề kiên cố\n> Con nguyện hành hạnh tự lợi, lợi tha\n> Đem an vui chan rải đến muôn nhà\n> Để tâm Phật chan hòa trong vũ trụ.\n\n*Vô Trí - Tâm Hòa*\n\nMẹo:\n- Dùng nút "📜 Chèn Kệ Thơ" trên thanh công cụ để chèn bài kệ viền vàng hoàng kim.\n- Dùng "🖼️ Thư Viện Ảnh WP" để chèn ảnh từ WordPress.\n- Bôi đen từ khóa bất kỳ rồi bấm "✨ Gán Popup Từ Khóa" để tạo chú thích popup.`}
+                  className="w-full p-4 sm:p-5 bg-transparent text-[#FFF8EB] placeholder-[#c9b896]/35 text-[14px] sm:text-[15px] leading-relaxed font-sans resize-y focus:outline-none selection:bg-[#F2C14E]/30 selection:text-white"
+                  style={{ minHeight: '560px' }}
+                />
+
+                {/* THANH THỐNG KÊ & TRẠNG THÁI CUỐI TRÌNH SOẠN THẢO */}
+                <div className="flex flex-wrap items-center justify-between gap-3 px-4 py-2.5 bg-[#1C120A] border-t border-[#F2C14E]/20 text-[11px] text-[#c9b896]/80">
+                  <div className="flex items-center gap-4">
+                    <span className="font-medium">
+                      Độ dài: <strong className="text-[#FFDE59]">{content.trim() ? content.trim().split(/\s+/).length : 0}</strong> từ • <strong className="text-[#FFDE59]">{content.length}</strong> ký tự
+                    </span>
+                    <span className="hidden md:inline text-[#c9b896]/50">•</span>
+                    <span className="hidden md:inline text-[#c9b896]/70">
+                      Phím tắt: <kbd className="px-1.5 py-0.5 rounded bg-[#2A1D14] border border-[#F2C14E]/30 text-[10px] text-[#FFE5A3] font-mono">Ctrl + S</kbd> để lưu tức thì
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-2 text-[11px] text-[#F2C14E]">
+                    <span>📜 Bắt đầu dòng bằng <code className="px-1 py-0.5 rounded bg-[#2A1D14] text-[#FFDE59] font-mono">&gt;</code> để tạo Kệ Thơ viền vàng</span>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* 3. BẢNG QUẢN LÝ POPUP CHÚ THÍCH TỪ KHÓA */}
@@ -1595,6 +1784,18 @@ export function TongChiEditor({ initialData, isEdit }: TongChiEditorProps) {
           if (pendingExitUrl) router.push(pendingExitUrl);
         }}
         onCancel={() => setUnsavedModalOpen(false)}
+      />
+
+      {/* MODAL THƯ VIỆN ẢNH WORDPRESS DÙNG CHUNG */}
+      <WordPressMediaModal
+        isOpen={wpMediaModalOpen}
+        onClose={() => setWpMediaModalOpen(false)}
+        onSelectImage={handleSelectWpMedia}
+        title={
+          wpMediaTarget === 'banner'
+            ? 'Chọn Ảnh Bìa Hero Banner từ WordPress'
+            : 'Chèn Hình Ảnh Minh Họa từ WordPress'
+        }
       />
     </div>
   );

@@ -18,6 +18,8 @@ import {
   PanelLeftOpen,
   Plus,
   Landmark,
+  Waves,
+  Compass,
 } from 'lucide-react';
 
 const NAV_ITEMS = [
@@ -27,21 +29,20 @@ const NAV_ITEMS = [
     icon: LayoutDashboard,
   },
   {
-    name: 'Bài Viết & Sự Kiện',
-    href: '/admin/posts',
-    icon: BookOpen,
-    badge: 'Mới',
-  },
-  {
     name: 'Giới Thiệu Tông Phong',
     href: '/admin/gioi-thieu',
     icon: Landmark,
     badge: 'Bổn Tự',
   },
   {
-    name: 'Tông Chỉ Tu Học',
-    href: '/admin/tong-chi',
-    icon: Scroll,
+    name: 'Dòng Chảy Hoằng Pháp',
+    href: '/admin/posts',
+    icon: Waves,
+  },
+  {
+    name: 'Vũ Trụ Phật Giáo',
+    href: '/admin/vu-tru-phat-giao',
+    icon: Compass,
   },
   {
     name: 'Bảo Tượng Phật Giáo',
@@ -55,19 +56,14 @@ const NAV_ITEMS = [
     badge: '89 Vị',
   },
   {
+    name: 'Trí Tuệ Phật Pháp',
+    href: '/admin/tri-tue-phat-phap',
+    icon: BookOpen,
+  },
+  {
     name: 'Kho Ảnh S3 Cloud',
     href: '/kiem-tra-anh',
     icon: ImageIcon,
-  },
-  {
-    name: 'Tra Cứu Bài Vị Tứ Ân',
-    href: '/admin/memorials/danh-sach',
-    icon: Scroll,
-  },
-  {
-    name: 'Đăng Ký Khóa Tu & Công Quả',
-    href: '/admin/registrations/khoa-tu',
-    icon: Users,
   },
 ];
 

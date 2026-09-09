@@ -281,3 +281,59 @@ add_action('admin_head', function() {
         <?php
     }
 });
+
+/**
+ * 3. Cho phép nhúng WordPress Admin trong iframe từ Next.js Admin
+ */
+add_action('send_headers', function() {
+    // Xóa header SAMEORIGIN để cho phép nhúng từ trang Admin Next.js
+    header_remove('X-Frame-Options');
+    // Cấu hình Content-Security-Policy cho phép frame từ domain web chùa
+    header("Content-Security-Policy: frame-ancestors 'self' http://localhost:3000 https://tunglamhoaphuc.com https://beta.tunglamhoaphuc.com https://*.vercel.app");
+});
+
+/**
+ * 4. REST API: Tự động khởi tạo bài viết Tông Chỉ mới từ Next.js Admin
+ * Endpoint: POST /wp-json/tunglam/v1/create-tong-chi
+ */
+add_action('rest_api_init', function() {
+    register_rest_route('tunglam/v1', '/create-tong-chi', array(
+        'methods' => 'POST',
+        'permission_callback' => '__return_true', // Có thể bổ sung kiểm tra token bảo mật
+        'callback' => function($request) {
+            $params = $request->get_json_params();
+            $title = !empty($params['title']) ? sanitize_text_field($params['title']) : 'Bài viết Tông Chỉ mới';
+            $subtitle = !empty($params['subtitle']) ? sanitize_text_field($params['subtitle']) : '';
+
+            // Tạo bài viết nháp trên WordPress
+            $post_data = array(
+                'post_title'   => $title,
+                'post_type'    => 'tong-chi',
+                'post_status'  => 'draft',
+                'post_content' => "<!-- wp:paragraph -->\n<p>Nội dung đang được biên soạn...</p>\n<!-- /wp:paragraph -->",
+            );
+
+            $post_id = wp_insert_post($post_data);
+
+            if (is_wp_error($post_id)) {
+                return new WP_Error('create_failed', 'Không thể tạo bài viết trên WordPress: ' . $post_id->get_error_message(), array('status' => 500));
+            }
+
+            // Lưu tiêu đề phụ nếu có ACF
+            if (!empty($subtitle) && function_exists('update_field')) {
+                update_field('sub_title', $subtitle, $post_id);
+            }
+
+            $edit_url = admin_url("post.php?post={$post_id}&action=edit");
+
+            return rest_ensure_response(array(
+                'success'  => true,
+                'id'       => $post_id,
+                'title'    => $title,
+                'editUrl'  => $edit_url,
+                'message'  => "Đã khởi tạo thành công bài viết #{$post_id} trên WordPress Gutenberg."
+            ));
+        }
+    ));
+});
+

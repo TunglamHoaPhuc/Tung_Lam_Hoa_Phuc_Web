@@ -33,7 +33,8 @@ export async function GET(
         String(a.id) === id ||
         a.slug === id ||
         (id === 'tiep-buoc-thay-toi' && (a.slug === 'tong-phong-truyen-thua-truc-lam' || a.id === 1)) ||
-        (id === 'tong-phong-truyen-thua-truc-lam' && (a.slug === 'tiep-buoc-thay-toi' || a.id === 1))
+        (id === 'tong-phong-truyen-thua-truc-lam' && (a.slug === 'tiep-buoc-thay-toi' || a.id === 1)) ||
+        (id === 'tam-quy-ngu-gioi-nen-tang-nguoi-phat-tu' && (a.slug === 'tam-quy' || a.id === 25))
     );
 
     if (!article) {

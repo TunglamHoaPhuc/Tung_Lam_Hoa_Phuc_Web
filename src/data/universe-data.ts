@@ -10,6 +10,7 @@ export interface UniverseArea {
   mapPos: { x: number; y: number };
   description: string;
   fullContent?: string;
+  wpPostId?: string | number;
   statues: Array<{
     name: string;
     imgUrl: string;

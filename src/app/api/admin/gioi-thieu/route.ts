@@ -32,6 +32,7 @@ export interface GioiThieuRecord {
   galleryImages?: Array<{ url: string; caption: string; position?: string }>;
   videoBlock?: { videoUrl: string; title: string; summary: string };
   sourceBook?: { bookTitle: string; author: string; coverImage?: string; description?: string };
+  wpPostId?: string | number;
   status: 'published' | 'draft';
   orderIndex: number;
 }

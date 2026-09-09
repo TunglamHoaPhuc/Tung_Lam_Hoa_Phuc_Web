@@ -14,7 +14,11 @@ import {
   Compass,
   Image as ImageIcon,
   ZoomIn,
-  X
+  X,
+  Heart,
+  Shield,
+  CheckCircle2,
+  Users
 } from 'lucide-react';
 
 interface PopupKeyword {
@@ -312,6 +316,475 @@ function FourDrawersSection() {
   );
 }
 
+// 🪷 Infographic 1: Ba Viên Ngọc Quý Của Thế Gian & Ba Ân Đức Nâng Đỡ (Bác sĩ, Thuốc, Điều dưỡng)
+function TamQuyThreeJewelsGrid({ onKeywordClick }: { onKeywordClick: (kw: string) => void }) {
+  const jewels = [
+    {
+      title: 'ÂN ĐỨC CỦA PHẬT',
+      popupKw: 'ÂN ĐỨC CỦA PHẬT',
+      popupRef: '[1]',
+      symbol: '🏥',
+      role: 'BẬC Y VƯƠNG',
+      badge: 'Bác Sĩ',
+      arrowText: 'Chỉ đường dẫn lối',
+      desc: 'Đức Phật là bậc Y vương vĩ đại, người chỉ đường sáng tỏ, khai mở trí tuệ để chúng sinh tự chữa lành tâm bệnh.',
+      quote: '“Quy y Phật giống như việc có một bác sĩ chăm sóc sức khỏe cho gia đình, Ngài là người chỉ dẫn cho ta trên con đường tu tập.”',
+      gradient: 'from-[#3A2210] via-[#24150A] to-[#170E08]',
+      border: 'border-[#F2C14E]/40',
+    },
+    {
+      title: 'ÂN ĐỨC CỦA PHÁP',
+      popupKw: 'ÂN ĐỨC CỦA PHÁP',
+      popupRef: '[2]',
+      symbol: '💊',
+      role: 'DIỆU DƯỢC',
+      badge: 'Thuốc Trị Liệu',
+      arrowText: 'Con đường chuyển hóa',
+      desc: 'Giáo pháp là linh dược giải thoát, soi tỏ nhân - duyên - quả, giúp nhận diện thiện ác và dứt trừ phiền não.',
+      quote: '“Quy y Pháp chính là liều thuốc chữa bệnh, giúp ta hiểu rõ về nhân - duyên - quả, phân biệt thiện ác.”',
+      gradient: 'from-[#332212] via-[#20140A] to-[#150D06]',
+      border: 'border-[#FFDE59]/40',
+    },
+    {
+      title: 'ÂN ĐỨC CỦA TĂNG',
+      popupKw: 'ÂN ĐỨC CỦA TĂNG',
+      popupRef: '[3]',
+      symbol: '🤝',
+      role: 'BẠN ĐỒNG HÀNH',
+      badge: 'Điều Dưỡng',
+      arrowText: 'Đồng hành tu học',
+      desc: 'Tăng đoàn là đoàn thể xuất gia hòa hợp, người bạn lành kề cận chăm sóc, dìu dắt trên từng bước chuyển hóa.',
+      quote: '“Quy y Tăng như những y tá, điều dưỡng bên cạnh, lắng nghe, hỗ trợ và hướng dẫn chúng ta trong hành trình tu học.”',
+      gradient: 'from-[#3A2414] via-[#23150B] to-[#170E08]',
+      border: 'border-[#F2C14E]/40',
+    },
+  ];
+
+  return (
+    <div className="my-10 space-y-4 select-none">
+      <div className="text-center mb-6">
+        <span className="px-3.5 py-1 rounded-full bg-[#F2C14E]/15 border border-[#F2C14E]/40 text-[#FFDE59] text-[11px] font-bold uppercase tracking-widest inline-flex items-center gap-1.5 shadow-sm">
+          <Sparkles className="w-3.5 h-3.5 text-[#F2C14E]" />
+          <span>Infographic • Ba Viên Ngọc Quý Của Thế Gian</span>
+        </span>
+        <h4
+          style={{ fontFamily: "'UTM Niagara', var(--font-playfair), 'Playfair Display', serif" }}
+          className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#FFE5A3] mt-2 tracking-wider uppercase"
+        >
+          QUY Y TAM BẢO &amp; BA ÂN ĐỨC NÂNG ĐỠ
+        </h4>
+        <div className="w-24 h-[1.5px] bg-gradient-to-r from-transparent via-[#F2C14E] to-transparent mx-auto mt-2" />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        {jewels.map((j, idx) => (
+          <div
+            key={idx}
+            className={`p-5 sm:p-6 rounded-2xl bg-gradient-to-b ${j.gradient} border ${j.border} hover:border-[#FFDE59] transition-all hover:scale-[1.02] shadow-xl flex flex-col justify-between group relative overflow-hidden`}
+          >
+            <div className="absolute -top-10 -right-10 w-28 h-28 bg-[#F2C14E]/10 rounded-full blur-2xl pointer-events-none" />
+
+            <div>
+              <div className="flex items-center justify-between gap-2 mb-4">
+                <span className="text-3xl p-2.5 rounded-xl bg-black/40 border border-[#F2C14E]/30 shadow-inner">
+                  {j.symbol}
+                </span>
+                <span className="px-2.5 py-1 rounded-full bg-[#1C120A] border border-[#F2C14E]/40 text-[#FFDE59] text-[10px] font-bold uppercase tracking-wider">
+                  {j.role}
+                </span>
+              </div>
+
+              <h5
+                style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                className="text-base sm:text-lg font-bold text-[#FFDE59] group-hover:text-white transition-colors"
+              >
+                {j.title}
+              </h5>
+
+              <div className="my-3.5 p-2.5 rounded-xl bg-black/30 border border-[#F2C14E]/20 space-y-1.5 text-center">
+                <div className="text-xs font-semibold text-[#FFE5A3]">
+                  Hình tượng: <strong className="text-white">{j.badge}</strong>
+                </div>
+                <div className="text-[#F2C14E] text-xs font-bold flex items-center justify-center gap-1">
+                  <span>↓</span>
+                  <span className="text-[11px] uppercase tracking-wider">{j.arrowText}</span>
+                </div>
+              </div>
+
+              <p className="text-xs sm:text-sm text-[#FFE5A3]/90 leading-relaxed mt-2">
+                {j.desc}
+              </p>
+            </div>
+
+            <div className="mt-5 pt-3 border-t border-[#F2C14E]/20">
+              <button
+                type="button"
+                onClick={() => onKeywordClick(j.popupKw)}
+                className="w-full py-2 px-3 rounded-xl bg-[#2A1B10] hover:bg-[#F2C14E] text-[#FFE5A3] hover:text-[#120A05] text-xs font-bold transition-all flex items-center justify-center gap-1.5 border border-[#F2C14E]/40 shadow-sm cursor-pointer"
+                title={`Bấm để xem chú thích chi tiết lời Thầy về ${j.title}`}
+              >
+                <Sparkles className="w-3.5 h-3.5 text-[#F2C14E]" />
+                <span>Xem Lời Khai Thị {j.popupRef}</span>
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// 🪷 Infographic 2: Tam Bảo Bên Ngoài & Tam Bảo Nơi Tự Thân (Cây phân nhánh đối sánh)
+function TamBaoInnerOuterBranch({ onKeywordClick }: { onKeywordClick: (kw: string) => void }) {
+  return (
+    <div className="my-10 space-y-4 select-none">
+      <div className="text-center mb-6">
+        <span className="px-3.5 py-1 rounded-full bg-[#F2C14E]/15 border border-[#F2C14E]/40 text-[#FFDE59] text-[11px] font-bold uppercase tracking-widest inline-flex items-center gap-1.5 shadow-sm">
+          <Layers className="w-3.5 h-3.5 text-[#F2C14E]" />
+          <span>Infographic • Nhị Thể Tam Bảo</span>
+        </span>
+        <h4
+          style={{ fontFamily: "'UTM Niagara', var(--font-playfair), 'Playfair Display', serif" }}
+          className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#FFE5A3] mt-2 tracking-wider uppercase"
+        >
+          TAM BẢO BÊN NGOÀI &amp; TAM BẢO NƠI TỰ THÂN
+        </h4>
+        <div className="w-24 h-[1.5px] bg-gradient-to-r from-transparent via-[#F2C14E] to-transparent mx-auto mt-2" />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Nhánh 1: TAM BẢO BÊN NGOÀI */}
+        <div className="p-5 sm:p-6 rounded-2xl bg-gradient-to-br from-[#29180D] via-[#1E1209] to-[#140C07] border-2 border-[#F2C14E]/40 hover:border-[#F2C14E] transition-all shadow-xl space-y-4 flex flex-col justify-between group">
+          <div>
+            <div className="flex items-center justify-between gap-2 border-b border-[#F2C14E]/20 pb-3">
+              <div>
+                <span className="text-[10px] font-bold uppercase tracking-widest text-[#F2C14E]">
+                  Hình tướng thế gian
+                </span>
+                <h5
+                  style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                  className="text-lg font-bold text-[#FFDE59] group-hover:text-white transition-colors"
+                >
+                  TAM BẢO BÊN NGOÀI (NGOẠI TẠI)
+                </h5>
+              </div>
+              <span className="text-2xl">🏛️</span>
+            </div>
+
+            <p className="text-xs italic text-[#FFE5A3]/80 my-3">
+              Hình ảnh tôn nghiêm của Tam Bảo nơi chốn già lam nâng đỡ sơ tâm, gieo duyên lành giải thoát.
+            </p>
+
+            <div className="space-y-3 mt-4">
+              <div className="p-3 rounded-xl bg-black/40 border border-[#F2C14E]/20 flex items-start gap-3">
+                <span className="text-xl shrink-0 mt-0.5">🪷</span>
+                <div>
+                  <h6 className="text-xs font-bold text-[#FFDE59] uppercase">PHẬT BẢO</h6>
+                  <p className="text-xs text-[#FFE5A3]/90 mt-0.5">
+                    Tôn tượng Phật, tranh ảnh Phật trang nghiêm, nhắc nhở tấm gương giác ngộ viên mãn của Đấng Từ Phụ.
+                  </p>
+                </div>
+              </div>
+
+              <div className="p-3 rounded-xl bg-black/40 border border-[#F2C14E]/20 flex items-start gap-3">
+                <span className="text-xl shrink-0 mt-0.5">📖</span>
+                <div>
+                  <h6 className="text-xs font-bold text-[#FFDE59] uppercase">PHÁP BẢO</h6>
+                  <p className="text-xs text-[#FFE5A3]/90 mt-0.5">
+                    Kinh sách, băng giảng, lời dạy chánh biến tri chỉ rõ con đường chuyển hóa khổ đau thành an lạc.
+                  </p>
+                </div>
+              </div>
+
+              <div className="p-3 rounded-xl bg-black/40 border border-[#F2C14E]/20 flex items-start gap-3">
+                <span className="text-xl shrink-0 mt-0.5">👥</span>
+                <div>
+                  <h6 className="text-xs font-bold text-[#FFDE59] uppercase">TĂNG BẢO</h6>
+                  <p className="text-xs text-[#FFE5A3]/90 mt-0.5">
+                    Đoàn thể xuất gia hòa hợp, những người thầy, người bạn đồng hành sống đời giới hạnh thanh tịnh.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="pt-3 border-t border-[#F2C14E]/20">
+            <button
+              type="button"
+              onClick={() => onKeywordClick('Tam Bảo bên ngoài')}
+              className="w-full py-2 px-3 rounded-xl bg-[#2A1B10] hover:bg-[#F2C14E] text-[#FFE5A3] hover:text-[#120A05] text-xs font-bold transition-all flex items-center justify-center gap-1.5 border border-[#F2C14E]/40 shadow-sm cursor-pointer"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-[#F2C14E]" />
+              <span>Xem Lời Khai Thị Về Tam Bảo Ngoại [4]</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Nhánh 2: TAM BẢO NƠI TỰ THÂN */}
+        <div className="p-5 sm:p-6 rounded-2xl bg-gradient-to-br from-[#2D1B0F] via-[#21130A] to-[#150D06] border-2 border-[#FFDE59]/50 hover:border-[#FFDE59] transition-all shadow-xl space-y-4 flex flex-col justify-between group">
+          <div>
+            <div className="flex items-center justify-between gap-2 border-b border-[#F2C14E]/20 pb-3">
+              <div>
+                <span className="text-[10px] font-bold uppercase tracking-widest text-[#FFDE59]">
+                  Tâm tính nội tại
+                </span>
+                <h5
+                  style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                  className="text-lg font-bold text-[#FFDE59] group-hover:text-white transition-colors"
+                >
+                  TAM BẢO NƠI TỰ THÂN (NỘI TẠI)
+                </h5>
+              </div>
+              <span className="text-2xl">✨</span>
+            </div>
+
+            <p className="text-xs italic text-[#FFE5A3]/80 my-3">
+              Ánh sáng giác ngộ không ở đâu xa, mà được nuôi dưỡng ngay trong tự tâm qua từng phút giây tỉnh thức.
+            </p>
+
+            <div className="space-y-3 mt-4">
+              <div className="p-3 rounded-xl bg-black/40 border border-[#F2C14E]/20 flex items-start gap-3">
+                <span className="text-xl shrink-0 mt-0.5">✨</span>
+                <div>
+                  <h6 className="text-xs font-bold text-[#FFDE59] uppercase">PHẬT LÀ GIÁC NGỘ</h6>
+                  <p className="text-xs text-[#FFE5A3]/90 mt-0.5">
+                    Năng lực tỉnh thức bên trong chính mình. Phật chính là tâm sáng suốt, nhận biết rõ ràng mọi suy nghĩ và hành động.
+                  </p>
+                </div>
+              </div>
+
+              <div className="p-3 rounded-xl bg-black/40 border border-[#F2C14E]/20 flex items-start gap-3">
+                <span className="text-xl shrink-0 mt-0.5">🌱</span>
+                <div>
+                  <h6 className="text-xs font-bold text-[#FFDE59] uppercase">PHÁP LÀ KHỞI NGUYỆN TU HỌC</h6>
+                  <p className="text-xs text-[#FFE5A3]/90 mt-0.5">
+                    Ý niệm muốn hướng thiện, muốn tu học Phật pháp. Năng lượng thôi thúc hướng thượng trong tâm chính là Pháp bảo bên trong.
+                  </p>
+                </div>
+              </div>
+
+              <div className="p-3 rounded-xl bg-black/40 border border-[#F2C14E]/20 flex items-start gap-3">
+                <span className="text-xl shrink-0 mt-0.5">🪷</span>
+                <div>
+                  <h6 className="text-xs font-bold text-[#FFDE59] uppercase">TĂNG LÀ TÂM THANH TỊNH</h6>
+                  <p className="text-xs text-[#FFE5A3]/90 mt-0.5">
+                    Không hướng tâm vào điều tiêu cực, xấu ác. Ngay khoảnh khắc tâm an định, trong sáng thì Tăng bảo đang hiển lộ trong ta.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="pt-3 border-t border-[#F2C14E]/20">
+            <button
+              type="button"
+              onClick={() => onKeywordClick('Tam Bảo nơi tự thân')}
+              className="w-full py-2 px-3 rounded-xl bg-[#2A1B10] hover:bg-[#F2C14E] text-[#FFE5A3] hover:text-[#120A05] text-xs font-bold transition-all flex items-center justify-center gap-1.5 border border-[#F2C14E]/40 shadow-sm cursor-pointer"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-[#F2C14E]" />
+              <span>Xem Lời Khai Thị Về Tam Bảo Tự Thân [5]</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// 🪷 Infographic 3: Tam Bảo Hiện Diện Trong Đời Sống Gia Đình (3 Thẻ Ngang)
+function TamBaoInDailyLifeGrid() {
+  const cards = [
+    {
+      role: 'ĐỨC PHẬT TRONG MÁI ẤM',
+      title: 'PHẬT',
+      subtitle: 'Người chồng là Phật, người con là Phật',
+      desc: 'Quán chiếu sâu sắc để nhận ra những vị Bồ Tát dễ thương, gần gũi đang cùng chung sống và nâng đỡ ta mỗi ngày.',
+      icon: '🪷',
+    },
+    {
+      role: 'PHÁP BẢO NUÔI DƯỠNG',
+      title: 'PHÁP',
+      subtitle: 'Mâm cơm ấm cúng & Lời sẻ chia',
+      desc: 'Khoảnh khắc có mặt trọn vẹn bên nhau, bữa cơm gia đình và lời nói ái ngữ chính là giáo pháp dưỡng nuôi hạnh phúc.',
+      icon: '🍲',
+    },
+    {
+      role: 'TĂNG ĐOÀN GIA ĐÌNH',
+      title: 'TĂNG',
+      subtitle: 'Sự hòa hợp, lắng nghe & Nâng đỡ',
+      desc: 'Mái ấm có sự hòa hợp, lắng nghe và nâng đỡ nhau vượt qua khó khăn chính là hiện thân sống động của Tăng thân giữa đời thường.',
+      icon: '🤝',
+    },
+  ];
+
+  return (
+    <div className="my-10 space-y-4 select-none">
+      <div className="text-center mb-6">
+        <span className="px-3.5 py-1 rounded-full bg-[#F2C14E]/15 border border-[#F2C14E]/40 text-[#FFDE59] text-[11px] font-bold uppercase tracking-widest inline-flex items-center gap-1.5 shadow-sm">
+          <Compass className="w-3.5 h-3.5 text-[#F2C14E]" />
+          <span>Thực Tại Hiện Tiền • Tam Bảo Trong Mái Ấm</span>
+        </span>
+        <h4
+          style={{ fontFamily: "'UTM Niagara', var(--font-playfair), 'Playfair Display', serif" }}
+          className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#FFE5A3] mt-2 tracking-wider uppercase"
+        >
+          TAM BẢO HIỆN DIỆN TRONG ĐỜI SỐNG GIA ĐÌNH
+        </h4>
+        <div className="w-24 h-[1.5px] bg-gradient-to-r from-transparent via-[#F2C14E] to-transparent mx-auto mt-2" />
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        {cards.map((c, idx) => (
+          <div
+            key={idx}
+            className="p-5 sm:p-6 rounded-2xl bg-gradient-to-b from-[#28180E] to-[#1A0F08] border border-[#F2C14E]/35 hover:border-[#FFDE59] transition-all hover:scale-[1.02] shadow-xl flex flex-col justify-between group"
+          >
+            <div>
+              <div className="flex items-center justify-between gap-2 mb-3">
+                <span className="text-2xl p-2 rounded-xl bg-black/40 border border-[#F2C14E]/30">
+                  {c.icon}
+                </span>
+                <span className="text-[10px] font-bold uppercase text-[#F2C14E] tracking-wider">
+                  {c.role}
+                </span>
+              </div>
+
+              <h5
+                style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                className="text-xl font-bold text-[#FFDE59] group-hover:text-white transition-colors"
+              >
+                {c.title}
+              </h5>
+              <div className="text-xs font-semibold text-[#FFE5A3] mt-1 mb-2">
+                {c.subtitle}
+              </div>
+              <div className="w-10 h-0.5 bg-[#F2C14E]/40 mb-3 group-hover:w-20 transition-all" />
+              <p className="text-xs sm:text-sm text-[#FFE5A3]/90 leading-relaxed">
+                {c.desc}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// 🪷 Infographic 4: Sáu Phương Pháp Thực Tập Tam Quy Mỗi Ngày (6 Thẻ Điều Hướng Hành Trì)
+function TamQuyDailyPracticesGrid() {
+  const practices = [
+    {
+      icon: '🌱',
+      title: 'BỒ ĐỀ TÂM',
+      action: 'Phát nguyện và định hướng con đường tu học',
+      desc: 'Khơi dậy sơ tâm thanh tịnh, đặt nền móng vững chắc cho mọi công đức tu tập.',
+      link: '/tong-chi-tu-hoc/bo-de-tam-khoi-nguon-thien-phap',
+      btnText: 'Khám phá Bồ Đề Tâm',
+    },
+    {
+      icon: '🪷',
+      title: 'NGŨ GIỚI',
+      action: 'Giữ gìn nền tảng đạo đức sau khi quy y',
+      desc: 'Năm điều đạo đức căn bản giúp bảo vệ thân tâm, kiến tạo đời sống an lành hạnh phúc.',
+      link: '/tong-chi-tu-hoc/ngu-gioi',
+      btnText: 'Khám phá Ngũ Giới',
+    },
+    {
+      icon: '🙏',
+      title: 'LẠY PHẬT',
+      action: 'Thực tập nuôi lớn lòng tri ân và trở về',
+      desc: 'Cúi đầu kính lạy trước Ba Ngôi Báu, buông bỏ ngã mạn, nuôi dưỡng tâm khiêm hạ chí thành.',
+      link: '/tong-chi-tu-hoc#phuong-phap-hanh-tri',
+      btnText: 'Phương pháp Lạy Phật',
+    },
+    {
+      icon: '📖',
+      title: 'TỤNG KINH',
+      action: 'Tiếp xúc sâu sắc với lời Phật dạy',
+      desc: 'Mỗi lời kinh là một dòng suối pháp mát lành, gột rửa tâm tư và mở mang trí tuệ giải thoát.',
+      link: '/tong-chi-tu-hoc#phuong-phap-hanh-tri',
+      btnText: 'Phương pháp Tụng Kinh',
+    },
+    {
+      icon: '🎧',
+      title: 'NGHE PHÁP',
+      action: 'Nuôi dưỡng chánh kiến và hiểu biết đúng đắn',
+      desc: 'Lắng nghe diệu pháp từ chư tôn đức để giải tỏa vướng mắc, tinh tiến trên đường thiện lành.',
+      link: '/tong-chi-tu-hoc#phuong-phap-hanh-tri',
+      btnText: 'Phương pháp Nghe Pháp',
+    },
+    {
+      icon: '🤲',
+      title: 'PHỤNG SỰ',
+      action: 'Đưa lòng tri ân Tam Bảo vào hành động',
+      desc: 'Biến lời dạy thành việc làm cụ thể: cúng dường, công quả, đem niềm vui chan rải muôn người.',
+      link: '/tong-chi-tu-hoc#phuong-phap-hanh-tri',
+      btnText: 'Hạnh Nguyện Phụng Sự',
+    },
+  ];
+
+  return (
+    <div className="my-10 space-y-4 select-none">
+      <div className="text-center mb-6">
+        <span className="px-3.5 py-1 rounded-full bg-[#F2C14E]/15 border border-[#F2C14E]/40 text-[#FFDE59] text-[11px] font-bold uppercase tracking-widest inline-flex items-center gap-1.5 shadow-sm">
+          <Leaf className="w-3.5 h-3.5 text-[#F2C14E]" />
+          <span>Hành Trì Hằng Ngày • Nuôi Dưỡng Đức Tin</span>
+        </span>
+        <h4
+          style={{ fontFamily: "'UTM Niagara', var(--font-playfair), 'Playfair Display', serif" }}
+          className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#FFE5A3] mt-2 tracking-wider uppercase"
+        >
+          SÁU PHƯƠNG PHÁP THỰC TẬP TAM QUY MỖI NGÀY
+        </h4>
+        <div className="w-24 h-[1.5px] bg-gradient-to-r from-transparent via-[#F2C14E] to-transparent mx-auto mt-2" />
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {practices.map((p, idx) => (
+          <div
+            key={idx}
+            className="p-5 rounded-2xl bg-[#23140B] border border-[#F2C14E]/30 hover:border-[#FFDE59] transition-all hover:scale-[1.01] shadow-lg flex flex-col justify-between group"
+          >
+            <div>
+              <div className="flex items-center gap-2.5 mb-2">
+                <span className="text-2xl p-2 rounded-xl bg-black/40 border border-[#F2C14E]/30">
+                  {p.icon}
+                </span>
+                <div>
+                  <span className="text-[10px] font-bold text-[#F2C14E] uppercase tracking-wider">
+                    Hành Trì
+                  </span>
+                  <h5
+                    style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                    className="text-base font-bold text-[#FFDE59] group-hover:text-white transition-colors"
+                  >
+                    {p.title}
+                  </h5>
+                </div>
+              </div>
+
+              <p className="text-xs font-semibold text-[#FFE5A3] mt-2 mb-1">
+                {p.action}
+              </p>
+              <p className="text-[11px] sm:text-xs text-[#FFE5A3]/80 leading-relaxed mb-4">
+                {p.desc}
+              </p>
+            </div>
+
+            <Link
+              href={p.link}
+              className="inline-flex items-center justify-between w-full py-2 px-3 rounded-xl bg-[#2E1A0F] hover:bg-[#F2C14E] text-[#FFE5A3] hover:text-[#120A05] text-xs font-bold transition-all border border-[#F2C14E]/30 pt-2"
+            >
+              <span>{p.btnText}</span>
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 // 🪷 Block Parser Data Structure
 type SectionElement =
   | { type: 'paragraph'; text: string }
@@ -327,6 +800,10 @@ type SectionBlock = {
   elements: SectionElement[];
   hasFourPillars?: boolean;
   hasFourDrawers?: boolean;
+  hasTamQuyThreeJewels?: boolean;
+  hasTamBaoInnerOuter?: boolean;
+  hasTamBaoDailyLife?: boolean;
+  hasTamQuyPractices?: boolean;
 };
 
 function parseSections(raw: string): { sections: SectionBlock[]; endQuote?: { text: string; author?: string } } {
@@ -649,6 +1126,59 @@ function parseSections(raw: string): { sections: SectionBlock[]; endQuote?: { te
       continue;
     }
 
+    // 🪷 Check for Tam Quy Infographics triggers
+    if (/INFOGRAPHIC_TAM_QUY_BA_VIEN_NGOC|ÂN ĐỨC CỦA PHẬT.*ÂN ĐỨC CỦA PHÁP|Bác sĩ.*Thuốc.*Điều dưỡng/i.test(line)) {
+      if (currentSection) currentSection.hasTamQuyThreeJewels = true;
+      i++;
+      while (i < lines.length) {
+        const nextL = lines[i].trim();
+        if (nextL.startsWith('>') || nextL.startsWith('##') || nextL.startsWith('“') || nextL.startsWith('Quote') || nextL.includes('ba viên ngọc quý')) {
+          break;
+        }
+        i++;
+      }
+      continue;
+    }
+
+    if (/INFOGRAPHIC_TAM_BAO_TU_THAN|TAM BẢO BÊN NGOÀI.*TAM BẢO NƠI TỰ THÂN/i.test(line)) {
+      if (currentSection) currentSection.hasTamBaoInnerOuter = true;
+      i++;
+      while (i < lines.length) {
+        const nextL = lines[i].trim();
+        if (nextL.startsWith('>') || nextL.startsWith('##') || nextL.includes('Tam Bảo nơi tự thân là lời nhắc')) {
+          break;
+        }
+        i++;
+      }
+      continue;
+    }
+
+    if (/INFOGRAPHIC_TAM_BAO_DOI_SONG|Có thể làm 3 hình ảnh theo khối ngang/i.test(line)) {
+      if (currentSection) currentSection.hasTamBaoDailyLife = true;
+      i++;
+      while (i < lines.length) {
+        const nextL = lines[i].trim();
+        if (nextL.startsWith('>') || nextL.startsWith('##') || nextL.includes('Quy y Tam Bảo không đưa chúng ta')) {
+          break;
+        }
+        i++;
+      }
+      continue;
+    }
+
+    if (/INFOGRAPHIC_THUC_TAP_TAM_QUY|Phát nguyện và định hướng con đường tu học/i.test(line)) {
+      if (currentSection) currentSection.hasTamQuyPractices = true;
+      i++;
+      while (i < lines.length) {
+        const nextL = lines[i].trim();
+        if (nextL.startsWith('>') || nextL.startsWith('##') || /^(QUOTE CUỐI|TÀI LIỆU|Gắng con nhé)/i.test(nextL)) {
+          break;
+        }
+        i++;
+      }
+      continue;
+    }
+
     // Skip isolated Infographic diagram text if it exists (không nhảy cóc bỏ qua ảnh hay đoạn văn phía dưới)
     if (/^(?:Infographic|Hình tam giác)\s*$/i.test(line)) {
       i++;
@@ -918,6 +1448,12 @@ export function InfographicArticleRenderer({
 
           {/* 5. 4 DRAWERS IF APPLICABLE */}
           {sec.hasFourDrawers && <FourDrawersSection />}
+
+          {/* 🪷 INFOGRAPHICS TAM QUY */}
+          {sec.hasTamQuyThreeJewels && <TamQuyThreeJewelsGrid onKeywordClick={onKeywordClick} />}
+          {sec.hasTamBaoInnerOuter && <TamBaoInnerOuterBranch onKeywordClick={onKeywordClick} />}
+          {sec.hasTamBaoDailyLife && <TamBaoInDailyLifeGrid />}
+          {sec.hasTamQuyPractices && <TamQuyDailyPracticesGrid />}
 
           {/* 6. ĐƯỜNG GRADIENT DÀI PHÂN ĐOẠN */}
           {idx < sections.length - 1 && (

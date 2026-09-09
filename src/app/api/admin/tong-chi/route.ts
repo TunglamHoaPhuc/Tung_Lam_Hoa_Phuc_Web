@@ -91,6 +91,8 @@ export async function POST(request: Request) {
       publishedAt: body.publishedAt || new Date().toISOString(),
       status: body.status || 'published',
       keywords: body.keywords || [],
+      sourceBook: body.sourceBook || [],
+      wpPostId: body.wpPostId || undefined,
     };
 
     articles.unshift(newArticle);

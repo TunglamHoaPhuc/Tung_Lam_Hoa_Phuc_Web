@@ -119,6 +119,7 @@ interface ArticleRow {
   };
   photoGallery?: PhotoGalleryItem[];
   keywords: KeywordItem[];
+  wpPostId?: string | number;
 }
 
 // 🌟 COMPONENT KÉO THẢ TRỰC TIẾP CĂN CHỈNH VỊ TRÍ ẢNH VỚI LƯỚI 3x3
@@ -603,6 +604,92 @@ export function SpreadsheetTongChi() {
         setLoading(false);
       });
   };
+
+  // Trạng thái mở WordPress Gutenberg và đồng bộ
+  const [openingWpId, setOpeningWpId] = useState<number | null>(null);
+  const [isSyncingWp, setIsSyncingWp] = useState<boolean>(false);
+
+  // 🌟 MỞ TRỰC TIẾP TRÌNH SOẠN THẢO WORDPRESS GUTENBERG (1-CLICK KHÔNG QUA TRANG TRUNG GIAN)
+  const handleOpenGutenberg = async (row: ArticleRow, index: number) => {
+    setOpeningWpId(row.id);
+    showToast('⚡ Đang kết nối WordPress và nạp nội dung bài viết vào Gutenberg...');
+
+    // Mở tab trống trước để chống popup blocker của trình duyệt
+    const newTab = window.open('about:blank', '_blank');
+
+    try {
+      const res = await fetch('/api/admin/wp-post-create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: row.wpPostId,
+          title: row.title || 'Bài viết Tông Chỉ Mới',
+          subtitle: row.subtitle,
+          content: row.content || row.excerpt || row.subtitle || '',
+          contentHtml: (row as any).contentHtml || '',
+          excerpt: row.excerpt || row.subtitle || '',
+          category: row.category || 'tong-phong-truyen-thua',
+          postType: 'tong-chi',
+          photoGallery: row.photoGallery || [],
+        }),
+      });
+      const data = await res.json();
+      if (data.success && data.editUrl) {
+        if (data.wpPostId && String(data.wpPostId) !== String(row.wpPostId)) {
+          const updated = [...articles];
+          updated[index].wpPostId = String(data.wpPostId);
+          setArticles(updated);
+          await saveArticlesToBackend(updated, true);
+        }
+        if (newTab) {
+          newTab.location.href = data.editUrl;
+        } else {
+          window.open(data.editUrl, '_blank', 'noopener,noreferrer');
+        }
+        showToast('✨ Đã mở trình soạn thảo WordPress Gutenberg với đầy đủ nội dung bài viết!');
+      } else {
+        const fallbackUrl = 'https://admin.tunglamhoaphuc.com/wp-admin/post-new.php';
+        if (newTab) newTab.location.href = fallbackUrl;
+        else window.open(fallbackUrl, '_blank', 'noopener,noreferrer');
+      }
+    } catch (err: any) {
+      const fallbackUrl = 'https://admin.tunglamhoaphuc.com/wp-admin/post-new.php';
+      if (newTab) newTab.location.href = fallbackUrl;
+      else window.open(fallbackUrl, '_blank', 'noopener,noreferrer');
+    } finally {
+      setOpeningWpId(null);
+    }
+  };
+
+  // 🔄 Đồng bộ toàn bộ nội dung từ WordPress Gutenberg về bảng tính
+  const handleSyncFromWordPress = async (silent: boolean = false) => {
+    if (isSyncingWp) return;
+    setIsSyncingWp(true);
+    if (!silent) showToast('⏳ Đang đồng bộ nội dung từ WordPress Gutenberg...');
+    try {
+      const res = await fetch('/api/admin/sync-wp', { method: 'POST' });
+      const data = await res.json();
+      if (data.success) {
+        loadData();
+        if (!silent) showToast(`🎉 Đã đồng bộ thành công ${data.count || 0} bài viết từ WordPress Gutenberg!`);
+      } else if (!silent) {
+        showToast(data.error || 'Lỗi khi đồng bộ WordPress');
+      }
+    } catch (err: any) {
+      if (!silent) showToast('Lỗi kết nối khi đồng bộ WordPress');
+    } finally {
+      setIsSyncingWp(false);
+    }
+  };
+
+  // Tự động đồng bộ từ WordPress khi biên tập viên chuyển tab quay lại Next.js Admin
+  useEffect(() => {
+    const handleWindowFocus = () => {
+      handleSyncFromWordPress(true);
+    };
+    window.addEventListener('focus', handleWindowFocus);
+    return () => window.removeEventListener('focus', handleWindowFocus);
+  }, []);
 
   useEffect(() => {
     loadData();
@@ -1417,7 +1504,18 @@ export function SpreadsheetTongChi() {
             <Plus className="w-5 h-5" />
           </button>
 
-          {/* Nút 3: Lưu Bảng Tính */}
+          {/* Nút 3: Đồng Bộ Từ WordPress Gutenberg */}
+          <button
+            type="button"
+            onClick={() => handleSyncFromWordPress(false)}
+            disabled={isSyncingWp}
+            className="w-10 h-10 rounded-xl bg-[#2A1D14] hover:bg-[#3A2718] border border-[#F2C14E]/50 text-[#F2C14E] hover:text-[#ffde59] flex items-center justify-center transition-all cursor-pointer shadow-md hover:scale-105 disabled:opacity-50"
+            title="Đồng bộ nội dung trực tiếp từ WordPress Gutenberg về bảng tính"
+          >
+            <RefreshCw className={`w-5 h-5 ${isSyncingWp ? 'animate-spin text-[#ffde59]' : ''}`} />
+          </button>
+
+          {/* Nút 4: Lưu Bảng Tính */}
           <button
             type="button"
             onClick={() => saveArticlesToBackend(articles, false)}
@@ -1647,19 +1745,26 @@ export function SpreadsheetTongChi() {
                         </div>
                       </td>
 
-                      {/* 7. Nội Dung Chi Tiết (Bấm Mở Khung Soạn Thảo Modal) */}
+                      {/* 7. Nội Dung Chi Tiết (Bấm Mở Trực Tiếp WordPress Gutenberg) */}
                       <td className="p-2.5 border-r border-[#F2C14E]/15 align-middle max-w-full overflow-hidden">
                         <div
-                          onClick={() => openBigEditor(actualIdx, 'content', 'Nội Dung Chi Tiết')}
+                          onClick={() => handleOpenGutenberg(row, actualIdx)}
                           className="w-full min-h-[72px] p-2.5 bg-[#22140A] hover:bg-[#2C1A0E] border border-[#52331C] hover:border-[#F2C14E] rounded-xl cursor-pointer transition-all flex flex-col justify-between group/cell shadow-inner overflow-hidden"
-                          title="Bấm vào để mở khung soạn thảo toàn màn hình"
+                          title="Bấm vào để mở trực tiếp trong trình soạn thảo WordPress Gutenberg"
                         >
                           <p className="text-xs text-[#F5EADB]/80 line-clamp-2 leading-relaxed truncate">
                             {row.content ? row.content.replace(/!\[.*?\]\(.*?\)/g, '[Hình Ảnh]').replace(/<[^>]+>/g, '').slice(0, 140) + '...' : 'Chưa có nội dung...'}
                           </p>
                           <div className="flex items-center justify-between gap-1 mt-2 pt-1.5 border-t border-[#F2C14E]/15 text-[11px] text-[#F2C14E] overflow-hidden">
-                            <span className="flex items-center gap-1.5 font-bold text-[#F2C14E] group-hover/cell:text-[#ffde59]" title="Mở khung soạn thảo">
-                              <Edit3 className="w-3.5 h-3.5 shrink-0" />
+                            <span className="flex items-center gap-1.5 font-bold text-[#F2C14E] group-hover/cell:text-[#ffde59]">
+                              <Edit3 className="w-3.5 h-3.5 shrink-0 text-[#F2C14E]" />
+                              <span className="text-[10px] font-bold uppercase tracking-wider text-[#ffde59]">
+                                {openingWpId === row.id
+                                  ? 'Đang mở WP...'
+                                  : row.wpPostId
+                                  ? `Gutenberg #${row.wpPostId}`
+                                  : 'Mở Gutenberg'}
+                              </span>
                             </span>
                             <div className="flex items-center gap-1 text-[10px] text-[#c9b896]/75 shrink-0">
                               {row.keywords?.length > 0 && (
@@ -1687,39 +1792,24 @@ export function SpreadsheetTongChi() {
                         </div>
                       </td>
 
-                      {/* 8. Thao Tác (Soạn Thảo Đầy Đủ / Xem Trước / Xem Web / Xóa) */}
-                      <td className="p-2 w-[120px] min-w-[120px] text-center align-middle">
-                        <div className="flex items-center justify-center gap-1">
-                          {/* Nút Mở Trình Soạn Thảo WordPress Đầy Đủ */}
-                          <Link
-                            href={`/admin/tong-chi/${row.id}`}
-                            className="p-2 rounded-xl bg-[#2A1D14] hover:bg-[#F2C14E] border border-[#F2C14E]/40 text-[#FFE5A3] hover:text-black transition-all cursor-pointer shadow-sm hover:scale-105"
-                            title="Mở trình soạn thảo WordPress chuyên nghiệp đầy đủ"
-                          >
-                            <Edit3 className="w-3.5 h-3.5 text-[#F2C14E] hover:text-black" />
-                          </Link>
-
+                      {/* 8. Thao Tác (Chỉ giữ Xem Trang Trực Tiếp & Xóa) */}
+                      <td className="p-2 w-[85px] min-w-[85px] text-center align-middle">
+                        <div className="flex items-center justify-center gap-1.5">
                           {/* Nút Xem Web Trực Tiếp */}
-                          {row.slug && (
+                          {row.slug ? (
                             <Link
                               href={`/tong-chi-tu-hoc/${row.slug}`}
                               target="_blank"
-                              className="p-2 rounded-xl bg-[#2A1D14] hover:bg-[#3A2718] border border-[#F2C14E]/30 text-[#FFE5A3] hover:text-[#FFDE59] transition-all cursor-pointer shadow-sm hover:scale-105"
+                              className="p-2 rounded-xl bg-[#2A1D14] hover:bg-[#3A2718] border border-[#F2C14E]/40 text-[#FFE5A3] hover:text-[#FFDE59] transition-all cursor-pointer shadow-sm hover:scale-105"
                               title="Mở bài viết trên trang web chính thức (tab mới)"
                             >
-                              <ExternalLink className="w-3.5 h-3.5" />
+                              <ExternalLink className="w-4 h-4" />
                             </Link>
+                          ) : (
+                            <span className="p-2 rounded-xl bg-[#1A110A] border border-[#52331C]/30 text-[#6B5A4E] opacity-50 cursor-not-allowed">
+                              <ExternalLink className="w-4 h-4" />
+                            </span>
                           )}
-
-                          {/* Nút Xem Trước Nhanh */}
-                          <button
-                            type="button"
-                            onClick={() => setPreviewModal(row)}
-                            className="p-2 rounded-xl bg-[#2A1D14] hover:bg-[#F2C14E] border border-[#F2C14E]/40 text-[#FFE5A3] hover:text-black transition-all cursor-pointer shadow-sm hover:scale-105"
-                            title="Xem trước & chỉnh sửa giao diện trực quan"
-                          >
-                            <Eye className="w-3.5 h-3.5" />
-                          </button>
 
                           {/* Nút Xóa */}
                           <button
@@ -1728,7 +1818,7 @@ export function SpreadsheetTongChi() {
                             className="p-2 rounded-xl bg-red-950/40 hover:bg-red-800 border border-red-500/40 text-red-300 hover:text-white transition-all cursor-pointer shadow-sm hover:scale-105"
                             title="Xóa bài viết này"
                           >
-                            <Trash2 className="w-3.5 h-3.5" />
+                            <Trash2 className="w-4 h-4" />
                           </button>
                         </div>
                       </td>

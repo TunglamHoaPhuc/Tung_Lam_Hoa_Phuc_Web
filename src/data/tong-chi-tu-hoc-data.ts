@@ -59,11 +59,11 @@ export const INITIAL_SECTIONS_DATA: SectionData[] = [
         link: '/tong-chi-tu-hoc/bo-de-tam-coi-nguon-thien-phap',
       },
       {
-        id: 5,
-        title: 'TAM QUY NGŨ GIỚI — NỀN TẢNG NGƯỜI PHẬT TỬ',
-        subtitle: 'Nấc thang đầu tiên bước vào ngôi nhà Phật pháp và giữ gìn nhân cách an lành.',
-        imageUrl: '/images/tong-chi/tong-chi-tu-hoc-nen-tang-tu-hoc-tam-quy-ngu-gioi-hero-banner-thumnail.jpg',
-        link: '/tong-chi-tu-hoc/tam-quy-ngu-gioi-nen-tang-nguoi-phat-tu',
+        id: 25,
+        title: 'TAM QUY — NƯƠNG TỰA BA NGÔI BÁU',
+        subtitle: 'Quay về nương tựa ân đức Phật – Pháp – Tăng, đánh thức năng lực giác ngộ nơi chính mình.',
+        imageUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/nen-tang-tu-hoc/tong-chi-tu-hoc-nen-tang-tu-hoc-tam-quy-ngu-gioi-banner-sach-3-nt-5-th-jpg.webp',
+        link: '/tong-chi-tu-hoc/tam-quy',
       },
       {
         id: 6,
