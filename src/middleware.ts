@@ -8,7 +8,7 @@ export function middleware(request: NextRequest) {
   if (pathname.startsWith("/admin")) {
     const isAuth = request.cookies.get("admin_auth")?.value === "true";
     if (!isAuth) {
-      return NextResponse.redirect(new URL("/auth/login", request.url));
+      return NextResponse.redirect(new URL("/login", request.url));
     }
   }
 
