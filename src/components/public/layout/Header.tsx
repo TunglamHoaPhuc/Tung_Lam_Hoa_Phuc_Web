@@ -29,7 +29,7 @@ const Header: FC<HeaderProps> = ({ scrolled }) => {
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b overflow-visible py-1.5 md:py-2 bg-[#1A120B]"
+      className="fixed top-0 left-0 right-0 z-[100] transition-all duration-300 border-b overflow-visible py-1.5 md:py-2 bg-[#1A120B]"
       style={{
         height: 64,
         background: scrolled
@@ -40,7 +40,7 @@ const Header: FC<HeaderProps> = ({ scrolled }) => {
         boxShadow: "0 4px 24px rgba(0,0,0,0.5)",
       }}
     >
-      <div className="max-w-[1360px] mx-auto px-4 md:px-8 h-full flex items-center justify-between lg:justify-start gap-6 md:gap-8 overflow-visible relative z-50">
+      <div className="max-w-[1360px] mx-auto px-4 md:px-8 h-full flex items-center justify-between lg:justify-start gap-6 md:gap-8 overflow-visible relative z-[100]">
 
         {/* Logo Mộc Ấn Treo Thò (Hanging Badge - Dual Logic) */}
         <Link
@@ -141,7 +141,7 @@ const Header: FC<HeaderProps> = ({ scrolled }) => {
       {/* Mobile Menu Dropdown */}
       {mob && (
         <div
-          className="lg:hidden border-t px-6 py-6 flex flex-col gap-4 shadow-2xl max-h-[calc(100vh-70px)] overflow-y-auto"
+          className="lg:hidden border-t px-6 py-6 flex flex-col gap-4 shadow-2xl max-h-[calc(100vh-70px)] overflow-y-auto relative z-[100]"
           style={{
             background: "rgba(26,15,8,0.98)",
             borderColor: "rgba(242,193,78,0.3)",

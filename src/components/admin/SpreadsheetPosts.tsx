@@ -839,6 +839,15 @@ export function SpreadsheetPosts() {
 
   // 🌟 MỞ TRỰC TIẾP TRÌNH SOẠN THẢO WORDPRESS GUTENBERG (1-CLICK)
   const handleOpenGutenberg = async (row: PostRecord, index: number) => {
+    // 1. Nếu bài viết ĐÃ CÓ ID WordPress hợp lệ: Mở thẳng bài viết đó, không bao giờ mở trang trắng post-new.php!
+    const validWpId = row.wpPostId && !isNaN(Number(row.wpPostId)) && Number(row.wpPostId) > 0 ? Number(row.wpPostId) : null;
+    if (validWpId) {
+      const editUrl = `https://admin.tunglamhoaphuc.com/wp-admin/post.php?post=${validWpId}&action=edit`;
+      window.open(editUrl, '_blank', 'noopener,noreferrer');
+      showToast(`✨ Đang mở bài viết #${validWpId} trong WordPress Gutenberg...`);
+      return;
+    }
+
     setOpeningWpId(row.id);
     showToast('⚡ Đang kết nối WordPress và nạp nội dung bài viết vào Gutenberg...');
 

@@ -7,6 +7,11 @@ const WP_BASE_URL = process.env.WP_ADMIN_BASE_URL || 'https://admin.tunglamhoaph
 const WP_USERNAME = process.env.WP_ADMIN_USERNAME || 'admin_tunglam';
 const WP_PASSWORD = process.env.WP_ADMIN_PASSWORD || 'suXWb3nIwNH@B1zshdC#kDrL';
 
+const COMMON_HEADERS = {
+  'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
+  'Accept-Language': 'vi,en-US;q=0.9,en;q=0.8',
+};
+
 interface WpSession {
   cookies: string;
   nonce: string;
@@ -17,11 +22,18 @@ let sessionCache: WpSession | null = null;
 const SESSION_TTL = 20 * 60 * 1000; // 20 minutes
 
 /**
+ * Xóa cache phiên để buộc đăng nhập lại khi nonce hết hạn hoặc bị 403
+ */
+export function invalidateWpSession() {
+  sessionCache = null;
+}
+
+/**
  * Lấy session xác thực WordPress (Cookies & REST Nonce)
  */
-export async function getWpSession(): Promise<{ cookies: string; nonce: string }> {
+export async function getWpSession(forceRefresh: boolean = false): Promise<{ cookies: string; nonce: string }> {
   const now = Date.now();
-  if (sessionCache && now - sessionCache.timestamp < SESSION_TTL) {
+  if (!forceRefresh && sessionCache && now - sessionCache.timestamp < SESSION_TTL) {
     return { cookies: sessionCache.cookies, nonce: sessionCache.nonce };
   }
 
@@ -36,6 +48,7 @@ export async function getWpSession(): Promise<{ cookies: string; nonce: string }
   const loginRes = await fetch(`${WP_BASE_URL}/wp-login.php`, {
     method: 'POST',
     headers: {
+      ...COMMON_HEADERS,
       'Content-Type': 'application/x-www-form-urlencoded',
       Cookie: 'wordpress_test_cookie=WP%20Cookie%20check',
     },
@@ -59,7 +72,10 @@ export async function getWpSession(): Promise<{ cookies: string; nonce: string }
 
   // 2. Tải trang wp-admin để trích xuất REST API Nonce
   const adminRes = await fetch(`${WP_BASE_URL}/wp-admin/`, {
-    headers: { Cookie: cookieHeader },
+    headers: {
+      ...COMMON_HEADERS,
+      Cookie: cookieHeader,
+    },
   });
   const html = await adminRes.text();
 
@@ -70,7 +86,10 @@ export async function getWpSession(): Promise<{ cookies: string; nonce: string }
   } else {
     // Fallback thử tìm nonce ở post-new.php
     const newRes = await fetch(`${WP_BASE_URL}/wp-admin/post-new.php`, {
-      headers: { Cookie: cookieHeader },
+      headers: {
+        ...COMMON_HEADERS,
+        Cookie: cookieHeader,
+      },
     });
     const newHtml = await newRes.text();
     const matchNew = newHtml.match(/"nonce":"([a-f0-9]+)"/);
@@ -274,14 +293,28 @@ export async function getWpPost(
   postType: string = 'posts'
 ): Promise<any | null> {
   try {
-    const { cookies, nonce } = await getWpSession();
+    let { cookies, nonce } = await getWpSession();
     const endpoint = postType === 'tong-chi' ? 'tong-chi' : 'posts';
-    const res = await fetch(`${WP_BASE_URL}/wp-json/wp/v2/${endpoint}/${postId}?context=edit`, {
+    let res = await fetch(`${WP_BASE_URL}/wp-json/wp/v2/${endpoint}/${postId}?context=edit`, {
       headers: {
+        ...COMMON_HEADERS,
         Cookie: cookies,
         'X-WP-Nonce': nonce,
       },
     });
+
+    if (res.status === 403) {
+      invalidateWpSession();
+      const freshSession = await getWpSession(true);
+      res = await fetch(`${WP_BASE_URL}/wp-json/wp/v2/${endpoint}/${postId}?context=edit`, {
+        headers: {
+          ...COMMON_HEADERS,
+          Cookie: freshSession.cookies,
+          'X-WP-Nonce': freshSession.nonce,
+        },
+      });
+    }
+
     if (res.ok) {
       return await res.json();
     }
@@ -300,7 +333,7 @@ export async function createOrUpdateWpPost(payload: WpPostPayload): Promise<{
   editUrl: string;
   isNew: boolean;
 }> {
-  const { cookies, nonce } = await getWpSession();
+  let { cookies, nonce } = await getWpSession();
 
   const postType = payload.postType === 'tong-chi' ? 'tong-chi' : 'posts';
   const rawContent = payload.contentHtml || payload.content || payload.summary || payload.subtitle || '';
@@ -338,6 +371,7 @@ export async function createOrUpdateWpPost(payload: WpPostPayload): Promise<{
         await fetch(`${WP_BASE_URL}/wp-json/wp/v2/${postType}/${existingId}`, {
           method: 'POST',
           headers: {
+            ...COMMON_HEADERS,
             'Content-Type': 'application/json',
             Cookie: cookies,
             'X-WP-Nonce': nonce,
@@ -356,15 +390,33 @@ export async function createOrUpdateWpPost(payload: WpPostPayload): Promise<{
   }
 
   // 2. Nếu chưa tồn tại hoặc ID cũ không có trên hệ thống -> Tạo bài viết mới với toàn bộ khối nội dung
-  const createRes = await fetch(`${WP_BASE_URL}/wp-json/wp/v2/${postType}`, {
+  let createRes = await fetch(`${WP_BASE_URL}/wp-json/wp/v2/${postType}`, {
     method: 'POST',
     headers: {
+      ...COMMON_HEADERS,
       'Content-Type': 'application/json',
       Cookie: cookies,
       'X-WP-Nonce': nonce,
     },
     body: JSON.stringify(postBody),
   });
+
+  if (createRes.status === 403) {
+    invalidateWpSession();
+    const freshSession = await getWpSession(true);
+    cookies = freshSession.cookies;
+    nonce = freshSession.nonce;
+    createRes = await fetch(`${WP_BASE_URL}/wp-json/wp/v2/${postType}`, {
+      method: 'POST',
+      headers: {
+        ...COMMON_HEADERS,
+        'Content-Type': 'application/json',
+        Cookie: cookies,
+        'X-WP-Nonce': nonce,
+      },
+      body: JSON.stringify(postBody),
+    });
+  }
 
   if (!createRes.ok) {
     const errText = await createRes.text();

@@ -58,7 +58,7 @@ export function SidebarNav({
 
   return (
     <aside
-      className={`fixed left-2 md:left-6 top-1/2 -translate-y-1/2 z-50 flex flex-col items-center gap-3 transition-all duration-300 transform-gpu ease-out ${
+      className={`fixed left-2 md:left-6 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col items-center gap-3 transition-all duration-300 transform-gpu ease-out ${
         isScrolled ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20 pointer-events-none'
       }`}
     >

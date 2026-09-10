@@ -302,16 +302,13 @@ export default function TrangChiTietTongChi() {
       items.push({ id: 'bai-tho', label: 'Bài Thơ / Nội Dung' });
     }
 
-    if (data?.sourceBook) {
-      items.push({ id: 'trich-nguon-sach', label: 'Trích Nguồn Sách' });
-    }
-    if (data?.videoBlock?.videoUrl) {
-      items.push({ id: 'video-minh-hoa', label: 'Video Pháp Thoại' });
+    if (data?.sourceBook || data?.videoBlock?.videoUrl) {
+      items.push({ id: 'tai-nguyen-lien-quan', label: 'Tài Nguyên Liên Quan' });
     }
     if (data?.featuredArticle?.title) {
       items.push({ id: 'bai-viet-noibat', label: 'Bài Viết Nổi Bật' });
     }
-    if (data?.photoGallery && data.photoGallery.length > 0) {
+    if (data?.photoGallery && data.photoGallery.length > 1) {
       items.push({ id: 'bo-suu-tap-anh', label: 'Bộ Sưu Tập Ảnh' });
     }
     items.push({ id: 'tim-hieu-them', label: 'Bài Viết Liên Quan' });
@@ -506,30 +503,7 @@ export default function TrangChiTietTongChi() {
     if (slug) fetchDetailData();
   }, [slug]);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 300);
 
-      const sectionIds = navItems.map((item) => item.id);
-      const scrollPosition = window.scrollY + 220;
-
-      for (const id of sectionIds) {
-        const element = document.getElementById(id);
-        if (element) {
-          const top = element.offsetTop;
-          const height = element.offsetHeight;
-
-          if (scrollPosition >= top && scrollPosition < top + height) {
-            setActiveSection(id);
-            break;
-          }
-        }
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   // 🛠️ XỬ LÝ CLICK TỪ KHÓA BÔI ĐẶM
   const handlePoemContentClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -576,35 +550,25 @@ export default function TrangChiTietTongChi() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 350);
-    };
-    window.addEventListener('scroll', handleScroll);
+      setIsScrolled(window.scrollY > 300);
 
-    const sectionElements = navItems
-      .map((item) => document.getElementById(item.id))
-      .filter((el): el is HTMLElement => el !== null);
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveSection(entry.target.id);
+      // Quét ngược từ dưới lên trên bằng getBoundingClientRect()
+      for (let i = navItems.length - 1; i >= 0; i--) {
+        const item = navItems[i];
+        const el = document.getElementById(item.id);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= 250) {
+            setActiveSection(item.id);
+            break;
           }
-        });
-      },
-      {
-        root: null,
-        rootMargin: '-130px 0px -50% 0px',
-        threshold: 0,
+        }
       }
-    );
-
-    sectionElements.forEach((el) => observer.observe(el));
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      sectionElements.forEach((el) => observer.unobserve(el));
     };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
   }, [navItems]);
 
   const scrollToSection = (id: string) => {
@@ -712,13 +676,23 @@ export default function TrangChiTietTongChi() {
             )}
           </section>
 
-          {/* KHỐI TRÍCH NGUỒN TÁC PHẨM & SÁCH */}
-          <BookCitationSection sourceBook={data?.sourceBook} />
+          {/* ── TÀI NGUYÊN LIÊN QUAN & NGUỒN THAM KHẢO ── */}
+          <div id="tai-nguyen-lien-quan" className="space-y-12">
+            <BookCitationSection sourceBook={data?.sourceBook} />
 
-          {/* CÁC KHỐI TIẾNG VIỆT */}
-          <IllustrationVideo heroBanner={data?.heroBanner} videoBlock={data?.videoBlock} />
-          <FeaturedPosts heroBanner={data?.heroBanner} featuredArticle={data?.featuredArticle} />
-          <PhotoGallery photoGallery={data?.photoGallery} onSelectPhoto={(idx) => setActivePhotoIndex(idx)} />
+            {data?.videoBlock?.videoUrl && (
+              <IllustrationVideo heroBanner={data?.heroBanner} videoBlock={data?.videoBlock} />
+            )}
+
+            {data?.featuredArticle?.title && (
+              <FeaturedPosts heroBanner={data?.heroBanner} featuredArticle={data?.featuredArticle} />
+            )}
+
+            {data?.photoGallery && data.photoGallery.length > 1 && (
+              <PhotoGallery photoGallery={data?.photoGallery} onSelectPhoto={(idx) => setActivePhotoIndex(idx)} />
+            )}
+          </div>
+
           <DiscoverMore relatedArticles={data?.relatedArticles} />
           <AiQnA />
         </main>

@@ -60,9 +60,31 @@ export default function DongChayHoangPhapDetailPage() {
     loadDynamicPost();
   }, [slug]);
 
-  const relatedArticles = HOANG_PHAP_ARTICLES.filter((a) => a.id !== article.id);
+  // Ưu tiên bài viết cùng chuyên mục (category / subCategory) hoặc liên quan
+  const currentCategory = (article.category || article.subCategory || '').toLowerCase();
+  const currentKeywords = (article.keywords || []).map((k: any) => (k.keyword || '').toLowerCase());
+  const currentTitleWords = (article.title || '').toLowerCase().split(/\s+/).filter((w: string) => w.length > 2);
+
+  const relatedArticles = [...HOANG_PHAP_ARTICLES]
+    .filter((a) => a.id !== article.id && a.slug !== article.slug)
+    .sort((a, b) => {
+      // 1. Cùng chuyên mục (category)
+      const aCatMatch = (a.category && a.category.toLowerCase() === currentCategory) ? 3 : 0;
+      const bCatMatch = (b.category && b.category.toLowerCase() === currentCategory) ? 3 : 0;
+      
+      // 2. Trùng keyword
+      const aKwMatch = currentKeywords.some((kw: string) => (a.title || '').toLowerCase().includes(kw)) ? 2 : 0;
+      const bKwMatch = currentKeywords.some((kw: string) => (b.title || '').toLowerCase().includes(kw)) ? 2 : 0;
+
+      // 3. Trùng từ khóa trong tiêu đề (vd: "Phật", "Thích Ca", "Niệm Phật", "Vu Lan")
+      const aWordMatch = currentTitleWords.some((w: string) => (a.title || '').toLowerCase().includes(w)) ? 1 : 0;
+      const bWordMatch = currentTitleWords.some((w: string) => (b.title || '').toLowerCase().includes(w)) ? 1 : 0;
+
+      return (bCatMatch + bKwMatch + bWordMatch) - (aCatMatch + aKwMatch + aWordMatch);
+    });
+
   const relatedArticlesFormatted = relatedArticles.map((rel) => ({
-    category: rel.subCategory || 'DÒNG CHẢY HOẰNG PHÁP',
+    category: rel.subCategory || rel.category || 'DÒNG CHẢY HOẰNG PHÁP',
     title: rel.title,
     url: rel.thumbnailUrl,
     link: `/dong-chay-hoang-phap/${rel.slug}`,
@@ -121,7 +143,30 @@ export default function DongChayHoangPhapDetailPage() {
       />
 
       {/* ── 2. HERO BANNER BÊ NGUYÊN TỪ TÔNG CHỈ TU HỌC ── */}
-      <div className={`w-full transition-all duration-500 ${isScrolled ? 'pl-16 md:pl-24' : 'pl-4'} pr-4 md:pr-12`}>
+      <div className={`w-full transition-all duration-500 ${isScrolled ? 'pl-4 md:pl-24' : 'pl-4'} pr-4 md:pr-12`}>
+        {/* Breadcrumb & Nút Quay Lại Đầu Trang */}
+        <div className="max-w-5xl mx-auto pt-3 pb-2 flex flex-wrap items-center justify-between gap-3 text-xs md:text-sm">
+          <div className="flex items-center gap-2 text-[#FFE5A3]/80">
+            <Link href="/" className="hover:text-[#F2C14E] transition-colors flex items-center gap-1">
+              <span>Trang Chủ</span>
+            </Link>
+            <span className="text-[#F2C14E]/50">/</span>
+            <Link href="/dong-chay-hoang-phap" className="hover:text-[#F2C14E] transition-colors">
+              <span>Dòng Chảy Hoằng Pháp</span>
+            </Link>
+            <span className="text-[#F2C14E]/50">/</span>
+            <span className="text-[#F2C14E] font-medium truncate max-w-[180px] sm:max-w-xs md:max-w-md">{article.title}</span>
+          </div>
+
+          <Link
+            href="/dong-chay-hoang-phap"
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#3A2718]/90 border border-[#F2C14E]/50 hover:border-[#F2C14E] text-[#FFE5A3] hover:text-[#FFDE59] text-xs font-semibold shadow-md transition-all hover:-translate-x-0.5"
+          >
+            <ArrowLeft className="w-4 h-4 text-[#F2C14E]" />
+            <span>Quay lại Dòng Chảy Hoằng Pháp</span>
+          </Link>
+        </div>
+
         <HeroBanner
           id="overview"
           bannerUrl={article.bannerUrl || article.thumbnailUrl}
@@ -316,6 +361,17 @@ export default function DongChayHoangPhapDetailPage() {
           {/* ── 9. BLOCK TÌM HIỂU THÊM ── */}
           <div id="related-section" className="w-full">
             <DiscoverMore relatedArticles={relatedArticlesFormatted} />
+          </div>
+
+          {/* Nút Quay Lại Cuối Bài */}
+          <div className="flex justify-center pt-2 pb-6">
+            <Link
+              href="/dong-chay-hoang-phap"
+              className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-[#3A2718] to-[#25170E] border-2 border-[#F2C14E]/70 hover:border-[#F2C14E] text-[#FFE5A3] hover:text-[#FFDE59] text-sm font-bold shadow-[0_0_20px_rgba(242,193,78,0.25)] hover:shadow-[0_0_25px_rgba(242,193,78,0.4)] transition-all hover:scale-105"
+            >
+              <ArrowLeft className="w-5 h-5 text-[#F2C14E]" />
+              <span>Quay lại Danh Mục Dòng Chảy Hoằng Pháp</span>
+            </Link>
           </div>
 
           {/* ── Smart Search AI Bar ── */}

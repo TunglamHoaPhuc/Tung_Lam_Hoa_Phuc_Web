@@ -229,6 +229,7 @@ function FourPillarsGrid() {
 }
 
 // 🪷 4 Category Drawers (Nền tảng, Phương pháp, Lộ trình, Nếp sống)
+// 🪷 4 Category Drawers (Nền tảng, Phương pháp, Lộ trình, Nếp sống)
 function FourDrawersSection() {
   const drawers = [
     {
@@ -236,48 +237,54 @@ function FourDrawersSection() {
       title: 'Nền tảng tu học',
       subtitle: 'Những nền tảng song hành cùng Bồ Đề tâm',
       link: '/tong-chi-tu-hoc#nen-tang-tu-hoc',
-      items: ['Tam Quy - Ngũ Giới', 'Thập Thiện', 'Bồ Tát Hạnh'],
+      items: [
+        { name: 'Tam Quy - Ngũ Giới', link: '/tong-chi-tu-hoc/tam-quy' },
+        { name: 'Thập Thiện Nghiệp', link: '/tong-chi-tu-hoc#nen-tang-tu-hoc' },
+        { name: 'Bồ Tát Hạnh', link: '/tong-chi-tu-hoc#nen-tang-tu-hoc' },
+      ],
     },
     {
       icon: '🙏',
       title: 'Phương pháp hành trì',
       subtitle: 'Thực tập mỗi ngày với những cách thức tu tập',
       link: '/tong-chi-tu-hoc#phuong-phap-hanh-tri',
-      items: ['Niệm Phật', 'Thiền tập', 'Nghe pháp...'],
+      items: [
+        { name: 'Niệm Phật', link: '/tong-chi-tu-hoc#phuong-phap-hanh-tri' },
+        { name: 'Thiền tập', link: '/tong-chi-tu-hoc#phuong-phap-hanh-tri' },
+        { name: 'Nghe pháp & Tụng kinh', link: '/dong-chay-hoang-phap' },
+      ],
     },
     {
       icon: '🌱',
       title: 'Lộ trình tu học',
       subtitle: 'Lựa chọn lộ trình phù hợp với hoàn cảnh tu học',
       link: '/tong-chi-tu-hoc#lo-trinh-tu-hoc',
-      items: ['Lộ trình người mới', 'Lộ trình người trẻ', 'Lộ trình người bận rộn'],
+      items: [
+        { name: 'Lộ trình người mới', link: '/tong-chi-tu-hoc#lo-trinh-tu-hoc' },
+        { name: 'Lộ trình người trẻ', link: '/tong-chi-tu-hoc#lo-trinh-tu-hoc' },
+        { name: 'Lộ trình người bận rộn', link: '/tong-chi-tu-hoc#lo-trinh-tu-hoc' },
+      ],
     },
     {
       icon: '🌸',
       title: 'Nếp sống Thiền gia',
       subtitle: 'Đưa lời Phật dạy vào từng cách sống, lời nói và việc làm',
-      link: '/tong-chi-tu-hoc#nep-song-thien-gia',
-      items: ['Văn hóa ứng xử tại chùa', 'Oai nghi người con Phật', 'Bổn phận tại gia...'],
+      link: '/gioi-thieu/van-hoa-ung-xu',
+      items: [
+        { name: 'Văn hóa ứng xử tại chùa', link: '/gioi-thieu/van-hoa-ung-xu' },
+        { name: 'Oai nghi người con Phật', link: '/gioi-thieu/van-hoa-ung-xu' },
+        { name: 'Bổn phận tại gia', link: '/gioi-thieu/van-hoa-ung-xu' },
+      ],
     },
   ];
 
   return (
     <div className="my-10 space-y-4">
-      <div className="text-center mb-6">
-        <h4
-          style={{ fontFamily: "'UTM Avo', sans-serif" }}
-          className="text-lg sm:text-xl font-bold text-[#F2C14E] uppercase tracking-wider"
-        >
-          HỆ THỐNG TÔNG CHỈ TU HỌC TIẾP NỐI
-        </h4>
-        <div className="w-20 h-[1.5px] bg-gradient-to-r from-transparent via-[#F2C14E] to-transparent mx-auto mt-2" />
-      </div>
-
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {drawers.map((d, i) => (
           <div
             key={i}
-            className="p-5 rounded-2xl bg-[#22140A] border border-[#F2C14E]/30 hover:border-[#F2C14E] transition-all group flex flex-col justify-between"
+            className="p-5 rounded-2xl bg-gradient-to-br from-[#2D1B11] to-[#1C1009] border border-[#F2C14E]/35 hover:border-[#F2C14E] transition-all group flex flex-col justify-between shadow-md hover:shadow-[0_8px_25px_rgba(242,193,78,0.15)]"
           >
             <div>
               <div className="flex items-center gap-2 mb-1.5">
@@ -292,11 +299,16 @@ function FourDrawersSection() {
               <p className="text-xs text-[#FFE5A3]/80 italic mb-3">
                 {d.subtitle}
               </p>
-              <ul className="space-y-1 text-xs text-[#FFE5A3]/85 mb-4">
+              <ul className="space-y-1.5 text-xs text-[#FFE5A3]/90 mb-4">
                 {d.items.map((item, idx) => (
-                  <li key={idx} className="flex items-center gap-1.5">
-                    <span className="text-[#F2C14E] text-[10px]">●</span>
-                    <span>{item}</span>
+                  <li key={idx}>
+                    <Link
+                      href={item.link}
+                      className="inline-flex items-center gap-1.5 text-[#FFE5A3] hover:text-[#F2C14E] transition-colors"
+                    >
+                      <span className="text-[#F2C14E] text-[10px]">●</span>
+                      <span className="hover:underline underline-offset-2">{item.name}</span>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -1343,7 +1355,7 @@ export function InfographicArticleRenderer({
 
           {/* 2. QUOTE / KỆ THƠ / LỜI THẦY */}
           {sec.quote && (
-            <div className="my-6 max-w-2xl mx-auto text-center space-y-2 p-5 sm:p-6 rounded-2xl bg-[#22130A]/60 border-l-4 border-[#F2C14E] shadow-md">
+            <div className="my-6 max-w-2xl mx-auto text-center space-y-2.5 p-6 sm:p-7 rounded-3xl bg-gradient-to-br from-[#382215]/95 via-[#442817]/90 to-[#2A170C]/95 border-2 border-[#F2C14E]/60 shadow-[0_0_25px_rgba(242,193,78,0.18)]">
               <div 
                 style={{ fontFamily: "var(--font-montserrat), 'Montserrat', 'UTM Avo', sans-serif" }}
                 className="text-base sm:text-lg md:text-xl font-semibold italic text-[#FFE5A3] leading-relaxed sm:leading-loose whitespace-pre-line tracking-wide"
@@ -1351,8 +1363,8 @@ export function InfographicArticleRenderer({
                 “{highlightText(sec.quote.replace(/^[“"”\s]+|[“"”\s]+$/g, ''), popups, onKeywordClick)}”
               </div>
               {sec.quoteAuthor && (
-                <p className="text-sm sm:text-base italic text-[#F2C14E] mt-2 font-normal">
-                  — {sec.quoteAuthor}
+                <p className="text-sm sm:text-base italic text-[#F2C14E] mt-3 font-semibold text-center">
+                  {sec.quoteAuthor.replace(/^[—–-]\s*/, '')}
                 </p>
               )}
             </div>
@@ -1363,7 +1375,7 @@ export function InfographicArticleRenderer({
             {sec.elements.map((el, elIdx) => {
               if (el.type === 'quote') {
                 return (
-                  <div key={elIdx} className="my-6 max-w-2xl mx-auto text-center space-y-2 p-5 sm:p-6 rounded-2xl bg-[#22130A]/60 border-l-4 border-[#F2C14E] shadow-md">
+                  <div key={elIdx} className="my-6 max-w-2xl mx-auto text-center space-y-2.5 p-6 sm:p-7 rounded-3xl bg-gradient-to-br from-[#382215]/95 via-[#442817]/90 to-[#2A170C]/95 border-2 border-[#F2C14E]/60 shadow-[0_0_25px_rgba(242,193,78,0.18)]">
                     <div 
                       style={{ fontFamily: "var(--font-montserrat), 'Montserrat', 'UTM Avo', sans-serif" }}
                       className="text-base sm:text-lg md:text-xl font-semibold italic text-[#FFE5A3] leading-relaxed sm:leading-loose whitespace-pre-line tracking-wide"
@@ -1371,8 +1383,8 @@ export function InfographicArticleRenderer({
                       “{highlightText(el.quote.replace(/^[“"”\s]+|[“"”\s]+$/g, ''), popups, onKeywordClick)}”
                     </div>
                     {el.quoteAuthor && (
-                      <p className="text-sm sm:text-base italic text-[#F2C14E] mt-2 font-normal">
-                        — {el.quoteAuthor}
+                      <p className="text-sm sm:text-base italic text-[#F2C14E] mt-3 font-semibold text-center">
+                        {el.quoteAuthor.replace(/^[—–-]\s*/, '')}
                       </p>
                     )}
                   </div>
@@ -1491,8 +1503,8 @@ export function InfographicArticleRenderer({
               {highlightText(endQuote.text, popups, onKeywordClick)}
             </p>
             {endQuote.author && (
-              <p className="text-sm sm:text-base italic text-[#F2C14E] mt-2">
-                {endQuote.author}
+              <p className="text-sm sm:text-base italic text-[#F2C14E] mt-3 font-semibold text-center">
+                {endQuote.author.replace(/^[—–-]\s*/, '')}
               </p>
             )}
           </div>

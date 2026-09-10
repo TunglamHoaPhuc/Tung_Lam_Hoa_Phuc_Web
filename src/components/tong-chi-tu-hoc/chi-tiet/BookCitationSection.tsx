@@ -138,8 +138,8 @@ export function BookCitationSection({ sourceBook }: BookCitationProps) {
                 {/* Details */}
                 <div className="flex-1 min-w-0 pr-1 space-y-1">
                   <h5
-                    style={{ fontFamily: "'UTM Niagara', var(--font-playfair), 'Playfair Display', serif" }}
-                    className="text-base sm:text-lg font-bold text-[#FFDE59] uppercase tracking-wide line-clamp-1 group-hover:text-amber-300 transition-colors"
+                    style={{ fontFamily: "var(--font-montserrat), 'Montserrat', 'UTM Avo', sans-serif" }}
+                    className="text-sm sm:text-base font-bold text-[#FFDE59] uppercase tracking-wide line-clamp-1 group-hover:text-amber-300 transition-colors"
                     title={item.bookTitle}
                   >
                     {item.bookTitle}
