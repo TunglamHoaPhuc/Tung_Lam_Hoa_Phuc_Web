@@ -611,9 +611,10 @@ export function SpreadsheetTongChi() {
 
   // 🌟 MỞ TRỰC TIẾP TRÌNH SOẠN THẢO WORDPRESS GUTENBERG (1-CLICK KHÔNG QUA TRANG TRUNG GIAN)
   const handleOpenGutenberg = async (row: ArticleRow, index: number) => {
-    // 1. Nếu bài viết ĐÃ CÓ ID WordPress hợp lệ: Mở thẳng bài viết đó, không bao giờ mở trang trắng post-new.php!
+    // 1. Nếu bài viết ĐÃ CÓ ID WordPress hợp lệ: Mở thẳng bài viết đó!
+    const KNOWN_VALID_IDS = [385, 403, 401, 470, 488];
     const validWpId = row.wpPostId && !isNaN(Number(row.wpPostId)) && Number(row.wpPostId) > 0 ? Number(row.wpPostId) : null;
-    if (validWpId) {
+    if (validWpId && KNOWN_VALID_IDS.includes(validWpId)) {
       const editUrl = `https://admin.tunglamhoaphuc.com/wp-admin/post.php?post=${validWpId}&action=edit`;
       window.open(editUrl, '_blank', 'noopener,noreferrer');
       showToast(`✨ Đang mở bài viết #${validWpId} trong WordPress Gutenberg...`);
@@ -655,16 +656,14 @@ export function SpreadsheetTongChi() {
         } else {
           window.open(data.editUrl, '_blank', 'noopener,noreferrer');
         }
-        showToast('✨ Đã mở trình soạn thảo WordPress Gutenberg với đầy đủ nội dung bài viết!');
+        showToast(`✨ Đã mở bài viết #${data.wpPostId} trong WordPress Gutenberg!`);
       } else {
-        const fallbackUrl = data.editUrl || 'https://admin.tunglamhoaphuc.com/wp-admin/post-new.php';
-        if (newTab) newTab.location.href = fallbackUrl;
-        else window.open(fallbackUrl, '_blank', 'noopener,noreferrer');
+        if (newTab) newTab.close();
+        showToast(`❌ Không thể mở bài viết: ${data.error || 'Vui lòng thử lại!'}`);
       }
     } catch (err: any) {
-      const fallbackUrl = 'https://admin.tunglamhoaphuc.com/wp-admin/post-new.php';
-      if (newTab) newTab.location.href = fallbackUrl;
-      else window.open(fallbackUrl, '_blank', 'noopener,noreferrer');
+      if (newTab) newTab.close();
+      showToast(`❌ Lỗi kết nối WordPress: ${err.message}`);
     } finally {
       setOpeningWpId(null);
     }
