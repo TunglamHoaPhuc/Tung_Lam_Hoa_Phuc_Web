@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { SectionData } from '@/types/tong-chi-tu-hoc';
+import { getImageUrl } from '@/utils/image';
 
 interface SectionCarouselProps {
   section: SectionData;
@@ -15,7 +16,7 @@ export function SectionCarousel({ section, dynamicBgImage }: SectionCarouselProp
   const scrollRef = useRef<HTMLDivElement>(null);
 
   // Ưu tiên 1: Ảnh động từ WP Taxonomy -> Ưu tiên 2: bgImage của Section -> Ưu tiên 3: bgWatermark
-  const bgImage = dynamicBgImage || section.bgImage || section.bgWatermark || '';
+  const bgImage = getImageUrl(dynamicBgImage || section.bgImage || section.bgWatermark || '');
 
   const handleScroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
@@ -89,7 +90,7 @@ export function SectionCarousel({ section, dynamicBgImage }: SectionCarouselProp
               className="group relative flex-none w-[280px] md:w-[310px] h-[380px] rounded-xl overflow-hidden cursor-pointer border border-[#593b26] hover:border-[#f2cc8f] transition-all duration-300 ease-out hover:shadow-[0_0_30px_rgba(242,204,143,0.4)] hover:-translate-y-1.5 snap-start block transform-gpu"
             >
               <Image
-                src={card.imageUrl}
+                src={getImageUrl(card.imageUrl) || 'https://tunglam.mocwp.com/wp-content/uploads/2026/07/default-bg.jpg'}
                 alt={card.title}
                 fill
                 loading="lazy"

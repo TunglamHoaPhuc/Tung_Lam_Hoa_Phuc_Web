@@ -3,6 +3,7 @@
 import { FC, useState } from 'react';
 import Link from 'next/link';
 import { KeywordTooltipModal } from '@/components/tong-chi-tu-hoc/KeywordTooltipModal';
+import { getImageUrl } from '@/utils/image';
 
 // ─── Types ─────────────────────────────────────────────────────────────────
 interface KeywordPopup {
@@ -102,7 +103,7 @@ const ArticleDetailTemplate: FC<ArticleDetailTemplateProps> = ({
         style={{ height: 'clamp(300px, 55vh, 580px)' }}
       >
         <img
-          src={heroBannerUrl || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp'}
+          src={getImageUrl(heroBannerUrl) || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp'}
           alt={title}
           className="absolute inset-0 w-full h-full object-cover"
         />
@@ -307,7 +308,7 @@ const ArticleDetailTemplate: FC<ArticleDetailTemplateProps> = ({
                   {art.imgUrl && (
                     <div className="overflow-hidden" style={{ height: 140 }}>
                       <img
-                        src={art.imgUrl}
+                        src={getImageUrl(art.imgUrl)}
                         alt={art.title}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />

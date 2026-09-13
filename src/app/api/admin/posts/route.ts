@@ -4,6 +4,9 @@ import path from 'path';
 
 const DB_PATH = path.resolve(process.cwd(), 'src/data/posts-database.json');
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export interface KeywordItem {
   keyword: string;
   title: string;
@@ -91,21 +94,21 @@ export interface PostRecord {
   wpPostId?: string | number;
 }
 
+import { loadServerlessJson, saveServerlessJson } from '@/lib/serverless-db';
+
+const DB_CONFIG = {
+  fileName: 'posts-database.json',
+  localRelativePath: 'src/data/posts-database.json',
+  s3Key: 'tunglamhoaphuc2/database/posts-database.json',
+  defaultData: [] as PostRecord[],
+};
+
 function getPosts(): PostRecord[] {
-  if (!fs.existsSync(DB_PATH)) {
-    fs.writeFileSync(DB_PATH, '[]', 'utf8');
-    return [];
-  }
-  try {
-    const raw = fs.readFileSync(DB_PATH, 'utf8');
-    return JSON.parse(raw);
-  } catch {
-    return [];
-  }
+  return loadServerlessJson<PostRecord[]>(DB_CONFIG);
 }
 
-function savePosts(posts: PostRecord[]) {
-  fs.writeFileSync(DB_PATH, JSON.stringify(posts, null, 2), 'utf8');
+async function savePosts(posts: PostRecord[]) {
+  await saveServerlessJson<PostRecord[]>(DB_CONFIG, posts);
 }
 
 export async function GET(req: NextRequest) {
@@ -172,7 +175,7 @@ export async function PUT(req: NextRequest) {
       return p;
     });
 
-    savePosts(validatedPosts);
+    await savePosts(validatedPosts);
 
     return NextResponse.json({
       success: true,
@@ -233,7 +236,7 @@ export async function POST(req: NextRequest) {
     };
 
     posts.unshift(newPost);
-    savePosts(posts);
+    await savePosts(posts);
 
     return NextResponse.json({
       success: true,

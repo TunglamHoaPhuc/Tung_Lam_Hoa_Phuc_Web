@@ -378,7 +378,7 @@ export function PostFormEditor({ initialData, isEditing = false }: PostFormEdito
                   <Cloud className="w-4 h-4" />
                 </button>
               </div>
-
+ 
               <textarea
                 rows={16}
                 value={formData.contentHtml}

@@ -81,5 +81,6 @@ danh_sach_file_anh.txt
 .gemini/
 .agents/
 drive_download/
-Ket_Noi_S3_Hoa_Phuc.bat
+Ket_Noi_S3_Hoa_Phuc.bat
+*.bat
 .env*

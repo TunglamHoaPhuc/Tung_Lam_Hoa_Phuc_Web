@@ -3,6 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { getImageUrl } from '@/utils/image';
 
 interface PropsBaiVietNoiBat {
   heroBanner?: string;
@@ -17,7 +18,7 @@ interface PropsBaiVietNoiBat {
 }
 
 export function FeaturedPosts({ heroBanner, featuredArticle }: PropsBaiVietNoiBat) {
-  const bgImageSrc = featuredArticle?.bgImage || heroBanner || 'https://tunglam.mocwp.com/wp-content/uploads/2026/07/bg-chua.jpg';
+  const bgImageSrc = getImageUrl(featuredArticle?.bgImage || heroBanner) || 'https://tunglam.mocwp.com/wp-content/uploads/2026/07/bg-chua.jpg';
 
   return (
     <section id="bai-viet-noibat" className="scroll-mt-24 py-12 relative w-full">

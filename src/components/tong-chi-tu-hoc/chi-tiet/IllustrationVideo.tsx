@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import Image from 'next/image';
-import { Play } from 'lucide-react';
+import { ExternalLink, Play, Film } from 'lucide-react';
+import { getImageUrl } from '@/utils/image';
 
 interface PropsKhoiVideo {
   heroBanner?: string;
@@ -43,7 +43,7 @@ function formatYoutubeEmbed(url?: string): string {
 
 export function IllustrationVideo({ heroBanner, videoBlock }: PropsKhoiVideo) {
   const [isPlayingVideo, setIsPlayingVideo] = useState(false);
-  const thumbnailSrc = heroBanner || 'https://tunglam.mocwp.com/wp-content/uploads/2026/07/bg-chua.jpg';
+  const thumbnailSrc = getImageUrl(heroBanner) || 'https://tunglam.mocwp.com/wp-content/uploads/2026/07/bg-chua.jpg';
 
   return (
     <section id="video-minh-hoa" className="scroll-mt-24 pt-8 pb-4 w-full relative">

@@ -13,6 +13,7 @@ import { AiQnA } from '@/components/tong-chi-tu-hoc/chi-tiet/AiQnA';
 import { BookCitationSection } from '@/components/tong-chi-tu-hoc/chi-tiet/BookCitationSection';
 import { InfographicArticleRenderer } from '@/components/tong-chi-tu-hoc/chi-tiet/InfographicArticleRenderer';
 import { ExternalLink, RefreshCw, Sparkles, Edit3, ArrowLeft, CheckCircle2, Globe, FileCode } from 'lucide-react';
+import { getImageUrl } from '@/utils/image';
 
 // 🪷 Parser biến mã HTML WordPress Gutenberg thành Markdown/Clean format chuẩn cho InfographicArticleRenderer
 function convertWpHtmlToCleanContent(wpRawHtml: string): { cleanedContent: string; extractedSubtitle?: string } {
@@ -61,15 +62,20 @@ function convertWpHtmlToCleanContent(wpRawHtml: string): { cleanedContent: strin
     const srcMatch = figInner.match(/src=["']([^"']+)["']/i);
     const altMatch = figInner.match(/alt=["']([^"']*)["']/i);
     const capMatch = figInner.match(/<figcaption[^>]*>([\s\S]*?)<\/figcaption>/i);
-    const src = srcMatch ? srcMatch[1] : '';
+    const rawSrc = srcMatch ? srcMatch[1] : '';
+    const src = rawSrc ? getImageUrl(rawSrc) : '';
     const caption = capMatch ? capMatch[1].replace(/<[^>]+>/g, '').trim() : (altMatch ? altMatch[1].trim() : '');
     if (!src) return '';
     return `\n\n![${caption}](${src})\n\n`;
   });
 
   // 5. Ảnh thông thường dạng standalone <img>
-  html = html.replace(/<img[^>]+src=["']([^"']+)["'][^>]*alt=["']([^"']*)["'][^>]*\/?>/gi, '\n\n![$2]($1)\n\n');
-  html = html.replace(/<img[^>]+src=["']([^"']+)["'][^>]*\/?>/gi, '\n\n![]($1)\n\n');
+  html = html.replace(/<img[^>]+src=["']([^"']+)["'][^>]*alt=["']([^"']*)["'][^>]*\/?>/gi, (_m, src, alt) => {
+    return `\n\n![${alt}](${getImageUrl(src)})\n\n`;
+  });
+  html = html.replace(/<img[^>]+src=["']([^"']+)["'][^>]*\/?>/gi, (_m, src) => {
+    return `\n\n![](${getImageUrl(src)})\n\n`;
+  });
 
   // 6. HR (Loại bỏ hoàn toàn)
   html = html.replace(/<hr[^>]*\/?>/gi, '\n\n');
@@ -175,8 +181,7 @@ export default function WpPreviewPage() {
   
   // Tự động lấy Hero Banner từ: Ảnh đại diện WordPress (Featured Media) HOẶC trường ACF anh_nen
   const heroBannerUrl =
-    wpData?.acf?.anh_nen ||
-    wpData?._embedded?.['wp:featuredmedia']?.[0]?.source_url ||
+    getImageUrl(wpData?.acf?.anh_nen || wpData?._embedded?.['wp:featuredmedia']?.[0]?.source_url) ||
     'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/nen-tang-tu-hoc/tong-chi-tu-hoc-nen-tang-tu-hoc-bo-de-tam-herobanner-thumbnail.webp';
 
   // Dynamic Navigation Items

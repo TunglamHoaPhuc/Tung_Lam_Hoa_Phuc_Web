@@ -20,6 +20,7 @@ import {
   CheckCircle2,
   Users
 } from 'lucide-react';
+import { getImageUrl } from '@/utils/image';
 
 interface PopupKeyword {
   keyword: string;
@@ -150,7 +151,7 @@ function renderKeywordPopups(
   const tokens = str.split(regex);
 
   return tokens.map((token, i) => {
-    const match = popups.find((p) => p.keyword.toLowerCase() === token.toLowerCase());
+    const match = popups.find((p) => (p.keyword || (p as any).tag || '').toLowerCase() === token.toLowerCase());
     if (match) {
       return (
         <span
@@ -930,7 +931,7 @@ function parseSections(raw: string): { sections: SectionBlock[]; endQuote?: { te
         }
         currentSection.elements.push({
           type: 'image',
-          src,
+          src: getImageUrl(src),
           caption,
           alt: caption || 'Hình ảnh minh họa',
           align,
@@ -1399,7 +1400,7 @@ export function InfographicArticleRenderer({
                       className="rounded-2xl overflow-hidden border-2 border-[#F2C14E]/50 shadow-[0_10px_35px_rgba(0,0,0,0.8)] bg-black/40 group p-1 backdrop-blur-sm cursor-zoom-in relative inline-block max-w-full"
                     >
                       <img
-                        src={el.src}
+                        src={getImageUrl(el.src)}
                         alt={el.alt || el.caption || 'Hình ảnh minh họa'}
                         className="w-full max-h-[650px] h-auto object-contain rounded-xl transition-transform duration-500 group-hover:scale-[1.01]"
                         loading="lazy"
@@ -1528,7 +1529,7 @@ export function InfographicArticleRenderer({
               <X className="w-6 h-6" />
             </button>
             <img
-              src={zoomImage.src}
+              src={getImageUrl(zoomImage.src)}
               alt={zoomImage.caption || 'Phóng to ảnh'}
               className="max-h-[80vh] w-auto object-contain rounded-2xl border-2 border-[#F2C14E]/60 shadow-[0_0_50px_rgba(242,193,78,0.3)]"
             />

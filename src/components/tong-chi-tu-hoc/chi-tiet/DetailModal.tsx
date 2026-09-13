@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { ArrowRight, ExternalLink, X } from 'lucide-react';
+import { getImageUrl } from '@/utils/image';
 
 interface TuKhoaPopup {
   keyword: string;
@@ -69,7 +70,7 @@ export function DetailModal({
             <div className="p-4 sm:p-6 space-y-4">
               <div className="relative aspect-[4/3] w-full max-h-[380px] rounded-xl overflow-hidden border border-[#c8aa6e]/40 shadow-inner bg-black/40 flex items-center justify-center">
                 <img
-                  src={currentPhoto.imageUrl || currentPhoto.url || '/images/toan-canh-chua.jpg'}
+                  src={getImageUrl(currentPhoto.imageUrl || currentPhoto.url) || '/images/toan-canh-chua.jpg'}
                   alt={currentPhoto.title || 'Ảnh tư liệu'}
                   className="w-full h-full object-contain"
                   loading="lazy"
@@ -151,7 +152,7 @@ export function DetailModal({
               {activeKeywordPopup.imageUrl && (
                 <div className="relative w-24 sm:w-28 h-24 sm:h-28 flex-shrink-0 rounded-2xl overflow-hidden border border-[#F2C14E]/60 shadow-[0_0_20px_rgba(242,193,78,0.2)] bg-black">
                   <img
-                    src={activeKeywordPopup.imageUrl}
+                    src={getImageUrl(activeKeywordPopup.imageUrl)}
                     alt={activeKeywordPopup.title}
                     style={{ objectPosition: activeKeywordPopup.imagePosition || 'center 50%' }}
                     className="w-full h-full object-cover"

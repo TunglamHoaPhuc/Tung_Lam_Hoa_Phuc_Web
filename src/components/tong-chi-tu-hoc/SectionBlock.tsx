@@ -3,6 +3,7 @@
 import { FC, useRef } from 'react';
 import Image from 'next/image';
 import { SectionData } from '@/types/tong-chi-tu-hoc';
+import { getImageUrl } from '@/utils/image';
 
 interface SectionBlockProps {
   section: SectionData;
@@ -26,7 +27,7 @@ const SectionBlock: FC<SectionBlockProps> = ({ section }) => {
       {section.bgWatermark && (
         <div className="absolute inset-0 pointer-events-none mix-blend-luminosity [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_75%)] opacity-30">
           <Image
-            src={section.bgWatermark}
+            src={getImageUrl(section.bgWatermark)}
             alt="watermark"
             fill
             className="object-cover object-center"
@@ -81,7 +82,7 @@ const SectionBlock: FC<SectionBlockProps> = ({ section }) => {
             className="group relative flex-none w-[280px] md:w-[310px] h-[380px] rounded-xl overflow-hidden cursor-pointer border border-[#593b26] hover:border-[#f2cc8f] transition-all duration-500 hover:shadow-[0_0_30px_rgba(242,204,143,0.4)] hover:-translate-y-1.5 snap-start block"
           >
             <Image
-              src={card.imageUrl}
+              src={getImageUrl(card.imageUrl)}
               alt={card.title}
               fill
               loading="lazy"

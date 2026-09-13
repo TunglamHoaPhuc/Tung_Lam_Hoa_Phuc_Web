@@ -7,6 +7,7 @@ import { Eye, Calendar, Play, Video, Clock, Landmark, Sparkles, Images, BookOpen
 import Header from '@/components/public/layout/Header';
 import Footer from '@/components/public/layout/Footer';
 import { HOANG_PHAP_ARTICLES } from '@/data/dong-chay-hoang-phap-data';
+import ALL_POSTS from '@/data/posts-database.json';
 import { SmartSearchAIBar } from '@/components/public/SmartSearchAIBar';
 import { SubNavbar } from '@/components/tong-chi-tu-hoc/SubNavbar';
 import { SidebarNav } from '@/components/tong-chi-tu-hoc/SidebarNav';
@@ -38,15 +39,18 @@ export default function DongChayHoangPhapDetailPage() {
   // Detail Modal Keyword state
   const [activeKeyword, setActiveKeyword] = useState<any>(null);
 
-  // Dynamic article state with fallback
-  const initialFallback = HOANG_PHAP_ARTICLES.find((a) => a.slug === slug) || HOANG_PHAP_ARTICLES[0];
+  // Dynamic article state with fallback (ưu tiên cơ sở dữ liệu bài viết posts-database.json)
+  const fallbackFromDb = (ALL_POSTS as any[]).find(
+    (a) => a.slug === slug || a.id === slug || String(a.wpPostId) === slug
+  );
+  const initialFallback = fallbackFromDb || HOANG_PHAP_ARTICLES.find((a) => a.slug === slug) || HOANG_PHAP_ARTICLES[0];
   const [article, setArticle] = useState<any>(initialFallback);
 
   useEffect(() => {
     async function loadDynamicPost() {
       if (!slug) return;
       try {
-        const res = await fetch(`/api/admin/posts/${slug}`, { cache: 'no-store' });
+        const res = await fetch(`/api/admin/posts/${slug}?t=${Date.now()}`, { cache: 'no-store' });
         if (res.ok) {
           const json = await res.json();
           if (json.success && json.post) {
@@ -62,7 +66,7 @@ export default function DongChayHoangPhapDetailPage() {
 
   // Ưu tiên bài viết cùng chuyên mục (category / subCategory) hoặc liên quan
   const currentCategory = (article.category || article.subCategory || '').toLowerCase();
-  const currentKeywords = (article.keywords || []).map((k: any) => (k.keyword || '').toLowerCase());
+  const currentKeywords = (article.keywords || []).map((k: any) => (k.keyword || k.tag || '').toLowerCase());
   const currentTitleWords = (article.title || '').toLowerCase().split(/\s+/).filter((w: string) => w.length > 2);
 
   const relatedArticles = [...HOANG_PHAP_ARTICLES]
@@ -187,7 +191,7 @@ export default function DongChayHoangPhapDetailPage() {
               popups={article.keywords}
               onKeywordClick={(kwStr) => {
                 const kws = article.keywords || [];
-                const found = kws.find((k: any) => k.keyword.toLowerCase() === kwStr.toLowerCase());
+                const found = kws.find((k: any) => (k.keyword || k.tag || '').toLowerCase() === kwStr.toLowerCase());
                 if (found) {
                   setActiveKeyword(found);
                 }

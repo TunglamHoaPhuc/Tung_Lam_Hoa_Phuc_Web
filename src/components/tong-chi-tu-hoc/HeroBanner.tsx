@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { MoveVertical } from 'lucide-react';
+import { getImageUrl } from '@/utils/image';
 
 interface HeroBannerProps {
   id?: string;
@@ -32,7 +33,7 @@ export function HeroBanner({
   backText = 'Trở về Sơ Đồ Bản Đồ 2D Vũ Trụ Phật Giáo',
 }: HeroBannerProps) {
   // Lấy URL ảnh banner từ WP, prop hoặc ảnh mặc định
-  const initialUrl = bannerUrl || bgImage || DEFAULT_BANNER_IMAGE;
+  const initialUrl = getImageUrl(bannerUrl || bgImage) || DEFAULT_BANNER_IMAGE;
   const [imgSrc, setImgSrc] = useState<string>(initialUrl);
 
   // Kéo thả căn chỉnh vị trí chuột (Interactive Dragging)
@@ -48,7 +49,7 @@ export function HeroBanner({
   useEffect(() => {
     const nextUrl = bannerUrl || bgImage;
     if (nextUrl) {
-      setImgSrc(nextUrl);
+      setImgSrc(getImageUrl(nextUrl));
     } else {
       setImgSrc(DEFAULT_BANNER_IMAGE);
     }

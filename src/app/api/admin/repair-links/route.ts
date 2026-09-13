@@ -4,27 +4,12 @@ import fs from 'fs';
 import path from 'path';
 
 function getS3Client() {
-  const envPath = path.resolve(process.cwd(), '.env.local');
-  let env: Record<string, string> = {};
-  if (fs.existsSync(envPath)) {
-    const raw = fs.readFileSync(envPath, 'utf-8');
-    raw.split('\n').forEach((line) => {
-      const match = line.match(/^\s*([\w.-]+)\s*=\s*(.*)?\s*$/);
-      if (match) {
-        let val = match[2] || '';
-        if (val.startsWith('"') && val.endsWith('"')) val = val.slice(1, -1);
-        if (val.startsWith("'") && val.endsWith("'")) val = val.slice(1, -1);
-        env[match[1]] = val.trim();
-      }
-    });
-  }
-
-  const accessKeyId = process.env.S3_ACCESS_KEY_ID || env.S3_ACCESS_KEY_ID || '005bc25330e1c1f0000000029';
-  const secretAccessKey = process.env.S3_SECRET_ACCESS_KEY || env.S3_SECRET_ACCESS_KEY;
-  const endpoint = process.env.S3_ENDPOINT || env.S3_ENDPOINT || 'https://s3.us-east-005.backblazeb2.com';
-  const region = process.env.S3_REGION || env.S3_REGION || 'us-east-005';
-  const bucketName = process.env.S3_BUCKET_NAME || env.S3_BUCKET_NAME || 's2-cnv03';
-  const publicUrl = process.env.S3_PUBLIC_URL || env.S3_PUBLIC_URL || `https://${bucketName}.s3.${region}.backblazeb2.com`;
+  const accessKeyId = process.env.S3_ACCESS_KEY_ID || '005bc25330e1c1f0000000029';
+  const secretAccessKey = process.env.S3_SECRET_ACCESS_KEY;
+  const endpoint = process.env.S3_ENDPOINT || 'https://s3.us-east-005.backblazeb2.com';
+  const region = process.env.S3_REGION || 'us-east-005';
+  const bucketName = process.env.S3_BUCKET_NAME || 's2-cnv03';
+  const publicUrl = process.env.S3_PUBLIC_URL || `https://${bucketName}.s3.${region}.backblazeb2.com`;
 
   const client = new S3Client({
     endpoint,
@@ -71,8 +56,8 @@ export async function POST() {
 
     // 2. Sửa link trong file JSON dữ liệu
     const jsonFiles = [
-      path.resolve(process.cwd(), 'src/data/tong-chi-data.json'),
-      path.resolve(process.cwd(), 'src/data/posts-database.json'),
+      path.join(/*turbopackIgnore: true*/ process.cwd(), 'src', 'data', 'tong-chi-data.json'),
+      path.join(/*turbopackIgnore: true*/ process.cwd(), 'src', 'data', 'posts-database.json'),
     ];
 
     for (const jsonPath of jsonFiles) {

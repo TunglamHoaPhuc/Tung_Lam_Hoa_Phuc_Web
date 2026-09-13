@@ -3,12 +3,12 @@
     "id": 1,
     "slug": "tong-phong-truyen-thua-truc-lam",
     "title": "TIẾP BƯỚC THẦY TÔI",
-    "subtitle": "Hành trình Hoằng Pháp",
+    "subtitle": "Hoằng Pháp – Kiến An mãi nhớ Thầy",
     "category": "tong-phong-truyen-thua",
     "categoryName": "TÔNG PHONG TRUYỀN THỪA",
     "bannerImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/2026/07/tong-chi-tu-hoc-tong-phong-truyen-thua-tiep-buoc-thay-toi-banner-thumnail-scaled.jpg",
     "excerpt": "Bài thơ quan trọng kể lại hành trình tiếp nối của Sư Phụ",
-    "content": "**Hoằng Pháp** – **Kiến An** mãi nhớ **Thầy**\n\n**Hải Phòng – Phổ Chiếu** vẫn còn đây\n\nNgười đi năm tháng chưa phai dấu\n\nChánh pháp hoằng truyền khắp đông tây\n\n**Đất bắc** mở mang dòng bất tử\n\n**Trời nam** kết tụ giới hương bay\n\nDáng xưa vững chãi như tùng bách\n\n**Cháu con** tiếp bước đẹp tháng ngày.",
+    "content": "**Hải Phòng – Phổ Chiếu** vẫn còn đây\n\nNgười đi năm tháng chưa phai dấu\n\nChánh pháp hoằng truyền khắp đông tây\n\n**Đất bắc** mở mang dòng bất tử\n\n**Trời nam** kết tụ giới hương bay\n\nDáng xưa vững chãi như tùng bách\n\n**Cháu con** tiếp bước đẹp tháng ngày.",
     "author": "Vô Trí - Tâm Hòa",
     "authorLink": "/gioi-thieu/su-phu-tru-tri",
     "publishedAt": "2026-08-23T08:00:00.000Z",
@@ -33,7 +33,7 @@
         "imageUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/uploads/chua-hoang-phap--kien-an-tinh-hai-phong-1787463859334.jpg",
         "khuVuc": "Kiến An - Hải Phòng",
         "noiDung": "Nơi Sư Tổ Ngộ Chân Tử sáng lập ngôi chùa Hoằng Pháp đầu tiên năm 1935 và Viện Dục Anh năm 1938.",
-        "imagePosition": "center 42%"
+        "imagePosition": "https://admin.tunglamhoaphuc.com/center 42%"
       },
       {
         "title": "CHÙA PHỔ CHIẾU & VIỆN DƯỠNG LÃO (1953)",
@@ -46,7 +46,7 @@
         "imageUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-phong-truyen-thua/chua-hoang-phap-su-to-cung-cac-cao-tang-1787649423737.webp",
         "khuVuc": "Hóc Môn - TP.HCM",
         "noiDung": "Chốn Tổ Hoằng Pháp tại miền Nam, nơi đón 60 hộ gia đình tị nạn chiến tranh và 355 cô nhi.",
-        "imagePosition": "center 77%"
+        "imagePosition": "https://admin.tunglamhoaphuc.com/center 77%"
       },
       {
         "title": "TÙNG LÂM HÒA PHÚC NGÀY NAY",
@@ -72,7 +72,7 @@
         "description": "Chùa Hoằng Pháp do Đại lão Hòa thượng Ngộ Chân Tử khai sơn năm 1957 tại huyện Hóc Môn, TP. Hồ Chí Minh. Đây là trung tâm tu học Tịnh Độ và hoằng dương chánh pháp quy mô lớn hàng đầu cả nước.",
         "imageUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-phong-truyen-thua/tong-chi-tu-hoc-tong-phong-truyen-thua-tiep-buoc-thay-toi-hoang-phap-chu-thich-popup.webp",
         "linkUrl": "https://chuahoangphap.com.vn",
-        "imagePosition": "center 52%"
+        "imagePosition": "https://admin.tunglamhoaphuc.com/center 52%"
       },
       {
         "keyword": "Kiến An",
@@ -123,20 +123,20 @@
         "linkUrl": "https://chuahoangphap.com.vn"
       }
     ],
-    "updatedAt": "2026-09-09T05:34:30.459Z",
-    "bannerPosition": "center 15%",
+    "updatedAt": "2026-09-13T02:28:33.959Z",
+    "bannerPosition": "https://admin.tunglamhoaphuc.com/center 15%",
     "wpPostId": "385"
   },
   {
     "id": 2,
     "slug": "tong-phong-truyen-thua-doi-thay",
     "title": "ĐỜI THẦY",
-    "subtitle": "Nghĩa nặng Ân Sư ",
+    "subtitle": "Thầy tôi vẫn nụ cười hiền",
     "category": "tong-phong-truyen-thua",
     "categoryName": "TÔNG PHONG TRUYỀN THỪA",
     "bannerImage": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/uploads/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-doi-thay-_thumbnail_herobanner-1787472582554.jpg",
     "excerpt": "Bài thơ về Thầy Nghiệp Sư của Sư Phụ.",
-    "content": "**Thầy tôi** vẫn nụ cười hiền\n\nNét từ dịu mát như tiên xuống trần\n\nLời chân thật, nghĩa ân cần\n\nKhuyên người buông bớt tham sân khổ sầu.\n\nĐời thầy nào có gì đâu\n\nBàn đơn, ghế chiếc nhuộm màu thời gian\n\nSong thưa đọc sách an nhàn\n\nTỏ tường chân lý chẳng màng lợi danh.\n\nMặc cho thế sự tranh giành\n\nNgửa nghiêng cuộc thế, đường lành thầy đi\n\nTrải qua bao cuộc thị phi\n\nMột lòng vững chí khắc ghi đạo mầu.\n\nHoa giáp lục thập thêm sâu\n\nVẫn chưa thỏa nguyện tìm cầu lý chân\n\nHoằng truyền giáo pháp xa gần\n\nTrẻ già, nam nữ thọ ân đức lành.\n\nCông phu tinh tiến tu hành\n\nBiết thân giả tạm chí thành ngày đêm\n\nNội tâm phúc đức bồi thêm\n\nNgoại duyên tùy thuận ấm êm trong ngoài.\n\nDù mang bệnh vẫn miệt mài\n\nCố thân chống chịu đâu ai biết tường\n\nSống thanh thản, hạnh khiêm nhường\n\nNhìn thầy chẳng chút buồn thương lụy phiền.\n\nĐêm qua trong giấc mơ thiền\n\nHóa thành cánh bướm bên hiên nhìn thầy\n\nAn nhiên vững chãi đẹp thay\n\nCúi đầu kính lạy chắp tay nguyện cầu.\n\nKính thầy đạo lực thâm sâu\n\nDong thuyền Chính pháp, dựng cầu Thanh lương\n\nNụ cười tỏa rạng tình thương\n\nChúng con nguyện mãi theo đường thầy đi.\n\nBài thơ được trích trong tác phẩm: **Đi Qua Khổ Vui Cuộc Đời – Sa Môn Vô Trí hiệu Tâm Hòa **",
+    "content": "Nét từ dịu mát như tiên xuống trần\n\nLời chân thật, nghĩa ân cần\n\nKhuyên người buông bớt tham sân khổ sầu.\n\nĐời thầy nào có gì đâu\n\nBàn đơn, ghế chiếc nhuộm màu thời gian\n\nSong thưa đọc sách an nhàn\n\nTỏ tường chân lý chẳng màng lợi danh.\n\nMặc cho thế sự tranh giành\n\nNgửa nghiêng cuộc thế, đường lành thầy đi\n\nTrải qua bao cuộc thị phi\n\nMột lòng vững chí khắc ghi đạo mầu.\n\nHoa giáp lục thập thêm sâu\n\nVẫn chưa thỏa nguyện tìm cầu lý chân\n\nHoằng truyền giáo pháp xa gần\n\nTrẻ già, nam nữ thọ ân đức lành.\n\nCông phu tinh tiến tu hành\n\nBiết thân giả tạm chí thành ngày đêm\n\nNội tâm phúc đức bồi thêm\n\nNgoại duyên tùy thuận ấm êm trong ngoài.\n\nDù mang bệnh vẫn miệt mài\n\nCố thân chống chịu đâu ai biết tường\n\nSống thanh thản, hạnh khiêm nhường\n\nNhìn thầy chẳng chút buồn thương lụy phiền.\n\nĐêm qua trong giấc mơ thiền\n\nHóa thành cánh bướm bên hiên nhìn thầy\n\nAn nhiên vững chãi đẹp thay\n\nCúi đầu kính lạy chắp tay nguyện cầu.\n\nKính thầy đạo lực thâm sâu\n\nDong thuyền Chính pháp, dựng cầu Thanh lương\n\nNụ cười tỏa rạng tình thương\n\nChúng con nguyện mãi theo đường thầy đi.\n\nBài thơ được trích trong tác phẩm: **Đi Qua Khổ Vui Cuộc Đời – Sa Môn Vô Trí hiệu Tâm Hòa**",
     "author": "Vô trí - Tâm Hòa",
     "authorLink": "/gioi-thieu/su-phu-tru-tri",
     "publishedAt": "2026-08-23T08:30:00.000Z",
@@ -161,7 +161,7 @@
         "imageUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/uploads/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-doi-thay-_thumbnail_herobanner-1787472582554.jpg",
         "khuVuc": "Tổ Đình Hoằng Pháp",
         "noiDung": "Hình ảnh thanh cao giản dị của Hòa thượng Thích Chân Tính bên hàng môn đồ pháp quyến.",
-        "imagePosition": "center 51%"
+        "imagePosition": "https://admin.tunglamhoaphuc.com/center 51%"
       },
       {
         "title": "KHÓA TU PHẬT THẤT TỔ ĐÌNH HOẰNG PHÁP",
@@ -197,8 +197,8 @@
         "linkUrl": ""
       }
     ],
-    "updatedAt": "2026-09-09T05:34:30.458Z",
-    "bannerPosition": "center 44%",
+    "updatedAt": "2026-09-13T02:28:33.934Z",
+    "bannerPosition": "https://admin.tunglamhoaphuc.com/center 44%",
     "wpPostId": "403"
   },
   {
@@ -210,7 +210,7 @@
     "categoryName": "TÔNG PHONG TRUYỀN THỪA",
     "bannerImage": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/uploads/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.jpg",
     "excerpt": "Bài thơ về hành trình tâm linh tại quê hương của Sư Phụ.",
-    "content": "Miền Nam đó, đất chín rồng xanh mát\n\nNắng Sài thành, vội đến cũng vội đi\n\nCơn mưa chiều bất chợt ướt hàng mi\n\nQuen mà lạ Sài Gòn là vậy đó.\n\nNghe Thầy kể **Chốn Tổ đình Hoằng Pháp**\n\nNơi ươm mầm, nuôi lớn hạnh vị tha\n\n**Tâm Sư Ông **như biển cả bao la\n\nĐường giải thoát mở ra từ nơi ấy.\n\nThầy kể rằng **Nhị Nghiêm uy linh tháp**\n\nNgôi mộ Tổ người khai sinh Hoằng Pháp\n\n**Ngộ Chân Tử** danh người còn sáng mãi\n\nChuyển pháp luân đạo Phật đẹp quê hương.\n\nQuê Thầy đó đất vườn trầu thắm đượm\n\nĐất nghĩa tình gốc rễ Gia Định xưa\n\nXe ngựa già lối cũ đã mòn chưa\n\nTrong ký ức mong một lần được thấy?\n\nGiọng vang xa Thầy nói về quê mẹ\n\nNhư tiếp thêm nguồn năng lượng yêu thương\n\nNghe đâu đây chút hương vị nồng nàn\n\nVòng tay mẹ ôm vào lòng muôn thuở.\n\nChân bước nhẹ giữa nắng trưa oi ả\n\nGậy đỡ chân Thầy đến chốn Định Thành\n\nNgôi Già lam lặng lẽ góc phố phường\n\nHương Giới Định mát lòng người “nạp tử”.\n\nThành kính lễ bậc Ân Sư cao cả\n\nDáng thong dong hiện Phạm tướng đoan nghiêm\n\nNụ cười hiền như hé vạn mùa xuân\n\nLời êm dịu dòng suối từ tuôn chảy.\n\nNgồi chốc lát nghe Người trao Phạm bối\n\nTích xưa nay khéo giảng giải tận tường\n\nNâng chén trà thơm mát đức từ bi\n\nUống vào miệng giọt đề hồ thanh dịu.\n\nTừ giã Người Thầy đi về Luật viện\n\nNơi dưỡng nuôi bao thế hệ Tăng tài\n\nChùa Huệ Nghiêm Phật học viện năm xưa\n\nThắp sáng mãi ngọn đuốc soi nhân thế.\n\nGiới đài viện nơi trùng tuyên Luật tạng\n\nBậc danh Sư hiệu thượng Minh hạ Thông\n\nBóng Lão tùng nay đã quá bảy mươi\n\nVẫn dõng dạc khuyên con gìn giới luật.\n\nĐứng bên Người con thấy mình nhỏ bé\n\nCần quay về nhìn gốc rễ tự thân\n\nĐể hiểu rằng Đạo pháp muốn trường tồn\n\nĐừng đánh mất Giới châu nơi tự tánh.\n\nĐi cùng Thầy dù chỉ trong giây lát\n\nCon nhận ra Phật chưa hẳn Niết bàn\n\nVì quanh con còn đó những Tổ đình\n\nNgôi đường chủ bậc Tông sư cao đức.\n\nCon hạnh phúc được làm con họ Thích\n\nĐược theo Thầy học hạnh đức khiêm từ\n\nGần gũi bậc đại từ bi trí tuệ.\n\nCon nguyện giữ tâm Bồ đề kiên cố\n\nCon nguyện hành hạnh tự lợi, lợi tha\n\nĐem an vui chan rải đến muôn nhà\n\nĐể tâm Phật chan hòa trong vũ trụ.\n\nVô Trí – Tâm Hòa",
+    "content": "Miền Nam đó, đất chín rồng xanh mát\n\nNắng Sài thành, vội đến cũng vội đi\n\nCơn mưa chiều bất chợt ướt hàng mi\n\nQuen mà lạ Sài Gòn là vậy đó.\n\nNghe Thầy kể **Chốn Tổ đình Hoằng Pháp**\n\nNơi ươm mầm, nuôi lớn hạnh vị tha\n\n**Tâm Sư Ông**như biển cả bao la\n\nĐường giải thoát mở ra từ nơi ấy.\n\nThầy kể rằng **Nhị Nghiêm uy linh tháp**\n\nNgôi mộ Tổ người khai sinh Hoằng Pháp\n\n**Ngộ Chân Tử** danh người còn sáng mãi\n\nChuyển pháp luân đạo Phật đẹp quê hương.\n\nQuê Thầy đó đất vườn trầu thắm đượm\n\nĐất nghĩa tình gốc rễ Gia Định xưa\n\nXe ngựa già lối cũ đã mòn chưa\n\nTrong ký ức mong một lần được thấy?\n\nGiọng vang xa Thầy nói về quê mẹ\n\nNhư tiếp thêm nguồn năng lượng yêu thương\n\nNghe đâu đây chút hương vị nồng nàn\n\nVòng tay mẹ ôm vào lòng muôn thuở.\n\nChân bước nhẹ giữa nắng trưa oi ả\n\nGậy đỡ chân Thầy đến chốn Định Thành\n\nNgôi Già lam lặng lẽ góc phố phường\n\nHương Giới Định mát lòng người “nạp tử”.\n\nThành kính lễ bậc Ân Sư cao cả\n\nDáng thong dong hiện Phạm tướng đoan nghiêm\n\nNụ cười hiền như hé vạn mùa xuân\n\nLời êm dịu dòng suối từ tuôn chảy.\n\nNgồi chốc lát nghe Người trao Phạm bối\n\nTích xưa nay khéo giảng giải tận tường\n\nNâng chén trà thơm mát đức từ bi\n\nUống vào miệng giọt đề hồ thanh dịu.\n\nTừ giã Người Thầy đi về Luật viện\n\nNơi dưỡng nuôi bao thế hệ Tăng tài\n\nChùa Huệ Nghiêm Phật học viện năm xưa\n\nThắp sáng mãi ngọn đuốc soi nhân thế.\n\nGiới đài viện nơi trùng tuyên Luật tạng\n\nBậc danh Sư hiệu thượng Minh hạ Thông\n\nBóng Lão tùng nay đã quá bảy mươi\n\nVẫn dõng dạc khuyên con gìn giới luật.\n\nĐứng bên Người con thấy mình nhỏ bé\n\nCần quay về nhìn gốc rễ tự thân\n\nĐể hiểu rằng Đạo pháp muốn trường tồn\n\nĐừng đánh mất Giới châu nơi tự tánh.\n\nĐi cùng Thầy dù chỉ trong giây lát\n\nCon nhận ra Phật chưa hẳn Niết bàn\n\nVì quanh con còn đó những Tổ đình\n\nNgôi đường chủ bậc Tông sư cao đức.\n\nCon hạnh phúc được làm con họ Thích\n\nĐược theo Thầy học hạnh đức khiêm từ\n\nGần gũi bậc đại từ bi trí tuệ.\n\nCon nguyện giữ tâm Bồ đề kiên cố\n\nCon nguyện hành hạnh tự lợi, lợi tha\n\nĐem an vui chan rải đến muôn nhà\n\nĐể tâm Phật chan hòa trong vũ trụ.\n\nVô Trí – Tâm Hòa",
     "author": "Vô Trí - Tâm Hòa",
     "authorLink": "/gioi-thieu/su-phu-tru-tri",
     "publishedAt": "2026-08-23T09:00:00.000Z",
@@ -225,19 +225,19 @@
       "label": "TÔNG PHONG TRUYỀN THỪA",
       "title": "LỊCH SỬ KHAI SƠN TỔ ĐÌNH HOẰNG PHÁP VÀ VIỆN DỤC ANH",
       "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-      "bgImage": "/images/tong-chi/tong-chi-tu-hoc-tong-phong-hoang-phap-mien-nam-chon-to-thap-to-nhi-nghiem-popup.jpg",
+      "bgImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/tong-chi-tu-hoc-tong-phong-hoang-phap-mien-nam-chon-to-thap-to-nhi-nghiem-popup.jpg",
       "linkUrl": "/gioi-thieu/tieu-su-su-to"
     },
     "photoGallery": [
       {
         "title": "THÁP TỔ NHỊ NGHIÊM",
-        "imageUrl": "/images/tong-chi/tong-chi-tu-hoc-tong-phong-hoang-phap-mien-nam-chon-to-thap-to-nhi-nghiem-popup.jpg",
+        "imageUrl": "https://admin.tunglamhoaphuc.com/wp-content/uploads/tong-chi-tu-hoc-tong-phong-hoang-phap-mien-nam-chon-to-thap-to-nhi-nghiem-popup.jpg",
         "khuVuc": "Tổ Đình Hoằng Pháp",
         "noiDung": "Bảo tháp nơi an nghỉ ngàn thu của Sư Tổ Ngộ Chân Tử tại Hóc Môn, TP.HCM."
       },
       {
         "title": "CHÙA HOẰNG PHÁP KIẾN AN HẢI PHÒNG (1935)",
-        "imageUrl": "/images/tong-chi/su-to-tham-gio-hoc-cac-em-vien-duc-anh.jpg",
+        "imageUrl": "https://admin.tunglamhoaphuc.com/wp-content/uploads/su-to-tham-gio-hoc-cac-em-vien-duc-anh.jpg",
         "khuVuc": "Đất Bắc",
         "noiDung": "Sư Tổ Ngộ Chân Tử chăm lo đời sống giáo dục cho các em cô nhi tại Viện Dục Anh."
       }
@@ -298,7 +298,7 @@
         "subtitle": "TỔ ĐÌNH ĐỊNH THÀNH — NƠI NƯƠNG TỰA GIỚI ĐỨC THIỀN GIA",
         "description": "Chùa Định Thành là ngôi già lam thanh tịnh tọa lạc tại Quận 10 (TP.HCM), do Cố HT. Thích Nhật Thiện (1920–2010) khai sơn, nay do Trưởng lão Hòa thượng Thích Lệ Trang (Trưởng BTS GHPGVN TP.HCM, bậc Tông sư tinh thông nghi lễ Phật giáo miền Nam) viện chủ. Ngôi chùa lặng lẽ giữa phố phường, là nơi nương tựa tu học và gìn giữ nếp sống giới luật thiền gia mẫu mực.",
         "imageUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-phong-truyen-thua/chua-dinh-thanh-1787712763195.webp",
-        "imagePosition": "center 9%",
+        "imagePosition": "https://admin.tunglamhoaphuc.com/center 9%",
         "linkUrl": "https://web.facebook.com/Dinhthanhdaotrang/?locale=vi_VN&_rdc=1&_rdr#"
       },
       {
@@ -307,7 +307,7 @@
         "subtitle": "TRUNG TÂM TRUYỀN DẠY GIỚI LUẬT UY NGHIÊM MIỀN NAM",
         "description": "Huệ Nghiêm Luật Viện (Bình Tân, TP.HCM) là chiếc nôi chuyên sâu nghiên cứu, hành trì và trùng tuyên Luật tạng Tỳ-kheo, nơi đào tạo bao thế hệ danh tăng thạc đức cho Phật giáo Việt Nam.",
         "imageUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-phong-truyen-thua/luat-vien-chua-hue-nghiem-1787713030261.webp",
-        "imagePosition": "center 28%",
+        "imagePosition": "https://admin.tunglamhoaphuc.com/center 28%",
         "linkUrl": "https://web.facebook.com/luatvienhuenghiem"
       },
       {
@@ -316,7 +316,7 @@
         "subtitle": "NƠI DƯỠNG NUÔI BAO THẾ HỆ TĂNG TÀI MIỀN NAM",
         "description": "Chùa Huệ Nghiêm do Cố Hòa thượng Thích Bửu Huệ (1914–1991) sáng lập, là một trong những trung tâm Phật học viện danh tiếng lâu đời nhất miền Nam, nơi thắp sáng ngọn đuốc Chánh pháp và tiếp độ Tăng chúng.",
         "imageUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-phong-truyen-thua/phat-hoc-vien-chua-hue-nghiem-xua-1787713252446.webp",
-        "imagePosition": "center 50%",
+        "imagePosition": "https://admin.tunglamhoaphuc.com/center 50%",
         "linkUrl": "https://giacngo.vn/truong-lao-hoa-thuong-thich-nhat-quang-nho-ve-mot-thuo-phat-hoc-vien-hue-nghiem-post74202.html"
       },
       {
@@ -325,7 +325,7 @@
         "subtitle": "BẬC CAO ĐỨC TUYÊN LUẬT SƯ — BÓNG LÃO TÙNG NƠI GIỚI ĐÀI VIỆN HUỆ NGHIÊM",
         "description": "Trưởng lão Hòa thượng Thích Minh Thông (Tuyên Luật Sư, Viện chủ Chùa Huệ Nghiêm) là bậc danh sư đức cao vọng trọng, cả cuộc đời cống hiến cho sự nghiệp hoằng dương Giới luật Phật giáo. Dù tuổi đã ngoài bảy mươi, Hòa Thượng vẫn dõng dạc khuyên nhắc hậu học gìn giữ giới luật: \"Đạo pháp muốn trường tồn, đừng đánh mất Giới châu nơi tự tánh\".",
         "imageUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-phong-truyen-thua/hoa-thuong-thich-minh-thong-1787713435606.webp",
-        "imagePosition": "center 2%",
+        "imagePosition": "https://admin.tunglamhoaphuc.com/center 2%",
         "linkUrl": "/admin/danh-tang"
       },
       {
@@ -334,7 +334,7 @@
         "subtitle": "",
         "description": "Giới luật là nền tảng của sự tu hành.",
         "imageUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/nen-tang-tu-hoc/tong-chi-tu-hoc-nen-tang-tu-hoc-tam-quy-ngu-gioi-banner-sach-3-nt-5-th-jpg.webp",
-        "imagePosition": "center 0%",
+        "imagePosition": "https://admin.tunglamhoaphuc.com/center 0%",
         "linkUrl": "http://localhost:3000/tong-chi-tu-hoc/tam-quy-ngu-gioi-nen-tang-nguoi-phat-tu"
       },
       {
@@ -343,7 +343,7 @@
         "subtitle": "",
         "description": "Cội nguồn của mọi thiện pháp ",
         "imageUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/nen-tang-tu-hoc/tong-chi-tu-hoc-nen-tang-tu-hoc-bo-de-tam-herobanner-thumbnail.webp",
-        "imagePosition": "center 46%",
+        "imagePosition": "https://admin.tunglamhoaphuc.com/center 46%",
         "linkUrl": "http://localhost:3000/tong-chi-tu-hoc/bo-de-tam-coi-nguon-thien-phap"
       },
       {
@@ -352,12 +352,12 @@
         "subtitle": "",
         "description": "Bồ Tát hạnh.",
         "imageUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/nen-tang-tu-hoc/tong-chi-tu-hoc-nen-tang-tu-hoc-bo-de-tam-herobanner-thumbnail.webp",
-        "imagePosition": "center 39%",
+        "imagePosition": "https://admin.tunglamhoaphuc.com/center 39%",
         "linkUrl": "/tong-chi-tu-hoc/bo-tat-hanh-luc-do-ba-la-mat"
       }
     ],
-    "updatedAt": "2026-09-09T05:34:30.459Z",
-    "bannerPosition": "center 17%",
+    "updatedAt": "2026-09-13T02:28:33.951Z",
+    "bannerPosition": "https://admin.tunglamhoaphuc.com/center 17%",
     "wpPostId": "401"
   },
   {
@@ -369,7 +369,7 @@
     "categoryName": "NỀN TẢNG TU HỌC",
     "bannerImage": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-nen-tang-tu-hoc-bo-de-tam-herobanner-thumbnail.webp",
     "excerpt": "BỒ ĐỀ TÂM LÀ GÌ “Con nguyện giữ tâm Bồ đề kiên cốCon nguyện hành hạnh tự lợi, lợi thaĐem an vui chan rải đến muôn nhàĐể tâm Phật chan hòa trong vũ trụ.” Vô Trí &#8211; Tâm Hòa Bồ Đề tâm là tâm nguyện sống và tu tập không chỉ vì hạnh phúc của [&hellip;]",
-    "content": "### BỒ ĐỀ TÂM LÀ GÌ\n\n> Con nguyện giữ tâm Bồ đề kiên cố\n> Con nguyện hành hạnh tự lợi, lợi tha\n> Đem an vui chan rải đến muôn nhà\n> Để tâm Phật chan hòa trong vũ trụ.\n\n*Vô Trí – Tâm Hòa*\n\nBồ Đề tâm là tâm nguyện sống và tu tập không chỉ vì hạnh phúc của riêng mình, mà còn vì lợi ích của mọi người. Từ tâm nguyện ấy, người học Phật từng bước chuyển hóa bản thân, nuôi lớn lòng từ bi và trí tuệ để cùng góp phần làm cho cuộc đời thêm an vui.\n\n![Chú thích:](https://admin.tunglamhoaphuc.com/wp-content/uploads/2026/08/Noi-de-tro-ve.png)\n\nMột tâm nguyện đúng sẽ trở thành nền tảng, tạo nên động lực và nuôi lớn sức mạnh nội tâm.\n\n### BỒ ĐỀ TÂM LÀ NỀN TẢNG\n\n> Bồ đề tâm là nền tảng của tất cả mọi thiện pháp, vì bồ đề tâm là tâm hy sinh, là tâm phụng sự, dấn thân, tu tập vì lợi ích cho số đông, cho tất cả mọi người...\n\n*Vô Trí – Tâm Hòa*\n\nBồ Đề tâm khởi lên khi người học biết mở rộng trái tim, vượt lên lợi ích của riêng mình để hướng đến lợi ích của nhiều người. Mọi sự tu học và phụng sự đều phát khởi từ nơi tâm Bồ Đề.\n\n### BỒ ĐỀ TÂM LÀ ĐỘNG LỰC\n\n> Sống Là Cống Hiến\n> Cống Hiến Là Sống Mãi.\n\n*Vô Trí – Tâm Hòa*\n\nKhi sống với Bồ Đề tâm, mỗi việc học, mỗi thời khóa và mỗi việc thiện đều không còn là bổn phận phải làm, mà trở thành niềm vui được cống hiến và trưởng thành.\n\n### BỒ ĐỀ TÂM LÀ SỨC MẠNH\n\n> Núi cao gió càng mạnh\n> Người chí lớn độc hành\n> Bồ đề tâm vững chãi\n> Đâu sợ những gian nguy.\n\n*Vô Trí – Tâm Hòa*\n\nNgười mang trong mình tâm Bồ Đề không cần cố gắng trở nên mạnh mẽ, bởi chính tâm nguyện rộng lớn đã trở thành sức mạnh nội tại trên con đường tu học và phụng sự.\n\n### SỐNG VỚI BỒ ĐỀ TÂM\n\n> Ngôi nhà đẹp, vườn cảnh đẹp phải được biểu hiện từ tâm hồn và cách sống đẹp.\n\nVô Trí – Tâm Hòa\n\nCũng vậy, Bồ đề tâm chính là nét đẹp bạn mang vào cuộc sống…\n\n**🌱** **Ham học hỏi giáo pháp**\n\n**↓**\n\nKhông ngừng mở rộng hiểu biết để đi đúng con đường tu học.\n\n**🙏** **Siêng năng hành trì**\n\n**↓**\n\nKiên trì chuyển hóa thân tâm trong từng thời khóa tu tập.\n\n**🛡** **Giữ gìn giới hạnh**\n\n**↓**\n\nTinh cần bảo hộ thân, khẩu, ý bằng đời sống chánh niệm và trách nhiệm.\n\n**❤️** **Sẵn lòng phụng sự**\n\n**↓**\n\nLan tỏa những điều tốt đẹp đã chuyển hóa đến với mọi người.\n\n### ĐỂ BỒ ĐỀ TÂM THÊM LỚN\n\n> Học nghe điều có ích\n> Chẳng ưa gần ác nhân\n> Thường quán chiếu như vậy\n> Bồ đề thêm lớn dần.\n\n*Vô Trí – Tâm Hòa*\n\nTại Tùng Lâm Hòa Phúc, mỗi thời khóa tu, mỗi giờ chấp tác, mỗi buổi học Phật pháp và từng sinh hoạt thường nhật đều là cơ hội để người học huân tập và nuôi lớn tâm Bồ Đề.\n\n**4 Ngăn kéo card**\n\n**🌿** **Nền tảng tu học**\n\nNhững nền tảng song hành cùng Bồ Đề tâm\n\nKhám phá →\n\nTam Quy – Ngũ Giới\n\nThập Thiện\n\nBồ Tát Hạnh\n\n**🙏** **Phương pháp hành trì**\n\nThực tập mỗi ngày với những cách thức tu tập.\n\nKhám phá →\n\nNiệm Phật\n\nThiền tập\n\nNghe pháp...\n\n🌱 **Lộ trình tu học**\n\nLựa chọn lộ trình phù hợp với hoàn cảnh và nhân duyên tu học của bạn.\n\nKhám phá→\n\nLộ trình tu học dành cho người mới\n\nLộ trình tu học dành cho người trẻ\n\nLộ trình tu học dành cho người bận rộn\n\n🌸 **Nếp sống Thiền gia**\n\nĐưa những điều đã học vào từng cách sống, lời nói và việc làm.\n\nKhám phá→\n\nVăn hóa ứng xử & Giao tiếp tại chùa\n\nOai nghi người con Phật\n\nBổn phận của người phật tử tại gia…\n\n> Bạn nên hiểu “hạnh phúc, bình an là sự thực tập, là cái nhìn thực tế, là con đường mà chính bạn phải bước đi”.\n\n*Vô Trí – Tâm Hòa*",
+    "content": "### BỒ ĐỀ TÂM LÀ GÌ\n\n> Con nguyện giữ tâm Bồ đề kiên cốCon nguyện hành hạnh tự lợi, lợi thaĐem an vui chan rải đến muôn nhàĐể tâm Phật chan hòa trong vũ trụ.\n\n*Vô Trí – Tâm Hòa*\n\nBồ Đề tâm là tâm nguyện sống và tu tập không chỉ vì hạnh phúc của riêng mình, mà còn vì lợi ích của mọi người. Từ tâm nguyện ấy, người học Phật từng bước chuyển hóa bản thân, nuôi lớn lòng từ bi và trí tuệ để cùng góp phần làm cho cuộc đời thêm an vui.\n\n![Một tâm nguyện đúng sẽ trở thành nền tảng, tạo nên động lực và nuôi lớn sức mạnh nội tâm.](https://admin.tunglamhoaphuc.com/wp-content/uploads/2026/08/Noi-de-tro-ve.png)\n\n### BỒ ĐỀ TÂM LÀ NỀN TẢNG\n\n> Bồ đề tâm là nền tảng của tất cả mọi thiện pháp, vì bồ đề tâm là tâm hy sinh, là tâm phụng sự, dấn thân, tu tập vì lợi ích cho số đông, cho tất cả mọi người...\n\n*Vô Trí – Tâm Hòa*\n\nBồ Đề tâm khởi lên khi người học biết mở rộng trái tim, vượt lên lợi ích của riêng mình để hướng đến lợi ích của nhiều người. Mọi sự tu học và phụng sự đều phát khởi từ nơi tâm Bồ Đề.\n\n### BỒ ĐỀ TÂM LÀ ĐỘNG LỰC\n\n> Sống là cống hiếnCống hiến là sống mãi.\n\n*Vô Trí – Tâm Hòa*\n\nKhi sống với Bồ Đề tâm, mỗi việc học, mỗi thời khóa và mỗi việc thiện đều không còn là bổn phận phải làm, mà trở thành niềm vui được cống hiến và trưởng thành.\n\n### BỒ ĐỀ TÂM LÀ SỨC MẠNH\n\n> Núi cao gió càng mạnhNgười chí lớn độc hànhBồ đề tâm vững chãiĐâu sợ những gian nguy.\n\n*Vô Trí – Tâm Hòa*\n\nNgười mang trong mình tâm Bồ Đề không cần cố gắng trở nên mạnh mẽ, bởi chính tâm nguyện rộng lớn đã trở thành sức mạnh nội tại trên con đường tu học và phụng sự.\n\n### SỐNG VỚI BỒ ĐỀ TÂM\n\n> Ngôi nhà đẹp, vườn cảnh đẹp phải được biểu hiện từ tâm hồn và cách sống đẹp.\n\nVô Trí – Tâm Hòa\n\nCũng vậy, Bồ đề tâm chính là nét đẹp bạn mang vào cuộc sống…\n\n**🌱** **Ham học hỏi giáo pháp**\n\n**↓**\n\nKhông ngừng mở rộng hiểu biết để đi đúng con đường tu học.\n\n**🙏** **Siêng năng hành trì**\n\n**↓**\n\nKiên trì chuyển hóa thân tâm trong từng thời khóa tu tập.\n\n**🛡** **Giữ gìn giới hạnh**\n\n**↓**\n\nTinh cần bảo hộ thân, khẩu, ý bằng đời sống chánh niệm và trách nhiệm.\n\n**❤️** **Sẵn lòng phụng sự**\n\n**↓**\n\nLan tỏa những điều tốt đẹp đã chuyển hóa đến với mọi người.\n\n### ĐỂ BỒ ĐỀ TÂM THÊM LỚN\n\n> Học nghe điều có íchChẳng ưa gần ác nhânThường quán chiếu như vậyBồ Đề thêm lớn dần.\n\n*Vô Trí – Tâm Hòa*\n\nTại Tùng Lâm Hòa Phúc, mỗi thời khóa tu, mỗi giờ chấp tác, mỗi buổi học Phật pháp và từng sinh hoạt thường nhật đều là cơ hội để người học huân tập và nuôi lớn tâm Bồ Đề.\n\n**4 Ngăn kéo card**\n\n**🌿** **Nền tảng tu học**\n\nNhững nền tảng song hành cùng Bồ Đề tâm\n\nKhám phá →\n\nTam Quy – Ngũ Giới\n\nThập Thiện\n\nBồ Tát Hạnh\n\n**🙏** **Phương pháp hành trì**\n\nThực tập mỗi ngày với những cách thức tu tập.\n\nKhám phá →\n\nNiệm Phật\n\nThiền tập\n\nNghe pháp...\n\n🌱 **Lộ trình tu học**\n\nLựa chọn lộ trình phù hợp với hoàn cảnh và nhân duyên tu học của bạn.\n\nKhám phá→\n\nLộ trình tu học dành cho người mới\n\nLộ trình tu học dành cho người trẻ\n\nLộ trình tu học dành cho người bận rộn\n\n🌸 **Nếp sống Thiền gia**\n\nĐưa những điều đã học vào từng cách sống, lời nói và việc làm.\n\nKhám phá→\n\nVăn hóa ứng xử & Giao tiếp tại chùa\n\nOai nghi người con Phật\n\nBổn phận của người phật tử tại gia…\n\n> Bạn nên hiểu “hạnh phúc, bình an là sự thực tập, là cái nhìn thực tế, là con đường mà chính bạn phải bước đi”.\n\n*Vô Trí – Tâm Hòa*",
     "publishedAt": "2026-08-23T09:10:00.000Z",
     "status": "published",
     "videoBlock": {
@@ -382,27 +382,27 @@
       "label": "NỀN TẢNG TU HỌC",
       "title": "BỒ ĐỀ TÂM LUẬN - TINH HOA GIÁO NGHĨA PHẬT GIÁO ĐẠI THỪA",
       "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-      "bgImage": "/images/tong-chi/tong-chi-tu-hoc-nen-tang-tu-hoc-bo-de-tam-banner-sach.jpg",
+      "bgImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/tong-chi-tu-hoc-nen-tang-tu-hoc-bo-de-tam-banner-sach.jpg",
       "linkUrl": "/tri-tue-phat-phap"
     },
     "photoGallery": [
       {
         "title": "BỒ ĐỀ TÂM BIỂU TƯỢNG",
-        "imageUrl": "/images/tong-chi/tong-chi-tu-hoc-nen-tang-tu-hoc-bo-de-tam-herobanner-thumbnail.jpg",
+        "imageUrl": "https://admin.tunglamhoaphuc.com/wp-content/uploads/tong-chi-tu-hoc-nen-tang-tu-hoc-bo-de-tam-herobanner-thumbnail.jpg",
         "khuVuc": "Chánh Điện",
         "noiDung": "Ánh sáng Bồ Đề soi rọi muôn phương, dẫn dắt chúng sinh quay về bến giác.",
-        "imagePosition": "center 52%"
+        "imagePosition": "https://admin.tunglamhoaphuc.com/center 52%"
       },
       {
         "title": "TẬP SÁCH BỒ ĐỀ TÂM",
-        "imageUrl": "/images/tong-chi/tong-chi-tu-hoc-nen-tang-tu-hoc-bo-de-tam-banner-sach.jpg",
+        "imageUrl": "https://admin.tunglamhoaphuc.com/wp-content/uploads/tong-chi-tu-hoc-nen-tang-tu-hoc-bo-de-tam-banner-sach.jpg",
         "khuVuc": "Tàng Kinh Các",
         "noiDung": "Tài liệu hướng dẫn phát nguyện và nuôi dưỡng tâm Bồ Đề mỗi ngày."
       },
       {
         "title": "",
         "imageUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/nen-tang-tu-hoc/tong-chi-tu-hoc-nen-tang-tu-hoc-tam-quy-ngu-gioi-banner-sach-3-nt-5-th-jpg.webp",
-        "imagePosition": "center 43%",
+        "imagePosition": "https://admin.tunglamhoaphuc.com/center 43%",
         "khuVuc": "Tùng Lâm Hòa Phúc",
         "noiDung": "Mô tả hình ảnh..."
       }
@@ -431,8 +431,8 @@
       }
     ],
     "keywords": [],
-    "updatedAt": "2026-09-09T05:34:30.458Z",
-    "bannerPosition": "center 50%",
+    "updatedAt": "2026-09-13T02:28:33.921Z",
+    "bannerPosition": "https://admin.tunglamhoaphuc.com/center 50%",
     "author": "Vô Trí - Tâm Hòa",
     "authorLink": "/gioi-thieu/su-phu-tru-tri",
     "wpPostId": "470"
@@ -441,12 +441,12 @@
     "id": 5,
     "slug": "tam-quy-ngu-gioi-nen-tang-nguoi-phat-tu",
     "title": "TAM QUY",
-    "subtitle": "Nền tảng tu tập",
+    "subtitle": "Quay về nương tựa ân đức Phật – Pháp – Tăng, đánh thức năng lực giác ngộ nơi chính mình.",
     "category": "nen-tang-tu-hoc",
     "categoryName": "NỀN TẢNG TU HỌC",
     "bannerImage": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-nen-tang-tu-hoc-tam-quy-ngu-gioi-banner-sach-3-nt-5-th-jpg.webp",
     "excerpt": "Quay về nương tựa ân đức Phật – Pháp – Tăng, đánh thức năng lực giác ngộ nơi chính mình. TAM QUY &amp; Ý NGHĨA “Quy là quay về, y là nương tựa. Quy y Tam Bảo là quay về nương tựa ân đức của Phật, nương tựa ân đức của Pháp và nương tựa [&hellip;]",
-    "content": "***Quay về nương tựa ân đức Phật – Pháp – Tăng, đánh thức năng lực giác ngộ nơi chính mình.***\n\n### TAM QUY & Ý NGHĨA\n\n> Quy là quay về, y là nương tựa. Quy y Tam Bảo là quay về nương tựa ân đức của Phật, nương tựa ân đức của Pháp và nương tựa ân đức của Tăng...\n\n*Vô Trí – Tâm Hòa*\n\nQuy y là quay về với lòng biết ơn những ân đức đã nâng đỡ cho mình trên hành trình giác ngộ.\n\n![](https://admin.tunglamhoaphuc.com/wp-content/uploads/2026/09/image.png)\n\n**QUY Y**\n\n**Chỉ đường** **** ******Con đường chuyển hóa** **** **Đồng hành**\n\n***“Ân đức của Phật, ân đức của Pháp, ân đức của Tăng là ba viên ngọc quý ở thế gian. Đức Phật là người chỉ đường, giáo pháp là con đường và Tăng đoàn là người đồng hành cùng chúng ta trên hành trình đó.”***\n\nVô Trí – Tâm Hòa\n\n### QUY Y – ĐƯỢC SINH RA TRONG NGÔI NHÀ PHẬT PHÁP\n\n***&#8220;Quy y Tam Bảo là một cam kết thiêng liêng, chỉ diễn ra một lần trong đời, cũng như đứa con được sinh ra bởi người mẹ duy nhất một lần.&#8221;***\n\nVô Trí – Tâm Hòa\n\nQuy y Tam Bảo là mốc ghi dấu sự trở về với ngôi nhà tâm linh, nơi ta được sinh ra trong vòng tay che chở của Ba Ngôi Báu. Được làm con của Phật là một niềm phúc lạc, là cơ hội quý báu mà trong một đời người, chúng ta đừng nên bỏ lỡ.\n\n### TAM BẢO NƠI TỰ THÂN\n\n***“ Quy y Tam Bảo chính là quá trình đánh thức năng lực giác ngộ bên trong bản thân.”***\n\nVô Trí – Tâm Hòa\n\nInfographic\n\n![](https://admin.tunglamhoaphuc.com/wp-content/uploads/2026/09/image-1.png)\n\n**TAM QUY **\n\n**            ** **** **          │**\n\n**          ┌────────────┴────────────┐**\n\n**          │           ** **** **** ******         ** **** **  │**\n\n**    TAM BẢO BÊN NGOÀI** **        TAM BẢO NƠI TỰ THÂN**\n\n**          │                   ** **** **** **** **** **    │**\n\n**        PHẬT               ** **** **** ******✨** **GIÁC NGỘ**\n\n**    ****📖** **PHÁP             ** **** **** ******🌱** **KHỞI NGUYỆN TU HỌC**\n\n**     ****👥****TĂNG              ** **** **** ******🪷****  TÂM THANH TỊNH**\n\nTam Bảo nơi tự thân là lời nhắc để mỗi người nhận ra: ánh sáng giác ngộ không ở đâu xa, mà đang được nuôi dưỡng trong chính tâm mình qua từng ước nguyện tu học và từng phút giây trở về thanh tịnh.\n\n### TAM BẢO HIỆN DIỆN NGAY TRONG ĐỜI SỐNG\n\n***“Chúng ta cần quán chiếu sâu sắc để thấy “Đức Phật” không chỉ có mặt ở chùa, mà người chồng cũng là Phật, người con cũng là Phật… Mâm cơm và sự chia sẻ hằng ngày là “giáo pháp” nuôi dưỡng hạnh phúc gia đình, còn sự hòa hợp cùng chung sống trong gia đình chính là hình ảnh của “Tăng đoàn”.”***\n\nVô Trí – Tâm Hòa\n\n**Có thể làm 3 hình ảnh theo khối ngang:**\n\n**PHẬT**\nNhững vị Bồ Tát dễ thương, gần gũi cùng chung sống mỗi ngày.\n\n**PHÁP**\nKhoảnh khắc có mặt, lời nói sẻ chia dưỡng nuôi hạnh phúc.\n\n**TĂNG**\nSự hòa hợp, lắng nghe và nâng đỡ để bình an được thiết lập và lan tỏa.\n\n![](https://admin.tunglamhoaphuc.com/wp-content/uploads/2026/09/image-2.png)\n\nQuy y Tam Bảo không đưa chúng ta rời xa cuộc sống. Trái lại, nương tựa Tam Bảo giúp ta học cách nhìn lại chính mình, chuyển hóa các mối quan hệ và xây dựng Tịnh độ ngay trong đời sống gia đình.\n\n### THỰC TẬP TAM QUY MỖI NGÀY\n\n***“Chất liệu của sự thực tập chánh Pháp là cơ hội để nuôi dưỡng đức tin. Nương tựa vào mảnh đất của Tam bảo để hạt giống đức tin thêm vững chãi.”***\n\nVô Trí – Tâm Hòa\n\nHành trình trở về với Tam Bảo không chỉ bắt đầu từ một ngày quy y, mà được nuôi dưỡng qua từng ngày tu học và thực hành. Tùng Lâm Hòa Phúc đồng hành cùng bạn trên hành trình ấy.\n\n**🌱** **Phát nguyện và định hướng con đường tu học.** \n→ Khám phá trang chi tiết Bồ Đề Tâm\n\n**🪷** **Giữ gìn nền tảng đạo đức sau khi quy y.**\n\n→ Khám phá trang chi tiết Ngũ Giới\n\n**🙏** **Thực tập nuôi lớn lòng tri ân và trở về với Tam Bảo.**\n\n→ Khám phá trang chi tiết Lạy Phật\n\n**📖** **Tiếp xúc với lời Phật dạy.**\n→ Khám phá trang chi tiết Tụng Kinh\n\n**🎧** **Nuôi dưỡng chánh kiến.** \n→ Khám phá trang chi tiết Nghe Pháp\n\n**🤲** **Đưa lòng tri ân Tam Bảo vào hành động.**\n→ Khám phá trang chi tiết Phụng sự\n\n### KẾT\n\n***“Gắng con nhé, con là con của Phật***\n\n***Được sinh ra từ Pháp bảo nhiệm màu***\n\n***Được dưỡng nuôi bằng chất liệu Tăng thân***\n\n***Dù xa cách con vẫn là con Phật.”***\n\nVô Trí – Tâm Hòa\n\n### TÀI LIỆU THAM KHẢO\n\nNội dung được tổng hợp và biên soạn từ các bài giảng, tác phẩm và tư liệu của Sa môn Vô Trí – Tâm Hòa.\n\n📘 Ba Nương Tựa Và Năm Thực Hành\n\n📘Gieo Hạt Từ Bi\n\n📘 Đi Qua Khổ Vui Cuộc Đời – Quyển 01, 02, 03\n\n📘 Các bài giảng và chia sẻ trong các khóa tu tại Tùng Lâm Hòa Phúc.",
+    "content": "### TAM QUY & Ý NGHĨA\n\n> Quy là quay về, y là nương tựa. Quy y Tam Bảo là quay về nương tựa ân đức của Phật, nương tựa ân đức của Pháp và nương tựa ân đức của Tăng...\n\n*Vô Trí – Tâm Hòa*\n\nQuy y là quay về với lòng biết ơn những ân đức đã nâng đỡ cho mình trên hành trình giác ngộ.\n\n![](https://admin.tunglamhoaphuc.com/wp-content/uploads/2026/09/image.png)\n\n**QUY Y**\n\n**Chỉ đường** **** ******Con đường chuyển hóa** **** **Đồng hành**\n\n**“Ân đức của Phật, ân đức của Pháp, ân đức của Tăng là ba viên ngọc quý ở thế gian. Đức Phật là người chỉ đường, giáo pháp là con đường và Tăng đoàn là người đồng hành cùng chúng ta trên hành trình đó.”**\n\nVô Trí – Tâm Hòa\n\n### QUY Y – ĐƯỢC SINH RA TRONG NGÔI NHÀ PHẬT PHÁP\n\n**“Quy y Tam Bảo là một cam kết thiêng liêng, chỉ diễn ra một lần trong đời, cũng như đứa con được sinh ra bởi người mẹ duy nhất một lần.”**\n\nVô Trí – Tâm Hòa\n\nQuy y Tam Bảo là mốc ghi dấu sự trở về với ngôi nhà tâm linh, nơi ta được sinh ra trong vòng tay che chở của Ba Ngôi Báu. Được làm con của Phật là một niềm phúc lạc, là cơ hội quý báu mà trong một đời người, chúng ta đừng nên bỏ lỡ.\n\n### TAM BẢO NƠI TỰ THÂN\n\n**“ Quy y Tam Bảo chính là quá trình đánh thức năng lực giác ngộ bên trong bản thân.”**\n\nVô Trí – Tâm Hòa\n\nInfographic\n\n![](https://admin.tunglamhoaphuc.com/wp-content/uploads/2026/09/image-1.png)\n\n**TAM QUY**\n\n**** **** **│**\n\n**┌────────────┴────────────┐**\n\n**│** **** **** ******** **** **│**\n\n**TAM BẢO BÊN NGOÀI** **TAM BẢO NƠI TỰ THÂN**\n\n**│** **** **** **** **** **│**\n\n**PHẬT** **** **** ******✨** **GIÁC NGỘ**\n\n******📖** **PHÁP** **** **** ******🌱** **KHỞI NGUYỆN TU HỌC**\n\n******👥****TĂNG** **** **** ******🪷****TÂM THANH TỊNH**\n\nTam Bảo nơi tự thân là lời nhắc để mỗi người nhận ra: ánh sáng giác ngộ không ở đâu xa, mà đang được nuôi dưỡng trong chính tâm mình qua từng ước nguyện tu học và từng phút giây trở về thanh tịnh.\n\n### TAM BẢO HIỆN DIỆN NGAY TRONG ĐỜI SỐNG\n\n**“Chúng ta cần quán chiếu sâu sắc để thấy “Đức Phật” không chỉ có mặt ở chùa, mà người chồng cũng là Phật, người con cũng là Phật… Mâm cơm và sự chia sẻ hằng ngày là “giáo pháp” nuôi dưỡng hạnh phúc gia đình, còn sự hòa hợp cùng chung sống trong gia đình chính là hình ảnh của “Tăng đoàn”.”**\n\nVô Trí – Tâm Hòa\n\n**Có thể làm 3 hình ảnh theo khối ngang:**\n\n**PHẬT******Những vị Bồ Tát dễ thương, gần gũi cùng chung sống mỗi ngày.\n\n**PHÁP******Khoảnh khắc có mặt, lời nói sẻ chia dưỡng nuôi hạnh phúc.\n\n**TĂNG******Sự hòa hợp, lắng nghe và nâng đỡ để bình an được thiết lập và lan tỏa.\n\n![](https://admin.tunglamhoaphuc.com/wp-content/uploads/2026/09/image-2.png)\n\nQuy y Tam Bảo không đưa chúng ta rời xa cuộc sống. Trái lại, nương tựa Tam Bảo giúp ta học cách nhìn lại chính mình, chuyển hóa các mối quan hệ và xây dựng Tịnh độ ngay trong đời sống gia đình.\n\n### THỰC TẬP TAM QUY MỖI NGÀY\n\n**“Chất liệu của sự thực tập chánh Pháp là cơ hội để nuôi dưỡng đức tin. Nương tựa vào mảnh đất của Tam bảo để hạt giống đức tin thêm vững chãi.”**\n\nVô Trí – Tâm Hòa\n\nHành trình trở về với Tam Bảo không chỉ bắt đầu từ một ngày quy y, mà được nuôi dưỡng qua từng ngày tu học và thực hành. Tùng Lâm Hòa Phúc đồng hành cùng bạn trên hành trình ấy.\n\n**🌱** **Phát nguyện và định hướng con đường tu học.** ****→ Khám phá trang chi tiết Bồ Đề Tâm\n\n**🪷** **Giữ gìn nền tảng đạo đức sau khi quy y.**\n\n→ Khám phá trang chi tiết Ngũ Giới\n\n**🙏** **Thực tập nuôi lớn lòng tri ân và trở về với Tam Bảo.**\n\n→ Khám phá trang chi tiết Lạy Phật\n\n**📖** **Tiếp xúc với lời Phật dạy.**\n→ Khám phá trang chi tiết Tụng Kinh\n\n**🎧** **Nuôi dưỡng chánh kiến.** ****→ Khám phá trang chi tiết Nghe Pháp\n\n**🤲** **Đưa lòng tri ân Tam Bảo vào hành động.**\n→ Khám phá trang chi tiết Phụng sự\n\n### KẾT\n\n**“Gắng con nhé, con là con của Phật**\n\n**Được sinh ra từ Pháp bảo nhiệm màu**\n\n**Được dưỡng nuôi bằng chất liệu Tăng thân**\n\n**Dù xa cách con vẫn là con Phật.”**\n\nVô Trí – Tâm Hòa\n\n### TÀI LIỆU THAM KHẢO\n\nNội dung được tổng hợp và biên soạn từ các bài giảng, tác phẩm và tư liệu của Sa môn Vô Trí – Tâm Hòa.\n\n📘 Ba Nương Tựa Và Năm Thực Hành\n\n📘Gieo Hạt Từ Bi\n\n📘 Đi Qua Khổ Vui Cuộc Đời – Quyển 01, 02, 03\n\n📘 Các bài giảng và chia sẻ trong các khóa tu tại Tùng Lâm Hòa Phúc.",
     "publishedAt": "2026-08-23T09:20:00.000Z",
     "status": "published",
     "videoBlock": {
@@ -469,14 +469,14 @@
         "imageUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tung-kinh.webp",
         "khuVuc": "Chánh Điện Tùng Lâm Hòa Phúc",
         "noiDung": "Hàng ngàn thiện nam tín nữ trang nghiêm phát nguyện thọ trì Tam Quy Ngũ Giới.",
-        "imagePosition": "center 50%"
+        "imagePosition": "https://admin.tunglamhoaphuc.com/center 50%"
       }
     ],
     "sourceBook": [
       {
         "bookTitle": "Nền Tảng Tu Học — Tam Quy & Ngũ Giới",
         "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-        "coverImage": "/images/tong-chi/tong-chi-tu-hoc-nen-tang-tu-hoc-tam-quy-ngu-gioi-banner-sach-3-nt-5-th.jpg.jpg",
+        "coverImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/tong-chi-tu-hoc-nen-tang-tu-hoc-tam-quy-ngu-gioi-banner-sach-3-nt-5-th.jpg.jpg",
         "description": "Sách chỉ dẫn tường tận cách giữ giới và chuyển hóa nghiệp chướng trong đời sống thường nhật.",
         "linkUrl": "/tri-tue-phat-phap"
       }
@@ -499,8 +499,8 @@
         "linkUrl": "/tong-chi-tu-hoc/tam-quy-ngu-gioi"
       }
     ],
-    "updatedAt": "2026-09-09T05:34:30.457Z",
-    "bannerPosition": "center 6%",
+    "updatedAt": "2026-09-13T02:28:33.900Z",
+    "bannerPosition": "https://admin.tunglamhoaphuc.com/center 6%",
     "wpPostId": "488",
     "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
     "authorLink": "/gioi-thieu/su-phu-tru-tri"
@@ -529,13 +529,13 @@
       "label": "NỀN TẢNG TU HỌC",
       "title": "THẬP THIỆN NGHIỆP — NỀN TẢNG CỦA CÕI TRỜI VÀ CÕI PHẬT",
       "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-      "bgImage": "/images/tong-chi/thap-thien-gioi.jpg",
+      "bgImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/thap-thien-gioi.jpg",
       "linkUrl": "/tri-tue-phat-phap"
     },
     "photoGallery": [
       {
         "title": "THẬP THIỆN NGHIỆP GIẢNG GIẢI",
-        "imageUrl": "/images/tong-chi/thap-thien-gioi.jpg",
+        "imageUrl": "https://admin.tunglamhoaphuc.com/wp-content/uploads/thap-thien-gioi.jpg",
         "khuVuc": "Giảng Đường Tùng Lâm Hòa Phúc",
         "noiDung": "Đại chúng lắng nghe khai thị về mười điều thiện chuyển hóa ba nghiệp."
       }
@@ -543,7 +543,7 @@
     "sourceBook": {
       "bookTitle": "Nền Tảng Tu Học — Thập Thiện Nghiệp",
       "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-      "coverImage": "/images/tong-chi/tong-chi-tu-hoc-nen-tang-tu-hoc-thap-thien-thumbnail-herobanner.jpg",
+      "coverImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/tong-chi-tu-hoc-nen-tang-tu-hoc-thap-thien-thumbnail-herobanner.jpg",
       "description": "Tài liệu hướng dẫn tu sửa thân khẩu ý hằng ngày.",
       "linkUrl": "/tri-tue-phat-phap"
     },
@@ -566,7 +566,7 @@
       }
     ],
     "updatedAt": "2026-08-25T09:23:20.295Z",
-    "bannerPosition": "center 31%"
+    "bannerPosition": "https://admin.tunglamhoaphuc.com/center 31%"
   },
   {
     "id": 7,
@@ -575,7 +575,7 @@
     "subtitle": "Thập hạnh sâu dày",
     "category": "nen-tang-tu-hoc",
     "categoryName": "NỀN TẢNG TU HỌC",
-    "bannerImage": "/images/tong-chi/tong-chi-tu-hoc-nen-tang-tu-hoc-bo-tat-hanh-luc-do-van-hanh-banner-thumbnail.jpg",
+    "bannerImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/tong-chi-tu-hoc-nen-tang-tu-hoc-bo-tat-hanh-luc-do-van-hanh-banner-thumbnail.jpg",
     "excerpt": "Lục Độ gồm: Bố Thí, Trì Giới, Nhẫn Nhục, Tinh Tấn, Thiền Định, Trí Tuệ — là hành trang cứu cánh viên thành Phật quả.",
     "content": "BANNER\nTông chỉ tu học_Nền tảng tu học_Bồ Tát Hạnh_Lục Độ Vạn Hạnh_banner_thumbnail.jpg\nBỒ TÁT HẠNH\nThực hành Lục độ Ba-la-mật để nuôi lớn lòng từ bi và tinh thần phụng sự.\nBỒ TÁT HẠNH LÀ GÌ\nẢNH MINH HỌA: Tông chỉ tu học_Nền tảng tu học_Bồ Tát Hạnh_Lục Độ Vạn Hạnh_Quote card_từ bi là động lực.jpg\n“Vai trò của vị Bồ tát giới tại gia… là người tiên phong tình nguyện dấn thân… mà không lùi bước nản lòng… thật xứng đáng là “người con trai, người con gái dễ thương của đức Phật.”\nVô Trí - Tâm Hòa\nBồ Tát Hạnh là con đường đưa lòng từ bi vào hành động bằng trí tuệ. Người thực hành Bồ Tát Hạnh không chỉ chuyển hóa chính mình mà còn sẵn sàng dấn thân, phụng sự và mang lợi ích đến cho mọi người.\nInfographic\nHình tam giác.\nPhụng sự \n    BỒ TÁT HẠNH\nTừ Bi   Trí Tuệ\nTỪ BI LÀ ĐỘNG LỰC\n“Đạo Phật lấy hơi thở cuộc đời làm sức sống. Lắng nghe tiếng nói nhân sinh để thấu hiểu. Đồng hành cùng nhân thế để thương yêu… Đạo Phật là lẽ sống của muôn loài.”\nVô Trí - Tâm Hòa\nTHÔNG ĐIỆP NGẮN: \nLòng từ bi trong đạo Phật không dừng lại ở sự cảm thông, mà được thể hiện bằng sự lắng nghe, thấu hiểu và đồng hành với cuộc đời. Mỗi sự lắng nghe, mỗi lời động viên và mỗi việc làm xuất phát từ tình thương đều là những bước chân đầu tiên trên con đường Bồ Tát hạnh. \nTRÍ TUỆ LÀ SỰ DẪN ĐƯỜNG\n“Người khôn ngoan biết mình muốn gì, làm gì, làm cho ai và làm như thế nào?\nNgười này không thích khoe khoang, sống khiêm hạ, tự tại và bình tĩnh trước chuyển biến của thân tâm và vũ trụ.”\nVô Trí - Tâm Hòa\nTrí tuệ không chỉ là hiểu biết, mà còn là khả năng biết mình đang đi đâu, vì điều gì và nên hành động như thế nào. Khi được dẫn dắt bởi trí tuệ, mỗi việc làm đều trở nên thiết thực, khiêm hạ và mang lại lợi ích cho mình cũng như mọi người.\nPHỤNG SỰ LÀ HOA TRÁI CỦA TU TẬP\n“Đạo là đi trong thầm lặng\nĐức là cách sống chẳng phô trương.\n…âm thầm cống hiến, lặng lẽ phụng sự, an nhiên giúp người thương vật bằng cái tâm trong sáng. Đó chính là mật hạnh của Bồ Tát.”\nVô Trí - Tâm Hòa\nPhụng sự chân thật không nằm ở sự ghi nhận của người khác, mà ở tâm nguyện âm thầm cống hiến và lặng lẽ làm điều thiện. Khi buông bớt mong cầu được biết đến, mỗi việc làm xuất phát từ tâm trong sáng đều trở thành sự thực hành hạnh nguyện Bồ Tát.\nLỤC ĐỘ BA-LA-MẬTXÂY DỰNG THÀNH TRÌ NỘI TÂM\n“Bố thí và Trì giới giống như đá xây móng thành, là nền tảng tu tập. Nhẫn nhục và Tinh tấn giống như bức tường thành, ngăn không cho kẻ thù bên ngoài vào. Thiền định và Trí tuệ chính là vũ khí bảo vệ thân thoát khỏi sinh tử, nó giống như áo giáp choàng lên thân khi tiếp cận quân địch.”\nVô Trí - Tâm Hòa\nInfographic \n🪨 NỀN MÓNG \nBUÔNG\nBố thí\nBuông tâm tiếc nuối.\n_____\nGIỮ\nTrì giới\nNuôi tâm an vui.\n_____\n🧱TƯỜNG THÀNH \nCHỊU\nNhẫn nhục\nChuyển tâm nóng giận.\n_____\nTIẾN\nTinh tấn\nVượt tâm biếng lười.\n_____\n🛡️ ÁO GIÁP \nĐỊNH\nThiền định\nGiữ tâm thanh tịnh.\n_____\nSÁNG\nTrí tuệ\nSoi sáng vô minh.\nLục độ Ba-la-mật không phải sáu pháp rời rạc, mà là sáu mặt của một quá trình trưởng thành nội tâm. Các pháp nâng đỡ nhau, cùng giúp người học Phật từng bước xây dựng một đời sống vững chãi, đủ sức chuyển hóa chính mình và phụng sự cuộc đời.   \nBỒ TÁT HẠNH ĐI VÀO CUỘC ĐỜI\n“Đức lớn thành công lớn\nĐức nhỏ thành công nhỏ\nKhông có đức thì đừng mong thành công.\nVậy đức là gì? Là kiên trì bền chí, biết nghĩ cho người trước khi nghĩ đến mình, làm lợi cho người và chịu thiệt về mình.”\nVô Trí - Tâm Hòa\n6 Card:\n🎁\nThực tập bố thí \n↓\nBiết sống vì người khác.\n[Khám phá]\n🛡️\nGiữ gìn giới pháp\n↓\nBiết sống có trách nhiệm.\n[Khám phá] \n🌱\nRèn luyện nhẫn nhục\n↓\nBiết bao dung và nhẫn nại.\n[Khám phá]\n🔥\nNuôi dưỡng tinh tấn\n↓\nBiết bền chí trước khó khăn.\n[Khám phá]\n🧘\nThực hành Thiền định\n↓\nBiết quay về làm chủ chính mình.\n[Khám phá]\n💡\nTrau dồi trí tuệ\n↓\nBiết soi sáng và dẫn đường.\n[Khám phá]\nBồ Tát Hạnh không phải là lý tưởng dành cho một số ít người, mà là con đường để mỗi người học Phật mang những điều tốt đẹp đã chuyển hóa nơi chính mình đi vào cuộc sống. Khi lòng từ bi được nuôi dưỡng cùng với trí tuệ và thể hiện qua hành động, mỗi việc làm thiện lành đều trở thành một hạt giống góp phần làm cho cuộc đời thêm an vui. \nKẾT\n“Người con Phật là bảo tồn chân lý\nDốc hết lòng phụng sự cứu tha nhân\nNguyện chí thành cầu Tam Bảo ân cần\nCon mãi mãi không bao giờ bỏ Đạo...”\nVô Trí - Tâm Hòa\nTIẾP TỤC THỰC TẬP\nBồ Tát hạnh là hành trình được nuôi dưỡng mỗi ngày bằng sự học hỏi, hành trì và đưa Phật pháp vào đời sống. Mỗi bước thực tập hôm nay đều là nền tảng để lòng từ bi và trí tuệ tiếp tục lớn lên trong ngày mai.\n3 Ngăn kéo card\n🌿 Phương pháp hành trì\nThực tập mỗi ngày với những cách thức tu tập.\nKhám phá → \nNiệm Phật\nThiền tập\nNghe pháp...\n🌱 Lộ trình tu học\nLựa chọn lộ trình phù hợp với hoàn cảnh và nhân duyên tu học của bạn.\nKhám phá→\nLộ trình tu học dành cho người mới\nLộ trình tu học dành cho người trẻ\nLộ trình tu học dành cho người bận rộn\n🌸 Nếp sống Thiền gia\nĐưa những điều đã học vào từng cách sống, lời nói và việc làm.\nKhám phá→\nBổn phận của người phật tử tại gia\nĂn chay\nPhóng sinh & Bảo vệ môi trường\nClick ra trang chi tiết\nTÀI LIỆU THAM KHẢO\nNội dung được tổng hợp và biên soạn từ các bài giảng, tác phẩm và tư liệu của Sa môn Vô Trí – Tâm Hòa.\n📘Lời Đức Phật Dạy\n📘 Đi Qua Khổ Vui Cuộc Đời – Quyển 01, 02, 03\n📘 Các bài giảng và chia sẻ trong các khóa tu tại Tùng Lâm Hòa Phúc.",
     "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
@@ -592,13 +592,13 @@
       "label": "NỀN TẢNG TU HỌC",
       "title": "BỒ TÁT HẠNH — LỤC ĐỘ VẠN HẠNH ĐỘ TẬN CHÚNG SINH",
       "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-      "bgImage": "/images/tong-chi/bo-tat-chuan-de-bieu-tuong-luc-do-van-hanh.jpg",
+      "bgImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/bo-tat-chuan-de-bieu-tuong-luc-do-van-hanh.jpg",
       "linkUrl": "/tri-tue-phat-phap"
     },
     "photoGallery": [
       {
         "title": "BỒ TÁT CHUẨN ĐỀ BIỂU TƯỢNG LỤC ĐỘ VẠN HẠNH",
-        "imageUrl": "/images/tong-chi/bo-tat-chuan-de-bieu-tuong-luc-do-van-hanh.jpg",
+        "imageUrl": "https://admin.tunglamhoaphuc.com/wp-content/uploads/bo-tat-chuan-de-bieu-tuong-luc-do-van-hanh.jpg",
         "khuVuc": "Chánh Điện Hòa Phúc",
         "noiDung": "Bức tôn tượng biểu trưng cho muôn vàn hạnh nguyện độ sinh nhiệm màu."
       }
@@ -607,7 +607,7 @@
       {
         "bookTitle": "Nền Tảng Tu Học — Sách Bồ Tát Hạnh Lục Độ Ba La Mật",
         "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-        "coverImage": "/images/tong-chi/tong-chi-tu-hoc-nen-tang-tu-hoc-bo-tat-hanh-luc-do-van-hanh-banner-thumbnail.jpg",
+        "coverImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/tong-chi-tu-hoc-nen-tang-tu-hoc-bo-tat-hanh-luc-do-van-hanh-banner-thumbnail.jpg",
         "description": "Luận giải chi tiết về sáu hạnh Ba La Mật cứu cánh.",
         "linkUrl": "/tri-tue-phat-phap"
       }
@@ -631,7 +631,7 @@
       }
     ],
     "updatedAt": "2026-09-07T06:32:53.770Z",
-    "bannerPosition": "50% 50%",
+    "bannerPosition": "https://admin.tunglamhoaphuc.com/50% 50%",
     "wpPostId": "470"
   },
   {
@@ -641,7 +641,7 @@
     "subtitle": "Lục tự cứu cánh",
     "category": "phuong-phap-hanh-tri",
     "categoryName": "PHƯƠNG PHÁP HÀNH TRÌ",
-    "bannerImage": "/images/tong-chi/niem-phat.jpg",
+    "bannerImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/niem-phat.jpg",
     "excerpt": "Niệm Phật là pháp môn thù thắng, dung dị mà sâu mầu, giúp hành giả an định tâm trí giữa muôn ngàn biến động trần lao.",
     "content": "BANNERNIỆM PHẬT\nTrở về với câu Phật hiệu để nuôi dưỡng chánh niệm và an định thân tâm.\nNIỆM PHẬT LÀ NHỚ PHẬT\n“Phật về cây Giác trổ hoa\nSuối Từ Bi thấm, chan hòa muôn nơi.\nPhật về từng bước thảnh thơi\nAn nhiên tự tại giữa trời Vô ưu.”\nVô Trí – Tâm Hòa\nNiệm Phật là thực tập nhớ Phật, học Phật và sống theo hạnh Phật. Khi có mặt với Đức Phật trong từng câu Phật hiệu, người hành trì trở về với sự tỉnh thức, nhận diện vọng niệm và nuôi dưỡng những giá trị của bình an, vững chãi nơi chính mình. \nAN TRÚ NƠI TAM BẢO\n“Niệm Phật là niệm Tuệ, niệm Pháp là niệm Định, niệm Tăng là niệm Giới... Đó là chất liệu, là cột trụ, là nền móng để đến được cảnh giới Tịnh độ.”\nVô Trí - Tâm Hòa\nInfographic:\nInfographic tam giác\nNIỆM PHẬT\n(TUỆ)\nQuả Bồ-đề: trái chín của sự giác ngộ\n___\nNIỆM PHÁP \n(ĐỊNH)\nDuyên Bồ-đề: giáo pháp thực hành\nNIỆM TĂNG \n(GIỚI)\n Nhân Bồ-đề: hạt giống giác ngộ\n___\n“Học theo hạnh nguyện của Đức Phật A Di Đà, niệm “Nam mô A Di Đà Phật” là niệm Vô Lượng Công Đức, niệm Vô Lượng Thọ, niệm Vô Lượng Quang; chính là niệm Giới - Định - Tuệ. Như vậy, niệm “Nam mô A Di Đà Phật” là trở về tu Giới, tu Định, tu Tuệ. Hằng ngày chấp trì danh hiệu để tâm duyên theo câu Phật hiệu, làm tăng thượng duyên cho Giới - Định - Tuệ thành tựu.”\nTìm hiểu thêm về Tam quy->\nCHẤT XÚC TÁC MẦU NHIỆM\n“Niệm Phật như một chất xúc tác để tạo ra phản ứng hóa học. Chất xúc tác nhiều chừng nào, phản ứng hóa học diễn ra nhanh chừng đó.”\nVô Trí - Tâm Hòa\nInfographic\n🌊 TÂM UẾ ĐỘ\n(Vọng niệm, phiền não, tham, sân, si)\n↓\n💧 NAM MÔ A DI ĐÀ PHẬT\n(Chất xúc tác)\n↓\n☀ TÂM THANH TỊNH\nTỊNH ĐỘ HIỆN TIỀN\n“Sự nhiệm mầu của Tịnh độ là có thể đi đến, cảm nhận và tiếp xúc; bằng sự tỉnh thức, ngay trong giây phút hiện tại… Chúng ta không cầu quả Tịnh độ mà bỏ qua nhân, phải gieo được hạt giống thì hoa trái mới có mặt.”\nVô Trí – Tâm Hòa\nĐÔI CÁNH HÀNH TRÌ\n“Niệm Phật và phát tâm Bồ-đề giống như đôi cánh thực hiện nguyện ước bay về cảnh giới Tịnh độ.” \nVô Trí – Tâm Hòa\nInfographic:\nPhát tâm bồ đề\nKhởi tâm rộng lớn, mong cầu giác ngộ vì lợi ích của tất cả chúng sinh.\n+\nNiệm phật\nChuyên tâm trì danh, giữ lòng thanh tịnh, hướng về ánh sáng từ bi.\n=\nTịnh độ\nCảnh giới an lạc, thanh tịnh, nơi tâm tĩnh lặng và trí tuệ bừng sáng.\n“Một ngôi chùa lập ra, không phải chỉ đặt lên đó bức tượng Phật cho mọi người lễ lạy, mà lập chùa là tạo ra một cõi Tịnh độ. Ở đó, tất cả người già, người trẻ, người thương, người chưa thương được mời về, cùng chung sống hòa hợp; ăn cơm trong chính niệm, tụng kinh niệm Phật trong tỉnh thức, chấp tác phụng sự trong hoan hỷ.” \nTìm hiểu thêm về Bồ Đề tâm ->\nCON ĐƯỜNG CHO TẤT CẢ\n“Thượng, trung, hạ cũng một thôi\nMiệng niệm, tâm nhớ, đứng ngồi trì danh\nBao đời nối tiếp tu hành\nGương xưa Phật, Tổ rành rành chẳng sai.”\n Vô Trí – Tâm Hòa\n3 card ngang.\nNgười mới\n↓\nNương hình tượng\nNương kinh sách\nNương đại chúng\nNgười đã có nền tảng\n↓\nSiêng năng niệm Phật\n↓\nChuyển hóa vọng tưởng\nNgười có căn cơ sâu\n↓\nNgay nơi tâm\n↓\nThấy Phật hiện tiền\nNgười thượng căn trực nhận tâm này là Phật; người trung căn bền bỉ gột rửa vọng niệm; người hạ căn nương nơi hình tượng, kinh điển và đại chúng để đối trị tâm mình. Căn cơ tuy có sai khác, nhưng tất cả đều có thể phát tâm Bồ-đề, trì danh niệm Phật và từng bước tiến về con đường giác ngộ.\nTìm hiểu thêm về Lộ trình tu học ->\nQUOTE KẾT\n“Mỗi giây mỗi phút không rời,\nNhất tâm niệm Phật, đời đời an vui.”\nKhi câu Phật hiệu trở nên thuần thục, ta biết nương nơi tha lực của chư Phật để chuyển hóa phiền não, nuôi lớn bình an và vun bồi những phẩm chất tốt đẹp. Tâm thanh tịnh có mặt, Tịnh độ cũng hiện tiền trong từng phút giây của đời sống. \nTHỰC TẬP HÔM NAY  (KNOWLEDGE HUG)\n🌿 Hôm nay, hãy dành vài phút niệm Phật thật chậm, lắng nghe từng câu, và cảm nhận tâm mình trở về an ổn. \n↓\nKhám phá thêm:\n• Audio niệm Phật\n• Video\n• Nghi thức\n• Sách\n• Ebook\nTÀI LIỆU THAM KHẢO\nNội dung được tổng hợp và biên soạn từ các bài giảng, tác phẩm và tư liệu của Sa môn Vô Trí – Tâm Hòa.\n📘 Khuyến Phát Bồ Đề Tâm Giảng Luận – Quyển 04\n📘 Đi Qua Khổ Vui Cuộc Đời – Quyển 02\n📘 Các bài giảng và chia sẻ trong các khóa tu tại Tùng Lâm Hòa Phúc.",
     "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
@@ -658,13 +658,13 @@
       "label": "PHƯƠNG PHÁP HÀNH TRÌ",
       "title": "PHÁP MÔN NIỆM PHẬT — CON ĐƯỜNG TẮT VƯỢT THOÁT LUÂN HỒI",
       "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-      "bgImage": "/images/tong-chi/niem-phat.jpg",
+      "bgImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/niem-phat.jpg",
       "linkUrl": "/tri-tue-phat-phap"
     },
     "photoGallery": [
       {
         "title": "HÀNH GIẢ TỊNH ĐỘ TRANG NGHIÊM",
-        "imageUrl": "/images/tong-chi/niem-phat.jpg",
+        "imageUrl": "https://admin.tunglamhoaphuc.com/wp-content/uploads/niem-phat.jpg",
         "khuVuc": "Chánh Điện Hòa Phúc",
         "noiDung": "Đại chúng chí thành trì niệm danh hiệu Phật A Di Đà."
       }
@@ -672,7 +672,7 @@
     "sourceBook": {
       "bookTitle": "Phương Pháp Hành Trì — Niệm Phật & Tịnh Độ",
       "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-      "coverImage": "/images/tong-chi/niem-phat.jpg",
+      "coverImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/niem-phat.jpg",
       "description": "Hướng dẫn pháp hành Niệm Phật thực tế cho người Phật tử.",
       "linkUrl": "/tri-tue-phat-phap"
     },
@@ -703,7 +703,7 @@
     "subtitle": "Trí tuệ phát sinh ",
     "category": "phuong-phap-hanh-tri",
     "categoryName": "PHƯƠNG PHÁP HÀNH TRÌ",
-    "bannerImage": "/images/tong-chi/tung-kinh.jpg",
+    "bannerImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/tung-kinh.jpg",
     "excerpt": "Tụng kinh không phải để cầu xin mà là cơ hội ôn lại lời Phật dạy, soi rọi lại tâm mình và nuôi dưỡng sự an lạc.",
     "content": "BANNER, TIÊU ĐỀ, GIỚI THIỆU\nTỤNG KINH\nTiếp xúc với lời Phật dạy để nuôi dưỡng đời sống.\nCĂN BẢN LỜI ĐỨC PHẬT DẠY\n“Đến chùa kinh sách cần xem\nHiểu thêm Nhân - Quả lòng tham vơi dần\nNói lời chân thật ân cần\nThiện lành công đức thêm phần đạo tâm.”\nVô Trí - Tâm Hòa\nKinh điển mở ra con đường để người hành trì học hiểu lời Phật và đem giáo pháp đi vào đời sống.\nTỤNG KINH ĐỂ TIẾP XÚC VỚI GIÁO PHÁP \nQUOTE:\n“Từng nhịp từng nhịp gõ\nLời kinh vang nguyện cầu\nThân tâm dịu lắng sâu\nNối bến bờ hạnh phúc.” \n– Vô Trí Tâm Hòa\nMột ảnh đẹp Sư phụ đánh mõ\nTụng kinh không chỉ là đọc lên những lời trong kinh điển, mà là thực tập lắng nghe giáo pháp bằng cả thân và tâm. Theo từng nhịp mõ, tiếng chuông, mỗi lời kinh đưa thân tâm lắng dịu, trở về an trú ngay trong giây phút hiện tại.\nLỜI KINH LÀM MỚI THÂN TÂM\nQUOTE:\n“… đọc bất kỳ quyển Kinh nào chúng ta cũng thấy Phật tháo gỡ những khổ đau, vướng mắc hướng đến sự an vui trọn vẹn. Muốn làm lợi ích an vui cho mọi người thì chính bản thân mình phải thực tập lời đức Phật dạy.”\nVô Trí - Tâm Hòa\nInfographic\n📖 ĐỌC LỜI PHẬT DẠY\n→ Tiếp xúc với giáo pháp bằng sự chú tâm.\n🔎 SOI LẠI CHÍNH MÌNH\n→ Nhận ra những tham, sân, si, khổ đau và vướng mắc đang có mặt.\n🌱 LÀM MỚI THÂN TÂM\n→ Thực tập lời Đức Phật dạy qua lời nói, hành động và cách sống mỗi ngày.\n \n“Quán chiếu, hòa nhập cảnh giới Cực lạc qua lời Phật dạy vào đời sống thường ngày thì tiếng chim hót, tiếng lá rừng rơi...chính là pháp âm vi diệu nơi Tây phương Tịnh thổ, tất cả đều hiện hữu ở cõi Ta-bà.”\nGỬI GẮM NGUYỆN CẦU\n“Người về với núi non cao\nKhai dòng suối pháp chảy vào nhân gian\nChuông khuya vang vọng đại ngàn\nLời kinh cầu nguyện bình an muôn nhà.”\nVô Trí - Tâm Hòa\nMỗi thời kinh không chỉ là sự trở về với chính mình, mà còn là nơi gửi gắm những tâm nguyện thiện lành. Qua từng nghi thức khóa lễ, người hành trì nuôi lớn tâm từ, hướng đến những giá trị bình an hạnh phúc cho gia đình, xã hội và khắp muôn loài chúng sinh.\nĐỒNG HÀNH CÙNG TÙNG LÂM HÒA PHÚC\nQUOTE: \n“Ai về Hòa Phúc chùa quê\nNghe kinh tỉnh mộng, bến mê xa lìa.”\nVô Trí - Tâm Hòa\nTại Tùng Lâm Hòa Phúc, các thời khóa và nghi thức được hành trì hằng ngày, xuyên suốt trong tháng và theo từng khóa lễ. Mỗi bản kinh đều mang ý nghĩa riêng, giúp người hành trì nuôi dưỡng đạo tâm và ứng dụng giáo pháp vào đời sống.\n📖 TÊN KINH\n🎯 Ý NGHĨA\n🕰 THỜI KHÓA\n📚 EBOOK\nNghi Quỹ Hành Trì Bồ Đề Tâm\nTăng trưởng công đức & Tịnh Hóa Nghiệp Chướng\nHàng ngày\nKinh Địa Tạng Bồ Tát Bổn Nguyện\nHạnh nguyện, báo ân, chuyển hóa nghiệp lực\nHàng ngày\nNghi Thức Niệm Thực\nQuán niệm và tri ân trước khi thọ trai\nHàng ngày trước khi thọ trai\nNghi Thức Thỉnh Chuông\nLắng lòng cầu nguyện muôn loài trở về tỉnh thức\nHàng ngày\nVăn Thí Thực\nBan bố thức ăn và pháp bảo để cứu độ các loài cô hồn, ngạ quỷ.\nHằng ngày\nSám Hối Sáu Căn & Tụng Giới\nSám hối, thanh tịnh ba nghiệp, gìn giữ giới pháp\nSám hối hàng tháng 14 & 30\nSám Nguyện \nSám hối & phát nguyện\nSám hối hàng tháng 08 & 23\nKinh Diệu Pháp Liên Hoa, phẩm Phổ Môn\nHạnh nguyện lắng nghe và vô úy thí của Bồ-tát Quán Thế Âm.\nCầu An Đầu Tháng\nKinh Châu Báu & Kinh Hạnh Phúc\nNgợi ca Tam Bảo trừ tai ương và chỉ dẫn lối sống để đạt hạnh phúc chân thật.\nLễ Cầu An Đầu Tháng\nKinh Di Đà\nNuôi dưỡng tín - nguyện - hạnh hướng về Tịnh độ\nKhóa chuyên tu hàng tháng\nKinh Vu Lan\nĐạo lý và phương pháp báo hiếu cha mẹ hiện tại cùng bảy đời.\nMùa Vu Lan Hiếu Hạnh\nKinh Mục Liên Sám Pháp\nNương gương hiếu hạnh Mục Kiền Liên để sám hối và cầu siêu cho tổ tiên.\nĐàn lễ Huyết Bồn Trai\nKinh Dược Sư\nCầu nguyện thân tâm an lạc, tăng trưởng thiện duyên\nĐàn lễ Dược Sư\nKinh Lương Hoàng Sám\nĐại vì Tứ Ân chí thành sám hối\nKhóa Chuyên Tu\nKinh Diệu Pháp Liên Hoa \nKhẳng định chân lý tối thượng: Mọi chúng sinh đều có Phật tính và sẽ thành Phật.\n…\n*** Các thời khóa và nội dung kinh tụng có thể được điều chỉnh linh hoạt theo từng khóa tu, đại lễ và nhu cầu tu học của đại chúng.\nKẾT\n“Mưa về cho nắng đi qua\nCho cây xanh lá, cho hoa tươi màu\nChuông ngân vọng tiếng kinh cầu\nNhắc người tỉnh mộng hồi đầu quy y.”\nVô Trí – Tâm Hòa\nTHỰC TẬP HÔM NAY  (KNOWLEDGE HUG)\n🌿 Hôm nay, bạn hãy cho bản thân một khoảng lắng, cùng trở về thực tập với lời kinh để giáo pháp chạm vào thân tâm mình.\n↓\nKhám phá thêm:\ngrid card playlist:\nCác video Sư phụ tụng đọc (Kinh Di Đà, Kinh Dược Sư, Nghi Quỹ Bồ Đề Tâm, Sám Hối Hồng Danh, Kinh Phố Môn….)\n□ Video bài giảng\n□ Bài viết\n□ Ấn phẩm\nTÀI LIỆU THAM KHẢO\nNội dung được tổng hợp và biên soạn từ các bài giảng, tác phẩm và tư liệu của Sa môn Vô Trí – Tâm Hòa.\n📘 Đi Qua Khổ Vui Cuộc Đời – Quyển 01\n📘 Đi Qua Khổ Vui Cuộc Đời – Quyển 02\n📘 Đi Qua Khổ Vui Cuộc Đời – Quyển 03\n📘 Các bài giảng và chia sẻ trong các khóa tu tại Tùng Lâm Hòa Phúc.",
     "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
@@ -720,13 +720,13 @@
       "label": "PHƯƠNG PHÁP HÀNH TRÌ",
       "title": "Ý NGHĨA CHÂN THẬT CỦA VIỆC TỤNG KINH BÁI SÁM",
       "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-      "bgImage": "/images/tong-chi/tung-kinh.jpg",
+      "bgImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/tung-kinh.jpg",
       "linkUrl": "/tri-tue-phat-phap"
     },
     "photoGallery": [
       {
         "title": "ĐẠI CHÚNG TRANG NGHIÊM TỤNG KINH",
-        "imageUrl": "/images/tong-chi/tung-kinh.jpg",
+        "imageUrl": "https://admin.tunglamhoaphuc.com/wp-content/uploads/tung-kinh.jpg",
         "khuVuc": "Chánh Điện Tam Bảo",
         "noiDung": "Tiếng chuông mõ hòa cùng lời kinh vang vọng khắp thiền môn."
       }
@@ -734,7 +734,7 @@
     "sourceBook": {
       "bookTitle": "Kinh Kệ Nhật Tụng Tùng Lâm Hòa Phúc",
       "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-      "coverImage": "/images/tong-chi/tung-kinh.jpg",
+      "coverImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/tung-kinh.jpg",
       "description": "Tuyển tập các thời kinh khóa tụng hàng ngày.",
       "linkUrl": "/tri-tue-phat-phap"
     },
@@ -757,7 +757,7 @@
     "subtitle": "Thanh tịnh giải thoát",
     "category": "phuong-phap-hanh-tri",
     "categoryName": "PHƯƠNG PHÁP HÀNH TRÌ",
-    "bannerImage": "/images/tong-chi/thien-toa.jpg",
+    "bannerImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/thien-toa.jpg",
     "excerpt": "Thiền tập giúp xoa dịu những căng thẳng, đưa tâm thức trở về trạng thái trong sáng, định tĩnh và tự do.",
     "content": "BANNER, TIÊU ĐỀ, GIỚI THIỆU\nTHIỀN TẬP\nQuay về với hơi thở và nuôi dưỡng chánh niệm.\nHiển thị: Quote nổi bật \n“Phật nói Phật ở ngay đây\nTrong tâm con đó liền giây phút này\nMở lòng con sẽ thấy ngay\nĐâu cần mải miết đông tây kiếm tìm.\nPhật khuyên ngồi xuống lặng im\nLắng nghe hơi thở thật hiền thật sâu\nXoay vào tánh giác nhiệm mầu\nThân tâm ôm trọn một bầu yêu thương.”\nVô Trí – Tâm Hòa\nThiền tập là thực hành dừng lại và trở về với hơi thở chánh niệm. Qua từng hơi thở, người hành trì nuôi dưỡng sự tỉnh thức, mở rộng tình thương và tiếp xúc với bình an ngay trong hiện tại. \nTRỞ VỀ VỚI CHÍNH MÌNH\nMỘT ẢNH LỚN, ĐẸP THẦY NGỒI THIỀN\nHiển thị typography: \n“Không chống, không đánh, chỉ nhận biết…”\nVô Trí – Tâm Hòa\nTHIỀN TẬP NUÔI DƯỠNG\nMỗi hơi thở là một cơ hội trở về, nuôi dưỡng sự tỉnh thức và bình an trong chính mình.\nSơ đồ trực quan:\n🫁 Hơi thở\n↓\n🪷 Chánh niệm\n↓\n🌿An trú\n↓\n✨ Trí tuệ\n“Hạnh phúc, bình an là sự thực tập, là cái nhìn thực tế, là con đường mà chính bạn phải bước đi.”\n Vô Trí – Tâm Hòa \nĐỂ MỌI THỨ TỰ NHIÊN\nTypography:\n“… Thở thật sâu, thở thật đều, lắng nghe cơ thể.\nNgồi thật yên, nở nụ cười, nuôi lớn yêu thương\nNhắm mắt lại, hướng vào trong, ôm trọn thiên nhiên\nBình yên, bình yên, bình yên bây giờ, ở đây.”\nVô Trí – Tâm Hòa\n“THIỀN” ĐƠN GIẢN LÀ…\n✓ Trở về với hơi thở.\n✓ Không ép mình phải hết suy nghĩ.\n✓ Khi tâm đi xa, nhẹ nhàng quay về.\n✓ Quan sát mà không phán xét.\n✓ Bình an đến từ sự có mặt.\nTHIỀN TẬP TRONG ĐỜI SỐNG\nSơ đồ trực quan: \n🫁 Hơi thở \n🚶 Bước đi \n🌳 Thiên nhiên \n🍵 Uống trà\n 🍚 Ăn cơm\n 🧹 Chấp tác\n ↓\n Mỗi khoảnh khắc trong đời sống đều có thể trở thành cơ hội thực tập chánh niệm.\nKết thúc bằng một ảnh của Sư phụ, trên ảnh có dòng:\n“… bước từng bước vững chãi trên đôi chân, lắng nghe được sự nồng ấm của mặt đất, rồi hít vào thật sâu, thở ra thật nhẹ, cảm được cái thanh khí của trời. Khi đó ta mới bắt đầu đi tìm lại chính mình…” - Vô Trí – Tâm Hòa\nĐỒNG HÀNH CÙNG THIỀN TẬP (KNOWLEDGE HUB)\n“Vật chất giúp bạn có cuộc sống đầy đủ, nhưng diều đáng giá nhất trong cuộc đời cần có được chính là sự bình an.” \n↓\nKhám phá thêm:\nDạng hiển thị ngăn kéo card\n🧘 Khóa tu Thiền trà\n📷 Thư viện ảnh\n📖 Ấn phẩm\n📅 Lịch khóa tu\nTÀI LIỆU THAM KHẢO\nNội dung được tổng hợp và biên soạn từ các bài giảng, tác phẩm và tư liệu của Sa môn Vô Trí – Tâm Hòa.\n📘 Đi Qua Khổ Vui Cuộc Đời – Quyển 01\n📘 Đi Qua Khổ Vui Cuộc Đời – Quyển 02\n📘 Đi Qua Khổ Vui Cuộc Đời – Quyển 03\n📘 Các bài giảng và chia sẻ trong các khóa tu Thiền trà.",
     "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
@@ -774,13 +774,13 @@
       "label": "PHƯƠNG PHÁP HÀNH TRÌ",
       "title": "THIỀN TRONG ĐỜI SỐNG — HƠI THỞ VÀ NỤ CƯỜI TỈNH THỨC",
       "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-      "bgImage": "/images/tong-chi/thien-toa.jpg",
+      "bgImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/thien-toa.jpg",
       "linkUrl": "/tri-tue-phat-phap"
     },
     "photoGallery": [
       {
         "title": "GIỜ THIỀN TỌA TĨNH LẶNG",
-        "imageUrl": "/images/tong-chi/thien-toa.jpg",
+        "imageUrl": "https://admin.tunglamhoaphuc.com/wp-content/uploads/thien-toa.jpg",
         "khuVuc": "Thiền Đường Tùng Lâm Hòa Phúc",
         "noiDung": "Không gian tĩnh mịch giúp hành giả lắng đọng mọi tạp niệm."
       }
@@ -788,7 +788,7 @@
     "sourceBook": {
       "bookTitle": "Cẩm Nang Thiền Tập Ứng Dụng",
       "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-      "coverImage": "/images/tong-chi/thien-toa.jpg",
+      "coverImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/thien-toa.jpg",
       "description": "Phương pháp thực hành thiền tọa và thiền hành giữa đời sống bận rộn.",
       "linkUrl": "/tri-tue-phat-phap"
     },
@@ -811,7 +811,7 @@
     "subtitle": "Pháp hành vi diệu",
     "category": "phuong-phap-hanh-tri",
     "categoryName": "PHƯƠNG PHÁP HÀNH TRÌ",
-    "bannerImage": "/images/tong-chi/1.jpg",
+    "bannerImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/1.jpg",
     "excerpt": "Đảnh lễ Đức Phật với tâm thành kính tuyệt đối là phương thuốc màu nhiệm chữa lành tâm kiêu ngạo và tiêu trừ nghiệp chướng nhiều đời.",
     "content": "BANNER, TIÊU ĐỀ, GIỚI THIỆU\nLẠY PHẬT\nCúi đầu thấp xuống để lúa vươn cao.\nLẠY PHẬT LÀ GÌ?\n“Cúi đầu kính lạy đấng Từ Tôn\nTịnh thủy thanh lương mát tâm hồn…\nTình thương chở che muôn kiếp khổ\nKhiêm nhường buông hết chuyện dại khôn.”\nVô Trí - Tâm Hòa\nLạy Phật không chỉ là hướng tâm cung kính tới đấng Giác ngộ, mà còn là cơ hội để buông xuống ngã chấp, gột rửa những nhiễm ô trong tâm, nương nơi trí tuệ của Đức Phật để từng bước hiểu và thực hành Giáo pháp trong đời sống.\nÝ NGHĨA LẠY PHẬT\n5 card:\n🪷 Hướng về Đức Thế Tôn\nKhởi tâm cung kính, mở lòng đón nhận ánh sáng từ bi và trí tuệ.\n────────\n✨ Nhận diện cái tôi\nCúi xuống để thấy mình vẫn đang là người học đạo, không để kiêu mạn che lấp con đường tu.\n────────\n🌿 Chuyển hóa chính mình\nThành tâm sám hối, gột rửa nhiễm ô và nương nơi Giáo pháp để sửa đổi thân, miệng, ý.\n────────\n❤️ Nuôi lớn lòng tri ân\nBiết ơn Tam Bảo, Tổ Thầy, Cha Mẹ, Đất nước, đồng bào và mọi nhân duyên đã nâng đỡ mình.\n────────\n☀️ Trở về bình an\nTự do sẽ hiện hữu khi cái tôi ích kỷ, bản ngã cố hữu không còn tồn tại.\n────────\nLẠY PHẬT KHÔNG PHẢI CẦU XIN\n“Đừng sợ cái chết mà vái lạy khắp nơi,\nĐừng sợ ốm đau mà hoang mang cầu cứu,\nĐừng sợ sự thật mà che lấp u mê,\nĐừng lừa dối chính mình mà nuôi lớn sai lầm,\nĐừng sống theo đám đông mà bỏ qua lập trường đúng đắn…”\nVô Trí - Tâm Hòa\nLàm dạng hai cột.\nKHÔNG PHẢI\n❌ Xin Phật ban phước.\n❌ Mua bán công đức.\n❌ Cầu may mắn.\n❌ Sợ hãi nên vái lạy.\n❌ Làm theo đám đông.\nMÀ LÀ\n✅ Cung kính bậc Giác ngộ.\n✅ Soi lại chính mình.\n✅ Học theo hạnh Phật.\n✅ Chuyển hóa thân tâm.\n✅ Bước đi vững chãi trên con đường tu.\nCHÁNH NIỆM LẠY PHẬT\nMột ảnh Sư phụ đang lạy xuống, góc dưới có dòng chữ: \n“Kính lạy đức Thế Tôn, chúng con mong Người trở về, có mặt với chúng con. \n… Kính nguyện Pháp thân của Người trong khắp mười phương ba cõi vẫn thường tịch thường quang soi đường dẫn lối cho chúng con trên lộ trình tìm về bến Giác.”\nVô Trí - Tâm Hòa\nInfographic:\n MỘT LỄ LẠY TRỌN VẸN\nÝ\nDuyên theo câu Phật hiệu\nKhông tán loạn, lắng nghe hơi thở\n──────────────\nMIỆNG\nXưng niệm danh hiệu Phật\nChậm rãi, rõ ràng\n──────────────\nTHÂN\nUy nghi – Chánh niệm\nNăm vóc sát đất\nHẠNH PHÚC CỦA NGƯỜI LẠY PHẬT\nQUOTE:\n“Lễ Xá-lợi để biết mình hạnh phúc\nMỗi ngày tu là gần Phật nhiều hơn\nPhật ở đây, trong mỗi phút chân thành\nPhật không ở trong hộp vàng khám bạc.” \nVô Trí - Tâm Hòa\nInfographic:\nLễ Phật\n↓\nNuôi lớn tâm Bồ-đề\n↓\nTrân quý phúc báu hiện tại\n↓\nBiết mình đang hạnh phúc\n“Hằng ngày lên khóa lễ, ngước lên Phật là nhìn toàn kim thân xá-lợi trọn vẹn của Đức Phật. Đó là phúc báu, nhân duyên lớn, là may mắn trong cuộc đời của chúng ta.”\nTHỰC HÀNH TẠI TÙNG LÂM HÒA PHÚC \nTypography:\n“Công phu để nhìn thấy Đức Phật, mượn bên ngoài khơi dậy bên trong. Phật – Pháp – Tăng là chính trong ta. …Phật vẫn luôn có mặt với chúng ta.”\nVô Trí - Tâm Hòa\nLàm infographic, khi click vào từng bước thì xổ ra POPUP\n① Hướng về Tam Bảo(Lễ chư Phật quá khứ, hiện tại, vị lai, chư Bồ-tát, Thánh Tăng)② Khởi phát Bồ Đề tâm(Quy y ân đức của Phật, Pháp, Tăng và Bồ Đề tâm)③ Thực tập trong thời khóa④ Quay về Tam Bảo trong chính mình(Tam tự quy: lạy Phật – Pháp – Tăng ở chính trong mỗi người)⑤ Lễ Tứ Ân(Mang tâm biết ơn vào đời sống: Ân Tam bảo – Tổ thầy; Ân Cha – Mẹ, Ân Tổ quốc – Đồng bào, Ân Đàn na – tín thí).Hướng về Tam Bảo\n① Hướng về Tam Bảo\n(Lễ chư Phật quá khứ, hiện tại, vị lai, chư Bồ-tát, Thánh Tăng)\n② Khởi phát Bồ Đề tâm\n(Quy y ân đức của Phật, Pháp, Tăng và Bồ Đề tâm)\n③ Thực tập trong thời khóa\n④ Quay về Tam Bảo trong chính mình\n(Tam tự quy: lạy Phật – Pháp – Tăng ở chính trong mỗi người)\n⑤ Lễ Tứ Ân\n(Mang tâm biết ơn vào đời sống: Ân Tam bảo – Tổ thầy; Ân Cha – Mẹ, Ân Tổ quốc – Đồng bào, Ân Đàn na – tín thí).\n[POPUP: “Tam Bảo bên ngoài, bao gồm Phật,Pháp, Tăng ở bên ngoài, thể hiện qua ba lễ đầu tiên khi bắt đầu thời khóa hành trì. Chúng ta xưng tụng: “Nam mô Tận Hư Không Biến Pháp giới, Quá, Hiện, Vị lai, Thường trú Phật, Pháp, Tăng Tam Bảo”. Đây chính là sự cung kính đối với Tam Bảo bên ngoài, ở đó chúng ta có thể thấy, cảm nhận và quy y.” Vô Trí – Tâm Hòa\nCó nút [Xem Nghi Thức]\n[NGHI THỨC: Chí tâm đảnh lễ: Nam mô Tận Hư Không  Biến Pháp Giới Quá, Hiện, Vị Lai Thập Phương Chư Phật, Tôn Pháp, Hiền Thánh Tăng Thường Trụ Tam Bảo. (1 lạy) \nChí tâm đảnh lễ: Nam mô Ta Bà Giáo Chủ Điều Ngự Bổn Sư Thích Ca Mâu Ni Phật, Đương Lai Hạ Sinh Di Lặc Tôn Phật, Đại Trí Văn Thù Sư Lợi Bồ Tát, Đại Hạnh Phổ Hiền Bồ Tát, Hộ Pháp Chư Tôn Bồ Tát, Linh Sơn Hội Thượng Phật Bồ Tát. (1 lạy)\nChí tâm đảnh lễ: Nam mô Tây Phương Cực Lạc Thế Giới Đại Từ Đại Bi A Di Đà Phật, Đại Bi Quán Thế Âm Bồ Tát, Đại Thế Chí Bồ Tát, Đại Nguyện Địa Tạng Vương Bồ Tát, Thanh Tịnh Đại Hải Chúng Bồ Tát. (1 lạy)]\nKhởi phát Bồ Đề tâm\n[POPUP: “Ân đức của Phật, ân đức của Pháp, ân đức của Tăng là ba viên ngọc quý ở thế gian. Đức Phật là người chỉ đường, giáo pháp là con đường và Tăng đoàn là người đồng hành cùng chúng ta trên hành trình đó.” Vô Trí – Tâm Hòa]\nCó nút [Xem Nghi Thức]\n[NGHI THỨC: Ân đức của chư Phật,\nBậc tỉnh thức vẹn toàn,\nTình thương và hiểu biết,\nTưới mát khắp quần sinh.\nChúng con xin năm vóc sát đất đảnh lễ ân đức tôn quý của chư Phật trong ba đời thường ở khắp mười phương. (1 lạy)\nÂn đức của giáo pháp,\nLà suối nguồn chân thật,\nĐưa người qua biển khổ,\nVượt thoát hết lầm mê.\nChúng con xin năm vóc sát đất đảnh lễ ân đức tôn quý của Giáo pháp trong ba đời thường ở khắp mười phương. (1 lạy)\nÂn đức của Tăng đoàn,\nXuất gia lìa các dục,\nThanh tịnh và hòa hợp,\nChỗ nương của trời người.\nChúng con xin năm vóc sát đất đảnh lễ ân đức tôn quý của Tăng đoàn trong ba đời thường ở khắp mười phương. (1 lạy)\nÂn đức Bồ Đề tâm,\nVô nhiễm và thắng diệu,\nTịnh hóa mọi nghiệp chướng,\nThẳng đến đạo Vô thượng.\nChúng con xin năm vóc sát đất đảnh lễ ân đức tôn quý của Bồ Đề tâm trong ba đời thường ở khắp mười phương. (1 lạy)\nThực tập trong thời khóa\n[POPUP: “Ban đầu, có thể chúng ta chưa nhận biết được Tam Bảo trong chính mình, nên cần nương vào hình tượng Phật, quyển kinh trước mặt và hội chúng xung quanh. Qua giai đoạn tu tập, nhìn vào tượng Phật, đọc kinh sách và cảm nhận sự hiện diện hỗ trợ của bạn đồng tu giúp tâm lắng đọng, ba nghiệp thanh tịnh, sáu căn trong sạch. Trong không gian như vậy, chúng ta không còn bận tâm về quá khứ, hiện tại hay tương lai, cũng như các chuyện thị phi tốt xấu.” Vô Trí – Tâm Hòa]\nQuay về Tam Bảo trong chính mình\n[POPUP: “Khi tâm thanh tịnh, năng lượng tỉnh thức bừng sáng và khi kết thúc khóa lễ chúng ta tự quy y, chính là tự quay về với ân đức của Phật, ân đức của Pháp và ân đức của Tăng trong nội tâm của mình tức Tam Bảo ở bên trong mỗi người.” Vô Trí – Tâm Hòa]\nCó nút [Xem Nghi Thức]\n[NGHI THỨC: Tự quy y Phật, xin nguyện chúng sinh, thể theo Đạo cả, phát lòng vô thượng.(1 lạy)\nTự quy y Pháp, xin nguyện chúng sinh, thấu rõ Kinh tạng, trí tuệ như biển. (1 lạy)\nTự quy y Tăng, xin nguyện chúng sinh, thống lý Đại chúng, tất cả không ngại. (1 lạy)]\n \nLễ Tứ Ân\n[POPUP: Lễ Tứ Ân để chúng ta nhắc nhở mình nuôi dưỡng tâm Bồ Đề.\nCó nút [Xem Nghi Thức]\n[NGHI THỨC: Ân sâu của Tam Bảo,\nNghĩa nặng của Tổ Thầy,\nVì tất cả mà chí thành đảnh lễ,\nNam mô A Di Đà Phật. (1 lạy)\nÂn sâu cha dưỡng dục,\nNghĩa nặng mẹ sinh thành,\nVì tất cả mà chí thành đảnh lễ,\nNam mô A Di Đà Phật. (1 lạy)\nÂn sâu của Tổ quốc,\nNghĩa nặng của đồng bào,\nVì tất cả mà chí thành đảnh lễ,\nNam mô A Di Đà Phật. (1 lạy)\nÂn sâu của tín thí,\nNghĩa nặng của đàn na,\nVì tất cả mà chí thành đảnh lễ,\nNam mô A Di Đà Phật. (1 lạy)]\nKẾT\nTypography lớn, ảnh nền nhẹ nhàng, lắng đọng:\n“Khi giọt nước hòa vào lòng đại dương, giọt nước sẽ được đại dương bảo hộ, nuôi dưỡng trở thành bất tử.”\nVô Trí - Tâm Hòa\nGỢI Ý THỰC HÀNH HÔM NAY (KNOWLEDGE HUG)\nDù đang ở giai đoạn nào trên con đường tu học, bạn cũng có thể bắt đầu bằng một lễ lạy chân thành.\n🌿 Hôm nay hãy dành một lễ lạy thật chậm.\nThân cung kính.\nMiệng niệm Phật.\nÝ biết rõ mình đang trở về.\n↓\nTìm hiểu các tài nguyên liên quan đến chủ đề Lạy Phật, bao gồm:\n• Audio \n• Video \n• Sách \n• Ebook \n• Bài viết về các khóa lễ Ngũ Bách Danh\n• Ấn phẩm ...\nTÀI LIỆU THAM KHẢO\nNội dung được tổng hợp và biên soạn từ các bài giảng, tác phẩm và tư liệu của Sa môn Vô Trí – Tâm Hòa.\n📘 Khuyến Phát Bồ Đề Tâm Giảng Luận – Quyển 01\n📘 Đi Qua Khổ Vui Cuộc Đời – Quyển 03\n📘 Các bài giảng và chia sẻ trong các khóa tu tại Tùng Lâm Hòa Phúc.",
     "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
@@ -828,13 +828,13 @@
       "label": "PHƯƠNG PHÁP HÀNH TRÌ",
       "title": "CÔNG ĐỨC LẠY PHẬT VÀ SỰ CHUYỂN HÓA THÂN TÂM",
       "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-      "bgImage": "/images/tong-chi/1.jpg",
+      "bgImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/1.jpg",
       "linkUrl": "/tri-tue-phat-phap"
     },
     "photoGallery": [
       {
         "title": "HÀNH GIẢ CHÍ THÀNH ĐẢNH LỄ TAM BẢO",
-        "imageUrl": "/images/tong-chi/1.jpg",
+        "imageUrl": "https://admin.tunglamhoaphuc.com/wp-content/uploads/1.jpg",
         "khuVuc": "Chánh Điện Hòa Phúc",
         "noiDung": "Mỗi cái lạy là một lần cúi đầu buông bỏ bản ngã phàm phu."
       }
@@ -842,7 +842,7 @@
     "sourceBook": {
       "bookTitle": "Nghi Thức Lạy Phật Sám Hối",
       "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-      "coverImage": "/images/tong-chi/1.jpg",
+      "coverImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/1.jpg",
       "description": "Chỉ dẫn chi tiết nghi thức lễ bái tam bảo.",
       "linkUrl": "/tri-tue-phat-phap"
     },
@@ -865,7 +865,7 @@
     "subtitle": "Tịnh hóa thân tâm",
     "category": "phuong-phap-hanh-tri",
     "categoryName": "PHƯƠNG PHÁP HÀNH TRÌ",
-    "bannerImage": "/images/tong-chi/594929082-1281299250704762-2908984688896417320-n.jpg",
+    "bannerImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/594929082-1281299250704762-2908984688896417320-n.jpg",
     "excerpt": "Sám hối là dòng nước mát gột rửa mọi bùn nhơ tội lỗi, giúp tâm hồn thanh thản và mở ra con đường tái sinh phẩm hạnh.",
     "content": "BANNER, TIÊU ĐỀ, GIỚI THIỆU\nSÁM HỐI\nCan đảm nhìn lại chính mình để chuyển hóa thân – khẩu – ý.\nSÁM HỐI LÀ GÌ?\nTypography lớn:\n“Lỗi lầm ư...\nAi cũng có\nNhưng hơn hết là biết nhìn lại\nĐể tìm ra lối thoát cho chính mình…”\nVô Trí – Tâm Hòa\nSám hối là thành thật nhìn lại những lỗi lầm nơi thân, khẩu, ý để phát nguyện sửa đổi và chuyển hóa chính mình.\nHIỂU ĐÚNG VỀ SÁM HỐI\n“Nhận lỗi là cơ hội soi sáng và làm mới mình… như chào mừng bạn thân từ phương xa trở về.”\nVô Trí – Tâm Hòa \nKHÔNG PHẢI\n❌ Xin Phật xóa tội.\n❌ Khóc càng nhiều càng linh.\n❌ Chỉ dành cho người phạm lỗi lớn.\n❌ Chỉ đọc văn sám là đủ.\nMÀ LÀ\n✅ Thành thật nhận lỗi.\n✅ Dám chịu trách nhiệm.\n✅ Phát nguyện sửa đổi.\n✅ Làm mới bằng hành động.\n“Sám hối có 2 hình thức là thân sám hối và tâm sám hối. Làm thế nào để thân tâm của mình đều sám hối, hướng về Phật, Tổ, Thầy và đối tượng mình làm lỗi để sám hối, biểu hiện sự ăn năn sám hối thật lòng; đó là điều quan trọng.”\nCÔNG NĂNG CỦA SÁM HỐI\n“Nói ra được lỗi lầm, tâm nhẹ đi, khởi lên tâm sám hối, ý thức những lầm lỗi đó đưa đến khổ đau cho mình và cho người, do vậy chúng ta không tái phạm nữa. Đó là công năng của sám hối.” \nVô Trí – Tâm Hòa \nInfographic: ●────●────●────●────●\n① Nhận diện\nThấy rõ lỗi lầm của mình. \n──── \n→ \n② Ăn năn\nKhông bao biện hay che giấu.\n────\n→ \n③ Phát nguyện\nQuyết tâm sửa đổi.\n────\n→ \n④ Không tái phạm\nĐem sự tỉnh thức vào đời sống.\n────\n→ \n⑤ Làm mới \nBước tiếp với tâm trong sáng hơn.\n────\n“Thân ngày nào cũng tắm, tâm cũng cần được tắm gội.” \nVô Trí – Tâm Hòa\nSÁM HỐI CHUYỂN HÓA ĐIỀU GÌ?\n“Ai sẽ là người “giải hạn” cho bạn nếu không phải tự bản thân bạn gắng sức học tập, rèn luyện, chánh niệm trong lời nói, hành động và suy nghĩ, tạo nguồn năng lượng bình an vượt qua những “giới hạn” của chính mình.”\nVô Trí - Tâm Hòa \nLàm 3 card.\n🪷 THÂN\nDừng những hành động gây khổ đau.\n🗣 MIỆNG\nChuyển lời nói thành ái ngữ và chân thật.\n🧠 Ý\nNhận diện và chuyển hóa tham, sân, si.\n“Muốn cho thân tâm trong sạch, muốn cho miệng ý thanh tịnh thì phải thực hành sám hối. Sám hối tức là gột rửa thân tâm cho thanh tịnh. Bình tâm sạch thì mới chứa được vị cam lộ.” \nSÁM HỐI MỖI NGÀY\n“Sám hối là để chuyển ác thành thiện, chuyển họa thành phúc. … Một tháng bốn ngày sám hối là chưa đủ; mà phải sám hối hằng ngày, hằng giờ, từng phút, từng giây.”\nVô Trí – Tâm Hòa\nDạng card\nNHÓM 1: THỰC TẬP HÀNG NGÀY (4 CARD ĐẦU)\n🪷 Ý THỨC SÁM HỐI MỖI NGÀY.\n(Nuôi dưỡng thói quen nhìn lại và sửa mình.)\n[Xem chi tiết]\n──────────\n🌱 LÀM MỚI VÀ SOI SÁNG\n(Thành thật nhận lỗi trong tình huynh đệ.)\n[Xem chi tiết]\n──────────\n👥 SÁM HỐI TRONG SINH HOẠT ĐẠO TRÀNG\n(Tăng trưởng tư cách của người Phật tử tu hành)\n[Xem chi tiết]\n──────────\n🏡 SÁM HỐI TRONG ĐỜI SỐNG GIA ĐÌNH\n(Xây dựng hạnh phúc bằng sự chân thành.)\n[Xem chi tiết]\n──────────\nNHÓM 2: NGHI THỨC HUÂN TU (2 CARD CUỐI)\n🙏 SÁM HỐI HỒNG DANH\n(Chí thành lễ Phật, thanh tịnh ba nghiệp.)\n[Xem chi tiết]\n──────────\n👁 SÁM HỐI SÁU CĂN\n(Quán chiếu sáu căn để chuyển hóa.)\n[Xem chi tiết]\n──────────\nKẾT\nẢnh full width, quote nằm trên ảnh:\n“Người tu học Phật pháp không phải là người không bao giờ phạm lầm lỗi, mà là người nghiêm túc nhận diện những bất thiện nguy hại cho bản thân và chân thành học hỏi từ những sai lầm đó.”\nVô Trí - Tâm Hòa\nLÀM MỚI NGAY HIỆN TẠI (KNOWLEDGE HUG)\n🌿 Hôm nay hãy dành vài phút nhìn lại để sống mới hơn…\n↓ \nKhám phá thêm:\n• Audio về nghi thức sám hối\n• Video \n• Sách \n• Ebook \n• Bài viết \n• Ấn phẩm ...\nTÀI LIỆU THAM KHẢO\nNội dung được tổng hợp và biên soạn từ các bài giảng, tác phẩm và tư liệu của Sa môn Vô Trí – Tâm Hòa.\n📘 Khuyến Phát Bồ Đề Tâm Giảng Luận – Quyển 01, Quyển 03\n📘 Đi Qua Khổ Vui Cuộc Đời – Quyển 01, 02, 03\n📘 Các bài giảng và chia sẻ trong các khóa tu tại Tùng Lâm Hòa Phúc.",
     "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
@@ -882,13 +882,13 @@
       "label": "PHƯƠNG PHÁP HÀNH TRÌ",
       "title": "SÁM HỐI — BƯỚC ĐẦU TIÊN CỦA SỰ THỨC TỈNH VÀ CHUYỂN NGHIỆP",
       "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-      "bgImage": "/images/tong-chi/594929082-1281299250704762-2908984688896417320-n.jpg",
+      "bgImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/594929082-1281299250704762-2908984688896417320-n.jpg",
       "linkUrl": "/tri-tue-phat-phap"
     },
     "photoGallery": [
       {
         "title": "ĐẠI LỄ SÁM HỐI ĐỊNH KỲ",
-        "imageUrl": "/images/tong-chi/594929082-1281299250704762-2908984688896417320-n.jpg",
+        "imageUrl": "https://admin.tunglamhoaphuc.com/wp-content/uploads/594929082-1281299250704762-2908984688896417320-n.jpg",
         "khuVuc": "Chánh Điện Hòa Phúc",
         "noiDung": "Đại chúng quỳ trước Tam Bảo chí thành bày tỏ lỗi lầm."
       }
@@ -896,7 +896,7 @@
     "sourceBook": {
       "bookTitle": "Nghi Thức Hồng Danh Sám Hối",
       "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-      "coverImage": "/images/tong-chi/594929082-1281299250704762-2908984688896417320-n.jpg",
+      "coverImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/594929082-1281299250704762-2908984688896417320-n.jpg",
       "description": "Tuyển tập văn sám hối và 88 vị Phật.",
       "linkUrl": "/tri-tue-phat-phap"
     },
@@ -919,7 +919,7 @@
     "subtitle": "Khai mở chánh kiến",
     "category": "phuong-phap-hanh-tri",
     "categoryName": "PHƯƠNG PHÁP HÀNH TRÌ",
-    "bannerImage": "/images/tong-chi/nghe-phap.png",
+    "bannerImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/nghe-phap.png",
     "excerpt": "Nghe pháp là nấc thang Văn trong tiến trình Văn – Tư – Tu, giúp người học Phật hiểu đúng chân lý và không bị lạc vào tà kiến.",
     "content": "BANNER, TIÊU ĐỀ, GIỚI THIỆU\nNGHE PHÁP\nMở rộng chánh kiến và định hướng tu tập đúng đắn.\nNGHE PHÁP LÀ GÌ?\n“Đến chùa đừng có tu mù\nThật nghe, thật hiểu, tiếp thu rõ ràng\nBiết đường sinh tử nguy nan\nLấp ao phiền não, Đạo vàng sáng thêm.”\nVô Trí - Tâm Hòa\nNghe Pháp là lắng nghe lời Phật dạy và những chia sẻ của bậc thiện tri thức để hiểu đúng con đường tu học, soi sáng chính mình và ứng dụng Giáo pháp vào đời sống.\nTHÁI ĐỘ KHI NGHE PHÁP\n4 card ngang:\n🪣 Bình thủng đáy\nNghe rồi quên.\n────────\n🙃 Bình úp\nHôn trầm và phóng dật ngăn trở việc học Pháp.\n────────\n🪵 Bình dơ\nĐịnh kiến che lấp Chánh pháp.\n────────\n🏺 Chiếc bình sẵn sàng đón nhận\nLắng nghe bằng tâm khiêm cung và rộng mở.\n────────\n“Điều mà người có trí biết làm là luôn lắng nghe bằng sự kính trọng với những gì khiến bạn giác ngộ và tỉnh thức.”\nVô Trí - Tâm Hòa\nNGHE PHÁP THỜI HIỆN ĐẠI\n“Phật pháp bây giờ rẻ lắm thay\nGià trẻ đua nhau nói suốt ngày\nKhôn dại đăng đàn làm diễn giả\nTrí ngu lập hội để câu like…”\nVô Trí - Tâm Hòa\n Giữa rất nhiều tiếng nói, làm sao để nghe đúng?\n📱 Mạng xã hội\nNhiều thông tin\n────────\n+\n🧭 Chánh kiến\nBiết đối chiếu với lời Phật dạy.\n────────\n+\n🪷 Thiện tri thức\nNương tựa bậc Thầy Chánh pháp.\n────────\nTUỚI TẨM HẠT BỒ ĐỀ \n“Học nghe điều có ích\nChẳng ưa gần ác nhân\nThường quán chiếu như vậy\nBồ đề thêm lớn dần.” \nVô Trí - Tâm Hòa\nSữa pháp không nuôi lớn tri thức, mà nuôi lớn tâm Bồ-đề. Mỗi lần lắng nghe bằng tâm khiêm cung là một lần hạt giống giác ngộ được tưới tẩm và lớn lên trong chính mình.\nSỐNG VỚI CHÁNH PHÁP\n“Đừng đi tìm quyền lực, danh vọng nơi cửa Phật mà hãy đến nghe, học, tư duy, ứng dụng chân lý giải thoát vào cuộc sống một cách khôn ngoan để nhẹ nhàng đi qua thử thách.” \nVô Trí - Tâm Hòa\nInfographic.\n📖 VĂN\nLắng nghe Chánh pháp \n↓ \n💡 TƯ\nQuán chiếu, suy nghiệm \n↓ \n🪷 TU\nỨng dụng vào đời sống \n↓\n🌱 TUỆ \nHiểu đúng và sống đúng Chánh pháp\nKẾT\nMột ảnh lớn.\nQuote. \n“Người nói ít nghe nhiều\nSiêng học tu tinh tiến\nHơn ngàn kẻ biếng lười\nGiỏi nói chẳng thực hành.”\nVô Trí - Tâm Hòa\nNghe Pháp không kết thúc khi thời pháp khép lại, mà thật sự bắt đầu khi một lời Phật dạy được sống ngay trong đời thường.\nMỘT LỜI PHẬT DẠY CHO HÔM NAY (KNOWLEDGE HUG)\n🌿 Hôm nay, hãy chọn một bài pháp và giữ lại một điều tâm đắc để thực hành...\n↓\nKhám phá thêm:\nAudio\nVideo\nSách\nEbook\nTÀI LIỆU THAM KHẢO\nNội dung được tổng hợp và biên soạn từ các bài giảng, tác phẩm và tư liệu của Sa môn Vô Trí – Tâm Hòa.\n📘 Khuyến Phát Bồ Đề Tâm Giảng Luận – Quyển 01, Quyển 03\n📘 Đi Qua Khổ Vui Cuộc Đời – Quyển 01, 02, 03\n📘 Các bài giảng và chia sẻ trong các khóa tu tại Tùng Lâm Hòa Phúc.",
     "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
@@ -936,13 +936,13 @@
       "label": "PHƯƠNG PHÁP HÀNH TRÌ",
       "title": "VĂN TƯ TU — BA BẬC TRÍ TUỆ GIẢI THOÁT",
       "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-      "bgImage": "/images/tong-chi/nghe-phap.png",
+      "bgImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/nghe-phap.png",
       "linkUrl": "/tri-tue-phat-phap"
     },
     "photoGallery": [
       {
         "title": "HÀNG NGÀN PHẬT TỬ CHĂM CHÚ NGHE PHÁP",
-        "imageUrl": "/images/tong-chi/nghe-phap.png",
+        "imageUrl": "https://admin.tunglamhoaphuc.com/wp-content/uploads/nghe-phap.png",
         "khuVuc": "Giảng Đường Tùng Lâm Hòa Phúc",
         "noiDung": "Pháp hội hoằng pháp trang nghiêm dưới sự giảng dạy của chư Tôn đức."
       }
@@ -950,7 +950,7 @@
     "sourceBook": {
       "bookTitle": "Pháp Âm Tùng Lâm — Tuyển Tập Giảng Giải",
       "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-      "coverImage": "/images/tong-chi/nghe-phap.png",
+      "coverImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/nghe-phap.png",
       "description": "Tổng hợp các bài giảng pháp căn bản cho Phật tử.",
       "linkUrl": "/tri-tue-phat-phap"
     },
@@ -973,7 +973,7 @@
     "subtitle": "Tốt đời đẹp đạo",
     "category": "phuong-phap-hanh-tri",
     "categoryName": "PHƯƠNG PHÁP HÀNH TRÌ",
-    "bannerImage": "/images/tong-chi/bon-phan-nguoi-phat-tu-tai-gia.jpg",
+    "bannerImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/bon-phan-nguoi-phat-tu-tai-gia.jpg",
     "excerpt": "Phụng sự chúng sinh là cúng dường chư Phật. Làm công quả tại chốn già lam giúp tôi luyện đức tính khiêm nhường và bồi đắp phúc báu sâu dày.",
     "content": "BANNER, TIÊU ĐỀ, GIỚI THIỆU\nPHỤNG SỰ \nCống hiến bằng lòng tri ân, tâm Bồ-đề và tinh thần trách nhiệm.\nPHỤNG SỰ LÀ GÌ?\nTypography lớn\n“HỘ PHÁP là việc trước tiên\nNam - nữ, cư sỹ thường xuyên nên làm.\nHỌC PHÁP  buông bỏ lòng tham\nChuyển hóa phiền não, Thánh - Phàm tại tâm.\nHÀNH PHÁP vi diệu cao thâm\nUy nghi tự tại, gieo mầm vị tha.\nHOẰNG PHÁP rộng khắp gần xa\nBốn ân tạc dạ, vào nhà Như lai.” \nVô Trí - Tâm Hòa\nPhụng sự là sự tiếp nối tự nhiên của người học Phật. Khi hiểu Chánh pháp, đem Chánh pháp vào đời sống và góp phần hộ trì Tam Bảo, mỗi việc làm đều trở thành cơ hội gieo mầm vị tha và nuôi lớn tâm Bồ-đề. \nPHỤNG SỰ VỚI LÒNG TRI ÂN\n3 card ngang\n🛕 Hộ trì Tam Bảo\nGiữ gìn môi trường tu học cho nhiều người.\n🤝 Gìn giữ Chánh pháp\nĐể giáo pháp tiếp tục được truyền trao.\n🌏 Phụng sự nhân sinh\nGóp phần làm đẹp cho cuộc đời.\nQuote có thể đặt thành một khối nền màu nhẹ kéo ngang toàn chiều rộng bên dưới 3 card:\n“Lòng tri ân và báo ân là chất liệu làm nên nhân cách cao thượng.”\nVô Trí - Tâm Hòa\nPHỤNG SỰ NGAY TRONG BỔN PHẬN HẰNG NGÀY\n“Học Phật pháp để biết ngay hiện tại\nỨng dụng vào cho cuộc sống thêm tươi\nChớ nghĩ rằng phải bỏ hết cửa nhà\nKhi trách nhiệm vẫn hai vai gánh nặng.”\nVô Trí - Tâm Hòa\nDạng bảng hoặc 3 card\n🏠 Gia đình\n💼 Xã hội\n🛕 Tam Bảo\nHiếu kính cha mẹ\nLàm việc chân chính\nHộ trì đạo tràng\nNuôi dạy con cái\nGiữ chữ tín\nChấp tác công quả\nYêu thương người thân\nPhụng sự cộng đồng\nTham gia khóa tu\nGiữ gìn hòa khí\nSống có trách nhiệm\nHoằng hộ Chánh pháp\nNgười cư sĩ không cần rời bỏ gia đình để phụng sự. Thực hiện trọn vẹn bổn phận trong gia đình, ngoài xã hội và đối với Tam Bảo cũng chính là đang hộ trì Chánh pháp giữa cuộc đời.\nPHỤNG SỰ TỪ NHỮNG ĐIỀU NHỎ BÉ\n“Bản chất “cái tâm” và “anh hùng” là sự thầm lặng hy sinh phụng sự cho những gì thiêng liêng cao đẹp mà không cần phải thể hiện ở giấy bút, câu từ.” \nVô Trí - Tâm Hòa\nInfographic kiểu: \n🍃 Nhặt lá 🧹 Quét sân 🍚 Rửa bát 🌿 Làm vườn 🪣 Lau dọn 📚 Sắp kinh\n6 icon xếp hình tròn.\nỞ giữa: ❤️TÂM PHỤNG SỰ\n“Rửa một chiếc bát, nhặt một mớ rau, quét vài chiếc lá... đều là phụng sự Tam bảo, cúng dàng kết duyên với mười phương chư Phật.”\nBỒ-ĐỀ TÂM TRONG HÀNH ĐỘNG\nTâm Bồ-đề không chỉ được phát nguyện trong lời nói, mà còn được nuôi lớn bằng từng hành động phụng sự. Mỗi việc thiện được làm bằng tâm vô ngã đều là một bước trưởng thành của Bồ-tát hạnh.\nPhụng sự <-> Tâm Bồ Đề\n“Bồ đề tâm là nền tảng của tất cả mọi thiện pháp, vì bồ đề tâm là tâm hy sinh, là tâm phụng sự, dấn thân, tu tập vì lợi ích cho số đông, cho tất cả mọi người...”\nVô Trí - Tâm Hòa\nPHỤNG SỰ TẠI TÙNG LÂM HÒA PHÚC\n“Tình thương và hành động phụng sự nhân sinh vốn không có khoảng cách dù là miền ngược hay miền xuôi, người giàu hay người nghèo, người quyền quý hay người bình dân.\nVì tất cả đều cần có nhau.”\nVô Trí - Tâm Hòa\nPhụng sự tại Tùng Lâm Hòa Phúc:\nCard.\n🙏 Cúng dường Tam Bảo\n📚 Hộ trì khóa tu\n👥 Xây dựng đạo tràng\n🧹 Bao sái chấp tác\n🌿 Trồng cây, làm vườn\n🚗 Hỗ trợ Phật tử\n🎥 Hoằng dương Phật pháp\nClick mở đường dẫn tới trang, thư viện ảnh, bài viết …\nKẾT\nẢnh đẹp.\nQuote: \n“Con nguyện giữ tâm Bồ đề kiên cố\nCon nguyện hành hạnh tự lợi, lợi tha\nĐem an vui chan rải đến muôn nhà\nĐể tâm Phật chan hòa trong vũ trụ.”\nVô Trí - Tâm Hòa\nMỗi hành động phụng sự với tâm chân thật là một hạt giống Bồ-đề được gieo xuống cuộc đời; người nhận được lợi ích, và chính người cho đi cũng từng bước tiến lên trên con đường tự lợi – lợi tha.  \nGIEO MỘT VIỆC THIỆN HÔM NAY (KNOWLEDGE HUB)\n🌿 Hôm nay, hãy bắt đầu từ một việc thiện và thực hiện bằng tất cả lòng chân thành.\n↓\nKhám phá thêm nội dung về Phụng sự\nAudio\nVideo\nSách\nTÀI LIỆU THAM KHẢO\nNội dung được tổng hợp và biên soạn từ các bài giảng, tác phẩm và tư liệu của Sa môn Vô Trí – Tâm Hòa.\n📘Gieo Hạt Từ Bi\n📘 Khuyến Phát Bồ Đề Tâm Giảng Luận – Quyển 01, Quyển 03\n📘 Đi Qua Khổ Vui Cuộc Đời – Quyển 01, 02, 03\n📘 Các bài giảng và chia sẻ trong các khóa tu tại Tùng Lâm Hòa Phúc.",
     "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
@@ -990,13 +990,13 @@
       "label": "PHƯƠNG PHÁP HÀNH TRÌ",
       "title": "CÔNG QUẢ VÀ HẠNH NGUYỆN PHỤNG SỰ TẠI THIỀN MÔN",
       "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-      "bgImage": "/images/tong-chi/bon-phan-nguoi-phat-tu-tai-gia.jpg",
+      "bgImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/bon-phan-nguoi-phat-tu-tai-gia.jpg",
       "linkUrl": "/tri-tue-phat-phap"
     },
     "photoGallery": [
       {
         "title": "PHẬT TỬ CHẤP TÁC PHỤNG SỰ KHÓA TU",
-        "imageUrl": "/images/tong-chi/bon-phan-nguoi-phat-tu-tai-gia.jpg",
+        "imageUrl": "https://admin.tunglamhoaphuc.com/wp-content/uploads/bon-phan-nguoi-phat-tu-tai-gia.jpg",
         "khuVuc": "Khu Nhà Bếp & Trai Đường",
         "noiDung": "Mỗi món ăn, mỗi chén nước trao đi đều gói trọn tình thương và tâm hộ trì đạo pháp."
       }
@@ -1004,7 +1004,7 @@
     "sourceBook": {
       "bookTitle": "Nếp Sống Phụng Sự Thiền Môn",
       "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-      "coverImage": "/images/tong-chi/bon-phan-nguoi-phat-tu-tai-gia.jpg",
+      "coverImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/bon-phan-nguoi-phat-tu-tai-gia.jpg",
       "description": "Cẩm nang công quả và trách nhiệm người Phật tử.",
       "linkUrl": "/tri-tue-phat-phap"
     },
@@ -1027,7 +1027,7 @@
     "subtitle": "Tích lũy phúc báu",
     "category": "phuong-phap-hanh-tri",
     "categoryName": "PHƯƠNG PHÁP HÀNH TRÌ",
-    "bannerImage": "/images/tong-chi/bo-thi-cung-duong.jpg",
+    "bannerImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/bo-thi-cung-duong.jpg",
     "excerpt": "Bố thí là phương pháp xả ly lòng bỏn xẻn tham lam, kiến tạo phúc điền nhân quả thù thắng cho đời này và muôn đời sau.",
     "content": "BANNER\nBỐ THÍ CÚNG DƯỜNG\nThực tập hạnh cho đi với tâm xả ly và lòng hoan hỷ.\n1. BỐ THÍ CÚNG DƯỜNG LÀ GÌ?\n“Lành thay cho những ai\nKhông nghĩ lợi riêng mình\nKhởi lòng cầu giải thoát\nLy tham, đoạn sân si.”\nVô Trí - Tâm Hòa.\nBố thí cúng dường là thực tập buông bớt sự chấp giữ nơi chính mình. Mỗi lần biết cho đi bằng tâm thanh tịnh là một lần chuyển hóa lòng tham, nuôi lớn phúc báu và trí tuệ.\n2. TRAO ĐI SỰ CHÂN THÀNH\n“Cúng dường không nhất thiết phải là những vật phẩm quý giá, lớn lao, mà là ở lòng thành và sự cống hiến vô điều kiện với những gì trong khả năng.”\nVô Trí - Tâm Hòa\n4 card.\n💰 Tài thíChia sẻ vật chất.\n(POPUP: “Đối với người Phật tử, nền tảng tu học Phật pháp đầu tiên là phải đầy đủ phúc báu. Quan trọng nhất chính là phúc báu từ sự bố thí cúng dàng để được sự sung mãn về đời sống vật chất, có cơ hội thăng hoa trên con đường tâm linh.” Vô Trí - Tâm Hòa)\n📖 Pháp thíTrao truyền hiểu biết đúng.\n🛡 Vô úy thíMang đến sự bình an và không sợ hãi.\n🛕 Cúng dườngDâng lên Tam Bảo bằng lòng tri ân. \n(POPUP: “Thành tựu của đệ tử trong đạo lộ tu học là món quà quý nhất dâng lên cúng dường Nghiệp sư và Tổ thầy.” Vô Trí – Tâm Hòa\n“Điều đáng quý ở cuộc đời là sự cho đi mà có người hoan hỷ trân trọng đón nhận.”\n3. NUÔI LỚN YÊU THƯƠNG\n“To quyền lực, cao danh vọng không phải để tích chứa mà cần biết nghiêng mình cho đi bằng sự tận tụy, hy sinh và rộng lượng.”\nVô Trí – Tâm Hòa\n2 Card: \nCard trái\n💰 Điều ta thường nắm giữ\n💵 Tiền bạc \n⏳ Thời gian \n💪 Công sức \n📚 Hiểu biết \n👤 Cái tôi \n___________\nCard phải\n🎁 Điều ta học cách trao đi\n🤝 Sự sẻ chia \n🙏 Lòng tri ân \n❤️ Tình thương \n☸️ Chánh pháp \n😊 Niềm vui\nKhông phải mọi sự cho đi đều bắt đầu từ tài vật. Trong đời sống hằng ngày, mỗi ánh mắt, nụ cười, lời nói hay hành động sẻ chia đều có thể trở thành những món quà nuôi dưỡng yêu thương.↓\nKhám phá 7 hạnh bố thí không tài vật\n4. CÚNG DƯỜNG KHÔNG PHẢI  ĐỂ TRAO ĐỔI\n“Làm phúc không phải là việc khó khăn, nhưng quan trọng là phải vượt qua cái tâm tham lam, keo kiệt của chính mình.”\nVô Trí – Tâm Hòa\n❌\nKHÔNG PHẢI\nmua bán với Tam Bảo \nđổi lấy may mắn \nkhoe sự cúng dường \ncầu danh cầu lợi\n✅\nMÀ LÀ\ntri ân Tam Bảo \nhộ trì Chánh pháp \nnuôi lớn phúc báu\nhọc hạnh buông xả \n5. BUÔNG XẢ ĐỂ TÂM ĐƯỢC TỰ DO\n“Làm phúc, sâu sắc hơn, là sự chuyển hóa tâm tham thành tâm hỷ xả, khi đó, không chỉ nhận được phúc báu từ hành động cúng dường, mà còn góp phần tạo dựng một cuộc sống an vui, nhẹ nhàng.”\nVô Trí - Tâm Hòa\nMột infographic \nTham chấp\n↓\nBiết sẻ chia\n↓\nBuông xả\n↓\nTâm rộng mở\n↓\nPhúc báu tăng trưởng\n↓\nTâm Bồ-đề lớn dần\n“Việc thiện, việc phúc, việc lành sẽ tạo ra công đức khi được đặt trên nền tảng “tâm bồ đề - tâm vô cầu - tâm không điều kiện cá nhân hoặc liên hệ đến cá nhân”.”\n6. BỐ THÍ CÚNG DƯỜNG TẠI TÙNG LÂM HÒA PHÚC\nCard.\n🙏 Cúng dường Tam Bảo\n📚 Ấn tống kinh sách\n🍚 Cúng dường trai Tăng\n🎓 Hộ trì hoằng pháp\n🏡 Xây dựng đạo tràng\n❤️ Các hoạt động thiện nguyện\nClick ra bài viết, hoặc trang chi tiết, hoặc thư viện ảnh.\n7. KẾT\nQUOTE:\n“Sống bao lâu không quan trọng, mà quan trọng là sống như thế nào và sống để làm gì.”\nVô Trí - Tâm Hòa\nĐiều còn lại sau mỗi lần cho đi không phải là những gì đã mất, mà là một trái tim rộng mở hơn, biết sống vì người và buông bớt vì chính mình.\nKNOWLEDGE HUB\n🌿Hôm nay, hãy trao đi một điều tốt đẹp mà không mong nhận lại.\nNhững nền tảng song hành cùng Bố thí cúng dường:\nNgăn kéo card\nKhám phá → \nBồ Đề tâm \nThập Thiện\nPhóng sinh & Bảo vệ môi trường\n…\nTÀI LIỆU THAM KHẢO\nNội dung được tổng hợp và biên soạn từ các bài giảng, tác phẩm và tư liệu của Sa môn Vô Trí – Tâm Hòa.\n📘Lời Đức Phật Dạy\n📘 Khuyến Phát Bồ Đề Tâm Giảng Luận – Quyển 01, Quyển 03\n📘 Đi Qua Khổ Vui Cuộc Đời – Quyển 01, 02, 03\n📘 Các bài giảng và chia sẻ trong các khóa tu tại Tùng Lâm Hòa Phúc.",
     "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
@@ -1044,13 +1044,13 @@
       "label": "PHƯƠNG PHÁP HÀNH TRÌ",
       "title": "BỐ THÍ BA LA MẬT — TAM LUÂN THỂ KHÔNG TRONG ĐỜI SỐNG",
       "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-      "bgImage": "/images/tong-chi/bo-thi-cung-duong.jpg",
+      "bgImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/bo-thi-cung-duong.jpg",
       "linkUrl": "/tri-tue-phat-phap"
     },
     "photoGallery": [
       {
         "title": "ĐẠI LỄ ĐẶT BÁT CÚNG DƯỜNG CHƯ TĂNG",
-        "imageUrl": "/images/tong-chi/bo-thi-cung-duong.jpg",
+        "imageUrl": "https://admin.tunglamhoaphuc.com/wp-content/uploads/bo-thi-cung-duong.jpg",
         "khuVuc": "Khuôn Viên Tùng Lâm Hòa Phúc",
         "noiDung": "Hàng ngàn Phật tử chí thành dâng cúng tịnh tài tịnh vật gieo trồng ruộng phước."
       }
@@ -1058,7 +1058,7 @@
     "sourceBook": {
       "bookTitle": "Nghệ Thuật Bố Thí & Cúng Dường",
       "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-      "coverImage": "/images/tong-chi/bo-thi-cung-duong.jpg",
+      "coverImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/bo-thi-cung-duong.jpg",
       "description": "Chỉ dẫn tâm thế đúng đắn khi làm thiện nguyện cúng dường.",
       "linkUrl": "/tri-tue-phat-phap"
     },
@@ -1081,7 +1081,7 @@
     "subtitle": "Dành cho người mới bắt đầu",
     "category": "lo-trinh-tu-hoc",
     "categoryName": "LỘ TRÌNH TU HỌC",
-    "bannerImage": "/images/tong-chi/lo-trinh-danh-cho-nguoi-moi-bat-dau.jpg",
+    "bannerImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/lo-trinh-danh-cho-nguoi-moi-bat-dau.jpg",
     "excerpt": "Hướng dẫn lộ trình từng bậc giúp người sơ cơ dễ dàng tiếp cận giáo lý Phật đà mà không bị ngợp hay lạc hướng.",
     "content": "BANNER\nLỘ TRÌNH TU HỌC DÀNH CHO NGƯỜI MỚI\nKhởi đầu hành trình học Phật với những bước đi vững vàng và phù hợp.\nKHÔNG CẦN ĐI NHANH\nTypography lớn\n“Giá trị bền vững, thành công thực sự không đến từ vội vàng, nôn nóng hoặc đốt cháy giai đoạn.”\nVô Trí – Tâm Hòa\nHọc Phật không phải là cuộc đua về kiến thức. Mỗi bước đi vững vàng trên nền tảng đúng đắn có giá trị hơn việc vội vàng nhưng thiếu thực hành.\nBA CỘT TRỤ CỦA NGƯỜI HỌC PHẬT\nNgười mới không cần chuẩn bị mọi thứ thật hoàn hảo trước khi bắt đầu. Điều quan trọng là xây dựng một nền tảng đủ vững để việc tu học có thể đồng hành với cuộc sống mỗi ngày. \nQuote typography:\n“Ba cột trụ của người học Phật.\nLao động, tăng sức khỏe, giảm trầm cảm, nâng cao giá trị.\nTu học, luyện trí nhớ, tăng tri thức, nâng tầm cuộc sống.\nHành trì, giữ định tâm, rèn sức bền, thăng hoa tâm linh.” \nVô Trí – Tâm Hòa\nInfographic:\n🏃 LAO ĐỘNG\nXây dựng đời sống và thực tập phụng sự.\n📚 TU HỌC\nHọc hỏi giáo pháp và xây dựng Chánh kiến.\n🙏 HÀNH TRÌ\nThực tập để chuyển hóa thân tâm.\nHÀNH TRÌNH HỌC PHẬT\n“Học tập rèn luyện, trau dồi đạo đức, trải nghiệm thực tiễn, chấp nhận thất bại là những viên gạch đầu tiên định hình vị trí của bạn trong xã hội.”\nVô Trí - Tâm Hòa\nInfographic\n🌱 Khởi tâm\nPhát khởi mong muốn tìm hiểu và học Phật.\n↓\n📖 Học hỏi\nTừng bước tìm hiểu lời Phật dạy và xây dựng nền tảng đúng đắn.\n↓\n🙏 Thực hành\nĐưa những điều đã học vào đời sống hằng ngày.\n↓\n🌿 Kiên trì\nDuy trì sự thực tập và trưởng thành qua từng trải nghiệm. \n↓\n🌸 Chuyển hóa\nNuôi dưỡng sự bình an và trưởng thành nơi thân tâm. \nMỘT NẾP THỰC HÀNH ĐƠN GIẢN\n“Đẹp và cái đẹp chạm đến tâm hồn xuất phát từ những điều đơn giản, tự nhiên.”\nVô Trí - Tâm Hòa\nSự chuyển hóa không bắt đầu từ những điều lớn lao, mà được nuôi dưỡng qua từng việc nhỏ trong đời sống mỗi ngày. \nHãy bắt đầu từ những việc nhỏ…\nInfographic và có hình minh họa dễ thương\n🌅 Buổi sáng\n🙏 Thức dậy với tất cả lòng thương yêu, trân quý cuộc sống\n🪷 Niệm Phật vài phút và phát nguyện sống một ngày an lành, lợi mình, lợi người. \n🌞 Trong ngày\n🌱 Đưa những điều thiện lành vào đời sống: \n🗣️ Nói lời chân thật.\n🤝 Cư xử hòa ái.\n❤️ Sẵn lòng giúp đỡ khi có thể. \n🌙 Buổi tối\n📖 Đọc vài trang sách hoặc nghe một bài pháp ngắn. 🌸 Lắng tâm nhìn lại những điều còn thiếu sót trong ngày.🙏 Khởi tâm sám hối, hồi hướng và khép lại một ngày trong sự an yên. \nĐừng đặt áp lực phải làm thật nhiều ngay từ đầu. Bởi…\n“Sức mạnh, nghị lực hay ý chí phi thường được khởi sinh, nuôi dưỡng từ những điều giản dị, bình thường nhất.”\nVô Trí – Tâm Hòa\nBẠN CÓ THỂ BẮT ĐẦU…\nTừ những bước đầu tiên, bạn có thể lựa chọn những nội dung phù hợp với hoàn cảnh và nhân duyên tu học của mình. \n🌱 Xây nền tu học\n↓\nBồ Đề Tâm\nTam Quy\nThập Thiện\n🙏 Thực tập hành trì\n↓\nNiệm Phật\nNghe pháp\nBố thí cúng dường\n🌿 Nuôi dưỡng nếp sống\n↓\nVăn hóa ứng xử & Giao tiếp tại chùa\nOai nghi người con Phật\nBổn phận của người phật tử tại gia\nClick ra trang tương ứng\nĐỪNG LO SỢ NẾU…\n “Người nói ít nghe nhiều\nSiêng học tu tinh tiến\nHơn ngàn kẻ biếng lười\nGiỏi nói chẳng thực hành.”\nVô Trí - Tâm Hòa\nĐỪNG LO SỢ NẾU...\nchưa hiểu giáo lý; \nchưa thuộc nghi thức; \nchưa thực hành đều đặn; \nđôi lúc còn nhiều băn khoăn.\nĐiều quan trọng là giữ tâm học hỏi và từng bước thực hành trong khả năng của chính bạn. \nKẾT\n“Tốt hay xấu\nKhổ hay vui…\nTất cả bắt đầu từ sự thay đổi cách nhìn và tư duy của bạn.”\nVô Trí – Tâm Hòa\n↓\nHành trình tu học bắt đầu từ những bước đi nhỏ, nhưng chính sự kiên trì mỗi ngày sẽ tạo nên những chuyển hóa lớn trong đời sống. \nKHÁM PHÁ THÊM (Knowledge Hub)\nBài pháp cho người mới. \nVideo nhập môn. \nSách căn bản. \nTham vấn: Câu hỏi thường gặp.\nTÀI LIỆU THAM KHẢO\nNội dung được tổng hợp và biên soạn từ các bài giảng, tác phẩm và tư liệu của Sa môn Vô Trí – Tâm Hòa.\n📘 Đi Qua Khổ Vui Cuộc Đời – Quyển 01, 02, 03\n📘 Các bài giảng và chia sẻ trong các khóa tu tại Tùng Lâm Hòa Phúc.",
     "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
@@ -1098,13 +1098,13 @@
       "label": "LỘ TRÌNH TU HỌC",
       "title": "BA CỘT TRỤ CỦA NGƯỜI HỌC PHẬT: LAO ĐỘNG – TU HỌC – HÀNH TRÌ",
       "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-      "bgImage": "/images/tong-chi/lo-trinh-danh-cho-nguoi-moi-bat-dau.jpg",
+      "bgImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/lo-trinh-danh-cho-nguoi-moi-bat-dau.jpg",
       "linkUrl": "/tri-tue-phat-phap"
     },
     "photoGallery": [
       {
         "title": "KHÓA TU DÀNH CHO PHẬT TỬ SƠ CƠ",
-        "imageUrl": "/images/tong-chi/lo-trinh-danh-cho-nguoi-moi-bat-dau.jpg",
+        "imageUrl": "https://admin.tunglamhoaphuc.com/wp-content/uploads/lo-trinh-danh-cho-nguoi-moi-bat-dau.jpg",
         "khuVuc": "Chánh Điện Hòa Phúc",
         "noiDung": "Được chư Tăng chỉ dạy từng cử chỉ lạy Phật, xá chào và cách xưng hô trong chùa."
       }
@@ -1112,7 +1112,7 @@
     "sourceBook": {
       "bookTitle": "Cẩm Nang Người Mới Học Phật",
       "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-      "coverImage": "/images/tong-chi/lo-trinh-danh-cho-nguoi-moi-bat-dau.jpg",
+      "coverImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/lo-trinh-danh-cho-nguoi-moi-bat-dau.jpg",
       "description": "Sách hướng dẫn vỡ lòng dành cho tân thiện nam tín nữ.",
       "linkUrl": "/tri-tue-phat-phap"
     },
@@ -1135,7 +1135,7 @@
     "subtitle": "Dành cho người trẻ",
     "category": "lo-trinh-tu-hoc",
     "categoryName": "LỘ TRÌNH TU HỌC",
-    "bannerImage": "/images/tong-chi/lo-trinh-danh-cho-nguoi-tre.jpg",
+    "bannerImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/lo-trinh-danh-cho-nguoi-tre.jpg",
     "excerpt": "Tuổi trẻ là mùa xuân của cuộc đời; ứng dụng Phật pháp giúp người trẻ xây dựng điểm tựa tâm linh vững chắc giữa sóng gió thời đại.",
     "content": "BANNERLỘ TRÌNH TU HỌC DÀNH CHO NGƯỜI TRẺ\nNuôi dưỡng lý tưởng, xây dựng nhân cách và từng bước trưởng thành trong tinh thần phụng sự.\nNIỀM VUI HỌC PHẬT CỦA TUỔI TRẺ \n“Vui thay tuổi trẻ đến chùaHọc theo hạnh Phật hơn thua mặc ngườiUy nghi, lễ phép, tươi cườiBúp sen dâng tặng cho đời bình an.”\nVô Trí - Tâm Hòa\n↓\nCuộc sống hiện đại đầy vội vã và nhiều áp lực, tuổi trẻ đến chùa là dịp tạm đặt xuống những hơn thua, sống chậm hơn, hiểu mình hơn để trở về với sự bình an và nuôi dưỡng những giá trị tốt đẹp.\nCÓ LÝ TƯỞNG ĐỂ KHÔNG LẠC HƯỚNG\n“Đừng hời hợt vội vã mà quên hơi thở thật sâu.\nĐừng chạy theo hiện đại mà đánh mất truyền thống.\nĐừng chạy theo cái đẹp bên ngoài mà quên giá trị chân thật bên trong.\nĐừng quá tin khoa học mà quên lắng nghe bản thân.\nĐừng kẹt nơi công nghệ mà đánh mất nhịp cầu kết nối yêu thương.”\nVô Trí - Tâm Hòa\nĐứng giữa những lĩnh vực của cuộc sống, mỗi người cần có một lý tưởng để biết mình đang sống vì điều gì và muốn trở thành người như thế nào.\nỞ giữa\n⭐ Lý tưởng sống\nBao quanh:\n📚 Học tập\n💼 Công việc\n👨‍👩‍👧 Gia đình & Các mối quan hệ\n🙏 Tu học Phật Pháp\n🌍 Phụng sự cộng đồng \n❤️ Chăm sóc chính mình\n“Sống không lý tưởng, bạn chỉ tồn tại mà chưa thực sự sống.”\nPHẬT PHÁP LÀ NƠI NƯƠNG TỰA VỮNG CHẮC\nQuote.\n“Tuổi trẻ có 3 điều kiện thuận lợi: Sức khỏe, trí tuệ và thời gian. Đừng lãng phí… Quan trọng là xây dựng lý tưởng sống cao đẹp, phụng sự nhân sinh, cống hiến vì lợi ích cho xã hội… Phật pháp là phương pháp giúp bản thân có điểm tựa vững chắc.”\nVô Trí - Tâm Hòa\n↓\n3 Card.\n🌱 ĐỊNH HƯỚNG LÝ TƯỞNG\nNuôi dưỡng một hướng sống rộng lớn, biết sống vì mình và vì người.\n→ Bồ Đề Tâm\n🛡️ XÂY DỰNG ĐẠO ĐỨC\nXây dựng điểm tựa đạo đức để biết sống đúng, sống có trách nhiệm.\n→ Tam Quy – Ngũ Giới\n✨ RÈN LUYỆN NHÂN CÁCH\nĐưa những giá trị tốt đẹp vào từng suy nghĩ, lời nói và việc làm.\n→ Thập Thiện\nPhật pháp giúp người trẻ định hướng lý tưởng sống, xây dựng nền tảng đạo đức và từng bước hoàn thiện chính mình.\nPHẬT PHÁP Ở NGAY BÊN BẠN\n“Các bậc vĩ nhân thường chọn cách sống đơn giản bởi họ luôn biết giá trị bất biến với thời gian chính là sự an lạc của nội tâm.”\nVô Trí - Tâm Hòa\nPhật pháp không chỉ được học hỏi trong sách hay thực tập nơi chùa, mà là lựa chọn sống qua chính cách ta học tập, làm việc, yêu thương và sống mỗi ngày.\nInfographic 6 card. \n📚 KHI HỌC TẬP\nTrung thực – Siêng năng – Biết lắng nghe\n💼 KHI LÀM VIỆC\nTrách nhiệm – Hoan hỷ – Giữ gìn lương tâm\n👨‍👩‍👧 KHI Ở CÙNG GIA ĐÌNH\nBiết ơn – Quan tâm – Thấu hiểu\n🤝 KHI KẾT NỐI VỚI MỌI NGƯỜI\nTôn trọng – Không làm tổn thương – Biết tha thứ\n❤️ KHI ĐỐI DIỆN CHÍNH MÌNH\nNhận diện cảm xúc – Quay về hơi thở – Làm chủ tâm mình\n🙏 KHI TU HỌC\nHọc Phật mỗi ngày – Thực tập đều đặn – Từng bước chuyển hóa\nSỐNG LÀ KHÔNG BỎ LỠ\n“Đừng bỏ lỡ cơ hội được sống,\nĐược tự do,\nĐược yêu thương.\nĐừng hạn chế sự sáng tạo,\nĐừng cản trở sự học hỏi\nĐừng kìm hãm sự cống hiến vì mục tiêu tốt đẹp…”\nVô Trí - Tâm Hòa\nMỗi sự thực tập hôm nay đều là một cơ hội để tuổi trẻ sống sâu sắc hơn, tự do hơn và trưởng thành hơn. \nNhững sự thực tập đồng hành cùng bạn…\nCard.\n🙏 Niệm Phật\n🧘 Thiền tập\n📖 Nghe pháp\n🙇 Lạy Phật\n↓\nClick.\nĐỪNG NẢN LÒNG NẾU...\n“Thị phi, thử thách là cơ hội để kiểm tra đánh giá sức mạnh nội tâm của chúng ta.”\nVô Trí - Tâm Hòa\n↓\nĐỪNG NẢN LÒNG NẾU...\nchưa xác định được hướng đi; \ntừng thất bại; \nđôi lúc mất động lực; \ncòn nhiều điều chưa hiểu. \nMỗi trải nghiệm đều có thể trở thành chất liệu để trưởng thành.\n↓\n“Tài nguyên vô tận không nằm trong lòng đất, ở dưới đại dương hay trên vũ trụ mà đó chính là trí tuệ xuất phát từ sự siêng năng rèn luyện, tu dưỡng đạo đức và kỹ năng đón nhận thất bại.”\nKẾT\nQuote.\n“Đáp án cho cuộc đời của bạn chính là những gì bạn gieo trồng hôm nay.”\nVô Trí – Tâm Hòa\nKHÁM PHÁ THÊM\n🎧Các bài pháp dành cho người trẻ.\n🎥Video Khóa tu Mùa hè, Thiền trà, Ươm Mầm Sen Việt, Cuối Tuần Về Bên Phật…\n📘Sách về lý tưởng sống.\n❤️Hoạt động phụng sự dành cho người trẻ.\nTÀI LIỆU THAM KHẢO\nNội dung được tổng hợp và biên soạn từ các bài giảng, tác phẩm và tư liệu của Sa môn Vô Trí – Tâm Hòa.\n📘Gieo Hạt Từ Bi\n📘 Đi Qua Khổ Vui Cuộc Đời – Quyển 01, 02, 03\n📘 Các bài giảng và chia sẻ trong các khóa tu tại Tùng Lâm Hòa Phúc.",
     "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
@@ -1152,13 +1152,13 @@
       "label": "LỘ TRÌNH TU HỌC",
       "title": "CÓ LÝ TƯỞNG ĐỂ KHÔNG LẠC HƯỚNG — THÔNG ĐIỆP GỬI NGƯỜI TRẺ",
       "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-      "bgImage": "/images/tong-chi/lo-trinh-danh-cho-nguoi-tre.jpg",
+      "bgImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/lo-trinh-danh-cho-nguoi-tre.jpg",
       "linkUrl": "/tri-tue-phat-phap"
     },
     "photoGallery": [
       {
         "title": "HÀNG NGÀN BẠN TRẺ THAM DỰ KHÓA TU",
-        "imageUrl": "/images/tong-chi/lo-trinh-danh-cho-nguoi-tre.jpg",
+        "imageUrl": "https://admin.tunglamhoaphuc.com/wp-content/uploads/lo-trinh-danh-cho-nguoi-tre.jpg",
         "khuVuc": "Quảng Trường Tùng Lâm Hòa Phúc",
         "noiDung": "Nụ cười rạng rỡ của tuổi trẻ trong tinh thần hòa hợp và phụng sự."
       }
@@ -1166,7 +1166,7 @@
     "sourceBook": {
       "bookTitle": "Tuổi Trẻ & Lý Tưởng Học Phật",
       "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-      "coverImage": "/images/tong-chi/lo-trinh-danh-cho-nguoi-tre.jpg",
+      "coverImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/lo-trinh-danh-cho-nguoi-tre.jpg",
       "description": "Định hướng tư duy và kỹ năng sống cho giới trẻ.",
       "linkUrl": "/tri-tue-phat-phap"
     },
@@ -1189,7 +1189,7 @@
     "subtitle": "Dành cho người bận rộn",
     "category": "lo-trinh-tu-hoc",
     "categoryName": "LỘ TRÌNH TU HỌC",
-    "bannerImage": "/images/tong-chi/lo-trinh-danh-cho-nguoi-moi-bat-dau.jpg",
+    "bannerImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/lo-trinh-danh-cho-nguoi-moi-bat-dau.jpg",
     "excerpt": "Không cần phải vào rừng sâu mới tu được; người bận rộn hoàn toàn có thể biến từng khoảnh khắc làm việc thành pháp tu an lạc.",
     "content": "BANNER\nLỘ TRÌNH TU HỌC DÀNH CHO NGƯỜI BẬN RỘN\nNuôi dưỡng đời sống tỉnh thức ngay giữa công việc, gia đình và những bộn bề thường nhật.\nPHẬT Ở NGAY BÊN BẠN\n“Phật nói Phật ở ngay đây\nTrong tâm con đó liền giây phút này\nMở lòng con sẽ thấy ngay\nĐâu cần mải miết Đông Tây kiếm tìm.”\nVô Trí - Tâm Hòa\nKhông phải đợi lúc rảnh rỗi mới thấy được bình an. Chỉ cần biết dừng lại và quay về với chính mình, chất liệu Phật pháp luôn giúp bạn an trú trong những giá trị sống tích cực ngay nơi từng khoảnh khắc.\nDỪNG LẠI VỚI CHÍNH MÌNH\n“Bình yên đâu phải vào rừng, hạnh phúc đâu phải nhiều tiền. Đơn giản, biết dừng lại để tìm ra chính mình…”\nVô Trí - Tâm Hòa\n↓\nInfographic\nKhông phải\n→\nMà là\nCó nhiều thời gian\n→\nBiết dành một khoảng thời gian phù hợp\nLàm thật nhiều\n→\nGiữ sự đều đặn mỗi ngày\nChờ khi rảnh mới bắt đầu\n→\nBắt đầu ngay từ những việc nhỏ\nTu học là một việc riêng\n→\nĐưa việc tu học vào đời sống\nMỗi khoảng thời gian nhỏ dành cho sự thực tập cũng giống như một lần tưới nước cho hạt giống bình an trong chính mình. MÌNH NGHĨ NÊN CHỈNH CÂU NÀY VÌ TRÙNG Ý VỚI QUOTE TIẾP THEO, MÌNH NÊN NHẤN MẠNH VÀO SỰ DỪNG LẠI\nPHẬT PHÁP TRONG TỪNG KHOẢNH KHẮC\n“Tu tập là quá trình từng bước rèn luyện thân tâm trở về tìm lại giá trị cốt lõi của chính mình.\n…Từng phút giây tu tập, từng ngày tháng tu tập ví như từng mầm cây được gieo trồng, chăm sóc, tưới tẩm.”\nVô Trí - Tâm Hòa\nỞ giữa\n☸️\nPHẬT PHÁP TRONG TỪNG KHOẢNH KHẮC\nBao quanh\n☀️ Bắt đầu ngày mới\n→ Khởi một niệm biết ơn\n💼 Trong lúc làm việc\n→ Làm hết lòng, không hơn thua\n👨‍👩‍👧 Ở bên gia đình\n→ Có mặt trọn vẹn\n🚶 Di chuyển\n→ Niệm Phật hoặc trở về hơi thở\n🛍️Mua sắm\n→ Biết đủ, không chạy theo tham cầu\n🤝 Khi gặp gỡ\n→ Nói lời chân thật\n🌳 Hòa cùng thiên nhiên\n→ Nhìn sâu và biết ơn\n🌙 Khi nghỉ ngơi\n→ Buông xuống mọi lo toan\nKHÔNG BỎ QUÊN NỀN TẢNG\n“Học để tìm kiếm tri thức và làm chủ tri thức.\nTri thức là con đường hướng đến điều thiện, lợi mình lợi người. Khéo điều phục tâm ý là biết làm chủ tri thức.”\nVô Trí – Tâm Hòa\nDù quỹ thời gian không nhiều, người học Phật vẫn cần giữ đủ ba nền tảng: hiểu đúng để không lạc hướng, duy trì công phu để nuôi dưỡng nội tâm và ứng dụng vào đời sống để tạo nên sự chuyển hóa.\n3 Card ngang\n🌱 Xây nền Chánh kiến\nBồ Đề Tâm\nTam Quy\nThập Thiện\n🙏 Duy trì công phu\nNiệm Phật\nThiền tập\nNghe pháp\n🌿 Ứng dụng vào đời sống\nOai nghi người con Phật\nBổn phận người Phật tử\nPhóng sinh & Bảo vệ môi trường\nClick\nTHỰC TẬP NGAY HIỆN TẠI\n“Ruộng mình siêng cày cấy\nGieo hạt lành mỗi ngày\n…Mỗi ngày một chút thôi\nLâu ngày thành thanh tịnh.”\nVô Trí - Tâm Hòa\n🌞 Khi bắt đầu công việc\nDừng lại vài giây, hít một hơi thật sâu và khởi tâm làm việc bằng sự chân thành, trách nhiệm.\n☕ Khi cảm thấy căng thẳng\nBuông lỏng thân tâm, quay về với hơi thở để lấy lại sự bình tĩnh.\n🤝 Khi gặp gỡ mọi người\nThực tập lắng nghe, nói lời chân thật và cư xử hòa ái.\n🌙 Khi kết thúc một ngày\nNhìn lại những điều đã làm được, điều còn thiếu sót, khởi tâm sám hối và hồi hướng.\n 6.ĐỪNG NẢN LÒNG...\n“Xuân đến là nhờ mùa đông đã qua.\nThu sang vì hè đã tắt.\nHạnh phúc là ý nghĩa của cuộc đời.”\nVô Trí - Tâm Hòa\nĐừng nản lòng…\n• Nếu công việc và gia đình nhiều lúc chiếm hết thời gian;\n• Nếu có những giai đoạn bạn tạm ngưng việc thực tập;\n• Nếu sự chuyển hóa chưa đến nhanh như mong đợi.\nĐó là một phần tự nhiên của hành trình. Cứ kiên nhẫn nuôi dưỡng và thực tập. Khi đông qua, mùa xuân sẽ đến. \n7. KẾT\n“Hạt bụi đã tìm ra đức Thế Tôn.\nNgay trong mỗi bước đi, nụ cười.\nTrong cái nhìn bao dung, trong thế ngồi vững chãi.\nHạt bụi đã trở về bên đức Thế Tôn.\nDù gió mưa sấm sét.\nDù ngoài kia cuồng loạn hư danh.\nHạt bụi vẫn thong dong, vẫn an nhiên.\nVì hạt bụi đã an trú bên đức Thế Tôn.”\nVô Trí - Tâm Hòa\nKHÁM PHÁ THÊM\n🎧 Các bài pháp dành cho người bận rộn. \n🎥 Video thực tập ngắn, pháp thoại ngắn. \n📘 Sách về ứng dụng Phật pháp trong đời sống. \n❤️ Những câu chuyện thực hành giữa công việc và gia đình. \nTÀI LIỆU THAM KHẢO\nNội dung được tổng hợp và biên soạn từ các bài giảng, tác phẩm và tư liệu của Sa môn Vô Trí – Tâm Hòa.\n📘Gieo Hạt Từ Bi\n📘 Đi Qua Khổ Vui Cuộc Đời – Quyển 01, 02, 03\n📘 Các bài giảng và chia sẻ trong các khóa tu tại Tùng Lâm Hòa Phúc.",
     "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
@@ -1206,13 +1206,13 @@
       "label": "LỘ TRÌNH TU HỌC",
       "title": "PHẬT PHÁP TRONG TỪNG KHOẢNH KHẮC THƯỜNG NHẬT",
       "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-      "bgImage": "/images/tong-chi/lo-trinh-danh-cho-nguoi-moi-bat-dau.jpg",
+      "bgImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/lo-trinh-danh-cho-nguoi-moi-bat-dau.jpg",
       "linkUrl": "/tri-tue-phat-phap"
     },
     "photoGallery": [
       {
         "title": "THỰC TẬP TỈNH THỨC GIỮA ĐỜI THƯỜNG",
-        "imageUrl": "/images/tong-chi/lo-trinh-danh-cho-nguoi-moi-bat-dau.jpg",
+        "imageUrl": "https://admin.tunglamhoaphuc.com/wp-content/uploads/lo-trinh-danh-cho-nguoi-moi-bat-dau.jpg",
         "khuVuc": "Đời Sống Gia Đình",
         "noiDung": "Biết dừng lại để tìm ra chính mình và gìn giữ mái ấm hạnh phúc."
       }
@@ -1220,7 +1220,7 @@
     "sourceBook": {
       "bookTitle": "Thiền Ứng Dụng Cho Người Bận Rộn",
       "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-      "coverImage": "/images/tong-chi/lo-trinh-danh-cho-nguoi-moi-bat-dau.jpg",
+      "coverImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/lo-trinh-danh-cho-nguoi-moi-bat-dau.jpg",
       "description": "Phương pháp nuôi dưỡng tâm an lạc khi thời gian hạn hẹp.",
       "linkUrl": "/tri-tue-phat-phap"
     },
@@ -1243,7 +1243,7 @@
     "subtitle": "Dành cho người chuyên tu",
     "category": "lo-trinh-tu-hoc",
     "categoryName": "LỘ TRÌNH TU HỌC",
-    "bannerImage": "/images/tong-chi/lo-trinh-danh-cho-nguoi-chuyen-tu.png",
+    "bannerImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/lo-trinh-danh-cho-nguoi-chuyen-tu.png",
     "excerpt": "Học – Tu – Chấp tác song hành giúp hành giả chuyên tu giữ vững sơ tâm Bồ Đề, đạt được an lạc và giải thoát rốt ráo.",
     "content": "BANNER\nLỘ TRÌNH TU HỌC DÀNH CHO NGƯỜI CHUYÊN TU\nKiên trì chuyển hóa tự thân, nuôi lớn tâm Bồ Đề và phụng sự bằng đời sống hành trì.\nNGƯỜI ĐỆ TỬ THUẦN THÀNH CỦA ĐỨC PHẬT\n“Tam bảo tôn quý nhất vì bản thể của Tam bảo là thanh tịnh.\nGiới luật tôn quý nhất vì từ đây an lạc phát sinh. \n…Tập thể Phật tử “trụ tín” tôn quý nhất vì chân thật thực hành và hộ trì chánh pháp.”\nVô Trí – Tâm Hòa\nĐáng quý nơi người đệ tử Đức Phật là đời sống chân thật thực hành, giữ gìn và hộ trì Chánh pháp.\nGIỮ VỮNG SƠ TÂM BỒ ĐỀ\n“Lộ trình tu học, pháp học và pháp hành phải song song. Ba việc mà người tu phải cân bằng là: học, tu, và chấp tác. Học để có tư lương, lấy sự học làm thức ăn cho tâm; tu là để chuyển hóa, làm chín những thức ăn đã nhận, khiến tâm trở nên sung mãn an lạc; chấp tác tạo ra phúc báu nuôi thân này.”\nVô Trí - Tâm Hòa\nba card:\n📚 HỌC\nCó tư lương, làm thức ăn cho tâm.\n🙏 TU\nChuyển hóa, làm chín những điều đã học.\n🤲 CHẤP TÁC\nTạo phúc báu, nuôi dưỡng thân này.\nVà điểm chung bên dưới ba card:\n“Trình tự tu học đối với chúng ta là từng bậc, không vội. Vật liệu làm nên từng bậc thang ấy, để đi đến được Phật quả chính là tâm Bồ-đề.”\n→ Tìm hiểu thêm: Bồ Đề tâm\nTU HỌC VỚI CHÁNH KIẾN\n“Trong thời đại người người ra biển lớn.\nTa chọn làm con sông nhỏ bình yên.\nBiển bao la luôn chứa đầy sóng cả.\nSông ẩn mình giữ mạch nước lặng trong.”\nVô Trí - Tâm Hòa\nĐi sâu vào một pháp môn không có nghĩa là khép mình trong một pháp môn. Càng tu học, người con Phật càng cần giữ Chánh kiến, biết tôn trọng các pháp hành và không để sự chuyên tâm trở thành sự chấp trước.\nBỒ ĐỀ TÂM → HƯỚNG ĐI\nCHÁNH KIẾN → SOI ĐƯỜNG\nCHẤP NGÃ ↔ CHẤP PHÁP\n Bồ Đề tâm là hướng đi; Chánh kiến là ánh sáng soi đường.\nTHUẦN THỤC TRONG SỰ CHUYỂN HÓA\n“Thành tựu của đệ tử trong đạo lộ tu học là món quà quý nhất dâng lên cúng dường Nghiệp sư và Tổ thầy.” \nVô Trí - Tâm Hòa\nQuote\n↓\nTu lâu, mình có khác hơn?\n❤️ Tham ít hơnBiết đủ hơn, nhẹ lòng hơn.\n😊 Sân ít hơnBiết dừng lại trước khi làm tổn thương người khác.\n🌿 Tâm an hơnGặp thuận nghịch vẫn giữ được sự vững vàng.\n🤝 Thương người hơnBiết cảm thông, bao dung và sống vì người.\n↓\nĐó mới là những dấu hiệu cho thấy sự tu học đang dần trở thành phẩm chất của chính mình.\nĐƯA ĐẠO VÀO ĐỜI\nQuote dạng mở rộng\n“Tu lâu càng thấy bình yên\n[Đứng đi hành xử điềm nhiên, vững vàng\nTu lâu chẳng có buộc ràng\nBình thường sớm tối đạo vàng chẳng xa.\nTu lâu tập sống vị tha\nKhoan hòa, nhẫn nhịn bỏ qua tị hiềm\nTu lâu giản dị cung khiêm\nÂm thầm rèn luyện đạo thêm tỏ tường.\nTu lâu càng thấy dễ thương\nNói năng, hành động bình thường an nhiên\nTu lâu từ tốn bảo khuyên]\nGiúp người lạc lối về miền chân tâm.”\nVô Trí - Tâm Hòa\nKhi sự tu học đã trở thành đời sống, mỗi hoàn cảnh đều trở thành cơ hội để soi lại chính mình và thực tập Phật pháp. \nInfographic 6 card\nĐỜI SỐNG LÀ ĐẠO TRÀNG\n🌸 ĐƯỢC KHEN\nQuán chiếu để không sinh ngã mạn.\n🌿 BỊ CHÊ\nQuay về nhìn lại chính mình.\n🤲 ĐƯỢC GIAO VIỆC\nXem đó là cơ hội phụng sự.\n🪷 GẶP BỆNH\nQuán vô thường, giữ tâm tinh tiến.\n🌱 CÓ THÀNH TỰU\nBiết tri ân và báo ân.\n🌾 GẶP TRÁI Ý\nRèn luyện kham nhẫn.\n“Cuộc sống của người tu đơn giản là lặp đi lặp lại những việc bình thường. Nhưng chính trong cái bình thường mà an trú, vững chãi không dao động thì sẽ tìm được hạnh phúc.” \nTU LÀ TIẾP TỤC BƯỚC TỚI\n“Con đường của Đức Phật và chư Thánh chúng đã đi dù gian khó thế nào cũng vững vàng bước tới.\nĐừng bao giờ bỏ cuộc…”\nVô Trí – Tâm Hòa\nKhô khan → vẫn hành trìMỏi mệt → vẫn giữ tâm nguyệnChậm chuyển hóa → vẫn kiên trìGian khó → vẫn bước tới\nKhông phải lúc nào cũng cần thấy mình đang tiến bộ. Điều cần giữ là đừng đánh mất tâm Bồ Đề và hướng đi ban đầu.\nKẾT\nMột ảnh đẹp của Sư phụ và …\n“Khi con bước đi\nBằng đôi chân tự tại\nĐất trời là của con\nThở và cười cùng Thầy,\nCon nhé....”\nKHÁM PHÁ THÊM (Knowledge Hub)\n🌿Mỗi người có một hoàn cảnh, một nhịp sống và một cách thực tập riêng. Hãy tìm về những nội dung phù hợp với nơi mình đang đứng.\nCác bài giảng về hành trì, chuyển hóa và phụng sự. \nCác video khóa tu, thời khóa và đời sống tu học. \nNhững tác phẩm, bài viết và tư liệu đào sâu việc học và hành Phật pháp. \nTham vấn: Câu hỏi thường gặp.\nTÀI LIỆU THAM KHẢO\nNội dung được tổng hợp và biên soạn từ các bài giảng, tác phẩm và tư liệu của Sa môn Vô Trí – Tâm Hòa.\n📘 Đi Qua Khổ Vui Cuộc Đời – Quyển 01, 02, 03\n📘 Các bài giảng và chia sẻ trong các khóa tu tại Tùng Lâm Hòa Phúc.",
     "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
@@ -1260,13 +1260,13 @@
       "label": "LỘ TRÌNH TU HỌC",
       "title": "NGƯỜI ĐỆ TỬ THUẦN THÀNH — BẢN THỂ THANH TỊNH CỦA TAM BẢO",
       "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-      "bgImage": "/images/tong-chi/lo-trinh-danh-cho-nguoi-chuyen-tu.png",
+      "bgImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/lo-trinh-danh-cho-nguoi-chuyen-tu.png",
       "linkUrl": "/tri-tue-phat-phap"
     },
     "photoGallery": [
       {
         "title": "HÀNG HẬU HỌC TINH TẤN CHUYÊN TU",
-        "imageUrl": "/images/tong-chi/lo-trinh-danh-cho-nguoi-chuyen-tu.png",
+        "imageUrl": "https://admin.tunglamhoaphuc.com/wp-content/uploads/lo-trinh-danh-cho-nguoi-chuyen-tu.png",
         "khuVuc": "Tịnh Thất & Giảng Đường Hòa Phúc",
         "noiDung": "Đời sống thanh bần, sớm khuya kệ kinh gìn giữ nếp thiền môn."
       }
@@ -1274,7 +1274,7 @@
     "sourceBook": {
       "bookTitle": "Cẩm Nang Người Xuất Gia & Chuyên Tu",
       "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-      "coverImage": "/images/tong-chi/lo-trinh-danh-cho-nguoi-chuyen-tu.png",
+      "coverImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/lo-trinh-danh-cho-nguoi-chuyen-tu.png",
       "description": "Định hướng lộ trình tu học chuyên sâu.",
       "linkUrl": "/tri-tue-phat-phap"
     },
@@ -1297,7 +1297,7 @@
     "subtitle": "Nếp sống tại chốn thiền môn",
     "category": "nep-song-thien-gia",
     "categoryName": "NẾP SỐNG THIỀN GIA",
-    "bannerImage": "/images/tong-chi/van-hoa-ung-xu-giao-tiep-tai-chua.jpg",
+    "bannerImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/van-hoa-ung-xu-giao-tiep-tai-chua.jpg",
     "excerpt": "Văn hóa ứng xử tại chốn Tùng Lâm thể hiện phẩm hạnh và sự tỉnh thức của người đệ tử Phật qua từng lời nói, nụ cười và hành động.",
     "content": "BANNERVĂN HÓA GIAO TIẾP ỨNG XỬ\nNhững nếp văn hóa được thực tập trong đời sống tu học tại Tùng Lâm Hòa Phúc\nVĂN HÓA LÀ GÌ\n“Văn là cái đẹp, cái tốt, cái thiện. Hóa là chuyển hóa, lan toả. Người biết tiếp thu, lắng nghe chuyển hóa bản thân và lan tỏa điều thiện đến người xung quanh gọi là người văn hóa.”\nVô Trí – Tâm Hòa\nVăn hóa trong đời sống tu học không chỉ nằm ở lời nói, mà được thể hiện qua cách mỗi người ứng xử, làm việc, sinh hoạt và gìn giữ những gì thuộc về cộng đồng.\nNHỮNG NẾP VĂN HÓA CHỐN THIỀN GIA\nNỘI DUNG POSTER: QUY ĐỊNH SINH HOẠT TU HỌC tại các khu vực - Trang web\n6 card:\n \n VĂN HÓA GIAO TIẾP ỨNG XỬCách đối đãi hòa hợp và giữ gìn lời nói, thái độ trong giao tiếp tại chốn Tùng Lâm.\nNHA_KHACH\nXem poster →\n VĂN HÓA NHÀ BẾPVăn hóa phụng sự tận tâm, tiết kiệm và gọn gàng trong sinh hoạt nhà bếp và trai đường. \nTRAI_DUONG; NHA_BEP\nXem poster →\n VĂN HÓA SINH HOẠTNhững nguyên tắc chung giúp đời sống tu tập đạo tràng giữ được trật tự, tiết chế, sẻ chia và tôn trọng.\nNHA_NGHI_PHAT_TU\nXem poster →\n___\nVĂN HÓA CỘNG TUVăn hóa cùng làm, cùng tu, cùng giữ gìn tinh thần trách nhiệm và sự hòa hợp trong các khóa cộng tu.\nGIANG_DUONG; NHA_NGHI_PHAT_TU\nXem poster →\n___\n05 — VĂN HÓA TRI THỨC\nNếp học, đọc để nuôi dưỡng trí tuệ và giữ gìn những nguyên tắc chung trong không gian thư viện.  \nTHU_VIEN; \nXem poster →\n___\nGIỮ GÌN CỦA THƯỜNG TRỤNếp sống trân trọng, giữ gìn và sử dụng đúng những gì thuộc về Tam Bảo và cộng đồng. \nNHA_BEP; KHO_KY_THUAT; KHO_DO_THO; TO_DUONG\nXem poster →\n___\nKhi click vào từng card, hiển thị poster đầy đủ, trong đó Giữ gìn của thường trụ → mở popup có 3 poster.\nKẾT\n“Phật về mang đến vị thaPhật về kết nối giữa ta với ngườiPhật về rạng rỡ nụ cườiPhật về tâm đạo thảnh thơi cõi lòng.”\nVô Trí – Tâm Hòa\nVăn hóa bắt đầu từ mỗi người, được nuôi dưỡng trong từng việc nhỏ và lan tỏa trong đời sống chung.\nTÌM HIỂU THÊM\nKhám phá thêm những nếp sống được thực tập.\nNgăn kéo 3 CARD\nOai nghi người con Phật\nBổn phận của người Phật tử tại gia\nThực tập ăn chay\nTÀI LIỆU THAM KHẢO\nNội dung được tổng hợp và biên soạn từ tư liệu thực tế sinh hoạt đạo tràng, cùng với các bài giảng, tác phẩm và tư liệu của Sa-môn Vô Trí – Tâm Hòa.\n📘 Đi Qua Khổ Vui Cuộc Đời – Quyển 01, 02, 03\n📘 Các bài giảng và chia sẻ trong các khóa tu tại Tùng Lâm Hòa Phúc.",
     "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
@@ -1314,13 +1314,13 @@
       "label": "NẾP SỐNG THIỀN GIA",
       "title": "VĂN HÓA THIỀN MÔN — NỀN TẢNG KIẾN TẠO MÔI TRƯỜNG TU HỌC THANH TỊNH",
       "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-      "bgImage": "/images/tong-chi/van-hoa-ung-xu-giao-tiep-tai-chua.jpg",
+      "bgImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/van-hoa-ung-xu-giao-tiep-tai-chua.jpg",
       "linkUrl": "/gioi-thieu/van-hoa-ung-xu"
     },
     "photoGallery": [
       {
         "title": "VĂN HÓA CHẮP TAY XÁ CHÀO TRANG NGHIÊM",
-        "imageUrl": "/images/tong-chi/van-hoa-ung-xu-giao-tiep-tai-chua.jpg",
+        "imageUrl": "https://admin.tunglamhoaphuc.com/wp-content/uploads/van-hoa-ung-xu-giao-tiep-tai-chua.jpg",
         "khuVuc": "Khu Nhà Khách Hòa Phúc",
         "noiDung": "Nụ cười từ hòa và lời chào A Di Đà Phật làm ấm lòng khách thập phương."
       }
@@ -1328,7 +1328,7 @@
     "sourceBook": {
       "bookTitle": "Nếp Sống Văn Hóa Tùng Lâm Hòa Phúc",
       "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-      "coverImage": "/images/tong-chi/van-hoa-ung-xu-giao-tiep-tai-chua.jpg",
+      "coverImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/van-hoa-ung-xu-giao-tiep-tai-chua.jpg",
       "description": "Nội quy và thanh quy chốn già lam.",
       "linkUrl": "/gioi-thieu/van-hoa-ung-xu"
     },
@@ -1351,7 +1351,7 @@
     "subtitle": "Đi, đứng, nằm, ngồi như Phật",
     "category": "nep-song-thien-gia",
     "categoryName": "NẾP SỐNG THIỀN GIA",
-    "bannerImage": "/images/tong-chi/oai-nghi-nguoi-con-phat.jpg",
+    "bannerImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/oai-nghi-nguoi-con-phat.jpg",
     "excerpt": "Tác phong đĩnh đạc, trang phục tề chỉnh, nói năng từ hòa là biểu hiện của một nội tâm có tu tập và có sự tự chủ.",
     "content": "BANNEROAI NGHI NGƯỜI CON PHẬT\nGiữ gìn thân hành, nuôi dưỡng sự tỉnh thức trong đời sống tu học.\nOAI NGHI LÀ GÌ?\n“Đức cao, hỷ xả, khinh an\nĐoan thân, chính niệm chẳng màng thị phi\nĐường Đạo thong thả bước đi\nKính già, yêu trẻ, từ bi độ đời.”\nVô Trí – Tâm Hòa\nOai nghi là cách một người giữ gìn thân hành, lời nói và tác phong trong đời sống tu học; qua đó thể hiện sự tôn trọng, tỉnh thức và nếp sống của người đệ tử Đức Phật.\nHIỂU ĐÚNG VỀ OAI NGHI\nInfographic 2 bài thơ:\nTRONG TU HỌC – TRONG ĐỜI SỐNG \n“Người học Đạo dáng uy nghi đĩnh đạc\nNói từ hòa, kham nhẫn chịu lắng nghe\nChớ xuề xòa quần áo chẳng gọn gàng\nRồi cho đó là học theo hạnh Phật.”\nVô Trí – Tâm Hòa\n“Người thế tục vẫn còn nhiều đối đãiGiữa họ hàng, giữa xã hội quanh conChớ xem thường việc chăm sóc bản thânVì ứng thế vẫn cần xem dung mạo.”\nVô Trí – Tâm Hòa\nOai nghi không phải là sự cầu kỳ hình thức, mà là sự chỉn chu được nuôi dưỡng từ bên trong. Giữ gìn thân tướng, lời nói và tác phong cũng là cách thể hiện sự tôn trọng bản thân, người khác và môi trường mình đang sống.\nNHỮNG NẾP OAI NGHI\n“Nói nhẹ như mây bay\nLàm nhanh như gió thổi Im lặng chiếc lá thu Mỉm cười như trăng sáng.”\nVô Trí – Tâm Hòa\nInfographic 5 card ảnh\n01 — TỨ OAI NGHI\nĐi - Đứng - Ngồi - Nằm\nNền tảng giữ gìn thân hành trong đời sống tu học.\n____\n02 — GIỮ LÒNG THANH TỊNH\nĐến cảnh Phật, giữ gìn môi trường, thân thể và tâm hồn thanh sạch.\n____\n03 — UY NGHI LỄ PHÉP\nĐến chùa với niềm vui, sự lễ phép và nụ cười trao tặng bình an.\n____\n04 — BƯỚC CHÂN CHÁNH NIỆM\nGiữ bước chân nhẹ nhàng, thân tâm thong dong và một lòng chính niệm.\n____\n05 — THÂN TÂM AN TRÚ\nGiữ phép đứng ngồi, để thân tâm được an nhiên và hòa đồng.\n____\nTypography in đậm dưới 5 card:\n“Được thân người là quý, càng quý hơn nếu làm chủ chính mình.”\nVô Trí – Tâm Hòa\nOAI NGHI  & PHẨM HẠNH\n“Chăm chút ngoại hình, cẩn thận từng góc ảnh là thể hiện sự trân quý cái đẹp, luôn mong bản thân chỉn chu trong mắt người khác. …cái đẹp bên trong tâm hồn cũng được chăm sóc thông qua sự thực tập nói lời dễ thương, hành động chính trực, ý nghĩ tích cực…”\nVô Trí – Tâm Hòa\nInfographic\nCHỈN CHU BÊN NGOÀI  ↔ TU DƯỠNG BÊN TRONG\nTrang phục gọn gàng\nThái độ nghiêm túc, tôn trọng\n↔\nNói lời dễ thương \nHành động chính trực \nÝ nghĩ tích cực\n___\nOai nghi bên ngoài được nuôi dưỡng từ sự chỉn chu và tu dưỡng trong từng lời nói, hành động, ý nghĩ.\nKẾT\n“Nơi Không Cốc gửi về con lời ngọc\nGìn tâm mình đừng để thẹn với lòng\nGiữ thân này làm thuyền vượt biển mê\nTrong mây ám, vầng hồng luôn tỏa sáng.”\nVô Trí – Tâm Hòa\nTÌM HIỂU THÊM\nCùng tiếp tục tìm hiểu những nếp sống giản dị để mỗi ngày học Phật và thực tập sâu hơn trong đời sống.\n3 card điều hướng:\nBổn phận người Phật tử tại gia \nThực tập ăn chay \nPhóng sinh & Bảo vệ môi trường.\nTÀI LIỆU THAM KHẢO\nNội dung được tổng hợp và biên soạn từ tư liệu thực tế sinh hoạt đạo tràng, cùng với các bài giảng, tác phẩm và tư liệu của Sa-môn Vô Trí – Tâm Hòa.\n📘 Đi Qua Khổ Vui Cuộc Đời – Quyển 01, 02, 03\n📘 Các bài giảng và chia sẻ trong các khóa tu tại Tùng Lâm Hòa Phúc.",
     "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
@@ -1368,13 +1368,13 @@
       "label": "NẾP SỐNG THIỀN GIA",
       "title": "OAI NGHI THIỀN MÔN — TẤM GƯƠNG PHẢN CHIẾU TÂM HỒN",
       "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-      "bgImage": "/images/tong-chi/oai-nghi-nguoi-con-phat.jpg",
+      "bgImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/oai-nghi-nguoi-con-phat.jpg",
       "linkUrl": "/gioi-thieu/van-hoa-ung-xu"
     },
     "photoGallery": [
       {
         "title": "OAI NGHI KHI ĐẾN CHÙA",
-        "imageUrl": "/images/tong-chi/oai-nghi-nguoi-con-phat.jpg",
+        "imageUrl": "https://admin.tunglamhoaphuc.com/wp-content/uploads/oai-nghi-nguoi-con-phat.jpg",
         "khuVuc": "Chánh Điện & Khuôn Viên",
         "noiDung": "Áo tràng lam trang nhã, bước đi nhẹ nhàng thanh thoát."
       }
@@ -1382,7 +1382,7 @@
     "sourceBook": {
       "bookTitle": "Oai Nghi Người Phật Tử",
       "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-      "coverImage": "/images/tong-chi/oai-nghi-nguoi-con-phat.jpg",
+      "coverImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/oai-nghi-nguoi-con-phat.jpg",
       "description": "Sách rèn luyện tác phong người học Phật.",
       "linkUrl": "/tri-tue-phat-phap"
     },
@@ -1405,7 +1405,7 @@
     "subtitle": "Sứ mệnh thiêng liêng",
     "category": "nep-song-thien-gia",
     "categoryName": "NẾP SỐNG THIỀN GIA",
-    "bannerImage": "/images/tong-chi/bon-phan-nguoi-phat-tu-tai-gia.jpg",
+    "bannerImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/bon-phan-nguoi-phat-tu-tai-gia.jpg",
     "excerpt": "Người Phật tử tại gia là nhịp cầu gắn kết đạo pháp với cuộc đời, đem tinh thần từ bi và trí tuệ làm rạng rỡ gia phong và xã hội.",
     "content": "BANNERBỔN PHẬN CỦA NGƯỜI PHẬT TỬ TẠI GIA\nSống tốt đời, đẹp đạo từ những bổn phận trong đời sống hằng ngày\nBỔN PHẬN LÀ GÌ?\n “Ứng dụng lời Phật\nTu sửa bản thân\nLàm tròn bổn phận\nLợi mình lợi người.”\nVô Trí - Tâm Hòa\nGIA ĐÌNH TÂM LINH\n“Đệ tử Phật có bốn chúng: Tỳ-kheo, Tỳ-kheo Ni, Ưu-bà-tắc, Ưu-bà-di. Người đã quy y Tam bảo, trở thành một thành viên trong ngôi nhà Phật pháp, trở thành người con của Đức Phật. Đó là gia đình tâm linh.”\nVô Trí - Tâm Hòa\nBỐN CHÚNG ĐỆ TỬ PHẬT\n🪷 XUẤT GIATỳ-kheo · Tỳ-kheo-ni\nTU HỌC & HOẰNG PHÁP\n🏡 TẠI GIAƯu-bà-tắc · Ưu-bà-di\nĐỒNG HÀNH & YỂM TRỢ \n“Làm thế nào để người xuất gia và người cư sĩ tại gia trong giáo đoàn của Đức Phật luôn luôn hòa hợp như nước với sữa.”\nĐỨC TIN CỦA NGƯỜI HỌC PHẬT\nInfographic 3 card\n01 — XÂY DỰNG NIỀM TIN NƠI CHÍNH MÌNH\n“Chúng ta hãy sống với đức tin của chính mình, do chính mình tạo ra và chính mình nuôi dưỡng nó.”\n02 — NUÔI DƯỠNG ĐỨC TIN KIÊN CỐ\n“Kháng thể duy nhất của phật tử là đức tin kiên cố, dưỡng chất để củng cố đức tin là môi trường tu học, bạn đồng tu và người Thầy tốt.”\n03 — GIỮ GÌN HẠT GIỐNG ĐỨC TIN\n“Dù chưa bước lên hàng Thánh giả nhưng nếu tôn trọng và chăm sóc đức tin của mình đúng cách, người phật tử sẽ không đánh mất hạt giống cao thượng, thánh thiện trong tâm hồn.”\nKIẾN TẠO HẠNH PHÚC TỰ THÂN\n“Tu dưỡng đạo đức, rèn luyện tri thức, nâng cao sức khoẻ, tăng trưởng tâm linh là nền tảng để:\nNgười già đáng giá\nNgười trẻ đủ khoẻ\nCùng kiến tạo hạnh phúc tự thân góp phần dựng xây bình an trong mỗi gia đình và toàn xã hội.”\nVô Trí - Tâm Hòa\nĐẠO ĐỨC · TRI THỨC · SỨC KHỎE · TÂM LINH\n↓\nHẠNH PHÚC TỰ THÂN\n↓\nBÌNH AN TRONG GIA ĐÌNH\n↓\nBỀN VỮNG TRONG XÃ HỘI\n \nPHẬT HÓA GIA ĐÌNH\n“Một gia đình có đạo, một gia đình hiểu Phật, một gia đình tin Phật, một gia đình thực hành theo lời Phật dạy, gia đình đó sẽ có hạnh phúc chân thật.”\nVô Trí - Tâm Hòa\nPHẬT HÓA GIA ĐÌNH\n3 card đặt cạnh nhau:\n👨‍👩‍👧‍👦 CARD 1\nÔNG BÀ, CHA MẸ – CHÁU CON\nYêu thương · Dạy bảo · Hiếu thuận\nXem thêm Lời Sư phụ dạy\n💑 CARD 2\nVỢ – CHỒNG\nTôn trọng · Thương yêu · Cùng tu\nXem thêm Lời Sư phụ dạy\n👫 CARD 3\nANH CHỊ – EM\nGắn bó · Chia sẻ · Giúp đỡ\nXem thêm Lời Sư phụ dạy\n___\n“Đem tâm thiện hướng về người khác cũng có nghĩa khi đó ta đã được nhận lại trọn vẹn tâm thiện vừa phát khởi. ” \nSỐNG CÓ TRÁCH NHIỆM VỚI CỘNG ĐỒNG\n“Nếu Cha Mẹ được ví như gia đình nhỏ thì Tổ quốc là gia đình lớn. Hay nói rộng hơn là môi trường sống.”\nVô Trí - Tâm Hòa\nInfographic 3 card dọc/ngang tùy responsive:\nGIA ĐÌNH LỚN\n🪷 TỔ QUỐCTôn trọng pháp luật · Kỷ cương · Lợi ích cộng đồng\n🌏 XÃ HỘIHành xử có trách nhiệm · Tôn trọng cộng đồng\n🌱 MÔI TRƯỜNG SỐNGTôn trọng · Bảo vệ thiên nhiên\nHỘ TRÌ TAM BẢO\n“Lòng tri ân và báo ân là chất liệu làm nên nhân cách cao thượng.”\nVô Trí - Tâm Hòa\nInfographic 3 khối trực quan:\nHỘ TRÌ TAM BẢO\nBẰNG LÒNG TRI ÂN – BẰNG TÂM PHỤNG SỰ\n🪷 PHẬT BẢO\nKính ngưỡng và noi theo \nGhi nhớ ân Phật – sống theo con đường giác ngộ \n📖 PHÁP BẢO\nHọc hỏi và thực hành \nLấy Pháp làm con đường chuyển hóa  \n🧘 TĂNG BẢO\nNgoại hộ & giữ gìn hòa hợp\nYểm trợ đời sống tu học của Tăng đoàn\nKẾT\n“Con nên biết: sống là yêu tất cả\nYêu non sông, yêu cha mẹ, muôn loài\nYêu Thế Tôn - Người tuyệt nhất trên đời\nĐừng để khổ chỉ vì “yêu ích kỷ”.”\nVô Trí – Tâm Hòa\nTÌM HIỂU THÊM\nCùng Tùng Lâm Hòa Phúc nuôi lớn hiểu và thương ngay trong đời sống:\n3 card điều hướng:\nVăn hóa ứng xử và giao tiếp tại chùa\nĂn chay \nPhóng sinh & Bảo vệ môi trường.\nTÀI LIỆU THAM KHẢO\nNội dung được tổng hợp và biên soạn từ các bài giảng, tác phẩm và tư liệu của Sa-môn Vô Trí – Tâm Hòa.\n📘 Bộ Khuyến Phát Bồ Đề Tâm Giảng Luận – Quyển 01, 02, 03, 04\n📘 Đi Qua Khổ Vui Cuộc Đời – Quyển 01, 02, 03\n📘 Các bài giảng và chia sẻ trong các khóa tu tại Tùng Lâm Hòa Phúc.",
     "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
@@ -1422,13 +1422,13 @@
       "label": "NẾP SỐNG THIỀN GIA",
       "title": "BỔN PHẬN PHẬT TỬ TẠI GIA THEO TINH THẦN KINH THIỆN SANH",
       "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-      "bgImage": "/images/tong-chi/bon-phan-nguoi-phat-tu-tai-gia.jpg",
+      "bgImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/bon-phan-nguoi-phat-tu-tai-gia.jpg",
       "linkUrl": "/tri-tue-phat-phap"
     },
     "photoGallery": [
       {
         "title": "GIA ĐÌNH PHẬT TỬ HÒA PHÚC",
-        "imageUrl": "/images/tong-chi/bon-phan-nguoi-phat-tu-tai-gia.jpg",
+        "imageUrl": "https://admin.tunglamhoaphuc.com/wp-content/uploads/bon-phan-nguoi-phat-tu-tai-gia.jpg",
         "khuVuc": "Giảng Đường Hòa Phúc",
         "noiDung": "Các thế hệ ông bà, cha mẹ, con cháu cùng nhau câu hội tu học."
       }
@@ -1436,7 +1436,7 @@
     "sourceBook": {
       "bookTitle": "Bổn Phận Người Phật Tử Tại Gia",
       "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-      "coverImage": "/images/tong-chi/bon-phan-nguoi-phat-tu-tai-gia.jpg",
+      "coverImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/bon-phan-nguoi-phat-tu-tai-gia.jpg",
       "description": "Sách hướng dẫn đạo làm con, làm cha mẹ và công dân mẫu mực.",
       "linkUrl": "/tri-tue-phat-phap"
     },
@@ -1459,7 +1459,7 @@
     "subtitle": "Từ bị, tịnh hóa thân tâm ",
     "category": "nep-song-thien-gia",
     "categoryName": "NẾP SỐNG THIỀN GIA",
-    "bannerImage": "/images/tong-chi/tong-chi-tu-hoc-banner.jpg",
+    "bannerImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/tong-chi-tu-hoc-banner.jpg",
     "excerpt": "Ăn chay là cách thiết thực nhất để dừng nghiệp sát sinh, bồi dưỡng lòng trắc ẩn và bảo vệ sức khỏe thân tâm an lành.",
     "content": "BANNER ĂN CHAY\nTôn trọng sự sống — nuôi dưỡng tâm từ — giữ gìn hạnh phúc gia đình.\nLỜI SƯ PHỤ DẠY\n“Con ăn chay là nuôi lòng bi mẫn\nChớ vì ăn mất hạnh phúc gia đình\nKhéo giữ sao bớt cá thịt hôi tanh\nNhưng đảm bảo đủ đầy nguồn dinh dưỡng.\nCon nên hiểu ăn chay vì sự sống\nCứu muôn loài trong đó có chính mình\nĐừng vì ăn mà chia rẽ gia đình\nBởi ăn uống đâu làm chi nên tội.”\nVô Trí – Tâm Hòa\nĂN CHAY & GIÁ TRỊ CỐT LÕI\n“Giá trị cốt lõi của con người được quyết định bởi con người có hiểu và thương chứ không phải là điều kiện vật chất vô tri.”\nVô Trí - Tâm Hòa\nInfographic\n🤍 NUÔI LÒNG BI MẪN\nĂn chay là một cách thực tập lòng thương yêu và trân trọng sự sống.\n🏡 GIỮ HẠNH PHÚC GIA ĐÌNH\nKhông để việc ăn uống trở thành nguyên nhân chia rẽ người thân.\n🌱 ĐẢM BẢO DINH DƯỠNG\nKhéo giữ sao bớt cá thịt, nhưng vẫn đảm bảo đủ đầy nguồn dinh dưỡng.\n___\nĂn chay không chỉ là thay đổi món ăn, mà là thực tập cách sống biết thương và biết đủ.\nĂN CHAY LÀ LỰA CHỌN NẾP SỐNG\n“Muốn thân an tâm tịnh, chọn “ít muốn, biết đủ” làm tư lương.\nMuốn bớt khổ thêm vui, xin nhớ lấy thương yêu làm lẽ sống.\nĐược thân người là quý, càng quý hơn nếu làm chủ chính mình.”\nVô Trí – Tâm Hòa\nTỪ MỘT LỰA CHỌN ĐẾN MỘT NẾP SỐNG\nNHẬN THỨCHiểu điều mình lựa chọn\n↓\nBI MẪNKhởi tâm thương yêu sự sống\n↓\nLỰA CHỌNĐiều chỉnh từ những bữa ăn\n↓\nTHỰC TẬPĐưa lựa chọn ấy vào đời sống\n↓\nNẾP SỐNGDần trở thành cách sống tự nhiên\n____\nMột lựa chọn trong bữa ăn cũng có thể trở thành một cách nuôi dưỡng tâm mình.\nBỮA ĂN VÀ HẠNH PHÚC GIA ĐÌNH\n“Hạnh phúc gia đình là thiêng liêng nhất đối với người phật tử tại gia.”\nVô Trí - Tâm Hòa\nĂn chay là một lựa chọn của mỗi người.Giữ được sự hiểu thương trong gia đình mới là điều cần được nuôi dưỡng.\nMÂM CƠM\n→ CHIA SẺ\n→ HIỂU THƯƠNG\n→ HÒA HỢP\n→ HẠNH PHÚC\n“Mâm cơm và sự chia sẻ hằng ngày là ‘giáo pháp’ nuôi dưỡng hạnh phúc gia đình.”\nKẾT\n“Cầu đất nước luôn bình an thịnh thế\nCầu quốc dân mãi mãi được ấm no\nCầu từ bi lan tỏa khắp muôn nhà\nCầu tất cả thương yêu như ruột thịt.”\nVô Trí – Tâm Hòa\nTÌM HIỂU THÊM\nTùng Lâm Hòa Phúc cùng bạn thực tập đưa nếp sống đẹp vào đời sống:\n3 card điều hướng:\nOai nghi người con Phật\nBổn phận của người Phật tử tại gia \nPhóng sinh & Bảo vệ môi trường.\nTÀI LIỆU THAM KHẢO\nNội dung được tổng hợp và biên soạn từ các bài giảng, tác phẩm và tư liệu của Sa-môn Vô Trí – Tâm Hòa.\n📘 Ba Nương Tựa Và Năm Thực Hành\n📘 Đi Qua Khổ Vui Cuộc Đời – Quyển 01, 02, 03\n📘 Các bài giảng và chia sẻ trong các khóa tu tại Tùng Lâm Hòa Phúc.",
     "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
@@ -1476,13 +1476,13 @@
       "label": "NẾP SỐNG THIỀN GIA",
       "title": "ĂN CHAY VÀ GIÁ TRỊ CỐT LÕI CỦA SỰ SỐNG",
       "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-      "bgImage": "/images/tong-chi/tong-chi-tu-hoc-banner.jpg",
+      "bgImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/tong-chi-tu-hoc-banner.jpg",
       "linkUrl": "/tri-tue-phat-phap"
     },
     "photoGallery": [
       {
         "title": "BỮA CƠM CHAY THANH TỊNH TÙNG LÂM",
-        "imageUrl": "/images/tong-chi/tong-chi-tu-hoc-banner.jpg",
+        "imageUrl": "https://admin.tunglamhoaphuc.com/wp-content/uploads/tong-chi-tu-hoc-banner.jpg",
         "khuVuc": "Trai Đường Hòa Phúc",
         "noiDung": "Món chay giản dị đượm đà hương vị giải thoát và lòng biết ơn."
       }
@@ -1490,7 +1490,7 @@
     "sourceBook": {
       "bookTitle": "Nghệ Thuật Ăn Chay & Sống Xanh",
       "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-      "coverImage": "/images/tong-chi/tong-chi-tu-hoc-banner.jpg",
+      "coverImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/tong-chi-tu-hoc-banner.jpg",
       "description": "Chỉ dẫn ăn chay lành mạnh và nuôi dưỡng tâm từ.",
       "linkUrl": "/tri-tue-phat-phap"
     },
@@ -1513,7 +1513,7 @@
     "subtitle": "Từ bi, bảo vệ môi sinh",
     "category": "nep-song-thien-gia",
     "categoryName": "NẾP SỐNG THIỀN GIA",
-    "bannerImage": "/images/tong-chi/phong-sinh-tu-phuc.jpg",
+    "bannerImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/phong-sinh-tu-phuc.jpg",
     "excerpt": "Phóng sinh đúng chánh pháp phải gắn liền với sự thấu hiểu, bảo vệ môi trường sinh thái để muôn loài thật sự được tự do và an lành.",
     "content": "BANNERPHÓNG SINH & BẢO VỆ MÔI TRƯỜNG\nMở rộng lòng từ — tôn trọng sự sống — sống có trí tuệ.\nSỰ SỐNG QUANH TA\n“Nước mềm mại uốn quanh\nTưới cây thêm xanh tốt\nCho muôn loài thủy tộc\nSống hòa hợp an vui.”\nVô Trí – Tâm Hòa\nMọi sự sống đều cần một môi trường để tồn tại, sinh trưởng và được an lành.\nĐỂ TỰ DO CÓ MẶT \n“Ngày nay có nhiều dịch bệnh, tai họa không phải do ma quỷ hay một thế lực vô hình nào, mà chính do con người tạo ra. Ăn uống một cách vô độ, sát hại chúng sinh một cách tàn khốc. Đặc biệt là ăn thịt các loài động vật hoang dã, từ đó đưa đến tật bệnh. Một điều dễ hiểu, con người tham sống sợ chết, con vật cũng tham sống sợ chết.”\nVô Trí – Tâm Hòa\nPHÓNG SINH BẮT ĐẦU TỪ HIỂU BIẾT VÀ THƯƠNG YÊU\nSỰ SỐNG↓ĐƯỢC THẤU HIỂU\n↓ĐƯỢC TÔN TRỌNG↓CÓ ĐIỀU KIỆN ĐỂ TỒN TẠI↓ĐƯỢC AN LÀNH\n___\n“Xứ sở tự do, an lạc cần được xây dựng bằng chất liệu bình đẳng của tình thương lớn và sự hiểu biết chân thật.”\nPHÓNG SINH LÀ TÔN TRỌNG SỰ SỐNG\n“Nếu phóng sinh chỉ vì muốn được sống thọ, ít bệnh, hoặc giảm hoạn nạn, thì đó là phóng sinh có điều kiện, không thực sự tạo ra công đức.”\nVô Trí – Tâm Hòa\n🐟 PHÓNG SINH THIẾU TRÍ TUỆ\nThả sai nơi, không phù hợp môi trường\nThả quá số lượng, con vật chen chúc dẫn tới cái chết \nGiữ con vật quá lâu trước khi thả \n🐦 PHÓNG SINH THIẾU TÌNH THƯƠNG\nMua con vật để phóng sinh → vô tình tạo nhu cầu săn bắt. \nVì mong làm phúc mà khiến con vật tiếp tục bị giam hãm. \nChỉ mong cầu sống lâu, ít bệnh, tránh hoạn nạn.\n___\n“Phạm trù đạo đức nếu bị nhận thức sai lệch, khi đó giá trị của tự do sẽ là miếng mồi ngon cho sự cuồng loạn!”\nTÔN TRỌNG TỰ DO CỦA NHAU\n“Ở góc độ khác, ‘phóng sinh thật sự’ là khi chúng ta giải thoát cho người thân yêu khỏi những ràng buộc của ái tình, giận dữ, khổ đau.” \nVô Trí – Tâm Hòa\nTự do không chỉ là điều chúng ta cần tôn trọng nơi muôn loài, mà còn là điều chúng ta cần biết tôn trọng trong chính các mối quan hệ của mình.\nVỚI NGƯỜI THÂN→ tôn trọng tự do và không gian riêng của nhau\nVỚI CỘNG ĐỒNG→ tôn trọng tự do cá nhân và lợi ích chung của tập thể\n___\n“Con biết tu là tìm ra chân lýMuốn người thương con phải biết thương ngườiCứ suốt ngày chăm chỉ việc phóng sinhMà nội kết gia đình ai hóa giải?”\nPHÓNG SINH NGAY TÂM MÌNH\n“Phóng sinh không nên chỉ giới hạn ở việc thả động vật, công đức lớn nằm ở việc cởi bỏ tham, sân, si từ trong tâm mình.” \nVô Trí – Tâm Hòa\nInfographic\nNHỮNG GÌ CẦN ĐƯỢC PHÓNG SINH?\nTHAM —— SÂN —— SI\nNHỮNG RÀNG BUỘC TRONG TÂM\n↓\nCỞI BỎ↓TỰ DO\n___\n“Con đại bàng đang bay lượn tự do trên bầu trời… Tắm mình trong bao la vô tận nó nhận ra ý nghĩa sự tự do là khi làm chủ đôi cánh.”\nBẢO VỆ MÔI TRƯỜNG LÀ BẢO VỆ SỰ SỐNG\n“Tôn trọng và bảo vệ thiên nhiên, môi trường trước thảm họa khôn lường của biến đổi khí hậu và chiến tranh. Biển là một phần của thiên nhiên. …Nhưng nếu để biển nổi giận vì sự vô tình của con người thì hậu quả sẽ khó tính được.” \nVô Trí – Tâm Hòa\nMÔI TRƯỜNG LÀ NƠI SỰ SỐNG ĐƯỢC NUÔI DƯỠNG\nMỗi lựa chọn nhỏ đều góp phần bảo vệ sự sống.\n🍚 TRONG ĂN UỐNG\nĂn uống có ý thức, tiết chế và tránh lãng phí. \nHạn chế sát hại động vật, trân trọng nguồn thực phẩm mình sử dụng.\n🛍️ TRONG TIÊU DÙNG\nHạn chế sử dụng đồ dùng một lần. \nƯu tiên những lựa chọn ít gây tổn hại môi trường. \n🐾 VỚI MUÔN LOÀI\nKhông mua bán động vật hoang dã. \nKhông nuôi nhốt hoặc phóng sinh động vật sai môi trường sống. \n🌊 VỚI THIÊN NHIÊN\nKhông xả rác. \nGiữ gìn nguồn nước. \nBảo vệ không gian sống tự nhiên.\n___\n“Khi có ý thức bảo vệ môi trường và hệ sinh thái, chúng ta đang có cơ hội kéo dài mạng sống của muôn loài trong đó có chính bản thân, gia đình và những người xung quanh.”\nKẾT\n“Tự do trí tuệ là sự có mặt của lý tưởng vị tha, chuyển hóa dục vọng cá nhân, hướng đến lợi ích cho số đông…”\nVô Trí – Tâm Hòa\nTÌM HIỂU THÊM\nNhững nếp thực tập sống đẹp để nuôi dưỡng sự sống mỗi ngày:\n3 card điều hướng:\nNgũ giới\nBổn phận của người Phật tử tại gia. \nĂn chay\nTÀI LIỆU THAM KHẢO\nNội dung được tổng hợp và biên soạn từ các bài giảng, tác phẩm và tư liệu của Sa-môn Vô Trí – Tâm Hòa.\n📘Ba Nương Tựa Và Năm Thực Hành\n📘 Khuyến Phát Bồ Đề Tâm Giảng Luận – Quyển 02\n📘 Đi Qua Khổ Vui Cuộc Đời – Quyển 01, 02, 03\n📘 Các bài giảng và chia sẻ trong các khóa tu tại Tùng Lâm Hòa Phúc.",
     "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
@@ -1530,13 +1530,13 @@
       "label": "NẾP SỐNG THIỀN GIA",
       "title": "PHÓNG SINH CÓ TRÍ TUỆ VÀ Ý THỨC BẢO VỆ MÔI TRƯỜNG SINH THÁI",
       "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-      "bgImage": "/images/tong-chi/phong-sinh-tu-phuc.jpg",
+      "bgImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/phong-sinh-tu-phuc.jpg",
       "linkUrl": "/tri-tue-phat-phap"
     },
     "photoGallery": [
       {
         "title": "HOẠT ĐỘNG PHÓNG SINH VĂN MINH",
-        "imageUrl": "/images/tong-chi/phong-sinh-tu-phuc.jpg",
+        "imageUrl": "https://admin.tunglamhoaphuc.com/wp-content/uploads/phong-sinh-tu-phuc.jpg",
         "khuVuc": "Khu Bảo Tồn & Sông Hồ Tự Nhiên",
         "noiDung": "Thả các loài thủy tộc về với môi trường tự nhiên trong lời nguyện cầu an lành."
       }
@@ -1544,7 +1544,7 @@
     "sourceBook": {
       "bookTitle": "Phóng Sinh & Tôn Trọng Sự Sống",
       "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-      "coverImage": "/images/tong-chi/phong-sinh-tu-phuc.jpg",
+      "coverImage": "https://admin.tunglamhoaphuc.com/wp-content/uploads/phong-sinh-tu-phuc.jpg",
       "description": "Chỉ dẫn phóng sinh văn minh và trách nhiệm môi trường.",
       "linkUrl": "/tri-tue-phat-phap"
     },
@@ -1569,7 +1569,7 @@
     "categoryName": "NỀN TẢNG TU HỌC",
     "wpPostId": "488",
     "bannerImage": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/nen-tang-tu-hoc/tong-chi-tu-hoc-nen-tang-tu-hoc-tam-quy-ngu-gioi-banner-sach-3-nt-5-th-jpg.webp",
-    "bannerPosition": "center 28%",
+    "bannerPosition": "https://admin.tunglamhoaphuc.com/center 28%",
     "excerpt": "Quy y Tam Bảo là quay về nương tựa ân đức của Phật, ân đức của Pháp và ân đức của Tăng — đánh thức hạt giống giác ngộ và từ bi nơi chính tự thân.",
     "content": "## TAM QUY & Ý NGHĨA\n\n> Quy là quay về, y là nương tựa. Quy y Tam Bảo là quay về nương tựa ân đức của Phật, nương tựa ân đức của Pháp và nương tựa ân đức của Tăng...\n*Vô Trí - Tâm Hòa*\n\nQuy y là quay về với lòng biết ơn những **ân đức** đã nâng đỡ cho mình trên hành trình giác ngộ.\n\n[INFOGRAPHIC_TAM_QUY_BA_VIEN_NGOC]\n\n> Ân đức của Phật, ân đức của Pháp, ân đức của Tăng là ba viên ngọc quý ở thế gian. Đức Phật là người chỉ đường, giáo pháp là con đường và Tăng đoàn là người đồng hành cùng chúng ta trên hành trình đó.\n*Vô Trí – Tâm Hòa*\n\n## QUY Y – ĐƯỢC SINH RA TRONG NGÔI NHÀ PHẬT PHÁP\n\n> Quy y Tam Bảo là một cam kết thiêng liêng, chỉ diễn ra một lần trong đời, cũng như đứa con được sinh ra bởi người mẹ duy nhất một lần.\n*Vô Trí – Tâm Hòa*\n\nQuy y Tam Bảo là mốc ghi dấu sự trở về với ngôi nhà tâm linh, nơi ta được sinh ra trong vòng tay che chở của Ba Ngôi Báu. Được làm con của Phật là một niềm phúc lạc, là cơ hội quý báu mà trong một đời người, chúng ta đừng nên bỏ lỡ.\n\n## TAM BẢO NƠI TỰ THÂN\n\n> Quy y Tam Bảo chính là quá trình đánh thức năng lực giác ngộ bên trong bản thân.\n*Vô Trí - Tâm Hòa*\n\n[INFOGRAPHIC_TAM_BAO_TU_THAN]\n\nTam Bảo nơi tự thân là lời nhắc để mỗi người nhận ra: ánh sáng giác ngộ không ở đâu xa, mà đang được nuôi dưỡng trong chính tâm mình qua từng ước nguyện tu học và từng phút giây trở về thanh tịnh.\n\n## TAM BẢO HIỆN DIỆN NGAY TRONG ĐỜI SỐNG\n\n> Chúng ta cần quán chiếu sâu sắc để thấy “Đức Phật” không chỉ có mặt ở chùa, mà người chồng cũng là Phật, người con cũng là Phật… Mâm cơm và sự chia sẻ hằng ngày là “giáo pháp” nuôi dưỡng hạnh phúc gia đình, còn sự hòa hợp cùng chung sống trong gia đình chính là hình ảnh của “Tăng đoàn”.\n*Vô Trí - Tâm Hòa*\n\n[INFOGRAPHIC_TAM_BAO_DOI_SONG]\n\nQuy y Tam Bảo không đưa chúng ta rời xa cuộc sống. Trái lại, nương tựa Tam Bảo giúp ta học cách nhìn lại chính mình, chuyển hóa các mối quan hệ và xây dựng Tịnh độ ngay trong đời sống gia đình.\n\n## THỰC TẬP TAM QUY MỖI NGÀY\n\n> Chất liệu của sự thực tập chánh Pháp là cơ hội để nuôi dưỡng đức tin. Nương tựa vào mảnh đất của Tam bảo để hạt giống đức tin thêm vững chãi.\n*Vô Trí - Tâm Hòa*\n\nHành trình trở về với Tam Bảo không chỉ bắt đầu từ một ngày quy y, mà được nuôi dưỡng qua từng ngày tu học và thực hành. Tùng Lâm Hòa Phúc đồng hành cùng bạn trên hành trình ấy.\n\n[INFOGRAPHIC_THUC_TAP_TAM_QUY]\n\nQUOTE CUỐI TRANG\n“Gắng con nhé, con là con của Phật\nĐược sinh ra từ Pháp bảo nhiệm màu\nĐược dưỡng nuôi bằng chất liệu Tăng thân\nDù xa cách con vẫn là con Phật.”\nVô Trí - Tâm Hòa\n\nTÀI LIỆU THAM KHẢO\nNội dung được tổng hợp và biên soạn từ các bài giảng, tác phẩm và tư liệu của Sa môn Vô Trí – Tâm Hòa.\n📘 Ba Nương Tựa Và Năm Thực Hành\n📘 Gieo Hạt Từ Bi\n📘 Đi Qua Khổ Vui Cuộc Đời – Quyển 01, 02, 03\n📘 Các bài giảng và chia sẻ trong các khóa tu tại Tùng Lâm Hòa Phúc.",
     "author": "Vô Trí - Tâm Hòa",

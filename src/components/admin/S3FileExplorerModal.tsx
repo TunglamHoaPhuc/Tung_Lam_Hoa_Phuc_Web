@@ -230,10 +230,35 @@ export function S3FileExplorerModal({
   onSelectImage,
   initialPath = '',
 }: S3FileExplorerModalProps) {
-  const [currentPath, setCurrentPath] = useState<string>(initialPath);
+  const normalizePath = (pathStr: string): string => {
+    let clean = (pathStr || '').replace(/^\/+|\/+$/g, '');
+    const parts = clean.split('/');
+    const root = parts[0];
+    const map: Record<string, string> = {
+      'trang-chu': '01-trang-chu',
+      'tong-chi-tu-hoc': '02-tong-chi-tu-hoc',
+      'tong-chi': '02-tong-chi-tu-hoc',
+      'dong-chay-hoang-phap': '03-dong-chay-hoang-phap',
+      'hoang-phap': '03-dong-chay-hoang-phap',
+      'vu-tru-phat-giao': '04-vu-tru-phat-giao',
+      'vu-tru': '04-vu-tru-phat-giao',
+      'bao-tuong-phat-giao': '05-bao-tuong-phat-giao',
+      'bao-tuong': '05-bao-tuong-phat-giao',
+      '33-ung-hoa-than-duc-quan-am': '06-33-ung-hoa-than-duc-quan-am',
+      'anh-tho-cac-vi-cao-tang': '07-anh-tho-cac-vi-cao-tang',
+      'tu-an-book': '08-tu-an-book',
+      'icon-minh-hoa': '09-icon-minh-hoa',
+      'uploads': '10-uploads',
+    };
+    if (map[root]) parts[0] = map[root];
+    return parts.join('/');
+  };
+
+  const [currentPath, setCurrentPath] = useState<string>(normalizePath(initialPath));
   const [expandedFolders, setExpandedFolders] = useState<Record<string, boolean>>({
-    'tong-chi-tu-hoc': true,
-    'trang-chu': true,
+    '02-tong-chi-tu-hoc': true,
+    '01-trang-chu': true,
+    '03-dong-chay-hoang-phap': true,
   });
   const [folders, setFolders] = useState<string[]>([]);
   const [files, setFiles] = useState<S3File[]>([]);
@@ -247,7 +272,7 @@ export function S3FileExplorerModal({
 
   const showToast = (msg: string) => {
     setToastMsg(msg);
-    setTimeout(() => setToastMsg(null), 3000);
+    setTimeout(() => setToastMsg(null), 4000);
   };
 
   const toggleExpand = (catId: string, e: React.MouseEvent) => {
@@ -272,12 +297,24 @@ export function S3FileExplorerModal({
     }
   }, []);
 
-  // Chỉ gọi loadDirectory khi mở modal hoặc khi currentPath thay đổi
+  // Khi mở modal, tự động đồng bộ path chuẩn và mở rộng thư mục tương ứng
   useEffect(() => {
     if (isOpen) {
+      const norm = normalizePath(initialPath || currentPath);
+      setCurrentPath(norm);
+      const rootCat = norm.split('/')[0];
+      if (rootCat) {
+        setExpandedFolders((prev) => ({ ...prev, [rootCat]: true }));
+      }
+      loadDirectory(norm);
+    }
+  }, [isOpen, initialPath, loadDirectory]);
+
+  useEffect(() => {
+    if (isOpen && currentPath) {
       loadDirectory(currentPath);
     }
-  }, [isOpen, currentPath, loadDirectory]);
+  }, [currentPath, isOpen, loadDirectory]);
 
   // Navigate into a folder
   const navigateTo = (subFolder: string) => {
@@ -355,6 +392,7 @@ export function S3FileExplorerModal({
 
     setUploading(true);
     let successCount = 0;
+    let lastError = '';
 
     for (let i = 0; i < uploadFiles.length; i++) {
       const file = uploadFiles[i];
@@ -368,15 +406,24 @@ export function S3FileExplorerModal({
           body: formData,
         });
         const data = await res.json();
-        if (data.success) successCount++;
-      } catch (err) {
+        if (data.success) {
+          successCount++;
+        } else {
+          lastError = data.error || 'Lỗi lưu ảnh';
+        }
+      } catch (err: any) {
         console.error('Upload error:', err);
+        lastError = err.message || 'Lỗi mạng khi tải lên';
       }
     }
 
     setUploading(false);
     loadDirectory(currentPath);
-    showToast(`Đã tải lên thành công ${successCount} ảnh vào "${currentPath || '10-uploads'}"!`);
+    if (successCount > 0) {
+      showToast(`✅ Đã tải lên thành công ${successCount}/${uploadFiles.length} ảnh vào "${currentPath || '10-uploads'}"!`);
+    } else {
+      showToast(`❌ Không thể tải ảnh lên: ${lastError || 'Lỗi không xác định'}`);
+    }
   };
 
   // Handle upload files from input

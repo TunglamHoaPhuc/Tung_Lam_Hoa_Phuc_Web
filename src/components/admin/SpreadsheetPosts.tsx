@@ -432,7 +432,7 @@ export function SpreadsheetPosts() {
   const fetchPosts = async () => {
     try {
       setLoading(true);
-      const res = await fetch('/api/admin/posts');
+      const res = await fetch(`/api/admin/posts?t=${Date.now()}`, { cache: 'no-store' });
       const data = await res.json();
       if (data.success && data.posts) {
         setPosts(data.posts);

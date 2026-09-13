@@ -1,6 +1,8 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useTransition, useCallback } from 'react';
+import Link from 'next/link';
+import { getImageUrl } from '@/utils/image';
 import { SectionData } from '@/types/tong-chi-tu-hoc';
 import { NAV_ITEMS, INITIAL_SECTIONS_DATA } from '@/data/tong-chi-tu-hoc-data';
 import { SubNavbar } from '@/components/tong-chi-tu-hoc/SubNavbar';
@@ -41,7 +43,8 @@ function extractImgFromContent(htmlContent: string): string {
     const doc = parser.parseFromString(htmlContent, 'text/html');
     const firstImg = doc.querySelector('img');
     if (firstImg) {
-      return firstImg.getAttribute('src') || firstImg.getAttribute('data-src') || '';
+      const src = firstImg.getAttribute('src') || firstImg.getAttribute('data-src') || '';
+      return getImageUrl(src);
     }
   } catch (err) {
     console.error('Lỗi bóc tách ảnh:', err);
@@ -175,7 +178,7 @@ export default function TongChiTuHocPage() {
             extractImgFromContent(bannerData?.content?.rendered || '') ||
             'https://tunglam.mocwp.com/wp-content/uploads/2026/07/bg-chua.jpg';
 
-          if (featuredImageUrl) setBannerUrl(featuredImageUrl);
+          if (featuredImageUrl) setBannerUrl(getImageUrl(featuredImageUrl));
 
           const fullContent = bannerData?.content?.rendered || bannerData?.acf?.description || bannerData?.excerpt?.rendered || '';
           if (fullContent) setPageDescription(formatIntroHtml(fullContent));

@@ -7,7 +7,7 @@ import sharp from 'sharp';
 export const S3_ROOT_PREFIX = 'tunglamhoaphuc2';
 
 function getEnvConfig() {
-  let secretKey = process.env.S3_SECRET_ACCESS_KEY || '';
+  let secretKey = process.env.S3_SECRET_ACCESS_KEY || 'K005/I+vUZ8TcuI2ww8TLeRPtsVzEaA';
   let accessKey = process.env.S3_ACCESS_KEY_ID || '005bc25330e1c1f0000000029';
   let endpoint = process.env.S3_ENDPOINT || 'https://s3.us-east-005.backblazeb2.com';
   let region = process.env.S3_REGION || 'us-east-005';
@@ -49,6 +49,51 @@ function getEnvConfig() {
     bucketName,
     publicUrl: publicUrl.replace(/\/$/, ''),
   };
+}
+
+// 🪷 Tự động chuẩn hóa alias thư mục sang thư mục chuẩn có số thứ tự trên S3
+export function resolveCanonicalFolder(folder: string): string {
+  let clean = (folder || '').replace(/^\/+|\/+$/g, '');
+  if (clean.startsWith(`${S3_ROOT_PREFIX}/`)) {
+    clean = clean.replace(`${S3_ROOT_PREFIX}/`, '');
+  } else if (clean === S3_ROOT_PREFIX) {
+    clean = '';
+  }
+  if (!clean) return '';
+
+  const parts = clean.split('/');
+  const rootPart = parts[0];
+  const aliases: Record<string, string> = {
+    'trang-chu': '01-trang-chu',
+    '01-trang-chu': '01-trang-chu',
+    'tong-chi-tu-hoc': '02-tong-chi-tu-hoc',
+    'tong-chi': '02-tong-chi-tu-hoc',
+    '02-tong-chi-tu-hoc': '02-tong-chi-tu-hoc',
+    'dong-chay-hoang-phap': '03-dong-chay-hoang-phap',
+    'hoang-phap': '03-dong-chay-hoang-phap',
+    '03-dong-chay-hoang-phap': '03-dong-chay-hoang-phap',
+    'vu-tru-phat-giao': '04-vu-tru-phat-giao',
+    'vu-tru': '04-vu-tru-phat-giao',
+    '04-vu-tru-phat-giao': '04-vu-tru-phat-giao',
+    'bao-tuong-phat-giao': '05-bao-tuong-phat-giao',
+    'bao-tuong': '05-bao-tuong-phat-giao',
+    '05-bao-tuong-phat-giao': '05-bao-tuong-phat-giao',
+    '33-ung-hoa-than-duc-quan-am': '06-33-ung-hoa-than-duc-quan-am',
+    '06-33-ung-hoa-than-duc-quan-am': '06-33-ung-hoa-than-duc-quan-am',
+    'anh-tho-cac-vi-cao-tang': '07-anh-tho-cac-vi-cao-tang',
+    '07-anh-tho-cac-vi-cao-tang': '07-anh-tho-cac-vi-cao-tang',
+    'tu-an-book': '08-tu-an-book',
+    '08-tu-an-book': '08-tu-an-book',
+    'icon-minh-hoa': '09-icon-minh-hoa',
+    '09-icon-minh-hoa': '09-icon-minh-hoa',
+    'uploads': '10-uploads',
+    '10-uploads': '10-uploads',
+  };
+
+  if (aliases[rootPart]) {
+    parts[0] = aliases[rootPart];
+  }
+  return parts.join('/');
 }
 
 let cachedS3Client: S3Client | null = null;
@@ -114,18 +159,12 @@ export async function uploadImageFile(
   const finalFileName = `${baseName}${optimized.ext}`;
 
   // Chuẩn hóa folder prefix nằm trong tunglamhoaphuc2/
-  let cleanFolder = folderPrefix.replace(/^\/+|\/+$/g, '');
-  if (!cleanFolder) cleanFolder = 'uploads';
-  if (cleanFolder.startsWith(`${S3_ROOT_PREFIX}/`)) {
-    cleanFolder = cleanFolder.replace(`${S3_ROOT_PREFIX}/`, '');
-  } else if (cleanFolder === S3_ROOT_PREFIX) {
-    cleanFolder = 'uploads';
-  }
-
+  let cleanFolder = resolveCanonicalFolder(folderPrefix) || '10-uploads';
   const s3Key = `${S3_ROOT_PREFIX}/${cleanFolder}/${finalFileName}`;
 
   // 1. Upload lên S3
   const client = getS3ClientInstance(config);
+  let s3Error = '';
   if (client) {
     try {
       const command = new PutObjectCommand({
@@ -147,11 +186,12 @@ export async function uploadImageFile(
         size: optimized.buffer.length,
       };
     } catch (err: any) {
-      console.error('❌ S3 Upload failed, falling back to local storage:', err);
+      console.error('❌ S3 Upload failed:', err);
+      s3Error = err.message || String(err);
     }
   }
 
-  // 2. Fallback: Lưu vào local public/images/[folder]
+  // 2. Fallback: Lưu vào local public/images/[folder] (chỉ trên local dev writable)
   try {
     const localDir = path.resolve(process.cwd(), 'public/images', cleanFolder);
     if (!fs.existsSync(localDir)) {
@@ -169,7 +209,13 @@ export async function uploadImageFile(
       size: optimized.buffer.length,
     };
   } catch (err: any) {
-    return { success: false, url: '', isS3: false, fileName: finalFileName, error: err.message };
+    return {
+      success: false,
+      url: '',
+      isS3: false,
+      fileName: finalFileName,
+      error: s3Error ? `Lỗi tải S3 (${s3Error})` : err.message,
+    };
   }
 }
 
@@ -182,11 +228,8 @@ export async function listS3Explorer(relativePrefix: string = ''): Promise<{
 }> {
   const config = getEnvConfig();
 
-  // Bỏ prefix tunglamhoaphuc2 nếu có để lấy đường dẫn tương đối sạch sẽ
-  let cleanRel = relativePrefix.replace(/^\/+/, '').replace(/\/+$/, '');
-  if (cleanRel.startsWith(S3_ROOT_PREFIX)) {
-    cleanRel = cleanRel.replace(new RegExp(`^${S3_ROOT_PREFIX}\\/?`), '');
-  }
+  // Chuẩn hóa đường dẫn tương đối bằng resolveCanonicalFolder
+  const cleanRel = resolveCanonicalFolder(relativePrefix);
 
   // S3 Key thực tế để query: tunglamhoaphuc2/subfolder/
   const actualS3Prefix = cleanRel ? `${S3_ROOT_PREFIX}/${cleanRel}/` : `${S3_ROOT_PREFIX}/`;

@@ -6,6 +6,7 @@ import { Eye, Calendar, ArrowRight, ChevronDown, Check, Sparkles } from 'lucide-
 import Header from '@/components/public/layout/Header';
 import Footer from '@/components/public/layout/Footer';
 import { HOANG_PHAP_ARTICLES, HOANG_PHAP_CATEGORIES, HoangPhapArticle } from '@/data/dong-chay-hoang-phap-data';
+import ALL_POSTS from '@/data/posts-database.json';
 import { SmartSearchAIBar } from '@/components/public/SmartSearchAIBar';
 import { CategoryFilter } from '@/components/common/CategoryFilter';
 
@@ -19,7 +20,30 @@ const SORT_OPTIONS: { id: SortOption; label: string }[] = [
 ];
 
 export default function DongChayHoangPhapPage() {
-  const [articles, setArticles] = useState<HoangPhapArticle[]>(HOANG_PHAP_ARTICLES);
+  const initialFromDb: HoangPhapArticle[] = (ALL_POSTS as any[])
+    .filter((p) => p.mainCategory === 'dong-chay-hoang-phap')
+    .map((p: any) => ({
+      id: p.id,
+      slug: p.slug,
+      title: p.title,
+      date: p.publishedDate || '2026-08-01',
+      author: p.author || 'Ban Văn Hóa Tùng Lâm',
+      category: p.subCategory || 'cong-tu',
+      subCategory: p.subtitle || p.categoryName || 'Dòng Chảy Hoằng Pháp',
+      subCategoryIcon: '',
+      templeLogo: (p.templeLogo || 'tung-lam-hoa-phuc') as 'tung-lam-hoa-phuc' | 'quynh-nhai-cam-lo-tu',
+      templeName: p.templeName || 'Tùng Lâm Hòa Phúc',
+      views: p.viewsCount || 108,
+      thumbnailUrl: p.thumbnailUrl || '/images/toan-canh-chua.jpg',
+      thumbnailPosition: p.thumbnailPosition || 'center center',
+      bannerUrl: p.bannerUrl || '/images/toan-canh-chua.jpg',
+      summary: p.summary || '',
+      contentHtml: p.contentHtml || '',
+    }));
+
+  const [articles, setArticles] = useState<HoangPhapArticle[]>(
+    initialFromDb.length > 0 ? initialFromDb : HOANG_PHAP_ARTICLES
+  );
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [currentSort, setCurrentSort] = useState<SortOption>('newest');
   const [isExpanded, setIsExpanded] = useState(false);
@@ -28,7 +52,7 @@ export default function DongChayHoangPhapPage() {
   useEffect(() => {
     async function fetchDynamicPosts() {
       try {
-        const res = await fetch('/api/admin/posts?category=dong-chay-hoang-phap', { cache: 'no-store' });
+        const res = await fetch(`/api/admin/posts?category=dong-chay-hoang-phap&t=${Date.now()}`, { cache: 'no-store' });
         if (res.ok) {
           const json = await res.json();
           if (json.success && Array.isArray(json.posts) && json.posts.length > 0) {
@@ -38,9 +62,11 @@ export default function DongChayHoangPhapPage() {
               title: p.title,
               date: p.publishedDate || '2026-08-01',
               author: p.author || 'Ban Văn Hóa Tùng Lâm',
-              category: p.subCategory || 'dong-chay-hoang-phap',
-              subCategory: p.subtitle || 'Dòng Chảy Hoằng Pháp',
+              category: p.subCategory || 'cong-tu',
+              subCategory: p.subtitle || p.categoryName || 'Dòng Chảy Hoằng Pháp',
               subCategoryIcon: '',
+              templeLogo: (p.templeLogo || 'tung-lam-hoa-phuc') as 'tung-lam-hoa-phuc' | 'quynh-nhai-cam-lo-tu',
+              templeName: p.templeName || 'Tùng Lâm Hòa Phúc',
               views: p.viewsCount || 108,
               thumbnailUrl: p.thumbnailUrl || '/images/toan-canh-chua.jpg',
               thumbnailPosition: p.thumbnailPosition || 'center center',
@@ -48,7 +74,6 @@ export default function DongChayHoangPhapPage() {
               summary: p.summary || '',
               contentHtml: p.contentHtml || '',
             }));
-            // Merge with local fallback if needed, placing dynamic articles first
             setArticles(mapped);
           }
         }

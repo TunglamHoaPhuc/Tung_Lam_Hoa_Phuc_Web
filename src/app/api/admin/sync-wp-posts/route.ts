@@ -2,9 +2,14 @@ import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 import { S3Client, CopyObjectCommand } from '@aws-sdk/client-s3';
+import { loadServerlessJson, saveServerlessJson } from '@/lib/serverless-db';
 
-const DATA_FILE = path.resolve(process.cwd(), 'src/data/posts-database.json');
-const S3_KEYS_FILE = path.resolve(process.cwd(), 's3_keys.json');
+const DB_CONFIG = {
+  fileName: 'posts-database.json',
+  localRelativePath: 'src/data/posts-database.json',
+  s3Key: 'tunglamhoaphuc2/database/posts-database.json',
+  defaultData: [] as any[],
+};
 
 function getS3Config() {
   const envPath = path.resolve(process.cwd(), '.env.local');
@@ -28,6 +33,13 @@ function getS3Config() {
 }
 
 function mapCategories(catIds: number[] = []) {
+  // WordPress Admin Categories (admin.tunglamhoaphuc.com)
+  if (catIds.includes(2)) return { mainCategory: 'dong-chay-hoang-phap', subCategory: 'khoa-le-truyen-thong', categoryName: 'Khóa Lễ Truyền Thống' };
+  if (catIds.includes(5)) return { mainCategory: 'tri-tue-phat-phap', subCategory: 'bai-viet', categoryName: 'Bài Viết' };
+  if (catIds.includes(1)) return { mainCategory: 'tong-chi-tu-hoc', subCategory: 'cong-tu', categoryName: 'Tông Chỉ Tu Học' };
+  if (catIds.includes(3)) return { mainCategory: 'vu-tru-phat-giao', subCategory: 'cong-tu', categoryName: 'Vũ Trụ Phật Giáo' };
+
+  // Legacy WordPress Categories (tunglamhoaphuc.com)
   if (catIds.includes(266)) return { mainCategory: 'dong-chay-hoang-phap', subCategory: 'cong-tu', categoryName: 'Cộng Tu Định Kỳ' };
   if (catIds.includes(237)) return { mainCategory: 'dong-chay-hoang-phap', subCategory: 'khoa-le-truyen-thong', categoryName: 'Khóa Lễ Truyền Thống' };
   if (catIds.includes(265) || catIds.includes(230)) return { mainCategory: 'dong-chay-hoang-phap', subCategory: 'dai-le-su-kien', categoryName: 'Đại Lễ Sự Kiện' };
@@ -79,10 +91,27 @@ export async function POST() {
       forcePathStyle: true,
     });
 
-    let page = 1;
     let allWpPosts: any[] = [];
-    let hasMore = true;
 
+    // 1. Quét từ WordPress Admin CMS đang hoạt động (admin.tunglamhoaphuc.com)
+    try {
+      const adminRes = await fetch('https://admin.tunglamhoaphuc.com/wp-json/wp/v2/posts?per_page=100&_embed=true', {
+        headers: { 'User-Agent': 'Mozilla/5.0' },
+        cache: 'no-store',
+      });
+      if (adminRes.ok) {
+        const adminData = await adminRes.json();
+        if (Array.isArray(adminData)) {
+          allWpPosts.push(...adminData);
+        }
+      }
+    } catch (e) {
+      console.warn('Không thể kết nối admin.tunglamhoaphuc.com:', e);
+    }
+
+    // 2. Quét từ WordPress công khai (tunglamhoaphuc.com)
+    let page = 1;
+    let hasMore = true;
     while (hasMore && page <= 10) {
       const res = await fetch(`https://tunglamhoaphuc.com/wp-json/wp/v2/posts?per_page=100&page=${page}&_embed=true`, {
         headers: { 'User-Agent': 'Mozilla/5.0' },
@@ -91,7 +120,12 @@ export async function POST() {
       if (!res.ok) break;
       const data = await res.json();
       if (!Array.isArray(data) || data.length === 0) break;
-      allWpPosts.push(...data);
+      // Tránh trùng ID đã có từ admin
+      for (const p of data) {
+        if (!allWpPosts.some((x) => x.id === p.id)) {
+          allWpPosts.push(p);
+        }
+      }
       if (data.length < 100) break;
       page++;
     }
@@ -100,16 +134,14 @@ export async function POST() {
       return NextResponse.json({ success: false, error: 'Không lấy được bài viết từ WordPress' }, { status: 502 });
     }
 
-    let currentPosts: any[] = [];
-    if (fs.existsSync(DATA_FILE)) {
-      currentPosts = JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8'));
-    }
+    let currentPosts: any[] = loadServerlessJson(DB_CONFIG);
 
     const postMap = new Map();
     currentPosts.forEach((p) => postMap.set(p.wpPostId ? `wp-${p.wpPostId}` : (p.slug || p.id), p));
 
     let s3CopiedCount = 0;
-    const s3KeySet = new Set<string>(fs.existsSync(S3_KEYS_FILE) ? JSON.parse(fs.readFileSync(S3_KEYS_FILE, 'utf-8')) : []);
+    const s3KeysPath = path.resolve(process.cwd(), 's3_keys.json');
+    const s3KeySet = new Set<string>(fs.existsSync(s3KeysPath) ? JSON.parse(fs.readFileSync(s3KeysPath, 'utf-8')) : []);
 
     for (const wp of allWpPosts) {
       const wpId = wp.id;
@@ -121,7 +153,16 @@ export async function POST() {
         .trim();
 
       const categoryMapping = mapCategories(wp.categories || []);
-      const rawFeaturedUrl = wp._embedded?.['wp:featuredmedia']?.[0]?.source_url || '';
+      let rawFeaturedUrl = wp._embedded?.['wp:featuredmedia']?.[0]?.source_url || '';
+
+      // Tự động dò tìm ảnh đầu tiên nếu không có featured media
+      if (!rawFeaturedUrl && wp.content?.rendered) {
+        const firstImgMatch = wp.content.rendered.match(/src=["']([^"']+\.(?:jpg|jpeg|png|webp))["']/i);
+        if (firstImgMatch) {
+          rawFeaturedUrl = firstImgMatch[1];
+        }
+      }
+
       let finalBannerUrl = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp';
 
       if (rawFeaturedUrl) {
@@ -179,8 +220,14 @@ export async function POST() {
     }
 
     const finalArray = Array.from(postMap.values());
-    fs.writeFileSync(DATA_FILE, JSON.stringify(finalArray, null, 2), 'utf-8');
-    fs.writeFileSync(S3_KEYS_FILE, JSON.stringify(Array.from(s3KeySet), null, 2), 'utf-8');
+    await saveServerlessJson(DB_CONFIG, finalArray);
+    try {
+      if (fs.existsSync(path.dirname(s3KeysPath))) {
+        fs.writeFileSync(s3KeysPath, JSON.stringify(Array.from(s3KeySet), null, 2), 'utf-8');
+      }
+    } catch {
+      // ignore on serverless
+    }
 
     return NextResponse.json({
       success: true,

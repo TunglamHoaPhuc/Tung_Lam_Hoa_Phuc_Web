@@ -11,7 +11,7 @@ import { PostItem } from "@/types/post";
 const TOP_POSTS: PostItem[] = [
   {
     id: "p1",
-    imageUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
+    imageUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-tong-phong-truyen-thua-tiep-buoc-thay-toi-banner-thumnail.webp",
     category1: "Tông Chỉ Tu Học",
     category2: "TÔNG PHONG TRUYỀN THỪA",
     title: "Tiếp Bước Thầy Tôi — Hành Trình Nối Mạng Mạch Tông Phong",
@@ -55,7 +55,7 @@ const TOP_POSTS: PostItem[] = [
   },
   {
     id: "p5",
-    imageUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
+    imageUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/page_01.webp",
     category1: "Trí Tuệ Phật Pháp",
     category2: "TỦ SÁCH TỨ ÂN",
     title: "Tác Phẩm 'Đi Qua Khổ Vui Cuộc Đời' — Thích Tâm Hòa",

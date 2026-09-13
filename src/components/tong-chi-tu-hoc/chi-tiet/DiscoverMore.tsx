@@ -1,8 +1,9 @@
 'use client';
 
 import React, { useRef } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
+import { ChevronLeft, ChevronRight, Compass } from 'lucide-react';
+import { getImageUrl } from '@/utils/image';
 
 interface BaiVietLienQuan {
   category?: string;
@@ -119,7 +120,7 @@ export function DiscoverMore({ relatedArticles }: PropsTimHieuThem) {
               {/* Ảnh bìa */}
               <div className="w-full h-full relative">
                 <img
-                  src={item.url || '/images/toan-canh-chua.jpg'}
+                  src={getImageUrl(item.url) || '/images/toan-canh-chua.jpg'}
                   alt={item.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                   loading="lazy"

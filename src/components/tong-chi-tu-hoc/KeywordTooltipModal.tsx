@@ -2,6 +2,7 @@
 
 import { FC, useEffect } from 'react';
 import Link from 'next/link';
+import { getImageUrl } from '@/utils/image';
 import { X, ArrowRight, ExternalLink } from 'lucide-react';
 
 interface KeywordPopup {
@@ -64,7 +65,7 @@ export const KeywordTooltipModal: FC<KeywordTooltipModalProps> = ({ popup, onClo
         {popup.imageUrl && (
           <div className="relative overflow-hidden w-full" style={{ height: 210 }}>
             <img
-              src={popup.imageUrl}
+              src={getImageUrl(popup.imageUrl)}
               alt={popup.title}
               className="w-full h-full object-cover"
               onError={(e) => {

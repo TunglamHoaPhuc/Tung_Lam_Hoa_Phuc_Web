@@ -12,6 +12,7 @@ import {
   Maximize2,
   ChevronDown
 } from 'lucide-react';
+import { getImageUrl } from '@/utils/image';
 
 export interface AnhTuLieu {
   imageUrl?: string;
@@ -146,7 +147,7 @@ export function PhotoGallery({
       {/* ── LƯỚI ADAPTIVE BENTO BOX ── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 w-full auto-rows-[minmax(180px,auto)]">
         {visibleItems.map((item, idx) => {
-          const imgSrc = item.imageUrl || item.url || 'https://tunglam.mocwp.com/wp-content/uploads/2026/07/default-bg.jpg';
+          const imgSrc = getImageUrl(item.imageUrl || item.url) || 'https://tunglam.mocwp.com/wp-content/uploads/2026/07/default-bg.jpg';
           const spanClass = getBentoSpan(idx);
           const captionText = item.noiDung || item.caption || '';
           const titleText = item.title && item.title !== 'Ảnh tư liệu' ? item.title : '';
@@ -298,7 +299,7 @@ export function PhotoGallery({
 
             {/* High-res Image */}
             <img
-              src={items[lightboxIndex].imageUrl || items[lightboxIndex].url}
+              src={getImageUrl(items[lightboxIndex].imageUrl || items[lightboxIndex].url)}
               alt={items[lightboxIndex].title || 'Ảnh tư liệu'}
               className="max-h-[65vh] sm:max-h-[72vh] max-w-full object-contain rounded-xl shadow-2xl border border-[#c8aa6e]/30"
               style={{ objectPosition: items[lightboxIndex].imagePosition || 'center' }}

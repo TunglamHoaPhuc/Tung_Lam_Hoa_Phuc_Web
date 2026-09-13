@@ -1,30 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
 import { OFFICIAL_STATUE_DATASET, StatueRecord } from '@/data/statue-data';
+import { loadServerlessJson, saveServerlessJson } from '@/lib/serverless-db';
 
-const DB_PATH = path.resolve(process.cwd(), 'src/data/statues-database.json');
+const DB_CONFIG = {
+  fileName: 'statues-database.json',
+  localRelativePath: 'src/data/statues-database.json',
+  s3Key: 'tunglamhoaphuc2/database/statues-database.json',
+  defaultData: OFFICIAL_STATUE_DATASET,
+};
 
 function getStatues(): StatueRecord[] {
-  if (!fs.existsSync(DB_PATH)) {
-    try {
-      fs.writeFileSync(DB_PATH, JSON.stringify(OFFICIAL_STATUE_DATASET, null, 2), 'utf8');
-      return OFFICIAL_STATUE_DATASET;
-    } catch {
-      return OFFICIAL_STATUE_DATASET;
-    }
-  }
-  try {
-    const raw = fs.readFileSync(DB_PATH, 'utf8');
-    const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) && parsed.length > 0 ? parsed : OFFICIAL_STATUE_DATASET;
-  } catch {
-    return OFFICIAL_STATUE_DATASET;
-  }
+  const data = loadServerlessJson<StatueRecord[]>(DB_CONFIG);
+  return Array.isArray(data) && data.length > 0 ? data : OFFICIAL_STATUE_DATASET;
 }
 
-function saveStatues(statues: StatueRecord[]) {
-  fs.writeFileSync(DB_PATH, JSON.stringify(statues, null, 2), 'utf8');
+async function saveStatues(statues: StatueRecord[]) {
+  await saveServerlessJson<StatueRecord[]>(DB_CONFIG, statues);
 }
 
 export async function GET(req: NextRequest) {
@@ -98,7 +89,7 @@ export async function PUT(req: NextRequest) {
       ...updates,
     };
 
-    saveStatues(statues);
+    await saveStatues(statues);
 
     return NextResponse.json({
       success: true,
@@ -122,7 +113,7 @@ export async function POST(req: NextRequest) {
     };
 
     statues.unshift(newStatue);
-    saveStatues(statues);
+    await saveStatues(statues);
 
     return NextResponse.json({
       success: true,

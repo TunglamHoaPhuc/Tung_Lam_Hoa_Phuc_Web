@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useState } from "react";
+import { FC, useState, useEffect } from "react";
 import { SectionTransitionOverlay } from "@/components/common/SectionTransitionOverlay";
 import { SectionHeader } from "@/components/common/SectionHeader";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -14,33 +14,57 @@ interface NewsItem {
   targetUrl: string;
 }
 
-const LATEST_NEWS_DATA: NewsItem[] = [
+const INITIAL_NEWS_DATA: NewsItem[] = [
   {
-    id: "n1",
+    id: "post-632",
+    category: "Khóa Lễ Truyền Thống",
+    title: "NGÀI ĐỊA TẠNG BỒ TÁT, TẠI SAO NGÀI ĐƯỢC CA NGỢI VÀ TÔN VINH?",
+    subtitle: "Hạnh Nguyện Đại Bi Cứu Khổ Độ Sanh Nơi Cảnh Giới Khổ Đau",
+    imgUrl: "https://admin.tunglamhoaphuc.com/wp-content/uploads/2026/09/80-scaled.jpg",
+    targetUrl: "/dong-chay-hoang-phap/ngai-dia-tang-bo-tat-tai-sao-ngai-duoc-ca-ngoi-va-ton-vinh-2",
+  },
+  {
+    id: "hp-1",
+    category: "Dòng chảy hoằng pháp",
+    title: "THÁNG BẢY – THÁNG CỦA HIẾU ÂN VÀ TÌNH THƯƠNG",
+    subtitle: "Tháng ân tình báo hiếu & gieo trồng phước điền nơi ruộng phúc Tam Bảo",
+    imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/03-dong-chay-hoang-phap/dai-le-su-kien/32-1-scaled.jpg",
+    targetUrl: "/dong-chay-hoang-phap/thang-bay-thang-cua-hieu-an-va-tinh-thuong",
+  },
+  {
+    id: "hp-2",
+    category: "Dòng chảy hoằng pháp",
+    title: "PHÁP HỘI HUYẾT BỒN TRAI",
+    subtitle: "Hồi hướng công đức, cầu nguyện quốc thái dân an và cha mẹ hiện tiền an lạc",
+    imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/03-dong-chay-hoang-phap/dai-le-su-kien/21-2-scaled.jpg",
+    targetUrl: "/dong-chay-hoang-phap/phap-hoi-huyet-bon-trai",
+  },
+  {
+    id: "hp-3",
+    category: "Dòng chảy hoằng pháp",
+    title: "KHAI MẠC TUẦN LỄ PHẬT ĐẢN NĂM 2026",
+    subtitle: "Trang nghiêm ngày Đức Từ Phụ Bổn Sư Thích Ca Mâu Ni Phật thị hiện nơi đời",
+    imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/03-dong-chay-hoang-phap/dai-le-su-kien/2-2-scaled.jpg",
+    targetUrl: "/dong-chay-hoang-phap/khai-mac-tuan-le-phat-dan-nam-2026-pl-2570",
+  },
+  {
+    id: "core-bdt",
     category: "Tông chỉ tu học",
     title: "BỒ ĐỀ TÂM",
     subtitle: "Khuyến phát Bồ Đề Tâm — Cội gốc của mọi công hạnh tu tập",
     imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
-    targetUrl: "/tong-chi-tu-hoc",
+    targetUrl: "/tong-chi-tu-hoc/khuyen-phat-bo-de-tam",
   },
   {
-    id: "n2",
-    category: "Dòng chảy hoằng pháp",
-    title: "TULKUL RINPOCHE VIẾNG THĂM",
-    subtitle: "Chuyến viếng thăm và giảng pháp của chư vị Hòa thượng quốc tế",
-    imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
-    targetUrl: "/dong-chay-hoang-phap",
-  },
-  {
-    id: "n3",
-    category: "Tượng pháp",
-    title: "ĐỨC PHẬT THÍCH CA",
+    id: "core-statue",
+    category: "Bảo tượng Phật giáo",
+    title: "ĐỨC PHẬT THÍCH CA MÂU NI",
     subtitle: "Bảo tượng Vô Thượng Năng Nhân ngự tại Đại Hùng Bảo Điện",
-    imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
-    targetUrl: "/bao-tuong-phat-giao/duc-phat-thich-ca",
+    imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/chu_phat_hai_hoi/duc_phat_thich_ca/tuong_chinh/duc_phat_thich_ca_tuongchinh.webp",
+    targetUrl: "/bao-tuong-phat-giao",
   },
   {
-    id: "n4",
+    id: "core-retreat",
     category: "Sự kiện định kỳ",
     title: "KHÓA TU MỘT NGÀY AN LẠC",
     subtitle: "Trang nghiêm khóa tu hằng tháng dành cho hàng trăm Phật tử",
@@ -50,22 +74,55 @@ const LATEST_NEWS_DATA: NewsItem[] = [
 ];
 
 export const NewsSection: FC = () => {
+  const [newsList, setNewsList] = useState<NewsItem[]>(INITIAL_NEWS_DATA);
   const [activeIdx, setActiveIdx] = useState(0);
   const [slideDirection, setSlideDirection] = useState<'next' | 'prev'>('next');
 
+  // Dynamic fetch latest Hoang Phap news from API
+  useEffect(() => {
+    async function fetchLatestNews() {
+      try {
+        const res = await fetch('/api/admin/posts?category=dong-chay-hoang-phap&status=published', { cache: 'no-store' });
+        if (res.ok) {
+          const json = await res.json();
+          if (json.success && Array.isArray(json.posts) && json.posts.length > 0) {
+            const dynamicMapped: NewsItem[] = json.posts.slice(0, 4).map((p: any) => ({
+              id: p.id,
+              category: p.categoryName || p.subCategory || 'Dòng chảy hoằng pháp',
+              title: (p.title || '').toUpperCase(),
+              subtitle: p.subtitle || (p.summary ? p.summary.replace(/<[^>]*>?/gm, '').slice(0, 95) + '...' : 'Dòng Chảy Hoằng Pháp Tùng Lâm Hòa Phúc'),
+              imgUrl: p.thumbnailUrl || p.bannerUrl || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/03-dong-chay-hoang-phap/dai-le-su-kien/32-1-scaled.jpg',
+              targetUrl: `/dong-chay-hoang-phap/${p.slug}`,
+            }));
+
+            // Keep foundational core highlights
+            const coreItems = INITIAL_NEWS_DATA.filter((n) => n.id.startsWith('core-'));
+            setNewsList([...dynamicMapped, ...coreItems]);
+          }
+        }
+      } catch (err) {
+        console.log('Dynamic news fetch fallback to static dataset:', err);
+      }
+    }
+    fetchLatestNews();
+  }, []);
+
+  const total = newsList.length;
+
   const prevSlide = () => {
     setSlideDirection('prev');
-    setActiveIdx((prev) => (prev - 1 + LATEST_NEWS_DATA.length) % LATEST_NEWS_DATA.length);
+    setActiveIdx((prev) => (prev - 1 + total) % total);
   };
 
   const nextSlide = () => {
     setSlideDirection('next');
-    setActiveIdx((prev) => (prev + 1) % LATEST_NEWS_DATA.length);
+    setActiveIdx((prev) => (prev + 1) % total);
   };
 
-  const currentNews = LATEST_NEWS_DATA[activeIdx];
-  const prevNews = LATEST_NEWS_DATA[(activeIdx - 1 + LATEST_NEWS_DATA.length) % LATEST_NEWS_DATA.length];
-  const nextNews = LATEST_NEWS_DATA[(activeIdx + 1) % LATEST_NEWS_DATA.length];
+  const safeIdx = activeIdx % total;
+  const currentNews = newsList[safeIdx] || newsList[0];
+  const prevNews = newsList[(safeIdx - 1 + total) % total] || newsList[0];
+  const nextNews = newsList[(safeIdx + 1) % total] || newsList[0];
 
   const animClass = slideDirection === 'next' ? 'animate-slide-next' : 'animate-slide-prev';
 

@@ -7,6 +7,7 @@ import { ExternalLink } from 'lucide-react';
 import { SubNavbar } from '@/components/tong-chi-tu-hoc/SubNavbar';
 import { SidebarNav } from '@/components/tong-chi-tu-hoc/SidebarNav';
 import { HeroBanner } from '@/components/tong-chi-tu-hoc/HeroBanner';
+import { getImageUrl } from '@/utils/image';
 
 // Import các khối Tiếng Việt đã bóc tách
 import { IllustrationVideo } from '@/components/tong-chi-tu-hoc/chi-tiet/IllustrationVideo';
@@ -113,15 +114,20 @@ function convertWpHtmlToCleanContent(wpRawHtml: string): { cleanedContent: strin
     const srcMatch = figInner.match(/src=["']([^"']+)["']/i);
     const altMatch = figInner.match(/alt=["']([^"']*)["']/i);
     const capMatch = figInner.match(/<figcaption[^>]*>([\s\S]*?)<\/figcaption>/i);
-    const src = srcMatch ? srcMatch[1] : '';
+    const rawSrc = srcMatch ? srcMatch[1] : '';
+    const src = rawSrc ? getImageUrl(rawSrc) : '';
     const caption = capMatch ? capMatch[1].replace(/<[^>]+>/g, '').trim() : (altMatch ? altMatch[1].trim() : '');
     if (!src) return '';
     return `\n\n![${caption}](${src})\n\n`;
   });
 
   // 5. Ảnh thông thường dạng standalone <img>
-  html = html.replace(/<img[^>]+src=["']([^"']+)["'][^>]*alt=["']([^"']*)["'][^>]*\/?>/gi, '\n\n![$2]($1)\n\n');
-  html = html.replace(/<img[^>]+src=["']([^"']+)["'][^>]*\/?>/gi, '\n\n![]($1)\n\n');
+  html = html.replace(/<img[^>]+src=["']([^"']+)["'][^>]*alt=["']([^"']*)["'][^>]*\/?>/gi, (_m, src, alt) => {
+    return `\n\n![${alt}](${getImageUrl(src)})\n\n`;
+  });
+  html = html.replace(/<img[^>]+src=["']([^"']+)["'][^>]*\/?>/gi, (_m, src) => {
+    return `\n\n![](${getImageUrl(src)})\n\n`;
+  });
 
   // 6. HR (Loại bỏ hoàn toàn, không chèn dấu gạch thừa)
   html = html.replace(/<hr[^>]*\/?>/gi, '\n\n');
@@ -202,17 +208,16 @@ async function resolveImageUrl(imgField: any, fallbackUrl: string = ''): Promise
   if (!imgField) return fallbackUrl;
 
   if (typeof imgField === 'string' && imgField.length > 0) {
-    if (imgField.startsWith('http') || imgField.startsWith('/')) return imgField;
+    return getImageUrl(imgField);
   }
 
   if (typeof imgField === 'object' && imgField !== null) {
-    return (
+    const rawUrl =
       imgField.url ||
       imgField.source_url ||
       imgField.sizes?.large ||
-      imgField.sizes?.full ||
-      fallbackUrl
-    );
+      imgField.sizes?.full;
+    return rawUrl ? getImageUrl(rawUrl) : fallbackUrl;
   }
 
   const numericId = Number(imgField);
@@ -221,12 +226,11 @@ async function resolveImageUrl(imgField: any, fallbackUrl: string = ''): Promise
       const res = await fetch(`https://admin.tunglamhoaphuc.com/wp-json/wp/v2/media/${numericId}`);
       if (res.ok) {
         const mediaData = await res.json();
-        return (
+        const rawUrl =
           mediaData.source_url ||
           mediaData.media_details?.sizes?.large?.source_url ||
-          mediaData.media_details?.sizes?.full?.source_url ||
-          fallbackUrl
-        );
+          mediaData.media_details?.sizes?.full?.source_url;
+        return rawUrl ? getImageUrl(rawUrl) : fallbackUrl;
       }
     } catch (err) {
       console.error('❌ Lỗi khi tự động tra cứu Media ID:', numericId, err);

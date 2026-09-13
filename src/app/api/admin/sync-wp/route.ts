@@ -1,89 +1,129 @@
 import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
+import * as cheerio from 'cheerio';
+import { getImageUrl } from '@/utils/image';
 
 const DATA_FILE = path.resolve(process.cwd(), 'src/data/tong-chi-data.json');
 
-// 🪷 Parser biến mã HTML WordPress Gutenberg thành Markdown/Clean format chuẩn
+// 🪷 Parser HTML WordPress Gutenberg bằng Cheerio thành Markdown/Clean format chuẩn
 function convertWpHtmlToCleanContent(wpRawHtml: string): { cleanedContent: string; extractedSubtitle?: string } {
   if (!wpRawHtml) return { cleanedContent: '' };
 
-  let html = wpRawHtml
+  // Chuẩn hóa ký tự cơ bản & thực thể HTML
+  const normalizedHtml = wpRawHtml
     .replace(/&#8211;/g, '–')
+    .replace(/&#8217;/g, '’')
     .replace(/&#8230;/g, '...')
     .replace(/&hellip;/g, '...')
     .replace(/&amp;/g, '&')
     .replace(/&nbsp;/g, ' ')
     .normalize('NFC');
 
-  // 1. Bóc tách thẻ phụ (Subtitle)
+  const $ = cheerio.load(normalizedHtml, null, false);
+
+  // 1. Chuẩn hóa toàn bộ thuộc tính src của mọi thẻ <img> thành URL tuyệt đối WordPress
+  $('img').each((_, el) => {
+    const currentSrc = $(el).attr('src');
+    if (currentSrc) {
+      $(el).attr('src', getImageUrl(currentSrc));
+    }
+  });
+
+  // 2. Bóc tách Subtitle (thẻ phụ) nếu thẻ <p> đầu tiên in đậm/nghiêng
   let extractedSubtitle: string | undefined = undefined;
-  const firstP = html.match(/^<p[^>]*>(?:<em><strong>|<strong><em>|<em>|<strong>)([\s\S]*?)(?:<\/strong><\/em>|<\/em><\/strong>|<\/em>|<\/strong>)<\/p>/i);
-  if (firstP) {
-    const rawSub = firstP[1].replace(/<[^>]+>/g, '').trim();
-    if (rawSub.length > 0 && rawSub.length < 80 && !rawSub.includes('“') && !rawSub.includes('”')) {
-      extractedSubtitle = rawSub;
-      html = html.replace(firstP[0], '');
+  const firstP = $('p').first();
+  if (firstP.length > 0) {
+    const hasEmOrStrong = firstP.find('em, strong, b, i').length > 0;
+    const text = firstP.text().trim();
+    if (hasEmOrStrong && text.length > 0 && text.length < 120 && !text.includes('“') && !text.includes('”')) {
+      extractedSubtitle = text;
+      firstP.remove();
     }
   }
 
-  // 2. Headings
-  html = html.replace(/<h[1-3][^>]*>(.*?)<\/h[1-3]>/gi, (_m, inner) => {
-    const cleanText = inner.replace(/<[^>]+>/g, '').replace(/^\*\*|\*\*$/g, '').trim();
-    return `\n\n### ${cleanText}\n\n`;
+  // 3. Chuẩn hóa và biến đổi <figure> thành Markdown Image
+  $('figure').each((_, el) => {
+    const fig = $(el);
+    const img = fig.find('img');
+    const src = img.attr('src') ? getImageUrl(img.attr('src')) : '';
+    const alt = img.attr('alt') || '';
+    const figcaption = fig.find('figcaption').text().trim();
+    const caption = figcaption || alt;
+
+    if (src) {
+      fig.replaceWith(`\n\n![${caption}](${src})\n\n`);
+    } else {
+      fig.remove();
+    }
   });
 
-  // 3. Blockquotes chuẩn của WordPress Gutenberg
-  html = html.replace(/<blockquote[^>]*>([\s\S]*?)<\/blockquote>/gi, (_m, bqInner) => {
-    const clean = bqInner
-      .replace(/<p[^>]*>/gi, '')
-      .replace(/<\/p>/gi, '\n')
-      .replace(/<br\s*[\/]?>/gi, '\n')
-      .replace(/<[^>]+>/g, '')
-      .replace(/^[“"”\s]+|[“"”\s]+$/g, '');
-    const lines = clean.split('\n').map((l: string) => l.trim()).filter(Boolean);
-    const quoteLines = lines.map((l: string) => `> ${l}`);
-    return `\n\n${quoteLines.join('\n')}\n\n`;
+  // 4. Biến đổi các thẻ <img> độc lập còn lại thành Markdown Image
+  $('img').each((_, el) => {
+    const img = $(el);
+    const src = img.attr('src') ? getImageUrl(img.attr('src')) : '';
+    const alt = img.attr('alt') || '';
+    if (src) {
+      img.replaceWith(`\n\n![${alt}](${src})\n\n`);
+    } else {
+      img.remove();
+    }
   });
 
-  // 4. Khối Hình Ảnh WordPress Gutenberg
-  html = html.replace(/<figure[^>]*>([\s\S]*?)<\/figure>/gi, (_m, figInner) => {
-    const srcMatch = figInner.match(/src=["']([^"']+)["']/i);
-    const altMatch = figInner.match(/alt=["']([^"']*)["']/i);
-    const capMatch = figInner.match(/<figcaption[^>]*>([\s\S]*?)<\/figcaption>/i);
-    const src = srcMatch ? srcMatch[1] : '';
-    const caption = capMatch ? capMatch[1].replace(/<[^>]+>/g, '').trim() : (altMatch ? altMatch[1].trim() : '');
-    if (!src) return '';
-    return `\n\n![${caption}](${src})\n\n`;
+  // 5. Chuyển đổi Headings (h1 - h6)
+  $('h1, h2, h3, h4, h5, h6').each((_, el) => {
+    const h = $(el);
+    const text = h.text().trim().replace(/^\*\*|\*\*$/g, '');
+    h.replaceWith(`\n\n### ${text}\n\n`);
   });
 
-  // 5. Standalone <img>
-  html = html.replace(/<img[^>]+src=["']([^"']+)["'][^>]*alt=["']([^"']*)["'][^>]*\/?>/gi, '\n\n![$2]($1)\n\n');
-  html = html.replace(/<img[^>]+src=["']([^"']+)["'][^>]*\/?>/gi, '\n\n![]($1)\n\n');
-
-  // 6. HR
-  html = html.replace(/<hr[^>]*\/?>/gi, '\n\n');
-
-  // 7. Paragraphs
-  html = html.replace(/<p[^>]*>(.*?)<\/p>/gi, (_m, pText) => {
-    const cleanP = pText.replace(/<br\s*[\/]?>/gi, '\n').replace(/<span[^>]*>/gi, '').replace(/<\/span>/gi, '').trim();
-    if (!cleanP) return '';
-    return `\n\n${cleanP}\n\n`;
+  // 6. Chuyển đổi Blockquotes của WordPress Gutenberg
+  $('blockquote').each((_, el) => {
+    const bq = $(el);
+    const clean = bq.text().trim().replace(/^[“"”\s]+|[“"”\s]+$/g, '');
+    const lines = clean.split('\n').map((l) => l.trim()).filter(Boolean);
+    const quoteLines = lines.map((l) => `> ${l}`);
+    bq.replaceWith(`\n\n${quoteLines.join('\n')}\n\n`);
   });
 
-  // 8. Clean markdown
-  html = html
-    .replace(/<strong[^>]*>(.*?)<\/strong>/gi, '**$1**')
-    .replace(/<b[^>]*>(.*?)<\/b>/gi, '**$1**')
-    .replace(/<em[^>]*>(.*?)<\/em>/gi, '*$1*')
-    .replace(/<i[^>]*>(.*?)<\/i>/gi, '*$1*')
-    .replace(/<a\s+href="([^"]+)"[^>]*>(.*?)<\/a>/gi, '[$2]($1)')
-    .replace(/<[^>]+>/g, '');
+  // 7. Chuyển đổi các thẻ in đậm, nghiêng, link
+  $('strong, b').each((_, el) => {
+    const st = $(el);
+    st.replaceWith(`**${st.text().trim()}**`);
+  });
 
-  const cleanedLines = html
+  $('em, i').each((_, el) => {
+    const em = $(el);
+    em.replaceWith(`*${em.text().trim()}*`);
+  });
+
+  $('a').each((_, el) => {
+    const a = $(el);
+    const href = a.attr('href') || '#';
+    a.replaceWith(`[${a.text().trim()}](${href})`);
+  });
+
+  $('hr').replaceWith('\n\n');
+  $('br').replaceWith('\n');
+
+  // 8. Chuyển đổi Paragraphs <p>
+  $('p').each((_, el) => {
+    const p = $(el);
+    const text = p.text().trim();
+    if (text) {
+      p.replaceWith(`\n\n${text}\n\n`);
+    } else {
+      p.remove();
+    }
+  });
+
+  const markdownText = $.text();
+
+  // 9. Lọc các dòng meta thừa và khoảng trống
+  const cleanedLines = markdownText
     .split('\n')
-    .filter((l) => {
-      const trimmed = l.trim();
+    .map((l) => l.trim())
+    .filter((trimmed) => {
       if (!trimmed) return true;
       if (/^(?:-{2,}|\*{2,}|_{2,}|\u2014{2,})$/.test(trimmed)) return false;
       if (/^Infographic\s*\d*\s*card/i.test(trimmed)) return false;
@@ -101,6 +141,94 @@ function convertWpHtmlToCleanContent(wpRawHtml: string): { cleanedContent: strin
   return { cleanedContent: finalHtml, extractedSubtitle };
 }
 
+// 🖼️ Hàm chuẩn hóa toàn diện các thuộc tính ảnh tĩnh của đối tượng JSON bài viết
+function normalizeArticleImages(article: any) {
+  if (!article || typeof article !== 'object') return;
+
+  const imageKeys = [
+    'thumbnail',
+    'thumbnailUrl',
+    'banner',
+    'bannerUrl',
+    'bannerImage',
+    'cover',
+    'coverUrl',
+    'coverImage',
+    'bgImage',
+    'imageUrl',
+    'image',
+    'featuredImage',
+  ];
+
+  for (const key of imageKeys) {
+    if (typeof article[key] === 'string' && article[key]) {
+      article[key] = getImageUrl(article[key]);
+    }
+  }
+
+  // Khối bài viết nổi bật
+  if (article.featuredArticle && typeof article.featuredArticle === 'object') {
+    if (typeof article.featuredArticle.bgImage === 'string') {
+      article.featuredArticle.bgImage = getImageUrl(article.featuredArticle.bgImage);
+    }
+    if (typeof article.featuredArticle.imageUrl === 'string') {
+      article.featuredArticle.imageUrl = getImageUrl(article.featuredArticle.imageUrl);
+    }
+  }
+
+  // Nguồn sách tham khảo (Object hoặc Array)
+  if (article.sourceBook && typeof article.sourceBook === 'object') {
+    if (typeof article.sourceBook.coverImage === 'string') {
+      article.sourceBook.coverImage = getImageUrl(article.sourceBook.coverImage);
+    }
+    if (typeof article.sourceBook.imageUrl === 'string') {
+      article.sourceBook.imageUrl = getImageUrl(article.sourceBook.imageUrl);
+    }
+  }
+  if (Array.isArray(article.sourceBook)) {
+    article.sourceBook.forEach((b: any) => {
+      if (b && typeof b.coverImage === 'string') b.coverImage = getImageUrl(b.coverImage);
+      if (b && typeof b.imageUrl === 'string') b.imageUrl = getImageUrl(b.imageUrl);
+    });
+  }
+
+  // Thư viện ảnh photoGallery
+  if (Array.isArray(article.photoGallery)) {
+    article.photoGallery.forEach((item: any) => {
+      if (item && typeof item.imageUrl === 'string') {
+        item.imageUrl = getImageUrl(item.imageUrl);
+      }
+      if (item && typeof item.image === 'string') {
+        item.image = getImageUrl(item.image);
+      }
+    });
+  }
+
+  // Khối từ khóa / thẻ đính kèm keywords
+  if (Array.isArray(article.keywords)) {
+    article.keywords.forEach((kw: any) => {
+      if (kw && typeof kw.imageUrl === 'string') {
+        kw.imageUrl = getImageUrl(kw.imageUrl);
+      }
+    });
+  }
+
+  // Các phân đoạn nội dung sections & cards
+  if (Array.isArray(article.sections)) {
+    article.sections.forEach((sec: any) => {
+      if (sec && typeof sec.bgImage === 'string') sec.bgImage = getImageUrl(sec.bgImage);
+      if (sec && typeof sec.coverImage === 'string') sec.coverImage = getImageUrl(sec.coverImage);
+      if (sec && typeof sec.imageUrl === 'string') sec.imageUrl = getImageUrl(sec.imageUrl);
+      if (Array.isArray(sec.cards)) {
+        sec.cards.forEach((c: any) => {
+          if (c && typeof c.imageUrl === 'string') c.imageUrl = getImageUrl(c.imageUrl);
+          if (c && typeof c.image === 'string') c.image = getImageUrl(c.image);
+        });
+      }
+    });
+  }
+}
+
 export async function POST() {
   try {
     if (!fs.existsSync(DATA_FILE)) {
@@ -110,7 +238,7 @@ export async function POST() {
     const rawData = fs.readFileSync(DATA_FILE, 'utf-8');
     const articles = JSON.parse(rawData);
 
-    // Fetch live posts from WordPress Gutenberg API
+    // Fetch bài viết từ WordPress Gutenberg API
     const wpRes = await fetch('https://admin.tunglamhoaphuc.com/wp-json/wp/v2/tong-chi?per_page=100', {
       headers: { 'User-Agent': 'Mozilla/5.0' },
       cache: 'no-store',
@@ -128,7 +256,6 @@ export async function POST() {
     let updatedCount = 0;
     const updatedTitles: string[] = [];
 
-    // Map normalize function
     const norm = (s: string) =>
       (s || '')
         .toLowerCase()
@@ -146,7 +273,7 @@ export async function POST() {
       const acf = wpPost.acf || {};
       const excerpt = (wpPost.excerpt?.rendered || '').replace(/<[^>]+>/g, '').replace(/&#8230;/g, '...').trim();
 
-      // Find matching article in local database
+      // Tìm bài viết tương ứng trong dữ liệu nội bộ
       const matchIdx = articles.findIndex((a: any) => {
         if (a.wpPostId && String(a.wpPostId) === wpId) return true;
         if (wpSlug && a.slug === wpSlug) return true;
@@ -171,14 +298,19 @@ export async function POST() {
       }
     }
 
-    // Save back to JSON file
+    // Chuẩn hóa toàn bộ URL hình ảnh tĩnh trong tất cả bài viết trước khi lưu
+    articles.forEach((article: any) => {
+      normalizeArticleImages(article);
+    });
+
+    // Lưu lại file JSON
     fs.writeFileSync(DATA_FILE, JSON.stringify(articles, null, 2), 'utf-8');
 
     return NextResponse.json({
       success: true,
       count: updatedCount,
       updatedTitles,
-      message: `Đã đồng bộ thành công ${updatedCount} bài viết từ WordPress Gutenberg!`,
+      message: `Đã đồng bộ thành công ${updatedCount} bài viết từ WordPress Gutenberg và chuẩn hóa toàn bộ URL hình ảnh!`,
     });
   } catch (error: any) {
     console.error('Lỗi khi đồng bộ WordPress:', error);
