@@ -20,6 +20,7 @@ import {
   Landmark,
   Waves,
   Compass,
+  Calendar,
 } from 'lucide-react';
 
 const NAV_ITEMS = [
@@ -38,6 +39,12 @@ const NAV_ITEMS = [
     name: 'Dòng Chảy Hoằng Pháp',
     href: '/admin/posts',
     icon: Waves,
+  },
+  {
+    name: 'Lịch Tu Học & Sự Kiện',
+    href: '/admin/lich-tu-hoc',
+    icon: Calendar,
+    badge: 'Lịch Biểu',
   },
   {
     name: 'Giới Thiệu Tông Phong',

@@ -24,14 +24,14 @@ export const BaoThapGrid: FC = () => {
             {/* Background Image */}
             <div className="absolute inset-0 opacity-45 scale-105 transition-transform duration-1000 ease-out group-hover:scale-100">
               <Image
-                src="/images/vu-tru-phat-giao/bao-thap/bao-thap-banner.jpg"
+                src="https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp"
                 alt="Sơ đồ 2D Bảo Tháp Vạn Phật Xá Lợi Hòa Bình"
                 fill
                 sizes="100vw"
                 className="object-cover object-center"
                 loading="lazy"
                 onError={(e) => {
-                  (e.target as any).src = '/images/toan-canh-chua.jpg';
+                  (e.target as any).src = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp';
                 }}
               />
             </div>
@@ -43,22 +43,22 @@ export const BaoThapGrid: FC = () => {
             {/* Content Container */}
             <div className="relative z-10 w-full max-w-4xl mx-auto space-y-3 sm:space-y-4 px-4">
               <span
-                style={{ fontFamily: "'UTM Niagara', 'UTM ClassizismAntiqua', serif" }}
-                className="text-2xl sm:text-3xl font-normal text-[#e3d2c1] block tracking-wide opacity-90"
+                style={{ fontFamily: "var(--font-playfair), 'Playfair Display', serif" }}
+                className="text-2xl sm:text-3xl font-normal text-[#e3d2c1] block tracking-wide opacity-90 italic"
               >
                 Sơ đồ 2D tương tác
               </span>
 
               <h2
-                style={{ fontFamily: "'UTM Niagara', 'UTM ClassizismAntiqua', serif" }}
-                className="text-3xl sm:text-5xl lg:text-6xl font-normal text-[#ffde59] uppercase tracking-normal drop-shadow-[0_2px_20px_rgba(255,222,89,0.7)] py-1 leading-tight"
+                style={{ fontFamily: "var(--font-playfair), 'Playfair Display', 'Cinzel', serif" }}
+                className="text-2xl sm:text-4xl lg:text-5xl font-bold text-[#ffde59] uppercase tracking-wide drop-shadow-[0_2px_20px_rgba(255,222,89,0.7)] py-1 leading-tight"
               >
                 BẢO THÁP VẠN PHẬT XÁ LỢI HÒA BÌNH
               </h2>
 
               <p
-                style={{ fontFamily: "'UTM ClassizismAntiqua', serif" }}
-                className="text-base sm:text-2xl font-normal text-[#f2cc8f] tracking-widest uppercase py-1 max-w-3xl mx-auto leading-relaxed drop-shadow-md"
+                style={{ fontFamily: "var(--font-playfair), 'Playfair Display', serif" }}
+                className="text-base sm:text-xl font-medium text-[#f2cc8f] tracking-widest uppercase py-1 max-w-3xl mx-auto leading-relaxed drop-shadow-md"
               >
                 NƠI TINH HOA HỘI TỤ
               </p>

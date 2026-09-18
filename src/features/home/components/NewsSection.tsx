@@ -51,9 +51,9 @@ const INITIAL_NEWS_DATA: NewsItem[] = [
     id: "core-bdt",
     category: "Tông chỉ tu học",
     title: "BỒ ĐỀ TÂM",
-    subtitle: "Khuyến phát Bồ Đề Tâm — Cội gốc của mọi công hạnh tu tập",
-    imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
-    targetUrl: "/tong-chi-tu-hoc/khuyen-phat-bo-de-tam",
+    subtitle: "Cội nguồn thiện pháp — Nền tảng mọi công hạnh tu tập & phụng sự",
+    imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/nen-tang-tu-hoc/tong-chi-tu-hoc-nen-tang-tu-hoc-bo-de-tam-herobanner-thumbnail.webp",
+    targetUrl: "/tong-chi-tu-hoc/bo-de-tam-coi-nguon-thien-phap",
   },
   {
     id: "core-statue",
@@ -61,7 +61,7 @@ const INITIAL_NEWS_DATA: NewsItem[] = [
     title: "ĐỨC PHẬT THÍCH CA MÂU NI",
     subtitle: "Bảo tượng Vô Thượng Năng Nhân ngự tại Đại Hùng Bảo Điện",
     imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/chu_phat_hai_hoi/duc_phat_thich_ca/tuong_chinh/duc_phat_thich_ca_tuongchinh.webp",
-    targetUrl: "/bao-tuong-phat-giao",
+    targetUrl: "/bao-tuong/duc_phat_thich_ca_mau_ni_vo_thuong_nang_nhan_tp0001",
   },
   {
     id: "core-retreat",

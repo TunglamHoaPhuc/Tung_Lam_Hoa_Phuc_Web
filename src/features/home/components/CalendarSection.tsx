@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useState, useMemo } from "react";
+import { FC, useState, useMemo, useEffect } from "react";
 import {
   ChevronLeft,
   ChevronRight,
@@ -25,6 +25,7 @@ import {
   CalendarEvent,
   FEATURED_PROGRAMS,
   MONTH_THEMES,
+  MonthThemeInfo,
   getEventsForMonth,
 } from "@/data/schedule-data";
 
@@ -50,15 +51,84 @@ export const CalendarSection: FC = () => {
   const startDayOffset = getStartDayOffset(currentYear, currentMonth);
   const buddhistEra = getBuddhistEraYear(currentYear);
 
+  const [dbData, setDbData] = useState<{
+    featuredPrograms?: typeof FEATURED_PROGRAMS;
+    monthThemes?: Record<string, any>;
+    customEvents?: any[];
+  } | null>(null);
+
+  useEffect(() => {
+    async function loadSchedule() {
+      try {
+        const res = await fetch('/api/admin/schedule');
+        if (res.ok) {
+          const json = await res.json();
+          if (json.success && json.data) {
+            setDbData(json.data);
+          }
+        }
+      } catch {
+        // Fallback silently
+      }
+    }
+    loadSchedule();
+  }, []);
+
   // Month Theme Info (Banner, Quote, Colors)
-  const monthTheme = useMemo(() => {
+  const monthTheme: MonthThemeInfo = useMemo(() => {
+    if (dbData?.monthThemes && dbData.monthThemes[String(currentMonth)]) {
+      const mt = dbData.monthThemes[String(currentMonth)];
+      return {
+        month: mt.month || currentMonth + 1,
+        bannerImg: mt.bannerImg || MONTH_THEMES[currentMonth]?.bannerImg || '',
+        title: mt.title || '',
+        quoteLines: Array.isArray(mt.quoteLines) ? mt.quoteLines : [],
+        author: mt.author || 'Vô Trí - Tâm Hòa',
+        primaryColor: mt.primaryColor || '#8B3A1C',
+        secondaryColor: mt.secondaryColor || '#F2C14E',
+        themeBg: mt.themeBg || '#2A170F',
+      };
+    }
     return MONTH_THEMES[currentMonth] || MONTH_THEMES[0];
-  }, [currentMonth]);
+  }, [currentMonth, dbData]);
 
   // Dynamic automatic calculation of all events for this month
   const monthEventsMap = useMemo(() => {
-    return getEventsForMonth(currentYear, currentMonth);
-  }, [currentYear, currentMonth]);
+    const baseMap = getEventsForMonth(currentYear, currentMonth);
+    if (dbData?.customEvents && Array.isArray(dbData.customEvents)) {
+      dbData.customEvents.forEach((ce) => {
+        const parts = (ce.solarDateStr || '').split('.');
+        if (parts.length === 3) {
+          const d = parseInt(parts[0], 10);
+          const m = parseInt(parts[1], 10) - 1;
+          const y = parseInt(parts[2], 10);
+          if (m === currentMonth && y === currentYear && d >= 1 && d <= daysInMonth) {
+            const lunar = convertSolarToLunar(d, currentMonth, currentYear);
+            const customEvt: CalendarEvent = {
+              day: d,
+              solarDateStr: ce.solarDateStr,
+              dayOfWeekStr: '',
+              lunarDate: `(${String(lunar.day).padStart(2, '0')}.${String(lunar.month).padStart(2, '0')}.ÂL)`,
+              lunarTag: `MÙNG ${lunar.day}`,
+              subTitle1: 'SỰ KIỆN ĐẶC BIỆT',
+              title: ce.title,
+              subTitle2: ce.location || 'Tùng Lâm Hòa Phúc',
+              description: ce.description || '',
+              category: ce.category || 'Đại Lễ Sự Kiện',
+              location: ce.location || 'Tùng Lâm Hòa Phúc',
+              timeSlot1Label: ce.timeSlot1Label || 'Thời Khóa',
+              timeSlot1Time: ce.timeSlot1Time || '08h00',
+              color: '#F2C14E',
+              imgUrl: ce.imgUrl || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp',
+              isImportant: true,
+            };
+            baseMap[d] = [...(baseMap[d] || []), customEvt];
+          }
+        }
+      });
+    }
+    return baseMap;
+  }, [currentYear, currentMonth, dbData, daysInMonth]);
 
   // First and last day lunar info for header
   const firstDayLunar = useMemo(() => {
@@ -77,8 +147,12 @@ export const CalendarSection: FC = () => {
     setActiveDate(new Date(currentYear, currentMonth + 1, 1));
   };
 
+  const activePrograms = dbData?.featuredPrograms && dbData.featuredPrograms.length > 0
+    ? dbData.featuredPrograms
+    : FEATURED_PROGRAMS;
+
   // Carousel navigation for programs
-  const maxSlide = Math.max(0, FEATURED_PROGRAMS.length - 3);
+  const maxSlide = Math.max(0, activePrograms.length - 3);
   const handlePrevSlide = () => {
     setCarouselIdx((prev) => (prev > 0 ? prev - 1 : maxSlide));
   };
@@ -86,7 +160,7 @@ export const CalendarSection: FC = () => {
     setCarouselIdx((prev) => (prev < maxSlide ? prev + 1 : 0));
   };
 
-  const visiblePrograms = FEATURED_PROGRAMS.slice(carouselIdx, carouselIdx + 3);
+  const visiblePrograms = activePrograms.slice(carouselIdx, carouselIdx + 3);
 
   return (
     <section className="w-full py-20 relative overflow-hidden bg-[#2A1D14]">
@@ -98,7 +172,7 @@ export const CalendarSection: FC = () => {
           className="w-full h-full object-cover opacity-15 blur-sm"
           loading="lazy"
           onError={(e) => {
-            (e.currentTarget as HTMLImageElement).src = '/images/vu-tru-phat-giao/bao-thap/bao-thap-banner.jpg';
+            (e.currentTarget as HTMLImageElement).src = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp';
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#2A1D14] via-transparent to-[#2A1D14]" />
@@ -174,7 +248,7 @@ export const CalendarSection: FC = () => {
                     // THƠ: Căn giữa, ngắt dòng từng câu
                     return (
                       <div className="space-y-1 my-auto">
-                        {monthTheme.quoteLines.map((line, idx) => {
+                        {monthTheme.quoteLines.map((line: string, idx: number) => {
                           if (line === "") return <div key={idx} className="h-1" />;
                           const cleanLine = line.replace(/[“”"']/g, '').trim();
                           if (!cleanLine) return null;
@@ -202,7 +276,7 @@ export const CalendarSection: FC = () => {
                   } else {
                     // VĂN XUÔI: Căn 2 bên (text-justify), viết liền đoạn văn, in đậm câu đầu
                     const cleanLines = monthTheme.quoteLines
-                      .map((l) => l.replace(/[“”"']/g, '').trim())
+                      .map((l: string) => l.replace(/[“”"']/g, '').trim())
                       .filter(Boolean);
                     const firstSentence = cleanLines[0] || "";
                     const restSentences = cleanLines.slice(1).join(" ");

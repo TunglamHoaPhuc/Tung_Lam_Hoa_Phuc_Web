@@ -29,7 +29,7 @@ const TOP_POSTS: PostItem[] = [
     description: "Đạo tràng niệm Phật thanh tịnh hàng tuần, nuôi dưỡng bồ đề tâm và gieo trồng nhân lành về cõi Tây Phương Cực Lạc.",
     publishedDate: "20/08/2026",
     viewsCount: "38.6K",
-    targetUrl: "/dong-chay-hoang-phap",
+    targetUrl: "/dong-chay-hoang-phap/phap-hoi-niem-phat-hang-tuan",
   },
   {
     id: "p3",
@@ -62,7 +62,7 @@ const TOP_POSTS: PostItem[] = [
     description: "Tập văn ký hồi ức đúc kết hành trình tu tập, chiêm nghiệm nhân sinh và lòng tri ân sâu sắc đối với Tam Bảo cùng Thầy Tổ.",
     publishedDate: "05/08/2026",
     viewsCount: "35.4K",
-    targetUrl: "/tri-tue-phat-phap",
+    targetUrl: "/tri-tue-phat-phap/di-qua-kho-vui-cuoc-doi",
   },
   {
     id: "p6",

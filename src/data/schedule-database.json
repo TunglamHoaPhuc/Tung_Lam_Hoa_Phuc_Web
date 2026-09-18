@@ -1,0 +1,239 @@
+{
+  "featuredPrograms": [
+    {
+      "id": "p1",
+      "title": "ĐẠI SÁM HỐI ĐỊNH KỲ",
+      "schedule": "14 VÀ 29/30 ÂM LỊCH HẰNG THÁNG",
+      "summary": "Thời khóa sám hối trang nghiêm vào tối 19h15 ngày 14 và cuối tháng âm lịch, gột rửa thân tâm và tịnh hóa nghiệp chướng.",
+      "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/dai-tieu-sam-hoi-va-thuong-ky.webp"
+    },
+    {
+      "id": "p2",
+      "title": "TIỂU SÁM HỐI ĐỊNH KỲ",
+      "schedule": "MÙNG 8 VÀ 23 ÂM LỊCH HẰNG THÁNG",
+      "summary": "Thời khóa tụng kinh sám hối vào tối 19h15 ngày mùng 8 và 23 âm lịch, nuôi dưỡng tâm bồ đề và huân tu công đức lành.",
+      "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/dai-tieu-sam-hoi-va-thuong-ky.webp"
+    },
+    {
+      "id": "p3",
+      "title": "LỄ CẦU AN HÀNG THÁNG",
+      "schedule": "MÙNG 1 VÀ 15 ÂM LỊCH HẰNG THÁNG",
+      "summary": "Khóa lễ tụng kinh Dược Sư cầu an vào sáng 08h00 mùng 1 và ngày rằm 15 âm lịch, cầu nguyện quốc thái dân an, cát tường như ý.",
+      "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Cau-an-quoc-thai-dan-thuong-ky.webp"
+    },
+    {
+      "id": "p4",
+      "title": "PHÁP HỘI NIỆM PHẬT",
+      "schedule": "THỨ BẢY & CHỦ NHẬT ĐỊNH KỲ",
+      "summary": "Khóa tu 2 ngày trọn vẹn, sáng thứ Bảy tại Tổ Đường truyền giới Bát Quan Trai bước vào thời khóa hành trì ngày thứ nhất đến chiều Chủ Nhật.",
+      "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp"
+    },
+    {
+      "id": "p5",
+      "title": "ĐẠI LỄ TRI ÂN MÙA VU LAN",
+      "schedule": "CHỦ NHẬT 18/07 ÂM LỊCH (17H00)",
+      "summary": "Đại lễ Báo Hiếu Tri Ân Cha Mẹ mùa Vu Lan, dâng trà tri ân và hoa đăng cầu nguyện cửu huyền thất tổ siêu sinh Tịnh Độ.",
+      "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp"
+    }
+  ],
+  "monthThemes": {
+    "0": {
+      "month": 1,
+      "bannerImg": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-01-duc-ban-su-thanh-dao.webp",
+      "title": "ĐỨC BẢN SƯ THÀNH ĐẠO",
+      "quoteLines": [
+        "Hạnh phúc là khi bạn biết",
+        "nhận diện sự có mặt của",
+        "niềm vui và nỗi buồn."
+      ],
+      "author": "Vô Trí - Tâm Hòa",
+      "primaryColor": "#8B3A1C",
+      "secondaryColor": "#F2C14E",
+      "themeBg": "#2A170F"
+    },
+    "1": {
+      "month": 2,
+      "bannerImg": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-02-nghinh-xuan-di-lac.webp",
+      "title": "NGHINH XUÂN DI LẶC",
+      "quoteLines": [
+        "Nam mô Từ phụ Thích Ca",
+        "Xuân về khắp chốn, nhà nhà hân hoan.",
+        "Giữ lòng nếp sống thanh nhàn",
+        "Hộ trì Tam bảo, xây nhà Tăng thân.",
+        "Trẻ già, nam nữ xa gần",
+        "Quy y hướng đạo, chuyển dần mê tâm.",
+        "Chắp tay khấn nguyện âm thầm",
+        "Dân giàu, nước thịnh, thái bình thiên thu."
+      ],
+      "author": "Vô Trí - Tâm Hòa",
+      "primaryColor": "#1E4B3E",
+      "secondaryColor": "#FFDE59",
+      "themeBg": "#122620"
+    },
+    "2": {
+      "month": 3,
+      "bannerImg": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-03-huong-sen-tay-bac.webp",
+      "title": "HƯƠNG SEN TÂY BẮC",
+      "quoteLines": [
+        "Thử thách tạo nên sức mạnh",
+        "Mỗi thử thách trong cuộc đời đều mang đến những kinh nghiệm thú vị.",
+        "Người biết chấp nhận thử thách, tìm cách thích ứng",
+        "và biến thử thách thành động lực mới",
+        "là người có sức chịu đựng kiên cường."
+      ],
+      "author": "Vô Trí - Tâm Hòa",
+      "primaryColor": "#6B2D5C",
+      "secondaryColor": "#FFE5A3",
+      "themeBg": "#261121"
+    },
+    "3": {
+      "month": 4,
+      "bannerImg": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-04-huong-ve-coi-nguon.webp",
+      "title": "HƯỚNG VỀ CỘI NGUỒN",
+      "quoteLines": [
+        "Nắng xưa... trở về",
+        "Rồi một ngày bầu trời xanh hửng nắng",
+        "Ai trở về trong manh áo bùn nâu",
+        "Tìm dư hương nơi góc nhỏ năm nào",
+        "Chờ được gọi “Con Ơi” trong ký ức.",
+        "",
+        "Rồi một ngày hiên xưa chiều nhạt nắng",
+        "Ai trở về trong hoang lạnh cô liêu",
+        "Tìm gì đây bên khói bếp đìu hiu",
+        "Chờ được thấy “dáng Thầy” trong tiềm thức."
+      ],
+      "author": "Vô Trí - Tâm Hòa",
+      "primaryColor": "#B45309",
+      "secondaryColor": "#F2C14E",
+      "themeBg": "#2E1A08"
+    },
+    "4": {
+      "month": 5,
+      "bannerImg": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-05-phat-dan.webp",
+      "title": "PHẬT ĐẢN",
+      "quoteLines": [
+        "Phật về",
+        "Phật về nắng đẹp hoan ca",
+        "Phật về già trẻ gần xa tưng bừng",
+        "Phật về sen nở thơm lừng",
+        "Phật về gió mát trong từng lá hoa.",
+        "Phật về mang đến vị tha",
+        "Phật về kết nối giữa ta và người",
+        "Phật về rạng rỡ nụ cười",
+        "Phật về tâm đạo thảnh thơi cõi lòng."
+      ],
+      "author": "Vô Trí - Tâm Hòa",
+      "primaryColor": "#854D0E",
+      "secondaryColor": "#FFDE59",
+      "themeBg": "#261504"
+    },
+    "5": {
+      "month": 6,
+      "bannerImg": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-06-uom-mam-sen-viet.webp",
+      "title": "ƯƠM MẦM SEN VIỆT",
+      "quoteLines": [
+        "Tuổi trẻ đến chùa",
+        "Vui thay tuổi trẻ đến chùa",
+        "Học theo hạnh Phật hơn thua mặc người",
+        "Uy nghi, lễ phép, tươi cười",
+        "Búp sen dâng tặng cho đời bình an."
+      ],
+      "author": "Vô Trí - Tâm Hòa",
+      "primaryColor": "#0F5132",
+      "secondaryColor": "#FFE5A3",
+      "themeBg": "#082115"
+    },
+    "6": {
+      "month": 7,
+      "bannerImg": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-07-den-on-dap-nghia.webp",
+      "title": "ĐỀN ƠN ĐÁP NGHĨA",
+      "quoteLines": [
+        "Sống cho riêng mình là người chật hẹp.",
+        "Sống cho muôn người thì rộng lớn thênh thang."
+      ],
+      "author": "Vô Trí - Tâm Hòa",
+      "primaryColor": "#991B1B",
+      "secondaryColor": "#FFDE59",
+      "themeBg": "#2A0A0A"
+    },
+    "7": {
+      "month": 8,
+      "bannerImg": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-08-hieu-hanh-dap-den.webp",
+      "title": "HIẾU HẠNH ĐÁP ĐỀN",
+      "quoteLines": [
+        "Không một tác phẩm nào đẹp và thiêng liêng",
+        "bằng sự hiện hữu của cha và mẹ.",
+        "Đó là tượng đài của tình thương",
+        "và sự hy sinh bất tử."
+      ],
+      "author": "Vô Trí - Tâm Hòa",
+      "primaryColor": "#7C2D12",
+      "secondaryColor": "#F2C14E",
+      "themeBg": "#240E06"
+    },
+    "8": {
+      "month": 9,
+      "bannerImg": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-09-thanh-nguyet-huong-thu.webp",
+      "title": "THANH NGUYỆT HƯƠNG THU",
+      "quoteLines": [
+        "Này bạn, dù bên ngoài bão giông",
+        "nhưng đừng đánh mất sự bình an bên trong.",
+        "Chất liệu vững chãi được tạo ra từ nội tâm an lạc",
+        "sẽ không bao giờ mất nếu bạn biết an trú",
+        "vào đoàn thể đẹp của Tăng thân."
+      ],
+      "author": "Vô Trí - Tâm Hòa",
+      "primaryColor": "#1E3A8A",
+      "secondaryColor": "#FFDE59",
+      "themeBg": "#0B1533"
+    },
+    "9": {
+      "month": 10,
+      "bannerImg": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-10-hanh-nguyen-quan-am.webp",
+      "title": "HẠNH NGUYỆN QUAN ÂM",
+      "quoteLines": [
+        "Âm đức là âm thầm cống hiến, lặng lẽ phụng sự,",
+        "an nhiên giúp người thương vật bằng cái tâm trong sáng.",
+        "Đó chính là mật hạnh của Bồ tát."
+      ],
+      "author": "Vô Trí - Tâm Hòa",
+      "primaryColor": "#701A75",
+      "secondaryColor": "#FFE5A3",
+      "themeBg": "#240826"
+    },
+    "10": {
+      "month": 11,
+      "bannerImg": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-11-an-duc-to-thay.webp",
+      "title": "ÂN ĐỨC TỔ THẦY",
+      "quoteLines": [
+        "Hoằng Pháp - Kiến An mãi nhớ Thầy",
+        "Hải Phòng - Phổ Chiếu vẫn còn đây",
+        "Người đi năm tháng chưa phai dấu",
+        "Chánh pháp hoằng truyền khắp Đông Tây",
+        "Đất Bắc mở mang dòng bất tử",
+        "Trời Nam kết tụ giới hương bay",
+        "Dáng xưa vững chãi như tùng bách",
+        "Cháu con tiếp bước đẹp tháng ngày."
+      ],
+      "author": "Vô Trí - Tâm Hòa",
+      "primaryColor": "#9A3412",
+      "secondaryColor": "#F2C14E",
+      "themeBg": "#2B0F05"
+    },
+    "11": {
+      "month": 12,
+      "bannerImg": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-12-via-phat-di-da.webp",
+      "title": "VÍA PHẬT DI ĐÀ",
+      "quoteLines": [
+        "Hoa sen cần bùn để sống.",
+        "Bạn cũng cần chất liệu khổ đau",
+        "để vững chãi vươn lên."
+      ],
+      "author": "Vô Trí - Tâm Hòa",
+      "primaryColor": "#78350F",
+      "secondaryColor": "#FFDE59",
+      "themeBg": "#210E04"
+    }
+  },
+  "customEvents": []
+}

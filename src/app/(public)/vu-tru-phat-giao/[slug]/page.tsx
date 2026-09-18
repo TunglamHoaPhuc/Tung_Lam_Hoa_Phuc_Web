@@ -58,7 +58,14 @@ export default function UniverseDetailPage() {
   const slug = (rawSlug || '').toLowerCase().trim();
 
   // Find area matching slug, or generate a rich fallback object to NEVER trigger a 404 error!
-  let area: UniverseArea | undefined = UNIVERSE_AREAS.find((a) => a.slug.toLowerCase() === slug);
+  let area: UniverseArea | undefined = UNIVERSE_AREAS.find(
+    (a) =>
+      a.slug.toLowerCase() === slug ||
+      (slug === 'bao-thap' && a.slug === 'bao-thap-van-phat-xa-loi') ||
+      (slug === 'bao-thap-van-phat-xa-loi' && a.slug === 'bao-thap') ||
+      (slug === 'tang-kinh-cac' && (a.slug === 'tang-kinh-cac' || a.slug === 'thu-vien')) ||
+      (slug === 'thu-vien' && (a.slug === 'tang-kinh-cac' || a.slug === 'thu-vien'))
+  );
   if (!area) {
     const formattedTitle = (slug || 'khu-vuc-tam-linh')
       .split('-')
