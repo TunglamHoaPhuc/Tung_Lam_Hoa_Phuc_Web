@@ -215,8 +215,8 @@ export const StatueDetailCoreLayout: FC<StatueDetailCoreLayoutProps> = ({ statue
             }}
           >
             <h1
-              style={{ fontFamily: "'UTM Niagara', serif" }}
-              className="text-6xl sm:text-8xl md:text-9xl lg:text-[130px] font-normal text-[#FFE5A3] uppercase tracking-normal drop-shadow-[0_4px_30px_rgba(242,193,78,0.95)] leading-none py-1"
+              style={{ fontFamily: "var(--font-playfair), 'Playfair Display', serif" }}
+              className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-[#FFE5A3] uppercase tracking-normal drop-shadow-[0_4px_30px_rgba(242,193,78,0.95)] leading-tight py-1"
             >
               {statue.name || "ĐỨC PHẬT THÍCH CA MÂU NI"}
             </h1>
@@ -277,8 +277,8 @@ export const StatueDetailCoreLayout: FC<StatueDetailCoreLayoutProps> = ({ statue
                     CỤM TƯỢNG
                   </span>
                   <h3
-                    className="text-2xl sm:text-3xl font-normal uppercase text-[#FFE5A3] tracking-wide"
-                    style={{ fontFamily: "'UTM Niagara', serif", fontWeight: "normal" }}
+                    className="text-xl sm:text-2xl font-bold uppercase text-[#FFE5A3] tracking-wide"
+                    style={{ fontFamily: "var(--font-playfair), 'Playfair Display', serif" }}
                   >
                     {statue.group || statue.clusterName || "HOA NGHIÊM TAM THÁNH"}
                   </h3>
@@ -304,8 +304,8 @@ export const StatueDetailCoreLayout: FC<StatueDetailCoreLayoutProps> = ({ statue
                       {/* Tên tượng hiện ra fade in mềm mại bỏ viền khi hover - Font UTM Niagara */}
                       <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 mt-2 text-center">
                         <span
-                          className="text-xl sm:text-2xl text-[#FFE5A3] font-normal uppercase tracking-wide drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]"
-                          style={{ fontFamily: "'UTM Niagara', serif" }}
+                          className="text-sm sm:text-base text-[#FFE5A3] font-bold uppercase tracking-wide drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]"
+                          style={{ fontFamily: "var(--font-playfair), 'Playfair Display', serif" }}
                         >
                           {member.name}
                         </span>
@@ -330,11 +330,11 @@ export const StatueDetailCoreLayout: FC<StatueDetailCoreLayoutProps> = ({ statue
                 {/* Logo Bảo tượng nổi lên trên */}
                 <div className="w-9 h-9 flex items-center justify-center filter drop-shadow-[0_0_8px_rgba(242,193,78,0.7)] group-hover:scale-110 transition-transform">
                   <img
-                    src="/images/icon-minh-hoa/bieu-tuong-tuong-phap.png"
+                    src="https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/bieu-tuong-tuong-phap.webp"
                     alt="Logo Bảo tượng"
                     className="w-full h-full object-contain"
                     onError={(e) => {
-                      (e.currentTarget as HTMLImageElement).src = '/images/bieu-tuong-tuong-phap.svg';
+                      (e.currentTarget as HTMLImageElement).src = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/logo-tung-lam-hoa-phuc-tron.webp';
                     }}
                   />
                 </div>
@@ -443,11 +443,11 @@ export const StatueDetailCoreLayout: FC<StatueDetailCoreLayoutProps> = ({ statue
               {/* Khoang Logo To bên trái */}
               <div className="w-16 h-16 sm:w-18 sm:h-18 rounded-xl border border-[#F2C14E]/60 bg-[#1C130D] p-2 flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:border-[#F2C14E] transition-transform shadow-inner">
                 <img
-                  src="/images/icon-minh-hoa/bieu-tuong-tuong-phap.png"
+                  src="https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/bieu-tuong-tuong-phap.webp"
                   alt="Biểu tượng Chúng hội"
                   className="w-full h-full object-contain filter drop-shadow-[0_0_6px_rgba(242,193,78,0.8)]"
                   onError={(e) => {
-                    (e.currentTarget as HTMLImageElement).src = '/images/bieu-tuong-tuong-phap.svg';
+                    (e.currentTarget as HTMLImageElement).src = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/logo-tung-lam-hoa-phuc-tron.webp';
                   }}
                 />
               </div>
@@ -455,8 +455,8 @@ export const StatueDetailCoreLayout: FC<StatueDetailCoreLayoutProps> = ({ statue
               {/* Tên Chúng Hội căn chính giữa ô */}
               <div className="flex-1 text-center pr-2">
                 <h3
-                  className="text-2xl sm:text-3xl font-normal uppercase text-[#FFE5A3] group-hover:text-white transition-colors leading-tight"
-                  style={{ fontFamily: "'UTM Niagara', serif" }}
+                  className="text-xl sm:text-2xl font-bold uppercase text-[#FFE5A3] group-hover:text-white transition-colors leading-tight"
+                  style={{ fontFamily: "var(--font-playfair), 'Playfair Display', serif" }}
                 >
                   {statue.assemblyName || statue.assembly || "CHƯ PHẬT HẢI HỘI"}
                 </h3>
@@ -498,8 +498,8 @@ export const StatueDetailCoreLayout: FC<StatueDetailCoreLayoutProps> = ({ statue
                     KHU VỰC
                   </span>
                   <span
-                    className="text-2xl sm:text-3xl text-[#FFE5A3] font-normal uppercase leading-tight block mt-0.5"
-                    style={{ fontFamily: "'UTM Niagara', serif" }}
+                    className="text-xl sm:text-2xl text-[#FFE5A3] font-bold uppercase leading-tight block mt-0.5"
+                    style={{ fontFamily: "var(--font-playfair), 'Playfair Display', serif" }}
                   >
                     {statue.areaName || "TAM BẢO"}
                   </span>
@@ -508,11 +508,11 @@ export const StatueDetailCoreLayout: FC<StatueDetailCoreLayoutProps> = ({ statue
                 {/* Khoang Logo Khu vực to có hiệu ứng hover nhẹ */}
                 <div className="w-12 h-12 rounded-xl border border-[#F2C14E]/60 bg-[#1C130D] p-1.5 flex items-center justify-center text-[#F2C14E] shrink-0 group-hover/area:scale-108 group-hover/area:border-[#F2C14E] transition-all duration-300 shadow-md">
                   <img
-                    src="/images/icon-minh-hoa/bieu-tuong-tuong-phap.png"
+                    src="https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/bieu-tuong-tuong-phap.webp"
                     alt="Logo Khu vực"
                     className="w-full h-full object-contain filter drop-shadow-[0_0_6px_rgba(242,193,78,0.8)]"
                     onError={(e) => {
-                      (e.currentTarget as HTMLImageElement).src = '/images/bieu-tuong-tuong-phap.svg';
+                      (e.currentTarget as HTMLImageElement).src = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/logo-tung-lam-hoa-phuc-tron.webp';
                     }}
                   />
                 </div>
@@ -527,11 +527,11 @@ export const StatueDetailCoreLayout: FC<StatueDetailCoreLayoutProps> = ({ statue
               >
                 <div className="w-9 h-9 flex items-center justify-center filter drop-shadow-[0_0_8px_rgba(242,193,78,0.7)] group-hover:scale-110 transition-transform">
                   <img
-                    src="/images/icon-minh-hoa/bieu-tuong-tuong-phap.png"
+                    src="https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/bieu-tuong-tuong-phap.webp"
                     alt="Logo Bảo tượng"
                     className="w-full h-full object-contain"
                     onError={(e) => {
-                      (e.currentTarget as HTMLImageElement).src = '/images/bieu-tuong-tuong-phap.svg';
+                      (e.currentTarget as HTMLImageElement).src = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/logo-tung-lam-hoa-phuc-tron.webp';
                     }}
                   />
                 </div>
@@ -557,11 +557,11 @@ export const StatueDetailCoreLayout: FC<StatueDetailCoreLayoutProps> = ({ statue
         <div className="flex flex-col items-center text-center my-10">
           <div className="w-16 h-16 sm:w-20 sm:h-20 mb-2 flex items-center justify-center" aria-hidden="true">
             <img
-              src="/images/icon-minh-hoa/bieu-tuong-tuong-phap.png"
+              src="https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/bieu-tuong-tuong-phap.webp"
               alt=""
               className="w-full h-full object-contain filter drop-shadow-[0_0_20px_rgba(242,193,78,0.95)] scale-135 transform-gpu"
               onError={(e) => {
-                (e.currentTarget as HTMLImageElement).src = '/images/bieu-tuong-tuong-phap.svg';
+                (e.currentTarget as HTMLImageElement).src = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/logo-tung-lam-hoa-phuc-tron.webp';
               }}
             />
           </div>
@@ -573,8 +573,8 @@ export const StatueDetailCoreLayout: FC<StatueDetailCoreLayoutProps> = ({ statue
             </div>
 
             <h2
-              style={{ fontFamily: "'UTM Niagara', serif" }}
-              className="text-4xl sm:text-5xl md:text-6xl font-normal text-[#ffde59] uppercase tracking-wider drop-shadow-[0_0_18px_rgba(255,222,89,0.8)] whitespace-nowrap px-5 sm:px-8"
+              style={{ fontFamily: "var(--font-playfair), 'Playfair Display', serif" }}
+              className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#ffde59] uppercase tracking-wider drop-shadow-[0_0_18px_rgba(255,222,89,0.8)] whitespace-nowrap px-5 sm:px-8"
             >
               NGHỆ THUẬT PHẬT GIÁO
             </h2>

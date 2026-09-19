@@ -32,7 +32,7 @@ const FEATURED_AREAS: AreaItem[] = [
     id: "a1",
     name: "TAM BẢO - ĐẠI HÙNG BẢO ĐIỆN",
     subtitle: "Trung tâm tâm linh cao nhất của tự viện Tùng Lâm Hòa Phúc",
-    imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
+    imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/tam_bao_tu_tren_cao.webp",
     targetUrl: "/vu-tru-phat-giao/tam-bao",
     iconName: "Landmark",
   },
@@ -56,7 +56,7 @@ const FEATURED_AREAS: AreaItem[] = [
     id: "a4",
     name: "ĐẠI GIẢNG ĐƯỜNG NGỘ CHÂN TỬ",
     subtitle: "Nơi tổ chức các khóa tu tập định kỳ & Pháp bảo lưu thông",
-    imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
+    imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/giang_duong_tuong_di_da.webp",
     targetUrl: "/vu-tru-phat-giao/giang-duong",
     iconName: "BookOpen",
   },
@@ -69,7 +69,7 @@ const FEATURED_STATUES: StatueItem[] = [
     cluster: "BẢO THÁP SRILANKA",
     area: "TẦNG 3",
     imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/Tuong-duc-Phat-Thich-Ca-bao-Thap-va-kinh-Dieu-Phap-Lien-Hoa-JPG.webp",
-    targetUrl: "/bao-tuong-phat-giao",
+    targetUrl: "/bao-tuong/duc_phat_thich_ca_mau_ni_vo_thuong_nang_nhan_tp0001",
     iconName: "Landmark",
   },
   {
@@ -78,7 +78,7 @@ const FEATURED_STATUES: StatueItem[] = [
     cluster: "MANDALA TÂY PHƯƠNG",
     area: "TẦNG 2",
     imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/Tuong-ai-Nhat-Nhu-Lai-JPG.webp",
-    targetUrl: "/bao-tuong-phat-giao",
+    targetUrl: "/bao-tuong/duc_phat_ty_lo_gia_na_dai_nhat_nhu_lai_tp0004",
     iconName: "Sun",
   },
   {
@@ -87,7 +87,7 @@ const FEATURED_STATUES: StatueItem[] = [
     cluster: "TAM THÂN PHẬT TÁNH",
     area: "TẦNG 4",
     imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/Tuong-Tam-The-Phat-JPG.webp",
-    targetUrl: "/bao-tuong-phat-giao",
+    targetUrl: "/bao-tuong/tam_the_phat_tam_than_phat_tanh_tp0003",
     iconName: "HandHeart",
   },
   {
@@ -96,7 +96,7 @@ const FEATURED_STATUES: StatueItem[] = [
     cluster: "BỒ TÁT HẠNH NGUYỆN",
     area: "THÁNH TỊNH ĐẠI HẢI CHÚNG",
     imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
-    targetUrl: "/bao-tuong-phat-giao",
+    targetUrl: "/vu-tru-phat-giao/bao-thap#33-ung-hoa-than",
     iconName: "Scroll",
   },
 ];

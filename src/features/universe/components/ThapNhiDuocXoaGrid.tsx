@@ -16,11 +16,11 @@ export const ThapNhiDuocXoaGrid: FC = () => {
         <div className="flex flex-col items-center text-center mb-10">
           <div className="w-16 h-16 sm:w-20 sm:h-20 mb-3 flex items-center justify-center" aria-hidden="true">
             <img
-              src="/images/icon-minh-hoa/bieu-tuong-tuong-phap.png"
+              src="https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/bieu-tuong-tuong-phap.webp"
               alt="Thập Nhị Dược Xoa"
               className="w-full h-full object-contain filter drop-shadow-[0_0_18px_rgba(242,193,78,0.95)] scale-135 transform-gpu"
               onError={(e) => {
-                (e.currentTarget as HTMLImageElement).src = '/images/bieu-tuong-tuong-phap.svg';
+                (e.currentTarget as HTMLImageElement).src = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/logo-tung-lam-hoa-phuc-tron.webp';
               }}
             />
           </div>

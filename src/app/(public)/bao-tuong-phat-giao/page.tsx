@@ -307,6 +307,12 @@ function StatueItemCard({ statue }: { statue: StatueItem }) {
           loading="lazy"
           decoding="async"
           className="w-full h-full object-cover object-[center_28%] group-hover:scale-105 transition-transform duration-700 transform-gpu"
+          style={{
+            transform: statue.imgRotation
+              ? `rotate(${statue.imgRotation}deg) scale(${statue.imgRotation % 180 !== 0 ? 1.35 : 1})`
+              : undefined,
+            transformOrigin: 'center center',
+          }}
           onError={(e) => {
             (e.currentTarget as HTMLImageElement).src = '/images/toan-canh-chua.jpg';
           }}
@@ -329,22 +335,22 @@ function StatueItemCard({ statue }: { statue: StatueItem }) {
           {/* LOGO BADGE CĂN GIỮA */}
           <div className="absolute top-[-24px] left-1/2 -translate-x-1/2 z-40 w-11 h-11 sm:w-12 sm:h-12 rounded-full border-2 border-[#F2C14E] bg-[#25170E] flex items-center justify-center p-1 shadow-[0_0_18px_rgba(242,193,78,0.75)] overflow-hidden">
             <img
-              src="/images/icon-minh-hoa/bieu-tuong-tuong-phap.png"
+              src="https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/bieu-tuong-tuong-phap.webp"
               alt="Logo Bảo tượng"
               loading="lazy"
               decoding="async"
               className="w-full h-full object-contain filter drop-shadow-[0_0_6px_rgba(242,193,78,0.95)] scale-145 sm:scale-150 transform-gpu"
               onError={(e) => {
-                (e.currentTarget as HTMLImageElement).src = '/images/bieu-tuong-tuong-phap.svg';
+                (e.currentTarget as HTMLImageElement).src = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/logo-tung-lam-hoa-phuc-tron.webp';
               }}
             />
           </div>
 
           {/* TIÊU ĐỀ & KHU VỰC */}
-          <div className="w-full flex flex-col items-center mt-1.5 shrink-0">
+          <div className="w-full flex flex-col items-center mt-1.5 shrink-0 px-1">
             <h3
-              className="text-[#F2C14E] text-2xl md:text-3xl font-normal tracking-wide uppercase group-hover:text-white transition-colors mb-0.5"
-              style={{ fontFamily: "'UTM Niagara', serif" }}
+              className="text-[#F2C14E] text-base sm:text-lg font-bold tracking-wide uppercase group-hover:text-white transition-colors mb-0.5 line-clamp-2 text-center"
+              style={{ fontFamily: "var(--font-playfair), 'Playfair Display', serif" }}
             >
               {statue.name}
             </h3>

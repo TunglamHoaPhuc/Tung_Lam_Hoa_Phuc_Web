@@ -14,11 +14,11 @@ export const ThatPhatDuocSuSection: FC = () => {
       <div className="flex flex-col items-center text-center mb-8">
         <div className="w-14 h-14 sm:w-16 sm:h-16 mb-2 flex items-center justify-center" aria-hidden="true">
           <img
-            src="/images/icon-minh-hoa/bieu-tuong-tuong-phap.png"
+            src="https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/bieu-tuong-tuong-phap.webp"
             alt="Dược Sư Thất Phật"
             className="w-full h-full object-contain filter drop-shadow-[0_0_18px_rgba(242,193,78,0.95)] scale-135 transform-gpu"
             onError={(e) => {
-              (e.currentTarget as HTMLImageElement).src = '/images/bieu-tuong-tuong-phap.svg';
+              (e.currentTarget as HTMLImageElement).src = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/logo-tung-lam-hoa-phuc-tron.webp';
             }}
           />
         </div>
@@ -96,7 +96,7 @@ export const ThatPhatDuocSuSection: FC = () => {
                   {/* Miniature Floating Emblem */}
                   <div className="absolute top-[-18px] left-1/2 -translate-x-1/2 z-40 w-8 h-8 rounded-full border border-[#F2C14E] bg-[#25170E] flex items-center justify-center p-0.5 shadow-[0_0_12px_rgba(242,193,78,0.7)] overflow-hidden">
                     <img
-                      src="/images/icon-minh-hoa/bieu-tuong-tuong-phap.png"
+                      src="https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/bieu-tuong-tuong-phap.webp"
                       alt=""
                       className="w-full h-full object-contain filter drop-shadow-[0_0_4px_rgba(242,193,78,0.9)] scale-135"
                     />

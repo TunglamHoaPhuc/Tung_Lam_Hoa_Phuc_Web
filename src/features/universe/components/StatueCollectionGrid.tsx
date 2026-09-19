@@ -37,9 +37,15 @@ const StatueCard = React.memo(({ statue }: StatueCardProps) => {
           loading="lazy"
           decoding="async"
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 transform-gpu"
-          style={{ objectPosition: (statue as any).imgPosition || 'center 20%' }}
+          style={{
+            objectPosition: (statue as any).imgPosition || 'center 20%',
+            transform: statue.imgRotation
+              ? `rotate(${statue.imgRotation}deg) scale(${statue.imgRotation % 180 !== 0 ? 1.35 : 1})`
+              : undefined,
+            transformOrigin: 'center center',
+          }}
           onError={(e) => {
-            (e.target as HTMLImageElement).src = '/images/vu-tru-phat-giao/toan-canh-chua.jpg';
+            (e.target as HTMLImageElement).src = '/images/toan-canh-chua.jpg';
           }}
         />
 
@@ -61,22 +67,22 @@ const StatueCard = React.memo(({ statue }: StatueCardProps) => {
           {/* LOGO BADGE CĂN GIỮA */}
           <div className="absolute top-[-24px] left-1/2 -translate-x-1/2 z-40 w-11 h-11 sm:w-12 sm:h-12 rounded-full border-2 border-[#F2C14E] bg-[#25170E] flex items-center justify-center p-1 shadow-[0_0_18px_rgba(242,193,78,0.75)] overflow-hidden">
             <img
-              src="/images/icon-minh-hoa/bieu-tuong-tuong-phap.png"
+              src="https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/bieu-tuong-tuong-phap.webp"
               alt="Logo Bảo tượng"
               loading="lazy"
               decoding="async"
               className="w-full h-full object-contain filter drop-shadow-[0_0_6px_rgba(242,193,78,0.95)] scale-145 sm:scale-150 transform-gpu"
               onError={(e) => {
-                (e.currentTarget as HTMLImageElement).src = '/images/bieu-tuong-tuong-phap.svg';
+                (e.currentTarget as HTMLImageElement).src = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/logo-tung-lam-hoa-phuc-tron.webp';
               }}
             />
           </div>
 
           {/* TIÊU ĐỀ & SUBTITLE */}
-          <div className="w-full flex flex-col items-center mt-1.5 shrink-0">
+          <div className="w-full flex flex-col items-center mt-1.5 shrink-0 px-1">
             <h3
-              className="text-[#F2C14E] text-2xl md:text-3xl font-normal tracking-wide uppercase group-hover:text-white transition-colors mb-0.5"
-              style={{ fontFamily: "'UTM Niagara', serif" }}
+              className="text-[#F2C14E] text-base sm:text-lg font-bold tracking-wide uppercase group-hover:text-white transition-colors mb-0.5 line-clamp-2 text-center"
+              style={{ fontFamily: "var(--font-playfair), 'Playfair Display', serif" }}
             >
               {statue.name}
             </h3>
@@ -161,11 +167,11 @@ export const StatueCollectionGrid: FC<StatueCollectionGridProps> = ({
         <div className="flex flex-col items-center text-center mb-12">
           <div className="w-16 h-16 sm:w-20 sm:h-20 mb-2 flex items-center justify-center" aria-hidden="true">
             <img
-              src="/images/icon-minh-hoa/bieu-tuong-tuong-phap.png"
+              src="https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/bieu-tuong-tuong-phap.webp"
               alt="Biểu Tượng Tượng Pháp"
               className="w-full h-full object-contain filter drop-shadow-[0_0_20px_rgba(242,193,78,0.95)] scale-135 transform-gpu"
               onError={(e) => {
-                (e.currentTarget as HTMLImageElement).src = '/images/bieu-tuong-tuong-phap.svg';
+                (e.currentTarget as HTMLImageElement).src = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/logo-tung-lam-hoa-phuc-tron.webp';
               }}
             />
           </div>
@@ -177,8 +183,8 @@ export const StatueCollectionGrid: FC<StatueCollectionGridProps> = ({
             </div>
 
             <h2
-              style={{ fontFamily: "'UTM Niagara', 'Playfair Display', serif" }}
-              className="text-3xl sm:text-4xl md:text-5xl font-normal text-[#ffde59] uppercase tracking-normal drop-shadow-[0_0_18px_rgba(255,222,89,0.8)] whitespace-nowrap px-4 sm:px-6 md:px-8"
+              style={{ fontFamily: "var(--font-playfair), 'Playfair Display', serif" }}
+              className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#ffde59] uppercase tracking-normal drop-shadow-[0_0_18px_rgba(255,222,89,0.8)] whitespace-nowrap px-4 sm:px-6 md:px-8"
             >
               BẢO TƯỢNG PHẬT GIÁO - {areaTitle}
             </h2>
