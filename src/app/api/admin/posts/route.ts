@@ -135,10 +135,19 @@ export async function GET(req: NextRequest) {
       (p) =>
         p.title.toLowerCase().includes(q) ||
         p.summary?.toLowerCase().includes(q) ||
-        p.author?.toLowerCase().includes(q) ||
         p.content?.toLowerCase().includes(q)
     );
   }
+
+  // Sắp xếp bài viết mới nhất lên đầu (theo ngày xuất bản giảm dần)
+  posts.sort((a, b) => {
+    const timeA = a.publishedDate ? new Date(a.publishedDate).getTime() : 0;
+    const timeB = b.publishedDate ? new Date(b.publishedDate).getTime() : 0;
+    if (timeB !== timeA) return timeB - timeA;
+    const wpA = typeof a.wpPostId === 'number' ? a.wpPostId : parseInt(String(a.wpPostId || 0), 10);
+    const wpB = typeof b.wpPostId === 'number' ? b.wpPostId : parseInt(String(b.wpPostId || 0), 10);
+    return (wpB || 0) - (wpA || 0);
+  });
 
   return NextResponse.json({
     success: true,

@@ -20,7 +20,7 @@ const INITIAL_NEWS_DATA: NewsItem[] = [
     category: "Khóa Lễ Truyền Thống",
     title: "NGÀI ĐỊA TẠNG BỒ TÁT, TẠI SAO NGÀI ĐƯỢC CA NGỢI VÀ TÔN VINH?",
     subtitle: "Hạnh Nguyện Đại Bi Cứu Khổ Độ Sanh Nơi Cảnh Giới Khổ Đau",
-    imgUrl: "https://admin.tunglamhoaphuc.com/wp-content/uploads/2026/09/80-scaled.jpg",
+    imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/03-dong-chay-hoang-phap/khoa-le-truyen-thong/ngai-dia-tang-bo-tat-ton-tuong.webp",
     targetUrl: "/dong-chay-hoang-phap/ngai-dia-tang-bo-tat-tai-sao-ngai-duoc-ca-ngoi-va-ton-vinh-2",
   },
   {
@@ -86,7 +86,14 @@ export const NewsSection: FC = () => {
         if (res.ok) {
           const json = await res.json();
           if (json.success && Array.isArray(json.posts) && json.posts.length > 0) {
-            const dynamicMapped: NewsItem[] = json.posts.slice(0, 4).map((p: any) => ({
+            // Sort strictly descending by date
+            const sorted = [...json.posts].sort((a: any, b: any) => {
+              const timeA = a.publishedDate ? new Date(a.publishedDate).getTime() : 0;
+              const timeB = b.publishedDate ? new Date(b.publishedDate).getTime() : 0;
+              return timeB - timeA;
+            });
+
+            const dynamicMapped: NewsItem[] = sorted.slice(0, 4).map((p: any) => ({
               id: p.id,
               category: p.categoryName || p.subCategory || 'Dòng chảy hoằng pháp',
               title: (p.title || '').toUpperCase(),

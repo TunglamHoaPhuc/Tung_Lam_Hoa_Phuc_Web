@@ -40,9 +40,9 @@ export const SectionHeader: FC<SectionHeaderProps> = ({
         <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent via-[#F2C14E]/60 to-[#F2C14E]" />
 
         <h2
-          className="text-4xl md:text-6xl lg:text-7xl font-normal tracking-normal uppercase text-[#F2C14E] shrink-0 text-center leading-none px-2 md:px-4"
+          className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-normal uppercase text-[#F2C14E] shrink-0 text-center leading-none px-2 md:px-4"
           style={{
-            fontFamily: "'UTM Niagara', 'Playfair Display', serif",
+            fontFamily: "var(--font-playfair), 'Playfair Display', serif",
             textShadow: "0 0 32px rgba(242,193,78,0.7), 0 0 64px rgba(242,193,78,0.4)",
           }}
         >
