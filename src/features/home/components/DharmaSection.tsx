@@ -11,7 +11,7 @@ import { PostItem } from "@/types/post";
 const TOP_POSTS: PostItem[] = [
   {
     id: "p1",
-    imageUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/nen-tang-tu-hoc/tong-chi-tu-hoc-nen-tang-tu-hoc-bo-de-tam-herobanner-thumbnail.webp",
+    imageUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-hub-banner.webp",
     category1: "Tông Chỉ Tu Học",
     category2: "NỀN TẢNG TU HỌC",
     title: "Tông Chỉ Tu Học — Cội Nguồn Thiện Pháp & Nền Tảng Tu Tập",
