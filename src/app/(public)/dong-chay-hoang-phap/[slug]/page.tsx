@@ -47,6 +47,14 @@ export default function DongChayHoangPhapDetailPage() {
   const [article, setArticle] = useState<any>(initialFallback);
 
   useEffect(() => {
+    // 1. Cập nhật tức thời fallback khớp với slug mới để tránh lưu bài viết cũ
+    const immediateFallback = (ALL_POSTS as any[]).find(
+      (a) => a.slug === slug || a.id === slug || String(a.wpPostId) === slug
+    ) || HOANG_PHAP_ARTICLES.find((a) => a.slug === slug || a.id === slug);
+    if (immediateFallback) {
+      setArticle(immediateFallback);
+    }
+
     async function loadDynamicPost() {
       if (!slug) return;
       try {

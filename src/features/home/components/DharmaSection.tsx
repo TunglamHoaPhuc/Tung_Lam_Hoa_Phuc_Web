@@ -11,14 +11,14 @@ import { PostItem } from "@/types/post";
 const TOP_POSTS: PostItem[] = [
   {
     id: "p1",
-    imageUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-tong-phong-truyen-thua-tiep-buoc-thay-toi-banner-thumnail.webp",
+    imageUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/nen-tang-tu-hoc/tong-chi-tu-hoc-nen-tang-tu-hoc-bo-de-tam-herobanner-thumbnail.webp",
     category1: "Tông Chỉ Tu Học",
-    category2: "TÔNG PHONG TRUYỀN THỪA",
-    title: "Tiếp Bước Thầy Tôi — Hành Trình Nối Mạng Mạch Tông Phong",
-    description: "Bài thơ và văn ký quan trọng đúc kết hạnh nguyện tiếp nối ánh sáng chánh pháp của Sư Tổ Ngộ Chân Tử và Sư Phụ Trụ Trì.",
+    category2: "NỀN TẢNG TU HỌC",
+    title: "Tông Chỉ Tu Học — Cội Nguồn Thiện Pháp & Nền Tảng Tu Tập",
+    description: "Hệ thống tông chỉ tu học kế thừa tông phong chư Tổ, định hướng người con Phật trở về cội nguồn thiện pháp, xây dựng đời sống tỉnh thức an lạc.",
     publishedDate: "23/08/2026",
     viewsCount: "54.2K",
-    targetUrl: "/tong-chi-tu-hoc/tong-phong-truyen-thua-truc-lam",
+    targetUrl: "/tong-chi-tu-hoc",
   },
   {
     id: "p2",

@@ -182,9 +182,8 @@ function InteractiveImageDrag({
 
       {/* 🌟 Lưới 3x3 thanh mảnh khi hover hoặc đang kéo */}
       <div
-        className={`absolute inset-0 transition-opacity pointer-events-none ${
-          isDragging ? 'opacity-100 bg-black/20' : 'opacity-0 group-hover/drag:opacity-100'
-        }`}
+        className={`absolute inset-0 transition-opacity pointer-events-none ${isDragging ? 'opacity-100 bg-black/20' : 'opacity-0 group-hover/drag:opacity-100'
+          }`}
       >
         <div className="w-full h-full grid grid-cols-3 grid-rows-3 border border-[#F2C14E]/30">
           <div className="border-r border-b border-[#F2C14E]/20" />
@@ -1702,8 +1701,8 @@ export function SpreadsheetTongChi() {
                             type="button"
                             onClick={() => setMediaModal({ isOpen: true, rowIndex: actualIdx, tab: 'video' })}
                             className={`p-2 rounded-xl border flex items-center justify-center relative transition-all cursor-pointer shadow-sm hover:scale-110 ${row.videoBlock?.videoUrl
-                                ? 'bg-[#352012] border-[#F2C14E] text-[#ffde59] shadow-[0_0_10px_rgba(242,193,78,0.2)]'
-                                : 'bg-[#1C120A] border-[#52331C] text-[#c9b896]/60 hover:text-[#FFE5A3]'
+                              ? 'bg-[#352012] border-[#F2C14E] text-[#ffde59] shadow-[0_0_10px_rgba(242,193,78,0.2)]'
+                              : 'bg-[#1C120A] border-[#52331C] text-[#c9b896]/60 hover:text-[#FFE5A3]'
                               }`}
                             title={row.videoBlock?.videoUrl ? `Video: ${row.videoBlock.title || 'Đã cài đặt video'}` : 'Quản lý Video Minh Họa'}
                           >
@@ -1720,8 +1719,8 @@ export function SpreadsheetTongChi() {
                             type="button"
                             onClick={() => setMediaModal({ isOpen: true, rowIndex: actualIdx, tab: 'featured' })}
                             className={`p-2 rounded-xl border flex items-center justify-center relative transition-all cursor-pointer shadow-sm hover:scale-110 ${row.featuredArticle?.title
-                                ? 'bg-[#352012] border-[#F2C14E] text-[#ffde59] shadow-[0_0_10px_rgba(242,193,78,0.2)]'
-                                : 'bg-[#1C120A] border-[#52331C] text-[#c9b896]/60 hover:text-[#FFE5A3]'
+                              ? 'bg-[#352012] border-[#F2C14E] text-[#ffde59] shadow-[0_0_10px_rgba(242,193,78,0.2)]'
+                              : 'bg-[#1C120A] border-[#52331C] text-[#c9b896]/60 hover:text-[#FFE5A3]'
                               }`}
                             title={row.featuredArticle?.title ? `Nổi bật: ${row.featuredArticle.title}` : 'Quản lý Bài Viết Nổi Bật'}
                           >
@@ -1738,8 +1737,8 @@ export function SpreadsheetTongChi() {
                             type="button"
                             onClick={() => setMediaModal({ isOpen: true, rowIndex: actualIdx, tab: 'gallery' })}
                             className={`p-2 rounded-xl border flex items-center justify-center relative transition-all cursor-pointer shadow-sm hover:scale-110 ${(row.photoGallery?.length || 0) > 0
-                                ? 'bg-[#352012] border-[#F2C14E] text-[#ffde59] shadow-[0_0_10px_rgba(242,193,78,0.2)]'
-                                : 'bg-[#1C120A] border-[#52331C] text-[#c9b896]/60 hover:text-[#FFE5A3]'
+                              ? 'bg-[#352012] border-[#F2C14E] text-[#ffde59] shadow-[0_0_10px_rgba(242,193,78,0.2)]'
+                              : 'bg-[#1C120A] border-[#52331C] text-[#c9b896]/60 hover:text-[#FFE5A3]'
                               }`}
                             title={`Bộ sưu tập ảnh (${row.photoGallery?.length || 0} ảnh)`}
                           >
@@ -1770,8 +1769,8 @@ export function SpreadsheetTongChi() {
                                 {openingWpId === row.id
                                   ? 'Đang mở WP...'
                                   : row.wpPostId
-                                  ? `Gutenberg #${row.wpPostId}`
-                                  : 'Mở Gutenberg'}
+                                    ? `Gutenberg #${row.wpPostId}`
+                                    : 'Mở Gutenberg'}
                               </span>
                             </span>
                             <div className="flex items-center gap-1 text-[10px] text-[#c9b896]/75 shrink-0">
@@ -1830,394 +1829,394 @@ export function SpreadsheetTongChi() {
                           </button>
                         </div>
                       </td>
-                  </tr>
-                );
-              })
-            )}
-          </tbody>
-        </table>
+                    </tr>
+                  );
+                })
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
 
-    {/* ============================================================ */}
-    {/* 🌟 1. TRÌNH SOẠN THẢO GOOGLE DOCS TOÀN MÀN HÌNH (BIG EDITOR MODAL) */}
-    {/* ============================================================ */}
-    {bigEditor && (
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/90 backdrop-blur-md animate-in fade-in">
-        <div
-          className={`bg-[#1C120A] border-2 border-[#F2C14E] flex flex-col shadow-[0_0_60px_rgba(242,193,78,0.4)] transition-all duration-200 ${isEditorMaximized
+      {/* ============================================================ */}
+      {/* 🌟 1. TRÌNH SOẠN THẢO GOOGLE DOCS TOÀN MÀN HÌNH (BIG EDITOR MODAL) */}
+      {/* ============================================================ */}
+      {bigEditor && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/90 backdrop-blur-md animate-in fade-in">
+          <div
+            className={`bg-[#1C120A] border-2 border-[#F2C14E] flex flex-col shadow-[0_0_60px_rgba(242,193,78,0.4)] transition-all duration-200 ${isEditorMaximized
               ? 'fixed inset-0 rounded-none w-screen h-screen max-w-none max-h-none p-4 sm:p-6'
               : 'rounded-3xl p-5 sm:p-7 w-full max-w-5xl max-h-[94vh]'
-            }`}
-        >
-          {/* Modal Header */}
-          <div className="flex items-center justify-between pb-3 border-b border-[#F2C14E]/30 shrink-0">
-            <div className="flex items-center gap-3 min-w-0">
-              <div className="w-9 h-9 rounded-xl bg-[#3A2718] border border-[#F2C14E] flex items-center justify-center text-[#ffde59] shrink-0 shadow-sm">
-                <Edit3 className="w-4 h-4" />
+              }`}
+          >
+            {/* Modal Header */}
+            <div className="flex items-center justify-between pb-3 border-b border-[#F2C14E]/30 shrink-0">
+              <div className="flex items-center gap-3 min-w-0">
+                <div className="w-9 h-9 rounded-xl bg-[#3A2718] border border-[#F2C14E] flex items-center justify-center text-[#ffde59] shrink-0 shadow-sm">
+                  <Edit3 className="w-4 h-4" />
+                </div>
+                <div className="flex items-center gap-2 min-w-0">
+                  <span
+                    style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                    className="px-2.5 py-0.5 rounded-lg bg-[#3A2718] text-[#ffde59] text-xs font-bold border border-[#F2C14E]/40 shrink-0"
+                  >
+                    Bài #{bigEditor.rowIndex + 1}
+                  </span>
+                  <h3
+                    style={{ fontFamily: "'UTM Niagara', serif" }}
+                    className="text-2xl sm:text-3xl text-[#ffde59] uppercase tracking-wider font-normal truncate max-w-lg"
+                  >
+                    {articles[bigEditor.rowIndex]?.title || 'Chưa đặt tiêu đề'}
+                  </h3>
+                </div>
               </div>
-              <div className="flex items-center gap-2 min-w-0">
-                <span
-                  style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                  className="px-2.5 py-0.5 rounded-lg bg-[#3A2718] text-[#ffde59] text-xs font-bold border border-[#F2C14E]/40 shrink-0"
-                >
-                  Bài #{bigEditor.rowIndex + 1}
-                </span>
-                <h3
-                  style={{ fontFamily: "'UTM Niagara', serif" }}
-                  className="text-2xl sm:text-3xl text-[#ffde59] uppercase tracking-wider font-normal truncate max-w-lg"
-                >
-                  {articles[bigEditor.rowIndex]?.title || 'Chưa đặt tiêu đề'}
-                </h3>
-              </div>
-            </div>
 
-            {/* Window Controls & Action Save Buttons */}
-            <div className="flex items-center gap-2 shrink-0">
-              {/* Nút Xem Trên Web */}
-              {articles[bigEditor.rowIndex]?.slug && (
-                <Link
-                  href={`/tong-chi-tu-hoc/${articles[bigEditor.rowIndex].slug}`}
-                  target="_blank"
-                  className="px-3 py-1.5 rounded-xl bg-[#25170E] hover:bg-[#3A2718] border border-[#F2C14E]/30 text-[#FFE5A3] hover:text-[#FFDE59] text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer hover:scale-105"
-                  title="Mở bài viết trực tiếp trên trang web (tab mới)"
-                >
-                  <ExternalLink className="w-3.5 h-3.5 text-[#F2C14E]" />
-                  <span className="hidden sm:inline">Xem Web</span>
-                </Link>
-              )}
-
-              {/* Nút Mở Trình Soạn Thảo Đầy Đủ */}
-              {articles[bigEditor.rowIndex]?.id && (
-                <Link
-                  href={`/admin/tong-chi/${articles[bigEditor.rowIndex].id}`}
-                  className="px-3 py-1.5 rounded-xl bg-[#25170E] hover:bg-[#3A2718] border border-[#F2C14E]/40 text-[#FFE5A3] hover:text-[#FFDE59] text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer hover:scale-105"
-                  title="Mở trang soạn thảo chuyên sâu toàn màn hình (WordPress style)"
-                >
-                  <Edit3 className="w-3.5 h-3.5 text-[#F2C14E]" />
-                  <span className="hidden md:inline">Trình Soạn Thảo Đầy Đủ</span>
-                </Link>
-              )}
-
-              {/* NÚT LƯU BÀI VIẾT CHÍNH */}
-              <button
-                type="button"
-                onClick={() => saveArticlesToBackend(articles, false)}
-                disabled={saving}
-                className="px-4 py-1.5 rounded-xl bg-gradient-to-r from-[#F2C14E] to-[#FFDE59] hover:from-[#FFDE59] hover:to-[#F2C14E] text-[#1A120B] font-bold text-xs sm:text-sm transition-all shadow-[0_0_15px_rgba(242,193,78,0.4)] flex items-center gap-1.5 cursor-pointer disabled:opacity-50 hover:scale-105"
-                title="Lưu ngay bài viết này (Phím tắt: Ctrl + S)"
-              >
-                {saving ? (
-                  <RefreshCw className="w-4 h-4 animate-spin text-[#1A120B]" />
-                ) : (
-                  <Save className="w-4 h-4 text-[#1A120B] stroke-[2.5]" />
+              {/* Window Controls & Action Save Buttons */}
+              <div className="flex items-center gap-2 shrink-0">
+                {/* Nút Xem Trên Web */}
+                {articles[bigEditor.rowIndex]?.slug && (
+                  <Link
+                    href={`/tong-chi-tu-hoc/${articles[bigEditor.rowIndex].slug}`}
+                    target="_blank"
+                    className="px-3 py-1.5 rounded-xl bg-[#25170E] hover:bg-[#3A2718] border border-[#F2C14E]/30 text-[#FFE5A3] hover:text-[#FFDE59] text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer hover:scale-105"
+                    title="Mở bài viết trực tiếp trên trang web (tab mới)"
+                  >
+                    <ExternalLink className="w-3.5 h-3.5 text-[#F2C14E]" />
+                    <span className="hidden sm:inline">Xem Web</span>
+                  </Link>
                 )}
-                <span>{saving ? 'Đang Lưu...' : 'Lưu Bài Viết'}</span>
-              </button>
 
-              <button
-                type="button"
-                onClick={() => setIsEditorMaximized(!isEditorMaximized)}
-                className="p-2 rounded-xl hover:bg-[#25170E] text-[#FFE5A3] border border-transparent hover:border-[#F2C14E]/30 transition-all cursor-pointer"
-                title={isEditorMaximized ? 'Thu nhỏ cửa sổ' : 'Mở rộng toàn màn hình'}
-              >
-                {isEditorMaximized ? <Minimize2 className="w-5 h-5" /> : <Maximize2 className="w-5 h-5" />}
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  setBigEditor(null);
-                }}
-                className="p-2 rounded-xl hover:bg-red-900/60 text-[#c9b896] hover:text-white transition-all cursor-pointer"
-                title="Đóng cửa sổ soạn thảo"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
+                {/* Nút Mở Trình Soạn Thảo Đầy Đủ */}
+                {articles[bigEditor.rowIndex]?.id && (
+                  <Link
+                    href={`/admin/tong-chi/${articles[bigEditor.rowIndex].id}`}
+                    className="px-3 py-1.5 rounded-xl bg-[#25170E] hover:bg-[#3A2718] border border-[#F2C14E]/40 text-[#FFE5A3] hover:text-[#FFDE59] text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer hover:scale-105"
+                    title="Mở trang soạn thảo chuyên sâu toàn màn hình (WordPress style)"
+                  >
+                    <Edit3 className="w-3.5 h-3.5 text-[#F2C14E]" />
+                    <span className="hidden md:inline">Trình Soạn Thảo Đầy Đủ</span>
+                  </Link>
+                )}
 
-          {/* Modal Body */}
-          <div className="flex-1 py-3 flex flex-col min-h-0 space-y-3 relative">
-            {/* 1. PREVIEW CONTAINER */}
-            {editorPreviewMode ? (
-              <div className="flex-1 w-full bg-[#1C120A] border border-[#F2C14E]/40 rounded-2xl overflow-y-auto custom-scrollbar shadow-inner">
-                <HeroBanner
-                  bannerUrl={articles[bigEditor.rowIndex]?.bannerImage}
-                  bannerPosition={articles[bigEditor.rowIndex]?.bannerPosition}
-                  title={articles[bigEditor.rowIndex]?.title || ''}
-                  subtitle={articles[bigEditor.rowIndex]?.subtitle}
-                />
-
-                <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8 space-y-12">
-                  <section id="bai-tho" className="relative pt-2">
-                    <InfographicArticleRenderer
-                      rawContent={String(articles[bigEditor.rowIndex]?.[bigEditor.field] || '')}
-                      title={articles[bigEditor.rowIndex]?.title || ''}
-                      subtitle={articles[bigEditor.rowIndex]?.subtitle}
-                      author={articles[bigEditor.rowIndex]?.author}
-                      authorLink={articles[bigEditor.rowIndex]?.authorLink}
-                      popups={articles[bigEditor.rowIndex]?.keywords}
-                      onKeywordClick={(kwStr) => {
-                        const kws = articles[bigEditor.rowIndex]?.keywords || [];
-                        const found = kws.find((k) => k.keyword.toLowerCase() === kwStr.toLowerCase());
-                        if (found) {
-                          setActivePreviewKeyword({
-                            ...found,
-                            _articleIndex: bigEditor.rowIndex,
-                          });
-                        }
-                      }}
-                    />
-                  </section>
-                  {articles[bigEditor.rowIndex]?.sourceBook && (
-                    <BookCitationSection sourceBook={articles[bigEditor.rowIndex].sourceBook} />
+                {/* NÚT LƯU BÀI VIẾT CHÍNH */}
+                <button
+                  type="button"
+                  onClick={() => saveArticlesToBackend(articles, false)}
+                  disabled={saving}
+                  className="px-4 py-1.5 rounded-xl bg-gradient-to-r from-[#F2C14E] to-[#FFDE59] hover:from-[#FFDE59] hover:to-[#F2C14E] text-[#1A120B] font-bold text-xs sm:text-sm transition-all shadow-[0_0_15px_rgba(242,193,78,0.4)] flex items-center gap-1.5 cursor-pointer disabled:opacity-50 hover:scale-105"
+                  title="Lưu ngay bài viết này (Phím tắt: Ctrl + S)"
+                >
+                  {saving ? (
+                    <RefreshCw className="w-4 h-4 animate-spin text-[#1A120B]" />
+                  ) : (
+                    <Save className="w-4 h-4 text-[#1A120B] stroke-[2.5]" />
                   )}
-                </div>
+                  <span>{saving ? 'Đang Lưu...' : 'Lưu Bài Viết'}</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setIsEditorMaximized(!isEditorMaximized)}
+                  className="p-2 rounded-xl hover:bg-[#25170E] text-[#FFE5A3] border border-transparent hover:border-[#F2C14E]/30 transition-all cursor-pointer"
+                  title={isEditorMaximized ? 'Thu nhỏ cửa sổ' : 'Mở rộng toàn màn hình'}
+                >
+                  {isEditorMaximized ? <Minimize2 className="w-5 h-5" /> : <Maximize2 className="w-5 h-5" />}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setBigEditor(null);
+                  }}
+                  className="p-2 rounded-xl hover:bg-red-900/60 text-[#c9b896] hover:text-white transition-all cursor-pointer"
+                  title="Đóng cửa sổ soạn thảo"
+                >
+                  <X className="w-5 h-5" />
+                </button>
               </div>
-            ) : (
-              /* 2. PROSEMIRROR TIPTAP ZEN EDITOR CONTAINER */
-              <ZenTipTapEditor
-                content={String(articles[bigEditor.rowIndex]?.[bigEditor.field] || '')}
-                onChange={(newMd) => {
-                  const updated = [...articles];
-                  updated[bigEditor.rowIndex] = {
-                    ...updated[bigEditor.rowIndex],
-                    [bigEditor.field]: newMd,
-                  };
-                  setArticles(updated);
-                  setIsDirty(true);
-                }}
-                folderPath="tong-chi-tu-hoc"
-                onOpenS3Explorer={() => setImageLibraryOpen(true)}
-                onAddAnnotationKeyword={(kw) => {
-                  const existingKw = articles[bigEditor.rowIndex]?.keywords?.find(
-                    (k) => k.keyword.toLowerCase() === kw.toLowerCase()
-                  );
-                  if (existingKw) {
-                    setAnnoKw({ ...existingKw });
-                  } else {
-                    setAnnoKw({
-                      keyword: kw,
-                      title: kw,
-                      subtitle: '',
-                      description: '',
-                      imageUrl: '',
-                      imagePosition: 'center 50%',
-                      linkUrl: '',
-                    });
-                  }
-                  setAnnotationModal({ isOpen: true, tab: 'keyword', selectedText: kw });
-                }}
-                previewMode={editorPreviewMode}
-                onTogglePreview={() => setEditorPreviewMode(!editorPreviewMode)}
-              />
-            )}
+            </div>
 
-            {/* 🌟 3 Ô ĐÁY MÀN HÌNH: TỔNG HỢP CHÚ THÍCH & NGUỒN SÁCH ĐÃ TRÍCH DẪN (CLICK ĐỂ SỬA TRỰC TIẾP) */}
-            {(() => {
-              const curArticle = articles[bigEditor.rowIndex];
-              if (!curArticle) return null;
+            {/* Modal Body */}
+            <div className="flex-1 py-3 flex flex-col min-h-0 space-y-3 relative">
+              {/* 1. PREVIEW CONTAINER */}
+              {editorPreviewMode ? (
+                <div className="flex-1 w-full bg-[#1C120A] border border-[#F2C14E]/40 rounded-2xl overflow-y-auto custom-scrollbar shadow-inner">
+                  <HeroBanner
+                    bannerUrl={articles[bigEditor.rowIndex]?.bannerImage}
+                    bannerPosition={articles[bigEditor.rowIndex]?.bannerPosition}
+                    title={articles[bigEditor.rowIndex]?.title || ''}
+                    subtitle={articles[bigEditor.rowIndex]?.subtitle}
+                  />
 
-              const kwList = curArticle.keywords || [];
-              const books = Array.isArray(curArticle.sourceBook)
-                ? curArticle.sourceBook
-                : curArticle.sourceBook
-                  ? [curArticle.sourceBook]
-                  : [];
-
-              if (kwList.length === 0 && books.length === 0 && !curArticle.author) return null;
-
-              return (
-                <div className="p-2 bg-[#1A1008] border border-[#F2C14E]/30 rounded-2xl shrink-0 space-y-1.5">
-                  <div className="flex items-center justify-between text-xs text-[#FFE5A3] font-bold px-1">
-                    <span className="flex items-center gap-1.5 text-[11px]">
-                      <Sparkles className="w-3 h-3 text-[#F2C14E]" />
-                      <span>Mục chú thích &amp; nguồn sách ({kwList.length + books.length + (curArticle.author ? 1 : 0)})</span>
-                    </span>
-                    <span className="text-[10px] text-[#c9b896]/60 font-normal italic">
-                      (Bấm để sửa • Bấm ✕ để gỡ)
-                    </span>
-                  </div>
-
-                  <div className="flex items-center gap-2 overflow-x-auto custom-scrollbar py-0.5">
-                    {/* Tác Giả Card */}
-                    {curArticle.author && (
-                      <div
-                        onClick={() => {
-                          setAnnoAuthor({
-                            name: curArticle.author || '',
-                            link: curArticle.authorLink || '',
-                          });
-                          setAnnotationModal({
-                            isOpen: true,
-                            tab: 'author',
-                            selectedText: curArticle.author || '',
-                          });
+                  <div className="max-w-5xl mx-auto px-4 sm:px-6 py-8 space-y-12">
+                    <section id="bai-tho" className="relative pt-2">
+                      <InfographicArticleRenderer
+                        rawContent={String(articles[bigEditor.rowIndex]?.[bigEditor.field] || '')}
+                        title={articles[bigEditor.rowIndex]?.title || ''}
+                        subtitle={articles[bigEditor.rowIndex]?.subtitle}
+                        author={articles[bigEditor.rowIndex]?.author}
+                        authorLink={articles[bigEditor.rowIndex]?.authorLink}
+                        popups={articles[bigEditor.rowIndex]?.keywords}
+                        onKeywordClick={(kwStr) => {
+                          const kws = articles[bigEditor.rowIndex]?.keywords || [];
+                          const found = kws.find((k) => k.keyword.toLowerCase() === kwStr.toLowerCase());
+                          if (found) {
+                            setActivePreviewKeyword({
+                              ...found,
+                              _articleIndex: bigEditor.rowIndex,
+                            });
+                          }
                         }}
-                        className="flex items-center gap-1.5 px-2.5 py-1 bg-[#25170E] border border-[#FFE5A3]/40 hover:border-[#F2C14E] hover:bg-[#352012] rounded-xl shrink-0 shadow-sm cursor-pointer transition-all hover:scale-[1.02] group text-xs"
-                        title="Bấm để chỉnh sửa thông tin Tác giả"
-                      >
-                        <span className="w-5 h-5 rounded-md bg-[#3A2718] flex items-center justify-center text-[#F2C14E] shrink-0">
-                          <User className="w-3 h-3" />
-                        </span>
-                        <div className="max-w-[130px]">
-                          <p className="text-[11px] text-[#FFE5A3] font-bold truncate group-hover:text-[#FFDE59]">{curArticle.author}</p>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            const updated = [...articles];
-                            const curMd = getCurrentEditorMarkdown();
-                            if (curMd) {
-                              const extracted = cleanAndExtractContent(curMd, updated[bigEditor.rowIndex]);
-                              updated[bigEditor.rowIndex].content = extracted.cleanedContent;
-                            }
-                            updated[bigEditor.rowIndex].author = undefined;
-                            setArticles(updated);
-                            setIsDirty(true);
-                            showToast('Đã gỡ tác giả bài viết');
-                          }}
-                          className="p-0.5 rounded hover:bg-red-900/60 text-[#c9b896] hover:text-red-300 transition-all cursor-pointer ml-0.5"
-                          title="Xóa tác giả"
-                        >
-                          <X className="w-3 h-3" />
-                        </button>
-                      </div>
+                      />
+                    </section>
+                    {articles[bigEditor.rowIndex]?.sourceBook && (
+                      <BookCitationSection sourceBook={articles[bigEditor.rowIndex].sourceBook} />
                     )}
-
-                    {/* Chú Thích Items */}
-                    {kwList.map((kw, i) => (
-                      <div
-                        key={`kw-${i}`}
-                        onClick={() => {
-                          setAnnoKw({
-                            keyword: kw.keyword,
-                            title: kw.title || kw.keyword,
-                            subtitle: kw.subtitle || '',
-                            description: kw.description || '',
-                            imageUrl: kw.imageUrl || '',
-                            imagePosition: kw.imagePosition || 'center 50%',
-                            linkUrl: kw.linkUrl || '',
-                          });
-                          setAnnotationModal({
-                            isOpen: true,
-                            tab: 'keyword',
-                            selectedText: kw.keyword,
-                            editingIndex: i,
-                            originalKey: kw.keyword,
-                          });
-                        }}
-                        className="flex items-center gap-1.5 px-2.5 py-1 bg-[#25170E] border border-[#F2C14E]/40 hover:border-[#F2C14E] hover:bg-[#352012] rounded-xl shrink-0 group shadow-sm cursor-pointer transition-all hover:scale-[1.02] text-xs"
-                        title={`Bấm để chỉnh sửa chi tiết chú thích: ${kw.keyword}`}
-                      >
-                        {kw.imageUrl ? (
-                          <img src={kw.imageUrl} alt="kw" className="w-5 h-5 object-cover rounded-md border border-[#F2C14E]/30" />
-                        ) : (
-                          <span className="w-5 h-5 rounded-md bg-[#3A2718] flex items-center justify-center text-[#F2C14E] shrink-0">
-                            <Sparkles className="w-3 h-3" />
-                          </span>
-                        )}
-                        <div className="max-w-[130px]">
-                          <p className="text-[11px] text-[#FFE5A3] font-bold truncate group-hover:text-[#FFDE59]">{kw.keyword}</p>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            const kwToRemove = kw.keyword;
-                            const updated = [...articles];
-                            const curMd = getCurrentEditorMarkdown();
-                            if (curMd) {
-                              const extracted = cleanAndExtractContent(curMd, updated[bigEditor.rowIndex]);
-                              updated[bigEditor.rowIndex].content = extracted.cleanedContent;
-                            }
-                            updated[bigEditor.rowIndex].keywords = kwList.filter((_, idx) => idx !== i);
-
-                            // Đồng bộ gỡ in đậm trong editor nếu có
-                            if (wysiwygEditorRef.current) {
-                              const curHtml = wysiwygEditorRef.current.innerHTML;
-                              const escaped = kwToRemove.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-                              const regex = new RegExp(`<b>(${escaped})<\\/b>`, 'gi');
-                              wysiwygEditorRef.current.innerHTML = curHtml.replace(regex, '$1');
-                              const afterMd = getCurrentEditorMarkdown();
-                              const afterExtracted = cleanAndExtractContent(afterMd, updated[bigEditor.rowIndex]);
-                              updated[bigEditor.rowIndex].content = afterExtracted.cleanedContent;
-                            }
-
-                            setArticles(updated);
-                            setIsDirty(true);
-                            showToast(`Đã gỡ chú thích: ${kw.keyword}`);
-                          }}
-                          className="p-0.5 rounded hover:bg-red-900/60 text-[#c9b896] hover:text-red-300 transition-all cursor-pointer ml-0.5"
-                          title="Gỡ chú thích"
-                        >
-                          <X className="w-3 h-3" />
-                        </button>
-                      </div>
-                    ))}
-
-                    {/* Sách Items */}
-                    {books.map((b, i) => (
-                      <div
-                        key={`book-${i}`}
-                        onClick={() => {
-                          const matched = getMatchedBookData(b.bookTitle);
-                          setAnnoBook({
-                            bookTitle: b.bookTitle,
-                            author: b.author || matched?.author || '',
-                            coverImage: b.coverImage || matched?.coverImage || '',
-                            description: b.description || matched?.description || '',
-                            linkUrl: b.linkUrl || matched?.linkUrl || '',
-                          });
-                          setAnnotationModal({
-                            isOpen: true,
-                            tab: 'book',
-                            selectedText: b.bookTitle,
-                            editingIndex: i,
-                            originalKey: b.bookTitle,
-                          });
-                        }}
-                        className="flex items-center gap-1.5 px-2.5 py-1 bg-[#25170E] border border-[#4A88B7]/60 hover:border-[#4A88B7] hover:bg-[#1E3042]/50 rounded-xl shrink-0 group shadow-sm cursor-pointer transition-all hover:scale-[1.02] text-xs"
-                        title={`Bấm để chỉnh sửa nguồn sách: ${b.bookTitle}`}
-                      >
-                        {b.coverImage ? (
-                          <img src={b.coverImage} alt="cover" className="w-5 h-5 object-cover rounded-md border border-[#4A88B7]/40" />
-                        ) : (
-                          <span className="w-5 h-5 rounded-md bg-[#1E3042] flex items-center justify-center text-[#4A88B7] shrink-0">
-                            <BookOpen className="w-3 h-3" />
-                          </span>
-                        )}
-                        <div className="max-w-[130px]">
-                          <p className="text-[11px] text-[#4A88B7] font-bold truncate group-hover:text-[#88C0E8]">{b.bookTitle}</p>
-                        </div>
-                        <button
-                          type="button"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            const updated = [...articles];
-                            const curMd = getCurrentEditorMarkdown();
-                            if (curMd) {
-                              const extracted = cleanAndExtractContent(curMd, updated[bigEditor.rowIndex]);
-                              updated[bigEditor.rowIndex].content = extracted.cleanedContent;
-                            }
-                            const newBooks = books.filter((_, idx) => idx !== i);
-                            updated[bigEditor.rowIndex].sourceBook = newBooks.length > 0 ? newBooks : undefined;
-                            setArticles(updated);
-                            setIsDirty(true);
-                            showToast(`Đã gỡ trích nguồn sách: ${b.bookTitle}`);
-                          }}
-                          className="p-0.5 rounded hover:bg-red-900/60 text-[#c9b896] hover:text-red-300 transition-all cursor-pointer ml-0.5"
-                          title="Gỡ sách"
-                        >
-                          <X className="w-3 h-3" />
-                        </button>
-                      </div>
-                    ))}
                   </div>
                 </div>
-              );
-            })()}
+              ) : (
+                /* 2. PROSEMIRROR TIPTAP ZEN EDITOR CONTAINER */
+                <ZenTipTapEditor
+                  content={String(articles[bigEditor.rowIndex]?.[bigEditor.field] || '')}
+                  onChange={(newMd) => {
+                    const updated = [...articles];
+                    updated[bigEditor.rowIndex] = {
+                      ...updated[bigEditor.rowIndex],
+                      [bigEditor.field]: newMd,
+                    };
+                    setArticles(updated);
+                    setIsDirty(true);
+                  }}
+                  folderPath="tong-chi-tu-hoc"
+                  onOpenS3Explorer={() => setImageLibraryOpen(true)}
+                  onAddAnnotationKeyword={(kw) => {
+                    const existingKw = articles[bigEditor.rowIndex]?.keywords?.find(
+                      (k) => k.keyword.toLowerCase() === kw.toLowerCase()
+                    );
+                    if (existingKw) {
+                      setAnnoKw({ ...existingKw });
+                    } else {
+                      setAnnoKw({
+                        keyword: kw,
+                        title: kw,
+                        subtitle: '',
+                        description: '',
+                        imageUrl: '',
+                        imagePosition: 'center 50%',
+                        linkUrl: '',
+                      });
+                    }
+                    setAnnotationModal({ isOpen: true, tab: 'keyword', selectedText: kw });
+                  }}
+                  previewMode={editorPreviewMode}
+                  onTogglePreview={() => setEditorPreviewMode(!editorPreviewMode)}
+                />
+              )}
+
+              {/* 🌟 3 Ô ĐÁY MÀN HÌNH: TỔNG HỢP CHÚ THÍCH & NGUỒN SÁCH ĐÃ TRÍCH DẪN (CLICK ĐỂ SỬA TRỰC TIẾP) */}
+              {(() => {
+                const curArticle = articles[bigEditor.rowIndex];
+                if (!curArticle) return null;
+
+                const kwList = curArticle.keywords || [];
+                const books = Array.isArray(curArticle.sourceBook)
+                  ? curArticle.sourceBook
+                  : curArticle.sourceBook
+                    ? [curArticle.sourceBook]
+                    : [];
+
+                if (kwList.length === 0 && books.length === 0 && !curArticle.author) return null;
+
+                return (
+                  <div className="p-2 bg-[#1A1008] border border-[#F2C14E]/30 rounded-2xl shrink-0 space-y-1.5">
+                    <div className="flex items-center justify-between text-xs text-[#FFE5A3] font-bold px-1">
+                      <span className="flex items-center gap-1.5 text-[11px]">
+                        <Sparkles className="w-3 h-3 text-[#F2C14E]" />
+                        <span>Mục chú thích &amp; nguồn sách ({kwList.length + books.length + (curArticle.author ? 1 : 0)})</span>
+                      </span>
+                      <span className="text-[10px] text-[#c9b896]/60 font-normal italic">
+                        (Bấm để sửa • Bấm ✕ để gỡ)
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-2 overflow-x-auto custom-scrollbar py-0.5">
+                      {/* Tác Giả Card */}
+                      {curArticle.author && (
+                        <div
+                          onClick={() => {
+                            setAnnoAuthor({
+                              name: curArticle.author || '',
+                              link: curArticle.authorLink || '',
+                            });
+                            setAnnotationModal({
+                              isOpen: true,
+                              tab: 'author',
+                              selectedText: curArticle.author || '',
+                            });
+                          }}
+                          className="flex items-center gap-1.5 px-2.5 py-1 bg-[#25170E] border border-[#FFE5A3]/40 hover:border-[#F2C14E] hover:bg-[#352012] rounded-xl shrink-0 shadow-sm cursor-pointer transition-all hover:scale-[1.02] group text-xs"
+                          title="Bấm để chỉnh sửa thông tin Tác giả"
+                        >
+                          <span className="w-5 h-5 rounded-md bg-[#3A2718] flex items-center justify-center text-[#F2C14E] shrink-0">
+                            <User className="w-3 h-3" />
+                          </span>
+                          <div className="max-w-[130px]">
+                            <p className="text-[11px] text-[#FFE5A3] font-bold truncate group-hover:text-[#FFDE59]">{curArticle.author}</p>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              const updated = [...articles];
+                              const curMd = getCurrentEditorMarkdown();
+                              if (curMd) {
+                                const extracted = cleanAndExtractContent(curMd, updated[bigEditor.rowIndex]);
+                                updated[bigEditor.rowIndex].content = extracted.cleanedContent;
+                              }
+                              updated[bigEditor.rowIndex].author = undefined;
+                              setArticles(updated);
+                              setIsDirty(true);
+                              showToast('Đã gỡ tác giả bài viết');
+                            }}
+                            className="p-0.5 rounded hover:bg-red-900/60 text-[#c9b896] hover:text-red-300 transition-all cursor-pointer ml-0.5"
+                            title="Xóa tác giả"
+                          >
+                            <X className="w-3 h-3" />
+                          </button>
+                        </div>
+                      )}
+
+                      {/* Chú Thích Items */}
+                      {kwList.map((kw, i) => (
+                        <div
+                          key={`kw-${i}`}
+                          onClick={() => {
+                            setAnnoKw({
+                              keyword: kw.keyword,
+                              title: kw.title || kw.keyword,
+                              subtitle: kw.subtitle || '',
+                              description: kw.description || '',
+                              imageUrl: kw.imageUrl || '',
+                              imagePosition: kw.imagePosition || 'center 50%',
+                              linkUrl: kw.linkUrl || '',
+                            });
+                            setAnnotationModal({
+                              isOpen: true,
+                              tab: 'keyword',
+                              selectedText: kw.keyword,
+                              editingIndex: i,
+                              originalKey: kw.keyword,
+                            });
+                          }}
+                          className="flex items-center gap-1.5 px-2.5 py-1 bg-[#25170E] border border-[#F2C14E]/40 hover:border-[#F2C14E] hover:bg-[#352012] rounded-xl shrink-0 group shadow-sm cursor-pointer transition-all hover:scale-[1.02] text-xs"
+                          title={`Bấm để chỉnh sửa chi tiết chú thích: ${kw.keyword}`}
+                        >
+                          {kw.imageUrl ? (
+                            <img src={kw.imageUrl} alt="kw" className="w-5 h-5 object-cover rounded-md border border-[#F2C14E]/30" />
+                          ) : (
+                            <span className="w-5 h-5 rounded-md bg-[#3A2718] flex items-center justify-center text-[#F2C14E] shrink-0">
+                              <Sparkles className="w-3 h-3" />
+                            </span>
+                          )}
+                          <div className="max-w-[130px]">
+                            <p className="text-[11px] text-[#FFE5A3] font-bold truncate group-hover:text-[#FFDE59]">{kw.keyword}</p>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              const kwToRemove = kw.keyword;
+                              const updated = [...articles];
+                              const curMd = getCurrentEditorMarkdown();
+                              if (curMd) {
+                                const extracted = cleanAndExtractContent(curMd, updated[bigEditor.rowIndex]);
+                                updated[bigEditor.rowIndex].content = extracted.cleanedContent;
+                              }
+                              updated[bigEditor.rowIndex].keywords = kwList.filter((_, idx) => idx !== i);
+
+                              // Đồng bộ gỡ in đậm trong editor nếu có
+                              if (wysiwygEditorRef.current) {
+                                const curHtml = wysiwygEditorRef.current.innerHTML;
+                                const escaped = kwToRemove.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                                const regex = new RegExp(`<b>(${escaped})<\\/b>`, 'gi');
+                                wysiwygEditorRef.current.innerHTML = curHtml.replace(regex, '$1');
+                                const afterMd = getCurrentEditorMarkdown();
+                                const afterExtracted = cleanAndExtractContent(afterMd, updated[bigEditor.rowIndex]);
+                                updated[bigEditor.rowIndex].content = afterExtracted.cleanedContent;
+                              }
+
+                              setArticles(updated);
+                              setIsDirty(true);
+                              showToast(`Đã gỡ chú thích: ${kw.keyword}`);
+                            }}
+                            className="p-0.5 rounded hover:bg-red-900/60 text-[#c9b896] hover:text-red-300 transition-all cursor-pointer ml-0.5"
+                            title="Gỡ chú thích"
+                          >
+                            <X className="w-3 h-3" />
+                          </button>
+                        </div>
+                      ))}
+
+                      {/* Sách Items */}
+                      {books.map((b, i) => (
+                        <div
+                          key={`book-${i}`}
+                          onClick={() => {
+                            const matched = getMatchedBookData(b.bookTitle);
+                            setAnnoBook({
+                              bookTitle: b.bookTitle,
+                              author: b.author || matched?.author || '',
+                              coverImage: b.coverImage || matched?.coverImage || '',
+                              description: b.description || matched?.description || '',
+                              linkUrl: b.linkUrl || matched?.linkUrl || '',
+                            });
+                            setAnnotationModal({
+                              isOpen: true,
+                              tab: 'book',
+                              selectedText: b.bookTitle,
+                              editingIndex: i,
+                              originalKey: b.bookTitle,
+                            });
+                          }}
+                          className="flex items-center gap-1.5 px-2.5 py-1 bg-[#25170E] border border-[#4A88B7]/60 hover:border-[#4A88B7] hover:bg-[#1E3042]/50 rounded-xl shrink-0 group shadow-sm cursor-pointer transition-all hover:scale-[1.02] text-xs"
+                          title={`Bấm để chỉnh sửa nguồn sách: ${b.bookTitle}`}
+                        >
+                          {b.coverImage ? (
+                            <img src={b.coverImage} alt="cover" className="w-5 h-5 object-cover rounded-md border border-[#4A88B7]/40" />
+                          ) : (
+                            <span className="w-5 h-5 rounded-md bg-[#1E3042] flex items-center justify-center text-[#4A88B7] shrink-0">
+                              <BookOpen className="w-3 h-3" />
+                            </span>
+                          )}
+                          <div className="max-w-[130px]">
+                            <p className="text-[11px] text-[#4A88B7] font-bold truncate group-hover:text-[#88C0E8]">{b.bookTitle}</p>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              const updated = [...articles];
+                              const curMd = getCurrentEditorMarkdown();
+                              if (curMd) {
+                                const extracted = cleanAndExtractContent(curMd, updated[bigEditor.rowIndex]);
+                                updated[bigEditor.rowIndex].content = extracted.cleanedContent;
+                              }
+                              const newBooks = books.filter((_, idx) => idx !== i);
+                              updated[bigEditor.rowIndex].sourceBook = newBooks.length > 0 ? newBooks : undefined;
+                              setArticles(updated);
+                              setIsDirty(true);
+                              showToast(`Đã gỡ trích nguồn sách: ${b.bookTitle}`);
+                            }}
+                            className="p-0.5 rounded hover:bg-red-900/60 text-[#c9b896] hover:text-red-300 transition-all cursor-pointer ml-0.5"
+                            title="Gỡ sách"
+                          >
+                            <X className="w-3 h-3" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })()}
             </div>
 
             {/* 🌟 STICKY FOOTER ACTION BAR CỦA TRÌNH SOẠN THẢO */}
@@ -2461,11 +2460,10 @@ export function SpreadsheetTongChi() {
               <button
                 type="button"
                 onClick={() => setAnnotationModal({ ...annotationModal, tab: 'keyword' })}
-                className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center cursor-pointer ${
-                  annotationModal.tab === 'keyword'
+                className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center cursor-pointer ${annotationModal.tab === 'keyword'
                     ? 'bg-[#F2C14E] text-[#1A120B] shadow-md'
                     : 'text-[#c9b896] hover:text-white'
-                }`}
+                  }`}
                 title="1. Thêm Chú Thích Từ Khóa"
               >
                 <Sparkles className="w-4 h-4" />
@@ -2473,11 +2471,10 @@ export function SpreadsheetTongChi() {
               <button
                 type="button"
                 onClick={() => setAnnotationModal({ ...annotationModal, tab: 'book' })}
-                className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center cursor-pointer ${
-                  annotationModal.tab === 'book'
+                className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center cursor-pointer ${annotationModal.tab === 'book'
                     ? 'bg-[#F2C14E] text-[#1A120B] shadow-md'
                     : 'text-[#c9b896] hover:text-white'
-                }`}
+                  }`}
                 title="2. Gán Trích Nguồn Sách"
               >
                 <BookOpen className="w-4 h-4" />
@@ -2485,11 +2482,10 @@ export function SpreadsheetTongChi() {
               <button
                 type="button"
                 onClick={() => setAnnotationModal({ ...annotationModal, tab: 'author' })}
-                className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center cursor-pointer ${
-                  annotationModal.tab === 'author'
+                className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center cursor-pointer ${annotationModal.tab === 'author'
                     ? 'bg-[#F2C14E] text-[#1A120B] shadow-md'
                     : 'text-[#c9b896] hover:text-white'
-                }`}
+                  }`}
                 title="3. Gán Tác Giả Bài Viết"
               >
                 <User className="w-4 h-4" />
@@ -2577,11 +2573,10 @@ export function SpreadsheetTongChi() {
                           type="button"
                           onClick={() => setAnnoKw((prev) => ({ ...prev, linkUrl: sug.url }))}
                           title={sug.url}
-                          className={`px-2 py-0.5 rounded-md text-[10px] font-bold border transition-all cursor-pointer ${
-                            annoKw.linkUrl === sug.url
+                          className={`px-2 py-0.5 rounded-md text-[10px] font-bold border transition-all cursor-pointer ${annoKw.linkUrl === sug.url
                               ? 'bg-[#F2C14E] text-[#1A120B] border-[#F2C14E]'
                               : 'bg-[#2A1D14] text-[#FFE5A3] hover:text-[#ffde59] border-[#F2C14E]/30 hover:border-[#F2C14E]'
-                          }`}
+                            }`}
                         >
                           {sug.label}
                         </button>
@@ -3091,8 +3086,8 @@ export function SpreadsheetTongChi() {
                   setInsertImageModal(null);
                 }}
                 className={`px-6 py-2.5 rounded-xl transition-all flex items-center justify-center cursor-pointer ${insertImageModal.url
-                    ? 'bg-[#F2C14E] hover:bg-[#ffde59] text-[#1A120B] shadow-[0_0_20px_rgba(242,193,78,0.4)] hover:scale-105'
-                    : 'bg-[#2A1D14] text-[#c9b896]/40 cursor-not-allowed'
+                  ? 'bg-[#F2C14E] hover:bg-[#ffde59] text-[#1A120B] shadow-[0_0_20px_rgba(242,193,78,0.4)] hover:scale-105'
+                  : 'bg-[#2A1D14] text-[#c9b896]/40 cursor-not-allowed'
                   }`}
                 title="Chèn ảnh vào bài viết"
               >
@@ -3140,11 +3135,10 @@ export function SpreadsheetTongChi() {
               <button
                 type="button"
                 onClick={() => setMediaModal({ ...mediaModal, tab: 'banner' })}
-                className={`flex-1 py-2 rounded-xl transition-all flex items-center justify-center cursor-pointer ${
-                  mediaModal.tab === 'banner'
+                className={`flex-1 py-2 rounded-xl transition-all flex items-center justify-center cursor-pointer ${mediaModal.tab === 'banner'
                     ? 'bg-[#F2C14E] text-[#1A120B] shadow-md'
                     : 'text-[#c9b896] hover:text-white'
-                }`}
+                  }`}
                 title="1. Cài đặt Ảnh Banner / Đại diện"
               >
                 <ImageIcon className="w-4 h-4" />
@@ -3153,11 +3147,10 @@ export function SpreadsheetTongChi() {
               <button
                 type="button"
                 onClick={() => setMediaModal({ ...mediaModal, tab: 'video' })}
-                className={`flex-1 py-2 rounded-xl transition-all flex items-center justify-center cursor-pointer ${
-                  mediaModal.tab === 'video'
+                className={`flex-1 py-2 rounded-xl transition-all flex items-center justify-center cursor-pointer ${mediaModal.tab === 'video'
                     ? 'bg-[#F2C14E] text-[#1A120B] shadow-md'
                     : 'text-[#c9b896] hover:text-white'
-                }`}
+                  }`}
                 title="2. Cài đặt Video YouTube Minh Họa"
               >
                 <Video className="w-4 h-4" />
@@ -3166,11 +3159,10 @@ export function SpreadsheetTongChi() {
               <button
                 type="button"
                 onClick={() => setMediaModal({ ...mediaModal, tab: 'featured' })}
-                className={`flex-1 py-2 rounded-xl transition-all flex items-center justify-center cursor-pointer ${
-                  mediaModal.tab === 'featured'
+                className={`flex-1 py-2 rounded-xl transition-all flex items-center justify-center cursor-pointer ${mediaModal.tab === 'featured'
                     ? 'bg-[#F2C14E] text-[#1A120B] shadow-md'
                     : 'text-[#c9b896] hover:text-white'
-                }`}
+                  }`}
                 title="3. Cài đặt Bài Viết Nổi Bật"
               >
                 <Star className="w-4 h-4" />
@@ -3179,11 +3171,10 @@ export function SpreadsheetTongChi() {
               <button
                 type="button"
                 onClick={() => setMediaModal({ ...mediaModal, tab: 'gallery' })}
-                className={`flex-1 py-2 rounded-xl transition-all flex items-center justify-center cursor-pointer relative ${
-                  mediaModal.tab === 'gallery'
+                className={`flex-1 py-2 rounded-xl transition-all flex items-center justify-center cursor-pointer relative ${mediaModal.tab === 'gallery'
                     ? 'bg-[#F2C14E] text-[#1A120B] shadow-md'
                     : 'text-[#c9b896] hover:text-white'
-                }`}
+                  }`}
                 title={`4. Bộ Sưu Tập Ảnh (${articles[mediaModal.rowIndex].photoGallery?.length || 0} ảnh)`}
               >
                 <Images className="w-4 h-4" />
@@ -3732,55 +3723,55 @@ export function SpreadsheetTongChi() {
 
                   {(!articles[mediaModal.rowIndex].photoGallery ||
                     articles[mediaModal.rowIndex].photoGallery!.length === 0) && (
-                    <div
-                      onClick={() =>
-                        openS3Library((url) => {
-                          const updated = [...articles];
-                          if (!updated[mediaModal.rowIndex].photoGallery) updated[mediaModal.rowIndex].photoGallery = [];
-                          updated[mediaModal.rowIndex].photoGallery!.push({
-                            title: 'Ảnh tư liệu mới',
-                            imageUrl: url,
-                            imagePosition: 'center 50%',
-                            khuVuc: 'Tùng Lâm Hòa Phúc',
-                            noiDung: 'Mô tả hình ảnh...',
-                          });
-                          setArticles(updated);
-                        })
-                      }
-                      onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); }}
-                      onDrop={async (e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        const files = e.dataTransfer.files;
-                        if (files && files.length > 0) {
-                          for (let i = 0; i < files.length; i++) {
-                            const f = files[i];
-                            if (f.type.startsWith('image/')) {
-                              showToast(`⏳ Đang tải ảnh ${i + 1}/${files.length} lên S3...`);
-                              const url = await uploadImageFileDirectly(f, 'tong-chi-tu-hoc');
-                              if (url) {
-                                const updated = [...articles];
-                                if (!updated[mediaModal.rowIndex].photoGallery) updated[mediaModal.rowIndex].photoGallery = [];
-                                updated[mediaModal.rowIndex].photoGallery!.push({
-                                  title: f.name.replace(/\.[^/.]+$/, ''),
-                                  imageUrl: url,
-                                  imagePosition: 'center 50%',
-                                  khuVuc: 'Tùng Lâm Hòa Phúc',
-                                  noiDung: 'Mô tả hình ảnh...',
-                                });
-                                setArticles(updated);
+                      <div
+                        onClick={() =>
+                          openS3Library((url) => {
+                            const updated = [...articles];
+                            if (!updated[mediaModal.rowIndex].photoGallery) updated[mediaModal.rowIndex].photoGallery = [];
+                            updated[mediaModal.rowIndex].photoGallery!.push({
+                              title: 'Ảnh tư liệu mới',
+                              imageUrl: url,
+                              imagePosition: 'center 50%',
+                              khuVuc: 'Tùng Lâm Hòa Phúc',
+                              noiDung: 'Mô tả hình ảnh...',
+                            });
+                            setArticles(updated);
+                          })
+                        }
+                        onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); }}
+                        onDrop={async (e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          const files = e.dataTransfer.files;
+                          if (files && files.length > 0) {
+                            for (let i = 0; i < files.length; i++) {
+                              const f = files[i];
+                              if (f.type.startsWith('image/')) {
+                                showToast(`⏳ Đang tải ảnh ${i + 1}/${files.length} lên S3...`);
+                                const url = await uploadImageFileDirectly(f, 'tong-chi-tu-hoc');
+                                if (url) {
+                                  const updated = [...articles];
+                                  if (!updated[mediaModal.rowIndex].photoGallery) updated[mediaModal.rowIndex].photoGallery = [];
+                                  updated[mediaModal.rowIndex].photoGallery!.push({
+                                    title: f.name.replace(/\.[^/.]+$/, ''),
+                                    imageUrl: url,
+                                    imagePosition: 'center 50%',
+                                    khuVuc: 'Tùng Lâm Hòa Phúc',
+                                    noiDung: 'Mô tả hình ảnh...',
+                                  });
+                                  setArticles(updated);
+                                }
                               }
                             }
                           }
-                        }
-                      }}
-                      className="border-2 border-dashed border-[#F2C14E]/30 rounded-2xl p-8 text-center cursor-pointer hover:border-[#F2C14E] bg-[#25170E]/30 transition-all group"
-                      title="Bấm để chọn ảnh từ S3 hoặc Thả nhiều ảnh vào đây"
-                    >
-                      <Images className="w-8 h-8 text-[#F2C14E]/50 group-hover:text-[#F2C14E] mx-auto mb-2" />
-                      <p className="text-xs font-bold text-[#FFE5A3]">Chọn ảnh từ S3 hoặc Thả nhiều file ảnh vào đây</p>
-                    </div>
-                  )}
+                        }}
+                        className="border-2 border-dashed border-[#F2C14E]/30 rounded-2xl p-8 text-center cursor-pointer hover:border-[#F2C14E] bg-[#25170E]/30 transition-all group"
+                        title="Bấm để chọn ảnh từ S3 hoặc Thả nhiều ảnh vào đây"
+                      >
+                        <Images className="w-8 h-8 text-[#F2C14E]/50 group-hover:text-[#F2C14E] mx-auto mb-2" />
+                        <p className="text-xs font-bold text-[#FFE5A3]">Chọn ảnh từ S3 hoặc Thả nhiều file ảnh vào đây</p>
+                      </div>
+                    )}
 
                   {articles[mediaModal.rowIndex].photoGallery && articles[mediaModal.rowIndex].photoGallery!.length > 0 && (
                     <div className="space-y-3">
@@ -4151,10 +4142,10 @@ export function SpreadsheetTongChi() {
                 </h4>
                 {activePreviewKeyword.subtitle &&
                   activePreviewKeyword.subtitle.trim().toLowerCase() !== (activePreviewKeyword.title || activePreviewKeyword.keyword).trim().toLowerCase() && (
-                  <p className="text-xs font-semibold text-[#F2C14E]/80 uppercase mt-0.5 tracking-wide">
-                    {activePreviewKeyword.subtitle}
-                  </p>
-                )}
+                    <p className="text-xs font-semibold text-[#F2C14E]/80 uppercase mt-0.5 tracking-wide">
+                      {activePreviewKeyword.subtitle}
+                    </p>
+                  )}
               </div>
 
               {/* Interactive Image Preview with live Position Drag */}

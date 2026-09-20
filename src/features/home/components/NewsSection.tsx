@@ -12,6 +12,7 @@ interface NewsItem {
   subtitle: string;
   imgUrl: string;
   targetUrl: string;
+  imgPosition?: string;
 }
 
 const INITIAL_NEWS_DATA: NewsItem[] = [
@@ -20,8 +21,9 @@ const INITIAL_NEWS_DATA: NewsItem[] = [
     category: "Khóa Lễ Truyền Thống",
     title: "NGÀI ĐỊA TẠNG BỒ TÁT, TẠI SAO NGÀI ĐƯỢC CA NGỢI VÀ TÔN VINH?",
     subtitle: "Hạnh Nguyện Đại Bi Cứu Khổ Độ Sanh Nơi Cảnh Giới Khổ Đau",
-    imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/03-dong-chay-hoang-phap/khoa-le-truyen-thong/ngai-dia-tang-bo-tat-ton-tuong.webp",
+    imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/03-dong-chay-hoang-phap/khoa-le-truyen-thong/le-dia-tang-bo-tat-80-bia.webp",
     targetUrl: "/dong-chay-hoang-phap/ngai-dia-tang-bo-tat-tai-sao-ngai-duoc-ca-ngoi-va-ton-vinh-2",
+    imgPosition: "center 35%",
   },
   {
     id: "hp-1",
@@ -100,6 +102,7 @@ export const NewsSection: FC = () => {
               subtitle: p.subtitle || (p.summary ? p.summary.replace(/<[^>]*>?/gm, '').slice(0, 95) + '...' : 'Dòng Chảy Hoằng Pháp Tùng Lâm Hòa Phúc'),
               imgUrl: p.thumbnailUrl || p.bannerUrl || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/03-dong-chay-hoang-phap/dai-le-su-kien/32-1-scaled.jpg',
               targetUrl: `/dong-chay-hoang-phap/${p.slug}`,
+              imgPosition: p.thumbnailPosition || p.bannerPosition || 'center 35%',
             }));
 
             // Keep foundational core highlights
@@ -186,6 +189,7 @@ export const NewsSection: FC = () => {
                 key={`left-img-${prevNews.id}`}
                 src={prevNews.imgUrl}
                 alt={prevNews.title}
+                style={{ objectPosition: prevNews.imgPosition || 'center 35%' }}
                 className={`w-full h-full object-cover ${animClass}`}
               />
               <div className="absolute inset-0 bg-black/30" />
@@ -224,6 +228,7 @@ export const NewsSection: FC = () => {
                 key={`center-img-${currentNews.id}`}
                 src={currentNews.imgUrl}
                 alt={currentNews.title}
+                style={{ objectPosition: currentNews.imgPosition || 'center 35%' }}
                 className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ${animClass}`}
               />
 
@@ -333,6 +338,7 @@ export const NewsSection: FC = () => {
                 key={`right-img-${nextNews.id}`}
                 src={nextNews.imgUrl}
                 alt={nextNews.title}
+                style={{ objectPosition: nextNews.imgPosition || 'center 35%' }}
                 className={`w-full h-full object-cover ${animClass}`}
               />
               <div className="absolute inset-0 bg-black/30" />

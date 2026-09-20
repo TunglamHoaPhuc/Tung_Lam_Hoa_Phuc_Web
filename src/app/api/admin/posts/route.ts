@@ -138,7 +138,6 @@ export async function GET(req: NextRequest) {
         p.content?.toLowerCase().includes(q)
     );
   }
-
   // Sắp xếp bài viết mới nhất lên đầu (theo ngày xuất bản giảm dần)
   posts.sort((a, b) => {
     const timeA = a.publishedDate ? new Date(a.publishedDate).getTime() : 0;

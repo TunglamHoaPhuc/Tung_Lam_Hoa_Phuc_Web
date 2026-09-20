@@ -19,13 +19,41 @@ function savePosts(posts: PostRecord[]) {
   fs.writeFileSync(DB_PATH, JSON.stringify(posts, null, 2), 'utf8');
 }
 
+import { HOANG_PHAP_ARTICLES } from '@/data/dong-chay-hoang-phap-data';
+
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
   const posts = getPosts();
-  const post = posts.find((p) => p.id === id || p.slug === id);
+  let post: any = posts.find((p) => p.id === id || p.slug === id || String(p.wpPostId) === id);
+
+  if (!post) {
+    const hp = HOANG_PHAP_ARTICLES.find((a) => a.id === id || a.slug === id);
+    if (hp) {
+      post = {
+        id: hp.id,
+        slug: hp.slug,
+        title: hp.title,
+        subtitle: hp.subtitle,
+        mainCategory: 'dong-chay-hoang-phap',
+        subCategory: hp.category,
+        categoryName: hp.subCategory,
+        author: hp.author,
+        publishedDate: hp.date,
+        status: 'published',
+        viewsCount: hp.views || 0,
+        thumbnailUrl: hp.thumbnailUrl,
+        bannerUrl: hp.bannerUrl,
+        summary: hp.summary,
+        content: hp.contentHtml,
+        contentHtml: hp.contentHtml,
+        keywords: [],
+        photoGallery: [],
+      };
+    }
+  }
 
   if (!post) {
     return NextResponse.json(
