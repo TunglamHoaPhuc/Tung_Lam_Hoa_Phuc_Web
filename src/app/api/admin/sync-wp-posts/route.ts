@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { S3Client, CopyObjectCommand } from '@aws-sdk/client-s3';
 import { loadServerlessJson, saveServerlessJson } from '@/lib/serverless-db';
+import { parseGutenbergPostContent } from '@/lib/wp-post-parser';
 
 const DB_CONFIG = {
   fileName: 'posts-database.json',
@@ -193,6 +194,7 @@ export async function POST() {
 
       const lookupKey = `wp-${wpId}`;
       const existing = postMap.get(lookupKey) || postMap.get(wpSlug);
+      const parsed = parseGutenbergPostContent(wp.content?.rendered || '', wpTitle);
 
       postMap.set(lookupKey, {
         ...(existing || {}),
@@ -205,7 +207,7 @@ export async function POST() {
         subCategory: categoryMapping.subCategory,
         categoryName: categoryMapping.categoryName,
         author: existing?.author || 'Ban Văn Hóa Tùng Lâm',
-        publishedDate: wp.date ? wp.date.split('T')[0] : new Date().toISOString().split('T')[0],
+        publishedDate: wp.date ? wp.date.split('T')[0] : (existing?.publishedDate || new Date().toISOString().split('T')[0]),
         status: 'published',
         viewsCount: existing?.viewsCount || 0,
         thumbnailUrl: finalBannerUrl,
@@ -213,9 +215,10 @@ export async function POST() {
         thumbnailPosition: existing?.thumbnailPosition || 'center 50%',
         bannerPosition: existing?.bannerPosition || 'center 50%',
         summary: (wp.excerpt?.rendered || '').replace(/<[^>]+>/g, '').replace(/&#8211;/g, '–').replace(/&amp;/g, '&').trim() || existing?.summary || 'Tóm tắt bài viết...',
-        content: cleanWpHtml(wp.content?.rendered || '') || existing?.content || '',
+        content: parsed.cleanedContent || cleanWpHtml(wp.content?.rendered || '') || existing?.content || '',
+        contentHtml: wp.content?.rendered || existing?.contentHtml || '',
         keywords: existing?.keywords || [],
-        photoGallery: existing?.photoGallery || [],
+        photoGallery: parsed.photoGallery.length > 0 ? parsed.photoGallery : (existing?.photoGallery || []),
       });
     }
 
