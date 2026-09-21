@@ -4,7 +4,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Search, X, BookOpen, Layers, CheckCircle2, ChevronRight, Sparkles } from 'lucide-react';
-import tongChiRawData from '@/data/tong-chi-data.json';
+import { useS3Collection } from '@/lib/use-s3-collection';
 import { getImageUrl } from '@/utils/image';
 
 export interface SwitcherArticleItem {
@@ -41,7 +41,15 @@ export function TongChiArticleSwitcherModal({
   currentTitle,
 }: TongChiArticleSwitcherModalProps) {
   const router = useRouter();
-  const [articles, setArticles] = useState<SwitcherArticleItem[]>(() => tongChiRawData as SwitcherArticleItem[]);
+  // 🪷 Danh sách bài Tông Chỉ đọc trực tiếp từ Backblaze B2 (tong-chi-data.json)
+  const { data: fetchedArticles } = useS3Collection<any[]>('tong-chi', []);
+  const [articles, setArticles] = useState<SwitcherArticleItem[]>([]);
+
+  useEffect(() => {
+    if (Array.isArray(fetchedArticles) && fetchedArticles.length > 0) {
+      setArticles(fetchedArticles as SwitcherArticleItem[]);
+    }
+  }, [fetchedArticles]);
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
 

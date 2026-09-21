@@ -1,4 +1,4 @@
-import { GIOI_THIEU_DETAILS } from '@/data/gioi-thieu-data';
+import { getGioiThieuDetail } from '@/lib/gioi-thieu-server';
 import { GioiThieuDetailLayout } from '@/components/gioi-thieu/GioiThieuDetailLayout';
 
 export const metadata = {
@@ -6,7 +6,8 @@ export const metadata = {
   description: 'Quy củ, oai nghi tế hạnh và nếp sống đạo đức dành cho Phật tử khi về viếng cảnh Tùng Lâm Hòa Phúc.',
 };
 
-export default function VanHoaUngXuPage() {
-  const detail = GIOI_THIEU_DETAILS['van-hoa-ung-xu'];
+export default async function VanHoaUngXuPage() {
+  const detail = await getGioiThieuDetail('van-hoa-ung-xu');
+  if (!detail) return null;
   return <GioiThieuDetailLayout detail={detail} />;
 }

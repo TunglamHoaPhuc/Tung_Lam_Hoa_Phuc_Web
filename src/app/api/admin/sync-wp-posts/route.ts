@@ -2,35 +2,8 @@ import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 import { S3Client, CopyObjectCommand } from '@aws-sdk/client-s3';
-import { loadServerlessJson, saveServerlessJson } from '@/lib/serverless-db';
-
-const DB_CONFIG = {
-  fileName: 'posts-database.json',
-  localRelativePath: 'src/data/posts-database.json',
-  s3Key: 'tunglamhoaphuc2/database/posts-database.json',
-  defaultData: [] as any[],
-};
-
-function getS3Config() {
-  const envPath = path.resolve(process.cwd(), '.env.local');
-  let accessKey = process.env.S3_ACCESS_KEY_ID || '';
-  let secretKey = process.env.S3_SECRET_ACCESS_KEY || '';
-  let bucketName = process.env.S3_BUCKET_NAME || 's2-cnv03';
-  let publicBaseUrl = process.env.S3_PUBLIC_URL || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com';
-
-  if (!secretKey && fs.existsSync(envPath)) {
-    const env = fs.readFileSync(envPath, 'utf-8');
-    env.split('\n').forEach((l) => {
-      const line = l.trim();
-      if (line.startsWith('S3_ACCESS_KEY_ID=')) accessKey = line.split('=')[1].replace(/["']/g, '').trim();
-      if (line.startsWith('S3_SECRET_ACCESS_KEY=')) secretKey = line.split('=')[1].replace(/["']/g, '').trim();
-      if (line.startsWith('S3_BUCKET_NAME=')) bucketName = line.split('=')[1].replace(/["']/g, '').trim();
-      if (line.startsWith('S3_PUBLIC_URL=')) publicBaseUrl = line.split('=')[1].replace(/["']/g, '').trim().replace(/\/$/, '');
-    });
-  }
-
-  return { accessKey, secretKey, bucketName, publicBaseUrl };
-}
+import { POSTS_DB, readCache, writeCache } from '@/lib/wp-sync';
+import { getS3ClientInstance, getS3EnvConfig } from '@/lib/s3-core';
 
 function mapCategories(catIds: number[] = []) {
   // WordPress Admin Categories (admin.tunglamhoaphuc.com)
@@ -83,13 +56,11 @@ function cleanWpHtml(rawHtml = '') {
 
 export async function POST() {
   try {
-    const s3Config = getS3Config();
-    const s3 = new S3Client({
-      endpoint: 'https://s3.us-east-005.backblazeb2.com',
-      region: 'us-east-005',
-      credentials: { accessKeyId: s3Config.accessKey, secretAccessKey: s3Config.secretKey },
-      forcePathStyle: true,
-    });
+    const s3 = getS3ClientInstance();
+    const s3Config = getS3EnvConfig();
+    if (!s3) {
+      return NextResponse.json({ success: false, error: 'Không kết nối được Backblaze B2 (S3)' }, { status: 500 });
+    }
 
     let allWpPosts: any[] = [];
 
@@ -134,7 +105,7 @@ export async function POST() {
       return NextResponse.json({ success: false, error: 'Không lấy được bài viết từ WordPress' }, { status: 502 });
     }
 
-    let currentPosts: any[] = loadServerlessJson(DB_CONFIG);
+    let currentPosts: any[] = await readCache(POSTS_DB);
 
     const postMap = new Map();
     currentPosts.forEach((p) => postMap.set(p.wpPostId ? `wp-${p.wpPostId}` : (p.slug || p.id), p));
@@ -171,7 +142,7 @@ export async function POST() {
           const sourceKey = `tunglamhoaphuc-com/wp-content/uploads/${match[1]}`;
           const cleanFileName = (sourceKey.split('/').pop() || 'image.jpg').replace(/[^a-zA-Z0-9._-]/g, '_');
           const targetKey = `tunglamhoaphuc2/03-dong-chay-hoang-phap/${categoryMapping.subCategory}/${cleanFileName}`;
-          finalBannerUrl = `${s3Config.publicBaseUrl}/${targetKey}`;
+          finalBannerUrl = `${s3Config.publicUrl}/${targetKey}`;
 
           if (!s3KeySet.has(targetKey)) {
             try {
@@ -183,7 +154,7 @@ export async function POST() {
               s3KeySet.add(targetKey);
               s3CopiedCount++;
             } catch {
-              finalBannerUrl = `${s3Config.publicBaseUrl}/${sourceKey}`;
+              finalBannerUrl = `${s3Config.publicUrl}/${sourceKey}`;
             }
           }
         } else {
@@ -216,11 +187,15 @@ export async function POST() {
         content: cleanWpHtml(wp.content?.rendered || '') || existing?.content || '',
         keywords: existing?.keywords || [],
         photoGallery: existing?.photoGallery || [],
+        // 🌟 Dấu vết WordPress để luồng đọc giữ được URL ảnh S3 đã sao chép
+        wpModified: wp.modified || existing?.wpModified || '',
+        wpImageUrl: rawFeaturedUrl || existing?.wpImageUrl || '',
+        source: 'wordpress',
       });
     }
 
     const finalArray = Array.from(postMap.values());
-    await saveServerlessJson(DB_CONFIG, finalArray);
+    await writeCache(POSTS_DB, finalArray);
     try {
       if (fs.existsSync(path.dirname(s3KeysPath))) {
         fs.writeFileSync(s3KeysPath, JSON.stringify(Array.from(s3KeySet), null, 2), 'utf-8');

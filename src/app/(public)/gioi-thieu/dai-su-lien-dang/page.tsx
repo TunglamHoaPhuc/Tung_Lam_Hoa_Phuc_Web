@@ -1,4 +1,4 @@
-import { GIOI_THIEU_DETAILS } from '@/data/gioi-thieu-data';
+import { getGioiThieuDetail } from '@/lib/gioi-thieu-server';
 import { GioiThieuDetailLayout } from '@/components/gioi-thieu/GioiThieuDetailLayout';
 
 export const metadata = {
@@ -6,7 +6,8 @@ export const metadata = {
   description: 'Hành trạng và công hạnh của Đại sư Liên Đăng truyền thừa chánh pháp tại Tùng Lâm Hòa Phúc.',
 };
 
-export default function DaiSuLienDangPage() {
-  const detail = GIOI_THIEU_DETAILS['dai-su-lien-dang'];
+export default async function DaiSuLienDangPage() {
+  const detail = await getGioiThieuDetail('dai-su-lien-dang');
+  if (!detail) return null;
   return <GioiThieuDetailLayout detail={detail} />;
 }

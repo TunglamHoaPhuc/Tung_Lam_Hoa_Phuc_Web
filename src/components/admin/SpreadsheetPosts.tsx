@@ -55,7 +55,8 @@ import {
   Cloud,
   Star,
   Table as TableIcon,
-  Globe
+  Globe,
+  Database
 } from 'lucide-react';
 
 import ZenTipTapEditor from './ZenTipTapEditor';
@@ -365,6 +366,14 @@ export function SpreadsheetPosts() {
   const [lastSavedTime, setLastSavedTime] = useState<string | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
+  // 🌟 Nguồn dữ liệu: WordPress là nguồn chính (bài viết), cache S3 là bản dự phòng
+  const [dataSource, setDataSource] = useState<{
+    source: 'wordpress' | 'cache';
+    wpSyncedAt: string;
+    updatedFromWp: number;
+    warning?: string;
+  } | null>(null);
+
   // Filters & Search (Tối giản 1 dropdown & 1 ô tìm kiếm giống Tông Chỉ)
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
@@ -436,6 +445,14 @@ export function SpreadsheetPosts() {
       const data = await res.json();
       if (data.success && data.posts) {
         setPosts(data.posts);
+        if (data.source) {
+          setDataSource({
+            source: data.source,
+            wpSyncedAt: data.wpSyncedAt || '',
+            updatedFromWp: data.updatedFromWp || 0,
+            warning: data.warning,
+          });
+        }
       }
     } catch (err: any) {
       showToast(`Lỗi khi tải dữ liệu bài viết: ${err.message}`);
@@ -1038,6 +1055,46 @@ export function SpreadsheetPosts() {
           >
             {syncingWp ? <RefreshCw className="w-5 h-5 animate-spin" /> : <Globe className="w-5 h-5" />}
           </button>
+
+          {/* 🌟 Badge nguồn dữ liệu: WordPress (chính) hay cache S3 (dự phòng) */}
+          {dataSource && (
+            <div
+              className={`h-10 px-3 rounded-xl border flex items-center gap-2 text-[11px] font-bold whitespace-nowrap shadow-md ${
+                dataSource.source === 'wordpress'
+                  ? 'bg-[#12200F] border-emerald-400/50 text-emerald-300'
+                  : 'bg-[#241307] border-amber-400/60 text-amber-300'
+              }`}
+              title={
+                dataSource.source === 'wordpress'
+                  ? `Nội dung đang đọc trực tiếp từ WordPress${
+                      dataSource.updatedFromWp ? ` · ${dataSource.updatedFromWp} bài vừa được cập nhật từ WP` : ''
+                    }`
+                  : `Đang dùng cache trên S3 vì WordPress không phản hồi${
+                      dataSource.warning ? `: ${dataSource.warning}` : ''
+                    }`
+              }
+            >
+              {dataSource.source === 'wordpress' ? (
+                <>
+                  <Globe className="w-3.5 h-3.5" />
+                  <span>WORDPRESS{dataSource.updatedFromWp > 0 ? ` · ↑${dataSource.updatedFromWp}` : ''}</span>
+                  {dataSource.wpSyncedAt && (
+                    <span className="font-normal text-emerald-200/75">
+                      {new Date(dataSource.wpSyncedAt).toLocaleTimeString('vi-VN', {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      })}
+                    </span>
+                  )}
+                </>
+              ) : (
+                <>
+                  <Database className="w-3.5 h-3.5" />
+                  <span>CACHE S3</span>
+                </>
+              )}
+            </div>
+          )}
 
           {/* Nút 3: Lưu Bảng Tính */}
           <button

@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo, FC } from 'react';
 import { Search, Filter, Sparkles, MapPin, User, Calendar, Phone, Heart, QrCode, X, Share2, Printer, CheckCircle2 } from 'lucide-react';
-import MEMORIAL_RAW_DATA from '@/data/memorial-data.json';
+import { useS3Collection } from '@/lib/use-s3-collection';
 import { CustomDropdown } from '@/components/common/CustomDropdown';
 
 export interface MemorialRecord {
@@ -37,7 +37,8 @@ export const MemorialSearchEngine: FC<{ initialCategory?: string }> = ({ initial
   const [selectedRecord, setSelectedRecord] = useState<MemorialRecord | null>(null);
   const [copied, setCopied] = useState(false);
 
-  const data: MemorialRecord[] = MEMORIAL_RAW_DATA as MemorialRecord[];
+  // 🪷 Dữ liệu bài vị đọc trực tiếp từ Backblaze B2 (memorial-data.json)
+  const { data } = useS3Collection<MemorialRecord[]>('memorial', []);
 
   const filteredRecords = useMemo(() => {
     return data.filter((item) => {

@@ -1,4 +1,4 @@
-import { GIOI_THIEU_DETAILS } from '@/data/gioi-thieu-data';
+import { getGioiThieuDetail } from '@/lib/gioi-thieu-server';
 import { GioiThieuDetailLayout } from '@/components/gioi-thieu/GioiThieuDetailLayout';
 
 export const metadata = {
@@ -6,7 +6,8 @@ export const metadata = {
   description: 'Ân đức giáo dưỡng và dấu ấn hoằng truyền Tịnh độ của Sư ông Hoằng Pháp.',
 };
 
-export default function SuOngHoangPhapPage() {
-  const detail = GIOI_THIEU_DETAILS['su-ong-hoang-phap'];
+export default async function SuOngHoangPhapPage() {
+  const detail = await getGioiThieuDetail('su-ong-hoang-phap');
+  if (!detail) return null;
   return <GioiThieuDetailLayout detail={detail} />;
 }

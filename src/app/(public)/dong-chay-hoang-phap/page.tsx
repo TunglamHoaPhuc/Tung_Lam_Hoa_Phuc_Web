@@ -1,12 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { Eye, Calendar, ArrowRight, ChevronDown, Check, Sparkles } from 'lucide-react';
 import Header from '@/components/public/layout/Header';
 import Footer from '@/components/public/layout/Footer';
 import { HOANG_PHAP_ARTICLES, HOANG_PHAP_CATEGORIES, HoangPhapArticle } from '@/data/dong-chay-hoang-phap-data';
-import ALL_POSTS from '@/data/posts-database.json';
+import { useS3Collection } from '@/lib/use-s3-collection';
 import { SmartSearchAIBar } from '@/components/public/SmartSearchAIBar';
 import { CategoryFilter } from '@/components/common/CategoryFilter';
 
@@ -20,30 +20,41 @@ const SORT_OPTIONS: { id: SortOption; label: string }[] = [
 ];
 
 export default function DongChayHoangPhapPage() {
-  const initialFromDb: HoangPhapArticle[] = (ALL_POSTS as any[])
-    .filter((p) => p.mainCategory === 'dong-chay-hoang-phap')
-    .map((p: any) => ({
-      id: p.id,
-      slug: p.slug,
-      title: p.title,
-      date: p.publishedDate || '2026-08-01',
-      author: p.author || 'Ban Văn Hóa Tùng Lâm',
-      category: p.subCategory || 'cong-tu',
-      subCategory: p.subtitle || p.categoryName || 'Dòng Chảy Hoằng Pháp',
-      subCategoryIcon: '',
-      templeLogo: (p.templeLogo || 'tung-lam-hoa-phuc') as 'tung-lam-hoa-phuc' | 'quynh-nhai-cam-lo-tu',
-      templeName: p.templeName || 'Tùng Lâm Hòa Phúc',
-      views: p.viewsCount || 108,
-      thumbnailUrl: p.thumbnailUrl || '/images/toan-canh-chua.jpg',
-      thumbnailPosition: p.thumbnailPosition || 'center center',
-      bannerUrl: p.bannerUrl || '/images/toan-canh-chua.jpg',
-      summary: p.summary || '',
-      contentHtml: p.contentHtml || '',
-    }));
+  // 🪷 Bài viết đọc trực tiếp từ Backblaze B2 (posts-database.json)
+  const { data: allPosts } = useS3Collection<any[]>('posts', []);
 
-  const [articles, setArticles] = useState<HoangPhapArticle[]>(
-    initialFromDb.length > 0 ? initialFromDb : HOANG_PHAP_ARTICLES
-  );
+  const mapPost = (p: any) => ({
+    id: p.id,
+    slug: p.slug,
+    title: p.title,
+    date: p.publishedDate || '2026-08-01',
+    author: p.author || 'Ban Văn Hóa Tùng Lâm',
+    category: p.subCategory || 'cong-tu',
+    subCategory: p.subtitle || p.categoryName || 'Dòng Chảy Hoằng Pháp',
+    subCategoryIcon: '',
+    templeLogo: (p.templeLogo || 'tung-lam-hoa-phuc') as 'tung-lam-hoa-phuc' | 'quynh-nhai-cam-lo-tu',
+    templeName: p.templeName || 'Tùng Lâm Hòa Phúc',
+    views: p.viewsCount || 108,
+    thumbnailUrl: p.thumbnailUrl || '/images/toan-canh-chua.jpg',
+    thumbnailPosition: p.thumbnailPosition || 'center center',
+    bannerUrl: p.bannerUrl || '/images/toan-canh-chua.jpg',
+    summary: p.summary || '',
+    contentHtml: p.contentHtml || '',
+  });
+
+  const [articles, setArticles] = useState<HoangPhapArticle[]>(HOANG_PHAP_ARTICLES);
+  const dynamicLoadedRef = useRef(false);
+
+  // Nạp bài viết từ S3 (posts collection) ngay khi có dữ liệu
+  useEffect(() => {
+    if (dynamicLoadedRef.current || !Array.isArray(allPosts) || allPosts.length === 0) return;
+    const fromDb = allPosts
+      .filter((p) => p.mainCategory === 'dong-chay-hoang-phap')
+      .map(mapPost);
+    if (fromDb.length > 0) setArticles(fromDb);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [allPosts]);
+
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [currentSort, setCurrentSort] = useState<SortOption>('newest');
   const [isExpanded, setIsExpanded] = useState(false);
@@ -56,6 +67,7 @@ export default function DongChayHoangPhapPage() {
         if (res.ok) {
           const json = await res.json();
           if (json.success && Array.isArray(json.posts) && json.posts.length > 0) {
+            dynamicLoadedRef.current = true;
             const mapped: HoangPhapArticle[] = json.posts.map((p: any) => ({
               id: p.id,
               slug: p.slug,

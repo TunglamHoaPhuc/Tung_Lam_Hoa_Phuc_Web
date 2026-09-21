@@ -1,30 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
 import { THU_VIEN_BOOKS } from '@/data/thu-vien-data';
+import { readDb, updateDb } from '@/lib/s3-db';
+import { REFERENCE_BOOKS_DB } from '@/lib/s3-collections';
 
-const DATA_FILE = path.join(process.cwd(), 'src', 'data', 'reference-books-data.json');
-
-function getCustomBooks(): any[] {
-  try {
-    if (fs.existsSync(DATA_FILE)) {
-      const raw = fs.readFileSync(DATA_FILE, 'utf8');
-      return JSON.parse(raw);
-    }
-  } catch (err) {
-    console.error('Error reading reference-books-data.json:', err);
-  }
-  return [];
-}
-
-function saveCustomBooks(data: any[]): boolean {
-  try {
-    fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2), 'utf8');
-    return true;
-  } catch (err) {
-    console.error('Error writing reference-books-data.json:', err);
-    return false;
-  }
+async function getCustomBooks(): Promise<any[]> {
+  return readDb<any[]>(REFERENCE_BOOKS_DB);
 }
 
 // 🪷 GET: Lấy danh sách toàn bộ sách (kết hợp Tủ sách Tuyển chọn + Kho 400+ sách Tàng Kinh Các)
@@ -34,7 +14,7 @@ export async function GET(req: NextRequest) {
     const search = (searchParams.get('q') || '').toLowerCase().trim();
     const category = searchParams.get('category') || '';
 
-    const customBooks = getCustomBooks();
+    const customBooks = await getCustomBooks();
 
     // Chuẩn hóa 400+ đầu sách từ Tàng Kinh Các
     const tangKinhCacBooks = (THU_VIEN_BOOKS || []).map((b) => ({
@@ -87,37 +67,40 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: false, message: 'Tiêu đề sách là bắt buộc' }, { status: 400 });
     }
 
-    const customBooks = getCustomBooks();
     const bookId = id || title.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 
-    const existingIdx = customBooks.findIndex((b: any) => b.id === bookId);
+    let savedBook: any = null;
+    await updateDb<any[]>(REFERENCE_BOOKS_DB, (customBooks) => {
+      const existingIdx = customBooks.findIndex((b: any) => b.id === bookId);
 
-    const newBook = {
-      id: bookId,
-      title: title.toUpperCase(),
-      subtitle: subtitle || '',
-      author: author || 'Sa Môn Vô Trí (Thích Tâm Hòa)',
-      description: description || '',
-      coverImage: coverImage || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/uploads/chua-pho-chieu-hai-phong-1787464212629.webp',
-      pdfUrl: pdfUrl || '',
-      linkUrl: linkUrl || '/vu-tru-phat-giao/tang-kinh-cac',
-      category: category || 'Phật Học Phổ Thông',
-      isFeatured: true,
-      updatedAt: new Date().toISOString(),
-    };
+      const newBook = {
+        id: bookId,
+        title: title.toUpperCase(),
+        subtitle: subtitle || '',
+        author: author || 'Sa Môn Vô Trí (Thích Tâm Hòa)',
+        description: description || '',
+        coverImage: coverImage || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/uploads/chua-pho-chieu-hai-phong-1787464212629.webp',
+        pdfUrl: pdfUrl || '',
+        linkUrl: linkUrl || '/vu-tru-phat-giao/tang-kinh-cac',
+        category: category || 'Phật Học Phổ Thông',
+        isFeatured: true,
+        updatedAt: new Date().toISOString(),
+      };
 
-    if (existingIdx >= 0) {
-      customBooks[existingIdx] = { ...customBooks[existingIdx], ...newBook };
-    } else {
-      customBooks.unshift(newBook);
-    }
+      if (existingIdx >= 0) {
+        customBooks[existingIdx] = { ...customBooks[existingIdx], ...newBook };
+      } else {
+        customBooks.unshift(newBook);
+      }
 
-    saveCustomBooks(customBooks);
+      savedBook = newBook;
+      return customBooks;
+    });
 
     return NextResponse.json({
       success: true,
       message: 'Đã lưu ấn phẩm vào Thư viện Tàng Kinh Các thành công',
-      data: newBook,
+      data: savedBook,
     });
   } catch (err: any) {
     return NextResponse.json({ success: false, error: err.message }, { status: 500 });

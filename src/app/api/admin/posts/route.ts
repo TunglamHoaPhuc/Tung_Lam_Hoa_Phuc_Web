@@ -1,8 +1,11 @@
-import { NextRequest, NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
-
-const DB_PATH = path.resolve(process.cwd(), 'src/data/posts-database.json');
+import { NextRequest, NextResponse, after } from 'next/server';
+import {
+  loadPostsPreferringWordPress,
+  persistPostsCache,
+  readCache,
+  writeCache,
+  POSTS_DB,
+} from '@/lib/wp-sync';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -94,21 +97,16 @@ export interface PostRecord {
   wpPostId?: string | number;
 }
 
-import { loadServerlessJson, saveServerlessJson } from '@/lib/serverless-db';
+const POSTS_CACHE = POSTS_DB;
 
-const DB_CONFIG = {
-  fileName: 'posts-database.json',
-  localRelativePath: 'src/data/posts-database.json',
-  s3Key: 'tunglamhoaphuc2/database/posts-database.json',
-  defaultData: [] as PostRecord[],
-};
-
-function getPosts(): PostRecord[] {
-  return loadServerlessJson<PostRecord[]>(DB_CONFIG);
+/** Đọc cache bài viết trên S3 (nguồn dự phòng khi WordPress không phản hồi). */
+async function getCachedPosts(): Promise<PostRecord[]> {
+  return ((await readCache<PostRecord[]>(POSTS_CACHE)) || []) as PostRecord[];
 }
 
+/** Ghi danh sách bài viết vào cache trên S3 (Backblaze B2). */
 async function savePosts(posts: PostRecord[]) {
-  await saveServerlessJson<PostRecord[]>(DB_CONFIG, posts);
+  await writeCache(POSTS_CACHE, posts);
 }
 
 export async function GET(req: NextRequest) {
@@ -117,7 +115,20 @@ export async function GET(req: NextRequest) {
   const search = searchParams.get('search');
   const status = searchParams.get('status');
 
-  let posts = getPosts();
+  // 🌟 WORDPRESS LÀ NGUỒN CHÍNH: đọc WordPress trước, chỉ dùng cache S3 khi WP không phản hồi.
+  const result = await loadPostsPreferringWordPress();
+  let posts = result.posts as PostRecord[];
+
+  // Đồng bộ cache lên S3 ở chế độ nền khi WordPress có thay đổi (không chặn phản hồi)
+  if (result.source === 'wordpress' && result.stats.updatedFromWp > 0) {
+    try {
+      after(async () => {
+        await persistPostsCache(result.posts);
+      });
+    } catch {
+      await persistPostsCache(result.posts);
+    }
+  }
 
   if (category && category !== 'all') {
     posts = posts.filter(
@@ -138,20 +149,15 @@ export async function GET(req: NextRequest) {
         p.content?.toLowerCase().includes(q)
     );
   }
-  // Sắp xếp bài viết mới nhất lên đầu (theo ngày xuất bản giảm dần)
-  posts.sort((a, b) => {
-    const timeA = a.publishedDate ? new Date(a.publishedDate).getTime() : 0;
-    const timeB = b.publishedDate ? new Date(b.publishedDate).getTime() : 0;
-    if (timeB !== timeA) return timeB - timeA;
-    const wpA = typeof a.wpPostId === 'number' ? a.wpPostId : parseInt(String(a.wpPostId || 0), 10);
-    const wpB = typeof b.wpPostId === 'number' ? b.wpPostId : parseInt(String(b.wpPostId || 0), 10);
-    return (wpB || 0) - (wpA || 0);
-  });
 
   return NextResponse.json({
     success: true,
     total: posts.length,
     posts,
+    source: result.source,
+    wpSyncedAt: result.wpSyncedAt,
+    updatedFromWp: result.stats.updatedFromWp,
+    warning: result.error,
   });
 }
 
@@ -166,7 +172,7 @@ export async function PUT(req: NextRequest) {
       );
     }
 
-    const currentPosts = getPosts();
+    const currentPosts = await getCachedPosts();
     const currentMap = new Map(currentPosts.map((p) => [p.id, p]));
 
     // Safeguard bảo vệ không bao giờ làm rỗng nội dung nếu client gửi rỗng ngoài ý muốn, tự động xuất bản
@@ -201,7 +207,7 @@ export async function PUT(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const posts = getPosts();
+    const posts = await getCachedPosts();
 
     const newId = body.id || `post-${Date.now()}`;
     const slug =

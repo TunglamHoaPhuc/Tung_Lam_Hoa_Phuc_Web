@@ -8,7 +8,7 @@ import Header from '@/components/public/layout/Header';
 import Footer from '@/components/public/layout/Footer';
 import { WISDOM_ITEMS } from '@/data/wisdom-archive-data';
 import { SmartSearchAIBar } from '@/components/public/SmartSearchAIBar';
-import sachAnPhamData from '@/data/sach-an-pham-data.json';
+import { useS3Collection } from '@/lib/use-s3-collection';
 import { BookDualReader } from '@/components/tri-tue-phat-phap/BookDualReader';
 import { HeroBanner } from '@/components/tong-chi-tu-hoc/HeroBanner';
 import { InfographicArticleRenderer } from '@/components/tong-chi-tu-hoc/chi-tiet/InfographicArticleRenderer';
@@ -25,8 +25,9 @@ export default function WisdomDetailPage() {
   const [isPlayingVideo, setIsPlayingVideo] = useState(false);
   const [activeKeyword, setActiveKeyword] = useState<any>(null);
 
-  // Check if this slug is a Book from Publications
-  const matchedBook = sachAnPhamData.find((b) => b.slug === slug);
+  // Check if this slug is a Book from Publications (đọc từ Backblaze B2)
+  const { data: sachAnPhamData } = useS3Collection<any[]>('sach-an-pham', []);
+  const matchedBook = (sachAnPhamData || []).find((b) => b.slug === slug);
 
   // Dynamic Item State
   const initialFallback = WISDOM_ITEMS.find((w) => w.slug === slug) || WISDOM_ITEMS[5];

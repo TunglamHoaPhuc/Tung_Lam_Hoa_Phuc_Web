@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
-
-const DB_PATH = path.resolve(process.cwd(), 'src/data/gioi-thieu-database.json');
+import { readDb, updateDb } from '@/lib/s3-db';
+import { GIOI_THIEU_DB } from '@/lib/s3-collections';
 
 export interface MilestoneItem {
   year: string;
@@ -37,21 +35,9 @@ export interface GioiThieuRecord {
   orderIndex: number;
 }
 
-function getTopics(): GioiThieuRecord[] {
-  if (!fs.existsSync(DB_PATH)) {
-    fs.writeFileSync(DB_PATH, '[]', 'utf8');
-    return [];
-  }
-  try {
-    const raw = fs.readFileSync(DB_PATH, 'utf8');
-    return JSON.parse(raw);
-  } catch {
-    return [];
-  }
-}
-
-function saveTopics(topics: GioiThieuRecord[]) {
-  fs.writeFileSync(DB_PATH, JSON.stringify(topics, null, 2), 'utf8');
+/** Chủ đề giới thiệu lưu trên Backblaze B2: tunglamhoaphuc2/database/gioi-thieu-database.json */
+async function getTopics(): Promise<GioiThieuRecord[]> {
+  return readDb<GioiThieuRecord[]>(GIOI_THIEU_DB);
 }
 
 export async function GET(req: NextRequest) {
@@ -59,7 +45,7 @@ export async function GET(req: NextRequest) {
   const group = searchParams.get('group');
   const search = searchParams.get('search');
 
-  let topics = getTopics();
+  let topics = await getTopics();
 
   if (group && group !== 'all') {
     topics = topics.filter((t) => t.groupCategory === group);
@@ -93,24 +79,24 @@ export async function PUT(req: NextRequest) {
       );
     }
 
-    const currentTopics = getTopics();
-    const currentMap = new Map(currentTopics.map((t) => [t.id, t]));
+    const saved = await updateDb<GioiThieuRecord[]>(GIOI_THIEU_DB, (currentTopics) => {
+      const currentMap = new Map(currentTopics.map((t) => [t.id, t]));
 
-    // Safeguard
-    const validated = body.map((t: GioiThieuRecord) => {
-      const orig = currentMap.get(t.id);
-      if (orig && (!t.content || t.content.trim() === '') && orig.content && orig.content.trim() !== '') {
-        t.content = orig.content;
-      }
-      return t;
+      // Safeguard
+      const validated = body.map((t: GioiThieuRecord) => {
+        const orig = currentMap.get(t.id);
+        if (orig && (!t.content || t.content.trim() === '') && orig.content && orig.content.trim() !== '') {
+          t.content = orig.content;
+        }
+        return t;
+      });
+      return validated;
     });
-
-    saveTopics(validated);
 
     return NextResponse.json({
       success: true,
       message: 'Đã lưu danh sách chủ đề giới thiệu thành công!',
-      total: validated.length,
+      total: saved.length,
     });
   } catch (error: any) {
     return NextResponse.json(
@@ -123,7 +109,6 @@ export async function PUT(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const topics = getTopics();
 
     const newId = body.id || `gt-${Date.now()}`;
     const slug =
@@ -136,33 +121,35 @@ export async function POST(req: NextRequest) {
         .replace(/[^a-z0-9]+/g, '-')
         .replace(/(^-|-$)/g, '');
 
-    const newTopic: GioiThieuRecord = {
-      id: newId,
-      slug,
-      title: body.title || 'Chủ đề giới thiệu mới',
-      subtitle: body.subtitle || '',
-      tag: body.tag || 'Tùng Lâm Hòa Phúc',
-      groupCategory: body.groupCategory || 'lich-su-chua',
-      groupCategoryName: body.groupCategoryName || 'Lịch Sử Chùa',
-      heroBanner: body.heroBanner || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp',
-      heroBannerPosition: body.heroBannerPosition || 'center 50%',
-      overviewSummary: body.overviewSummary || '',
-      content: body.content || '',
-      quoteTitle: body.quoteTitle,
-      quoteContent: body.quoteContent || [],
-      quoteAuthor: body.quoteAuthor,
-      milestones: body.milestones || [],
-      galleryImages: body.galleryImages || [],
-      status: body.status || 'published',
-      orderIndex: body.orderIndex || topics.length + 1,
-    };
-
-    topics.push(newTopic);
-    saveTopics(topics);
+    let created: GioiThieuRecord | null = null;
+    await updateDb<GioiThieuRecord[]>(GIOI_THIEU_DB, (topics) => {
+      created = {
+        id: newId,
+        slug,
+        title: body.title || 'Chủ đề giới thiệu mới',
+        subtitle: body.subtitle || '',
+        tag: body.tag || 'Tùng Lâm Hòa Phúc',
+        groupCategory: body.groupCategory || 'lich-su-chua',
+        groupCategoryName: body.groupCategoryName || 'Lịch Sử Chùa',
+        heroBanner: body.heroBanner || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp',
+        heroBannerPosition: body.heroBannerPosition || 'center 50%',
+        overviewSummary: body.overviewSummary || '',
+        content: body.content || '',
+        quoteTitle: body.quoteTitle,
+        quoteContent: body.quoteContent || [],
+        quoteAuthor: body.quoteAuthor,
+        milestones: body.milestones || [],
+        galleryImages: body.galleryImages || [],
+        status: body.status || 'published',
+        orderIndex: body.orderIndex || topics.length + 1,
+      };
+      topics.push(created);
+      return topics;
+    });
 
     return NextResponse.json({
       success: true,
-      topic: newTopic,
+      topic: created,
     });
   } catch (error: any) {
     return NextResponse.json(

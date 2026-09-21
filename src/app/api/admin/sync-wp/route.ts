@@ -1,10 +1,8 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
 import * as cheerio from 'cheerio';
 import { getImageUrl } from '@/utils/image';
-
-const DATA_FILE = path.resolve(process.cwd(), 'src/data/tong-chi-data.json');
+import { readDb, writeDb } from '@/lib/s3-db';
+import { TONG_CHI_DB } from '@/lib/s3-collections';
 
 // 🪷 Parser HTML WordPress Gutenberg bằng Cheerio thành Markdown/Clean format chuẩn
 function convertWpHtmlToCleanContent(wpRawHtml: string): { cleanedContent: string; extractedSubtitle?: string } {
@@ -231,12 +229,7 @@ function normalizeArticleImages(article: any) {
 
 export async function POST() {
   try {
-    if (!fs.existsSync(DATA_FILE)) {
-      return NextResponse.json({ success: false, error: 'Không tìm thấy file dữ liệu tong-chi-data.json' }, { status: 404 });
-    }
-
-    const rawData = fs.readFileSync(DATA_FILE, 'utf-8');
-    const articles = JSON.parse(rawData);
+    const articles = await readDb<any[]>(TONG_CHI_DB);
 
     // Fetch bài viết từ WordPress Gutenberg API
     const wpRes = await fetch('https://admin.tunglamhoaphuc.com/wp-json/wp/v2/tong-chi?per_page=100', {
@@ -303,8 +296,8 @@ export async function POST() {
       normalizeArticleImages(article);
     });
 
-    // Lưu lại file JSON
-    fs.writeFileSync(DATA_FILE, JSON.stringify(articles, null, 2), 'utf-8');
+    // Lưu lại database trên S3
+    await writeDb(TONG_CHI_DB, articles);
 
     return NextResponse.json({
       success: true,

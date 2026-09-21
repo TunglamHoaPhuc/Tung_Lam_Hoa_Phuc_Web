@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { loadServerlessJson, saveServerlessJson, ServerlessDbOptions } from '@/lib/serverless-db';
-import scheduleDbJson from '@/data/schedule-database.json';
+import { readDb, writeDb, updateDb } from '@/lib/s3-db';
+import { SCHEDULE_DB } from '@/lib/s3-collections';
 
 export interface ScheduleDatabaseData {
   featuredPrograms: Array<{
@@ -33,16 +33,11 @@ export interface ScheduleDatabaseData {
   }>;
 }
 
-const DB_OPTIONS: ServerlessDbOptions<ScheduleDatabaseData> = {
-  fileName: 'schedule-database.json',
-  localRelativePath: 'src/data/schedule-database.json',
-  s3Key: 'tunglamhoaphuc2/database/schedule-database.json',
-  defaultData: scheduleDbJson as unknown as ScheduleDatabaseData,
-};
+/** Lịch tu học lưu trên Backblaze B2: tunglamhoaphuc2/database/schedule-database.json (định nghĩa chung trong s3-collections) */
 
 export async function GET() {
   try {
-    const data = loadServerlessJson(DB_OPTIONS);
+    const data = await readDb<ScheduleDatabaseData>(SCHEDULE_DB);
     return NextResponse.json({ success: true, data });
   } catch (error: any) {
     console.error('Error fetching schedule:', error);
@@ -57,17 +52,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: false, error: 'Dữ liệu không hợp lệ' }, { status: 400 });
     }
 
-    const currentData = loadServerlessJson(DB_OPTIONS);
-    const updatedData: ScheduleDatabaseData = {
+    const updatedData = await updateDb<ScheduleDatabaseData>(SCHEDULE_DB, (currentData) => ({
       featuredPrograms: Array.isArray(body.featuredPrograms) ? body.featuredPrograms : currentData.featuredPrograms,
       monthThemes: body.monthThemes && typeof body.monthThemes === 'object' ? body.monthThemes : currentData.monthThemes,
       customEvents: Array.isArray(body.customEvents) ? body.customEvents : (currentData.customEvents || []),
-    };
-
-    const saved = await saveServerlessJson(DB_OPTIONS, updatedData);
-    if (!saved) {
-      return NextResponse.json({ success: false, error: 'Không thể ghi dữ liệu' }, { status: 500 });
-    }
+    }));
 
     return NextResponse.json({ success: true, message: 'Đã lưu lịch tu học thành công' });
   } catch (error: any) {

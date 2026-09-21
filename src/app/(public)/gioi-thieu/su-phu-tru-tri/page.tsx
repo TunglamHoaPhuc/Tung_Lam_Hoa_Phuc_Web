@@ -1,4 +1,4 @@
-import { GIOI_THIEU_DETAILS } from '@/data/gioi-thieu-data';
+import { getGioiThieuDetail } from '@/lib/gioi-thieu-server';
 import { GioiThieuDetailLayout } from '@/components/gioi-thieu/GioiThieuDetailLayout';
 
 export const metadata = {
@@ -6,7 +6,8 @@ export const metadata = {
   description: 'Thầy Thích Tâm Hòa - Người kiến thiết và lãnh đạo đạo tràng Tùng Lâm Hòa Phúc.',
 };
 
-export default function SuPhuTruTriPage() {
-  const detail = GIOI_THIEU_DETAILS['su-phu-tru-tri'];
+export default async function SuPhuTruTriPage() {
+  const detail = await getGioiThieuDetail('su-phu-tru-tri');
+  if (!detail) return null;
   return <GioiThieuDetailLayout detail={detail} />;
 }

@@ -7,7 +7,7 @@ import { Eye, Calendar, Play, Video, Clock, Landmark, Sparkles, Images, BookOpen
 import Header from '@/components/public/layout/Header';
 import Footer from '@/components/public/layout/Footer';
 import { HOANG_PHAP_ARTICLES } from '@/data/dong-chay-hoang-phap-data';
-import ALL_POSTS from '@/data/posts-database.json';
+import { useS3Collection } from '@/lib/use-s3-collection';
 import { SmartSearchAIBar } from '@/components/public/SmartSearchAIBar';
 import { SubNavbar } from '@/components/tong-chi-tu-hoc/SubNavbar';
 import { SidebarNav } from '@/components/tong-chi-tu-hoc/SidebarNav';
@@ -39,19 +39,26 @@ export default function DongChayHoangPhapDetailPage() {
   // Detail Modal Keyword state
   const [activeKeyword, setActiveKeyword] = useState<any>(null);
 
-  // Dynamic article state with fallback (ưu tiên cơ sở dữ liệu bài viết posts-database.json)
-  const fallbackFromDb = (ALL_POSTS as any[]).find(
-    (a) => a.slug === slug || a.id === slug || String(a.wpPostId) === slug
+  // Dynamic article state with fallback (ưu tiên bài viết lưu trên Backblaze B2)
+  const { data: allPosts } = useS3Collection<any[]>('posts', []);
+  const [article, setArticle] = useState<any>(
+    HOANG_PHAP_ARTICLES.find((a) => a.slug === slug) || HOANG_PHAP_ARTICLES[0]
   );
-  const initialFallback = fallbackFromDb || HOANG_PHAP_ARTICLES.find((a) => a.slug === slug) || HOANG_PHAP_ARTICLES[0];
-  const [article, setArticle] = useState<any>(initialFallback);
+
+  // Nạp bài viết từ S3 (posts collection) khi có dữ liệu
+  useEffect(() => {
+    const fromDb = (allPosts || []).find(
+      (a) => a.slug === slug || a.id === slug || String(a.wpPostId) === slug
+    );
+    if (fromDb) {
+      setArticle(fromDb);
+    }
+  }, [allPosts, slug]);
 
   useEffect(() => {
     // 1. Cập nhật tức thời fallback khớp với slug mới để tránh lưu bài viết cũ
-    const immediateFallback = (ALL_POSTS as any[]).find(
-      (a) => a.slug === slug || a.id === slug || String(a.wpPostId) === slug
-    ) || HOANG_PHAP_ARTICLES.find((a) => a.slug === slug || a.id === slug);
-    if (immediateFallback) {
+    const immediateFallback = HOANG_PHAP_ARTICLES.find((a) => a.slug === slug || a.id === slug);
+    if (immediateFallback && article?.slug !== slug) {
       setArticle(immediateFallback);
     }
 

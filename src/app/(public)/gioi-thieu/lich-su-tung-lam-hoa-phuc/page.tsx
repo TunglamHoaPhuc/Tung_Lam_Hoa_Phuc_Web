@@ -1,4 +1,4 @@
-import { GIOI_THIEU_DETAILS } from '@/data/gioi-thieu-data';
+import { getGioiThieuDetail } from '@/lib/gioi-thieu-server';
 import { GioiThieuDetailLayout } from '@/components/gioi-thieu/GioiThieuDetailLayout';
 
 export const metadata = {
@@ -6,7 +6,8 @@ export const metadata = {
   description: 'Tìm hiểu nguồn gốc hình thành, các giai đoạn trùng tu và phát triển của Tùng Lâm Hòa Phúc (Hà Nội).',
 };
 
-export default function LichSuTungLamHoaPhucPage() {
-  const detail = GIOI_THIEU_DETAILS['lich-su-tung-lam-hoa-phuc'];
+export default async function LichSuTungLamHoaPhucPage() {
+  const detail = await getGioiThieuDetail('lich-su-tung-lam-hoa-phuc');
+  if (!detail) return null;
   return <GioiThieuDetailLayout detail={detail} />;
 }

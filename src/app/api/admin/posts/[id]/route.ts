@@ -1,34 +1,58 @@
 import { NextRequest, NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
 import { PostRecord } from '../route';
+import { readCache, writeCache, POSTS_DB, mergeWpPostIntoCms } from '@/lib/wp-sync';
+import { getWpPostById, getWpPostBySlug } from '@/lib/wp-client';
 
-const DB_PATH = path.resolve(process.cwd(), 'src/data/posts-database.json');
-
-function getPosts(): PostRecord[] {
-  if (!fs.existsSync(DB_PATH)) return [];
-  try {
-    const raw = fs.readFileSync(DB_PATH, 'utf8');
-    return JSON.parse(raw);
-  } catch {
-    return [];
-  }
+/** Đọc cache bài viết trên S3. */
+async function getCachedPosts(): Promise<PostRecord[]> {
+  return ((await readCache<PostRecord[]>(POSTS_DB)) || []) as PostRecord[];
 }
 
-function savePosts(posts: PostRecord[]) {
-  fs.writeFileSync(DB_PATH, JSON.stringify(posts, null, 2), 'utf8');
+/** Ghi cache bài viết lên S3. */
+async function savePosts(posts: PostRecord[]) {
+  await writeCache(POSTS_DB, posts);
 }
 
 import { HOANG_PHAP_ARTICLES } from '@/data/dong-chay-hoang-phap-data';
+
+/** Chuyển `post-632` / `632` → 632 (ID WordPress). */
+function toWpId(id: string): number {
+  const raw = String(id || '').replace(/^post-/, '');
+  return /^\d+$/.test(raw) ? Number(raw) : 0;
+}
 
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  const posts = getPosts();
+
+  // 1. 🌟 WORDPRESS TRƯỚC: đọc theo ID, nếu không có thì tra theo slug
+  const wpId = toWpId(id);
+  let wpPost = null;
+  try {
+    wpPost = (wpId ? await getWpPostById(wpId) : null) || (await getWpPostBySlug(id));
+  } catch {
+    wpPost = null;
+  }
+
+  if (wpPost) {
+    const cached = await getCachedPosts();
+    const existing = cached.find(
+      (p) => String(p.wpPostId) === String(wpPost!.wpId) || p.slug === wpPost!.slug
+    );
+    return NextResponse.json({
+      success: true,
+      post: mergeWpPostIntoCms(wpPost, existing),
+      source: 'wordpress',
+    });
+  }
+
+  // 2. Cache JSON trên S3
+  const posts = await getCachedPosts();
   let post: any = posts.find((p) => p.id === id || p.slug === id || String(p.wpPostId) === id);
 
+  // 3. Dữ liệu tĩnh dựng sẵn (fallback cuối cùng)
   if (!post) {
     const hp = HOANG_PHAP_ARTICLES.find((a) => a.id === id || a.slug === id);
     if (hp) {
@@ -62,7 +86,7 @@ export async function GET(
     );
   }
 
-  return NextResponse.json({ success: true, post });
+  return NextResponse.json({ success: true, post, source: 'cache' });
 }
 
 export async function PUT(
@@ -72,7 +96,7 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await req.json();
-    const posts = getPosts();
+    const posts = await getCachedPosts();
     const index = posts.findIndex((p) => p.id === id);
 
     if (index === -1) {
@@ -88,7 +112,7 @@ export async function PUT(
       id: posts[index].id, // Prevent ID override
     };
 
-    savePosts(posts);
+    await savePosts(posts);
 
     return NextResponse.json({
       success: true,
@@ -108,7 +132,7 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
-    let posts = getPosts();
+    let posts = await getCachedPosts();
     const exists = posts.some((p) => p.id === id);
 
     if (!exists) {
@@ -119,7 +143,7 @@ export async function DELETE(
     }
 
     posts = posts.filter((p) => p.id !== id);
-    savePosts(posts);
+    await savePosts(posts);
 
     return NextResponse.json({
       success: true,

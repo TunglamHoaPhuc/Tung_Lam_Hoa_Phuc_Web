@@ -1,24 +1,9 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
+import { readDb, updateDb } from '@/lib/s3-db';
+import { TONG_CHI_DB } from '@/lib/s3-collections';
 
-const DATA_FILE = path.resolve(process.cwd(), 'src/data/tong-chi-data.json');
-
-function getArticles() {
-  if (!fs.existsSync(DATA_FILE)) {
-    return [];
-  }
-  try {
-    const raw = fs.readFileSync(DATA_FILE, 'utf-8');
-    return JSON.parse(raw);
-  } catch (err) {
-    console.error('Error reading tong-chi-data.json:', err);
-    return [];
-  }
-}
-
-function saveArticles(articles: any[]) {
-  fs.writeFileSync(DATA_FILE, JSON.stringify(articles, null, 2), 'utf-8');
+async function getArticles(): Promise<any[]> {
+  return readDb<any[]>(TONG_CHI_DB);
 }
 
 export async function GET(
@@ -27,7 +12,7 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    const articles = getArticles();
+    const articles = await getArticles();
     const article = articles.find(
       (a: any) =>
         String(a.id) === id ||
@@ -54,29 +39,32 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
-    const articles = getArticles();
-    const index = articles.findIndex(
-      (a: any) =>
-        String(a.id) === id ||
-        a.slug === id ||
-        (id === 'bo-de-tam' && (a.slug === 'bo-de-tam-coi-nguon-thien-phap' || a.id === 4)) ||
-        (id === 'tiep-buoc-thay-toi' && (a.slug === 'tong-phong-truyen-thua-truc-lam' || a.id === 1)) ||
-        (id === 'tong-phong-truyen-thua-truc-lam' && (a.slug === 'tiep-buoc-thay-toi' || a.id === 1))
-    );
+    let updatedArticle: any = null;
+    await updateDb<any[]>(TONG_CHI_DB, (articles) => {
+      const index = articles.findIndex(
+        (a: any) =>
+          String(a.id) === id ||
+          a.slug === id ||
+          (id === 'bo-de-tam' && (a.slug === 'bo-de-tam-coi-nguon-thien-phap' || a.id === 4)) ||
+          (id === 'tiep-buoc-thay-toi' && (a.slug === 'tong-phong-truyen-thua-truc-lam' || a.id === 1)) ||
+          (id === 'tong-phong-truyen-thua-truc-lam' && (a.slug === 'tiep-buoc-thay-toi' || a.id === 1))
+      );
+      if (index === -1) return articles;
 
-    if (index === -1) {
+      articles[index] = {
+        ...articles[index],
+        ...body,
+        updatedAt: new Date().toISOString(),
+      };
+      updatedArticle = articles[index];
+      return articles;
+    });
+
+    if (!updatedArticle) {
       return NextResponse.json({ success: false, error: 'Không tìm thấy bài viết' }, { status: 404 });
     }
 
-    articles[index] = {
-      ...articles[index],
-      ...body,
-      updatedAt: new Date().toISOString(),
-    };
-
-    saveArticles(articles);
-
-    return NextResponse.json({ success: true, data: articles[index] });
+    return NextResponse.json({ success: true, data: updatedArticle });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
@@ -88,16 +76,18 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
-    const articles = getArticles();
-    const newArticles = articles.filter(
-      (a: any) => String(a.id) !== id && a.slug !== id
-    );
+    let removedCount = 0;
+    await updateDb<any[]>(TONG_CHI_DB, (articles) => {
+      const newArticles = articles.filter(
+        (a: any) => String(a.id) !== id && a.slug !== id
+      );
+      removedCount = articles.length - newArticles.length;
+      return newArticles;
+    });
 
-    if (newArticles.length === articles.length) {
+    if (removedCount === 0) {
       return NextResponse.json({ success: false, error: 'Không tìm thấy bài viết để xóa' }, { status: 404 });
     }
-
-    saveArticles(newArticles);
 
     return NextResponse.json({ success: true, message: 'Đã xóa bài viết thành công' });
   } catch (error: any) {

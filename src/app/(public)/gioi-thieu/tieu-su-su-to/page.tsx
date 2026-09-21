@@ -1,4 +1,4 @@
-import { GIOI_THIEU_DETAILS } from '@/data/gioi-thieu-data';
+import { getGioiThieuDetail } from '@/lib/gioi-thieu-server';
 import { GioiThieuDetailLayout } from '@/components/gioi-thieu/GioiThieuDetailLayout';
 
 export const metadata = {
@@ -6,7 +6,8 @@ export const metadata = {
   description: 'Tôn vinh cuộc đời tu tập và đạo nghiệp của Chư vị Tổ Sư khai sơn Tổ đình Hoằng Pháp.',
 };
 
-export default function TieuSuSuToPage() {
-  const detail = GIOI_THIEU_DETAILS['tieu-su-su-to'];
+export default async function TieuSuSuToPage() {
+  const detail = await getGioiThieuDetail('tieu-su-su-to');
+  if (!detail) return null;
   return <GioiThieuDetailLayout detail={detail} />;
 }

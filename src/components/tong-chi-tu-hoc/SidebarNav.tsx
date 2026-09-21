@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import { ChevronRight, BookOpen, CheckCircle2 } from 'lucide-react';
 import { NAV_ITEMS } from '@/data/tong-chi-tu-hoc-data';
-import tongChiData from '@/data/tong-chi-data.json';
+import { useS3Collection } from '@/lib/use-s3-collection';
 
 interface NavItem {
   id: string;
@@ -32,6 +32,7 @@ export function SidebarNav({
 
   // Tìm bài viết hiện tại và lọc danh sách các bài CÙNG CHUYÊN MỤC
   const normalizedTitle = (pageTitle || '').toLowerCase().trim();
+  const { data: tongChiData } = useS3Collection<any[]>('tong-chi', []);
   const currentItem = tongChiData.find((a) => {
     const t = a.title.toLowerCase().trim();
     return t === normalizedTitle || normalizedTitle.includes(t) || t.includes(normalizedTitle);

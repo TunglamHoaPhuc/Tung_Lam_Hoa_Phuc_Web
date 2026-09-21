@@ -1,22 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
+import { readDb, updateDb } from '@/lib/s3-db';
+import { GIOI_THIEU_DB } from '@/lib/s3-collections';
 import { GioiThieuRecord } from '../route';
 
-const DB_PATH = path.resolve(process.cwd(), 'src/data/gioi-thieu-database.json');
-
-function getTopics(): GioiThieuRecord[] {
-  if (!fs.existsSync(DB_PATH)) return [];
-  try {
-    const raw = fs.readFileSync(DB_PATH, 'utf8');
-    return JSON.parse(raw);
-  } catch {
-    return [];
-  }
-}
-
-function saveTopics(topics: GioiThieuRecord[]) {
-  fs.writeFileSync(DB_PATH, JSON.stringify(topics, null, 2), 'utf8');
+async function getTopics(): Promise<GioiThieuRecord[]> {
+  return readDb<GioiThieuRecord[]>(GIOI_THIEU_DB);
 }
 
 export async function GET(
@@ -24,7 +12,7 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  const topics = getTopics();
+  const topics = await getTopics();
   const topic = topics.find((t) => t.id === id || t.slug === id);
 
   if (!topic) {
@@ -44,27 +32,33 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await req.json();
-    const topics = getTopics();
-    const index = topics.findIndex((t) => t.id === id);
 
-    if (index === -1) {
-      return NextResponse.json(
-        { success: false, error: 'Không tìm thấy chủ đề giới thiệu' },
-        { status: 404 }
-      );
+    let updated: GioiThieuRecord | null = null;
+    try {
+      await updateDb<GioiThieuRecord[]>(GIOI_THIEU_DB, (topics) => {
+        const index = topics.findIndex((t) => t.id === id);
+        if (index === -1) throw new Error('KHONG_TIM_THAY_CHU_DE');
+        topics[index] = {
+          ...topics[index],
+          ...body,
+          id: topics[index].id,
+        };
+        updated = topics[index];
+        return topics;
+      });
+    } catch (err: any) {
+      if (err?.message === 'KHONG_TIM_THAY_CHU_DE') {
+        return NextResponse.json(
+          { success: false, error: 'Không tìm thấy chủ đề giới thiệu' },
+          { status: 404 }
+        );
+      }
+      throw err;
     }
-
-    topics[index] = {
-      ...topics[index],
-      ...body,
-      id: topics[index].id,
-    };
-
-    saveTopics(topics);
 
     return NextResponse.json({
       success: true,
-      topic: topics[index],
+      topic: updated,
     });
   } catch (error: any) {
     return NextResponse.json(
@@ -80,18 +74,20 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
-    let topics = getTopics();
-    const exists = topics.some((t) => t.id === id);
+    let removed = false;
 
-    if (!exists) {
+    await updateDb<GioiThieuRecord[]>(GIOI_THIEU_DB, (topics) => {
+      if (!topics.some((t) => t.id === id)) return topics;
+      removed = true;
+      return topics.filter((t) => t.id !== id);
+    });
+
+    if (!removed) {
       return NextResponse.json(
         { success: false, error: 'Không tìm thấy chủ đề giới thiệu' },
         { status: 404 }
       );
     }
-
-    topics = topics.filter((t) => t.id !== id);
-    saveTopics(topics);
 
     return NextResponse.json({
       success: true,

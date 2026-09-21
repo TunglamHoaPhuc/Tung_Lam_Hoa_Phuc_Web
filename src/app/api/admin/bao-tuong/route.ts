@@ -1,21 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { OFFICIAL_STATUE_DATASET, StatueRecord } from '@/data/statue-data';
-import { loadServerlessJson, saveServerlessJson } from '@/lib/serverless-db';
+import { readDb, updateDb } from '@/lib/s3-db';
+import { STATUES_DB } from '@/lib/s3-collections';
 
-const DB_CONFIG = {
-  fileName: 'statues-database.json',
-  localRelativePath: 'src/data/statues-database.json',
-  s3Key: 'tunglamhoaphuc2/database/statues-database.json',
-  defaultData: OFFICIAL_STATUE_DATASET,
-};
-
-function getStatues(): StatueRecord[] {
-  const data = loadServerlessJson<StatueRecord[]>(DB_CONFIG);
+async function getStatues(): Promise<StatueRecord[]> {
+  const data = await readDb<StatueRecord[]>(STATUES_DB);
   return Array.isArray(data) && data.length > 0 ? data : OFFICIAL_STATUE_DATASET;
-}
-
-async function saveStatues(statues: StatueRecord[]) {
-  await saveServerlessJson<StatueRecord[]>(DB_CONFIG, statues);
 }
 
 export async function GET(req: NextRequest) {
@@ -26,7 +16,7 @@ export async function GET(req: NextRequest) {
     const categoryType = searchParams.get('type');
     const search = searchParams.get('search');
 
-    let statues = getStatues();
+    let statues = await getStatues();
 
     if (assembly && assembly !== 'all') {
       statues = statues.filter((s) => s.assembly === assembly || s.assemblyId === assembly);
@@ -74,26 +64,31 @@ export async function PUT(req: NextRequest) {
       );
     }
 
-    const statues = getStatues();
-    const index = statues.findIndex((s) => (id && s.id === id) || (code && s.code === code));
-
-    if (index === -1) {
-      return NextResponse.json(
-        { success: false, error: 'Không tìm thấy bảo tượng tương ứng' },
-        { status: 404 }
-      );
+    let updated: StatueRecord | undefined;
+    try {
+      await updateDb<StatueRecord[]>(STATUES_DB, (statues) => {
+        const index = statues.findIndex((s) => (id && s.id === id) || (code && s.code === code));
+        if (index === -1) throw new Error('KHONG_TIM_THAY_BAO_TUONG');
+        statues[index] = {
+          ...statues[index],
+          ...updates,
+        };
+        updated = statues[index];
+        return statues;
+      });
+    } catch (err: any) {
+      if (err?.message === 'KHONG_TIM_THAY_BAO_TUONG') {
+        return NextResponse.json(
+          { success: false, error: 'Không tìm thấy bảo tượng tương ứng' },
+          { status: 404 }
+        );
+      }
+      throw err;
     }
-
-    statues[index] = {
-      ...statues[index],
-      ...updates,
-    };
-
-    await saveStatues(statues);
 
     return NextResponse.json({
       success: true,
-      data: statues[index],
+      data: updated,
     });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
@@ -103,21 +98,22 @@ export async function PUT(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const statues = getStatues();
 
-    const newId = body.id || `statue-${Date.now()}`;
-    const newStatue: StatueRecord = {
-      ...body,
-      id: newId,
-      code: body.code || `TP${String(statues.length + 1).padStart(4, '0')}`,
-    };
-
-    statues.unshift(newStatue);
-    await saveStatues(statues);
+    let created!: StatueRecord;
+    await updateDb<StatueRecord[]>(STATUES_DB, (statues) => {
+      const newId = body.id || `statue-${Date.now()}`;
+      created = {
+        ...body,
+        id: newId,
+        code: body.code || `TP${String(statues.length + 1).padStart(4, '0')}`,
+      };
+      statues.unshift(created);
+      return statues;
+    });
 
     return NextResponse.json({
       success: true,
-      data: newStatue,
+      data: created,
     });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
