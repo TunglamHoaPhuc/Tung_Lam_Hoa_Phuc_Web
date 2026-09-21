@@ -18,7 +18,7 @@ interface PropsBaiVietNoiBat {
 }
 
 export function FeaturedPosts({ heroBanner, featuredArticle }: PropsBaiVietNoiBat) {
-  const bgImageSrc = getImageUrl(featuredArticle?.bgImage || heroBanner) || 'https://tunglam.mocwp.com/wp-content/uploads/2026/07/bg-chua.jpg';
+  const bgImageSrc = getImageUrl(featuredArticle?.bgImage || heroBanner) || 'https://admin.tunglamhoaphuc.com/wp-content/uploads/2026/07/bg-chua.jpg';
 
   return (
     <section id="bai-viet-noibat" className="scroll-mt-24 py-12 relative w-full">

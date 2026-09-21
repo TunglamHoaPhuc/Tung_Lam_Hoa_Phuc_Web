@@ -1,6 +1,6 @@
 import { TongChiPageData, ACFTongChiSection, ACFCardItem } from '@/types/tong-chi-tu-hoc';
 
-const WP_URL = 'https://tunglam.mocwp.com/wp-json';
+const WP_URL = 'https://admin.tunglamhoaphuc.com/wp-json';
 
 // Hàm phụ bóc tách URL ảnh linh hoạt
 function extractImageUrl(imageField: any, fallback = ''): string {
@@ -26,7 +26,7 @@ export async function getTongChiPageData(): Promise<TongChiPageData> {
     const heroBanner =
       pageObj?._embedded?.['wp:featuredmedia']?.[0]?.source_url ||
       extractImageUrl(pageObj?.acf?.banner_image) ||
-      'https://tunglam.mocwp.com/wp-content/uploads/2026/07/bg-chua.jpg';
+      'https://admin.tunglamhoaphuc.com/wp-content/uploads/2026/07/bg-chua.jpg';
 
     const pageTitle = pageObj?.title?.rendered || pageObj?.acf?.main_title || 'TÔNG CHỈ TU HỌC';
     const pageSubtitle = pageObj?.acf?.sub_title || 'TÙNG LÂM HÒA PHÚC';

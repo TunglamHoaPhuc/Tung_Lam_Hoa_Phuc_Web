@@ -151,14 +151,14 @@ export default function TongChiTuHocPage() {
         }
 
         // 2. Fetch WordPress API (Chỉ lấy Banner & Intro Mô tả chung)
-        const fetchCatBg = fetch('https://tunglam.mocwp.com/wp-json/tunglam/v1/danh-muc-tong-chi/12', { signal, cache: 'no-store' })
+        const fetchCatBg = fetch('https://admin.tunglamhoaphuc.com/wp-json/tunglam/v1/danh-muc-tong-chi/12', { signal, cache: 'no-store' })
           .then((res) => (res.ok ? res.json() : null))
           .catch(() => null);
 
-        const fetchBanner = fetch('https://tunglam.mocwp.com/wp-json/wp/v2/tong-chi/388?_embed', { signal, cache: 'no-store' })
+        const fetchBanner = fetch('https://admin.tunglamhoaphuc.com/wp-json/wp/v2/tong-chi/388?_embed', { signal, cache: 'no-store' })
           .then((res) => (res.ok ? res.json() : null))
           .catch(async () => {
-            const res2 = await fetch('https://tunglam.mocwp.com/wp-json/wp/v2/tong-chi-tu-hoc/388?_embed', { signal, cache: 'no-store' });
+            const res2 = await fetch('https://admin.tunglamhoaphuc.com/wp-json/wp/v2/tong-chi-tu-hoc/388?_embed', { signal, cache: 'no-store' });
             return res2.ok ? res2.json() : null;
           })
           .catch(() => null);
@@ -176,7 +176,7 @@ export default function TongChiTuHocPage() {
             (typeof bannerData?.acf?.banner_image === 'string' ? bannerData?.acf?.banner_image : bannerData?.acf?.banner_image?.url) ||
             bannerData?.featured_image_url ||
             extractImgFromContent(bannerData?.content?.rendered || '') ||
-            'https://tunglam.mocwp.com/wp-content/uploads/2026/07/bg-chua.jpg';
+            'https://admin.tunglamhoaphuc.com/wp-content/uploads/2026/07/bg-chua.jpg';
 
           if (featuredImageUrl) setBannerUrl(getImageUrl(featuredImageUrl));
 
