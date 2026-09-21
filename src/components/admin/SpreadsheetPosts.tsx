@@ -1095,6 +1095,7 @@ export function SpreadsheetPosts() {
                 <th className="p-3 w-[160px] min-w-[160px] border-r border-[#F2C14E]/20 text-center">Chuyên Mục</th>
                 <th className="p-3 w-[80px] min-w-[80px] text-center border-r border-[#F2C14E]/20">Ảnh Bìa</th>
                 <th className="p-3 w-[220px] min-w-[220px] border-r border-[#F2C14E]/20">Tiêu Đề Bài Viết</th>
+                <th className="p-3 w-[220px] min-w-[220px] border-r border-[#F2C14E]/20">Tiêu Đề Phụ</th>
                 <th className="p-3 w-[200px] min-w-[200px] border-r border-[#F2C14E]/20">Tác Giả & Ngày</th>
                 <th className="p-3 w-[140px] min-w-[140px] border-r border-[#F2C14E]/20 text-center">Đa Phương Tiện</th>
                 <th
@@ -1112,14 +1113,14 @@ export function SpreadsheetPosts() {
             <tbody className="divide-y divide-[#F2C14E]/15">
               {loading ? (
                 <tr>
-                  <td colSpan={8} className="p-12 text-center text-[#c9b896]/70">
+                  <td colSpan={9} className="p-12 text-center text-[#c9b896]/70">
                     <Loader2 className="w-8 h-8 animate-spin mx-auto mb-2 text-[#F2C14E]" />
                     <span>Đang tải dữ liệu bài viết...</span>
                   </td>
                 </tr>
               ) : filteredPosts.length === 0 ? (
                 <tr>
-                  <td colSpan={8} className="p-12 text-center text-[#c9b896]/70">
+                  <td colSpan={9} className="p-12 text-center text-[#c9b896]/70">
                     Chưa có bài viết nào trong chuyên mục Hoằng Pháp này.
                   </td>
                 </tr>
@@ -1204,7 +1205,23 @@ export function SpreadsheetPosts() {
                         />
                       </td>
 
-                      {/* 5. Tác Giả & Ngày Đăng */}
+                      {/* 5. Tiêu Đề Phụ (Căn giữa dọc đẹp mắt — đồng bộ với /admin/tong-chi) */}
+                      <td className="p-2.5 w-[220px] min-w-[220px] border-r border-[#F2C14E]/15 align-middle">
+                        <textarea
+                          rows={3}
+                          value={row.subtitle || ''}
+                          onChange={(e) => {
+                            const updated = [...posts];
+                            updated[actualIdx].subtitle = e.target.value;
+                            setPosts(updated);
+                            setIsDirty(true);
+                          }}
+                          placeholder="Nhập lời tựa / phụ..."
+                          className="w-full min-h-[72px] px-3 py-2.5 bg-[#22140A] border border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E] rounded-xl text-xs text-[#FFE5A3] italic focus:outline-none leading-relaxed transition-all resize-none shadow-sm flex items-center"
+                        />
+                      </td>
+
+                      {/* 6. Tác Giả & Ngày Đăng */}
                       <td className="p-2.5 w-[200px] min-w-[200px] border-r border-[#F2C14E]/15 align-middle">
                         <div className="space-y-1.5">
                           <input
