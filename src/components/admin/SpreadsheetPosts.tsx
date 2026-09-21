@@ -435,7 +435,12 @@ export function SpreadsheetPosts() {
       const res = await fetch(`/api/admin/posts?t=${Date.now()}`, { cache: 'no-store' });
       const data = await res.json();
       if (data.success && data.posts) {
-        setPosts(data.posts);
+        // 🛡️ Phòng thủ: loại bỏ bản ghi trùng ID để React không báo "duplicate key"
+        const uniqueMap = new Map<string, PostRecord>();
+        for (const p of data.posts as PostRecord[]) {
+          if (!uniqueMap.has(p.id)) uniqueMap.set(p.id, p);
+        }
+        setPosts(Array.from(uniqueMap.values()));
       }
     } catch (err: any) {
       showToast(`Lỗi khi tải dữ liệu bài viết: ${err.message}`);

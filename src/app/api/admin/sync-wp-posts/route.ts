@@ -139,9 +139,18 @@ export async function POST() {
     const postMap = new Map();
     currentPosts.forEach((p) => postMap.set(p.wpPostId ? `wp-${p.wpPostId}` : (p.slug || p.id), p));
 
+    // 🛡️ Chống trùng ID: nếu bài viết đã tồn tại dưới một ID/wpPostId khác (sync chéo
+    // giữa admin.tunglamhoaphuc.com và tunglamhoaphuc.com), hãy gộp thay vì tạo bản ghi mới.
+    const postIds = new Set(currentPosts.map((p) => p.id));
+    const claimedWpIds = new Set(currentPosts.filter((p) => p.wpPostId).map((p) => p.wpPostId));
+
     let s3CopiedCount = 0;
     const s3KeysPath = path.resolve(process.cwd(), 's3_keys.json');
     const s3KeySet = new Set<string>(fs.existsSync(s3KeysPath) ? JSON.parse(fs.readFileSync(s3KeysPath, 'utf-8')) : []);
+
+    // 🛡️ Chống trùng lặp giữa 2 nguồn WP: cùng 1 bài viết có thể được trả về bởi cả
+    // admin.tunglamhoaphuc.com và tunglamhoaphuc.com với 2 ID khác nhau nhưng cùng slug.
+    const seenWpSlugs = new Set<string>();
 
     for (const wp of allWpPosts) {
       const wpId = wp.id;
@@ -151,6 +160,10 @@ export async function POST() {
         .replace(/&#8217;/g, '’')
         .replace(/&amp;/g, '&')
         .trim();
+
+      // Bỏ qua bản WP trùng slug đã xử lý ở nguồn trước đó
+      if (seenWpSlugs.has(wpSlug)) continue;
+      seenWpSlugs.add(wpSlug);
 
       const categoryMapping = mapCategories(wp.categories || []);
       let rawFeaturedUrl = wp._embedded?.['wp:featuredmedia']?.[0]?.source_url || '';
@@ -192,11 +205,25 @@ export async function POST() {
       }
 
       const lookupKey = `wp-${wpId}`;
-      const existing = postMap.get(lookupKey) || postMap.get(wpSlug);
+      let existing = postMap.get(lookupKey) || postMap.get(wpSlug);
+      let existingId = existing?.id;
+
+      // 🛡️ Bài viết đã tồn tại trong DB dưới một ID khác (VD: cùng bài viết từng được
+      // sync từ 2 nguồn WP với wpPostId 504 và 29200) → tái sử dụng ID cũ, không tạo bản mới.
+      if (!existingId && postIds.has(`post-${wpId}`)) {
+        existing = currentPosts.find((p) => p.id === `post-${wpId}`);
+        existingId = existing?.id;
+      } else if (!existingId && claimedWpIds.has(wpId)) {
+        const claim = currentPosts.find((p) => String(p.wpPostId) === String(wpId));
+        if (claim) {
+          existing = claim;
+          existingId = claim.id;
+        }
+      }
 
       postMap.set(lookupKey, {
         ...(existing || {}),
-        id: existing?.id || `post-${wpId}`,
+        id: existingId || `post-${wpId}`,
         wpPostId: wpId,
         slug: wpSlug,
         title: wpTitle,
