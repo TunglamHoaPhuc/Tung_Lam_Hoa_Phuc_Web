@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
+import { isPostDeleted, recordDeletedPost } from '@/lib/deleted-posts';
+import { deleteWpPost } from '@/lib/wp-admin-client';
 
 const DB_PATH = path.resolve(process.cwd(), 'src/data/posts-database.json');
 
@@ -89,6 +91,7 @@ export interface PostRecord {
   videoBlock?: VideoBlock;
   featuredArticle?: FeaturedArticle;
   photoGallery?: PhotoItem[];
+  galleryCount?: number;
   previousEditions?: RelatedEdition[];
   upcomingEvents?: UpcomingEvent[];
   wpPostId?: string | number;
@@ -149,6 +152,12 @@ export async function GET(req: NextRequest) {
         for (const wp of wpPosts) {
           const wpId = wp.id;
           const wpSlug = wp.slug || `bai-viet-${wpId}`;
+
+          // 🛡️ Bỏ qua nếu bài viết đã từng bị quản trị viên xóa
+          if (isPostDeleted(`post-${wpId}`, wpId, wpSlug)) {
+            continue;
+          }
+
           const existingIdx = allPosts.findIndex(
             (p) => p.wpPostId === wpId || p.id === `post-${wpId}` || p.slug === wpSlug
           );
@@ -253,18 +262,34 @@ export async function GET(req: NextRequest) {
     return (wpB || 0) - (wpA || 0);
   });
 
-  // 🚀 Tối ưu kích thước response: loại bỏ trường nặng khỏi danh sách
-  // photoGallery + content + contentHtml chiếm ~8MB → giảm xuống ~500KB
-  // Chỉ trả về đầy đủ khi client yêu cầu ?full=true
+  // 🚀 Tối ưu kích thước response để dưới giới hạn 4.5MB Vercel:
+  // - keywords: LUÔN giữ nguyên 100% cho mọi bài (chỉ ~1.6KB)
+  // - galleryCount: LUÔN trả về số lượng ảnh chính xác để hiển thị badge số lượng ảnh trên từng dòng
+  // - photoGallery: Giữ đầy đủ cho 60 bài viết mới nhất (đáp ứng hầu hết thao tác tức thì mà không cần đợi tải)
+  //   Với các bài cũ hơn, album ảnh được tải tức thì theo yêu cầu (on-demand 50ms) khi mở Album hoặc Xem trước
+  // - content: Giữ 300 ký tự đầu tiên phục vụ hiển thị trích đoạn trên bảng tính
+  // - contentHtml: Bỏ qua trong danh sách tổng để tránh phình dung lượng
   const wantFull = searchParams.get('full') === 'true';
-  const lightPosts = wantFull
+  const optimizedPosts = wantFull
     ? posts
-    : posts.map(({ photoGallery: _pg, content: _c, contentHtml: _ch, keywords: _kw, ...rest }) => rest);
+    : posts.map((p, idx) => {
+        const { contentHtml: _ch, ...rest } = p;
+        const galleryCount = p.photoGallery ? p.photoGallery.length : 0;
+        return {
+          ...rest,
+          // 60 bài mới nhất có sẵn toàn bộ mảng photoGallery
+          photoGallery: idx < 60 ? (p.photoGallery || []) : [],
+          galleryCount,
+          // Giữ trích đoạn nội dung cho ô bảng tính
+          content: p.content ? p.content.slice(0, 300) : (p.summary || ''),
+          keywords: p.keywords || [],
+        };
+      });
 
   return NextResponse.json({
     success: true,
-    total: lightPosts.length,
-    posts: lightPosts,
+    total: optimizedPosts.length,
+    posts: optimizedPosts,
   });
 }
 
@@ -378,5 +403,54 @@ export async function POST(req: NextRequest) {
       { success: false, error: error.message },
       { status: 500 }
     );
+  }
+}
+
+// 🗑️ DELETE: Xóa bài viết khỏi cơ sở dữ liệu và đồng bộ S3/WordPress
+export async function DELETE(req: NextRequest) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const queryId = searchParams.get('id');
+    let bodyId: string | undefined;
+    try {
+      const body = await req.json();
+      bodyId = body.id;
+    } catch {}
+
+    const id = queryId || bodyId;
+    if (!id) {
+      return NextResponse.json({ success: false, error: 'Thiếu ID bài viết cần xóa' }, { status: 400 });
+    }
+
+    const decodedId = decodeURIComponent(id);
+    let posts = getPosts();
+    const targetIdx = posts.findIndex(
+      (p) => p.id === id || p.id === decodedId || p.slug === id || p.slug === decodedId || String(p.wpPostId) === id
+    );
+
+    if (targetIdx === -1) {
+      return NextResponse.json({ success: false, error: 'Không tìm thấy bài viết để xóa' }, { status: 404 });
+    }
+
+    const deletedPost = posts[targetIdx];
+    posts.splice(targetIdx, 1);
+    await savePosts(posts);
+
+    // Ghi nhận vào danh sách bài đã xóa để tránh auto-sync thêm lại
+    await recordDeletedPost(deletedPost.id, deletedPost.wpPostId, deletedPost.slug);
+
+    if (deletedPost.wpPostId) {
+      const numWpId = typeof deletedPost.wpPostId === 'number' ? deletedPost.wpPostId : parseInt(String(deletedPost.wpPostId), 10);
+      if (!isNaN(numWpId)) {
+        deleteWpPost(numWpId).catch((e) => console.warn('Could not trash WP post:', e));
+      }
+    }
+
+    return NextResponse.json({
+      success: true,
+      message: `Đã xóa bài viết "${deletedPost.title}" thành công!`,
+    });
+  } catch (err: any) {
+    return NextResponse.json({ success: false, error: err.message }, { status: 500 });
   }
 }

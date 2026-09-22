@@ -435,3 +435,38 @@ export async function createOrUpdateWpPost(payload: WpPostPayload): Promise<{
     isNew: true,
   };
 }
+
+/**
+ * Xóa hoặc chuyển bài viết vào Thùng rác (Trash) trên WordPress
+ */
+export async function deleteWpPost(wpPostId: number, force: boolean = false): Promise<boolean> {
+  try {
+    let { cookies, nonce } = await getWpSession();
+    let res = await fetch(`${WP_BASE_URL}/wp-json/wp/v2/posts/${wpPostId}?force=${force}`, {
+      method: 'DELETE',
+      headers: {
+        ...COMMON_HEADERS,
+        Cookie: cookies,
+        'X-WP-Nonce': nonce,
+      },
+    });
+
+    if (res.status === 403) {
+      invalidateWpSession();
+      const fresh = await getWpSession(true);
+      res = await fetch(`${WP_BASE_URL}/wp-json/wp/v2/posts/${wpPostId}?force=${force}`, {
+        method: 'DELETE',
+        headers: {
+          ...COMMON_HEADERS,
+          Cookie: fresh.cookies,
+          'X-WP-Nonce': fresh.nonce,
+        },
+      });
+    }
+
+    return res.ok;
+  } catch (err) {
+    console.warn(`[wp-admin-client] Không thể xóa WP Post #${wpPostId}:`, err);
+    return false;
+  }
+}

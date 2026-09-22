@@ -789,10 +789,9 @@ export function SpreadsheetPosts() {
     if (saving) return;
     setSaving(true);
 
-    // 🚀 Tối ưu: Loại bỏ trường nặng trước khi gửi lên server.
-    // photoGallery + contentHtml chiếm ~8MB → gây lỗi "Request Entity Too Large".
-    // Server đã lưu sẵn các trường này và sẽ giữ nguyên khi merge (xem PUT handler).
-    const normalized = postsToSave.map(({ photoGallery: _pg, contentHtml: _ch, ...p }) => ({
+    // 🚀 Tối ưu: Loại bỏ contentHtml trước khi gửi lên server (tránh phình payload).
+    // Giữ nguyên photoGallery có sẵn trên client để lưu cập nhật nếu có.
+    const normalized = postsToSave.map(({ contentHtml: _ch, ...p }) => ({
       ...p,
       status: 'published' as const,
     }));
@@ -967,20 +966,28 @@ export function SpreadsheetPosts() {
     showToast('✨ Đã thêm bài viết mới vào Dòng Chảy Hoằng Pháp!');
   };
 
-  // Xóa bài viết - gọi DELETE /api/admin/posts/[id] thay vì PUT toàn bộ để tránh lỗi payload quá lớn
-  const handleDeletePost = async (index: number) => {
-    const target = posts[index];
+  // Xóa bài viết - gọi DELETE /api/admin/posts/[id] và đồng bộ S3 vĩnh viễn
+  const handleDeletePost = async (actualIdx: number) => {
+    const target = posts[actualIdx];
     if (!target) return;
     if (!window.confirm(`Bạn có chắc chắn muốn xóa bài viết:\n"${target.title}"?\n\nHành động này không thể hoàn tác!`)) return;
 
     showToast(`⏳ Đang xóa "${target.title}"...`);
     try {
-      const res = await fetch(`/api/admin/posts/${encodeURIComponent(target.id)}`, {
+      let res = await fetch(`/api/admin/posts/${encodeURIComponent(target.id)}`, {
         method: 'DELETE',
       });
-      const data = await res.json();
+      let data = await res.json();
+      if (!data.success) {
+        // Thử fallback sang query param nếu router dynamic param gặp sự cố
+        res = await fetch(`/api/admin/posts?id=${encodeURIComponent(target.id)}`, {
+          method: 'DELETE',
+        });
+        data = await res.json();
+      }
+
       if (data.success) {
-        setPosts((prev) => prev.filter((_, i) => i !== index));
+        setPosts((prev) => prev.filter((p) => p.id !== target.id));
         showToast(`🗑️ Đã xóa bài viết "${target.title}" thành công!`);
       } else {
         showToast(`❌ Lỗi xóa bài viết: ${data.error || 'Không xác định'}`);
@@ -988,6 +995,35 @@ export function SpreadsheetPosts() {
     } catch (err: any) {
       showToast(`❌ Không thể kết nối máy chủ: ${err.message}`);
     }
+  };
+
+  // Mở Media Modal - Tải ảnh tư liệu theo yêu cầu (on-demand 50ms) nếu bài viết chưa tải sẵn mảng photoGallery
+  const handleOpenMediaModal = async (actualIdx: number, tab: 'video' | 'featured' | 'gallery') => {
+    const target = posts[actualIdx];
+    if (!target) return;
+
+    if (tab === 'gallery' && (!target.photoGallery || target.photoGallery.length === 0) && ((target as any).galleryCount || 0) > 0) {
+      showToast(`⏳ Đang tải bộ sưu tập ảnh của "${target.title}"...`);
+      try {
+        const res = await fetch(`/api/admin/posts/${encodeURIComponent(target.id)}`);
+        const data = await res.json();
+        if (data.success && data.post?.photoGallery) {
+          setPosts((prev) => {
+            const next = [...prev];
+            next[actualIdx] = {
+              ...next[actualIdx],
+              photoGallery: data.post.photoGallery,
+              galleryCount: data.post.photoGallery.length,
+            };
+            return next;
+          });
+        }
+      } catch (err) {
+        console.warn('Lỗi tải album ảnh:', err);
+      }
+    }
+
+    setMediaModal({ isOpen: true, rowIndex: actualIdx, tab });
   };
 
   // Filtered Posts: Chỉ quản lý DÒNG CHẢY HOẰNG PHÁP
@@ -1162,7 +1198,7 @@ export function SpreadsheetPosts() {
                     <Edit3 className="w-3.5 h-3.5 text-[#F2C14E]/80 shrink-0" />
                   </div>
                 </th>
-                <th className="p-3 w-[85px] min-w-[85px] text-center">Thao Tác</th>
+                <th className="p-3 w-[115px] min-w-[115px] text-center">Thao Tác</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[#F2C14E]/15">
@@ -1185,7 +1221,7 @@ export function SpreadsheetPosts() {
                   const actualIdx = targetIdx !== -1 ? targetIdx : filterIdx;
 
                   const kwCount = row.keywords?.length || 0;
-                  const galleryCount = row.photoGallery?.length || 0;
+                  const galleryCount = (row as any).galleryCount ?? (row.photoGallery?.length || 0);
                   const hasVideo = Boolean(row.videoBlock?.videoUrl);
                   const hasBook = Boolean(row.sourceBook);
                   const hasFeatured = Boolean(row.featuredArticle?.title);
@@ -1226,20 +1262,30 @@ export function SpreadsheetPosts() {
                         </select>
                       </td>
 
-                      {/* 3. Ảnh Bìa / Đại diện */}
+                      {/* 3. Ảnh Bìa (Thumbnail) */}
                       <td className="p-2 w-[80px] min-w-[80px] border-r border-[#F2C14E]/15 align-middle text-center">
                         <div
-                          onClick={() => setMediaModal({ isOpen: true, rowIndex: actualIdx, tab: 'banner' })}
-                          className="relative w-14 h-12 mx-auto rounded-xl overflow-hidden border border-[#F2C14E]/40 hover:border-[#F2C14E] bg-black/60 cursor-pointer group/banner shadow-sm transition-all hover:scale-105"
-                          title="Bấm để cài đặt ảnh Banner / Đại diện"
+                          onClick={() => {
+                            setTargetImageCallback(() => (newUrl: string) => {
+                              const updated = [...posts];
+                              updated[actualIdx].thumbnailUrl = newUrl;
+                              updated[actualIdx].bannerUrl = newUrl;
+                              setPosts(updated);
+                              setIsDirty(true);
+                            });
+                            setImageLibraryOpen(true);
+                          }}
+                          className="relative w-14 h-14 mx-auto rounded-xl overflow-hidden border border-[#52331C] hover:border-[#F2C14E] cursor-pointer group/thumb bg-black/60 shadow-sm transition-all"
+                          title="Bấm để chọn hoặc tải ảnh bìa mới từ S3"
                         >
                           <img
-                            src={row.thumbnailUrl || row.bannerUrl || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp'}
-                            alt="Banner"
-                            className="w-full h-full object-cover"
+                            src={row.thumbnailUrl || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp'}
+                            alt={row.title}
+                            className="w-full h-full object-cover group-hover/thumb:scale-110 transition-transform duration-300"
+                            style={{ objectPosition: row.thumbnailPosition || 'center 50%' }}
                           />
-                          <div className="absolute inset-0 bg-black/50 opacity-0 group-hover/banner:opacity-100 transition-opacity flex items-center justify-center text-[10px] text-white font-bold">
-                            Sửa
+                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex items-center justify-center">
+                            <Cloud className="w-4 h-4 text-[#F2C14E]" />
                           </div>
                         </div>
                       </td>
@@ -1305,13 +1351,13 @@ export function SpreadsheetPosts() {
                         </div>
                       </td>
 
-                      {/* 6. Đa Phương Tiện (3 Nút Vector SVG) */}
+                      {/* 6.5. Đa Phương Tiện */}
                       <td className="p-2.5 w-[140px] min-w-[140px] border-r border-[#F2C14E]/15 align-middle">
                         <div className="flex items-center justify-center gap-1.5">
                           {/* Nút Video */}
                           <button
                             type="button"
-                            onClick={() => setMediaModal({ isOpen: true, rowIndex: actualIdx, tab: 'video' })}
+                            onClick={() => handleOpenMediaModal(actualIdx, 'video')}
                             className={`p-2 rounded-xl border flex items-center justify-center relative transition-all cursor-pointer shadow-sm hover:scale-110 ${
                               hasVideo
                                 ? 'bg-[#352012] border-[#F2C14E] text-[#ffde59] shadow-[0_0_10px_rgba(242,193,78,0.2)]'
@@ -1330,7 +1376,7 @@ export function SpreadsheetPosts() {
                           {/* Nút Nổi Bật */}
                           <button
                             type="button"
-                            onClick={() => setMediaModal({ isOpen: true, rowIndex: actualIdx, tab: 'featured' })}
+                            onClick={() => handleOpenMediaModal(actualIdx, 'featured')}
                             className={`p-2 rounded-xl border flex items-center justify-center relative transition-all cursor-pointer shadow-sm hover:scale-110 ${
                               hasFeatured
                                 ? 'bg-[#352012] border-[#F2C14E] text-[#ffde59] shadow-[0_0_10px_rgba(242,193,78,0.2)]'
@@ -1349,7 +1395,7 @@ export function SpreadsheetPosts() {
                           {/* Nút Album Ảnh */}
                           <button
                             type="button"
-                            onClick={() => setMediaModal({ isOpen: true, rowIndex: actualIdx, tab: 'gallery' })}
+                            onClick={() => handleOpenMediaModal(actualIdx, 'gallery')}
                             className={`p-2 rounded-xl border flex items-center justify-center relative transition-all cursor-pointer shadow-sm hover:scale-110 ${
                               galleryCount > 0
                                 ? 'bg-[#352012] border-[#F2C14E] text-[#ffde59] shadow-[0_0_10px_rgba(242,193,78,0.2)]'
@@ -1420,9 +1466,31 @@ export function SpreadsheetPosts() {
                         </div>
                       </td>
 
-                      {/* 8. Thao Tác (Chỉ giữ Xem Trang Trực Tiếp & Xóa) */}
-                      <td className="p-2 w-[85px] min-w-[85px] text-center align-middle">
+                      {/* 8. Thao Tác (Xem trước modal, Xem web tab mới, Xóa) */}
+                      <td className="p-2 w-[115px] min-w-[115px] text-center align-middle">
                         <div className="flex items-center justify-center gap-1.5">
+                          {/* Nút Xem Trước Modal */}
+                          <button
+                            type="button"
+                            onClick={async () => {
+                              let target = posts[actualIdx];
+                              if ((!target.photoGallery || target.photoGallery.length === 0) && ((target as any).galleryCount || 0) > 0) {
+                                try {
+                                  const res = await fetch(`/api/admin/posts/${encodeURIComponent(target.id)}`);
+                                  const data = await res.json();
+                                  if (data.success && data.post) {
+                                    target = { ...target, ...data.post };
+                                  }
+                                } catch {}
+                              }
+                              setPreviewModal(target);
+                            }}
+                            className="p-2 rounded-xl bg-[#2A1D14] hover:bg-[#3A2718] border border-[#F2C14E]/40 text-[#FFE5A3] hover:text-[#FFDE59] transition-all cursor-pointer shadow-sm hover:scale-105"
+                            title="Xem trước bài viết (modal trực quan)"
+                          >
+                            <Eye className="w-4 h-4" />
+                          </button>
+
                           {/* Nút Xem Web Trực Tiếp */}
                           {row.slug ? (
                             <Link
@@ -1444,7 +1512,7 @@ export function SpreadsheetPosts() {
                             type="button"
                             onClick={() => handleDeletePost(actualIdx)}
                             className="p-2 rounded-xl bg-red-950/40 hover:bg-red-800 border border-red-500/40 text-red-300 hover:text-white transition-all cursor-pointer shadow-sm hover:scale-105"
-                            title="Xóa bài viết này"
+                            title="Xóa bài viết này vĩnh viễn"
                           >
                             <Trash2 className="w-4 h-4" />
                           </button>
@@ -1854,27 +1922,60 @@ export function SpreadsheetPosts() {
                       <Images className="w-3.5 h-3.5 text-[#F2C14E]" />
                       <span>Bộ Sưu Tập Ảnh Tư Liệu ({posts[mediaModal.rowIndex].photoGallery?.length || 0})</span>
                     </span>
-                    <button
-                      type="button"
-                      onClick={() =>
-                        openS3Library((url) => {
-                          const updated = [...posts];
-                          if (!updated[mediaModal.rowIndex].photoGallery) updated[mediaModal.rowIndex].photoGallery = [];
-                          updated[mediaModal.rowIndex].photoGallery!.push({
-                            title: 'Ảnh tư liệu mới',
-                            imageUrl: url,
-                            imagePosition: 'center 50%',
-                            khuVuc: 'Tùng Lâm Hòa Phúc',
-                            noiDung: 'Mô tả hình ảnh sự kiện...',
-                          });
-                          setPosts(updated);
-                        })
-                      }
-                      className="w-8 h-8 rounded-xl bg-[#F2C14E] text-[#1A120B] flex items-center justify-center cursor-pointer hover:bg-[#ffde59] shadow-md hover:scale-105"
-                      title="Thêm ảnh mới từ S3"
-                    >
-                      <Plus className="w-4 h-4 stroke-[3]" />
-                    </button>
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={async () => {
+                          const target = posts[mediaModal.rowIndex];
+                          if (!target) return;
+                          showToast(`⏳ Đang lưu bộ ảnh "${target.title}"...`);
+                          try {
+                            const res = await fetch(`/api/admin/posts/${encodeURIComponent(target.id)}`, {
+                              method: 'PUT',
+                              headers: { 'Content-Type': 'application/json' },
+                              body: JSON.stringify({
+                                photoGallery: target.photoGallery || [],
+                              }),
+                            });
+                            const data = await res.json();
+                            if (data.success) {
+                              showToast(`✅ Đã lưu ${target.photoGallery?.length || 0} ảnh thành công!`);
+                            } else {
+                              showToast(`❌ Lỗi: ${data.error || 'Không xác định'}`);
+                            }
+                          } catch (e: any) {
+                            showToast(`❌ Lỗi kết nối: ${e.message}`);
+                          }
+                        }}
+                        className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-[#F2C14E] to-[#ffde59] text-[#1A120B] font-bold text-xs flex items-center gap-1.5 shadow-md hover:scale-105 cursor-pointer"
+                        title="Lưu ngay thay đổi của bộ ảnh này"
+                      >
+                        <Save className="w-3.5 h-3.5" />
+                        <span>Lưu Album</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() =>
+                          openS3Library((url) => {
+                            const updated = [...posts];
+                            if (!updated[mediaModal.rowIndex].photoGallery) updated[mediaModal.rowIndex].photoGallery = [];
+                            updated[mediaModal.rowIndex].photoGallery!.push({
+                              title: 'Ảnh tư liệu mới',
+                              imageUrl: url,
+                              imagePosition: 'center 50%',
+                              khuVuc: 'Tùng Lâm Hòa Phúc',
+                              noiDung: 'Mô tả hình ảnh sự kiện...',
+                            });
+                            setPosts(updated);
+                          })
+                        }
+                        className="w-8 h-8 rounded-xl bg-[#F2C14E] text-[#1A120B] flex items-center justify-center cursor-pointer hover:bg-[#ffde59] shadow-md hover:scale-105"
+                        title="Thêm ảnh mới từ S3"
+                      >
+                        <Plus className="w-4 h-4 stroke-[3]" />
+                      </button>
+                    </div>
                   </div>
 
                   {/* Drop zone to upload multiple images at once */}

@@ -3,6 +3,8 @@ import { PostRecord } from '../route';
 import { loadServerlessJson, saveServerlessJson } from '@/lib/serverless-db';
 import { HOANG_PHAP_ARTICLES } from '@/data/dong-chay-hoang-phap-data';
 import { parseGutenbergPostContent } from '@/lib/wp-post-parser';
+import { recordDeletedPost } from '@/lib/deleted-posts';
+import { deleteWpPost } from '@/lib/wp-admin-client';
 
 const DB_CONFIG = {
   fileName: 'posts-database.json',
@@ -149,9 +151,12 @@ export async function PUT(
 ) {
   try {
     const { id } = await params;
+    const decodedId = decodeURIComponent(id);
     const body = await req.json();
     const posts = getPosts();
-    const index = posts.findIndex((p) => p.id === id);
+    const index = posts.findIndex(
+      (p) => p.id === id || p.id === decodedId || p.slug === id || p.slug === decodedId || String(p.wpPostId) === id
+    );
 
     if (index === -1) {
       return NextResponse.json(
@@ -166,7 +171,7 @@ export async function PUT(
       id: posts[index].id, // Prevent ID override
     };
 
-    savePosts(posts);
+    await savePosts(posts);
 
     return NextResponse.json({
       success: true,
@@ -186,22 +191,37 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
+    const decodedId = decodeURIComponent(id);
     let posts = getPosts();
-    const exists = posts.some((p) => p.id === id);
+    const targetIdx = posts.findIndex(
+      (p) => p.id === id || p.id === decodedId || p.slug === id || p.slug === decodedId || String(p.wpPostId) === id
+    );
 
-    if (!exists) {
+    if (targetIdx === -1) {
       return NextResponse.json(
-        { success: false, error: 'Không tìm thấy bài viết' },
+        { success: false, error: 'Không tìm thấy bài viết để xóa' },
         { status: 404 }
       );
     }
 
-    posts = posts.filter((p) => p.id !== id);
-    savePosts(posts);
+    const deletedPost = posts[targetIdx];
+    posts.splice(targetIdx, 1);
+    await savePosts(posts);
+
+    // Ghi nhận bài viết đã xóa vào blacklist để auto-sync từ WordPress không tự tiện thêm lại
+    await recordDeletedPost(deletedPost.id, deletedPost.wpPostId, deletedPost.slug);
+
+    // Thử xóa bài viết trên WordPress nếu có wpPostId
+    if (deletedPost.wpPostId) {
+      const numWpId = typeof deletedPost.wpPostId === 'number' ? deletedPost.wpPostId : parseInt(String(deletedPost.wpPostId), 10);
+      if (!isNaN(numWpId)) {
+        deleteWpPost(numWpId).catch((e) => console.warn('Could not trash WP post:', e));
+      }
+    }
 
     return NextResponse.json({
       success: true,
-      message: 'Đã xóa bài viết thành công',
+      message: `Đã xóa bài viết "${deletedPost.title}" thành công`,
     });
   } catch (error: any) {
     return NextResponse.json(
