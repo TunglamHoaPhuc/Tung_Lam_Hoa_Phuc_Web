@@ -143,7 +143,14 @@ export async function GET(req: NextRequest) {
   const search = searchParams.get('search');
   const status = searchParams.get('status');
 
-  let allPosts = await getPosts();
+  const [allPostsLoaded, deletedList] = await Promise.all([
+    getPosts(),
+    getDeletedPostsAsync(),
+  ]);
+  let allPosts = allPostsLoaded;
+  const deletedSet = new Set(deletedList.map((d) => d.id));
+  const deletedWpIds = new Set(deletedList.filter((d) => d.wpPostId).map((d) => String(d.wpPostId)));
+  const deletedSlugs = new Set(deletedList.filter((d) => d.slug).map((d) => d.slug));
 
   // 🪷 TỰ ĐỘNG ĐỒNG BỘ LIÊN TỤC TỪ WORDPRESS ADMIN:
   // Mỗi khi truy cập, tự động kiểm tra 10 bài mới nhất trên WordPress
@@ -163,7 +170,12 @@ export async function GET(req: NextRequest) {
           const wpSlug = wp.slug || `bai-viet-${wpId}`;
 
           // 🛡️ Bỏ qua nếu bài viết đã từng bị quản trị viên xóa
-          if (isPostDeleted(`post-${wpId}`, wpId, wpSlug)) {
+          if (
+            deletedSet.has(`post-${wpId}`) ||
+            deletedWpIds.has(String(wpId)) ||
+            (wpSlug && deletedSlugs.has(wpSlug)) ||
+            isPostDeleted(`post-${wpId}`, wpId, wpSlug)
+          ) {
             continue;
           }
 

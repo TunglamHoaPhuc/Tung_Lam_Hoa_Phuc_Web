@@ -8,6 +8,7 @@ import Header from '@/components/public/layout/Header';
 import Footer from '@/components/public/layout/Footer';
 import { HOANG_PHAP_ARTICLES } from '@/data/dong-chay-hoang-phap-data';
 import ALL_POSTS from '@/data/posts-database.json';
+import DELETED_POSTS from '@/data/deleted-posts.json';
 import { SmartSearchAIBar } from '@/components/public/SmartSearchAIBar';
 import { SubNavbar } from '@/components/tong-chi-tu-hoc/SubNavbar';
 import { SidebarNav } from '@/components/tong-chi-tu-hoc/SidebarNav';
@@ -38,16 +39,30 @@ export default function DongChayHoangPhapDetailPage() {
 
   // Detail Modal Keyword state
   const [activeKeyword, setActiveKeyword] = useState<any>(null);
-  const [isNotFound, setIsNotFound] = useState(false);
+
+  // 🛡️ Kiểm tra danh sách bài viết đã bị xóa để chặn hiển thị tức thời
+  const isInitiallyDeleted = (DELETED_POSTS as any[]).some(
+    (d) => d.id === slug || d.slug === slug || String(d.wpPostId) === slug
+  );
+
+  const [isNotFound, setIsNotFound] = useState(isInitiallyDeleted);
 
   // Dynamic article state with fallback (ưu tiên cơ sở dữ liệu bài viết posts-database.json)
-  const fallbackFromDb = (ALL_POSTS as any[]).find(
-    (a) => a.slug === slug || a.id === slug || String(a.wpPostId) === slug
-  );
-  const initialFallback = fallbackFromDb || HOANG_PHAP_ARTICLES.find((a) => a.slug === slug);
+  const fallbackFromDb = isInitiallyDeleted
+    ? null
+    : (ALL_POSTS as any[]).find(
+        (a) => a.slug === slug || a.id === slug || String(a.wpPostId) === slug
+      );
+  const initialFallback = fallbackFromDb || (isInitiallyDeleted ? null : HOANG_PHAP_ARTICLES.find((a) => a.slug === slug));
   const [article, setArticle] = useState<any>(initialFallback || null);
 
   useEffect(() => {
+    if (isInitiallyDeleted) {
+      setIsNotFound(true);
+      setArticle(null);
+      return;
+    }
+
     // 1. Cập nhật tức thời fallback khớp với slug mới để tránh lưu bài viết cũ
     const immediateFallback = (ALL_POSTS as any[]).find(
       (a) => a.slug === slug || a.id === slug || String(a.wpPostId) === slug

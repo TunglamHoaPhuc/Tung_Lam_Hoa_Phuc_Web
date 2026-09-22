@@ -1063,11 +1063,14 @@ export function SpreadsheetPosts() {
   };
 
   // Mở Media Modal - Tải ảnh tư liệu theo yêu cầu (on-demand 50ms) nếu bài viết chưa tải sẵn mảng photoGallery
-  const handleOpenMediaModal = async (actualIdx: number, tab: 'video' | 'featured' | 'gallery') => {
+  const handleOpenMediaModal = async (
+    actualIdx: number,
+    tab: 'banner' | 'video' | 'featured' | 'gallery' | 'editions' | 'events'
+  ) => {
     const target = posts[actualIdx];
     if (!target) return;
 
-    if (tab === 'gallery' && (!target.photoGallery || target.photoGallery.length === 0) && ((target as any).galleryCount || 0) > 0) {
+    if ((tab === 'gallery' || tab === 'banner') && (!target.photoGallery || target.photoGallery.length === 0) && ((target as any).galleryCount || 0) > 0) {
       showToast(`⏳ Đang tải bộ sưu tập ảnh của "${target.title}"...`);
       try {
         const res = await fetch(`/api/admin/posts/${encodeURIComponent(target.id)}`);
@@ -1331,14 +1334,34 @@ export function SpreadsheetPosts() {
                       {/* 3. Ảnh Bìa (Thumbnail) */}
                       <td className="p-2 w-[80px] min-w-[80px] border-r border-[#F2C14E]/15 align-middle text-center">
                         <div
-                          onClick={() => {
+                          onClick={async () => {
+                            let targetPost = row;
+                            if (
+                              (!targetPost.photoGallery || targetPost.photoGallery.length === 0) &&
+                              ((targetPost as any).galleryCount || 0) > 0
+                            ) {
+                              try {
+                                const res = await fetch(`/api/admin/posts/${encodeURIComponent(targetPost.id)}`);
+                                const data = await res.json();
+                                if (data.success && data.post?.photoGallery) {
+                                  targetPost = { ...targetPost, photoGallery: data.post.photoGallery };
+                                  setPosts((prev) => {
+                                    const next = [...prev];
+                                    next[actualIdx] = targetPost;
+                                    return next;
+                                  });
+                                }
+                              } catch (e) {
+                                console.warn(e);
+                              }
+                            }
                             openS3Library((newUrl: string) => {
                               const updated = [...posts];
                               updated[actualIdx].thumbnailUrl = newUrl;
                               updated[actualIdx].bannerUrl = newUrl;
                               setPosts(updated);
                               setIsDirty(true);
-                            }, row);
+                            }, targetPost);
                           }}
                           className="relative w-14 h-14 mx-auto rounded-xl overflow-hidden border border-[#52331C] hover:border-[#F2C14E] cursor-pointer group/thumb bg-black/60 shadow-sm transition-all"
                           title="Bấm để chọn ảnh từ bài viết hoặc tải ảnh mới từ S3"

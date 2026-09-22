@@ -127,7 +127,7 @@ export async function GET(
 
   if (!post) {
     const hp = HOANG_PHAP_ARTICLES.find((a) => a.id === id || a.slug === id);
-    if (hp) {
+    if (hp && !(await isPostDeletedAsync(hp.id, undefined, hp.slug))) {
       post = {
         id: hp.id,
         slug: hp.slug,
