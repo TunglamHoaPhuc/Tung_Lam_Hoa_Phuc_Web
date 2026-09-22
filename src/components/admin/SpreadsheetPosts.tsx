@@ -480,9 +480,10 @@ export function SpreadsheetPosts() {
   };
 
   // Fetch all posts from API
-  const fetchPosts = async () => {
+  // silent=true: chạy ngầm, không hiện spinner, không xóa trắng bảng (dùng khi quay lại từ tab Gutenberg)
+  const fetchPosts = async (silent = false) => {
     try {
-      setLoading(true);
+      if (!silent) setLoading(true);
       const res = await fetch(`/api/admin/posts?t=${Date.now()}`, { cache: 'no-store' });
       const data = await res.json();
       if (data.success && data.posts) {
@@ -493,10 +494,10 @@ export function SpreadsheetPosts() {
         }
         setPosts(Array.from(uniqueMap.values()));
       }
-    } catch (err: any) {
-      showToast(`Lỗi khi tải dữ liệu bài viết: ${err.message}`);
+    } catch {
+      // Lỗi ngầm không hiện toast khi refresh nền
     } finally {
-      setLoading(false);
+      if (!silent) setLoading(false);
     }
   };
 
@@ -512,7 +513,7 @@ export function SpreadsheetPosts() {
       const data = await res.json();
       if (data.success) {
         showToast(`✅ Đã đồng bộ thành công ${data.syncedWpPosts} bài viết từ WordPress!`);
-        await fetchPosts();
+        await fetchPosts(true); // silent: không xóa bảng trong khi refresh
       } else {
         showToast(`❌ Lỗi đồng bộ: ${data.error}`);
       }
@@ -529,13 +530,11 @@ export function SpreadsheetPosts() {
   useEffect(() => {
     fetchPosts();
 
-    // 🌟 TỰ ĐỘNG ĐỒNG BỘ: Khi Content soạn thảo xong trên WordPress và quay lại tab này
+    // 🌟 TỰ ĐỘNG CẬP NHẬT NGẦM: Khi quay lại từ tab Gutenberg, refresh nền không hiện spinner
     const handleWindowFocus = () => {
       if (hasOpenedGutenbergRef.current) {
         hasOpenedGutenbergRef.current = false;
-        handleSyncWordPress();
-      } else {
-        fetchPosts();
+        fetchPosts(true); // silent=true: không xóa bảng, không hiện spinner
       }
     };
 
@@ -924,23 +923,66 @@ export function SpreadsheetPosts() {
 
   // 🌟 MỞ TRỰC TIẾP TRÌNH SOẠN THẢO WORDPRESS GUTENBERG (1-CLICK)
   const handleOpenGutenberg = async (row: PostRecord, index: number) => {
-    const validWpId = row.wpPostId && !isNaN(Number(row.wpPostId)) && Number(row.wpPostId) > 0 ? Number(row.wpPostId) : null;
+    // Luôn gọi qua API để xác minh bài có tồn tại trên admin.tunglamhoaphuc.com không.
+    // Nếu wpPostId hợp lệ nhưng đã bị xóa trên WP → API sẽ tạo bài mới thay thế.
+    // Không còn fast-path mở thẳng URL vì gây lỗi "mục không tồn tại".
 
-    // 1. Nếu bài viết ĐÃ CÓ ID WordPress hợp lệ: Mở thẳng bài viết đó ngay lập tức (không trễ, không lỗi 403)
-    if (validWpId) {
-      const editUrl = `https://admin.tunglamhoaphuc.com/wp-admin/post.php?post=${validWpId}&action=edit`;
-      window.open(editUrl, '_blank', 'noopener,noreferrer');
-      hasOpenedGutenbergRef.current = true;
-      showToast(`✨ Đã mở bài viết #${validWpId} trong WordPress Gutenberg! Sau khi xuất bản, quay lại tab này sẽ tự động đồng bộ.`);
-      return;
-    }
-
-    // 2. Nếu là bài viết mới chưa có ID trên WordPress: Tạo mới và chuyển hướng
+    // Hiển thị trạng thái đang mở trong cell
     setOpeningWpId(row.id);
-    showToast('⚡ Đang khởi tạo bài viết mới trên WordPress Gutenberg...');
+    const validWpId = row.wpPostId && !isNaN(Number(row.wpPostId)) && Number(row.wpPostId) > 0 ? Number(row.wpPostId) : null;
+    showToast(validWpId
+      ? `⚡ Đang xác minh bài viết #${validWpId} trên WordPress Gutenberg...`
+      : '⚡ Đang khởi tạo bài viết mới trên WordPress Gutenberg...');
 
-    // Mở tab trống trước để chống popup blocker của trình duyệt
-    const newTab = window.open('about:blank', '_blank');
+    // Mở tab với giao diện chờ trang nghiêm để chống popup blocker của trình duyệt
+    const newTab = window.open('', '_blank');
+    if (newTab) {
+      try {
+        newTab.document.write(`<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <title>Khởi tạo WordPress Gutenberg...</title>
+  <style>
+    body {
+      margin: 0;
+      background: #140B05;
+      color: #F2C14E;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+      padding: 24px;
+      box-sizing: border-box;
+    }
+    .spin {
+      width: 52px;
+      height: 52px;
+      border: 4px solid rgba(242,193,78,0.2);
+      border-top-color: #F2C14E;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 24px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    h2 { margin: 0 0 10px; color: #ffde59; font-size: 20px; font-weight: 700; letter-spacing: 0.5px; }
+    p { margin: 0; color: #d3c0ad; font-size: 14px; line-height: 1.6; }
+  </style>
+</head>
+<body>
+  <div class="spin"></div>
+  <h2>⚡ ĐANG KẾT NỐI WORDPRESS GUTENBERG...</h2>
+  <p>Hệ thống đang chuẩn bị bài viết và phiên làm việc.<br>Trang soạn thảo sẽ tự động xuất hiện trong giây lát!</p>
+</body>
+</html>`);
+        newTab.document.close();
+      } catch (e) {
+        // ignore
+      }
+    }
 
     try {
       const res = await fetch('/api/admin/wp-post-create', {
@@ -959,33 +1001,32 @@ export function SpreadsheetPosts() {
         }),
       });
       const data = await res.json();
-      if (data.editUrl) {
-        if (data.wpPostId && String(data.wpPostId) !== String(row.wpPostId)) {
-          const updated = [...posts];
-          updated[index].wpPostId = String(data.wpPostId);
-          setPosts(updated);
-          await savePostsToBackend(updated, true);
-        }
-        if (newTab) {
-          newTab.location.href = data.editUrl;
-        } else {
-          window.open(data.editUrl, '_blank', 'noopener,noreferrer');
-        }
-        hasOpenedGutenbergRef.current = true;
-        showToast(
-          data.success
-            ? `✨ Đã mở bài viết #${data.wpPostId} trong WordPress Gutenberg!`
-            : `⚠️ Đang mở trang soạn thảo WordPress Gutenberg...`
-        );
-      } else {
-        if (newTab) {
-          newTab.location.href = 'https://admin.tunglamhoaphuc.com/wp-admin/post-new.php';
-        }
-        showToast(`⚠️ Đang mở trang soạn thảo mới trên WordPress Gutenberg...`);
+      const targetUrl = data.editUrl || 'https://admin.tunglamhoaphuc.com/wp-admin/post-new.php';
+
+      if (data.wpPostId && String(data.wpPostId) !== String(row.wpPostId)) {
+        const updated = [...posts];
+        updated[index].wpPostId = String(data.wpPostId);
+        setPosts(updated);
+        await savePostsToBackend(updated, true);
       }
+
+      if (newTab && !newTab.closed) {
+        newTab.location.replace(targetUrl);
+      } else {
+        window.open(targetUrl, '_blank', 'noopener,noreferrer');
+      }
+      hasOpenedGutenbergRef.current = true;
+      showToast(
+        data.success
+          ? `✨ Đã mở bài viết #${data.wpPostId} trong WordPress Gutenberg!`
+          : `⚠️ Đang mở trang soạn thảo WordPress Gutenberg...`
+      );
     } catch (err: any) {
-      if (newTab) {
-        newTab.location.href = 'https://admin.tunglamhoaphuc.com/wp-admin/post-new.php';
+      const fallbackUrl = 'https://admin.tunglamhoaphuc.com/wp-admin/post-new.php';
+      if (newTab && !newTab.closed) {
+        newTab.location.replace(fallbackUrl);
+      } else {
+        window.open(fallbackUrl, '_blank', 'noopener,noreferrer');
       }
       showToast(`⚠️ Mở trang tạo bài mới WordPress Gutenberg...`);
     } finally {
@@ -1181,7 +1222,7 @@ export function SpreadsheetPosts() {
           {/* Nút 2: Tải lại */}
           <button
             type="button"
-            onClick={fetchPosts}
+            onClick={() => fetchPosts()}
             className="w-10 h-10 rounded-xl bg-[#2A1D14] hover:bg-[#3A2718] border border-[#F2C14E]/50 text-[#F2C14E] hover:text-[#ffde59] flex items-center justify-center transition-all cursor-pointer shadow-md hover:scale-105"
             title="Tải lại dữ liệu bài viết"
           >

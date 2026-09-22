@@ -221,6 +221,26 @@ export default function DongChayHoangPhapPage() {
   );
 }
 
+function decodeHtmlEntities(text: string): string {
+  if (!text) return '';
+  return text
+    .replace(/&#8230;/g, '…')
+    .replace(/&hellip;/g, '…')
+    .replace(/&#8217;/g, '’')
+    .replace(/&#8216;/g, '‘')
+    .replace(/&#8220;/g, '“')
+    .replace(/&#8221;/g, '”')
+    .replace(/&#8211;/g, '–')
+    .replace(/&#8212;/g, '—')
+    .replace(/&quot;/g, '"')
+    .replace(/&#34;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&amp;/g, '&')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&#(\d+);/g, (_m, dec) => String.fromCharCode(parseInt(dec, 10)))
+    .normalize('NFC');
+}
+
 // ─── Sub-component: HoangPhapCard (Golden Ratio φ ≈ 1.618) ────────────────
 function HoangPhapCard({ article }: { article: HoangPhapArticle }) {
   return (
@@ -267,7 +287,7 @@ function HoangPhapCard({ article }: { article: HoangPhapArticle }) {
             style={{ fontFamily: "'UTM Avo', sans-serif" }}
             className="font-bold text-[18px] md:text-[20px] text-[#F2C14E] hover:text-[#FFE5A3] line-clamp-2 leading-snug transition-colors"
           >
-            {article.title}
+            {decodeHtmlEntities(article.title)}
           </h3>
 
           {/* Mô Tả / Bối Cảnh (Golden Scale: text-[13px] md:text-[14px]) */}
@@ -275,7 +295,7 @@ function HoangPhapCard({ article }: { article: HoangPhapArticle }) {
             style={{ fontFamily: "'UTM Avo', sans-serif" }}
             className="text-[13px] md:text-[14px] text-[#D3C0AD] line-clamp-2 leading-relaxed font-normal"
           >
-            {article.summary}
+            {decodeHtmlEntities(article.summary)}
           </p>
         </div>
 

@@ -196,18 +196,50 @@ export async function GET(req: NextRequest) {
               existing?.thumbnailUrl ||
               'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp';
 
-            const cleanTitle = (wp.title?.rendered || existing?.title || '')
-              .replace(/&#8211;/g, '–')
-              .replace(/&#8217;/g, '’')
-              .replace(/&amp;/g, '&')
-              .trim();
+function decodeHtmlEntities(text: string): string {
+  if (!text) return '';
+  return text
+    .replace(/&#8230;/g, '…')
+    .replace(/&hellip;/g, '…')
+    .replace(/&#8217;/g, '’')
+    .replace(/&#8216;/g, '‘')
+    .replace(/&#8220;/g, '“')
+    .replace(/&#8221;/g, '”')
+    .replace(/&#8211;/g, '–')
+    .replace(/&#8212;/g, '—')
+    .replace(/&quot;/g, '"')
+    .replace(/&#34;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&amp;/g, '&')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&#(\d+);/g, (_m, dec) => String.fromCharCode(parseInt(dec, 10)))
+    .normalize('NFC');
+}
+
+function cleanSummary(rawExcerpt: string, content: string, existingSummary?: string): string {
+  let text = decodeHtmlEntities((rawExcerpt || '').replace(/<[^>]+>/g, '').trim());
+  if (!text || /^tóm tắt/i.test(text)) {
+    if (existingSummary && !/^tóm tắt/i.test(existingSummary)) {
+      return decodeHtmlEntities(existingSummary);
+    }
+    const cleanContent = decodeHtmlEntities(
+      (content || '').replace(/!\[.*?\]\(.*?\)/g, '').replace(/<[^>]+>/g, '').replace(/#+\s*/g, '').trim()
+    );
+    if (cleanContent && cleanContent.length > 20 && !/^tóm tắt/i.test(cleanContent)) {
+      text = cleanContent.slice(0, 160).trim() + (cleanContent.length > 160 ? '…' : '');
+    }
+  }
+  return text || (existingSummary ? decodeHtmlEntities(existingSummary) : 'Tùng Lâm Hòa Phúc');
+}
+
+            const cleanTitle = decodeHtmlEntities(wp.title?.rendered || existing?.title || '').trim();
 
             const mergedPost: PostRecord = {
               id: existing?.id || `post-${wpId}`,
               wpPostId: wpId,
               slug: wpSlug,
               title: cleanTitle,
-              subtitle: existing?.subtitle || 'Tùng Lâm Hòa Phúc',
+              subtitle: decodeHtmlEntities(existing?.subtitle || 'Tùng Lâm Hòa Phúc'),
               mainCategory: existing?.mainCategory || mappedCat.mainCategory,
               subCategory: existing?.subCategory || mappedCat.subCategory,
               categoryName: existing?.categoryName || mappedCat.categoryName,
@@ -219,10 +251,7 @@ export async function GET(req: NextRequest) {
               bannerUrl: existing?.bannerUrl || featuredUrl,
               thumbnailPosition: existing?.thumbnailPosition || 'center 50%',
               bannerPosition: existing?.bannerPosition || 'center 50%',
-              summary:
-                (wp.excerpt?.rendered || '').replace(/<[^>]+>/g, '').replace(/&#8211;/g, '–').replace(/&amp;/g, '&').trim() ||
-                existing?.summary ||
-                'Tóm tắt bài viết...',
+              summary: cleanSummary(wp.excerpt?.rendered || '', parsed.cleanedContent || existing?.content || '', existing?.summary),
               content: parsed.cleanedContent || existing?.content || '',
               contentHtml: wp.content?.rendered || existing?.contentHtml || '',
               keywords: existing?.keywords || [],
