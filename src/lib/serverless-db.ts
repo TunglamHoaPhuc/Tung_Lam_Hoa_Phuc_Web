@@ -116,6 +116,52 @@ export function loadServerlessJson<T>(opts: ServerlessDbOptions<T>): T {
 }
 
 /**
+ * Đọc dữ liệu JSON bất đồng bộ (Ưu tiên S3 để mọi Lambda container luôn thấy dữ liệu mới nhất)
+ * Thứ tự ưu tiên: Memory Cache (< 15s) -> S3 Backblaze B2 -> /tmp -> Local file -> Fallback
+ */
+export async function loadServerlessJsonAsync<T>(opts: ServerlessDbOptions<T>): Promise<T> {
+  const { fileName, s3Key, defaultData } = opts;
+
+  // 1. Kiểm tra Memory Cache (chỉ dùng nếu cache < 15 giây)
+  const isDev = process.env.NODE_ENV !== 'production';
+  if (!isDev && memoryCache[fileName] && Date.now() - memoryCache[fileName].timestamp < 15000) {
+    return memoryCache[fileName].data as T;
+  }
+
+  // 2. Tải trực tiếp từ S3 Backblaze B2 (đảm bảo đồng bộ 100% giữa các serverless container)
+  const s3Info = getS3Client();
+  if (s3Info) {
+    try {
+      const s3Target = s3Key || `tunglamhoaphuc2/database/${fileName}`;
+      const res = await s3Info.client.send(
+        new GetObjectCommand({
+          Bucket: s3Info.bucketName,
+          Key: s3Target,
+        })
+      );
+      const str = await res.Body?.transformToString();
+      if (str) {
+        const parsed = JSON.parse(str);
+        memoryCache[fileName] = { data: parsed, timestamp: Date.now() };
+
+        // Lưu vào /tmp để container dùng nhanh
+        const tmpPath = path.join('/tmp', fileName);
+        try {
+          fs.writeFileSync(tmpPath, str, 'utf8');
+        } catch {}
+
+        return parsed;
+      }
+    } catch (err: any) {
+      // S3 lỗi mạng hoặc chưa có file, chuyển sang fallback
+    }
+  }
+
+  // 3. Fallback xuống cơ chế đọc đồng bộ (/tmp -> local file)
+  return loadServerlessJson<T>(opts);
+}
+
+/**
  * Lưu dữ liệu JSON an toàn:
  * 1. Ghi đè file cục bộ nếu có quyền ghi (Local dev).
  * 2. Ghi vào /tmp nếu chạy trên Vercel (bảo vệ chống lỗi EROFS).

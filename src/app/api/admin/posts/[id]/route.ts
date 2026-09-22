@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { PostRecord } from '../route';
-import { loadServerlessJson, saveServerlessJson } from '@/lib/serverless-db';
+import { loadServerlessJson, loadServerlessJsonAsync, saveServerlessJson } from '@/lib/serverless-db';
 import { HOANG_PHAP_ARTICLES } from '@/data/dong-chay-hoang-phap-data';
 import { parseGutenbergPostContent } from '@/lib/wp-post-parser';
-import { recordDeletedPost } from '@/lib/deleted-posts';
+import { recordDeletedPost, getDeletedPostsAsync, isPostDeletedAsync } from '@/lib/deleted-posts';
 import { deleteWpPost } from '@/lib/wp-admin-client';
 
 const DB_CONFIG = {
@@ -13,8 +13,18 @@ const DB_CONFIG = {
   defaultData: [] as PostRecord[],
 };
 
-function getPosts(): PostRecord[] {
-  return loadServerlessJson<PostRecord[]>(DB_CONFIG);
+async function getPosts(): Promise<PostRecord[]> {
+  const [posts, deletedList] = await Promise.all([
+    loadServerlessJsonAsync<PostRecord[]>(DB_CONFIG),
+    getDeletedPostsAsync(),
+  ]);
+  const deletedSet = new Set(deletedList.map((d) => d.id));
+  const deletedWpIds = new Set(deletedList.filter((d) => d.wpPostId).map((d) => String(d.wpPostId)));
+  const deletedSlugs = new Set(deletedList.filter((d) => d.slug).map((d) => d.slug));
+
+  return posts.filter(
+    (p) => !deletedSet.has(p.id) && !deletedWpIds.has(String(p.wpPostId)) && !deletedSlugs.has(p.slug)
+  );
 }
 
 async function savePosts(posts: PostRecord[]) {
@@ -26,7 +36,13 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> }
 ) {
   const { id } = await params;
-  let posts = getPosts();
+  const decodedId = decodeURIComponent(id);
+
+  if (await isPostDeletedAsync(id, id, decodedId)) {
+    return NextResponse.json({ success: false, error: 'Bài viết không tồn tại hoặc đã bị xóa' }, { status: 404 });
+  }
+
+  let posts = await getPosts();
   let postIndex = posts.findIndex((p) => p.id === id || p.slug === id || String(p.wpPostId) === id);
   let post: any = postIndex !== -1 ? posts[postIndex] : null;
 
@@ -153,7 +169,7 @@ export async function PUT(
     const { id } = await params;
     const decodedId = decodeURIComponent(id);
     const body = await req.json();
-    const posts = getPosts();
+    const posts = await getPosts();
     const index = posts.findIndex(
       (p) => p.id === id || p.id === decodedId || p.slug === id || p.slug === decodedId || String(p.wpPostId) === id
     );
@@ -192,7 +208,7 @@ export async function DELETE(
   try {
     const { id } = await params;
     const decodedId = decodeURIComponent(id);
-    let posts = getPosts();
+    let posts = await getPosts();
     const targetIdx = posts.findIndex(
       (p) => p.id === id || p.id === decodedId || p.slug === id || p.slug === decodedId || String(p.wpPostId) === id
     );

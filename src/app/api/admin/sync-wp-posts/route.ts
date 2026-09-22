@@ -2,8 +2,9 @@ import { NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 import { S3Client, CopyObjectCommand } from '@aws-sdk/client-s3';
-import { loadServerlessJson, saveServerlessJson } from '@/lib/serverless-db';
+import { loadServerlessJson, loadServerlessJsonAsync, saveServerlessJson } from '@/lib/serverless-db';
 import { parseGutenbergPostContent } from '@/lib/wp-post-parser';
+import { getDeletedPostsAsync } from '@/lib/deleted-posts';
 
 const DB_CONFIG = {
   fileName: 'posts-database.json',
@@ -203,7 +204,16 @@ export async function POST() {
       return NextResponse.json({ success: false, error: 'Không lấy được bài viết từ WordPress' }, { status: 502 });
     }
 
-    let currentPosts: any[] = loadServerlessJson(DB_CONFIG);
+    let currentPosts: any[] = await loadServerlessJsonAsync(DB_CONFIG);
+    const deletedList = await getDeletedPostsAsync();
+    const deletedSet = new Set(deletedList.map((d) => d.id));
+    const deletedWpIds = new Set(deletedList.filter((d) => d.wpPostId).map((d) => String(d.wpPostId)));
+    const deletedSlugs = new Set(deletedList.filter((d) => d.slug).map((d) => d.slug));
+
+    // Lọc sạch bất kỳ bài viết nào đã xóa đang tồn tại trước khi merge
+    currentPosts = currentPosts.filter(
+      (p) => !deletedSet.has(p.id) && !deletedWpIds.has(String(p.wpPostId)) && !deletedSlugs.has(p.slug)
+    );
 
     const postMap = new Map();
     currentPosts.forEach((p) => postMap.set(p.wpPostId ? `wp-${p.wpPostId}` : (p.slug || p.id), p));
@@ -224,6 +234,15 @@ export async function POST() {
     for (const wp of allWpPosts) {
       const wpId = wp.id;
       const wpSlug = wp.slug || `bai-viet-${wpId}`;
+
+      // 🛡️ Bỏ qua nếu bài viết đã từng bị quản trị viên xóa khỏi hệ thống
+      if (
+        deletedSet.has(`post-${wpId}`) ||
+        deletedWpIds.has(String(wpId)) ||
+        deletedSlugs.has(wpSlug)
+      ) {
+        continue;
+      }
       const wpTitle = (wp.title?.rendered || '')
         .replace(/&#8211;/g, '–')
         .replace(/&#8217;/g, '’')

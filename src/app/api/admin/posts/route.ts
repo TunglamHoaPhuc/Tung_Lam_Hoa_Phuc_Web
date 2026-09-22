@@ -1,8 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import fs from 'fs';
 import path from 'path';
-import { isPostDeleted, recordDeletedPost } from '@/lib/deleted-posts';
-import { deleteWpPost } from '@/lib/wp-admin-client';
 
 const DB_PATH = path.resolve(process.cwd(), 'src/data/posts-database.json');
 
@@ -97,7 +94,9 @@ export interface PostRecord {
   wpPostId?: string | number;
 }
 
-import { loadServerlessJson, saveServerlessJson } from '@/lib/serverless-db';
+import { loadServerlessJson, loadServerlessJsonAsync, saveServerlessJson } from '@/lib/serverless-db';
+import { isPostDeleted, isPostDeletedAsync, getDeletedPostsAsync, recordDeletedPost } from '@/lib/deleted-posts';
+import { deleteWpPost } from '@/lib/wp-admin-client';
 
 const DB_CONFIG = {
   fileName: 'posts-database.json',
@@ -106,8 +105,18 @@ const DB_CONFIG = {
   defaultData: [] as PostRecord[],
 };
 
-function getPosts(): PostRecord[] {
-  return loadServerlessJson<PostRecord[]>(DB_CONFIG);
+async function getPosts(): Promise<PostRecord[]> {
+  const [posts, deletedList] = await Promise.all([
+    loadServerlessJsonAsync<PostRecord[]>(DB_CONFIG),
+    getDeletedPostsAsync(),
+  ]);
+  const deletedSet = new Set(deletedList.map((d) => d.id));
+  const deletedWpIds = new Set(deletedList.filter((d) => d.wpPostId).map((d) => String(d.wpPostId)));
+  const deletedSlugs = new Set(deletedList.filter((d) => d.slug).map((d) => d.slug));
+
+  return posts.filter(
+    (p) => !deletedSet.has(p.id) && !deletedWpIds.has(String(p.wpPostId)) && !deletedSlugs.has(p.slug)
+  );
 }
 
 async function savePosts(posts: PostRecord[]) {
@@ -134,7 +143,7 @@ export async function GET(req: NextRequest) {
   const search = searchParams.get('search');
   const status = searchParams.get('status');
 
-  let allPosts = getPosts();
+  let allPosts = await getPosts();
 
   // 🪷 TỰ ĐỘNG ĐỒNG BỘ LIÊN TỤC TỪ WORDPRESS ADMIN:
   // Mỗi khi truy cập, tự động kiểm tra 10 bài mới nhất trên WordPress
@@ -304,7 +313,7 @@ export async function PUT(req: NextRequest) {
       );
     }
 
-    const currentPosts = getPosts();
+    const currentPosts = await getPosts();
     const currentMap = new Map(currentPosts.map((p) => [p.id, p]));
 
     // Safeguard bảo vệ không bao giờ làm rỗng nội dung nếu client gửi rỗng ngoài ý muốn, tự động xuất bản
@@ -349,7 +358,7 @@ export async function PUT(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const posts = getPosts();
+    const posts = await getPosts();
 
     const newId = body.id || `post-${Date.now()}`;
     const slug =
@@ -423,7 +432,7 @@ export async function DELETE(req: NextRequest) {
     }
 
     const decodedId = decodeURIComponent(id);
-    let posts = getPosts();
+    let posts = await getPosts();
     const targetIdx = posts.findIndex(
       (p) => p.id === id || p.id === decodedId || p.slug === id || p.slug === decodedId || String(p.wpPostId) === id
     );

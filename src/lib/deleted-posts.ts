@@ -1,4 +1,4 @@
-import { loadServerlessJson, saveServerlessJson } from './serverless-db';
+import { loadServerlessJson, loadServerlessJsonAsync, saveServerlessJson } from './serverless-db';
 
 export interface DeletedPostRecord {
   id: string;
@@ -18,9 +18,13 @@ export function getDeletedPosts(): DeletedPostRecord[] {
   return loadServerlessJson<DeletedPostRecord[]>(DELETED_CONFIG);
 }
 
+export async function getDeletedPostsAsync(): Promise<DeletedPostRecord[]> {
+  return loadServerlessJsonAsync<DeletedPostRecord[]>(DELETED_CONFIG);
+}
+
 export async function recordDeletedPost(id: string, wpPostId?: string | number, slug?: string): Promise<void> {
   try {
-    const list = getDeletedPosts();
+    const list = await getDeletedPostsAsync();
     const exists = list.some(
       (item) =>
         (id && item.id === id) ||
@@ -39,6 +43,20 @@ export async function recordDeletedPost(id: string, wpPostId?: string | number, 
 export function isPostDeleted(id?: string, wpPostId?: string | number, slug?: string): boolean {
   try {
     const list = getDeletedPosts();
+    return list.some(
+      (item) =>
+        (Boolean(id) && item.id === id) ||
+        (Boolean(wpPostId) && String(item.wpPostId) === String(wpPostId)) ||
+        (Boolean(slug) && item.slug === slug)
+    );
+  } catch {
+    return false;
+  }
+}
+
+export async function isPostDeletedAsync(id?: string, wpPostId?: string | number, slug?: string): Promise<boolean> {
+  try {
+    const list = await getDeletedPostsAsync();
     return list.some(
       (item) =>
         (Boolean(id) && item.id === id) ||

@@ -26,6 +26,12 @@ import {
   Eye,
   Edit3,
   ExternalLink,
+  Sparkles,
+  Clock,
+  Calendar,
+  Filter,
+  ArrowUpDown,
+  ChevronLeft,
 } from 'lucide-react';
 
 interface S3File {
@@ -41,6 +47,8 @@ interface S3FileExplorerModalProps {
   onClose: () => void;
   onSelectImage?: (url: string, caption?: string) => void;
   initialPath?: string;
+  articleImages?: Array<{ imageUrl: string; title?: string }>;
+  articleTitle?: string;
 }
 
 interface NavTreeCategory {
@@ -229,6 +237,8 @@ export function S3FileExplorerModal({
   onClose,
   onSelectImage,
   initialPath = '',
+  articleImages = [],
+  articleTitle = '',
 }: S3FileExplorerModalProps) {
   const normalizePath = (pathStr: string): string => {
     let clean = (pathStr || '').replace(/^\/+|\/+$/g, '');
@@ -268,7 +278,53 @@ export function S3FileExplorerModal({
   const [newFolderName, setNewFolderName] = useState<string>('');
   const [showNewFolderModal, setShowNewFolderModal] = useState<boolean>(false);
   const [isMaximized, setIsMaximized] = useState<boolean>(false);
+  const [activeMode, setActiveMode] = useState<'article' | 'recent' | 's3'>('s3');
+  const [filterMonth, setFilterMonth] = useState<string>('all');
+  const [sortBy, setSortBy] = useState<'newest' | 'oldest' | 'name'>('newest');
+  const [articleSearch, setArticleSearch] = useState<string>('');
   const [toastMsg, setToastMsg] = useState<string | null>(null);
+
+  // WordPress Media State (ảnh tải lên từ Gutenberg)
+  const [wpItems, setWpItems] = useState<any[]>([]);
+  const [wpLoading, setWpLoading] = useState(false);
+  const [wpSearch, setWpSearch] = useState('');
+  const [wpPage, setWpPage] = useState(1);
+  const [wpTotalPages, setWpTotalPages] = useState(1);
+  const [wpTotal, setWpTotal] = useState(0);
+
+  const fetchWpMedia = async (targetPage = wpPage, searchStr = wpSearch) => {
+    setWpLoading(true);
+    try {
+      const qs = new URLSearchParams({
+        page: String(targetPage),
+        per_page: '24',
+        search: searchStr.trim(),
+      });
+      const res = await fetch(`/api/admin/wp-media?${qs.toString()}`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success) {
+          setWpItems(data.items || []);
+          setWpTotalPages(data.totalPages || 1);
+          setWpTotal(data.totalItems || 0);
+        }
+      }
+    } catch (err) {
+      console.error('Error fetching WP media:', err);
+    } finally {
+      setWpLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isOpen) {
+      if (articleImages && articleImages.length > 0) {
+        setActiveMode('article');
+      } else {
+        setActiveMode('s3');
+      }
+    }
+  }, [isOpen, articleImages]);
 
   const showToast = (msg: string) => {
     setToastMsg(msg);
@@ -544,9 +600,39 @@ export function S3FileExplorerModal({
   if (!isOpen) return null;
 
   // Breadcrumbs path split
-  const pathParts = currentPath.replace(/\/+$/, '').split('/').filter(Boolean);
+  const filteredAndSortedFiles = React.useMemo(() => {
+    let list = files.filter((f) => smartSearchMatch(f.name, search));
+    if (filterMonth !== 'all') {
+      list = list.filter((f) => {
+        if (f.lastModified) {
+          const d = new Date(f.lastModified);
+          const yyyy = d.getFullYear();
+          const mm = String(d.getMonth() + 1).padStart(2, '0');
+          if (filterMonth.includes('-')) {
+            return `${yyyy}-${mm}` === filterMonth;
+          }
+          return String(yyyy) === filterMonth;
+        }
+        return f.name.includes(filterMonth) || f.key.includes(filterMonth);
+      });
+    }
 
-  const filteredFiles = files.filter((f) => smartSearchMatch(f.name, search));
+    return list.sort((a, b) => {
+      if (sortBy === 'newest') {
+        const timeA = a.lastModified ? new Date(a.lastModified).getTime() : 0;
+        const timeB = b.lastModified ? new Date(b.lastModified).getTime() : 0;
+        return timeB - timeA;
+      }
+      if (sortBy === 'oldest') {
+        const timeA = a.lastModified ? new Date(a.lastModified).getTime() : 0;
+        const timeB = b.lastModified ? new Date(b.lastModified).getTime() : 0;
+        return timeA - timeB;
+      }
+      return a.name.localeCompare(b.name);
+    });
+  }, [files, search, filterMonth, sortBy]);
+
+  const filteredFiles = filteredAndSortedFiles;
 
   return (
     <div className="fixed inset-0 z-[70] flex items-center justify-center p-2 sm:p-4 bg-black/90 backdrop-blur-md animate-in fade-in select-none">
@@ -617,7 +703,283 @@ export function S3FileExplorerModal({
           </div>
         </div>
 
-        {/* Windows Explorer Main Body */}
+        {/* ── THANH CHUYỂN ĐỔI CHẾ ĐỘ CHỌN ẢNH (TABS) ── */}
+        <div className="flex items-center gap-2 pt-2.5 pb-2 border-b border-[#F2C14E]/20 overflow-x-auto custom-scrollbar shrink-0">
+          {articleImages && articleImages.length > 0 && (
+            <button
+              type="button"
+              onClick={() => setActiveMode('article')}
+              className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap ${
+                activeMode === 'article'
+                  ? 'bg-gradient-to-r from-[#F2C14E] to-[#E5A93C] text-black shadow-[0_0_15px_rgba(242,193,78,0.4)] scale-102'
+                  : 'bg-[#25170E] text-[#FFE5A3] hover:bg-[#352012] border border-[#F2C14E]/30'
+              }`}
+            >
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Ảnh trong bài viết này ({articleImages.length})</span>
+            </button>
+          )}
+
+          <button
+            type="button"
+            onClick={() => {
+              setActiveMode('recent');
+              if (wpItems.length === 0) fetchWpMedia(1);
+            }}
+            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap ${
+              activeMode === 'recent'
+                ? 'bg-gradient-to-r from-[#F2C14E] to-[#E5A93C] text-black shadow-[0_0_15px_rgba(242,193,78,0.4)] scale-102'
+                : 'bg-[#25170E] text-[#FFE5A3] hover:bg-[#352012] border border-[#F2C14E]/30'
+            }`}
+          >
+            <Clock className="w-3.5 h-3.5" />
+            <span>Ảnh mới tải lên WordPress ({wpTotal || '...'})</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setActiveMode('s3')}
+            className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap ${
+              activeMode === 's3'
+                ? 'bg-gradient-to-r from-[#F2C14E] to-[#E5A93C] text-black shadow-[0_0_15px_rgba(242,193,78,0.4)] scale-102'
+                : 'bg-[#25170E] text-[#FFE5A3] hover:bg-[#352012] border border-[#F2C14E]/30'
+            }`}
+          >
+            <Folder className="w-3.5 h-3.5" />
+            <span>Duyệt Thư Mục S3 Cloud (Ổ Z:)</span>
+          </button>
+        </div>
+
+        {/* ── VIEW 1: ẢNH TRONG BÀI VIẾT NÀY ── */}
+        {activeMode === 'article' && articleImages && articleImages.length > 0 && (
+          <div className="flex-1 flex flex-col p-4 bg-[#21140B] rounded-2xl border border-[#F2C14E]/30 my-3 min-h-0 overflow-hidden">
+            <div className="flex flex-wrap items-center justify-between gap-3 pb-3 mb-3 border-b border-[#F2C14E]/20">
+              <div>
+                <h4 className="text-sm font-bold text-[#FFDE59] uppercase tracking-wide flex items-center gap-2">
+                  <span>📸 Ảnh trích xuất từ bài viết: {articleTitle || ''}</span>
+                  <span className="text-[11px] px-2 py-0.5 rounded-full bg-[#F2C14E]/20 text-[#FFE5A3] border border-[#F2C14E]/40 font-bold">
+                    {articleImages.length} ảnh
+                  </span>
+                </h4>
+                <p className="text-xs text-[#c9b896] mt-0.5">
+                  Bấm trực tiếp vào ảnh hoặc nút &quot;Chọn Ảnh Này&quot; để cài đặt làm Ảnh Bìa (Thumbnail) hoặc Banner Hero
+                </p>
+              </div>
+
+              <div className="relative w-48 sm:w-64">
+                <Search className="w-3.5 h-3.5 text-[#F2C14E] absolute left-2.5 top-1/2 -translate-y-1/2" />
+                <input
+                  type="text"
+                  value={articleSearch}
+                  onChange={(e) => setArticleSearch(e.target.value)}
+                  placeholder="Lọc ảnh trong bài..."
+                  className="w-full pl-7 pr-2.5 py-1.5 bg-[#25170E] border border-[#F2C14E]/30 rounded-xl text-xs text-white placeholder-[#c9b896]/40 focus:outline-none focus:border-[#F2C14E]"
+                />
+              </div>
+            </div>
+
+            <div className="flex-1 overflow-y-auto custom-scrollbar pr-1">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3.5">
+                {articleImages
+                  .filter((item) => !articleSearch || smartSearchMatch(item.title || item.imageUrl, articleSearch))
+                  .map((item, idx) => (
+                    <div
+                      key={idx}
+                      className="p-2.5 bg-[#28180E] hover:bg-[#352012] border border-[#F2C14E]/30 hover:border-[#F2C14E] rounded-2xl transition-all shadow-md group flex flex-col justify-between hover:scale-[1.02]"
+                    >
+                      <div>
+                        <div
+                          onClick={() => {
+                            if (onSelectImage) onSelectImage(item.imageUrl, item.title || `Ảnh #${idx + 1}`);
+                            onClose();
+                          }}
+                          className="aspect-video w-full rounded-xl overflow-hidden bg-black/60 border border-[#F2C14E]/20 mb-2 cursor-pointer relative group/thumb"
+                        >
+                          <img
+                            src={item.imageUrl}
+                            alt={item.title || `Ảnh #${idx + 1}`}
+                            className="w-full h-full object-cover group-hover/thumb:scale-105 transition-transform"
+                            loading="lazy"
+                          />
+                          <div className="absolute top-2 left-2 px-1.5 py-0.5 rounded bg-black/70 text-[10px] font-mono font-bold text-[#F2C14E] border border-[#F2C14E]/40">
+                            #{idx + 1}
+                          </div>
+                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex items-center justify-center">
+                            <span className="px-2.5 py-1 rounded-xl bg-[#F2C14E] text-black text-xs font-bold shadow-lg flex items-center gap-1">
+                              <CheckCircle2 className="w-3.5 h-3.5" /> Chọn
+                            </span>
+                          </div>
+                        </div>
+                        <p className="text-xs font-bold text-[#FFE5A3] truncate" title={item.title || `Ảnh #${idx + 1}`}>
+                          {item.title || `Ảnh #${idx + 1}`}
+                        </p>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (onSelectImage) onSelectImage(item.imageUrl, item.title || `Ảnh #${idx + 1}`);
+                          onClose();
+                        }}
+                        className="mt-2.5 w-full py-1.5 rounded-xl bg-gradient-to-r from-[#F2C14E] to-[#E5A93C] hover:from-[#ffde59] hover:to-[#F2C14E] text-black text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm transition-all cursor-pointer hover:scale-102"
+                      >
+                        <CheckCircle2 className="w-3.5 h-3.5" />
+                        <span>Chọn ảnh này</span>
+                      </button>
+                    </div>
+                  ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ── VIEW 2: ẢNH MỚI TẢI LÊN TỪ WORDPRESS ── */}
+        {activeMode === 'recent' && (
+          <div className="flex-1 flex flex-col p-4 bg-[#21140B] rounded-2xl border border-[#F2C14E]/30 my-3 min-h-0 overflow-hidden">
+            <div className="flex flex-wrap items-center justify-between gap-3 pb-3 mb-3 border-b border-[#F2C14E]/20">
+              <div>
+                <h4 className="text-sm font-bold text-[#FFDE59] uppercase tracking-wide flex items-center gap-2">
+                  <span>⚡ Thư Viện Ảnh Mới Tải Lên WordPress ({wpTotal} ảnh)</span>
+                </h4>
+                <p className="text-xs text-[#c9b896] mt-0.5">
+                  Toàn bộ ảnh bạn tải lên khi soạn thảo bài viết Gutenberg — Sắp xếp theo ngày tải lên mới nhất
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <div className="relative w-48 sm:w-64">
+                  <Search className="w-3.5 h-3.5 text-[#F2C14E] absolute left-2.5 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="text"
+                    value={wpSearch}
+                    onChange={(e) => {
+                      setWpSearch(e.target.value);
+                      setWpPage(1);
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') fetchWpMedia(1, wpSearch);
+                    }}
+                    placeholder="Tìm kiếm ảnh WordPress..."
+                    className="w-full pl-7 pr-2.5 py-1.5 bg-[#25170E] border border-[#F2C14E]/30 rounded-xl text-xs text-white placeholder-[#c9b896]/40 focus:outline-none focus:border-[#F2C14E]"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={() => fetchWpMedia(wpPage, wpSearch)}
+                  disabled={wpLoading}
+                  className="p-1.5 rounded-lg bg-[#2A1D14] hover:bg-[#3A2718] border border-[#F2C14E]/30 text-[#FFE5A3] cursor-pointer"
+                  title="Làm mới thư viện WP"
+                >
+                  <RefreshCw className={`w-3.5 h-3.5 ${wpLoading ? 'animate-spin' : ''}`} />
+                </button>
+              </div>
+            </div>
+
+            <div className="flex-1 overflow-y-auto custom-scrollbar pr-1">
+              {wpLoading ? (
+                <div className="h-64 flex flex-col items-center justify-center gap-3 text-[#FFE5A3]">
+                  <Loader2 className="w-8 h-8 animate-spin text-[#F2C14E]" />
+                  <p className="text-xs">Đang tải ảnh từ WordPress...</p>
+                </div>
+              ) : wpItems.length === 0 ? (
+                <div className="p-12 text-center text-[#c9b896]/50 border border-dashed border-[#F2C14E]/20 rounded-2xl">
+                  Không tìm thấy hình ảnh WordPress nào phù hợp.
+                </div>
+              ) : (
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3.5">
+                  {wpItems.map((item, idx) => (
+                    <div
+                      key={item.id || idx}
+                      className="p-2.5 bg-[#28180E] hover:bg-[#352012] border border-[#F2C14E]/30 hover:border-[#F2C14E] rounded-2xl transition-all shadow-md group flex flex-col justify-between hover:scale-[1.02]"
+                    >
+                      <div>
+                        <div
+                          onClick={() => {
+                            if (onSelectImage) onSelectImage(item.url, item.title);
+                            onClose();
+                          }}
+                          className="aspect-video w-full rounded-xl overflow-hidden bg-black/60 border border-[#F2C14E]/20 mb-2 cursor-pointer relative group/thumb"
+                        >
+                          <img
+                            src={item.thumb || item.url}
+                            alt={item.title}
+                            className="w-full h-full object-cover group-hover/thumb:scale-105 transition-transform"
+                            loading="lazy"
+                          />
+                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex items-center justify-center">
+                            <span className="px-2.5 py-1 rounded-xl bg-[#F2C14E] text-black text-xs font-bold shadow-lg flex items-center gap-1">
+                              <CheckCircle2 className="w-3.5 h-3.5" /> Chọn
+                            </span>
+                          </div>
+                        </div>
+
+                        <p className="text-xs font-bold text-[#FFE5A3] truncate" title={item.title}>
+                          {item.title}
+                        </p>
+                        <div className="flex items-center justify-between text-[10px] text-[#c9b896]/70 font-mono mt-1">
+                          <span>{item.width && item.height ? `${item.width}x${item.height}` : 'Ảnh'}</span>
+                          {item.date && (
+                            <span className="px-1.5 py-0.5 rounded bg-[#352012] text-[#F2C14E] border border-[#F2C14E]/30 font-bold">
+                              {new Date(item.date).toLocaleDateString('vi-VN')}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          if (onSelectImage) onSelectImage(item.url, item.title);
+                          onClose();
+                        }}
+                        className="mt-2.5 w-full py-1.5 rounded-xl bg-gradient-to-r from-[#F2C14E] to-[#E5A93C] hover:from-[#ffde59] hover:to-[#F2C14E] text-black text-xs font-bold flex items-center justify-center gap-1.5 shadow-sm transition-all cursor-pointer hover:scale-102"
+                      >
+                        <CheckCircle2 className="w-3.5 h-3.5" />
+                        <span>Chọn ảnh này</span>
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Pagination for WP media */}
+            {wpTotalPages > 1 && (
+              <div className="flex items-center justify-center gap-2 pt-3 border-t border-[#F2C14E]/20 shrink-0">
+                <button
+                  type="button"
+                  disabled={wpPage <= 1 || wpLoading}
+                  onClick={() => {
+                    const p = wpPage - 1;
+                    setWpPage(p);
+                    fetchWpMedia(p, wpSearch);
+                  }}
+                  className="px-3 py-1 rounded-xl bg-[#2A1D14] hover:bg-[#3A2718] border border-[#F2C14E]/30 text-xs font-bold text-[#FFE5A3] disabled:opacity-40 cursor-pointer"
+                >
+                  Trang trước
+                </button>
+                <span className="text-xs text-[#FFE5A3] px-2">
+                  {wpPage} / {wpTotalPages}
+                </span>
+                <button
+                  type="button"
+                  disabled={wpPage >= wpTotalPages || wpLoading}
+                  onClick={() => {
+                    const p = wpPage + 1;
+                    setWpPage(p);
+                    fetchWpMedia(p, wpSearch);
+                  }}
+                  className="px-3 py-1 rounded-xl bg-[#2A1D14] hover:bg-[#3A2718] border border-[#F2C14E]/30 text-xs font-bold text-[#FFE5A3] disabled:opacity-40 cursor-pointer"
+                >
+                  Trang sau
+                </button>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ── VIEW 3: CÂY THƯ MỤC S3 CLOUD (Ổ Z:) ── */}
+        {activeMode === 's3' && (
         <div className="flex-1 flex flex-col md:flex-row gap-4 py-3 min-h-0">
           {/* 1. CỘT TRÁI: CÂY THƯ MỤC PHÂN CẤP CHUẨN (HIERARCHICAL TREE VIEW) */}
           <div className="w-full md:w-80 bg-[#140B05] border border-[#F2C14E]/25 rounded-2xl p-3 flex flex-col shrink-0 overflow-y-auto custom-scrollbar">
@@ -739,11 +1101,14 @@ export function S3FileExplorerModal({
             )}
 
             {/* Breadcrumb Path Bar & Toolbar */}
-            <div className="flex items-center justify-between gap-3 bg-[#170D06] px-3.5 py-2 rounded-xl border border-[#F2C14E]/25 mb-3 flex-wrap">
-              <div className="flex items-center gap-1.5 text-xs text-[#FFE5A3] overflow-x-auto custom-scrollbar py-0.5">
-                <button
-                  type="button"
-                  onClick={() => setCurrentPath('')}
+            {(() => {
+              const pathParts = currentPath.split('/').filter(Boolean);
+              return (
+                <div className="flex items-center justify-between gap-3 bg-[#170D06] px-3.5 py-2 rounded-xl border border-[#F2C14E]/25 mb-3 flex-wrap">
+                  <div className="flex items-center gap-1.5 text-xs text-[#FFE5A3] overflow-x-auto custom-scrollbar py-0.5">
+                    <button
+                      type="button"
+                      onClick={() => setCurrentPath('')}
                   className="hover:underline text-[#F2C14E] font-bold flex items-center gap-1.5"
                 >
                   <Cloud className="w-3.5 h-3.5 text-[#F2C14E]" />
@@ -770,7 +1135,34 @@ export function S3FileExplorerModal({
               </div>
 
               {/* Action Buttons (100% Vector SVG Icons) */}
-              <div className="flex items-center gap-2 shrink-0">
+              <div className="flex items-center gap-2 shrink-0 flex-wrap">
+                {/* Lọc theo tháng / năm */}
+                <select
+                  value={filterMonth}
+                  onChange={(e) => setFilterMonth(e.target.value)}
+                  className="px-2 py-1.5 bg-[#25170E] border border-[#F2C14E]/30 rounded-xl text-xs text-[#FFE5A3] focus:outline-none focus:border-[#F2C14E] cursor-pointer"
+                  title="Lọc ảnh theo thời gian tải lên"
+                >
+                  <option value="all">📅 Mọi thời gian</option>
+                  <option value="2026-09">Tháng 09/2026 (Mới nhất)</option>
+                  <option value="2026-08">Tháng 08/2026</option>
+                  <option value="2026-07">Tháng 07/2026</option>
+                  <option value="2026">Năm 2026</option>
+                  <option value="2025">Năm 2025</option>
+                </select>
+
+                {/* Sắp xếp */}
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value as any)}
+                  className="px-2 py-1.5 bg-[#25170E] border border-[#F2C14E]/30 rounded-xl text-xs text-[#FFE5A3] focus:outline-none focus:border-[#F2C14E] cursor-pointer"
+                  title="Sắp xếp thứ tự ảnh"
+                >
+                  <option value="newest">⚡ Mới nhất trước</option>
+                  <option value="oldest">⏳ Cũ nhất trước</option>
+                  <option value="name">🔤 Tên file (A-Z)</option>
+                </select>
+
                 <div className="relative">
                   <Search className="w-3.5 h-3.5 text-[#F2C14E] absolute left-2.5 top-1/2 -translate-y-1/2" />
                   <input
@@ -778,7 +1170,7 @@ export function S3FileExplorerModal({
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
                     placeholder="Tìm kiếm ảnh..."
-                    className="pl-7 pr-2.5 py-1.5 bg-[#25170E] border border-[#F2C14E]/30 rounded-xl text-xs text-white placeholder-[#c9b896]/40 focus:outline-none focus:border-[#F2C14E] w-32 sm:w-40"
+                    className="pl-7 pr-2.5 py-1.5 bg-[#25170E] border border-[#F2C14E]/30 rounded-xl text-xs text-white placeholder-[#c9b896]/40 focus:outline-none focus:border-[#F2C14E] w-28 sm:w-36"
                   />
                 </div>
 
@@ -814,6 +1206,8 @@ export function S3FileExplorerModal({
                 </button>
               </div>
             </div>
+              );
+            })()}
 
             {/* Folder & Files Grid */}
             <div className="flex-1 overflow-y-auto custom-scrollbar pr-1">
@@ -885,9 +1279,14 @@ export function S3FileExplorerModal({
                             >
                               {file.name}
                             </p>
-                            <p className="text-[10px] text-[#c9b896]/60 font-mono mt-0.5">
-                              {file.size ? `${Math.round(file.size / 1024)} KB` : 'WebP'}
-                            </p>
+                            <div className="flex items-center justify-between text-[10px] text-[#c9b896]/70 font-mono mt-1">
+                              <span>{file.size ? `${Math.round(file.size / 1024)} KB` : 'WebP'}</span>
+                              {file.lastModified && (
+                                <span className="px-1.5 py-0.5 rounded bg-[#352012] text-[#F2C14E] border border-[#F2C14E]/30 font-bold">
+                                  {new Date(file.lastModified).toLocaleDateString('vi-VN')}
+                                </span>
+                              )}
+                            </div>
                           </div>
 
                           {/* Actions bar (100% Vector SVG Icons) */}
@@ -950,6 +1349,7 @@ export function S3FileExplorerModal({
             </div>
           </div>
         </div>
+        )}
       </div>
 
       {/* 1. Modal Xem Ảnh Chi Tiết (Lightbox Preview) */}

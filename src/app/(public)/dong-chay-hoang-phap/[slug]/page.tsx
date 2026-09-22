@@ -38,13 +38,14 @@ export default function DongChayHoangPhapDetailPage() {
 
   // Detail Modal Keyword state
   const [activeKeyword, setActiveKeyword] = useState<any>(null);
+  const [isNotFound, setIsNotFound] = useState(false);
 
   // Dynamic article state with fallback (ưu tiên cơ sở dữ liệu bài viết posts-database.json)
   const fallbackFromDb = (ALL_POSTS as any[]).find(
     (a) => a.slug === slug || a.id === slug || String(a.wpPostId) === slug
   );
-  const initialFallback = fallbackFromDb || HOANG_PHAP_ARTICLES.find((a) => a.slug === slug) || HOANG_PHAP_ARTICLES[0];
-  const [article, setArticle] = useState<any>(initialFallback);
+  const initialFallback = fallbackFromDb || HOANG_PHAP_ARTICLES.find((a) => a.slug === slug);
+  const [article, setArticle] = useState<any>(initialFallback || null);
 
   useEffect(() => {
     // 1. Cập nhật tức thời fallback khớp với slug mới để tránh lưu bài viết cũ
@@ -53,6 +54,7 @@ export default function DongChayHoangPhapDetailPage() {
     ) || HOANG_PHAP_ARTICLES.find((a) => a.slug === slug || a.id === slug);
     if (immediateFallback) {
       setArticle(immediateFallback);
+      setIsNotFound(false);
     }
 
     async function loadDynamicPost() {
@@ -63,7 +65,12 @@ export default function DongChayHoangPhapDetailPage() {
           const json = await res.json();
           if (json.success && json.post) {
             setArticle(json.post);
+            setIsNotFound(false);
+          } else {
+            setIsNotFound(true);
           }
+        } else if (res.status === 404) {
+          setIsNotFound(true);
         }
       } catch (err) {
         console.log('Detail post load fallback:', err);
@@ -73,27 +80,29 @@ export default function DongChayHoangPhapDetailPage() {
   }, [slug]);
 
   // Ưu tiên bài viết cùng chuyên mục (category / subCategory) hoặc liên quan
-  const currentCategory = (article.category || article.subCategory || '').toLowerCase();
-  const currentKeywords = (article.keywords || []).map((k: any) => (k.keyword || k.tag || '').toLowerCase());
-  const currentTitleWords = (article.title || '').toLowerCase().split(/\s+/).filter((w: string) => w.length > 2);
+  const currentCategory = (article?.category || article?.subCategory || '').toLowerCase();
+  const currentKeywords = (article?.keywords || []).map((k: any) => (k.keyword || k.tag || '').toLowerCase());
+  const currentTitleWords = (article?.title || '').toLowerCase().split(/\s+/).filter((w: string) => w.length > 2);
 
-  const relatedArticles = [...HOANG_PHAP_ARTICLES]
-    .filter((a) => a.id !== article.id && a.slug !== article.slug)
-    .sort((a, b) => {
-      // 1. Cùng chuyên mục (category)
-      const aCatMatch = (a.category && a.category.toLowerCase() === currentCategory) ? 3 : 0;
-      const bCatMatch = (b.category && b.category.toLowerCase() === currentCategory) ? 3 : 0;
-      
-      // 2. Trùng keyword
-      const aKwMatch = currentKeywords.some((kw: string) => (a.title || '').toLowerCase().includes(kw)) ? 2 : 0;
-      const bKwMatch = currentKeywords.some((kw: string) => (b.title || '').toLowerCase().includes(kw)) ? 2 : 0;
+  const relatedArticles = article
+    ? [...HOANG_PHAP_ARTICLES]
+        .filter((a) => a.id !== article.id && a.slug !== article.slug)
+        .sort((a, b) => {
+          // 1. Cùng chuyên mục (category)
+          const aCatMatch = (a.category && a.category.toLowerCase() === currentCategory) ? 3 : 0;
+          const bCatMatch = (b.category && b.category.toLowerCase() === currentCategory) ? 3 : 0;
+          
+          // 2. Trùng keyword
+          const aKwMatch = currentKeywords.some((kw: string) => (a.title || '').toLowerCase().includes(kw)) ? 2 : 0;
+          const bKwMatch = currentKeywords.some((kw: string) => (b.title || '').toLowerCase().includes(kw)) ? 2 : 0;
 
-      // 3. Trùng từ khóa trong tiêu đề (vd: "Phật", "Thích Ca", "Niệm Phật", "Vu Lan")
-      const aWordMatch = currentTitleWords.some((w: string) => (a.title || '').toLowerCase().includes(w)) ? 1 : 0;
-      const bWordMatch = currentTitleWords.some((w: string) => (b.title || '').toLowerCase().includes(w)) ? 1 : 0;
+          // 3. Trùng từ khóa trong tiêu đề (vd: "Phật", "Thích Ca", "Niệm Phật", "Vu Lan")
+          const aWordMatch = currentTitleWords.some((w: string) => (a.title || '').toLowerCase().includes(w)) ? 1 : 0;
+          const bWordMatch = currentTitleWords.some((w: string) => (b.title || '').toLowerCase().includes(w)) ? 1 : 0;
 
-      return (bCatMatch + bKwMatch + bWordMatch) - (aCatMatch + aKwMatch + aWordMatch);
-    });
+          return (bCatMatch + bKwMatch + bWordMatch) - (aCatMatch + aKwMatch + aWordMatch);
+        })
+    : [];
 
   const relatedArticlesFormatted = relatedArticles.map((rel) => ({
     category: rel.subCategory || rel.category || 'DÒNG CHẢY HOẰNG PHÁP',
@@ -102,7 +111,7 @@ export default function DongChayHoangPhapDetailPage() {
     link: `/dong-chay-hoang-phap/${rel.slug}`,
   }));
 
-  const shortAnchorTitle = article.subtitle || article.subCategory || 'DÒNG CHẢY HOẰNG PHÁP';
+  const shortAnchorTitle = article?.subtitle || article?.subCategory || 'DÒNG CHẢY HOẰNG PHÁP';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -154,38 +163,61 @@ export default function DongChayHoangPhapDetailPage() {
         navItems={NAV_ITEMS}
       />
 
-      {/* ── 2. HERO BANNER BÊ NGUYÊN TỪ TÔNG CHỈ TU HỌC ── */}
+      {/* ── 2. HERO BANNER HOẶC THÔNG BÁO BÀI VIẾT ĐÃ GỠ BỎ ── */}
       <div className={`w-full transition-all duration-500 ${isScrolled ? 'pl-4 md:pl-24' : 'pl-4'} pr-4 md:pr-12`}>
-        {/* Breadcrumb & Nút Quay Lại Đầu Trang */}
-        <div className="max-w-5xl mx-auto pt-3 pb-2 flex flex-wrap items-center justify-between gap-3 text-xs md:text-sm">
-          <div className="flex items-center gap-2 text-[#FFE5A3]/80">
-            <Link href="/" className="hover:text-[#F2C14E] transition-colors flex items-center gap-1">
-              <span>Trang Chủ</span>
-            </Link>
-            <span className="text-[#F2C14E]/50">/</span>
-            <Link href="/dong-chay-hoang-phap" className="hover:text-[#F2C14E] transition-colors">
-              <span>Dòng Chảy Hoằng Pháp</span>
-            </Link>
-            <span className="text-[#F2C14E]/50">/</span>
-            <span className="text-[#F2C14E] font-medium truncate max-w-[180px] sm:max-w-xs md:max-w-md">{article.title}</span>
+        {isNotFound || !article ? (
+          <div className="max-w-3xl mx-auto py-24 px-4 text-center space-y-6">
+            <div className="w-20 h-20 mx-auto rounded-full bg-[#3A2718] border-2 border-[#F2C14E]/50 flex items-center justify-center text-[#F2C14E] shadow-[0_0_30px_rgba(242,193,78,0.2)]">
+              <BookOpen className="w-10 h-10" />
+            </div>
+            <h2 style={{ fontFamily: "'UTM Niagara', serif" }} className="text-4xl sm:text-5xl text-[#ffde59] tracking-wider uppercase font-normal">
+              BÀI VIẾT KHÔNG CÒN TỒN TẠI
+            </h2>
+            <p className="text-sm sm:text-base text-[#c9b896] max-w-md mx-auto leading-relaxed">
+              Bài viết quý vị đang tìm kiếm đã được gỡ bỏ khỏi hệ thống hoặc đường dẫn không chính xác. Kính mời quý vị hoan hỷ trở về trang Dòng Chảy Hoằng Pháp để theo dõi các bài giảng và tin tức mới nhất.
+            </p>
+            <div className="pt-4">
+              <Link
+                href="/dong-chay-hoang-phap"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl bg-[#F2C14E] hover:bg-[#ffde59] text-black font-bold text-sm shadow-[0_0_20px_rgba(242,193,78,0.3)] transition-all hover:scale-105"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>Quay lại Dòng Chảy Hoằng Pháp</span>
+              </Link>
+            </div>
           </div>
+        ) : (
+          <>
+            {/* Breadcrumb & Nút Quay Lại Đầu Trang */}
+            <div className="max-w-5xl mx-auto pt-3 pb-2 flex flex-wrap items-center justify-between gap-3 text-xs md:text-sm">
+              <div className="flex items-center gap-2 text-[#FFE5A3]/80">
+                <Link href="/" className="hover:text-[#F2C14E] transition-colors flex items-center gap-1">
+                  <span>Trang Chủ</span>
+                </Link>
+                <span className="text-[#F2C14E]/50">/</span>
+                <Link href="/dong-chay-hoang-phap" className="hover:text-[#F2C14E] transition-colors">
+                  <span>Dòng Chảy Hoằng Pháp</span>
+                </Link>
+                <span className="text-[#F2C14E]/50">/</span>
+                <span className="text-[#F2C14E] font-medium truncate max-w-[180px] sm:max-w-xs md:max-w-md">{article.title}</span>
+              </div>
 
-          <Link
-            href="/dong-chay-hoang-phap"
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#3A2718]/90 border border-[#F2C14E]/50 hover:border-[#F2C14E] text-[#FFE5A3] hover:text-[#FFDE59] text-xs font-semibold shadow-md transition-all hover:-translate-x-0.5"
-          >
-            <ArrowLeft className="w-4 h-4 text-[#F2C14E]" />
-            <span>Quay lại Dòng Chảy Hoằng Pháp</span>
-          </Link>
-        </div>
+              <Link
+                href="/dong-chay-hoang-phap"
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#3A2718]/90 border border-[#F2C14E]/50 hover:border-[#F2C14E] text-[#FFE5A3] hover:text-[#FFDE59] text-xs font-semibold shadow-md transition-all hover:-translate-x-0.5"
+              >
+                <ArrowLeft className="w-4 h-4 text-[#F2C14E]" />
+                <span>Quay lại Dòng Chảy Hoằng Pháp</span>
+              </Link>
+            </div>
 
-        <HeroBanner
-          id="overview"
-          bannerUrl={article.bannerUrl || article.thumbnailUrl}
-          bannerPosition={article.bannerPosition || article.thumbnailPosition || 'center 50%'}
-          title={article.title}
-          subtitle={article.subtitle || 'TÙNG LÂM HÒA PHÚC'}
-        />
+            <HeroBanner
+              id="overview"
+              bannerUrl={article.bannerUrl || article.thumbnailUrl}
+              bannerPosition={article.bannerPosition || article.thumbnailPosition || 'center 50%'}
+              title={article.title}
+              subtitle={article.subtitle || 'TÙNG LÂM HÒA PHÚC'}
+            />
 
         {/* ── 3. NỘI DUNG BÀI VIẾT & CÁC KHỐI CHUẨN 100% TỪ TÔNG CHỈ TU HỌC ── */}
         <main className="max-w-5xl mx-auto pt-4 pb-16 space-y-16 w-full">
@@ -388,9 +420,11 @@ export default function DongChayHoangPhapDetailPage() {
 
           {/* ── Smart Search AI Bar ── */}
           <div className="my-10">
-            <SmartSearchAIBar contextTitle={article.title} />
+            <SmartSearchAIBar contextTitle={article?.title} />
           </div>
         </main>
+        </>
+        )}
       </div>
 
       {/* Detail Modal for Keyword Click */}

@@ -373,6 +373,57 @@ export function SpreadsheetPosts() {
   // 🌟 S3 File Explorer Modal
   const [imageLibraryOpen, setImageLibraryOpen] = useState(false);
   const [targetImageCallback, setTargetImageCallback] = useState<((url: string, caption?: string) => void) | null>(null);
+  const [activeArticleForMedia, setActiveArticleForMedia] = useState<{
+    title: string;
+    images: Array<{ imageUrl: string; title?: string }>;
+  } | null>(null);
+
+  // Trích xuất toàn bộ ảnh có sẵn trong bài viết (photoGallery, markdown, HTML, thumbnail, banner)
+  const extractArticleImages = (post?: PostRecord | null): Array<{ imageUrl: string; title?: string }> => {
+    if (!post) return [];
+    const result: Array<{ imageUrl: string; title?: string }> = [];
+    const seenUrls = new Set<string>();
+
+    const addImg = (url?: string, title?: string) => {
+      if (!url || typeof url !== 'string') return;
+      const cleanUrl = url.trim();
+      if (!cleanUrl || cleanUrl.startsWith('data:') || seenUrls.has(cleanUrl)) return;
+      seenUrls.add(cleanUrl);
+      result.push({ imageUrl: cleanUrl, title: title || '' });
+    };
+
+    // 1. Ảnh trong photoGallery
+    if (Array.isArray(post.photoGallery)) {
+      post.photoGallery.forEach((p, idx) => {
+        addImg(p.imageUrl, p.title || p.noiDung || `Ảnh bộ sưu tập #${idx + 1}`);
+      });
+    }
+
+    // 2. Ảnh trong content markdown (![alt](url))
+    if (post.content) {
+      const mdRegex = /!\[(.*?)\]\((.*?)\)/g;
+      let match;
+      while ((match = mdRegex.exec(post.content)) !== null) {
+        addImg(match[2], match[1] || 'Ảnh trong bài');
+      }
+    }
+
+    // 3. Ảnh trong contentHtml (<img src="...">)
+    const htmlToScan = post.contentHtml || post.content || '';
+    if (htmlToScan) {
+      const htmlRegex = /<img[^>]+src=["']([^"']+)["'][^>]*>/gi;
+      let match;
+      while ((match = htmlRegex.exec(htmlToScan)) !== null) {
+        addImg(match[1], 'Ảnh trong bài viết');
+      }
+    }
+
+    // 4. Banner & Thumbnail
+    if (post.bannerUrl) addImg(post.bannerUrl, 'Banner hiện tại');
+    if (post.thumbnailUrl) addImg(post.thumbnailUrl, 'Ảnh bìa (Thumbnail) hiện tại');
+
+    return result;
+  };
 
   // 🌟 Big WYSIWYG Editor Modal State
   const [bigEditor, setBigEditor] = useState<{
@@ -493,8 +544,19 @@ export function SpreadsheetPosts() {
   }, []);
 
   // Open S3 Library Helper
-  const openS3Library = (callback: (url: string, caption?: string) => void) => {
+  const openS3Library = (
+    callback: (url: string, caption?: string) => void,
+    article?: PostRecord | null
+  ) => {
     setTargetImageCallback(() => callback);
+    if (article) {
+      setActiveArticleForMedia({
+        title: article.title,
+        images: extractArticleImages(article),
+      });
+    } else {
+      setActiveArticleForMedia(null);
+    }
     setImageLibraryOpen(true);
   };
 
@@ -1094,6 +1156,7 @@ export function SpreadsheetPosts() {
             type="button"
             onClick={() => {
               setTargetImageCallback(null);
+              setActiveArticleForMedia(null);
               setImageLibraryOpen(true);
             }}
             className="w-10 h-10 rounded-xl bg-[#2A1D14] hover:bg-[#3A2718] border border-[#F2C14E]/50 text-[#F2C14E] hover:text-[#ffde59] flex items-center justify-center transition-all cursor-pointer shadow-md hover:scale-105"
@@ -1269,17 +1332,16 @@ export function SpreadsheetPosts() {
                       <td className="p-2 w-[80px] min-w-[80px] border-r border-[#F2C14E]/15 align-middle text-center">
                         <div
                           onClick={() => {
-                            setTargetImageCallback(() => (newUrl: string) => {
+                            openS3Library((newUrl: string) => {
                               const updated = [...posts];
                               updated[actualIdx].thumbnailUrl = newUrl;
                               updated[actualIdx].bannerUrl = newUrl;
                               setPosts(updated);
                               setIsDirty(true);
-                            });
-                            setImageLibraryOpen(true);
+                            }, row);
                           }}
                           className="relative w-14 h-14 mx-auto rounded-xl overflow-hidden border border-[#52331C] hover:border-[#F2C14E] cursor-pointer group/thumb bg-black/60 shadow-sm transition-all"
-                          title="Bấm để chọn hoặc tải ảnh bìa mới từ S3"
+                          title="Bấm để chọn ảnh từ bài viết hoặc tải ảnh mới từ S3"
                         >
                           <img
                             src={row.thumbnailUrl || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp'}
@@ -1634,8 +1696,11 @@ export function SpreadsheetPosts() {
                     setPosts(updated);
                     setIsDirty(true);
                   }}
-                  folderPath="dong-chay-hoang-phap"
-                  onOpenS3Explorer={() => setImageLibraryOpen(true)}
+                  onOpenS3Explorer={() => {
+                    openS3Library((url, caption) => {
+                      insertImageToEditor(url, caption);
+                    }, posts[bigEditor.rowIndex]);
+                  }}
                   onAddAnnotationKeyword={(kw) => {
                     setAnnoKw({
                       keyword: kw,
@@ -1773,10 +1838,10 @@ export function SpreadsheetPosts() {
                                 const updated = [...posts];
                                 updated[mediaModal.rowIndex].bannerUrl = url;
                                 setPosts(updated);
-                              });
+                              }, posts[mediaModal.rowIndex]);
                             }}
                             className="w-8 h-8 rounded-xl bg-[#F2C14E] hover:bg-[#ffde59] text-black flex items-center justify-center shadow-md cursor-pointer hover:scale-105"
-                            title="Đổi ảnh từ S3"
+                            title="Đổi ảnh từ S3 / Thư viện"
                           >
                             <RefreshCw className="w-4 h-4" />
                           </button>
@@ -1790,7 +1855,7 @@ export function SpreadsheetPosts() {
                           const updated = [...posts];
                           updated[mediaModal.rowIndex].bannerUrl = url;
                           setPosts(updated);
-                        })
+                        }, posts[mediaModal.rowIndex])
                       }
                       onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); }}
                       onDrop={async (e) => {
@@ -1979,10 +2044,10 @@ export function SpreadsheetPosts() {
                               noiDung: 'Mô tả hình ảnh sự kiện...',
                             });
                             setPosts(updated);
-                          })
+                          }, posts[mediaModal.rowIndex])
                         }
                         className="w-8 h-8 rounded-xl bg-[#F2C14E] text-[#1A120B] flex items-center justify-center cursor-pointer hover:bg-[#ffde59] shadow-md hover:scale-105"
-                        title="Thêm ảnh mới từ S3"
+                        title="Thêm ảnh mới từ S3 / Thư viện"
                       >
                         <Plus className="w-4 h-4 stroke-[3]" />
                       </button>
@@ -2792,6 +2857,7 @@ export function SpreadsheetPosts() {
         onClose={() => {
           setImageLibraryOpen(false);
           setTargetImageCallback(null);
+          setActiveArticleForMedia(null);
         }}
         onSelectImage={(url, caption) => {
           if (targetImageCallback) {
@@ -2800,6 +2866,8 @@ export function SpreadsheetPosts() {
             insertImageToEditor(url, caption);
           }
         }}
+        articleImages={activeArticleForMedia?.images}
+        articleTitle={activeArticleForMedia?.title}
         initialPath="dong-chay-hoang-phap"
       />
     </div>

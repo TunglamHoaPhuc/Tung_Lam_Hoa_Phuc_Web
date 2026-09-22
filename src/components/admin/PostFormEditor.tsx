@@ -598,6 +598,12 @@ export function PostFormEditor({ initialData, isEditing = false }: PostFormEdito
         isOpen={s3ModalOpen}
         onClose={() => setS3ModalOpen(false)}
         onSelectImage={handleSelectS3Image}
+        articleImages={[
+          ...(formData.thumbnailUrl ? [{ imageUrl: formData.thumbnailUrl, title: 'Ảnh Thumbnail' }] : []),
+          ...(formData.bannerUrl ? [{ imageUrl: formData.bannerUrl, title: 'Ảnh Banner' }] : []),
+          ...((formData.photoGallery || []).map((p, idx) => ({ imageUrl: p.imageUrl, title: p.title || `Ảnh #${idx + 1}` })))
+        ]}
+        articleTitle={formData.title}
       />
 
       {/* ── IMAGE FOCAL POSITIONER MODAL ── */}
