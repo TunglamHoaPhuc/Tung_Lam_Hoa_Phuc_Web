@@ -860,8 +860,20 @@ export function SpreadsheetPosts() {
 
   // 🌟 MỞ TRỰC TIẾP TRÌNH SOẠN THẢO WORDPRESS GUTENBERG (1-CLICK)
   const handleOpenGutenberg = async (row: PostRecord, index: number) => {
+    const validWpId = row.wpPostId && !isNaN(Number(row.wpPostId)) && Number(row.wpPostId) > 0 ? Number(row.wpPostId) : null;
+
+    // 1. Nếu bài viết ĐÃ CÓ ID WordPress hợp lệ: Mở thẳng bài viết đó ngay lập tức (không trễ, không lỗi 403)
+    if (validWpId) {
+      const editUrl = `https://admin.tunglamhoaphuc.com/wp-admin/post.php?post=${validWpId}&action=edit`;
+      window.open(editUrl, '_blank', 'noopener,noreferrer');
+      hasOpenedGutenbergRef.current = true;
+      showToast(`✨ Đã mở bài viết #${validWpId} trong WordPress Gutenberg! Sau khi xuất bản, quay lại tab này sẽ tự động đồng bộ.`);
+      return;
+    }
+
+    // 2. Nếu là bài viết mới chưa có ID trên WordPress: Tạo mới và chuyển hướng
     setOpeningWpId(row.id);
-    showToast('⚡ Đang kết nối WordPress và nạp nội dung bài viết vào Gutenberg...');
+    showToast('⚡ Đang khởi tạo bài viết mới trên WordPress Gutenberg...');
 
     // Mở tab trống trước để chống popup blocker của trình duyệt
     const newTab = window.open('about:blank', '_blank');
@@ -883,7 +895,7 @@ export function SpreadsheetPosts() {
         }),
       });
       const data = await res.json();
-      if (data.success && data.editUrl) {
+      if (data.editUrl) {
         if (data.wpPostId && String(data.wpPostId) !== String(row.wpPostId)) {
           const updated = [...posts];
           updated[index].wpPostId = String(data.wpPostId);
@@ -896,14 +908,22 @@ export function SpreadsheetPosts() {
           window.open(data.editUrl, '_blank', 'noopener,noreferrer');
         }
         hasOpenedGutenbergRef.current = true;
-        showToast(`✨ Đã mở bài viết #${data.wpPostId} trong WordPress Gutenberg! Sau khi xuất bản, quay lại tab này sẽ tự động đồng bộ.`);
+        showToast(
+          data.success
+            ? `✨ Đã mở bài viết #${data.wpPostId} trong WordPress Gutenberg!`
+            : `⚠️ Đang mở trang soạn thảo WordPress Gutenberg...`
+        );
       } else {
-        if (newTab) newTab.close();
-        showToast(`❌ Không thể mở bài viết: ${data.error || 'Vui lòng thử lại!'}`);
+        if (newTab) {
+          newTab.location.href = 'https://admin.tunglamhoaphuc.com/wp-admin/post-new.php';
+        }
+        showToast(`⚠️ Đang mở trang soạn thảo mới trên WordPress Gutenberg...`);
       }
     } catch (err: any) {
-      if (newTab) newTab.close();
-      showToast(`❌ Lỗi kết nối WordPress: ${err.message}`);
+      if (newTab) {
+        newTab.location.href = 'https://admin.tunglamhoaphuc.com/wp-admin/post-new.php';
+      }
+      showToast(`⚠️ Mở trang tạo bài mới WordPress Gutenberg...`);
     } finally {
       setOpeningWpId(null);
     }

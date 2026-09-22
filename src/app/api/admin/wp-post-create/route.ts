@@ -2,8 +2,9 @@ import { NextResponse } from 'next/server';
 import { createOrUpdateWpPost } from '@/lib/wp-admin-client';
 
 export async function POST(request: Request) {
+  let body: any = {};
   try {
-    const body = await request.json().catch(() => ({}));
+    body = await request.json().catch(() => ({}));
     const {
       id = null,
       title = 'Bài viết mới',
@@ -46,13 +47,19 @@ export async function POST(request: Request) {
     });
   } catch (error: any) {
     console.error('Error in wp-post-create:', error);
+    const validId = body?.id && !isNaN(Number(body.id)) && Number(body.id) > 0 ? Number(body.id) : null;
+    const fallbackUrl = validId
+      ? `https://admin.tunglamhoaphuc.com/wp-admin/post.php?post=${validId}&action=edit`
+      : 'https://admin.tunglamhoaphuc.com/wp-admin/post-new.php';
+
     return NextResponse.json(
       {
         success: false,
         error: error.message || 'Lỗi khi đồng bộ bài viết sang WordPress',
-        editUrl: 'https://admin.tunglamhoaphuc.com/wp-admin/post-new.php',
+        editUrl: fallbackUrl,
+        wpPostId: validId,
       },
-      { status: 500 }
+      { status: 200 }
     );
   }
 }

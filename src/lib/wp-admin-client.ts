@@ -3,9 +3,10 @@
  * Tùng Lâm Hòa Phúc - Hệ Thống Quản Trị Tự Động Đồng Bộ Bài Viết
  */
 
-const WP_BASE_URL = process.env.WP_ADMIN_BASE_URL || 'https://admin.tunglamhoaphuc.com';
-const WP_USERNAME = process.env.WP_ADMIN_USERNAME || 'admin_tunglam';
-const WP_PASSWORD = process.env.WP_ADMIN_PASSWORD || 'suXWb3nIwNH@B1zshdC#kDrL';
+const rawWpBase = (process.env.WP_ADMIN_BASE_URL || 'https://admin.tunglamhoaphuc.com').replace(/["']/g, '').trim().replace(/\/+$/, '');
+export const WP_BASE_URL = rawWpBase.includes('mocwp.com') ? 'https://admin.tunglamhoaphuc.com' : (rawWpBase || 'https://admin.tunglamhoaphuc.com');
+export const WP_USERNAME = (process.env.WP_ADMIN_USERNAME || 'admin_tunglam').replace(/["']/g, '').trim();
+export const WP_PASSWORD = (process.env.WP_ADMIN_PASSWORD || 'suXWb3nIwNH@B1zshdC#kDrL').replace(/["']/g, '').trim();
 
 const COMMON_HEADERS = {
   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
@@ -19,7 +20,7 @@ interface WpSession {
 }
 
 let sessionCache: WpSession | null = null;
-const SESSION_TTL = 20 * 60 * 1000; // 20 minutes
+const SESSION_TTL = 10 * 60 * 1000; // 10 minutes
 
 /**
  * Xóa cache phiên để buộc đăng nhập lại khi nonce hết hạn hoặc bị 403
@@ -56,14 +57,17 @@ export async function getWpSession(forceRefresh: boolean = false): Promise<{ coo
     redirect: 'manual',
   });
 
-  const rawCookies =
-    typeof (loginRes.headers as any).getSetCookie === 'function'
-      ? (loginRes.headers as any).getSetCookie()
-      : [loginRes.headers.get('set-cookie') || ''];
+  let rawCookies: string[] = [];
+  if (typeof (loginRes.headers as any).getSetCookie === 'function') {
+    rawCookies = (loginRes.headers as any).getSetCookie();
+  } else {
+    const raw = loginRes.headers.get('set-cookie') || '';
+    rawCookies = raw.split(/,\s*(?=[a-zA-Z0-9_\-]+=[^;]+)/);
+  }
 
   const cookieHeader = rawCookies
     .filter(Boolean)
-    .map((c: string) => c.split(';')[0])
+    .map((c: string) => c.split(';')[0].trim())
     .join('; ');
 
   if (!cookieHeader.includes('wordpress_logged_in_')) {
