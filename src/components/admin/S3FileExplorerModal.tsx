@@ -353,19 +353,22 @@ export function S3FileExplorerModal({
     }
   }, []);
 
-  // Khi mở modal, tự động đồng bộ path chuẩn và mở rộng thư mục tương ứng
+  // Khi mở modal: đồng bộ path + expand folder + load 1 lần duy nhất
   useEffect(() => {
-    if (isOpen) {
-      const norm = normalizePath(initialPath || currentPath);
-      setCurrentPath(norm);
-      const rootCat = norm.split('/')[0];
-      if (rootCat) {
-        setExpandedFolders((prev) => ({ ...prev, [rootCat]: true }));
-      }
-      loadDirectory(norm);
+    if (!isOpen) return;
+    const norm = normalizePath(initialPath || currentPath);
+    const rootCat = norm.split('/')[0];
+    if (rootCat) setExpandedFolders((prev) => ({ ...prev, [rootCat]: true }));
+    // Chỉ set path nếu khác với currentPath để tránh trigger effect lần 2
+    if (norm !== currentPath) {
+      setCurrentPath(norm); // sẽ trigger useEffect currentPath bên dưới
+    } else {
+      loadDirectory(norm); // path không đổi → load trực tiếp
     }
-  }, [isOpen, initialPath, loadDirectory]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen, initialPath]);
 
+  // Khi navigate trong modal (currentPath thay đổi)
   useEffect(() => {
     if (isOpen && currentPath) {
       loadDirectory(currentPath);

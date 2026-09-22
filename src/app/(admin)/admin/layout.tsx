@@ -92,12 +92,20 @@ export default function AdminLayout({
   return (
     <div
       style={{ fontFamily: "'UTM Avo', sans-serif" }}
-      className="min-h-screen bg-[#140D07] text-[#e3d2c1] flex flex-col md:flex-row selection:bg-[#F2C14E] selection:text-black overflow-x-hidden"
+      className="min-h-screen bg-[#140D07] text-[#e3d2c1] selection:bg-[#F2C14E] selection:text-black"
     >
-      {/* Sidebar (Có thể thu gọn mở rộng mượt mà, chế độ tối giản gọn gàng w-16) */}
+      {/* Backdrop: hiện khi sidebar mở rộng, click để thu lại */}
+      {!isCollapsed && (
+        <div
+          className="fixed inset-0 z-40 bg-black/30 backdrop-blur-[1px] md:hidden"
+          onClick={() => setIsCollapsed(true)}
+        />
+      )}
+
+      {/* Sidebar – Fixed overlay: không đẩy thu hẹp main content khi mở/đóng */}
       <aside
-        className={`bg-[#1C120A] border-r border-[#F2C14E]/25 flex flex-col shrink-0 transition-all duration-300 relative z-40 ${
-          isCollapsed ? 'w-full md:w-16' : 'w-full md:w-64'
+        className={`fixed top-0 left-0 h-full bg-[#1C120A] border-r border-[#F2C14E]/25 flex flex-col transition-all duration-300 z-50 ${
+          isCollapsed ? 'w-16' : 'w-64'
         }`}
       >
         {/* Brand Header */}
@@ -215,8 +223,8 @@ export default function AdminLayout({
         )}
       </aside>
 
-      {/* Main Content Area */}
-      <main className="flex-1 flex flex-col min-w-0 overflow-y-auto">
+      {/* Main Content Area – ml-16 để nhường chỗ cho sidebar collapsed (64px), không bao giờ bị thu hẹp khi sidebar mở vì sidebar là overlay */}
+      <main className="ml-16 flex flex-col min-h-screen overflow-x-hidden">
         {/* Top Header Bar */}
         <header className="h-16 border-b border-[#F2C14E]/20 bg-[#1C120A]/95 backdrop-blur-md px-4 sm:px-6 flex items-center justify-between sticky top-0 z-30 shadow-sm">
           <div className="flex items-center gap-3 text-xs text-[#c9b896]">
