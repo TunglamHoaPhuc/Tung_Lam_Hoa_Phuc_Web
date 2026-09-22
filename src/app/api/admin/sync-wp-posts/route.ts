@@ -82,6 +82,74 @@ function cleanWpHtml(rawHtml = '') {
   return html.replace(/\n{3,}/g, '\n\n').trim();
 }
 
+/** 🪷 Tự động tách tiêu đề dài thành title ngắn + subtitle có nghĩa */
+function splitTitle(title: string, currentSubtitle: string): { title: string; subtitle: string } {
+  if (!title) return { title, subtitle: currentSubtitle };
+  const trimmed = title.trim();
+  const isDefaultSub = !currentSubtitle || currentSubtitle === 'Tùng Lâm Hòa Phúc' || currentSubtitle.trim() === '';
+
+  // Nếu tiêu đề đã ngắn và subtitle đã có nội dung thực → giữ nguyên
+  if (trimmed.length <= 55 && !isDefaultSub) return { title: trimmed, subtitle: currentSubtitle };
+
+  // 0. Series "Ngày X – ..." → chỉ tách ngày DD/MM/YYYY cuối
+  if (/^Ngày \d+\s+[–—-]/i.test(trimmed)) {
+    const dayEnd = trimmed.match(/^(.+?)\s+[–—-]\s+(ngày \d{2}\/\d{2}\/\d{4})\s*$/i);
+    if (dayEnd) return { title: dayEnd[1].trim(), subtitle: isDefaultSub ? dayEnd[2] : currentSubtitle };
+    if (trimmed.length <= 70) return { title: trimmed, subtitle: currentSubtitle };
+  }
+
+  // 1. Dấu "?" — câu hỏi là tiêu đề, phần sau là phụ đề
+  const qIdx = trimmed.indexOf('?');
+  if (qIdx > 0 && qIdx < trimmed.length - 1) {
+    const main = trimmed.slice(0, qIdx + 1).replace(/,\s*$/, '').trim();
+    const sub = trimmed.slice(qIdx + 1).replace(/^[^a-zA-ZÀ-ỹ0-9]+/, '').trim();
+    if (main.length >= 10 && sub.length >= 5) return { title: main, subtitle: isDefaultSub ? sub : currentSubtitle };
+  }
+
+  // 2. Câu hỏi dạng "A, tại sao B?"
+  const cq = trimmed.match(/^(.{15,50}?),\s+(tại sao|vì sao|như thế nào|ai là)(.+)/i);
+  if (cq) {
+    const main = cq[1].trim();
+    const sub = (cq[2] + cq[3]).trim();
+    if (isDefaultSub) return { title: main, subtitle: sub.charAt(0).toUpperCase() + sub.slice(1) };
+    return { title: main, subtitle: currentSubtitle };
+  }
+
+  // 3. Dấu " – " / " — " — tách ở lần đầu tiên
+  const dashIdx = trimmed.search(/ [–—] /);
+  if (dashIdx > 0) {
+    const part1 = trimmed.slice(0, dashIdx).trim();
+    const part2 = trimmed.slice(dashIdx).replace(/^\s*[–—]\s*/, '').trim();
+    if (part1.length >= 10 && part1.length <= 55 && part2.length >= 3) {
+      return { title: part1, subtitle: isDefaultSub ? part2 : currentSubtitle };
+    }
+  }
+
+  // 4. Ngoặc đơn cuối (ngày/năm/PL/lịch âm)
+  const paren = trimmed.match(/^(.+?)\s+\(([^)]{5,60})\)\s*$/);
+  if (paren && paren[1].length >= 10 && paren[1].length <= 65) {
+    return { title: paren[1].trim(), subtitle: isDefaultSub ? paren[2].trim() : currentSubtitle };
+  }
+
+  // 5. Cắt thông minh tại khoảng trắng ≈45 ký tự (không kết thúc bằng dấu câu lẻ)
+  if (trimmed.length > 60 && isDefaultSub) {
+    let cut = -1;
+    for (let i = 50; i >= 28; i--) {
+      if (trimmed[i] === ' ') {
+        const prev = trimmed[i - 1];
+        if (prev !== '–' && prev !== '—' && prev !== '-' && prev !== ',') { cut = i; break; }
+      }
+    }
+    if (cut > 15) {
+      const main = trimmed.slice(0, cut).trim().replace(/[,–—-]+$/, '').trim();
+      const sub = trimmed.slice(cut).trim().replace(/^[–—,-]\s*/, '').trim();
+      if (sub.length >= 5) return { title: main, subtitle: sub };
+    }
+  }
+
+  return { title: trimmed, subtitle: currentSubtitle };
+}
+
 export async function POST() {
   try {
     const s3Config = getS3Config();
@@ -224,13 +292,17 @@ export async function POST() {
 
       const parsed = parseGutenbergPostContent(wp.content?.rendered || '', wpTitle);
 
+      // 🪷 Tự động tách tiêu đề dài → tiêu đề chính ngắn gọn + tiêu đề phụ có nghĩa
+      const existingSubtitle = (existing as any)?.subtitle || 'Tùng Lâm Hòa Phúc';
+      const { title: cleanTitle, subtitle: cleanSubtitle } = splitTitle(wpTitle, existingSubtitle);
+
       postMap.set(lookupKey, {
         ...(existing || {}),
         id: existingId || `post-${wpId}`,
         wpPostId: wpId,
         slug: wpSlug,
-        title: wpTitle,
-        subtitle: existing?.subtitle || 'Tùng Lâm Hòa Phúc',
+        title: cleanTitle,
+        subtitle: cleanSubtitle,
         mainCategory: categoryMapping.mainCategory,
         subCategory: categoryMapping.subCategory,
         categoryName: categoryMapping.categoryName,

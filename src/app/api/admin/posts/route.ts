@@ -253,10 +253,18 @@ export async function GET(req: NextRequest) {
     return (wpB || 0) - (wpA || 0);
   });
 
+  // 🚀 Tối ưu kích thước response: loại bỏ trường nặng khỏi danh sách
+  // photoGallery + content + contentHtml chiếm ~8MB → giảm xuống ~500KB
+  // Chỉ trả về đầy đủ khi client yêu cầu ?full=true
+  const wantFull = searchParams.get('full') === 'true';
+  const lightPosts = wantFull
+    ? posts
+    : posts.map(({ photoGallery: _pg, content: _c, contentHtml: _ch, keywords: _kw, ...rest }) => rest);
+
   return NextResponse.json({
     success: true,
-    total: posts.length,
-    posts,
+    total: lightPosts.length,
+    posts: lightPosts,
   });
 }
 
@@ -282,6 +290,16 @@ export async function PUT(req: NextRequest) {
       }
       if (orig && !p.wpPostId && orig.wpPostId) {
         p.wpPostId = orig.wpPostId;
+      }
+      // 🛡️ Giữ nguyên trường nặng từ server nếu client không gửi (để tránh mất dữ liệu do optimize payload)
+      if (orig && (!p.photoGallery || p.photoGallery.length === 0) && orig.photoGallery && orig.photoGallery.length > 0) {
+        p.photoGallery = orig.photoGallery;
+      }
+      if (orig && (!p.contentHtml || p.contentHtml.trim() === '') && orig.contentHtml && orig.contentHtml.trim() !== '') {
+        p.contentHtml = orig.contentHtml;
+      }
+      if (orig && (!p.keywords || p.keywords.length === 0) && orig.keywords && orig.keywords.length > 0) {
+        p.keywords = orig.keywords;
       }
       // Tự động xuất bản 100% bài viết khi cập nhật
       p.status = 'published';

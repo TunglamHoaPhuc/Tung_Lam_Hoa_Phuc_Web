@@ -789,7 +789,10 @@ export function SpreadsheetPosts() {
     if (saving) return;
     setSaving(true);
 
-    const normalized = postsToSave.map((p) => ({
+    // 🚀 Tối ưu: Loại bỏ trường nặng trước khi gửi lên server.
+    // photoGallery + contentHtml chiếm ~8MB → gây lỗi "Request Entity Too Large".
+    // Server đã lưu sẵn các trường này và sẽ giữ nguyên khi merge (xem PUT handler).
+    const normalized = postsToSave.map(({ photoGallery: _pg, contentHtml: _ch, ...p }) => ({
       ...p,
       status: 'published' as const,
     }));
@@ -802,7 +805,7 @@ export function SpreadsheetPosts() {
       });
       const data = await res.json();
       if (data.success) {
-        setPosts(normalized);
+        setPosts(postsToSave); // Giữ nguyên state đầy đủ ở client (bao gồm photoGallery)
         setIsDirty(false);
         const timeStr = new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
         setLastSavedTime(timeStr);
@@ -964,17 +967,27 @@ export function SpreadsheetPosts() {
     showToast('✨ Đã thêm bài viết mới vào Dòng Chảy Hoằng Pháp!');
   };
 
-  // Xóa bài viết
-  const handleDeletePost = (index: number) => {
+  // Xóa bài viết - gọi DELETE /api/admin/posts/[id] thay vì PUT toàn bộ để tránh lỗi payload quá lớn
+  const handleDeletePost = async (index: number) => {
     const target = posts[index];
     if (!target) return;
-    if (!window.confirm(`Bạn có chắc chắn muốn xóa bài viết:\n"${target.title}"?`)) return;
+    if (!window.confirm(`Bạn có chắc chắn muốn xóa bài viết:\n"${target.title}"?\n\nHành động này không thể hoàn tác!`)) return;
 
-    const updated = posts.filter((_, i) => i !== index);
-    setPosts(updated);
-    setIsDirty(true);
-    savePostsToBackend(updated, false);
-    showToast(`🗑️ Đã xóa bài viết "${target.title}"`);
+    showToast(`⏳ Đang xóa "${target.title}"...`);
+    try {
+      const res = await fetch(`/api/admin/posts/${encodeURIComponent(target.id)}`, {
+        method: 'DELETE',
+      });
+      const data = await res.json();
+      if (data.success) {
+        setPosts((prev) => prev.filter((_, i) => i !== index));
+        showToast(`🗑️ Đã xóa bài viết "${target.title}" thành công!`);
+      } else {
+        showToast(`❌ Lỗi xóa bài viết: ${data.error || 'Không xác định'}`);
+      }
+    } catch (err: any) {
+      showToast(`❌ Không thể kết nối máy chủ: ${err.message}`);
+    }
   };
 
   // Filtered Posts: Chỉ quản lý DÒNG CHẢY HOẰNG PHÁP
