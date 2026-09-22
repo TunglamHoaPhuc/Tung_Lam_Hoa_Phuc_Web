@@ -73,9 +73,23 @@ export function loadServerlessJson<T>(opts: ServerlessDbOptions<T>): T {
     return memoryCache[fileName].data as T;
   }
 
-  // 2. Kiểm tra thư mục /tmp (Vercel Lambda writable space)
+  const localPath = path.resolve(process.cwd(), localRelativePath);
   const tmpPath = path.join('/tmp', fileName);
-  if (fs.existsSync(tmpPath)) {
+
+  // Nếu file cục bộ mới hơn file /tmp (ví dụ vừa deploy bản build mới), ưu tiên file cục bộ
+  let useTmp = fs.existsSync(tmpPath);
+  if (useTmp && fs.existsSync(localPath)) {
+    try {
+      if (fs.statSync(localPath).mtimeMs > fs.statSync(tmpPath).mtimeMs) {
+        useTmp = false;
+      }
+    } catch {
+      // ignore
+    }
+  }
+
+  // 2. Kiểm tra thư mục /tmp (Vercel Lambda writable space)
+  if (useTmp) {
     try {
       const raw = fs.readFileSync(tmpPath, 'utf8');
       const parsed = JSON.parse(raw);
@@ -87,7 +101,6 @@ export function loadServerlessJson<T>(opts: ServerlessDbOptions<T>): T {
   }
 
   // 3. Kiểm tra file cục bộ dự án
-  const localPath = path.resolve(process.cwd(), localRelativePath);
   if (fs.existsSync(localPath)) {
     try {
       const raw = fs.readFileSync(localPath, 'utf8');
