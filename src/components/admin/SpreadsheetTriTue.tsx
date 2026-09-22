@@ -256,12 +256,11 @@ export function SpreadsheetTriTue() {
   };
 
   // Xóa bài viết
-  const handleDeletePost = (index: number) => {
-    const target = posts[index];
+  const handleDeletePost = (target: PostRecord) => {
     if (!target) return;
     if (!window.confirm(`Bạn có chắc chắn muốn xóa bài viết:\n"${target.title}"?`)) return;
 
-    const updated = posts.filter((_, i) => i !== index);
+    const updated = posts.filter((p) => p.id !== target.id);
     setPosts(updated);
     setIsDirty(true);
     savePostsToBackend(updated, false);
@@ -679,7 +678,14 @@ export function SpreadsheetTriTue() {
                           {/* Nút Xóa */}
                           <button
                             type="button"
-                            onClick={() => handleDeletePost(actualIdx)}
+                            onMouseDown={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                            }}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeletePost(row);
+                            }}
                             className="p-2 rounded-xl bg-red-950/40 hover:bg-red-800 border border-red-500/40 text-red-300 hover:text-white transition-all cursor-pointer shadow-sm hover:scale-105"
                             title="Xóa bài viết này"
                           >

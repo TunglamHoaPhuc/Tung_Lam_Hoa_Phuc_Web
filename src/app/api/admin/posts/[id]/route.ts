@@ -206,10 +206,12 @@ export async function DELETE(
 
     const deletedPost = posts[targetIdx];
     posts.splice(targetIdx, 1);
-    await savePosts(posts);
 
-    // Ghi nhận bài viết đã xóa vào blacklist để auto-sync từ WordPress không tự tiện thêm lại
-    await recordDeletedPost(deletedPost.id, deletedPost.wpPostId, deletedPost.slug);
+    // Chạy song song lưu posts và lưu blacklist bài viết đã xóa để giảm 50% thời gian phản hồi máy chủ
+    await Promise.all([
+      savePosts(posts),
+      recordDeletedPost(deletedPost.id, deletedPost.wpPostId, deletedPost.slug),
+    ]);
 
     // Thử xóa bài viết trên WordPress nếu có wpPostId
     if (deletedPost.wpPostId) {

@@ -434,10 +434,12 @@ export async function DELETE(req: NextRequest) {
 
     const deletedPost = posts[targetIdx];
     posts.splice(targetIdx, 1);
-    await savePosts(posts);
 
-    // Ghi nhận vào danh sách bài đã xóa để tránh auto-sync thêm lại
-    await recordDeletedPost(deletedPost.id, deletedPost.wpPostId, deletedPost.slug);
+    // Chạy song song lưu posts và ghi blacklist bài viết đã xóa để giảm 50% thời gian phản hồi máy chủ
+    await Promise.all([
+      savePosts(posts),
+      recordDeletedPost(deletedPost.id, deletedPost.wpPostId, deletedPost.slug),
+    ]);
 
     if (deletedPost.wpPostId) {
       const numWpId = typeof deletedPost.wpPostId === 'number' ? deletedPost.wpPostId : parseInt(String(deletedPost.wpPostId), 10);

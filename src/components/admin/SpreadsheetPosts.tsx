@@ -966,34 +966,37 @@ export function SpreadsheetPosts() {
     showToast('✨ Đã thêm bài viết mới vào Dòng Chảy Hoằng Pháp!');
   };
 
-  // Xóa bài viết - gọi DELETE /api/admin/posts/[id] và đồng bộ S3 vĩnh viễn
-  const handleDeletePost = async (actualIdx: number) => {
-    const target = posts[actualIdx];
+  // Xóa bài viết - Tức thời 0ms (Optimistic UI) + Đồng bộ ngầm máy chủ & S3 vĩnh viễn
+  const handleDeletePost = async (target: PostRecord) => {
     if (!target) return;
-    if (!window.confirm(`Bạn có chắc chắn muốn xóa bài viết:\n"${target.title}"?\n\nHành động này không thể hoàn tác!`)) return;
+    if (!window.confirm(`Bạn có chắc chắn muốn xóa bài viết:\n"${target.title}"?\n\nHành động này sẽ xóa vĩnh viễn khỏi hệ thống!`)) return;
 
-    showToast(`⏳ Đang xóa "${target.title}"...`);
+    // ⚡ OPTIMISTIC UI: Xóa tức thì khỏi bảng tính trong 0ms ngay lần bấm đầu tiên
+    setPosts((prev) => prev.filter((p) => p.id !== target.id));
+    showToast(`🗑️ Đã xóa bài viết "${target.title}" thành công!`);
+
     try {
       let res = await fetch(`/api/admin/posts/${encodeURIComponent(target.id)}`, {
         method: 'DELETE',
       });
-      let data = await res.json();
-      if (!data.success) {
+      let data = await res.json().catch(() => ({}));
+      if (!data.success && res.status !== 404) {
         // Thử fallback sang query param nếu router dynamic param gặp sự cố
         res = await fetch(`/api/admin/posts?id=${encodeURIComponent(target.id)}`, {
           method: 'DELETE',
         });
-        data = await res.json();
+        data = await res.json().catch(() => ({}));
       }
 
-      if (data.success) {
-        setPosts((prev) => prev.filter((p) => p.id !== target.id));
-        showToast(`🗑️ Đã xóa bài viết "${target.title}" thành công!`);
-      } else {
-        showToast(`❌ Lỗi xóa bài viết: ${data.error || 'Không xác định'}`);
+      // Nếu máy chủ báo lỗi thực sự (và không phải 404 do đã xóa xong), khôi phục lại bài viết
+      if (!res.ok && res.status !== 404) {
+        setPosts((prev) => [target, ...prev]);
+        showToast(`❌ Không thể xóa trên máy chủ: ${data.error || 'Lỗi xử lý'}. Đã khôi phục.`);
       }
     } catch (err: any) {
-      showToast(`❌ Không thể kết nối máy chủ: ${err.message}`);
+      console.warn('Lỗi mạng khi xóa bài viết:', err);
+      setPosts((prev) => [target, ...prev]);
+      showToast(`❌ Không thể kết nối máy chủ: ${err.message}. Đã khôi phục.`);
     }
   };
 
@@ -1510,7 +1513,15 @@ export function SpreadsheetPosts() {
                           {/* Nút Xóa */}
                           <button
                             type="button"
-                            onClick={() => handleDeletePost(actualIdx)}
+                            onMouseDown={(e) => {
+                              // Ngăn ngừa blur input/cell làm re-render hủy mất sự kiện click lần đầu
+                              e.preventDefault();
+                              e.stopPropagation();
+                            }}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeletePost(row);
+                            }}
                             className="p-2 rounded-xl bg-red-950/40 hover:bg-red-800 border border-red-500/40 text-red-300 hover:text-white transition-all cursor-pointer shadow-sm hover:scale-105"
                             title="Xóa bài viết này vĩnh viễn"
                           >
