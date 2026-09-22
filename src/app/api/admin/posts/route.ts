@@ -111,13 +111,118 @@ async function savePosts(posts: PostRecord[]) {
   await saveServerlessJson<PostRecord[]>(DB_CONFIG, posts);
 }
 
+import { parseGutenbergPostContent } from '@/lib/wp-post-parser';
+
+function mapCategories(catIds: number[] = []) {
+  if (catIds.includes(2)) return { mainCategory: 'dong-chay-hoang-phap', subCategory: 'khoa-le-truyen-thong', categoryName: 'Khóa Lễ Truyền Thống' };
+  if (catIds.includes(5)) return { mainCategory: 'tri-tue-phat-phap', subCategory: 'bai-viet', categoryName: 'Bài Viết' };
+  if (catIds.includes(1)) return { mainCategory: 'tong-chi-tu-hoc', subCategory: 'cong-tu', categoryName: 'Tông Chỉ Tu Học' };
+  if (catIds.includes(3)) return { mainCategory: 'vu-tru-phat-giao', subCategory: 'cong-tu', categoryName: 'Vũ Trụ Phật Giáo' };
+  if (catIds.includes(266)) return { mainCategory: 'dong-chay-hoang-phap', subCategory: 'cong-tu', categoryName: 'Cộng Tu Định Kỳ' };
+  if (catIds.includes(237)) return { mainCategory: 'dong-chay-hoang-phap', subCategory: 'khoa-le-truyen-thong', categoryName: 'Khóa Lễ Truyền Thống' };
+  if (catIds.includes(265) || catIds.includes(230)) return { mainCategory: 'dong-chay-hoang-phap', subCategory: 'dai-le-su-kien', categoryName: 'Đại Lễ Sự Kiện' };
+  if (catIds.includes(239)) return { mainCategory: 'dong-chay-hoang-phap', subCategory: 'tinh-do-nhan-gian', categoryName: 'Tịnh Độ Nhân Gian' };
+  return { mainCategory: 'dong-chay-hoang-phap', subCategory: 'cong-tu', categoryName: 'Cộng Tu Định Kỳ' };
+}
+
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const category = searchParams.get('category');
   const search = searchParams.get('search');
   const status = searchParams.get('status');
 
-  let posts = getPosts();
+  let allPosts = getPosts();
+
+  // 🪷 TỰ ĐỘNG ĐỒNG BỘ LIÊN TỤC TỪ WORDPRESS ADMIN:
+  // Mỗi khi truy cập, tự động kiểm tra 10 bài mới nhất trên WordPress
+  // Nếu có bài mới hoặc bài chưa có photoGallery -> tự động bóc tách và lưu ngay lập tức
+  let hasChanges = false;
+  try {
+    const wpRes = await fetch('https://admin.tunglamhoaphuc.com/wp-json/wp/v2/posts?per_page=10&_embed=true', {
+      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' },
+      next: { revalidate: 30 },
+    });
+
+    if (wpRes.ok) {
+      const wpPosts = await wpRes.json();
+      if (Array.isArray(wpPosts)) {
+        for (const wp of wpPosts) {
+          const wpId = wp.id;
+          const wpSlug = wp.slug || `bai-viet-${wpId}`;
+          const existingIdx = allPosts.findIndex(
+            (p) => p.wpPostId === wpId || p.id === `post-${wpId}` || p.slug === wpSlug
+          );
+
+          const existing = existingIdx !== -1 ? allPosts[existingIdx] : null;
+          // Cần cập nhật nếu chưa có bài HOẶC bài chưa có photoGallery
+          const needsUpdate = !existing || !existing.photoGallery || existing.photoGallery.length === 0;
+
+          if (needsUpdate) {
+            const parsed = parseGutenbergPostContent(wp.content?.rendered || '', wp.title?.rendered || '');
+            const mappedCat = mapCategories(wp.categories || []);
+            const featuredUrl =
+              wp._embedded?.['wp:featuredmedia']?.[0]?.source_url ||
+              parsed.featuredImageUrl ||
+              existing?.thumbnailUrl ||
+              'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp';
+
+            const cleanTitle = (wp.title?.rendered || existing?.title || '')
+              .replace(/&#8211;/g, '–')
+              .replace(/&#8217;/g, '’')
+              .replace(/&amp;/g, '&')
+              .trim();
+
+            const mergedPost: PostRecord = {
+              id: existing?.id || `post-${wpId}`,
+              wpPostId: wpId,
+              slug: wpSlug,
+              title: cleanTitle,
+              subtitle: existing?.subtitle || 'Tùng Lâm Hòa Phúc',
+              mainCategory: existing?.mainCategory || mappedCat.mainCategory,
+              subCategory: existing?.subCategory || mappedCat.subCategory,
+              categoryName: existing?.categoryName || mappedCat.categoryName,
+              author: existing?.author || 'Ban Văn Hóa Tùng Lâm',
+              publishedDate: wp.date ? wp.date.split('T')[0] : (existing?.publishedDate || new Date().toISOString().split('T')[0]),
+              status: 'published',
+              viewsCount: existing?.viewsCount || 108,
+              thumbnailUrl: existing?.thumbnailUrl || featuredUrl,
+              bannerUrl: existing?.bannerUrl || featuredUrl,
+              thumbnailPosition: existing?.thumbnailPosition || 'center 50%',
+              bannerPosition: existing?.bannerPosition || 'center 50%',
+              summary:
+                (wp.excerpt?.rendered || '').replace(/<[^>]+>/g, '').replace(/&#8211;/g, '–').replace(/&amp;/g, '&').trim() ||
+                existing?.summary ||
+                'Tóm tắt bài viết...',
+              content: parsed.cleanedContent || existing?.content || '',
+              contentHtml: wp.content?.rendered || existing?.contentHtml || '',
+              keywords: existing?.keywords || [],
+              sourceBook: existing?.sourceBook,
+              videoBlock: existing?.videoBlock,
+              featuredArticle: existing?.featuredArticle,
+              photoGallery: parsed.photoGallery.length > 0 ? parsed.photoGallery : (existing?.photoGallery || []),
+              previousEditions: existing?.previousEditions || [],
+              upcomingEvents: existing?.upcomingEvents || [],
+            };
+
+            if (existingIdx !== -1) {
+              allPosts[existingIdx] = mergedPost;
+            } else {
+              allPosts.unshift(mergedPost);
+            }
+            hasChanges = true;
+          }
+        }
+      }
+    }
+  } catch (wpErr) {
+    console.warn('Auto-sync WP on GET /api/admin/posts skipped:', wpErr);
+  }
+
+  if (hasChanges) {
+    await savePosts(allPosts);
+  }
+
+  let posts = allPosts;
 
   if (category && category !== 'all') {
     posts = posts.filter(

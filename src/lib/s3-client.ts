@@ -7,12 +7,12 @@ import sharp from 'sharp';
 export const S3_ROOT_PREFIX = 'tunglamhoaphuc2';
 
 function getEnvConfig() {
-  let secretKey = process.env.S3_SECRET_ACCESS_KEY || 'K005/I+vUZ8TcuI2ww8TLeRPtsVzEaA';
-  let accessKey = process.env.S3_ACCESS_KEY_ID || '005bc25330e1c1f0000000029';
-  let endpoint = process.env.S3_ENDPOINT || 'https://s3.us-east-005.backblazeb2.com';
-  let region = process.env.S3_REGION || 'us-east-005';
-  let bucketName = process.env.S3_BUCKET_NAME || 's2-cnv03';
-  let publicUrl = process.env.S3_PUBLIC_URL || `https://${bucketName}.s3.${region}.backblazeb2.com`;
+  let secretKey = (process.env.S3_SECRET_ACCESS_KEY || 'K005/I+vUZ8TcuI2ww8TLeRPtsVzEaA').replace(/["']/g, '').trim();
+  let accessKey = (process.env.S3_ACCESS_KEY_ID || '005bc25330e1c1f0000000029').replace(/["']/g, '').trim();
+  let endpoint = (process.env.S3_ENDPOINT || 'https://s3.us-east-005.backblazeb2.com').replace(/["']/g, '').trim();
+  let region = (process.env.S3_REGION || 'us-east-005').replace(/["']/g, '').trim();
+  let bucketName = (process.env.S3_BUCKET_NAME || 's2-cnv03').replace(/["']/g, '').trim();
+  let publicUrl = (process.env.S3_PUBLIC_URL || `https://${bucketName}.s3.${region}.backblazeb2.com`).replace(/["']/g, '').trim();
 
   // Fallback: If secretKey is empty, read directly from .env.local on disk
   if (!secretKey) {
@@ -39,6 +39,11 @@ function getEnvConfig() {
     } catch (err) {
       console.error('Error reading .env.local in s3-client:', err);
     }
+  }
+
+  // Đảm bảo endpoint có giao thức https://
+  if (endpoint && !endpoint.startsWith('http://') && !endpoint.startsWith('https://')) {
+    endpoint = `https://${endpoint}`;
   }
 
   return {
@@ -225,6 +230,7 @@ export async function listS3Explorer(relativePrefix: string = ''): Promise<{
   currentPath: string;
   folders: string[];
   files: Array<{ url: string; key: string; name: string; size?: number; lastModified?: Date }>;
+  error?: string;
 }> {
   const config = getEnvConfig();
 
@@ -236,35 +242,70 @@ export async function listS3Explorer(relativePrefix: string = ''): Promise<{
 
   const folderSet = new Set<string>();
   const fileList: Array<{ url: string; key: string; name: string; size?: number; lastModified?: Date }> = [];
+  let s3Error: string | undefined = undefined;
 
   const client = getS3ClientInstance(config);
-  if (client) {
-    try {
-      const command = new ListObjectsV2Command({
-        Bucket: config.bucketName,
-        Prefix: actualS3Prefix,
-        Delimiter: '/',
-        MaxKeys: 1000,
-      });
+  if (!client) {
+    return {
+      success: false,
+      currentPath: cleanRel,
+      folders: [],
+      files: [],
+      error: 'Không khởi tạo được kết nối S3 (Thiếu Access Key hoặc Secret Key)',
+    };
+  }
 
-      const response = await client.send(command);
+  try {
+    const command = new ListObjectsV2Command({
+      Bucket: config.bucketName,
+      Prefix: actualS3Prefix,
+      Delimiter: '/',
+      MaxKeys: 1000,
+    });
 
-      // 1. Thư mục con từ CommonPrefixes
-      if (response.CommonPrefixes) {
-        for (const p of response.CommonPrefixes) {
-          if (p.Prefix) {
-            const folderName = p.Prefix.replace(actualS3Prefix, '').replace(/\/$/, '');
-            if (folderName) folderSet.add(folderName);
+    const response = await client.send(command);
+
+    // 1. Thư mục con từ CommonPrefixes
+    if (response.CommonPrefixes) {
+      for (const p of response.CommonPrefixes) {
+        if (p.Prefix) {
+          const folderName = p.Prefix.replace(actualS3Prefix, '').replace(/\/$/, '');
+          if (folderName) folderSet.add(folderName);
+        }
+      }
+    }
+
+    // 2. File trong thư mục hiện tại từ Contents
+    if (response.Contents) {
+      for (const item of response.Contents) {
+        if (item.Key && !item.Key.endsWith('/')) {
+          const fileName = item.Key.replace(actualS3Prefix, '');
+          if (fileName && !fileName.includes('/')) {
+            fileList.push({
+              url: `${config.publicUrl}/${item.Key}`,
+              key: item.Key,
+              name: fileName,
+              size: item.Size,
+              lastModified: item.LastModified,
+            });
           }
         }
       }
+    }
 
-      // 2. File trong thư mục hiện tại từ Contents
-      if (response.Contents) {
-        for (const item of response.Contents) {
+    // 3. Nếu ở trong chuyên mục mà chưa có file trực tiếp (ảnh nằm ở thư mục con sâu), quét thêm toàn bộ ảnh thuộc chuyên mục đó
+    if (fileList.length === 0 && cleanRel) {
+      const recursiveCmd = new ListObjectsV2Command({
+        Bucket: config.bucketName,
+        Prefix: actualS3Prefix,
+        MaxKeys: 1000,
+      });
+      const recRes = await client.send(recursiveCmd);
+      if (recRes.Contents) {
+        for (const item of recRes.Contents) {
           if (item.Key && !item.Key.endsWith('/')) {
-            const fileName = item.Key.replace(actualS3Prefix, '');
-            if (fileName && !fileName.includes('/')) {
+            const fileName = item.Key.split('/').pop() || '';
+            if (fileName && !fileList.some((f) => f.key === item.Key)) {
               fileList.push({
                 url: `${config.publicUrl}/${item.Key}`,
                 key: item.Key,
@@ -276,42 +317,18 @@ export async function listS3Explorer(relativePrefix: string = ''): Promise<{
           }
         }
       }
-
-      // 3. Nếu ở trong chuyên mục mà chưa có file trực tiếp (ảnh nằm ở thư mục con sâu), quét thêm toàn bộ ảnh thuộc chuyên mục đó
-      if (fileList.length === 0 && cleanRel) {
-        const recursiveCmd = new ListObjectsV2Command({
-          Bucket: config.bucketName,
-          Prefix: actualS3Prefix,
-          MaxKeys: 1000,
-        });
-        const recRes = await client.send(recursiveCmd);
-        if (recRes.Contents) {
-          for (const item of recRes.Contents) {
-            if (item.Key && !item.Key.endsWith('/')) {
-              const fileName = item.Key.split('/').pop() || '';
-              if (fileName && !fileList.some((f) => f.key === item.Key)) {
-                fileList.push({
-                  url: `${config.publicUrl}/${item.Key}`,
-                  key: item.Key,
-                  name: fileName,
-                  size: item.Size,
-                  lastModified: item.LastModified,
-                });
-              }
-            }
-          }
-        }
-      }
-    } catch (err) {
-      console.error('Error listing S3 explorer:', err);
     }
+  } catch (err: any) {
+    console.error('Error listing S3 explorer:', err);
+    s3Error = err.message || String(err);
   }
 
   return {
-    success: true,
+    success: !s3Error,
     currentPath: cleanRel,
     folders: Array.from(folderSet).sort(),
     files: fileList.sort((a, b) => ((b.lastModified?.getTime() || 0) - (a.lastModified?.getTime() || 0))),
+    error: s3Error,
   };
 }
 

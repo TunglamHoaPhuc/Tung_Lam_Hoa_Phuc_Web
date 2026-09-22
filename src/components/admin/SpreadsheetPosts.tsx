@@ -472,8 +472,24 @@ export function SpreadsheetPosts() {
     }
   };
 
+  // Biến cờ ghi nhận khi người dùng vừa mở tab Gutenberg
+  const hasOpenedGutenbergRef = useRef(false);
+
   useEffect(() => {
     fetchPosts();
+
+    // 🌟 TỰ ĐỘNG ĐỒNG BỘ: Khi Content soạn thảo xong trên WordPress và quay lại tab này
+    const handleWindowFocus = () => {
+      if (hasOpenedGutenbergRef.current) {
+        hasOpenedGutenbergRef.current = false;
+        handleSyncWordPress();
+      } else {
+        fetchPosts();
+      }
+    };
+
+    window.addEventListener('focus', handleWindowFocus);
+    return () => window.removeEventListener('focus', handleWindowFocus);
   }, []);
 
   // Open S3 Library Helper
@@ -879,7 +895,8 @@ export function SpreadsheetPosts() {
         } else {
           window.open(data.editUrl, '_blank', 'noopener,noreferrer');
         }
-        showToast(`✨ Đã mở bài viết #${data.wpPostId} trong WordPress Gutenberg!`);
+        hasOpenedGutenbergRef.current = true;
+        showToast(`✨ Đã mở bài viết #${data.wpPostId} trong WordPress Gutenberg! Sau khi xuất bản, quay lại tab này sẽ tự động đồng bộ.`);
       } else {
         if (newTab) newTab.close();
         showToast(`❌ Không thể mở bài viết: ${data.error || 'Vui lòng thử lại!'}`);

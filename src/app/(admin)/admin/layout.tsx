@@ -75,7 +75,7 @@ const NAV_ITEMS = [
   },
   {
     name: 'Kho Ảnh S3 Cloud',
-    href: '/kiem-tra-anh',
+    href: '/admin/kho-anh-s3',
     icon: ImageIcon,
   },
 ];
