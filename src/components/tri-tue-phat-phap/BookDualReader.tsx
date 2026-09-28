@@ -378,7 +378,10 @@ export function BookDualReader({ book }: BookDualReaderProps) {
                     <Quote className="w-4 h-4 text-[#A67C1E]" />
                     <span>CÂU NÓI QUAN TRỌNG ĐẦU CHƯƠNG</span>
                   </div>
-                  <p className="text-sm sm:text-base italic text-[#4A321D] leading-relaxed font-serif">
+                  <p
+                    style={{ fontFamily: "'Noto Serif', 'Playfair Display', Georgia, serif" }}
+                    className="text-sm sm:text-base italic text-[#4A321D] leading-relaxed"
+                  >
                     &ldquo;{currentChapter.quoteHeader}&rdquo;
                   </p>
                   {currentChapter.quoteAuthor && (
@@ -423,9 +426,12 @@ export function BookDualReader({ book }: BookDualReaderProps) {
 
                       {/* Section Body */}
                       {isPoem ? (
-                        /* BÀI THƠ: Canh giữa, font nghiêng tao nhã, ngắt dòng chuẩn */
+                        /* BÀI THƠ: Canh giữa, font nghiêng tao nhã Noto Serif, ngắt dòng chuẩn */
                         <div className="max-w-xl mx-auto py-3 px-4 bg-[#F2ECE1]/60 rounded-2xl border border-[#D8C7A0]/40">
-                          <div className="text-center italic font-serif text-[#332010] leading-loose whitespace-pre-line text-base sm:text-lg space-y-4">
+                          <div
+                            style={{ fontFamily: "'Noto Serif', 'Playfair Display', Georgia, serif" }}
+                            className="text-center italic text-[#332010] leading-loose whitespace-pre-line text-base sm:text-lg space-y-4"
+                          >
                             {sec.content}
                           </div>
 
@@ -433,7 +439,7 @@ export function BookDualReader({ book }: BookDualReaderProps) {
                           {sec.author && (
                             <div className="pt-4 text-right">
                               <span
-                                style={{ fontFamily: "'UTM Classic Antiqua', serif" }}
+                                style={{ fontFamily: "'Noto Serif', 'Playfair Display', Georgia, serif" }}
                                 className="text-sm sm:text-base font-bold text-[#8B4513] italic inline-flex items-center gap-1.5 border-b border-[#A67C1E]/50 pb-0.5"
                               >
                                 <Feather className="w-3.5 h-3.5 text-[#A67C1E]" />
@@ -452,7 +458,7 @@ export function BookDualReader({ book }: BookDualReaderProps) {
                               return (
                                 <p key={pIdx} className="leading-relaxed">
                                   <span
-                                    style={{ fontFamily: "'UTM Classic Antiqua', serif" }}
+                                    style={{ fontFamily: "'Noto Serif', 'Playfair Display', Georgia, serif" }}
                                     className="text-5xl sm:text-6xl font-bold float-left mr-2.5 pb-0.5 leading-none text-[#8B4513] border-b-2 border-[#F2C14E]"
                                   >
                                     {firstChar}
@@ -552,9 +558,10 @@ export function BookDualReader({ book }: BookDualReaderProps) {
                     )}
 
                     <div
+                      style={flipPages[currentFlipPage].isPoem ? { fontFamily: "'Noto Serif', 'Playfair Display', Georgia, serif" } : undefined}
                       className={`pt-1 text-xs sm:text-sm text-[#332010] leading-relaxed whitespace-pre-line ${
                         flipPages[currentFlipPage].isPoem
-                          ? 'text-center italic font-serif'
+                          ? 'text-center italic'
                           : 'text-justify font-sans'
                       }`}
                     >
@@ -562,7 +569,10 @@ export function BookDualReader({ book }: BookDualReaderProps) {
                     </div>
 
                     {flipPages[currentFlipPage].author && (
-                      <div className="pt-2 text-right text-xs font-bold text-[#8B4513] italic font-serif">
+                      <div
+                        style={{ fontFamily: "'Noto Serif', 'Playfair Display', Georgia, serif" }}
+                        className="pt-2 text-right text-xs font-bold text-[#8B4513] italic"
+                      >
                         — {flipPages[currentFlipPage].author}
                       </div>
                     )}
@@ -600,9 +610,10 @@ export function BookDualReader({ book }: BookDualReaderProps) {
                     )}
 
                     <div
+                      style={flipPages[currentFlipPage + 1].isPoem ? { fontFamily: "'Noto Serif', 'Playfair Display', Georgia, serif" } : undefined}
                       className={`pt-1 text-xs sm:text-sm text-[#332010] leading-relaxed whitespace-pre-line ${
                         flipPages[currentFlipPage + 1].isPoem
-                          ? 'text-center italic font-serif'
+                          ? 'text-center italic'
                           : 'text-justify font-sans'
                       }`}
                     >
@@ -610,7 +621,10 @@ export function BookDualReader({ book }: BookDualReaderProps) {
                     </div>
 
                     {flipPages[currentFlipPage + 1].author && (
-                      <div className="pt-2 text-right text-xs font-bold text-[#8B4513] italic font-serif">
+                      <div
+                        style={{ fontFamily: "'Noto Serif', 'Playfair Display', Georgia, serif" }}
+                        className="pt-2 text-right text-xs font-bold text-[#8B4513] italic"
+                      >
                         — {flipPages[currentFlipPage + 1].author}
                       </div>
                     )}

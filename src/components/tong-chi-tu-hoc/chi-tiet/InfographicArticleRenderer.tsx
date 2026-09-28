@@ -21,6 +21,7 @@ import {
   Users
 } from 'lucide-react';
 import { getImageUrl } from '@/utils/image';
+import { FourCirclesPortalSection } from './FourCirclesPortalSection';
 
 interface PopupKeyword {
   keyword: string;
@@ -43,7 +44,7 @@ interface InfographicRendererProps {
 }
 
 // 🪷 Helper: Chuyển đổi tiêu đề thành anchor ID không dấu
-function toSectionId(text: string): string {
+export function toSectionId(text: string): string {
   return text
     .toLowerCase()
     .normalize('NFD')
@@ -53,11 +54,11 @@ function toSectionId(text: string): string {
     .replace(/^-+|-+$/g, '');
 }
 
-// 🪷 Helper: Kiểm tra xem một đoạn văn bản có phải là khổ thơ không
+// 🪷 Helper: Kiểm tra xem một đoạn văn bản có phải là khổ thơ không (phải có ít nhất 2 câu thơ)
 function isPoemStanza(text: string): boolean {
   if (!text) return false;
   const lines = text.split('\n').map((l) => l.trim()).filter(Boolean);
-  if (lines.length === 0) return false;
+  if (lines.length < 2) return false; // Đoạn văn xuôi đơn lẻ không bị hiểu nhầm là thơ
   return lines.every((l) => l.length < 95 && !/^\s*(?:[-*•]|\d+[.)]|###?)\s+/.test(l));
 }
 
@@ -229,29 +230,26 @@ function FourPillarsGrid() {
   );
 }
 
-// 🪷 4 Category Drawers (Nền tảng, Phương pháp, Lộ trình, Nếp sống)
-// 🪷 4 Category Drawers (Nền tảng, Phương pháp, Lộ trình, Nếp sống)
+// 🪷 4 Category Drawers (Nền tảng, Phương pháp, Lộ trình, Nếp sống) - Điều hướng trực tiếp từng mục
 function FourDrawersSection() {
   const drawers = [
     {
       icon: '🌿',
       title: 'Nền tảng tu học',
       subtitle: 'Những nền tảng song hành cùng Bồ Đề tâm',
-      link: '/tong-chi-tu-hoc#nen-tang-tu-hoc',
       items: [
         { name: 'Tam Quy - Ngũ Giới', link: '/tong-chi-tu-hoc/tam-quy' },
-        { name: 'Thập Thiện Nghiệp', link: '/tong-chi-tu-hoc#nen-tang-tu-hoc' },
-        { name: 'Bồ Tát Hạnh', link: '/tong-chi-tu-hoc#nen-tang-tu-hoc' },
+        { name: 'Thập Thiện Nghiệp', link: '/tong-chi-tu-hoc/thap-thien-nghiep-con-duong-phuoc-duc' },
+        { name: 'Bồ Tát Hạnh', link: '/tong-chi-tu-hoc/bo-tat-hanh-luc-do-ba-la-mat' },
       ],
     },
     {
       icon: '🙏',
       title: 'Phương pháp hành trì',
       subtitle: 'Thực tập mỗi ngày với những cách thức tu tập',
-      link: '/tong-chi-tu-hoc#phuong-phap-hanh-tri',
       items: [
-        { name: 'Niệm Phật', link: '/tong-chi-tu-hoc#phuong-phap-hanh-tri' },
-        { name: 'Thiền tập', link: '/tong-chi-tu-hoc#phuong-phap-hanh-tri' },
+        { name: 'Niệm Phật', link: '/tong-chi-tu-hoc/niem-phat-phuong-phap-tro-hanh' },
+        { name: 'Thiền tập', link: '/tong-chi-tu-hoc/thien-tap-tinh-lang-tu-than' },
         { name: 'Nghe pháp & Tụng kinh', link: '/dong-chay-hoang-phap' },
       ],
     },
@@ -259,22 +257,20 @@ function FourDrawersSection() {
       icon: '🌱',
       title: 'Lộ trình tu học',
       subtitle: 'Lựa chọn lộ trình phù hợp với hoàn cảnh tu học',
-      link: '/tong-chi-tu-hoc#lo-trinh-tu-hoc',
       items: [
-        { name: 'Lộ trình người mới', link: '/tong-chi-tu-hoc#lo-trinh-tu-hoc' },
-        { name: 'Lộ trình người trẻ', link: '/tong-chi-tu-hoc#lo-trinh-tu-hoc' },
-        { name: 'Lộ trình người bận rộn', link: '/tong-chi-tu-hoc#lo-trinh-tu-hoc' },
+        { name: 'Lộ trình người mới', link: '/tong-chi-tu-hoc/lo-trinh-tu-hoc-nguoi-moi-bat-dau' },
+        { name: 'Lộ trình người trẻ', link: '/tong-chi-tu-hoc/lo-trinh-tu-hoc-nguoi-tre' },
+        { name: 'Lộ trình người bận rộn', link: '/tong-chi-tu-hoc/lo-trinh-tu-hoc-nguoi-ban-ron' },
       ],
     },
     {
       icon: '🌸',
       title: 'Nếp sống Thiền gia',
       subtitle: 'Đưa lời Phật dạy vào từng cách sống, lời nói và việc làm',
-      link: '/gioi-thieu/van-hoa-ung-xu',
       items: [
         { name: 'Văn hóa ứng xử tại chùa', link: '/gioi-thieu/van-hoa-ung-xu' },
-        { name: 'Oai nghi người con Phật', link: '/gioi-thieu/van-hoa-ung-xu' },
-        { name: 'Bổn phận tại gia', link: '/gioi-thieu/van-hoa-ung-xu' },
+        { name: 'Oai nghi người con Phật', link: '/tong-chi-tu-hoc/oai-nghi-nguoi-con-phat' },
+        { name: 'Bổn phận tại gia', link: '/tong-chi-tu-hoc/bon-phan-nguoi-phat-tu-tai-gia' },
       ],
     },
   ];
@@ -300,28 +296,24 @@ function FourDrawersSection() {
               <p className="text-xs text-[#FFE5A3]/80 italic mb-3">
                 {d.subtitle}
               </p>
-              <ul className="space-y-1.5 text-xs text-[#FFE5A3]/90 mb-4">
+              
+              {/* Danh sách các nút link điều hướng trực tiếp từng mục */}
+              <div className="space-y-2 mt-2">
                 {d.items.map((item, idx) => (
-                  <li key={idx}>
-                    <Link
-                      href={item.link}
-                      className="inline-flex items-center gap-1.5 text-[#FFE5A3] hover:text-[#F2C14E] transition-colors"
-                    >
-                      <span className="text-[#F2C14E] text-[10px]">●</span>
-                      <span className="hover:underline underline-offset-2">{item.name}</span>
-                    </Link>
-                  </li>
+                  <Link
+                    key={idx}
+                    href={item.link}
+                    className="flex items-center justify-between p-2.5 rounded-xl bg-[#23150C]/90 hover:bg-[#3B2416] border border-[#F2C14E]/25 hover:border-[#F2C14E] text-[#FFE5A3] hover:text-[#FFDE59] transition-all group/item shadow-xs"
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#F2C14E] group-hover/item:scale-125 transition-transform" />
+                      <span className="text-xs sm:text-sm font-medium tracking-wide">{item.name}</span>
+                    </div>
+                    <ArrowRight className="w-3.5 h-3.5 text-[#F2C14E]/70 group-hover/item:text-[#FFDE59] group-hover/item:translate-x-0.5 transition-all" />
+                  </Link>
                 ))}
-              </ul>
+              </div>
             </div>
-
-            <Link
-              href={d.link}
-              className="inline-flex items-center gap-1.5 text-xs font-bold text-[#F2C14E] hover:text-[#ffde59] group-hover:translate-x-1 transition-all pt-2 border-t border-[#F2C14E]/20"
-            >
-              <span>Khám phá chi tiết</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
           </div>
         ))}
       </div>
@@ -1356,7 +1348,7 @@ export function InfographicArticleRenderer({
 
           {/* 2. QUOTE / KỆ THƠ / LỜI THẦY */}
           {sec.quote && (
-            <div className="my-6 max-w-2xl mx-auto text-center space-y-2.5 p-6 sm:p-7 rounded-3xl bg-gradient-to-br from-[#382215]/95 via-[#442817]/90 to-[#2A170C]/95 border-2 border-[#F2C14E]/60 shadow-[0_0_25px_rgba(242,193,78,0.18)]">
+            <div className="my-6 max-w-2xl mx-auto text-center space-y-2.5 p-6 sm:p-7 rounded-3xl bg-gradient-to-br from-[#452D1D]/95 via-[#553621]/90 to-[#321B0E]/95 border-2 border-[#F2C14E]/70 shadow-[0_0_30px_rgba(242,193,78,0.22)]">
               <div 
                 style={{ fontFamily: "var(--font-montserrat), 'Montserrat', 'UTM Avo', sans-serif" }}
                 className="text-base sm:text-lg md:text-xl font-semibold italic text-[#FFE5A3] leading-relaxed sm:leading-loose whitespace-pre-line tracking-wide"
@@ -1376,7 +1368,7 @@ export function InfographicArticleRenderer({
             {sec.elements.map((el, elIdx) => {
               if (el.type === 'quote') {
                 return (
-                  <div key={elIdx} className="my-6 max-w-2xl mx-auto text-center space-y-2.5 p-6 sm:p-7 rounded-3xl bg-gradient-to-br from-[#382215]/95 via-[#442817]/90 to-[#2A170C]/95 border-2 border-[#F2C14E]/60 shadow-[0_0_25px_rgba(242,193,78,0.18)]">
+                  <div key={elIdx} className="my-6 max-w-2xl mx-auto text-center space-y-2.5 p-6 sm:p-7 rounded-3xl bg-gradient-to-br from-[#452D1D]/95 via-[#553621]/90 to-[#321B0E]/95 border-2 border-[#F2C14E]/70 shadow-[0_0_30px_rgba(242,193,78,0.22)]">
                     <div 
                       style={{ fontFamily: "var(--font-montserrat), 'Montserrat', 'UTM Avo', sans-serif" }}
                       className="text-base sm:text-lg md:text-xl font-semibold italic text-[#FFE5A3] leading-relaxed sm:leading-loose whitespace-pre-line tracking-wide"
@@ -1443,7 +1435,25 @@ export function InfographicArticleRenderer({
                 );
               }
 
-              // 🪷 RENDER ĐOẠN VĂN XUÔI CHỮ MÀU VÀNG HOÀNG KIM
+              // 🪷 RENDER CÂU CHUYỂN TIẾP TRANG TRỌNG HOẶC ĐOẠN VĂN XUÔI
+              const trimmed = el.text.trim();
+              const isTransitionLeadIn =
+                trimmed.startsWith('Cũng vậy') ||
+                trimmed.startsWith('Một tâm nguyện đúng') ||
+                (trimmed.length < 130 && (trimmed.endsWith('…') || trimmed.endsWith('...')));
+
+              if (isTransitionLeadIn) {
+                return (
+                  <p
+                    key={elIdx}
+                    style={{ fontFamily: "var(--font-montserrat), 'Montserrat', 'UTM Avo', sans-serif" }}
+                    className="text-base sm:text-lg text-[#FFE5A3] font-medium leading-relaxed text-center tracking-wide my-4 select-text drop-shadow-xs"
+                  >
+                    {highlightText(el.text, popups, onKeywordClick)}
+                  </p>
+                );
+              }
+
               return (
                 <p
                   key={elIdx}
@@ -1459,8 +1469,8 @@ export function InfographicArticleRenderer({
           {/* 4. INFOGRAPHIC 4 CARDS IF APPLICABLE */}
           {sec.hasFourPillars && <FourPillarsGrid />}
 
-          {/* 5. 4 DRAWERS IF APPLICABLE */}
-          {sec.hasFourDrawers && <FourDrawersSection />}
+          {/* 5. 4 PORTAL CIRCLES (THEO CHUẨN RIOT / LOL UNIVERSE THAY CHO HỘP CŨ) */}
+          {sec.hasFourDrawers && <FourCirclesPortalSection />}
 
           {/* 🪷 INFOGRAPHICS TAM QUY */}
           {sec.hasTamQuyThreeJewels && <TamQuyThreeJewelsGrid onKeywordClick={onKeywordClick} />}

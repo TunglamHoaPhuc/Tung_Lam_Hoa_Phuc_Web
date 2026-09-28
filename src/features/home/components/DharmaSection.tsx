@@ -21,17 +21,6 @@ const TOP_POSTS: PostItem[] = [
     targetUrl: "/tong-chi-tu-hoc",
   },
   {
-    id: "p2",
-    imageUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
-    category1: "Dòng Chảy Hoằng Pháp",
-    category2: "CỘNG TU ĐỊNH KỲ",
-    title: "Pháp Hội Niệm Phật & Khóa Lễ Bát Quan Trai Giới",
-    description: "Đạo tràng niệm Phật thanh tịnh hàng tuần, nuôi dưỡng bồ đề tâm và gieo trồng nhân lành về cõi Tây Phương Cực Lạc.",
-    publishedDate: "20/08/2026",
-    viewsCount: "38.6K",
-    targetUrl: "/dong-chay-hoang-phap/phap-hoi-niem-phat-hang-tuan",
-  },
-  {
     id: "p3",
     imageUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     category1: "Vũ Trụ Phật Giáo",

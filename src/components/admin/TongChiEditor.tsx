@@ -34,6 +34,8 @@ import {
   Search,
   Check,
   RefreshCw,
+  Play,
+  Video as VideoIcon,
 } from 'lucide-react';
 import { KeywordTooltipModal } from '@/components/tong-chi-tu-hoc/KeywordTooltipModal';
 import { UnsavedChangesModal } from '@/components/admin/UnsavedChangesModal';
@@ -300,6 +302,11 @@ export function TongChiEditor({ initialData, isEdit }: TongChiEditorProps) {
       },
     ];
   });
+
+  // 🎥 Quản lý Video Pháp Thoại & Tài Nguyên Liên Quan
+  const [videoUrl, setVideoUrl] = useState<string>(initialData?.videoBlock?.videoUrl || '');
+  const [videoTitle, setVideoTitle] = useState<string>(initialData?.videoBlock?.title || '');
+  const [videoDescription, setVideoDescription] = useState<string>(initialData?.videoBlock?.description || '');
 
   const [allLibraryBooks, setAllLibraryBooks] = useState<any[]>([]);
   const [librarySearch, setLibrarySearch] = useState('');
@@ -594,6 +601,11 @@ export function TongChiEditor({ initialData, isEdit }: TongChiEditorProps) {
       keywords: keywords.filter((k) => k.keyword.trim()),
       sourceBook: sourceBooks,
       wpPostId: wpPostId ? wpPostId.trim() : undefined,
+      videoBlock: {
+        videoUrl: videoUrl.trim(),
+        title: videoTitle.trim(),
+        description: videoDescription.trim(),
+      },
     };
 
     try {
@@ -1663,6 +1675,77 @@ export function TongChiEditor({ initialData, isEdit }: TongChiEditorProps) {
                         </div>
                       );
                     })}
+                </div>
+              </div>
+            </div>
+
+            {/* 🎥 Quản lý Video Pháp Thoại & Tài Nguyên Liên Quan */}
+            <div className="bg-[#1C120A] border border-[#F2C14E]/30 rounded-2xl p-5 space-y-4 shadow-xl">
+              <div className="flex items-center justify-between pb-3 border-b border-[#F2C14E]/20">
+                <div className="flex items-center gap-2 text-xs font-bold text-[#FFDE59] uppercase tracking-wider">
+                  <Play className="w-4 h-4 text-[#F2C14E]" />
+                  <span>Video Pháp Thoại & Tài Nguyên Liên Quan</span>
+                </div>
+                {videoUrl && (
+                  <a
+                    href={videoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-[11px] text-[#F2C14E] hover:underline inline-flex items-center gap-1"
+                  >
+                    <span>Xem thử</span>
+                    <ExternalLink className="w-3 h-3" />
+                  </a>
+                )}
+              </div>
+
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-xs font-medium text-[#FFE5A3] mb-1">
+                    Đường dẫn Video YouTube
+                  </label>
+                  <input
+                    type="text"
+                    value={videoUrl}
+                    onChange={(e) => {
+                      setVideoUrl(e.target.value);
+                      setIsDirty(true);
+                    }}
+                    placeholder="https://www.youtube.com/watch?v=... hoặc https://youtu.be/..."
+                    className="w-full px-3 py-2 bg-[#25170E] border border-[#F2C14E]/30 rounded-xl text-xs text-[#FFE5A3] focus:outline-none focus:border-[#F2C14E]"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium text-[#FFE5A3] mb-1">
+                    Tiêu đề Video Pháp Thoại
+                  </label>
+                  <input
+                    type="text"
+                    value={videoTitle}
+                    onChange={(e) => {
+                      setVideoTitle(e.target.value);
+                      setIsDirty(true);
+                    }}
+                    placeholder="VD: KHUYẾN PHÁT BỒ ĐỀ TÂM VĂN - TRỌN BỘ"
+                    className="w-full px-3 py-2 bg-[#25170E] border border-[#F2C14E]/30 rounded-xl text-xs text-[#FFE5A3] focus:outline-none focus:border-[#F2C14E]"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium text-[#FFE5A3] mb-1">
+                    Mô tả ngắn Video
+                  </label>
+                  <textarea
+                    rows={2}
+                    value={videoDescription}
+                    onChange={(e) => {
+                      setVideoDescription(e.target.value);
+                      setIsDirty(true);
+                    }}
+                    placeholder="VD: Chư Phật ba đời không rời Bồ Đề tâm để thành tựu các pháp..."
+                    className="w-full px-3 py-2 bg-[#25170E] border border-[#F2C14E]/30 rounded-xl text-xs text-[#FFE5A3] focus:outline-none focus:border-[#F2C14E] resize-none"
+                  />
                 </div>
               </div>
             </div>

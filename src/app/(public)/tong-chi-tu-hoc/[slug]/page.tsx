@@ -17,7 +17,8 @@ import { DiscoverMore } from '@/components/tong-chi-tu-hoc/chi-tiet/DiscoverMore
 import { AiQnA } from '@/components/tong-chi-tu-hoc/chi-tiet/AiQnA';
 import { DetailModal } from '@/components/tong-chi-tu-hoc/chi-tiet/DetailModal';
 import { BookCitationSection, SourceBookData } from '@/components/tong-chi-tu-hoc/chi-tiet/BookCitationSection';
-import { InfographicArticleRenderer } from '@/components/tong-chi-tu-hoc/chi-tiet/InfographicArticleRenderer';
+import { InfographicArticleRenderer, toSectionId } from '@/components/tong-chi-tu-hoc/chi-tiet/InfographicArticleRenderer';
+import { TaiNguyenLienQuanCompact } from '@/components/tong-chi-tu-hoc/chi-tiet/TaiNguyenLienQuanCompact';
 
 interface DuLieuBaiVietChiTiet {
   id: number;
@@ -272,30 +273,28 @@ export default function TrangChiTietTongChi() {
       const lines = data.poemContent.split('\n');
       for (const l of lines) {
         const line = l.trim();
+        const strippedLine = line.replace(/^#{1,4}\s+/, '').replace(/^\*\*|\*\*$/g, '').replace(/<[^>]+>/g, '').trim();
         const isMdHeading = /^#{1,4}\s+/.test(line);
         const isUpperHeading =
-          (line.startsWith('BỒ ĐỀ TÂM') ||
-            line.startsWith('SỐNG VỚI') ||
-            line.startsWith('ĐỂ BỒ ĐỀ TÂM') ||
-            line.startsWith('TAM QUY') ||
-            line.startsWith('NGŨ GIỚI')) &&
-          line.length < 80 &&
-          !line.includes('“') &&
-          !line.includes('”') &&
-          !line.startsWith('!');
+          (strippedLine.startsWith('BỒ ĐỀ TÂM') ||
+            strippedLine.startsWith('SỐNG VỚI') ||
+            strippedLine.startsWith('ĐỂ BỒ ĐỀ TÂM') ||
+            strippedLine.startsWith('TAM QUY') ||
+            strippedLine.startsWith('NGŨ GIỚI') ||
+            (strippedLine === strippedLine.toUpperCase() && !strippedLine.startsWith('>') && !strippedLine.startsWith('!['))) &&
+          strippedLine.length < 80 &&
+          strippedLine.length > 3 &&
+          !strippedLine.includes('“') &&
+          !strippedLine.includes('”') &&
+          !strippedLine.startsWith('📘') &&
+          !strippedLine.startsWith('VIDEO:') &&
+          !strippedLine.startsWith('Sa Môn') &&
+          !strippedLine.startsWith('Vô Trí');
 
         if (isMdHeading || isUpperHeading) {
-          const cleanHeading = line.replace(/^#{1,4}\s+/, '').trim();
-          const id = cleanHeading
-            .toLowerCase()
-            .normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '')
-            .replace(/[đĐ]/g, 'd')
-            .replace(/[^a-z0-9]+/g, '-')
-            .replace(/^-+|-+$/g, '');
-
+          const id = toSectionId(strippedLine);
           if (id && !items.some((it) => it.id === id)) {
-            const label = cleanHeading.length > 32 ? cleanHeading.slice(0, 30) + '...' : cleanHeading;
+            const label = strippedLine.length > 32 ? strippedLine.slice(0, 30) + '...' : strippedLine;
             items.push({ id, label });
           }
         }
@@ -306,19 +305,24 @@ export default function TrangChiTietTongChi() {
       items.push({ id: 'bai-tho', label: 'Bài Thơ / Nội Dung' });
     }
 
-    if (data?.sourceBook || data?.videoBlock?.videoUrl) {
+    if (isBoDeTam) {
+      // 🪷 Đối với trang Bồ Đề Tâm: Hợp nhất thành 1 khối duy nhất TÀI NGUYÊN LIÊN QUAN, bỏ phần Tìm Hiểu Thêm
       items.push({ id: 'tai-nguyen-lien-quan', label: 'Tài Nguyên Liên Quan' });
+    } else {
+      if (data?.sourceBook || data?.videoBlock?.videoUrl) {
+        items.push({ id: 'tai-nguyen-lien-quan', label: 'Tài Nguyên Liên Quan' });
+      }
+      if (data?.featuredArticle?.title) {
+        items.push({ id: 'bai-viet-noibat', label: 'Bài Viết Nổi Bật' });
+      }
+      if (data?.photoGallery && data.photoGallery.length > 1) {
+        items.push({ id: 'bo-suu-tap-anh', label: 'Bộ Sưu Tập Ảnh' });
+      }
+      items.push({ id: 'tim-hieu-them', label: 'Bài Viết Liên Quan' });
     }
-    if (data?.featuredArticle?.title) {
-      items.push({ id: 'bai-viet-noibat', label: 'Bài Viết Nổi Bật' });
-    }
-    if (data?.photoGallery && data.photoGallery.length > 1) {
-      items.push({ id: 'bo-suu-tap-anh', label: 'Bộ Sưu Tập Ảnh' });
-    }
-    items.push({ id: 'tim-hieu-them', label: 'Bài Viết Liên Quan' });
 
     return items;
-  }, [data]);
+  }, [data, isBoDeTam]);
 
   const [activeSection, setActiveSection] = useState('intro');
 
@@ -408,6 +412,8 @@ export default function TrangChiTietTongChi() {
         let wpSubtitle = '';
         let wpExcerpt = '';
         let wpVideoUrl = '';
+        let wpVideoTitle = '';
+        let wpVideoDesc = '';
 
         try {
           const res = await fetch(wpUrl, { cache: 'no-store' });
@@ -425,6 +431,8 @@ export default function TrangChiTietTongChi() {
               wpSubtitle = acf.tieu_de_phu || parsed.extractedSubtitle || '';
               wpExcerpt = (post.excerpt?.rendered || '').replace(/<[^>]+>/g, '').replace(/&#8230;/g, '...').trim();
               wpVideoUrl = acf.duong_dan_link_youtube || '';
+              wpVideoTitle = acf.tieu_de_video || '';
+              wpVideoDesc = acf.mo_ta_ngan_video || '';
             }
           }
         } catch (wpErr) {
@@ -481,10 +489,10 @@ export default function TrangChiTietTongChi() {
             imageUrl: k.imageUrl || finalBanner,
             linkUrl: k.linkUrl || '',
           })),
-          videoBlock: localItem?.videoBlock || {
-            title: 'KHUYẾN PHÁT BỒ ĐỀ TÂM VĂN - TRỌN BỘ | ĐẠI ĐỨC THÍCH TÂM HÒA',
-            description: 'Chư Phật ba đời không rời Bồ Đề tâm để thành tựu các pháp.',
-            videoUrl: wpVideoUrl || 'https://www.youtube.com/playlist?list=PL2aRqXTU1nn456nh72vOF1W7Au764sTVN',
+          videoBlock: {
+            title: wpVideoTitle || localItem?.videoBlock?.title || 'KHUYẾN PHÁT BỒ ĐỀ TÂM VĂN - TRỌN BỘ | ĐẠI ĐỨC THÍCH TÂM HÒA',
+            description: wpVideoDesc || localItem?.videoBlock?.description || 'Chư Phật ba đời không rời Bồ Đề tâm để thành tựu các pháp.',
+            videoUrl: wpVideoUrl || localItem?.videoBlock?.videoUrl || 'https://www.youtube.com/playlist?list=PL2aRqXTU1nn456nh72vOF1W7Au764sTVN',
           },
           photoGallery: localItem?.photoGallery || [
             {
@@ -556,17 +564,28 @@ export default function TrangChiTietTongChi() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 300);
 
-      // Quét ngược từ dưới lên trên bằng getBoundingClientRect()
-      for (let i = navItems.length - 1; i >= 0; i--) {
+      // Quét tìm section đang active theo độ cuộn viewport
+      const scrollPosition = window.scrollY + 200;
+      let matchedId = navItems[0]?.id || '';
+
+      for (let i = 0; i < navItems.length; i++) {
         const item = navItems[i];
         const el = document.getElementById(item.id);
         if (el) {
-          const rect = el.getBoundingClientRect();
-          if (rect.top <= 250) {
-            setActiveSection(item.id);
-            break;
+          const top = el.getBoundingClientRect().top + window.scrollY;
+          if (scrollPosition >= top) {
+            matchedId = item.id;
           }
         }
+      }
+
+      // Nếu người dùng cuộn đến gần cuối trang, kích hoạt mục cuối cùng
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 60) {
+        matchedId = navItems[navItems.length - 1]?.id || matchedId;
+      }
+
+      if (matchedId) {
+        setActiveSection(matchedId);
       }
     };
 
@@ -681,23 +700,37 @@ export default function TrangChiTietTongChi() {
           </section>
 
           {/* ── TÀI NGUYÊN LIÊN QUAN & NGUỒN THAM KHẢO ── */}
-          <div id="tai-nguyen-lien-quan" className="space-y-12">
-            <BookCitationSection sourceBook={data?.sourceBook} />
+          {isBoDeTam ? (
+            /* 🪷 Đối với bài Bồ Đề Tâm: Hiển thị khối Tài Nguyên Liên Quan nhỏ gọn (3 thẻ ngang), không trùng lặp */
+            <TaiNguyenLienQuanCompact
+              videoBlock={data?.videoBlock}
+              sourceBook={data?.sourceBook}
+              photoGallery={data?.photoGallery}
+              heroBanner={data?.heroBanner}
+              onSelectPhoto={(idx) => setActivePhotoIndex(idx)}
+            />
+          ) : (
+            <>
+              <div id="tai-nguyen-lien-quan" className="space-y-12">
+                <BookCitationSection sourceBook={data?.sourceBook} />
 
-            {data?.videoBlock?.videoUrl && (
-              <IllustrationVideo heroBanner={data?.heroBanner} videoBlock={data?.videoBlock} />
-            )}
+                {data?.videoBlock?.videoUrl && (
+                  <IllustrationVideo heroBanner={data?.heroBanner} videoBlock={data?.videoBlock} />
+                )}
 
-            {data?.featuredArticle?.title && (
-              <FeaturedPosts heroBanner={data?.heroBanner} featuredArticle={data?.featuredArticle} />
-            )}
+                {data?.featuredArticle?.title && (
+                  <FeaturedPosts heroBanner={data?.heroBanner} featuredArticle={data?.featuredArticle} />
+                )}
 
-            {data?.photoGallery && data.photoGallery.length > 1 && (
-              <PhotoGallery photoGallery={data?.photoGallery} onSelectPhoto={(idx) => setActivePhotoIndex(idx)} />
-            )}
-          </div>
+                {data?.photoGallery && data.photoGallery.length > 1 && (
+                  <PhotoGallery photoGallery={data?.photoGallery} onSelectPhoto={(idx) => setActivePhotoIndex(idx)} />
+                )}
+              </div>
 
-          <DiscoverMore relatedArticles={data?.relatedArticles} />
+              <DiscoverMore relatedArticles={data?.relatedArticles} />
+            </>
+          )}
+
           <AiQnA />
         </main>
 

@@ -11,7 +11,8 @@ import { PhotoGallery } from '@/components/tong-chi-tu-hoc/chi-tiet/PhotoGallery
 import { DiscoverMore } from '@/components/tong-chi-tu-hoc/chi-tiet/DiscoverMore';
 import { AiQnA } from '@/components/tong-chi-tu-hoc/chi-tiet/AiQnA';
 import { BookCitationSection } from '@/components/tong-chi-tu-hoc/chi-tiet/BookCitationSection';
-import { InfographicArticleRenderer } from '@/components/tong-chi-tu-hoc/chi-tiet/InfographicArticleRenderer';
+import { InfographicArticleRenderer, toSectionId } from '@/components/tong-chi-tu-hoc/chi-tiet/InfographicArticleRenderer';
+import { TaiNguyenLienQuanCompact } from '@/components/tong-chi-tu-hoc/chi-tiet/TaiNguyenLienQuanCompact';
 import { ExternalLink, RefreshCw, Sparkles, Edit3, ArrowLeft, CheckCircle2, Globe, FileCode } from 'lucide-react';
 import { getImageUrl } from '@/utils/image';
 
@@ -191,17 +192,29 @@ export default function WpPreviewPage() {
       const lines = parsedContent.split('\n');
       for (const l of lines) {
         const line = l.trim();
-        if (line.startsWith('### ')) {
-          const cleanHeading = line.replace('### ', '').trim();
-          const id = cleanHeading
-            .toLowerCase()
-            .normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '')
-            .replace(/[đĐ]/g, 'd')
-            .replace(/[^a-z0-9]+/g, '-')
-            .replace(/^-+|-+$/g, '');
+        const strippedLine = line.replace(/^#{1,4}\s+/, '').replace(/^\*\*|\*\*$/g, '').replace(/<[^>]+>/g, '').trim();
+        const isMdHeading = /^#{1,4}\s+/.test(line);
+        const isUpperHeading =
+          (strippedLine.startsWith('BỒ ĐỀ TÂM') ||
+            strippedLine.startsWith('SỐNG VỚI') ||
+            strippedLine.startsWith('ĐỂ BỒ ĐỀ TÂM') ||
+            strippedLine.startsWith('TAM QUY') ||
+            strippedLine.startsWith('NGŨ GIỚI') ||
+            (strippedLine === strippedLine.toUpperCase() && !strippedLine.startsWith('>') && !strippedLine.startsWith('!['))) &&
+          strippedLine.length < 80 &&
+          strippedLine.length > 3 &&
+          !strippedLine.includes('“') &&
+          !strippedLine.includes('”') &&
+          !strippedLine.startsWith('📘') &&
+          !strippedLine.startsWith('VIDEO:') &&
+          !strippedLine.startsWith('Sa Môn') &&
+          !strippedLine.startsWith('Vô Trí');
+
+        if (isMdHeading || isUpperHeading) {
+          const id = toSectionId(strippedLine);
           if (id && !items.some((it) => it.id === id)) {
-            items.push({ id, label: cleanHeading });
+            const label = strippedLine.length > 32 ? strippedLine.slice(0, 30) + '...' : strippedLine;
+            items.push({ id, label });
           }
         }
       }
@@ -209,9 +222,8 @@ export default function WpPreviewPage() {
     if (items.length === 0) {
       items.push({ id: 'bai-tho', label: 'Bài Thơ / Nội Dung' });
     }
-    items.push({ id: 'trich-nguon-sach', label: 'Tài Liệu Tham Khảo' });
-    items.push({ id: 'video-minh-hoa', label: 'Video Pháp Thoại' });
-    items.push({ id: 'tim-hieu-them', label: 'Bài Viết Liên Quan' });
+    // Hợp nhất thành 1 khối Tài Nguyên Liên Quan duy nhất
+    items.push({ id: 'tai-nguyen-lien-quan', label: 'Tài Nguyên Liên Quan' });
     return items;
   }, [parsedContent]);
 
@@ -221,10 +233,35 @@ export default function WpPreviewPage() {
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 350);
+
+      // Quét tìm section đang active theo độ cuộn viewport
+      const scrollPosition = window.scrollY + 200;
+      let matchedId = navItems[0]?.id || '';
+
+      for (let i = 0; i < navItems.length; i++) {
+        const item = navItems[i];
+        const el = document.getElementById(item.id);
+        if (el) {
+          const top = el.getBoundingClientRect().top + window.scrollY;
+          if (scrollPosition >= top) {
+            matchedId = item.id;
+          }
+        }
+      }
+
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 60) {
+        matchedId = navItems[navItems.length - 1]?.id || matchedId;
+      }
+
+      if (matchedId) {
+        setActiveSection(matchedId);
+      }
     };
-    window.addEventListener('scroll', handleScroll);
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [navItems]);
 
   const scrollToSection = (id: string) => {
     setActiveSection(id);
@@ -404,39 +441,25 @@ export default function WpPreviewPage() {
                 />
               </section>
 
-              {/* Source Books */}
-              <section id="trich-nguon-sach" className="scroll-mt-28">
-                <BookCitationSection
-                  sourceBook={[
-                    {
-                      bookTitle: 'Khuyến Phát Bồ Đề Tâm Giảng Luận (Trọn bộ 4 quyển)',
-                      author: 'Đại Đức Thích Tâm Hòa',
-                      coverImage: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-nen-tang-tu-hoc-bo-de-tam-banner-sach.webp',
-                      description: 'Bộ sách giảng giải chi tiết về tầm quan trọng của việc phát Bồ Đề Tâm trong đời sống tu học và phụng sự nhân sinh.',
-                      linkUrl: '/tri-tue-phat-phap',
-                    },
-                    {
-                      bookTitle: 'Đi Qua Khổ Vui Cuộc Đời (Quyển 01, 02, 03)',
-                      author: 'Sa Môn Vô Trí (hiệu Tâm Hòa)',
-                      coverImage: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-phong-truyen-thua/tong-chi-tu-hoc-tong-phong-truyen-thua-tiep-buoc-thay-toi-thay-chu-thich-popup-sach-dqkvcd.webp',
-                      description: 'Những chia sẻ chân thật và sâu sắc về hành trình vượt qua chông gai, chuyển hóa khổ đau thành an lạc thảnh thơi.',
-                      linkUrl: '/tri-tue-phat-phap/di-qua-kho-vui-cuoc-doi',
-                    },
-                  ]}
-                />
-              </section>
-
-              {/* Video Block */}
-              <section id="video-minh-hoa" className="scroll-mt-28">
-                <IllustrationVideo
-                  videoBlock={{
-                    title: 'KHUYẾN PHÁT BỒ ĐỀ TÂM VĂN - TRỌN BỘ | ĐẠI ĐỨC THÍCH TÂM HÒA',
-                    subtitle: 'Khơi dậy ngọn đèn trí tuệ và tình thương vô ngã.',
-                    description: 'Chư Phật ba đời không rời Bồ Đề tâm để thành tựu các pháp.',
-                    videoUrl: 'https://www.youtube.com/playlist?list=PL2aRqXTU1nn456nh72vOF1W7Au764sTVN',
-                  }}
-                />
-              </section>
+              {/* Khối Tài Nguyên Liên Quan nhỏ gọn 3 thẻ ngang */}
+              <TaiNguyenLienQuanCompact
+                videoBlock={{
+                  title: wpData?.acf?.tieu_de_video || 'KHUYẾN PHÁT BỒ ĐỀ TÂM VĂN - TRỌN BỘ | ĐẠI ĐỨC THÍCH TÂM HÒA',
+                  subtitle: wpData?.acf?.tieu_de_phu || 'Khơi dậy ngọn đèn trí tuệ và tình thương vô ngã.',
+                  description: wpData?.acf?.mo_ta_ngan_video || 'Chư Phật ba đời không rời Bồ Đề tâm để thành tựu các pháp.',
+                  videoUrl: wpData?.acf?.duong_dan_link_youtube || 'https://www.youtube.com/playlist?list=PL2aRqXTU1nn456nh72vOF1W7Au764sTVN',
+                }}
+                sourceBook={[
+                  {
+                    title: 'Khuyến Phát Bồ Đề Tâm Giảng Luận (Trọn bộ 4 quyển)',
+                    author: 'Đại Đức Thích Tâm Hòa',
+                    coverImage: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-nen-tang-tu-hoc-bo-de-tam-banner-sach.webp',
+                    description: 'Bộ sách giảng giải chi tiết về tầm quan trọng của việc phát Bồ Đề Tâm trong đời sống tu học và phụng sự nhân sinh.',
+                    linkUrl: '/vu-tru-phat-giao/tang-kinh-cac',
+                  },
+                ]}
+                heroBanner={heroBannerUrl}
+              />
 
               {/* AI Q&A */}
               <AiQnA />

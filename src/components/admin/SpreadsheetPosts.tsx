@@ -362,6 +362,10 @@ export function SpreadsheetPosts() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [isDirty, setIsDirty] = useState(false);
+  const isDirtyRef = useRef(false);
+  useEffect(() => {
+    isDirtyRef.current = isDirty;
+  }, [isDirty]);
   const [lastSavedTime, setLastSavedTime] = useState<string | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
@@ -482,6 +486,11 @@ export function SpreadsheetPosts() {
   // Fetch all posts from API
   // silent=true: chạy ngầm, không hiện spinner, không xóa trắng bảng (dùng khi quay lại từ tab Gutenberg)
   const fetchPosts = async (silent = false) => {
+    // 🛡️ Nếu là silent refresh nền khi focus lại tab và người dùng đang sửa dở (isDirty): tuyệt đối không đè dữ liệu
+    if (silent && isDirtyRef.current) {
+      return;
+    }
+
     try {
       if (!silent) setLoading(true);
       const res = await fetch(`/api/admin/posts?t=${Date.now()}`, { cache: 'no-store' });
@@ -492,7 +501,29 @@ export function SpreadsheetPosts() {
         for (const p of data.posts as PostRecord[]) {
           if (!uniqueMap.has(p.id)) uniqueMap.set(p.id, p);
         }
-        setPosts(Array.from(uniqueMap.values()));
+        const serverPosts = Array.from(uniqueMap.values());
+
+        // 🛡️ Khôi phục bản nháp nếu trang vừa bị trình duyệt reload ngoài ý muốn
+        try {
+          const draftJson = typeof window !== 'undefined' ? localStorage.getItem('tunglam_admin_posts_draft') : null;
+          if (draftJson && !silent) {
+            const draft = JSON.parse(draftJson);
+            if (draft && Array.isArray(draft.posts) && draft.posts.length > 0) {
+              const serverIds = new Set(serverPosts.map((p) => p.id));
+              const missingNewPosts = draft.posts.filter((p: any) => !serverIds.has(p.id));
+              if (missingNewPosts.length > 0) {
+                const merged = [...missingNewPosts, ...serverPosts];
+                setPosts(merged);
+                setIsDirty(true);
+                isDirtyRef.current = true;
+                showToast(`🛡️ Đã tự động khôi phục ${missingNewPosts.length} bài viết mới chưa lưu từ phiên trước!`);
+                return;
+              }
+            }
+          }
+        } catch {}
+
+        setPosts(serverPosts);
       }
     } catch {
       // Lỗi ngầm không hiện toast khi refresh nền
@@ -534,12 +565,25 @@ export function SpreadsheetPosts() {
     const handleWindowFocus = () => {
       if (hasOpenedGutenbergRef.current) {
         hasOpenedGutenbergRef.current = false;
+        // 🛡️ CHỐNG MẤT BÀI: Nếu đang có thay đổi chưa lưu, tuyệt đối không tải đè từ máy chủ
+        if (isDirtyRef.current) return;
         fetchPosts(true); // silent=true: không xóa bảng, không hiện spinner
       }
     };
 
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (isDirtyRef.current) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    };
+
     window.addEventListener('focus', handleWindowFocus);
-    return () => window.removeEventListener('focus', handleWindowFocus);
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => {
+      window.removeEventListener('focus', handleWindowFocus);
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
   }, []);
 
   // Open S3 Library Helper
@@ -867,6 +911,8 @@ export function SpreadsheetPosts() {
       if (data.success) {
         setPosts(postsToSave); // Giữ nguyên state đầy đủ ở client (bao gồm photoGallery)
         setIsDirty(false);
+        isDirtyRef.current = false;
+        try { localStorage.removeItem('tunglam_admin_posts_draft'); } catch {}
         const timeStr = new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
         setLastSavedTime(timeStr);
         if (!silent) showToast(`✅ Đã lưu thành công ${normalized.length} bài viết!`);
@@ -1035,7 +1081,7 @@ export function SpreadsheetPosts() {
   };
 
   // Thêm bài viết mới (Chuyên biệt cho Dòng Chảy Hoằng Pháp)
-  const handleAddNewPost = () => {
+  const handleAddNewPost = async () => {
     const subCat = selectedCategory !== 'all' ? selectedCategory : 'cong-tu';
     const catName = HOANG_PHAP_CATEGORIES.find((c) => c.id === subCat)?.name.replace(/^\d+\.\s*/, '') || 'Cộng Tu';
 
@@ -1066,7 +1112,23 @@ export function SpreadsheetPosts() {
     const updated = [newPost, ...posts];
     setPosts(updated);
     setIsDirty(true);
-    showToast('✨ Đã thêm bài viết mới vào Dòng Chảy Hoằng Pháp!');
+    isDirtyRef.current = true;
+    try {
+      localStorage.setItem('tunglam_admin_posts_draft', JSON.stringify({
+        timestamp: Date.now(),
+        posts: updated.slice(0, 10),
+      }));
+    } catch {}
+
+    showToast('⚡ Đang lưu bài viết mới vào hệ thống máy chủ...');
+
+    // 🛡️ TỰ ĐỘNG LƯU TỨC THÌ LÊN MÁY CHỦ: Đảm bảo chuyển tab hoặc reload không bao giờ bị mất!
+    try {
+      await savePostsToBackend(updated, true);
+      showToast('✨ Đã tạo và lưu bài viết mới thành công vào đầu bảng!');
+    } catch {
+      showToast('⚠️ Đã thêm bài mới, hãy nhấn nút Lưu (hoặc Ctrl+S)');
+    }
   };
 
   // Xóa bài viết - Tức thời 0ms (Optimistic UI) + Đồng bộ ngầm máy chủ & S3 vĩnh viễn
