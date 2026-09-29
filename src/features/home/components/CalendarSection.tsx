@@ -14,6 +14,7 @@ import {
   X,
 } from "lucide-react";
 import { SectionHeader } from "@/components/common/SectionHeader";
+import { SectionTransitionOverlay } from "@/components/common/SectionTransitionOverlay";
 import {
   getDaysInMonth,
   getStartDayOffset,
@@ -163,7 +164,10 @@ export const CalendarSection: FC = () => {
   const visiblePrograms = activePrograms.slice(carouselIdx, carouselIdx + 3);
 
   return (
-    <section className="w-full py-20 relative overflow-hidden bg-[#2A1D14]">
+    <section className="w-full py-20 relative overflow-hidden bg-[#1A120B]">
+      {/* ── Seamless Gradient Blur Overlay ── */}
+      <SectionTransitionOverlay position="both" />
+
       {/* ── Background Ambient Aura ── */}
       <div className="absolute inset-0 pointer-events-none">
         <img
@@ -175,35 +179,17 @@ export const CalendarSection: FC = () => {
             (e.currentTarget as HTMLImageElement).src = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp';
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#2A1D14] via-transparent to-[#2A1D14]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#1A120B] via-transparent to-[#1A120B]" />
       </div>
 
-      {/* ── 1. Top Section Header ── */}
+      {/* ── 1. Top Section Header (Tối giản, bỏ sub tiêu đề) ── */}
       <SectionHeader
         title={`LỊCH TU HỌC PHẬT LỊCH ${buddhistEra}`}
-        subtitle={`THỜI KHÓA TU TẬP, SÁM HỐI VÀ ĐẠI LỄ TÂM LINH ĐỊNH KỲ NĂM BÍNH NGỌ ${currentYear}`}
         icon={<CalendarIcon className="w-5 h-5 text-amber-400 animate-pulse" />}
       />
 
       {/* ── 2. Unified Side-by-Side Calendar Container ── */}
       <div className="relative z-10 max-w-6xl mx-auto px-4 space-y-6">
-
-        {/* Category Filters Bar */}
-        <div className="flex flex-wrap items-center justify-center gap-2">
-          {CATEGORIES.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setSelectedCategory(cat)}
-              className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer shadow-md uppercase tracking-wider ${selectedCategory === cat
-                  ? "bg-[#F2C14E] text-[#1C120B] border-2 border-white shadow-[0_0_15px_rgba(242,193,78,0.7)] scale-105"
-                  : "bg-[#1C120B]/90 text-[#FFE5A3] border border-[#F2C14E]/40 hover:bg-[#F2C14E] hover:text-[#1C120B]"
-                }`}
-              style={{ fontFamily: "'UTM Avo', sans-serif" }}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
 
         {/* ══════════════════════════════════════════════════════════════════════
             BỐ CỤC NỔI 3D TRÊN BACKGROUND: KHÔNG KHUNG BAO NGOÀI, TỈ LỆ VÀNG 17x19CM
@@ -329,15 +315,13 @@ export const CalendarSection: FC = () => {
               {/* Nhãn Tháng Dương Lịch & Phật Lịch dạng nút tròn / pill nổi bật */}
               <div className="flex flex-wrap items-center justify-center gap-2">
                 {/* Pill 1: Tháng Dương Lịch */}
-                <div className="flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-gradient-to-r from-[#A3520A] via-[#C87515] to-[#A3520A] border border-[#F2C14E] shadow-sm">
-                  <span className="text-xs select-none">🪷</span>
+                <div className="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-gradient-to-r from-[#A3520A] via-[#C87515] to-[#A3520A] border border-[#F2C14E] shadow-sm">
                   <span
                     style={{ fontFamily: "'UTM Avo', sans-serif" }}
                     className="text-xs sm:text-sm font-black uppercase tracking-wider text-white"
                   >
                     THÁNG {String(currentMonth + 1).padStart(2, '0')} / {currentYear}
                   </span>
-                  <span className="text-xs select-none">🪷</span>
                 </div>
 
                 {/* Pill 2: Phật Lịch & Âm Lịch */}

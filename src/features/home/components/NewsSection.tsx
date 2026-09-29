@@ -137,7 +137,7 @@ export const NewsSection: FC = () => {
   const animClass = slideDirection === 'next' ? 'animate-slide-next' : 'animate-slide-prev';
 
   return (
-    <section className="w-full py-16 relative overflow-hidden bg-[#120d0a]">
+    <section className="w-full py-16 relative overflow-hidden bg-[#1A120B]">
       {/* ── Keyframe Animations cho hiệu ứng trượt ngang mượt mà ── */}
       <style>{`
         @keyframes slideInFromRight {
@@ -168,7 +168,7 @@ export const NewsSection: FC = () => {
           className={`w-full h-full object-cover opacity-20 blur-[2px] transition-all duration-700 ${animClass}`}
           loading="lazy"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#120d0a] via-transparent to-[#120d0a]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#1A120B] via-transparent to-[#1A120B]" />
       </div>
 
       {/* ── 1. HEADER SECTION ── */}

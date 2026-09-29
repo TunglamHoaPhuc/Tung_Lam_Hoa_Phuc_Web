@@ -224,6 +224,9 @@ export const Hero: FC = () => {
 
       <div className="h-10" />
 
+      {/* ── Soft Gradient Blur at Bottom of Hero: Seamlessly merges video into page background ── */}
+      <div className="absolute bottom-0 inset-x-0 h-44 md:h-64 bg-gradient-to-t from-[#1A120B] via-[#1A120B]/80 to-transparent pointer-events-none z-10 backdrop-blur-[2px]" />
+
       {/* ── Pop-up Galaxy Timeline Gallery Modal ── */}
       {isGalaxyOpen && <GalaxyTimelineGallery onClose={() => setIsGalaxyOpen(false)} />}
     </section>

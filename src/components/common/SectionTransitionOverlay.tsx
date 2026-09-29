@@ -8,7 +8,7 @@ export interface SectionTransitionOverlayProps {
 
 export const SectionTransitionOverlay: FC<SectionTransitionOverlayProps> = ({
   position = "both",
-  height = "h-24 md:h-36",
+  height = "h-28 md:h-44",
   className = "",
 }) => {
   const showTop = position === "top" || position === "both";
@@ -18,12 +18,12 @@ export const SectionTransitionOverlay: FC<SectionTransitionOverlayProps> = ({
     <>
       {showTop && (
         <div
-          className={`absolute top-0 inset-x-0 pointer-events-none z-10 ${height} bg-gradient-to-b from-[#120d0a] via-[#120d0a]/60 to-transparent backdrop-blur-[2px] ${className}`}
+          className={`absolute top-0 inset-x-0 pointer-events-none z-10 ${height} bg-gradient-to-b from-[#1A120B] via-[#1A120B]/70 to-transparent backdrop-blur-[3px] ${className}`}
         />
       )}
       {showBottom && (
         <div
-          className={`absolute bottom-0 inset-x-0 pointer-events-none z-10 ${height} bg-gradient-to-t from-[#120d0a] via-[#120d0a]/60 to-transparent backdrop-blur-[2px] ${className}`}
+          className={`absolute bottom-0 inset-x-0 pointer-events-none z-10 ${height} bg-gradient-to-t from-[#1A120B] via-[#1A120B]/70 to-transparent backdrop-blur-[3px] ${className}`}
         />
       )}
     </>

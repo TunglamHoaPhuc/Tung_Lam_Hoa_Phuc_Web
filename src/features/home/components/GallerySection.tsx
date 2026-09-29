@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ChevronLeft, ChevronRight, ArrowRight, MapPin, Landmark, Scroll, BookOpen, Sun, HandHeart } from "lucide-react";
 import { SectionHeader } from "@/components/common/SectionHeader";
 import { CategoryIcon } from "@/components/common/CategoryIcon";
+import { SectionTransitionOverlay } from "@/components/common/SectionTransitionOverlay";
 
 interface AreaItem {
   id: string;
@@ -73,39 +74,39 @@ const FEATURED_AREAS: AreaItem[] = [
 const FEATURED_STATUES: StatueItem[] = [
   {
     id: "s1",
-    name: "ĐỨC PHẬT THÍCH CA & KINH PHÁP HOA",
-    cluster: "BẢO THÁP SRILANKA",
-    area: "TẦNG 3",
-    imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/Tuong-duc-Phat-Thich-Ca-bao-Thap-va-kinh-Dieu-Phap-Lien-Hoa-JPG.webp",
+    name: "ĐỨC PHẬT THÍCH CA",
+    cluster: "CHƯ PHẬT HẢI HỘI",
+    area: "ĐẠI HÙNG BẢO ĐIỆN",
+    imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/chu_phat_hai_hoi/duc_phat_thich_ca/tuong_chinh/duc_phat_thich_ca_tuongchinh.webp",
     targetUrl: "/bao-tuong/duc_phat_thich_ca_mau_ni_vo_thuong_nang_nhan_tp0001",
     iconName: "Landmark",
   },
   {
     id: "s2",
-    name: "ĐỨC ĐẠI NHẬT NHƯ LAI",
-    cluster: "MANDALA TÂY PHƯƠNG",
-    area: "TẦNG 2",
-    imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/Tuong-ai-Nhat-Nhu-Lai-JPG.webp",
-    targetUrl: "/bao-tuong/duc_phat_ty_lo_gia_na_dai_nhat_nhu_lai_tp0004",
+    name: "ĐỨC PHẬT DI ĐÀ",
+    cluster: "TÂY PHƯƠNG TAM THÁNH",
+    area: "ĐẠI GIẢNG ĐƯỜNG",
+    imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/chu_phat_hai_hoi/duc_phat_di_da/duc_phat_di_da_tuong_chinh-JPG.webp",
+    targetUrl: "/bao-tuong/duc_phat_a_di_da_loi_nguyen_vuot_thoi_gian_tp0012",
     iconName: "Sun",
   },
   {
     id: "s3",
-    name: "TƯỢNG TAM THẾ PHẬT",
-    cluster: "TAM THÂN PHẬT TÁNH",
-    area: "TẦNG 4",
-    imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/Tuong-Tam-The-Phat-JPG.webp",
-    targetUrl: "/bao-tuong/tam_the_phat_tam_than_phat_tanh_tp0003",
-    iconName: "HandHeart",
+    name: "THẬP ĐẠI ĐỆ TỬ",
+    cluster: "THANH VĂN THÁNH CHÚNG",
+    area: "LẦU KINH LUÂN",
+    imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/thanh_van_thanh_chung/thap_dai_de_tu/ton_gia_dai_ca_diep.webp",
+    targetUrl: "/bao-tuong/thap_dai_de_tu_nhung_nguoi_con_truong_thanh_tu_giao_phap_tp0045",
+    iconName: "Scroll",
   },
   {
     id: "s4",
-    name: "33 ỨNG HÓA THÂN QUÁN THẾ ÂM",
-    cluster: "BỒ TÁT HẠNH NGUYỆN",
-    area: "THÁNH TỊNH ĐẠI HẢI CHÚNG",
-    imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
-    targetUrl: "/vu-tru-phat-giao/bao-thap#33-ung-hoa-than",
-    iconName: "Scroll",
+    name: "THẬP BÁT LA HÁN",
+    cluster: "NGHỆ THUẬT PHẬT GIÁO",
+    area: "TAM BẢO & SÂN LA HÁN",
+    imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/thanh_van_thanh_chung/thap_bat_la_han/tuong_chinh/hang_long_la_han.webp",
+    targetUrl: "/bao-tuong/thap_bat_la_han_tuong_da_tp0051",
+    iconName: "Compass",
   },
 ];
 
@@ -128,7 +129,9 @@ export const GallerySection: FC = () => {
   const nextStatue = FEATURED_STATUES[nextStatueIdx];
 
   return (
-    <div className="w-full space-y-24 py-16 bg-[#1A120B]">
+    <div className="w-full space-y-24 py-16 bg-[#1A120B] relative">
+      {/* ── Seamless Gradient Blur Overlay ── */}
+      <SectionTransitionOverlay position="both" />
 
       {/* ══════════════════════════════════════════════════════
           1. SECTION CÁC KHU VỰC NỔI BẬT (Slider Tỉ Lệ Vàng Mở Rộng)
@@ -275,7 +278,6 @@ export const GallerySection: FC = () => {
       <section className="relative overflow-hidden w-full">
         <SectionHeader
           title="CÁC BẢO TƯỢNG NỔI BẬT"
-          subtitle="Hệ thống tượng pháp dát vàng tôn thờ trang nghiêm"
         />
 
         <div className="w-full overflow-hidden relative flex justify-center items-center py-6 min-h-[460px]">

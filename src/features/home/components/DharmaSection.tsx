@@ -7,6 +7,7 @@ import { C } from '@/config/theme';
 import type { SectionRef } from '@/features/home/types';
 import { SectionHeader } from '@/components/common/SectionHeader';
 import { PostCard } from '@/components/common/PostCard';
+import { SectionTransitionOverlay } from '@/components/common/SectionTransitionOverlay';
 import { PostItem } from '@/types/post';
 
 // ─── Dữ liệu khởi tạo hiển thị tức thì (Zero-flicker SSR fallback) ─────────────
@@ -181,9 +182,11 @@ const DharmaSection: FC<DharmaSectionProps> = ({ sectionRef }) => {
     <section
       ref={sectionRef}
       id="hoang-phap"
-      className="py-16 md:py-24 px-4 md:px-10 relative overflow-hidden"
-      style={{ background: C.dark }}
+      className="py-16 md:py-24 px-4 md:px-10 relative overflow-hidden bg-[#1A120B]"
     >
+      {/* ── Seamless Gradient Blur Overlay ── */}
+      <SectionTransitionOverlay position="both" />
+
       {/* Nền hoa văn nhẹ trang nghiêm */}
       <div
         className="absolute inset-0 opacity-[0.03] pointer-events-none bg-repeat"
