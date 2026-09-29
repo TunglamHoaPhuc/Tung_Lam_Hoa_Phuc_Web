@@ -129,7 +129,9 @@
       }
     ],
     "stories": [],
-    "wpPostId": "509"
+    "wpPostId": "509",
+    "bannerUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/tam-bao.webp",
+    "thumbnailUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/tam-bao.webp"
   },
   {
     "id": "2",
@@ -188,7 +190,9 @@
         "type": "TƯỢNG CHÍNH"
       }
     ],
-    "stories": []
+    "stories": [],
+    "bannerUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/to-duong.webp",
+    "thumbnailUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/to-duong.webp"
   },
   {
     "id": "3",
@@ -586,7 +590,9 @@
         "type": "TƯỢNG CHÍNH"
       }
     ],
-    "stories": []
+    "stories": [],
+    "bannerUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/bao-tang.webp",
+    "thumbnailUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/bao-tang.webp"
   },
   {
     "id": "5",
@@ -613,7 +619,9 @@
         "type": "NTPG"
       }
     ],
-    "stories": []
+    "stories": [],
+    "bannerUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/bao-thap.webp",
+    "thumbnailUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/bao-thap.webp"
   },
   {
     "id": "6",
@@ -656,7 +664,9 @@
         "type": "TƯỢNG CHÍNH"
       }
     ],
-    "stories": []
+    "stories": [],
+    "bannerUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/giang-duong.webp",
+    "thumbnailUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/giang-duong.webp"
   },
   {
     "id": "7",
