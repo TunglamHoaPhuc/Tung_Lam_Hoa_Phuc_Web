@@ -26,6 +26,7 @@ interface StatueItem {
   targetUrl: string;
   iconName?: string;
   logoUrl?: string;
+  imgPosition?: string;
 }
 
 const FEATURED_AREAS: AreaItem[] = [
@@ -89,6 +90,7 @@ const FEATURED_STATUES: StatueItem[] = [
     imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/chu_phat_hai_hoi/duc_phat_di_da/duc_phat_di_da_tuong_chinh-JPG.webp",
     targetUrl: "/bao-tuong/duc_phat_a_di_da_loi_nguyen_vuot_thoi_gian_tp0012",
     iconName: "Sun",
+    imgPosition: "center 15%",
   },
   {
     id: "s3",
@@ -107,6 +109,7 @@ const FEATURED_STATUES: StatueItem[] = [
     imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/thanh_van_thanh_chung/thap_bat_la_han/tuong_chinh/hang_long_la_han.webp",
     targetUrl: "/bao-tuong/thap_bat_la_han_tuong_da_tp0051",
     iconName: "Compass",
+    imgPosition: "center 15%",
   },
 ];
 
@@ -298,7 +301,7 @@ export const GallerySection: FC = () => {
 
           {/* ✦ SLIDE CHÍNH Ó GIỮA (TỈ LỆ VÀNG 1.618 : 1) ✦ */}
           <div className="w-full sm:w-[88%] md:w-[84%] max-w-5xl aspect-[1.618/1] relative z-10 rounded-2xl overflow-hidden shadow-2xl flex-shrink-0 border border-[#F2C14E]/60 group mx-auto">
-            <img src={currentStatue.imgUrl} alt={currentStatue.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+            <img src={currentStatue.imgUrl} alt={currentStatue.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" style={{ objectPosition: currentStatue.imgPosition || 'center center' }} />
             <div className="absolute inset-0 bg-gradient-to-t from-[#1A1008]/95 via-black/20 to-transparent" />
 
             <button
