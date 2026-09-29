@@ -138,28 +138,17 @@ interface DharmaSectionProps {
 /**
  * 🪷 DẤU ẤN HOẰNG PHÁP
  * - Tiêu đề: Font 'UTM Niagara' vàng kim rực rỡ, phát sáng trang nghiêm
- * - Hệ thống động: Tự động nhảy ra đúng các bài viết được theo dõi nhiều nhất từ:
- *   1. Tông Chỉ Tu Học
- *   2. Dòng Chảy Hoằng Pháp
- *   3. Trí Tuệ Phật Pháp
- * - Bố cục chuẩn tỷ lệ vàng 3 cột x 2 hàng (6 thẻ PostCard)
+ * - Subtitle: Những bài viết được quan tâm & theo dõi nhiều nhất (tối giản, bỏ chữ kho tư liệu)
+ * - Bố cục 5 bài viết:
+ *   + 1 Post Card ảnh to nhất ở ngoài cùng (Featured Hero Card)
+ *   + 4 Post Card xếp lưới 2x2 cân đối bên cạnh
+ *   + Hover nhẹ nhàng mới hiển thị mô tả, ngày đăng và lượt xem
  */
 const DharmaSection: FC<DharmaSectionProps> = ({ sectionRef }) => {
-  const [activeTab, setActiveTab] = useState<CategoryTab>('all');
-  const [dataMap, setDataMap] = useState<{
-    all: PostItem[];
-    'tong-chi': PostItem[];
-    'dong-chay': PostItem[];
-    'tri-tue': PostItem[];
-  }>({
-    all: INITIAL_TOP_POSTS,
-    'tong-chi': INITIAL_TOP_POSTS.filter((p) => p.category1 === 'Tông Chỉ Tu Học'),
-    'dong-chay': INITIAL_TOP_POSTS.filter((p) => p.category1 === 'Dòng Chảy Hoằng Pháp'),
-    'tri-tue': INITIAL_TOP_POSTS.filter((p) => p.category1 === 'Trí Tuệ Phật Pháp'),
-  });
+  const [topPosts, setTopPosts] = useState<PostItem[]>(INITIAL_TOP_POSTS.slice(0, 5));
   const [loading, setLoading] = useState(false);
 
-  // 🚀 Tự động đồng bộ dữ liệu xếp hạng lượt theo dõi mới nhất từ API
+  // 🚀 Tự động đồng bộ 5 bài viết có lượt theo dõi cao nhất từ API
   useEffect(() => {
     let isMounted = true;
     async function fetchFeatured() {
@@ -169,12 +158,8 @@ const DharmaSection: FC<DharmaSectionProps> = ({ sectionRef }) => {
         if (res.ok) {
           const json = await res.json();
           if (json.success && json.data && isMounted) {
-            setDataMap({
-              all: json.data.featured?.length > 0 ? json.data.featured : INITIAL_TOP_POSTS,
-              'tong-chi': json.data.tongChi || [],
-              'dong-chay': json.data.dongChay || [],
-              'tri-tue': json.data.triTue || [],
-            });
+            const list = json.data.featured?.length > 0 ? json.data.featured : INITIAL_TOP_POSTS;
+            setTopPosts(list.slice(0, 5));
           }
         }
       } catch (err) {
@@ -189,8 +174,8 @@ const DharmaSection: FC<DharmaSectionProps> = ({ sectionRef }) => {
     };
   }, []);
 
-  const currentPosts = dataMap[activeTab] || dataMap.all;
-  const currentTabInfo = TABS.find((t) => t.id === activeTab) || TABS[0];
+  const featuredPost = topPosts[0];
+  const sidePosts = topPosts.slice(1, 5);
 
   return (
     <section
@@ -209,48 +194,38 @@ const DharmaSection: FC<DharmaSectionProps> = ({ sectionRef }) => {
         {/* ── Section Header (Tiêu đề font UTM Niagara) ── */}
         <SectionHeader
           title="DẤU ẤN HOẰNG PHÁP"
-          subtitle="Kho tư liệu Phật học · Những bài viết được quan tâm & theo dõi nhiều nhất"
+          subtitle="Những bài viết được quan tâm & theo dõi nhiều nhất"
         />
 
-        {/* ── Bộ Lọc Danh Mục (Interactive Category Tabs) ── */}
-        <div className="flex items-center justify-center flex-wrap gap-2.5 md:gap-3.5 mb-10 md:mb-14">
-          {TABS.map((tab) => {
-            const isActive = activeTab === tab.id;
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                type="button"
-                className={`relative px-4 md:px-6 py-2 md:py-2.5 rounded-full text-xs md:text-sm font-semibold tracking-wider uppercase transition-all duration-300 flex items-center gap-2 cursor-pointer shadow-md ${
-                  isActive
-                    ? 'bg-gradient-to-r from-[#F2C14E] via-[#ffde59] to-[#E5A93C] text-[#2A1D14] shadow-[0_0_20px_rgba(242,193,78,0.55)] scale-[1.03] border-none font-bold'
-                    : 'bg-[#2A1D14]/80 text-[#E3D2C1] hover:text-[#F2C14E] border border-[#F2C14E]/30 hover:border-[#F2C14E]/80 hover:bg-[#38261A]'
-                }`}
-                style={{ fontFamily: "'UTM Avo', sans-serif" }}
-              >
-                <span className="text-sm md:text-base">{tab.icon}</span>
-                <span className="hidden sm:inline">{tab.label}</span>
-                <span className="sm:hidden">{tab.shortLabel}</span>
-              </button>
-            );
-          })}
+        {/* ── Bố cục 5 bài viết: 1 Post Card To Bên Ngoài Cùng + 4 Thẻ 2x2 Bên Cạnh ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-7 items-stretch">
+          {/* Card 1: ẢNH TO NHẤT BÊN NGOÀI CÙNG (5 Cột Desktop) */}
+          {featuredPost && (
+            <div className="lg:col-span-5 flex flex-col">
+              <PostCard
+                post={featuredPost}
+                large={true}
+                className="h-full min-h-[460px] lg:min-h-[520px]"
+              />
+            </div>
+          )}
+
+          {/* 4 Card còn lại: Xếp lưới 2x2 cân đối (7 Cột Desktop) */}
+          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6">
+            {sidePosts.map((post) => (
+              <PostCard key={post.id} post={post} />
+            ))}
+          </div>
         </div>
 
-        {/* ── Lưới Bài Viết Chuẩn Tỷ Lệ Vàng (3 Cột x 2 Hàng = 6 Thẻ) ── */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 transition-opacity duration-300">
-          {currentPosts.slice(0, 6).map((post) => (
-            <PostCard key={post.id} post={post} />
-          ))}
-        </div>
-
-        {/* ── Nút Khám Phá Toàn Bộ Chuyên Mục ── */}
+        {/* ── Nút Khám Phá Toàn Bộ Dòng Chảy Hoằng Pháp ── */}
         <div className="mt-12 md:mt-16 flex items-center justify-center">
           <Link
-            href={currentTabInfo.exploreUrl}
+            href="/dong-chay-hoang-phap"
             className="group inline-flex items-center gap-2.5 px-6 md:px-8 py-3.5 rounded-full border border-[#F2C14E]/50 bg-[#2A1D14]/90 text-[#F2C14E] hover:text-[#2A1D14] hover:bg-[#F2C14E] transition-all duration-300 shadow-lg hover:shadow-[0_0_24px_rgba(242,193,78,0.5)] font-semibold text-xs md:text-sm tracking-wider uppercase"
             style={{ fontFamily: "'UTM Avo', sans-serif" }}
           >
-            <span>{currentTabInfo.exploreLabel}</span>
+            <span>Khám Phá Dòng Chảy Hoằng Pháp</span>
             <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
           </Link>
         </div>

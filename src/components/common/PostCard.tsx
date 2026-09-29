@@ -44,19 +44,24 @@ export const PostCard: FC<PostCardProps> = ({
   return (
     <CardWrapper
       {...(wrapperProps as any)}
-      className={`group relative w-full overflow-hidden rounded-xl border border-[#F2C14E]/20 bg-[#2C1C11] cursor-pointer transition-all duration-300 hover:-translate-y-1.5 hover:border-[#F2C14E] shadow-xl hover:shadow-2xl flex flex-col h-full ${className}`}
+      className={`group relative w-full overflow-hidden rounded-xl border border-[#F2C14E]/25 bg-[#2C1C11] cursor-pointer transition-all duration-500 hover:-translate-y-1.5 hover:border-[#F2C14E] shadow-xl hover:shadow-[0_12px_36px_rgba(0,0,0,0.6)] flex flex-col h-full ${className}`}
     >
-      {/* 1. Khung ảnh Thumbnail Tỷ Lệ Vàng (1.618 : 1) */}
-      <div className="relative w-full aspect-[1.618/1] overflow-hidden bg-[#1A120B] shrink-0">
+      {/* 1. Khung ảnh Thumbnail (Tỷ Lệ Vàng hoặc Ảnh Lớn theo variant) */}
+      <div
+        className={`relative w-full ${
+          large ? 'aspect-[16/11] sm:aspect-[16/10] lg:h-[340px]' : 'aspect-[1.618/1]'
+        } overflow-hidden bg-[#1A120B] shrink-0`}
+      >
         <img
           src={post.imageUrl || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp'}
           alt={post.title}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
           loading="lazy"
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
       </div>
 
-      {/* 2. Đường kẻ Gradient cắt ĐÚNG ranh giới mép chân ảnh Tỷ Lệ Vàng */}
+      {/* 2. Đường kẻ Gradient cắt ranh giới mép chân ảnh */}
       <div className="relative w-full h-[1px] bg-gradient-to-r from-transparent via-[#F2C14E]/70 to-transparent z-10 shrink-0">
         {/* Huy hiệu Logo Chùa nổi chính giữa tim đường kẻ */}
         <div className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-11 md:h-11 rounded-full border-2 border-[#F2C14E] bg-[#2C1C11] flex items-center justify-center p-1 shadow-[0_0_12px_rgba(242,193,78,0.5)]">
@@ -68,10 +73,10 @@ export const PostCard: FC<PostCardProps> = ({
         </div>
       </div>
 
-      {/* 3. Khung nội dung chú thích chữ (Padding & Typography Tỷ Lệ Vàng) */}
-      <div className="p-4 md:p-6 pt-6 md:pt-8 flex flex-col gap-2.5 bg-[#2C1C11] flex-1 justify-between">
-        <div className="space-y-2">
-          {/* Tag Danh Mục (Golden Scale: text-[11px] md:text-[12px]) */}
+      {/* 3. Khung nội dung chú thích chữ (Tối giản bình thường, hover nhẹ nhàng mở rộng) */}
+      <div className="p-4 md:p-5 pt-6 md:pt-7 flex flex-col justify-between bg-[#2C1C11] flex-1 transition-all duration-500">
+        <div className="space-y-1.5">
+          {/* Tag Danh Mục */}
           <div
             style={{ fontFamily: "'UTM Avo', sans-serif" }}
             className="text-[11px] md:text-[12px] font-bold text-[#F2C14E] tracking-wide uppercase flex items-center gap-1.5"
@@ -80,40 +85,50 @@ export const PostCard: FC<PostCardProps> = ({
             <span className="truncate">{categoryTag}</span>
           </div>
 
-          {/* Tiêu Đề Bài Viết (Golden Scale: text-[18px] md:text-[20px]) */}
+          {/* Tiêu Đề Bài Viết */}
           <h3
             style={{ fontFamily: "'UTM Avo', sans-serif" }}
-            className="font-bold text-[18px] md:text-[20px] text-[#F2C14E] hover:text-[#FFE5A3] line-clamp-2 leading-snug transition-colors"
+            className={`font-bold ${
+              large ? 'text-[19px] md:text-[22px]' : 'text-[16px] md:text-[18px]'
+            } text-[#F2C14E] group-hover:text-[#FFE5A3] line-clamp-2 leading-snug transition-colors`}
           >
             {post.title}
           </h3>
 
-          {/* Mô Tả / Bối Cảnh (Golden Scale: text-[13px] md:text-[14px]) */}
+          {/* Mô Tả / Bối Cảnh — Bình thường ẩn, chỉ khi hover mới hiển thị nhẹ nhàng */}
           {post.description && (
-            <p
-              style={{ fontFamily: "'UTM Avo', sans-serif" }}
-              className="text-[13px] md:text-[14px] text-[#D3C0AD] line-clamp-2 leading-relaxed font-normal"
-            >
-              {post.description}
-            </p>
+            <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-500 ease-out opacity-0 group-hover:opacity-100">
+              <div className="overflow-hidden">
+                <p
+                  style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                  className="text-[12px] md:text-[13px] text-[#D3C0AD] line-clamp-2 leading-relaxed font-normal pt-1"
+                >
+                  {post.description}
+                </p>
+              </div>
+            </div>
           )}
         </div>
 
-        {/* Thanh Chân Bài Viết (Golden Scale: text-[11px] md:text-[12px]) */}
-        <div
-          style={{ fontFamily: "'UTM Avo', sans-serif" }}
-          className="border-t border-[#F2C14E]/15 pt-3 mt-3 flex items-center justify-between text-[11px] md:text-[12px] text-[#A69383]"
-        >
-          {/* Trái: Icon Lịch + Ngày đăng */}
-          <div className="flex items-center gap-1.5">
-            <Calendar className="w-3.5 h-3.5 text-[#F2C14E]" />
-            <span>{post.publishedDate || '28/11/2025'}</span>
-          </div>
+        {/* Thanh Chân Bài Viết (Ngày đăng + Lượt xem) — Bình thường ẩn, chỉ khi hover mới hiển thị nhẹ nhàng */}
+        <div className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-all duration-500 ease-out opacity-0 group-hover:opacity-100">
+          <div className="overflow-hidden">
+            <div
+              style={{ fontFamily: "'UTM Avo', sans-serif" }}
+              className="border-t border-[#F2C14E]/15 pt-2.5 mt-2.5 flex items-center justify-between text-[11px] md:text-[12px] text-[#A69383]"
+            >
+              {/* Trái: Icon Lịch + Ngày đăng */}
+              <div className="flex items-center gap-1.5">
+                <Calendar className="w-3.5 h-3.5 text-[#F2C14E]" />
+                <span>{post.publishedDate || '28/11/2025'}</span>
+              </div>
 
-          {/* Phải: Lượt xem + Icon Mắt */}
-          <div className="flex items-center gap-1.5">
-            <span>{formattedViews}</span>
-            <Eye className="w-3.5 h-3.5 text-[#F2C14E]" />
+              {/* Phải: Lượt xem + Icon Mắt */}
+              <div className="flex items-center gap-1.5">
+                <span>{formattedViews}</span>
+                <Eye className="w-3.5 h-3.5 text-[#F2C14E]" />
+              </div>
+            </div>
           </div>
         </div>
       </div>
