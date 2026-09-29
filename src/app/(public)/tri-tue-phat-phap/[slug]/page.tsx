@@ -46,6 +46,17 @@ export default function WisdomDetailPage() {
               publishDate: json.post.publishedDate || '2026-08-01',
               views: json.post.viewsCount || 108,
             });
+
+            // 👁️ Tự động ghi nhận lượt xem (chống trùng lặp bằng sessionStorage)
+            const viewKey = `viewed_tt_${slug}`;
+            if (typeof window !== 'undefined' && !sessionStorage.getItem(viewKey)) {
+              sessionStorage.setItem(viewKey, '1');
+              fetch('/api/public/increment-view', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ type: 'post', idOrSlug: slug }),
+              }).catch(() => {});
+            }
           }
         }
       } catch (err) {

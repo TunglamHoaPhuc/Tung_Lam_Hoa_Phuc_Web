@@ -1,5 +1,167 @@
 [
   {
+    "id": "post-01",
+    "slug": "phap-hoi-niem-phat-hang-tuan",
+    "title": "Pháp Hội Niệm Phật & Khóa Lễ Bát Quan Trai Giới",
+    "subtitle": "Đạo tràng niệm Phật thanh tịnh hàng tuần nuôi dưỡng bồ đề tâm",
+    "mainCategory": "dong-chay-hoang-phap",
+    "subCategory": "cong-tu",
+    "author": "Ban Văn Hóa Tùng Lâm",
+    "publishedDate": "2026-08-20",
+    "status": "published",
+    "viewsCount": 38601,
+    "thumbnailUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
+    "bannerUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
+    "summary": "Thời khóa tu tập 2 ngày trọn vẹn tại Tổ Đường và Giảng Đường Tùng Lâm Hòa Phúc, hướng dẫn đại chúng thúc liễm thân tâm, chuyên nhất xưng niệm hồng danh Nam Mô A Di Đà Phật.",
+    "contentHtml": "<p>Được sự chỉ dạy của Thầy Viện Chủ Thích Tâm Hòa, đạo tràng niệm Phật Tùng Lâm Hòa Phúc duy trì khóa tu Bát Quan Trai Giới và niệm Phật định kỳ vào thứ Bảy và Chủ Nhật hàng tuần.</p><h3>I. Ý Nghĩa Thời Khóa Hành Trì</h3><p>Hành giả tham dự khóa tu được thọ trì 8 giới thanh tịnh của người cư sĩ tại gia, trải nghiệm đời sống xuất gia gieo duyên trong 24 giờ. Tâm an trú nơi câu Phật hiệu, xua tan mọi lo toan bộn bề của cuộc sống thế tục.</p><h3>II. Chương Trình Tu Tập</h3><ul><li><strong>07h30 Thứ Bảy:</strong> Lễ truyền Bát Quan Trai Giới tại Tổ Đường.</li><li><strong>09h00:</strong> Khóa lễ tụng kinh và niệm Phật kinh hành.</li><li><strong>14h00:</strong> Tụng kinh Báo Ân & sám hối.</li><li><strong>19h15:</strong> Thiền tọa và lắng nghe Pháp thoại.</li><li><strong>Chủ Nhật:</strong> Tiếp tục thời khóa niệm Phật và hoàn mãn vào 16h30.</li></ul>",
+    "categoryName": "Cộng Tu",
+    "keywords": [
+      {
+        "keyword": "Bồ Đề Tâm",
+        "title": "Bồ Đề Tâm (Bodhicitta)",
+        "subtitle": "Tâm nguyện giác ngộ vì lợi ích chúng sinh",
+        "description": "Tâm nguyện rộng lớn hướng đến sự giác ngộ tối thượng nhằm cứu độ muôn loài thoát khỏi khổ đau sinh tử.",
+        "imageUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
+        "imagePosition": "center 50%",
+        "linkUrl": "/tong-chi-tu-hoc/y-nghia-bo-de-tam"
+      },
+      {
+        "keyword": "Bát Quan Trai",
+        "title": "Bát Quan Trai Giới",
+        "subtitle": "8 giới thanh tịnh của người cư sĩ tại gia",
+        "description": "Khóa tu 24 giờ gìn giữ 8 giới luật thanh tịnh, gieo duyên xuất gia và chuyên tâm niệm Phật hành trì.",
+        "imageUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
+        "imagePosition": "center 50%",
+        "linkUrl": "/dong-chay-hoang-phap/phap-hoi-niem-phat-hang-tuan"
+      },
+      {
+        "keyword": "Nam Mô A Di Đà Phật",
+        "title": "Lục Tự Hồng Danh",
+        "subtitle": "Sáu chữ vàng vi diệu của cõi Tây Phương Cực Lạc",
+        "description": "Pháp môn xưng niệm danh hiệu Đức Phật A Di Đà nương nhờ tha lực và đại nguyện tiếp dẫn.",
+        "imageUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/chu_phat_hai_hoi/duc_phat_a_di_da/tay_phuong_tam_thanh.webp",
+        "imagePosition": "center 50%"
+      }
+    ],
+    "videoBlock": {
+      "videoUrl": "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      "title": "Pháp Thoại: Khơi Nguồn Tịnh Độ Trong Đời Sống",
+      "summary": "Thầy Viện Chủ Thích Tâm Hòa chia sẻ về phương pháp nhiếp tâm niệm Phật và giữ gìn chánh niệm giữa đời thường.",
+      "thumbnailUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp"
+    },
+    "photoGallery": [
+      {
+        "title": "Trang nghiêm thời khóa niệm Phật kinh hành",
+        "imageUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
+        "imagePosition": "center 50%",
+        "khuVuc": "Giảng Đường Tùng Lâm",
+        "noiDung": "Hàng trăm Phật tử đồng thanh xưng niệm hồng danh A Di Đà Phật."
+      },
+      {
+        "title": "Lễ truyền thọ Bát Quan Trai Giới",
+        "imageUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
+        "imagePosition": "center 50%",
+        "khuVuc": "Tổ Đường Hòa Phúc",
+        "noiDung": "Quý thiện nam tín nữ chí thành phát nguyện giữ gìn 8 giới thanh tịnh trọn một ngày đêm."
+      }
+    ],
+    "sourceBook": {
+      "bookTitle": "Cẩm Nang Tu Học Tịnh Độ",
+      "author": "Vô Trí - Tâm Hòa",
+      "coverImage": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
+      "description": "Cẩm nang hướng dẫn chi tiết phương pháp niệm Phật, kinh hành và giữ giới cho đạo tràng Phật tử tại gia.",
+      "linkUrl": "/tri-tue-phat-phap"
+    },
+    "previousEditions": [
+      {
+        "title": "Pháp Hội Niệm Phật Tháng 06/2026",
+        "period": "Tháng 06/2026",
+        "slug": "phap-hoi-niem-phat-thang-06",
+        "thumbnailUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp"
+      },
+      {
+        "title": "Khóa Tu Bát Quan Trai Giới Tháng 05/2026",
+        "period": "Tháng 05/2026",
+        "slug": "khoa-tu-bat-quan-trai-thang-05",
+        "thumbnailUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp"
+      },
+      {
+        "title": "Pháp Hội Niệm Phật Mùa Phật Đản 2025",
+        "period": "Năm 2025",
+        "slug": "phap-hoi-niem-phat-mua-phat-dan-2025",
+        "thumbnailUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp"
+      }
+    ],
+    "upcomingEvents": [
+      {
+        "title": "Pháp Hội Niệm Phật & Bát Quan Trai Giới Kỳ Tới",
+        "timeString": "07h30 - 17h00, Thứ Bảy & Chủ Nhật hàng tuần",
+        "location": "Tổ Đường & Giảng Đường Tùng Lâm Hòa Phúc",
+        "description": "Kính mời quý thiện nam tín nữ Phật tử gần xa sắp xếp thời gian về chùa thọ giới và tu tập chánh niệm.",
+        "registrationLink": "/admin/registrations/khoa-tu"
+      }
+    ],
+    "content": "Được sự chỉ dạy của Thầy Viện Chủ Thích Tâm Hòa, đạo tràng niệm Phật Tùng Lâm Hòa Phúc duy trì khóa tu Bát Quan Trai Giới và niệm Phật định kỳ vào thứ Bảy và Chủ Nhật hàng tuần.\n\n### I. Ý Nghĩa Thời Khóa Hành Trì\n\nHành giả tham dự khóa tu được thọ trì 8 giới thanh tịnh của người cư sĩ tại gia, trải nghiệm đời sống xuất gia gieo duyên trong 24 giờ. Tâm an trú nơi câu Phật hiệu, xua tan mọi lo toan bộn bề của cuộc sống thế tục.\n\n### II. Chương Trình Tu Tập\n\n- **07h30 Thứ Bảy:** Lễ truyền Bát Quan Trai Giới tại Tổ Đường.\n- **09h00:** Khóa lễ tụng kinh và niệm Phật kinh hành.\n- **14h00:** Tụng kinh Báo Ân & sám hối.\n- **19h15:** Thiền tọa và lắng nghe Pháp thoại.\n- **Chủ Nhật:** Tiếp tục thời khóa niệm Phật và hoàn mãn vào 16h30.",
+    "thumbnailPosition": "center 50%",
+    "bannerPosition": "center 50%"
+  },
+  {
+    "id": "post-02",
+    "slug": "dai-le-vu-lan-bao-hieu-tri-an",
+    "title": "Đại Lễ Vu Lan Báo Hiếu — Thắp Sáng Ngọn Đèn Tri Ân Cha Mẹ",
+    "subtitle": "Mùa hiếu hạnh thiêng liêng tưởng nhớ ân đức sinh thành dưỡng dục",
+    "mainCategory": "dong-chay-hoang-phap",
+    "subCategory": "dai-le-su-kien",
+    "author": "Vô Trí - Tâm Hòa",
+    "publishedDate": "2026-08-18",
+    "status": "published",
+    "viewsCount": 52400,
+    "thumbnailUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
+    "bannerUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
+    "summary": "Đại lễ Vu Lan Thắng Hội quy tụ hàng nghìn thiện nam tín nữ Phật tử gần xa về chùa dâng trà tri ân đấng sinh thành, cài hoa hồng hiếu hạnh và thắp nến hoa đăng cầu nguyện cửu huyền thất tổ.",
+    "contentHtml": "<p>Không một tác phẩm nào đẹp và thiêng liêng bằng sự hiện hữu của cha và mẹ. Đó là tượng đài của tình thương và sự hy sinh bất tử.</p><p>Hằng năm vào dịp rằm tháng Bảy âm lịch, Tùng Lâm Hòa Phúc trang nghiêm tổ chức Đại lễ Vu Lan Báo Hiếu nhằm khơi dậy tâm hiếu đạo - nền tảng đạo đức cao quý nhất của dân tộc Việt Nam.</p>",
+    "categoryName": "Đại Lễ Sự Kiện",
+    "keywords": [
+      {
+        "keyword": "Vu Lan Báo Hiếu",
+        "title": "Đại Lễ Vu Lan Báo Hiếu",
+        "subtitle": "Thắng hội tri ân tứ trọng ân của người con Phật",
+        "description": "Lễ hội tri ân và báo ân công đức sinh thành dưỡng dục của cha mẹ hiện tiền và cửu huyền thất tổ.",
+        "imageUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
+        "imagePosition": "center 50%"
+      },
+      {
+        "keyword": "Mục Kiền Liên",
+        "title": "Đại Hiếu Mục Kiền Liên Tôn Giả",
+        "subtitle": "Bậc thần thông đệ nhất và tấm gương hiếu hạnh muôn đời",
+        "description": "Tôn giả Mục Kiền Liên vâng lời Phật dạy cúng dường chư Tăng mười phương ngày Tự Tứ để cứu mẹ thoát khỏi cảnh giới ngạ quỷ.",
+        "imageUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/chu_phat_hai_hoi/duc_phat_thich_ca/thap_dai_de_tu/muc_kien_lien.webp",
+        "imagePosition": "center 50%"
+      }
+    ],
+    "previousEditions": [
+      {
+        "title": "Đại Lễ Vu Lan Báo Hiếu — Thắng Hội Năm 2025",
+        "period": "Mùa Vu Lan 2025",
+        "slug": "dai-le-vu-lan-2025",
+        "thumbnailUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp"
+      }
+    ],
+    "upcomingEvents": [
+      {
+        "title": "Đại Lễ Vu Lan Báo Hiếu & Thắp Nến Hoa Đăng",
+        "timeString": "08h00 Ngày 14 & 15 Tháng 07 Âm Lịch",
+        "location": "Khuôn Viên Tùng Lâm Hòa Phúc",
+        "description": "Chương trình dâng trà tri ân cha mẹ, cài hoa hồng hiếu hạnh và thắp nến hoa đăng cầu nguyện bình an.",
+        "registrationLink": "/admin/registrations/khoa-tu"
+      }
+    ],
+    "content": "Không một tác phẩm nào đẹp và thiêng liêng bằng sự hiện hữu của cha và mẹ. Đó là tượng đài của tình thương và sự hy sinh bất tử.\n\nHằng năm vào dịp rằm tháng Bảy âm lịch, Tùng Lâm Hòa Phúc trang nghiêm tổ chức Đại lễ Vu Lan Báo Hiếu nhằm khơi dậy tâm hiếu đạo - nền tảng đạo đức cao quý nhất của dân tộc Việt Nam.",
+    "thumbnailPosition": "center 50%",
+    "bannerPosition": "center 50%",
+    "photoGallery": []
+  },
+  {
     "id": "post-712",
     "slug": "cong-tu-phap-hoi-niem-phat-thang-7-nam-binh-ngo-2026-2",
     "title": "CỘNG TU PHÁP HỘI NIỆM PHẬT THÁNG 7",
@@ -961,7 +1123,7 @@
     "author": "Ban Văn Hóa Tùng Lâm",
     "publishedDate": "2026-09-03",
     "status": "published",
-    "viewsCount": 0,
+    "viewsCount": 31800,
     "thumbnailUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/03-dong-chay-hoang-phap/dai-le-su-kien/32-1-scaled.jpg",
     "thumbnailPosition": "center 50%",
     "bannerUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/03-dong-chay-hoang-phap/dai-le-su-kien/32-1-scaled.jpg",
@@ -1377,7 +1539,7 @@
     "author": "Ban Văn Hóa Tùng Lâm",
     "publishedDate": "2026-09-03",
     "status": "published",
-    "viewsCount": 0,
+    "viewsCount": 36500,
     "thumbnailUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/03-dong-chay-hoang-phap/dai-le-su-kien/2-2-scaled.jpg",
     "thumbnailPosition": "center 50%",
     "bannerUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/03-dong-chay-hoang-phap/dai-le-su-kien/2-2-scaled.jpg",
@@ -1876,7 +2038,7 @@
     "author": "Ban Văn Hóa Tùng Lâm",
     "publishedDate": "2026-01-07",
     "status": "published",
-    "viewsCount": 0,
+    "viewsCount": 34200,
     "thumbnailUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/03-dong-chay-hoang-phap/khoa-le-truyen-thong/1-2.jpg",
     "thumbnailPosition": "center 50%",
     "bannerUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/03-dong-chay-hoang-phap/khoa-le-truyen-thong/1-2.jpg",
@@ -2459,7 +2621,7 @@
     "author": "Ban Văn Hóa Tùng Lâm",
     "publishedDate": "2025-12-22",
     "status": "published",
-    "viewsCount": 0,
+    "viewsCount": 29500,
     "thumbnailUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/03-dong-chay-hoang-phap/cong-tu/17-1.jpg",
     "thumbnailPosition": "center 50%",
     "bannerUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/03-dong-chay-hoang-phap/cong-tu/17-1.jpg",
@@ -5791,7 +5953,7 @@
     "author": "Ban Văn Hóa Tùng Lâm",
     "publishedDate": "2025-10-05",
     "status": "published",
-    "viewsCount": 0,
+    "viewsCount": 32800,
     "thumbnailUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/03-dong-chay-hoang-phap/bai-viet/78f711bf3c1fb641ef0e.jpg",
     "thumbnailPosition": "center 50%",
     "bannerUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/03-dong-chay-hoang-phap/bai-viet/78f711bf3c1fb641ef0e.jpg",
@@ -5876,7 +6038,7 @@
     "author": "Ban Văn Hóa Tùng Lâm",
     "publishedDate": "2025-10-01",
     "status": "published",
-    "viewsCount": 0,
+    "viewsCount": 28400,
     "thumbnailUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/03-dong-chay-hoang-phap/bai-viet/13.jpg",
     "thumbnailPosition": "center 50%",
     "bannerUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/03-dong-chay-hoang-phap/bai-viet/13.jpg",
@@ -16032,7 +16194,7 @@
     "author": "Ban Văn Hóa Tùng Lâm",
     "publishedDate": "2025-07-09",
     "status": "published",
-    "viewsCount": 0,
+    "viewsCount": 41200,
     "thumbnailUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/03-dong-chay-hoang-phap/phap-am/capture.jpg",
     "thumbnailPosition": "center 50%",
     "bannerUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/03-dong-chay-hoang-phap/phap-am/capture.jpg",
@@ -18608,7 +18770,7 @@
     "author": "Ban Văn Hóa Tùng Lâm",
     "publishedDate": "2025-05-29",
     "status": "published",
-    "viewsCount": 0,
+    "viewsCount": 30600,
     "thumbnailUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/03-dong-chay-hoang-phap/phap-am/capture-1.jpg",
     "thumbnailPosition": "center 50%",
     "bannerUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/03-dong-chay-hoang-phap/phap-am/capture-1.jpg",
@@ -18632,7 +18794,7 @@
     "author": "Ban Văn Hóa Tùng Lâm",
     "publishedDate": "2025-05-29",
     "status": "published",
-    "viewsCount": 0,
+    "viewsCount": 39500,
     "thumbnailUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/03-dong-chay-hoang-phap/phap-am/capture.jpg",
     "thumbnailPosition": "center 50%",
     "bannerUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/03-dong-chay-hoang-phap/phap-am/capture.jpg",

@@ -123,9 +123,10 @@
         "linkUrl": "https://chuahoangphap.com.vn"
       }
     ],
-    "updatedAt": "2026-09-25T16:55:16.836Z",
+    "updatedAt": "2026-09-29T09:28:44.396Z",
     "bannerPosition": "https://admin.tunglamhoaphuc.com/center 15%",
-    "wpPostId": "385"
+    "wpPostId": "385",
+    "viewsCount": 54200
   },
   {
     "id": 2,
@@ -197,9 +198,10 @@
         "linkUrl": ""
       }
     ],
-    "updatedAt": "2026-09-25T16:55:16.814Z",
+    "updatedAt": "2026-09-29T09:28:44.385Z",
     "bannerPosition": "https://admin.tunglamhoaphuc.com/center 44%",
-    "wpPostId": "403"
+    "wpPostId": "403",
+    "viewsCount": 49800
   },
   {
     "id": 3,
@@ -356,9 +358,10 @@
         "linkUrl": "/tong-chi-tu-hoc/bo-tat-hanh-luc-do-ba-la-mat"
       }
     ],
-    "updatedAt": "2026-09-25T16:55:16.828Z",
+    "updatedAt": "2026-09-29T09:28:44.394Z",
     "bannerPosition": "https://admin.tunglamhoaphuc.com/center 17%",
-    "wpPostId": "401"
+    "wpPostId": "401",
+    "viewsCount": 46500
   },
   {
     "id": 4,
@@ -431,11 +434,12 @@
       }
     ],
     "keywords": [],
-    "updatedAt": "2026-09-25T16:55:16.806Z",
+    "updatedAt": "2026-09-29T09:28:44.378Z",
     "bannerPosition": "https://admin.tunglamhoaphuc.com/center 50%",
     "author": "Vô Trí - Tâm Hòa",
     "authorLink": "/gioi-thieu/su-phu-tru-tri",
-    "wpPostId": "470"
+    "wpPostId": "470",
+    "viewsCount": 58240
   },
   {
     "id": 5,
@@ -499,11 +503,12 @@
         "linkUrl": "/tong-chi-tu-hoc/tam-quy-ngu-gioi"
       }
     ],
-    "updatedAt": "2026-09-25T16:55:16.790Z",
+    "updatedAt": "2026-09-29T09:28:44.361Z",
     "bannerPosition": "https://admin.tunglamhoaphuc.com/center 6%",
     "wpPostId": "488",
     "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
-    "authorLink": "/gioi-thieu/su-phu-tru-tri"
+    "authorLink": "/gioi-thieu/su-phu-tru-tri",
+    "viewsCount": 42100
   },
   {
     "id": 6,
@@ -566,7 +571,8 @@
       }
     ],
     "updatedAt": "2026-08-25T09:23:20.295Z",
-    "bannerPosition": "https://admin.tunglamhoaphuc.com/center 31%"
+    "bannerPosition": "https://admin.tunglamhoaphuc.com/center 31%",
+    "viewsCount": 37800
   },
   {
     "id": 7,
@@ -632,7 +638,8 @@
     ],
     "updatedAt": "2026-09-07T06:32:53.770Z",
     "bannerPosition": "https://admin.tunglamhoaphuc.com/50% 50%",
-    "wpPostId": "470"
+    "wpPostId": "470",
+    "viewsCount": 36500
   },
   {
     "id": 8,
@@ -694,8 +701,9 @@
         "linkUrl": "/tong-chi-tu-hoc/niem-phat-phuong-phap-tro-hanh"
       }
     ],
-    "updatedAt": "2026-09-25T16:55:16.761Z",
-    "wpPostId": "650"
+    "updatedAt": "2026-09-29T09:28:44.330Z",
+    "wpPostId": "650",
+    "viewsCount": 43200
   },
   {
     "id": 9,
@@ -749,7 +757,8 @@
         "linkUrl": "/tong-chi-tu-hoc/tung-kinh-soi-sang-tri-tue"
       }
     ],
-    "updatedAt": "2026-08-25T09:23:44.514Z"
+    "updatedAt": "2026-08-25T09:23:44.514Z",
+    "viewsCount": 38400
   },
   {
     "id": 10,
@@ -803,7 +812,8 @@
         "linkUrl": "/tong-chi-tu-hoc/thien-tap-tinh-lang-tu-than"
       }
     ],
-    "updatedAt": "2026-08-25T09:23:56.899Z"
+    "updatedAt": "2026-08-25T09:23:56.899Z",
+    "viewsCount": 39500
   },
   {
     "id": 11,
@@ -857,7 +867,8 @@
         "linkUrl": "/tong-chi-tu-hoc/lay-phat-tieu-tru-ban-nga"
       }
     ],
-    "updatedAt": "2026-08-25T09:24:05.384Z"
+    "updatedAt": "2026-08-25T09:24:05.384Z",
+    "viewsCount": 31800
   },
   {
     "id": 12,
@@ -911,7 +922,8 @@
         "linkUrl": "/tong-chi-tu-hoc/sam-hoi-tinh-hoa-than-tam"
       }
     ],
-    "updatedAt": "2026-08-25T09:24:05.956Z"
+    "updatedAt": "2026-08-25T09:24:05.956Z",
+    "viewsCount": 32500
   },
   {
     "id": 13,
@@ -965,7 +977,8 @@
         "linkUrl": "/tong-chi-tu-hoc/nghe-phap-khai-mo-chanh-kien"
       }
     ],
-    "updatedAt": "2026-08-25T09:24:12.773Z"
+    "updatedAt": "2026-08-25T09:24:12.773Z",
+    "viewsCount": 29400
   },
   {
     "id": 14,
@@ -1019,7 +1032,8 @@
         "linkUrl": "/tong-chi-tu-hoc/phung-su-tot-doi-dep-dao"
       }
     ],
-    "updatedAt": "2026-08-25T09:24:21.938Z"
+    "updatedAt": "2026-08-25T09:24:21.938Z",
+    "viewsCount": 28100
   },
   {
     "id": 15,
@@ -1073,7 +1087,8 @@
         "linkUrl": "/tong-chi-tu-hoc/bo-thi-cung-duong-nuoi-lon-phuc-bau"
       }
     ],
-    "updatedAt": "2026-08-25T09:24:22.464Z"
+    "updatedAt": "2026-08-25T09:24:22.464Z",
+    "viewsCount": 28800
   },
   {
     "id": 16,
@@ -1127,7 +1142,8 @@
         "linkUrl": "/tong-chi-tu-hoc/lo-trinh-tu-hoc-nguoi-moi-bat-dau"
       }
     ],
-    "updatedAt": "2026-08-25T09:24:26.201Z"
+    "updatedAt": "2026-08-25T09:24:26.201Z",
+    "viewsCount": 35400
   },
   {
     "id": 17,
@@ -1181,7 +1197,8 @@
         "linkUrl": "/tong-chi-tu-hoc/lo-trinh-tu-hoc-nguoi-tre"
       }
     ],
-    "updatedAt": "2026-08-25T09:24:36.980Z"
+    "updatedAt": "2026-08-25T09:24:36.980Z",
+    "viewsCount": 34200
   },
   {
     "id": 18,
@@ -1235,7 +1252,8 @@
         "linkUrl": "/tong-chi-tu-hoc/lo-trinh-tu-hoc-nguoi-ban-ron"
       }
     ],
-    "updatedAt": "2026-08-25T09:24:53.648Z"
+    "updatedAt": "2026-08-25T09:24:53.648Z",
+    "viewsCount": 25700
   },
   {
     "id": 19,
@@ -1289,7 +1307,8 @@
         "linkUrl": "/tong-chi-tu-hoc/lo-trinh-tu-hoc-nguoi-chuyen-tu"
       }
     ],
-    "updatedAt": "2026-08-25T09:24:54.449Z"
+    "updatedAt": "2026-08-25T09:24:54.449Z",
+    "viewsCount": 25100
   },
   {
     "id": 20,
@@ -1343,7 +1362,8 @@
         "linkUrl": "/tong-chi-tu-hoc/van-hoa-ung-xu-giao-tiep-tai-chua"
       }
     ],
-    "updatedAt": "2026-08-25T09:25:00.130Z"
+    "updatedAt": "2026-08-25T09:25:00.130Z",
+    "viewsCount": 26800
   },
   {
     "id": 21,
@@ -1397,7 +1417,8 @@
         "linkUrl": "/tong-chi-tu-hoc/oai-nghi-nguoi-con-phat"
       }
     ],
-    "updatedAt": "2026-08-25T09:25:01.177Z"
+    "updatedAt": "2026-08-25T09:25:01.177Z",
+    "viewsCount": 27500
   },
   {
     "id": 22,
@@ -1451,7 +1472,8 @@
         "linkUrl": "/tong-chi-tu-hoc/bon-phan-nguoi-phat-tu-tai-gia"
       }
     ],
-    "updatedAt": "2026-08-25T09:25:05.572Z"
+    "updatedAt": "2026-08-25T09:25:05.572Z",
+    "viewsCount": 30500
   },
   {
     "id": 23,
@@ -1505,7 +1527,8 @@
         "linkUrl": "/tong-chi-tu-hoc/an-chay-tinh-hoa-than-tam"
       }
     ],
-    "updatedAt": "2026-08-25T09:25:19.809Z"
+    "updatedAt": "2026-08-25T09:25:19.809Z",
+    "viewsCount": 33600
   },
   {
     "id": 24,
@@ -1559,7 +1582,8 @@
         "linkUrl": "/tong-chi-tu-hoc/phong-sinh-tu-phuc-bao-ve-moi-truong"
       }
     ],
-    "updatedAt": "2026-08-25T09:25:20.150Z"
+    "updatedAt": "2026-08-25T09:25:20.150Z",
+    "viewsCount": 26200
   },
   {
     "id": 25,
@@ -1677,6 +1701,7 @@
         "linkUrl": "/tong-chi-tu-hoc"
       }
     ],
-    "updatedAt": "2026-09-08T08:00:00.000Z"
+    "updatedAt": "2026-09-08T08:00:00.000Z",
+    "viewsCount": 24500
   }
 ]

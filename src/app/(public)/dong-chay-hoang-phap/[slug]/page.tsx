@@ -81,6 +81,17 @@ export default function DongChayHoangPhapDetailPage() {
           if (json.success && json.post) {
             setArticle(json.post);
             setIsNotFound(false);
+
+            // 👁️ Tự động ghi nhận lượt xem (chống trùng lặp bằng sessionStorage)
+            const viewKey = `viewed_hp_${slug}`;
+            if (typeof window !== 'undefined' && !sessionStorage.getItem(viewKey)) {
+              sessionStorage.setItem(viewKey, '1');
+              fetch('/api/public/increment-view', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ type: 'post', idOrSlug: slug }),
+              }).catch(() => {});
+            }
           } else {
             setIsNotFound(true);
           }

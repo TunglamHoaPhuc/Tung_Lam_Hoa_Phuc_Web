@@ -9,6 +9,7 @@ export interface SectionHeaderProps {
   iconUrl?: string;
   icon?: ReactNode;
   className?: string;
+  titleFont?: string;
 }
 
 /**
@@ -23,6 +24,7 @@ export const SectionHeader: FC<SectionHeaderProps> = ({
   iconUrl,
   icon = <Sparkles className="w-5 h-5 text-amber-400 animate-pulse" />,
   className = "",
+  titleFont,
 }) => {
   return (
     <div className={`relative z-10 flex flex-col items-center justify-center text-center mb-10 md:mb-14 ${className}`}>
@@ -40,10 +42,10 @@ export const SectionHeader: FC<SectionHeaderProps> = ({
         <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent via-[#F2C14E]/60 to-[#F2C14E]" />
 
         <h2
-          className="text-3xl md:text-5xl lg:text-6xl font-bold tracking-normal uppercase text-[#F2C14E] shrink-0 text-center leading-none px-2 md:px-4"
+          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-normal tracking-wide uppercase text-[#F2C14E] shrink-0 text-center leading-none px-2 md:px-4"
           style={{
-            fontFamily: "var(--font-playfair), 'Playfair Display', serif",
-            textShadow: "0 0 32px rgba(242,193,78,0.7), 0 0 64px rgba(242,193,78,0.4)",
+            fontFamily: titleFont || "'UTM Niagara', 'UTM_Niagara', serif",
+            textShadow: "0 0 24px rgba(242,193,78,0.7), 0 0 48px rgba(242,193,78,0.35)",
           }}
         >
           {title}

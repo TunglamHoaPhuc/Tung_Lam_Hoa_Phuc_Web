@@ -376,6 +376,17 @@ export default function TrangChiTietTongChi() {
             const localData = await detailRes.json();
             if (localData.success && localData.data) {
               localItem = localData.data;
+
+              // 👁️ Tự động ghi nhận lượt xem (chống trùng lặp bằng sessionStorage)
+              const viewKey = `viewed_tc_${slug}`;
+              if (typeof window !== 'undefined' && !sessionStorage.getItem(viewKey)) {
+                sessionStorage.setItem(viewKey, '1');
+                fetch('/api/public/increment-view', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ type: 'tong-chi', idOrSlug: slug }),
+                }).catch(() => {});
+              }
             }
           }
 
