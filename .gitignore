@@ -1,4 +1,4 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+﻿# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # =========================
 # Dependencies
@@ -50,6 +50,7 @@ pnpm-debug.log*
 .env.development.local
 .env.test.local
 .env.production.local
+.env*
 
 # =========================
 # Vercel
@@ -67,7 +68,9 @@ next-env.d.ts
 # =========================
 /src/generated/prisma
 
-# Large design files & temp files (>100MB)
+# =========================
+# Large Binary & Asset Files (keep out of Git)
+# =========================
 *.ai
 *.tmp
 *.psd
@@ -76,11 +79,47 @@ next-env.d.ts
 *.docx
 *.exe
 *.zip
+*.dmg
+*.pkg
+
+# =========================
+# S3 / Cloud Config Secrets
+# =========================
+s3_keys.json
+rclone.conf
+*.rclone*
+
+# =========================
+# Scratch, Temp AI/Dev Files
+# =========================
 scratch/
+drive_download/
+generated/
+code_export.txt
 danh_sach_file_anh.txt
+
+# AI Transcript & Temp Files (auto-generated, no value in Git)
+*transcript*.txt
+*transcript*.jsonl
+*_tail.txt
+*_tail.jsonl
+temp_*.txt
+temp_*.jsonl
+recent_*.txt
+.gemini_transcript_tail.txt
+
+# =========================
+# Local Scripts & Tools
+# =========================
+*.bat
+Ket_Noi_S3_Hoa_Phuc.bat
+
+# =========================
+# Config Directories (local only)
+# =========================
 .gemini/
 .agents/
-drive_download/
-Ket_Noi_S3_Hoa_Phuc.bat
-*.bat
-.env*
+# Database backup files (keep out of Git)
+*.bak
+*.bak_*
+*.backup.json
