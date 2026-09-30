@@ -30,5 +30,13 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": ["node_modules", "_host_pullback"]
+  "exclude": [
+    "node_modules",
+    "_host_pullback",
+    "scripts",
+    "scratch",
+    "drive_download",
+    "generated"
+  ]
+
 }
