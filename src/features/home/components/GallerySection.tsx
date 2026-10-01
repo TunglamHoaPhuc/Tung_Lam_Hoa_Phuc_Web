@@ -145,7 +145,7 @@ export const GallerySection: FC = () => {
         <SectionHeader
           title="CÁC KHU VỰC NỔI BẬT"
           subtitle="Sơ đồ kiến trúc & Không gian tâm linh Tùng Lâm Hòa Phúc"
-          icon={<MapPin className="w-5 h-5 text-amber-400 animate-pulse" />}
+          iconUrl="/images/icons/icon-cac-khu-vuc-noi-bat.webp"
         />
 
         {/* ── 2. Container Slider ── */}
@@ -281,6 +281,8 @@ export const GallerySection: FC = () => {
       <section className="relative overflow-hidden w-full">
         <SectionHeader
           title="CÁC BẢO TƯỢNG NỔI BẬT"
+          iconUrl="/images/icons/icon-cac-bao-tuong-noi-bat.webp?v=2"
+          iconClassName="h-16 sm:h-20 md:h-24 lg:h-28 w-auto max-w-[160px] object-contain drop-shadow-[0_0_20px_rgba(242,193,78,0.75)] transition-all duration-300 hover:scale-110"
         />
 
         <div className="w-full overflow-hidden relative flex justify-center items-center py-6 min-h-[460px]">

@@ -419,7 +419,8 @@
       "author": "Ban Văn Hóa Tùng Lâm",
       "bannerUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
       "url": "/bao-tuong-phat-giao/duc_phat_thich_ca_mau_ni_dan_sinh_tp0009"
-    }
+    },
+    "imgRotation": 90
   },
   {
     "code": "TP0010",
@@ -908,7 +909,8 @@
       "author": "Ban Văn Hóa Tùng Lâm",
       "bannerUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/chu_phat_hai_hoi/duc_phat_duoc_su/bao_nguyet_tri_nghiem_quang_am_tu_tai_vuong_nhu_lai.webp",
       "url": "/bao-tuong-phat-giao/duc_phat_duoc_su_dang_y_vuong_cuu_kho_bach_tinh_tp0018"
-    }
+    },
+    "imgRotation": 270
   },
   {
     "code": "TP0019",
@@ -1476,7 +1478,8 @@
       "author": "Ban Văn Hóa Tùng Lâm",
       "bannerUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/mandala-tang-1-quan-am-bo-tat.webp",
       "url": "/bao-tuong-phat-giao/quan_am_bo_tat_nguyet_tri_hoa_than_tp0026"
-    }
+    },
+    "imgRotation": 90
   },
   {
     "code": "TP0027",
@@ -1632,7 +1635,9 @@
       "author": "Ban Văn Hóa Tùng Lâm",
       "bannerUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/mandala-tang-1-quan-am-bo-tat.webp",
       "url": "/bao-tuong-phat-giao/quan_am_bo_tat_dieu_ngu"
-    }
+    },
+    "imgRotation": 90,
+    "imgPosition": "51% 71%"
   },
   {
     "code": "",
@@ -1749,7 +1754,9 @@
       "author": "Ban Văn Hóa Tùng Lâm",
       "bannerUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/mandala-tang-1-quan-am-bo-tat.webp",
       "url": "/bao-tuong-phat-giao/quan_am_bo_tat_quan_tu_tai_tp0031"
-    }
+    },
+    "imgRotation": 90,
+    "imgPosition": "49% 50%"
   },
   {
     "code": "TP0033",
@@ -2279,7 +2286,8 @@
         "meaning": "DI LẶC BỒ TÁT",
         "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/thanh_tinh_dai_hai_chung/bo_tat_di_lac/di_lac_bo_tat_ntpg-JPG.webp"
       }
-    ]
+    ],
+    "imgPosition": "67% 49%"
   },
   {
     "code": "TP0045",

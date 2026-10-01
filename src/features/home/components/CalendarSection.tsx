@@ -185,7 +185,7 @@ export const CalendarSection: FC = () => {
       {/* ── 1. Top Section Header (Tối giản, bỏ sub tiêu đề) ── */}
       <SectionHeader
         title={`LỊCH TU HỌC PHẬT LỊCH ${buddhistEra}`}
-        icon={<CalendarIcon className="w-5 h-5 text-amber-400 animate-pulse" />}
+        iconUrl="/images/icons/icon-lich-tu-hoc.webp"
       />
 
       {/* ── 2. Unified Side-by-Side Calendar Container ── */}

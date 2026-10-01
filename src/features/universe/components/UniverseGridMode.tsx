@@ -1,5 +1,6 @@
 'use client';
 
+// Re-bundled with updated image URLs (v2) for upright orientation
 import React, { FC, useState, useMemo } from "react";
 import Link from "next/link";
 import { Map as MapIcon, LayoutGrid } from "lucide-react";

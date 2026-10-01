@@ -60,6 +60,7 @@ export async function GET() {
         category1: 'Tông Chỉ Tu Học',
         category2: item.categoryName || 'NỀN TẢNG TU HỌC',
         category1Url: '/tong-chi-tu-hoc',
+        category1IconUrl: '/images/icons/icon-tong-chi-tu-hoc.webp',
         title: item.title,
         description: item.excerpt || item.subtitle || 'Hệ thống tông chỉ tu học kế thừa tông phong chư Tổ Tùng Lâm Hòa Phúc.',
         publishedDate: formatDate(item.publishedAt),
@@ -77,6 +78,7 @@ export async function GET() {
         category1: 'Dòng Chảy Hoằng Pháp',
         category2: p.categoryName || p.subCategory || 'HOẰNG PHÁP ĐỘ SINH',
         category1Url: '/dong-chay-hoang-phap',
+        category1IconUrl: '/images/icons/icon-dong-chay-hoang-phap.webp',
         title: p.title,
         description: p.summary || p.subtitle || 'Hành trình lan tỏa chánh pháp, các sự kiện pháp hội và Phật sự trọng đại.',
         publishedDate: formatDate(p.publishedDate),
@@ -88,18 +90,25 @@ export async function GET() {
     // 4. Trí Tuệ Phật Pháp
     const triTueSorted = validPosts
       .filter((p) => p.mainCategory === 'tri-tue-phat-phap')
-      .map((p: any): PostItem => ({
-        id: p.id,
-        imageUrl: p.thumbnailUrl || p.bannerUrl || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/page_01.webp',
-        category1: 'Trí Tuệ Phật Pháp',
-        category2: p.categoryName || p.subCategory || 'PHÁP ÂM & KHAI THỊ',
-        category1Url: '/tri-tue-phat-phap',
-        title: p.title,
-        description: p.summary || p.subtitle || 'Kho tàng giáo lý Phật đà, pháp âm giảng giải và các tác phẩm Phật học sâu sắc.',
-        publishedDate: formatDate(p.publishedDate),
-        viewsCount: p.viewsCount || 108,
-        targetUrl: `/tri-tue-phat-phap/${p.slug || p.id}`,
-      }))
+      .map((p: any): PostItem => {
+        const isPhapAm =
+          (p.title || '').toLowerCase().includes('pháp âm') ||
+          (p.categoryName || '').toLowerCase().includes('pháp âm') ||
+          (p.subCategory || '').toLowerCase().includes('pháp âm');
+        return {
+          id: p.id,
+          imageUrl: p.thumbnailUrl || p.bannerUrl || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/page_01.webp',
+          category1: 'Trí Tuệ Phật Pháp',
+          category2: p.categoryName || p.subCategory || 'PHÁP ÂM & KHAI THỊ',
+          category1Url: '/tri-tue-phat-phap',
+          category1IconUrl: isPhapAm ? '/images/icons/icon-phap-am.webp' : '/images/icons/icon-tri-tue-phat-phap.webp',
+          title: p.title,
+          description: p.summary || p.subtitle || 'Kho tàng giáo lý Phật đà, pháp âm giảng giải và các tác phẩm Phật học sâu sắc.',
+          publishedDate: formatDate(p.publishedDate),
+          viewsCount: p.viewsCount || 108,
+          targetUrl: `/tri-tue-phat-phap/${p.slug || p.id}`,
+        };
+      })
       .sort((a, b) => (Number(b.viewsCount) || 0) - (Number(a.viewsCount) || 0));
 
     // 5. Kết hợp 6 bài tiêu biểu đại diện 3 chuyên mục cốt lõi (2 Tông Chỉ + 2 Dòng Chảy + 2 Trí Tuệ)

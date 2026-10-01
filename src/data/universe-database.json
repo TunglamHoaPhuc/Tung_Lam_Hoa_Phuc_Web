@@ -7,7 +7,7 @@
     "subtitle": "ĐẠI HÙNG BẢO ĐIỆN",
     "temple": "tung-lam-hoa-phuc",
     "templeName": "Tùng Lâm Hòa Phúc",
-    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
+    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/tam-bao.webp",
     "mapPos": {
       "x": 58,
       "y": 52
@@ -141,7 +141,7 @@
     "subtitle": "TỔ ẤN TRÙNG QUANG",
     "temple": "tung-lam-hoa-phuc",
     "templeName": "Tùng Lâm Hòa Phúc",
-    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
+    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/to-duong.webp",
     "mapPos": {
       "x": 62,
       "y": 38
@@ -202,7 +202,7 @@
     "subtitle": "MẪU NGHI THIÊN HẠ",
     "temple": "tung-lam-hoa-phuc",
     "templeName": "Tùng Lâm Hòa Phúc",
-    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
+    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/dai-nam-quoc-mau.webp",
     "mapPos": {
       "x": 48,
       "y": 65
@@ -301,7 +301,7 @@
     "subtitle": "DẤU XƯA LƯU TRUYỀN",
     "temple": "tung-lam-hoa-phuc",
     "templeName": "Tùng Lâm Hòa Phúc",
-    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/Phat-giao/CHUA-VIET-NAM-XUA/Chua-Mot-Cot-xua.webp",
+    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/bao-tang.webp",
     "mapPos": {
       "x": 70,
       "y": 72
@@ -602,7 +602,7 @@
     "subtitle": "VẠN PHẬT QUANG MINH",
     "temple": "tung-lam-hoa-phuc",
     "templeName": "Tùng Lâm Hòa Phúc",
-    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
+    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/bao-thap.webp",
     "mapPos": {
       "x": 42,
       "y": 22
@@ -631,7 +631,7 @@
     "subtitle": "CHƯ PHẬT HẢI HỘI",
     "temple": "tung-lam-hoa-phuc",
     "templeName": "Tùng Lâm Hòa Phúc",
-    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
+    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/giang-duong.webp",
     "mapPos": {
       "x": 78,
       "y": 48
@@ -676,7 +676,7 @@
     "subtitle": "CHƯ HƯƠNG LINH VỀ MIỀN TỊNH ĐỘ",
     "temple": "tung-lam-hoa-phuc",
     "templeName": "Tùng Lâm Hòa Phúc",
-    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
+    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/tu-an.webp",
     "mapPos": {
       "x": 30,
       "y": 78
@@ -719,7 +719,7 @@
     "subtitle": "PHÁP BẢO LƯU THÔNG",
     "temple": "tung-lam-hoa-phuc",
     "templeName": "Tùng Lâm Hòa Phúc",
-    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
+    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/tang-kinh-cac-v2.webp",
     "mapPos": {
       "x": 82,
       "y": 28
@@ -737,7 +737,7 @@
     "subtitle": "HÒA CHÍNH TRAI ĐƯỜNG & HƯƠNG TÍCH BẾP",
     "temple": "tung-lam-hoa-phuc",
     "templeName": "Tùng Lâm Hòa Phúc",
-    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
+    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/trai-duong.webp",
     "mapPos": {
       "x": 64,
       "y": 14
@@ -755,7 +755,7 @@
     "subtitle": "QUANG MINH DI ĐÀ",
     "temple": "tung-lam-hoa-phuc",
     "templeName": "Tùng Lâm Hòa Phúc",
-    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
+    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/san-di-da.webp",
     "mapPos": {
       "x": 57,
       "y": 33
@@ -806,7 +806,7 @@
     "subtitle": "TAM GIẢI THOÁT MÔN & SÂN DI LẶC",
     "temple": "tung-lam-hoa-phuc",
     "templeName": "Tùng Lâm Hòa Phúc",
-    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
+    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/cong-tam-quan.webp",
     "mapPos": {
       "x": 12,
       "y": 55
@@ -841,7 +841,7 @@
     "subtitle": "VĂN HÓA LÀNG XÃ BẮC BỘ",
     "temple": "tung-lam-hoa-phuc",
     "templeName": "Tùng Lâm Hòa Phúc",
-    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
+    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/lang-xa-tam-linh.webp",
     "mapPos": {
       "x": 42,
       "y": 57
@@ -859,7 +859,7 @@
     "subtitle": "THÁNH TĂNG ỨNG HÓA",
     "temple": "tung-lam-hoa-phuc",
     "templeName": "Tùng Lâm Hòa Phúc",
-    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
+    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/san-la-han-v2.webp",
     "mapPos": {
       "x": 42,
       "y": 79
@@ -894,7 +894,7 @@
     "subtitle": "PHÁP LUÂN THƯỜNG CHUYỂN",
     "temple": "tung-lam-hoa-phuc",
     "templeName": "Tùng Lâm Hòa Phúc",
-    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
+    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/lau-kinh-luan.webp",
     "mapPos": {
       "x": 6,
       "y": 46

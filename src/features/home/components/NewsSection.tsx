@@ -172,7 +172,10 @@ export const NewsSection: FC = () => {
       </div>
 
       {/* ── 1. HEADER SECTION ── */}
-      <SectionHeader title="TIN MỚI NHẤT" />
+      <SectionHeader
+        title="TIN MỚI NHẤT"
+        iconUrl="/images/icons/icon-tin-moi-nhat.webp"
+      />
 
       {/* ── 2. CAROUSEL TRẢI RỘNG TRÀN MÀN HÌNH VỚI HIỆU ỨNG TRƯỢT (LO L UNIVERSE STYLE) ── */}
       <div className="relative w-full z-20 overflow-hidden px-0 sm:px-2 md:px-4">

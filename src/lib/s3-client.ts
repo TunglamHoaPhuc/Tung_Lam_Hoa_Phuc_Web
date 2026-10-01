@@ -125,6 +125,7 @@ export async function optimizeAndCompressToWebp(
 ): Promise<{ buffer: Buffer; contentType: string; ext: string }> {
   try {
     const compressed = await sharp(buffer)
+      .rotate()
       .resize({
         width: 1920,
         height: 1920,

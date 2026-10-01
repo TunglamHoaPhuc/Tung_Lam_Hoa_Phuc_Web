@@ -64,7 +64,12 @@ export default function UniverseDetailPage() {
       (slug === 'bao-thap' && a.slug === 'bao-thap-van-phat-xa-loi') ||
       (slug === 'bao-thap-van-phat-xa-loi' && a.slug === 'bao-thap') ||
       (slug === 'tang-kinh-cac' && (a.slug === 'tang-kinh-cac' || a.slug === 'thu-vien')) ||
-      (slug === 'thu-vien' && (a.slug === 'tang-kinh-cac' || a.slug === 'thu-vien'))
+      (slug === 'thu-vien' && (a.slug === 'tang-kinh-cac' || a.slug === 'thu-vien')) ||
+      ((slug === 'khong-gian-tam-linh' || slug === 'dinh-lang') && a.slug === 'lang-xa-tam-linh') ||
+      ((slug === 'lau-kinh-luan' || slug === 'kinh-luan') && a.slug === 'ho-phong-sinh') ||
+      ((slug === 'san-di-lac' || slug === 'tam-quan') && a.slug === 'cong-tam-quan') ||
+      ((slug === 'nha-mau' || slug === 'quoc-mau') && a.slug === 'dai-nam-quoc-mau') ||
+      ((slug === 'lam-ty-ni' || slug === 'san-dan-sinh') && a.slug === 'san-di-da')
   );
   if (!area) {
     const formattedTitle = (slug || 'khu-vuc-tam-linh')

@@ -78,7 +78,7 @@ export default function TuAnPage() {
         {/* ── HEROBANNER ── */}
         <HeroBanner
           id="herobanner"
-          bannerUrl="https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp"
+          bannerUrl="https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/tu-an.webp"
           title="TỨ ÂN - VÃNG SINH ĐƯỜNG"
           subtitle="CHƯ HƯƠNG LINH VỀ MIỀN TỊNH ĐỘ"
         />

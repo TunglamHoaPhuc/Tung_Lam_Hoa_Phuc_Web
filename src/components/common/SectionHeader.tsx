@@ -10,6 +10,7 @@ export interface SectionHeaderProps {
   icon?: ReactNode;
   className?: string;
   titleFont?: string;
+  iconClassName?: string;
 }
 
 /**
@@ -25,13 +26,21 @@ export const SectionHeader: FC<SectionHeaderProps> = ({
   icon = <Sparkles className="w-5 h-5 text-amber-400 animate-pulse" />,
   className = "",
   titleFont,
+  iconClassName,
 }) => {
   return (
     <div className={`relative z-10 flex flex-col items-center justify-center text-center mb-10 md:mb-14 ${className}`}>
-      {/* Tầng 1: Icon */}
-      <div className="mb-2 flex items-center justify-center">
+      {/* Tầng 1: Icon - Chiều cao chuẩn tương xứng tiêu đề */}
+      <div className="mb-3 md:mb-4 flex items-center justify-center">
         {iconUrl ? (
-          <img src={iconUrl} alt={title || "Section Icon"} className="w-6 h-6 object-contain" />
+          <img
+            src={iconUrl}
+            alt={title || "Section Icon"}
+            className={
+              iconClassName ||
+              "h-11 sm:h-13 md:h-16 lg:h-20 w-auto max-w-[130px] object-contain drop-shadow-[0_0_14px_rgba(242,193,78,0.6)] transition-all duration-300 hover:scale-110"
+            }
+          />
         ) : (
           icon
         )}

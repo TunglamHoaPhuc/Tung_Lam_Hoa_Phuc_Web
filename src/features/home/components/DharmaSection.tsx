@@ -18,6 +18,7 @@ const INITIAL_TOP_POSTS: PostItem[] = [
     category1: 'Tông Chỉ Tu Học',
     category2: 'NỀN TẢNG TU HỌC',
     category1Url: '/tong-chi-tu-hoc',
+    category1IconUrl: '/images/icons/icon-tong-chi-tu-hoc.webp',
     title: 'BỒ ĐỀ TÂM — CỘI NGUỒN MỌI THIỆN PHÁP',
     description: 'Nền tảng khởi đầu và động lực tối thượng trên lộ trình tu học giác ngộ, xây dựng nếp sống tỉnh thức an lạc.',
     publishedDate: '01/08/2026',
@@ -30,6 +31,7 @@ const INITIAL_TOP_POSTS: PostItem[] = [
     category1: 'Dòng Chảy Hoằng Pháp',
     category2: 'HOẰNG PHÁP ĐỘ SINH',
     category1Url: '/dong-chay-hoang-phap',
+    category1IconUrl: '/images/icons/icon-dong-chay-hoang-phap.webp',
     title: 'Đại Lễ Vu Lan Báo Hiếu — Thắp Sáng Ngọn Đèn Tri Ân Cha Mẹ',
     description: 'Mùa báo hiếu thiêng liêng trở về nguồn cội, nuôi dưỡng tình thương và sự tri ân công đức sinh thành dưỡng dục.',
     publishedDate: '15/08/2026',
@@ -42,6 +44,7 @@ const INITIAL_TOP_POSTS: PostItem[] = [
     category1: 'Trí Tuệ Phật Pháp',
     category2: 'PHÁP ÂM & KHAI THỊ',
     category1Url: '/tri-tue-phat-phap',
+    category1IconUrl: '/images/icons/icon-phap-am.webp',
     title: 'Pháp Âm Chủ Đề: “Tu Tập Đúng Cách” — Sa-môn Vô Trí',
     description: 'Chỉ dẫn tinh tế về phương pháp điều phục thân tâm, nhận diện chướng ngại và chuyển hóa khổ đau trong đời sống thường nhật.',
     publishedDate: '10/08/2026',
@@ -54,6 +57,7 @@ const INITIAL_TOP_POSTS: PostItem[] = [
     category1: 'Tông Chỉ Tu Học',
     category2: 'TÔNG PHONG TRUYỀN THỪA',
     category1Url: '/tong-chi-tu-hoc',
+    category1IconUrl: '/images/icons/icon-tong-chi-tu-hoc.webp',
     title: 'TIẾP BƯỚC THẦY TÔI — NỐI NGUỒN TỔ ĐẠO',
     description: 'Kính dâng bậc Ân Sư Sư Tổ Ngộ Chân Tử khai sơn chốn Tổ Hoằng Pháp, kế thừa mạng mạch chánh pháp ngàn đời.',
     publishedDate: '01/08/2026',
@@ -66,6 +70,7 @@ const INITIAL_TOP_POSTS: PostItem[] = [
     category1: 'Dòng Chảy Hoằng Pháp',
     category2: 'CỘNG TU ĐỊNH KỲ',
     category1Url: '/dong-chay-hoang-phap',
+    category1IconUrl: '/images/icons/icon-dong-chay-hoang-phap.webp',
     title: 'Pháp Hội Niệm Phật & Khóa Lễ Bát Quan Trai Giới',
     description: 'Ngày thanh tịnh trau dồi phạm hạnh, nhiếp tâm niệm Phật cầu an lạc cho muôn loài đệ tử tại gia.',
     publishedDate: '23/08/2026',
@@ -78,6 +83,7 @@ const INITIAL_TOP_POSTS: PostItem[] = [
     category1: 'Trí Tuệ Phật Pháp',
     category2: 'TỦ SÁCH TỨ ÂN',
     category1Url: '/tri-tue-phat-phap',
+    category1IconUrl: '/images/icons/icon-tri-tue-phat-phap.webp',
     title: "Tác Phẩm 'Đi Qua Khổ Vui Cuộc Đời' — Thích Tâm Hòa",
     description: 'Tập văn ký hồi ức đúc kết hành trình tu tập, chiêm nghiệm nhân sinh và lòng tri ân sâu sắc đối với Tam Bảo cùng Thầy Tổ.',
     publishedDate: '05/08/2026',
@@ -198,27 +204,27 @@ const DharmaSection: FC<DharmaSectionProps> = ({ sectionRef }) => {
         <SectionHeader
           title="DẤU ẤN HOẰNG PHÁP"
           subtitle="Những bài viết được quan tâm & theo dõi nhiều nhất"
+          iconUrl="/images/icons/icon-dau-an-hoang-phap.webp"
         />
 
-        {/* ── Bố cục 5 bài viết: 1 Post Card To Bên Ngoài Cùng + 4 Thẻ 2x2 Bên Cạnh ── */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-7 items-stretch">
-          {/* Card 1: ẢNH TO NHẤT BÊN NGOÀI CÙNG (5 Cột Desktop) */}
-          {featuredPost && (
-            <div className="lg:col-span-5 flex flex-col">
-              <PostCard
-                post={featuredPost}
-                large={true}
-                className="h-full min-h-[460px] lg:min-h-[520px]"
-              />
-            </div>
-          )}
-
-          {/* 4 Card còn lại: Xếp lưới 2x2 cân đối (7 Cột Desktop) */}
-          <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6">
+        {/* ── Bố cục 5 bài viết: 4 Thẻ 2x2 Bên Trái + 1 Post Card To Bên Phải (Tất cả chuẩn tỷ lệ 3:4) ── */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-7 items-start">
+          {/* 4 Card bên trái: Xếp lưới 2x2 cân đối (6 Cột Desktop, tỷ lệ 3:4) */}
+          <div className="order-2 lg:order-1 lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-5 md:gap-6">
             {sidePosts.map((post) => (
               <PostCard key={post.id} post={post} />
             ))}
           </div>
+
+          {/* Card 1: ẢNH TO NHẤT CHUYỂN SANG BÊN PHẢI (6 Cột Desktop, tỷ lệ 3:4) */}
+          {featuredPost && (
+            <div className="order-1 lg:order-2 lg:col-span-6 flex flex-col">
+              <PostCard
+                post={featuredPost}
+                large={true}
+              />
+            </div>
+          )}
         </div>
 
         {/* ── Nút Khám Phá Toàn Bộ Dòng Chảy Hoằng Pháp ── */}

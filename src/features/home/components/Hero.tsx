@@ -116,7 +116,7 @@ export const Hero: FC = () => {
       <div className="h-28" />
 
       {/* ── Hero Center Content ── */}
-      <div className="relative z-10 max-w-6xl mx-auto px-4 text-center flex flex-col items-center gap-4 my-auto py-8">
+      <div className="relative z-20 max-w-6xl mx-auto px-4 text-center flex flex-col items-center gap-4 my-auto py-8">
 
         {/* Tiêu đề chính phông UTM Niagara */}
         <h1
@@ -141,8 +141,8 @@ export const Hero: FC = () => {
           CHỐN THIÊNG BÌNH YÊN
         </p>
 
-        {/* ── Dải 5 nút thao tác nhanh ── */}
-        <div className="flex flex-wrap items-center justify-center gap-2.5 md:gap-3.5 mt-8 w-full max-w-6xl">
+        {/* ── Dải 5 nút thao tác nhanh (nổi rõ rệt trên z-20, không bị lớp gradient che khuất) ── */}
+        <div className="relative z-20 flex flex-wrap items-center justify-center gap-2.5 md:gap-3.5 mt-8 w-full max-w-6xl">
           {/* 1. PHÁP THOẠI MỚI NHẤT */}
           <Link
             href="/vu-tru-phat-giao/giang-duong"
@@ -224,8 +224,8 @@ export const Hero: FC = () => {
 
       <div className="h-10" />
 
-      {/* ── Soft Gradient Blur at Bottom of Hero: Seamlessly merges video into page background ── */}
-      <div className="absolute bottom-0 inset-x-0 h-44 md:h-64 bg-gradient-to-t from-[#1A120B] via-[#1A120B]/80 to-transparent pointer-events-none z-10 backdrop-blur-[2px]" />
+      {/* ── Soft Gradient at Bottom of Hero: Seamlessly merges video into page background behind content ── */}
+      <div className="absolute bottom-0 inset-x-0 h-32 md:h-44 bg-gradient-to-t from-[#1A120B] via-[#1A120B]/85 to-transparent pointer-events-none z-0" />
 
       {/* ── Pop-up Galaxy Timeline Gallery Modal ── */}
       {isGalaxyOpen && <GalaxyTimelineGallery onClose={() => setIsGalaxyOpen(false)} />}
