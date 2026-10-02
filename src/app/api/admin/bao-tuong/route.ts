@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { OFFICIAL_STATUE_DATASET, StatueRecord } from '@/data/statue-data';
 import { readDb, updateDb } from '@/lib/s3-db';
 import { STATUES_DB } from '@/lib/s3-collections';
@@ -55,6 +56,28 @@ export async function GET(req: NextRequest) {
 export async function PUT(req: NextRequest) {
   try {
     const body = await req.json();
+
+    function triggerRevalidation() {
+      try {
+        revalidatePath('/');
+        revalidatePath('/vu-tru-phat-giao');
+        revalidatePath('/vu-tru-phat-giao/tam-bao');
+        revalidatePath('/vu-tru-phat-giao/to-duong');
+        revalidatePath('/vu-tru-phat-giao/tu-an');
+        revalidatePath('/vu-tru-phat-giao/thu-vien');
+        revalidatePath('/vu-tru-phat-giao/giang-duong');
+      } catch (e) {
+        console.warn('Revalidation warning:', e);
+      }
+    }
+
+    // Hỗ trợ lưu danh sách sắp xếp thứ tự
+    if (Array.isArray(body)) {
+      await updateDb<StatueRecord[]>(STATUES_DB, () => body);
+      triggerRevalidation();
+      return NextResponse.json({ success: true, count: body.length });
+    }
+
     const { id, code, updates } = body;
 
     if (!id && !code) {
@@ -86,6 +109,8 @@ export async function PUT(req: NextRequest) {
       throw err;
     }
 
+    triggerRevalidation();
+
     return NextResponse.json({
       success: true,
       data: updated,
@@ -110,6 +135,18 @@ export async function POST(req: NextRequest) {
       statues.unshift(created);
       return statues;
     });
+
+    try {
+      revalidatePath('/');
+      revalidatePath('/vu-tru-phat-giao');
+      revalidatePath('/vu-tru-phat-giao/tam-bao');
+      revalidatePath('/vu-tru-phat-giao/to-duong');
+      revalidatePath('/vu-tru-phat-giao/tu-an');
+      revalidatePath('/vu-tru-phat-giao/thu-vien');
+      revalidatePath('/vu-tru-phat-giao/giang-duong');
+    } catch (e) {
+      console.warn('Revalidation warning:', e);
+    }
 
     return NextResponse.json({
       success: true,

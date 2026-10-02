@@ -184,15 +184,26 @@ export const NewsSection: FC = () => {
             className="hidden lg:flex flex-col items-center justify-end w-[28%] -mr-8 z-10 cursor-pointer transition-all duration-500 grayscale brightness-70 opacity-85 hover:opacity-100 hover:brightness-90 group shrink-0"
           >
             {/* Box Ảnh Bên Trái */}
-            <div className="relative w-full h-[280px] overflow-hidden border-t border-b border-l border-amber-900/40">
+            <div className="relative w-full h-[280px] overflow-hidden border-t border-b border-l border-amber-900/40 bg-[#160E08]">
+              <img
+                key={`left-bg-${prevNews.id}`}
+                src={prevNews.imgUrl}
+                alt=""
+                aria-hidden="true"
+                className={`absolute inset-0 w-full h-full object-cover blur-md scale-125 opacity-25 pointer-events-none ${animClass}`}
+              />
               <img
                 key={`left-img-${prevNews.id}`}
                 src={prevNews.imgUrl}
                 alt={prevNews.title}
                 style={{ objectPosition: prevNews.imgPosition || 'center 35%' }}
-                className={`w-full h-full object-cover ${animClass}`}
+                className={`relative z-10 w-full h-full ${
+                  prevNews.imgUrl.includes('tuong_chinh') || prevNews.imgUrl.includes('33-ung-hoa') || prevNews.imgUrl.includes('tu-an-book') || prevNews.imgUrl.includes('page_')
+                    ? 'object-contain p-2'
+                    : 'object-cover'
+                } ${animClass}`}
               />
-              <div className="absolute inset-0 bg-black/30" />
+              <div className="absolute inset-0 bg-black/30 pointer-events-none" />
             </div>
 
             {/* Thanh Chú Thích Bên Trái: Dòng 1 Tiêu đề Niagara, Dòng 2 Danh mục UTM Avo */}
@@ -215,7 +226,7 @@ export const NewsSection: FC = () => {
           <div className="relative w-full lg:w-[50%] max-w-[640px] flex flex-col items-center z-30 px-0 my-0 shrink-0">
             {/* Box Ảnh Chính */}
             <div
-              className="relative w-full overflow-hidden border shadow-2xl group"
+              className="relative w-full overflow-hidden border shadow-2xl group bg-[#160E08]"
               style={{
                 height: 360,
                 borderColor: "#F2C14E",
@@ -224,12 +235,26 @@ export const NewsSection: FC = () => {
                 boxShadow: "0 25px 80px rgba(0,0,0,0.98), 0 0 50px rgba(242,193,78,0.45)",
               }}
             >
+              {/* Nền Ambient Glow Halo hỗ trợ tự động nếu ảnh đứng */}
+              <img
+                key={`center-bg-${currentNews.id}`}
+                src={currentNews.imgUrl}
+                alt=""
+                aria-hidden="true"
+                className={`absolute inset-0 w-full h-full object-cover blur-xl scale-125 opacity-35 brightness-75 transition-all duration-700 pointer-events-none ${animClass}`}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20 pointer-events-none" />
+
               <img
                 key={`center-img-${currentNews.id}`}
                 src={currentNews.imgUrl}
                 alt={currentNews.title}
                 style={{ objectPosition: currentNews.imgPosition || 'center 35%' }}
-                className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ${animClass}`}
+                className={`relative z-10 w-full h-full ${
+                  currentNews.imgUrl.includes('tuong_chinh') || currentNews.imgUrl.includes('33-ung-hoa') || currentNews.imgUrl.includes('tu-an-book') || currentNews.imgUrl.includes('page_')
+                    ? 'object-contain p-3'
+                    : 'object-cover'
+                } group-hover:scale-105 transition-transform duration-700 ${animClass}`}
               />
 
               {/* Nút Chuyển Slide Trái */}
@@ -333,15 +358,26 @@ export const NewsSection: FC = () => {
             className="hidden lg:flex flex-col items-center justify-end w-[28%] -ml-8 z-10 cursor-pointer transition-all duration-500 grayscale brightness-70 opacity-85 hover:opacity-100 hover:brightness-90 group shrink-0"
           >
             {/* Box Ảnh Bên Phải */}
-            <div className="relative w-full h-[280px] overflow-hidden border-t border-b border-r border-amber-900/40">
+            <div className="relative w-full h-[280px] overflow-hidden border-t border-b border-r border-amber-900/40 bg-[#160E08]">
+              <img
+                key={`right-bg-${nextNews.id}`}
+                src={nextNews.imgUrl}
+                alt=""
+                aria-hidden="true"
+                className={`absolute inset-0 w-full h-full object-cover blur-md scale-125 opacity-25 pointer-events-none ${animClass}`}
+              />
               <img
                 key={`right-img-${nextNews.id}`}
                 src={nextNews.imgUrl}
                 alt={nextNews.title}
                 style={{ objectPosition: nextNews.imgPosition || 'center 35%' }}
-                className={`w-full h-full object-cover ${animClass}`}
+                className={`relative z-10 w-full h-full ${
+                  nextNews.imgUrl.includes('tuong_chinh') || nextNews.imgUrl.includes('33-ung-hoa') || nextNews.imgUrl.includes('tu-an-book') || nextNews.imgUrl.includes('page_')
+                    ? 'object-contain p-2'
+                    : 'object-cover'
+                } ${animClass}`}
               />
-              <div className="absolute inset-0 bg-black/30" />
+              <div className="absolute inset-0 bg-black/30 pointer-events-none" />
             </div>
 
             {/* Thanh Chú Thích Bên Phải: Dòng 1 Tiêu đề Niagara, Dòng 2 Danh mục UTM Avo */}

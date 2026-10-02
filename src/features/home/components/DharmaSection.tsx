@@ -1,6 +1,6 @@
 'use client';
 
-import { FC } from "react";
+import { FC, useState, useEffect } from "react";
 import { C } from "@/config/theme";
 import type { SectionRef } from "@/features/home/types";
 import { SectionHeader } from "@/components/common/SectionHeader";
@@ -52,6 +52,7 @@ const TOP_POSTS: PostItem[] = [
     publishedDate: "10/08/2026",
     viewsCount: "62.9K",
     targetUrl: "/bao-tuong-phat-giao",
+    imgFit: "contain",
   },
   {
     id: "p5",
@@ -63,6 +64,7 @@ const TOP_POSTS: PostItem[] = [
     publishedDate: "05/08/2026",
     viewsCount: "35.4K",
     targetUrl: "/tri-tue-phat-phap/di-qua-kho-vui-cuoc-doi",
+    imgFit: "contain",
   },
   {
     id: "p6",
@@ -81,8 +83,52 @@ interface DharmaSectionProps {
   sectionRef?: SectionRef;
 }
 
-/** "Dấu Ấn Hoằng Pháp" — Bố cục chuẩn 3 cột x 2 hàng (6 thẻ) đồng bộ */
-const DharmaSection: FC<DharmaSectionProps> = ({ sectionRef }) => {
+/** "Dấu Ấn Hoằng Pháp" — Bố cục chuẩn 3 cột x 2 hàng (6 thẻ) đồng bộ, tự động nạp từ CMS */
+export const DharmaSection: FC<DharmaSectionProps> = ({ sectionRef }) => {
+  const [posts, setPosts] = useState<PostItem[]>(TOP_POSTS);
+
+  useEffect(() => {
+    async function loadLatestDharma() {
+      try {
+        const res = await fetch(`/api/admin/posts?status=published&t=${Date.now()}`, { cache: 'no-store' });
+        if (res.ok) {
+          const json = await res.json();
+          if (json.success && Array.isArray(json.posts) && json.posts.length > 0) {
+            // Lấy 6 bài viết mới nhất/tiêu biểu từ CMS
+            const dynamicPosts: PostItem[] = json.posts.slice(0, 6).map((p: any, idx: number) => {
+              const mainCat = p.mainCategory || 'dong-chay-hoang-phap';
+              const targetUrl =
+                mainCat === 'tong-chi-tu-hoc'
+                  ? `/tong-chi-tu-hoc/${p.slug}`
+                  : mainCat === 'tri-tue-phat-phap'
+                    ? `/tri-tue-phat-phap/${p.slug}`
+                    : `/dong-chay-hoang-phap/${p.slug}`;
+
+              return {
+                id: String(p.id || `post-${idx}`),
+                imageUrl: p.bannerUrl || p.thumbnailUrl || TOP_POSTS[idx % TOP_POSTS.length].imageUrl,
+                category1: p.mainCategory === 'tong-chi-tu-hoc' ? 'Tông Chỉ Tu Học' : 'Dòng Chảy Hoằng Pháp',
+                category2: (p.subCategory || p.categoryName || 'HOẰNG PHÁP').toUpperCase(),
+                title: p.title,
+                description: p.summary
+                  ? p.summary.replace(/<[^>]*>?/gm, '').slice(0, 140) + '...'
+                  : TOP_POSTS[idx % TOP_POSTS.length].description,
+                publishedDate: p.publishedDate ? p.publishedDate.split('-').reverse().join('/') : 'Mới cập nhật',
+                viewsCount: p.viewsCount ? `${p.viewsCount}` : `${108 + idx * 25}`,
+                targetUrl,
+                imgFit: 'cover',
+              };
+            });
+            setPosts(dynamicPosts);
+          }
+        }
+      } catch (err) {
+        console.warn('DharmaSection dynamic fetch fallback:', err);
+      }
+    }
+    loadLatestDharma();
+  }, []);
+
   return (
     <section
       ref={sectionRef}
@@ -99,7 +145,7 @@ const DharmaSection: FC<DharmaSectionProps> = ({ sectionRef }) => {
 
         {/* ── Grid: 3 Cột x 2 Hàng (6 Thẻ) ── */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {TOP_POSTS.map((post) => (
+          {posts.map((post) => (
             <PostCard key={post.id} post={post} />
           ))}
         </div>

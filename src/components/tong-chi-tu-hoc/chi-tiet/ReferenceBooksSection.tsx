@@ -61,11 +61,17 @@ export function ReferenceBooksSection({ books = [] }: ReferenceBooksSectionProps
                 className="group relative rounded-2xl p-4 bg-[#231208]/90 border border-[#F2C14E]/25 hover:border-[#F2C14E]/70 transition-all duration-300 flex items-start gap-4 hover:shadow-[0_8px_30px_rgba(242,193,78,0.18)] hover:-translate-y-0.5"
               >
                 {/* Book Cover */}
-                <div className="relative w-16 h-20 sm:w-20 sm:h-24 rounded-xl overflow-hidden border border-[#F2C14E]/35 shadow-md flex-shrink-0 bg-black/40">
+                <div className="relative w-16 h-20 sm:w-20 sm:h-24 rounded-xl overflow-hidden border border-[#F2C14E]/35 shadow-md flex-shrink-0 bg-[#120803]">
+                  <img
+                    src={getImageUrl(book.coverImage) || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/uploads/chua-pho-chieu-hai-phong-1787464212629.webp'}
+                    alt=""
+                    aria-hidden="true"
+                    className="absolute inset-0 w-full h-full object-cover blur-md scale-125 opacity-30 pointer-events-none"
+                  />
                   <img
                     src={getImageUrl(book.coverImage) || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/uploads/chua-pho-chieu-hai-phong-1787464212629.webp'}
                     alt={book.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="relative z-10 w-full h-full object-contain p-1 group-hover:scale-105 transition-transform duration-500 drop-shadow-md"
                     loading="lazy"
                   />
                 </div>

@@ -83,19 +83,25 @@ export const ThapBatLaHanGrid: FC = () => {
                   onClick={() => setSelectedItem(item)}
                   className="group relative rounded-2xl border border-[#F2C14E]/35 hover:border-[#ffde59] transition-all duration-300 shadow-xl cursor-pointer overflow-hidden bg-[#1C130D] h-[260px] sm:h-[290px] w-full"
                 >
-                  {/* FULL BLEED IMAGE */}
+                  {/* Nền Hào Quang Ambient Glow */}
+                  <img
+                    src={item.imgUrl}
+                    alt=""
+                    aria-hidden="true"
+                    className="absolute inset-0 w-full h-full object-cover blur-xl scale-125 opacity-30 brightness-75 transition-all duration-500 group-hover:scale-140 group-hover:opacity-50 pointer-events-none"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#1C130D]/95 via-black/25 to-black/30 pointer-events-none" />
+
+                  {/* Tôn tượng Thập Bát La Hán hiển thị trọn vẹn 100% */}
                   <img
                     src={item.imgUrl}
                     alt={item.name}
-                    className="w-full h-full object-cover object-[center_20%] transition-transform duration-500 group-hover:scale-105"
+                    className="relative z-10 w-full h-full object-contain p-2 transition-transform duration-500 group-hover:scale-105 drop-shadow-[0_8px_16px_rgba(0,0,0,0.85)]"
                     loading="lazy"
                     onError={(e) => {
                       (e.currentTarget as HTMLImageElement).src = '/images/vu-tru-phat-giao/toan-canh-chua.jpg';
                     }}
                   />
-
-                  {/* Soft gradient fade at bottom of card */}
-                  <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#1C130D]/95 via-[#1C130D]/40 to-transparent pointer-events-none" />
 
                   {/* HOVER OVERLAY */}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#25170E]/95 via-[#3D2817]/75 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-2.5 text-center pointer-events-none z-20">

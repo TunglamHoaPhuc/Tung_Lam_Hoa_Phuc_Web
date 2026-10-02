@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { readDb, updateDb } from '@/lib/s3-db';
 import { GIOI_THIEU_DB } from '@/lib/s3-collections';
 
@@ -93,6 +94,16 @@ export async function PUT(req: NextRequest) {
       return validated;
     });
 
+    try {
+      revalidatePath('/');
+      revalidatePath('/gioi-thieu');
+      revalidatePath('/gioi-thieu/lich-su-chua');
+      revalidatePath('/gioi-thieu/nguoi-lien-quan');
+      revalidatePath('/gioi-thieu/thanh-quy-van-hoa');
+    } catch (e) {
+      console.warn('Revalidation warning:', e);
+    }
+
     return NextResponse.json({
       success: true,
       message: 'Đã lưu danh sách chủ đề giới thiệu thành công!',
@@ -146,6 +157,16 @@ export async function POST(req: NextRequest) {
       topics.push(created);
       return topics;
     });
+
+    try {
+      revalidatePath('/');
+      revalidatePath('/gioi-thieu');
+      revalidatePath('/gioi-thieu/lich-su-chua');
+      revalidatePath('/gioi-thieu/nguoi-lien-quan');
+      revalidatePath('/gioi-thieu/thanh-quy-van-hoa');
+    } catch (e) {
+      console.warn('Revalidation warning:', e);
+    }
 
     return NextResponse.json({
       success: true,

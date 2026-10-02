@@ -47,14 +47,25 @@ const ProgramsSection: FC<ProgramsSectionProps> = ({ sectionRef }) => {
               }
             >
               {/* image + badge */}
-              <div className="relative overflow-hidden" style={{ height: 240 }}>
+              <div className="relative overflow-hidden bg-[#160E08]" style={{ height: 240 }}>
+                {/* Nền Ambient Glow Halo */}
+                <img
+                  src={prog.img}
+                  alt=""
+                  aria-hidden="true"
+                  className="absolute inset-0 w-full h-full object-cover blur-xl scale-125 opacity-30 pointer-events-none"
+                />
                 <img
                   src={prog.img}
                   alt={prog.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  className={`w-full h-full ${
+                    prog.img?.includes('tu-an-book') || prog.img?.includes('33-ung-hoa') || prog.img?.includes('page_')
+                      ? 'object-contain p-2 relative z-10'
+                      : 'object-cover'
+                  } group-hover:scale-105 transition-transform duration-500`}
                 />
                 <div
-                  className="absolute inset-0"
+                  className="absolute inset-0 z-10"
                   style={{
                     background:
                       "linear-gradient(to top,rgba(42,29,20,.65) 0%,transparent 60%)",

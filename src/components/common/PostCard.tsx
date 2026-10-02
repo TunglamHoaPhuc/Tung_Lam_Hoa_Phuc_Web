@@ -9,12 +9,15 @@ export interface PostCardProps {
   post: PostItem;
   large?: boolean;
   className?: string;
+  forceFit?: 'cover' | 'contain' | 'auto';
 }
 
 const DEFAULT_TEMPLE_LOGO = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/bieu-tuong-tong-chi-tu-hoc-tung-lam-hoa-phuc.webp';
 
 /**
  * Standardized Golden Ratio Post Card (φ ≈ 1.618)
+ * - Smart Auto-Fit: Ảnh ngang tràn viền (cover), ảnh tượng Phật/sách đứng hiển thị 100% trọn vẹn (contain)
+ *   kèm nền hào quang mờ (Ambient Glow Halo) đồng điệu màu sắc, không cắt đầu tượng.
  * - Golden Thumbnail Aspect Ratio: aspect-[1.618/1]
  * - Golden Typography Scale:
  *   - Title: text-[18px] md:text-[20px] (Font UTM Avo Bold, Gold #F2C14E)
@@ -27,9 +30,40 @@ export const PostCard: FC<PostCardProps> = ({
   post,
   large = false,
   className = '',
+  forceFit,
 }) => {
   const CardWrapper = post.targetUrl ? Link : 'div';
   const wrapperProps = post.targetUrl ? { href: post.targetUrl } : {};
+
+  // Khởi tạo nhận diện hướng ảnh: Kiểm tra cờ cấu hình hoặc URL ảnh có dấu hiệu ảnh đứng
+  const [isPortrait, setIsPortrait] = React.useState<boolean>(() => {
+    if (forceFit === 'contain' || post.imgFit === 'contain') return true;
+    if (forceFit === 'cover' || post.imgFit === 'cover') return false;
+    const url = post.imageUrl || '';
+    if (
+      url.includes('33-ung-hoa') ||
+      url.includes('tu-an-book') ||
+      url.includes('page_') ||
+      url.includes('tuong_chinh')
+    ) {
+      return true;
+    }
+    return false;
+  });
+
+  const handleImageLoad = (e: React.SyntheticEvent<HTMLImageElement>) => {
+    if (forceFit === 'cover' || post.imgFit === 'cover') return;
+    if (forceFit === 'contain' || post.imgFit === 'contain') {
+      setIsPortrait(true);
+      return;
+    }
+    const { naturalWidth, naturalHeight } = e.currentTarget;
+    if (naturalWidth && naturalHeight) {
+      // Nếu tỷ lệ width/height < 1.25 -> Đây là ảnh dọc/vuông (tượng Phật, bìa sách) cần bảo toàn 100%
+      const ratio = naturalWidth / naturalHeight;
+      setIsPortrait(ratio < 1.25);
+    }
+  };
 
   const formattedViews =
     typeof post.viewsCount === 'number'
@@ -40,20 +74,50 @@ export const PostCard: FC<PostCardProps> = ({
 
   const categoryTag = post.category1 || 'Phật Pháp – Đời Sống';
   const logoUrl = post.category1IconUrl || DEFAULT_TEMPLE_LOGO;
+  const currentImageUrl =
+    post.imageUrl ||
+    'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp';
 
   return (
     <CardWrapper
       {...(wrapperProps as any)}
       className={`group relative w-full overflow-hidden rounded-xl border border-[#F2C14E]/20 bg-[#2C1C11] cursor-pointer transition-all duration-300 hover:-translate-y-1.5 hover:border-[#F2C14E] shadow-xl hover:shadow-2xl flex flex-col h-full ${className}`}
     >
-      {/* 1. Khung ảnh Thumbnail Tỷ Lệ Vàng (1.618 : 1) */}
-      <div className="relative w-full aspect-[1.618/1] overflow-hidden bg-[#1A120B] shrink-0">
-        <img
-          src={post.imageUrl || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp'}
-          alt={post.title}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-          loading="lazy"
-        />
+      {/* 1. Khung ảnh Thumbnail Tỷ Lệ Vàng (1.618 : 1) với Smart Auto-Fit & Ambient Halo */}
+      <div className="relative w-full aspect-[1.618/1] overflow-hidden bg-[#150F0B] shrink-0">
+        {isPortrait ? (
+          <>
+            {/* Lớp nền Hào quang Ambient Glow: Phóng to và làm mờ sâu màu sắc ảnh gốc */}
+            <img
+              src={currentImageUrl}
+              alt=""
+              aria-hidden="true"
+              className="absolute inset-0 w-full h-full object-cover blur-2xl scale-135 opacity-40 brightness-75 transition-all duration-700 group-hover:scale-150 group-hover:opacity-60"
+            />
+            {/* Lớp màng mờ tạo chiều sâu trang nghiêm Phật giáo */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60 pointer-events-none" />
+
+            {/* Tôn tượng / Ấn phẩm chính hiển thị TRỌN VẸN 100% không cắt gọt đầu tượng hay chân sen */}
+            <img
+              src={currentImageUrl}
+              alt={post.title}
+              onLoad={handleImageLoad}
+              style={{ objectPosition: post.imgPosition || 'center' }}
+              className="relative z-10 w-full h-full object-contain p-2 drop-shadow-[0_10px_20px_rgba(0,0,0,0.85)] group-hover:scale-105 transition-transform duration-700"
+              loading="lazy"
+            />
+          </>
+        ) : (
+          /* Ảnh ngang: Tràn viền sắc nét truyền thống */
+          <img
+            src={currentImageUrl}
+            alt={post.title}
+            onLoad={handleImageLoad}
+            style={{ objectPosition: post.imgPosition || 'center' }}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+            loading="lazy"
+          />
+        )}
       </div>
 
       {/* 2. Đường kẻ Gradient cắt ĐÚNG ranh giới mép chân ảnh Tỷ Lệ Vàng */}

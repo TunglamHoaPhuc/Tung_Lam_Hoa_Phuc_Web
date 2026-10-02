@@ -69,6 +69,9 @@ import { IllustrationVideo } from '@/components/tong-chi-tu-hoc/chi-tiet/Illustr
 import { FeaturedPosts } from '@/components/tong-chi-tu-hoc/chi-tiet/FeaturedPosts';
 import { PhotoGallery } from '@/components/tong-chi-tu-hoc/chi-tiet/PhotoGallery';
 import { DiscoverMore } from '@/components/tong-chi-tu-hoc/chi-tiet/DiscoverMore';
+import { useTableDragDrop, GripHandleIcon } from './useTableDragDrop';
+import { AdminPagination, useAdminPagination } from './AdminPagination';
+import { useDebounce } from '@/hooks/useDebounce';
 
 // 🪷 KHỐI KÉO THẢ CHỈNH TIÊU ĐIỂM HÌNH ẢNH TRỰC QUAN
 function InteractiveImageDrag({
@@ -436,6 +439,24 @@ export function SpreadsheetPosts() {
     setToastMessage(msg);
     setTimeout(() => setToastMessage(null), 3500);
   };
+
+  // 🪷 Quản lý Kéo Thả Sắp Xếp Thứ Tự Bài Viết
+  const {
+    draggedId,
+    dragOverId,
+    dropPosition,
+    handleDragStart,
+    handleDragOver,
+    handleDragLeave,
+    handleDrop,
+    handleDragEnd,
+  } = useTableDragDrop({
+    items: posts,
+    setItems: setPosts,
+    setIsDirty,
+    onToast: showToast,
+    getId: (p) => p.id,
+  });
 
   // Fetch all posts from API
   const fetchPosts = async () => {
@@ -952,6 +973,9 @@ export function SpreadsheetPosts() {
     showToast(`🗑️ Đã xóa bài viết "${target.title}"`);
   };
 
+  // Debounce tìm kiếm mượt mà không lag bảng tính
+  const debouncedSearchQuery = useDebounce(searchQuery, 250);
+
   // Filtered Posts: Chỉ quản lý DÒNG CHẢY HOẰNG PHÁP
   const filteredPosts = useMemo(() => {
     return posts.filter((p) => {
@@ -961,8 +985,8 @@ export function SpreadsheetPosts() {
       if (selectedCategory !== 'all') {
         if (p.subCategory !== selectedCategory) return false;
       }
-      if (searchQuery.trim()) {
-        const q = searchQuery.toLowerCase();
+      if (debouncedSearchQuery.trim()) {
+        const q = debouncedSearchQuery.toLowerCase();
         const mTitle = p.title?.toLowerCase().includes(q);
         const mSummary = p.summary?.toLowerCase().includes(q);
         const mAuthor = p.author?.toLowerCase().includes(q);
@@ -971,9 +995,24 @@ export function SpreadsheetPosts() {
       }
       return true;
     });
-  }, [posts, selectedCategory, searchQuery]);
+  }, [posts, selectedCategory, debouncedSearchQuery]);
 
   const hoangPhapCount = posts.filter((p) => p.mainCategory === 'dong-chay-hoang-phap').length;
+
+  const {
+    currentPage,
+    setCurrentPage,
+    pageSize,
+    setPageSize,
+    totalPages,
+    totalItems,
+    paginatedItems: paginatedPosts,
+    startIndex,
+    endIndex,
+  } = useAdminPagination({
+    items: filteredPosts,
+    defaultPageSize: 10,
+  });
 
   return (
     <div style={{ fontFamily: "'UTM Avo', sans-serif" }} className="space-y-4">
@@ -1109,20 +1148,9 @@ export function SpreadsheetPosts() {
         </div>
       </div>
 
-      {/* Filter and Search Bar */}
+      {/* Filter and Search Bar (Chuyên mục bên trái, Tìm kiếm bên phải) */}
       <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3">
-        <div className="relative flex-1">
-          <Search className="w-4 h-4 text-[#F2C14E] absolute left-3 top-1/2 -translate-y-1/2" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Tìm kiếm theo tiêu đề bài viết, tác giả hoặc nội dung..."
-            className="w-full pl-9 pr-3 py-2.5 bg-[#1C120A] border border-[#F2C14E]/30 rounded-xl text-xs text-[#FFE5A3] placeholder-[#c9b896]/40 focus:outline-none focus:border-[#F2C14E] shadow-sm"
-          />
-        </div>
-
-        {/* Dropdown Lọc Chuyên Mục Hoằng Pháp */}
+        {/* Dropdown Lọc Chuyên Mục Hoằng Pháp (BÊN TRÁI) */}
         <select
           value={selectedCategory}
           onChange={(e) => setSelectedCategory(e.target.value)}
@@ -1140,6 +1168,18 @@ export function SpreadsheetPosts() {
             );
           })}
         </select>
+
+        {/* Ô Tìm Kiếm (BÊN PHẢI) */}
+        <div className="relative flex-1">
+          <Search className="w-4 h-4 text-[#F2C14E] absolute left-3 top-1/2 -translate-y-1/2" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Tìm kiếm theo tiêu đề bài viết, tác giả hoặc nội dung..."
+            className="w-full pl-9 pr-3 py-2.5 bg-[#1C120A] border border-[#F2C14E]/30 rounded-xl text-xs text-[#FFE5A3] placeholder-[#c9b896]/40 focus:outline-none focus:border-[#F2C14E] shadow-sm"
+          />
+        </div>
       </div>
 
       {/* Excel Table Grid (Gọn Gàng Cốt Lõi) */}
@@ -1148,7 +1188,7 @@ export function SpreadsheetPosts() {
           <table className="w-full border-collapse text-xs text-left min-w-[1100px] table-fixed">
             <thead className="sticky top-0 z-20 bg-[#321F14] text-[#F2C14E] uppercase tracking-wider font-bold border-b border-[#F2C14E]/40 select-none shadow-md">
               <tr>
-                <th className="p-3 w-[45px] min-w-[45px] text-center border-r border-[#F2C14E]/20">#</th>
+                <th className="p-3 w-[55px] min-w-[55px] text-center border-r border-[#F2C14E]/20" title="Bấm giữ và kéo thả biểu tượng ⠿ ở từng hàng để sắp xếp thứ tự">#</th>
                 <th className="p-3 w-[160px] min-w-[160px] border-r border-[#F2C14E]/20 text-center">Chuyên Mục</th>
                 <th className="p-3 w-[80px] min-w-[80px] text-center border-r border-[#F2C14E]/20">Ảnh Bìa</th>
                 <th className="p-3 w-[220px] min-w-[220px] border-r border-[#F2C14E]/20">Tiêu Đề Bài Viết</th>
@@ -1163,7 +1203,9 @@ export function SpreadsheetPosts() {
                     <Edit3 className="w-3.5 h-3.5 text-[#F2C14E]/80 shrink-0" />
                   </div>
                 </th>
-                <th className="p-3 w-[85px] min-w-[85px] text-center">Thao Tác</th>
+                <th className="p-3 w-[90px] min-w-[90px] text-center sticky right-0 z-30 bg-[#321F14] border-l border-[#F2C14E]/30 shadow-[-5px_0_12px_rgba(0,0,0,0.5)]">
+                  Thao Tác
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[#F2C14E]/15">
@@ -1181,7 +1223,7 @@ export function SpreadsheetPosts() {
                   </td>
                 </tr>
               ) : (
-                filteredPosts.map((row, filterIdx) => {
+                paginatedPosts.map((row, filterIdx) => {
                   const targetIdx = posts.findIndex((p) => p.id === row.id);
                   const actualIdx = targetIdx !== -1 ? targetIdx : filterIdx;
 
@@ -1192,16 +1234,41 @@ export function SpreadsheetPosts() {
                   const hasFeatured = Boolean(row.featuredArticle?.title);
                   const publicUrl = `/dong-chay-hoang-phap/${row.slug}`;
 
+                  const isDragged = String(row.id) === draggedId;
+                  const isDragOver = String(row.id) === dragOverId;
+
                   return (
                     <tr
                       key={row.id || filterIdx}
-                      className={`transition-colors group focus-within:bg-[#2D1B0F] ${
+                      onDragOver={(e) => handleDragOver(e, row.id)}
+                      onDrop={(e) => handleDrop(e, row.id)}
+                      onDragLeave={handleDragLeave}
+                      className={`transition-all duration-150 group focus-within:bg-[#2D1B0F] ${
                         filterIdx % 2 === 0 ? 'bg-[#170E08]' : 'bg-[#120A05]'
-                      } hover:bg-[#26160B]`}
+                      } hover:bg-[#26160B] ${
+                        isDragged ? 'opacity-30 bg-[#2A180D] ring-1 ring-amber-400/50' : ''
+                      } ${
+                        isDragOver && dropPosition === 'above'
+                          ? 'border-t-2 border-[#ffde59] bg-[#321C0E] shadow-[0_-4px_12px_rgba(255,222,89,0.35)]'
+                          : ''
+                      } ${
+                        isDragOver && dropPosition === 'below'
+                          ? 'border-b-2 border-[#ffde59] bg-[#321C0E] shadow-[0_4px_12px_rgba(255,222,89,0.35)]'
+                          : ''
+                      }`}
                     >
-                      {/* 1. STT */}
-                      <td className="p-3 w-[45px] min-w-[45px] text-center font-mono font-bold text-[#F2C14E] border-r border-[#F2C14E]/15 bg-[#140D07]/60 align-middle">
-                        {actualIdx + 1}
+                      {/* 1. STT & KÉO THẢ SẮP XẾP */}
+                      <td className="p-2 w-[55px] min-w-[55px] text-center font-mono font-bold text-[#F2C14E] border-r border-[#F2C14E]/15 bg-[#140D07]/60 align-middle select-none">
+                        <div
+                          draggable={true}
+                          onDragStart={(e) => handleDragStart(e, row.id)}
+                          onDragEnd={handleDragEnd}
+                          title="Bấm giữ và kéo thả chuột để thay đổi vị trí bài viết"
+                          className="flex items-center justify-center gap-1 cursor-grab active:cursor-grabbing p-1.5 rounded-lg hover:bg-[#3A2213] text-[#F2C14E]/70 hover:text-[#ffde59] transition-all hover:scale-105 group/grip"
+                        >
+                          <GripHandleIcon className="w-3.5 h-3.5 text-[#F2C14E]/60 group-hover/grip:text-[#ffde59] shrink-0" />
+                          <span className="text-xs font-mono">{actualIdx + 1}</span>
+                        </div>
                       </td>
 
                       {/* 2. Chuyên Mục Hoằng Pháp */}
@@ -1405,8 +1472,8 @@ export function SpreadsheetPosts() {
                         </div>
                       </td>
 
-                      {/* 8. Thao Tác (Chỉ giữ Xem Trang Trực Tiếp & Xóa) */}
-                      <td className="p-2 w-[85px] min-w-[85px] text-center align-middle">
+                      {/* 8. Thao Tác (Cố định sticky bên phải chống trôi khi cuộn ngang) */}
+                      <td className="p-2 w-[90px] min-w-[90px] text-center align-middle sticky right-0 bg-[#1C120A] group-hover:bg-[#25170E] z-10 border-l border-[#F2C14E]/20 shadow-[-4px_0_10px_rgba(0,0,0,0.5)]">
                         <div className="flex items-center justify-center gap-1.5">
                           {/* Nút Xem Web Trực Tiếp */}
                           {row.slug ? (
@@ -1441,6 +1508,21 @@ export function SpreadsheetPosts() {
               )}
             </tbody>
           </table>
+        </div>
+
+        {/* ── BẢNG ĐIỀU KHIỂN PHÂN TRANG (ADMIN PAGINATION BAR) ── */}
+        <div className="mt-4">
+          <AdminPagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalItems={totalItems}
+            startIndex={startIndex}
+            endIndex={endIndex}
+            pageSize={pageSize}
+            onPageChange={setCurrentPage}
+            onPageSizeChange={setPageSize}
+            itemName="bài viết"
+          />
         </div>
       </div>
 

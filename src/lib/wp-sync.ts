@@ -124,12 +124,24 @@ export function mergeWpPostIntoCms(wp: WpPost, existing?: any): any {
       ? base.thumbnailUrl
       : wp.thumbnail || base.thumbnailUrl || DEFAULT_THUMBNAIL;
 
+  // 🌟 NGUYÊN TẮC BẢO VỆ DỮ LIỆU CMS:
+  // Nếu bài viết đã được người quản trị chỉnh sửa trực tiếp trong Hòa Phúc CMS (editedInCms = true),
+  // các trường tiêu đề, nội dung, tóm tắt, ảnh banner của CMS phải được bảo toàn tuyệt đối,
+  // không để WordPress cũ đè ngược lên.
+  const isCmsEdited = Boolean(base.editedInCms);
+
+  const title = isCmsEdited && base.title ? base.title : (wp.title || base.title);
+  const summary = isCmsEdited && base.summary ? base.summary : (wp.summary || wp.excerpt || base.summary || 'Tóm tắt bài viết...');
+  const content = isCmsEdited && base.content ? base.content : (cleanWpHtml(wp.contentHtml) || base.content || '');
+  const chosenBanner = isCmsEdited && base.bannerUrl ? base.bannerUrl : imageUrl;
+  const chosenThumb = isCmsEdited && base.thumbnailUrl ? base.thumbnailUrl : imageUrl;
+
   return {
     ...base,
     id: base.id || `post-${wp.wpId}`,
     wpPostId: wp.wpId,
     slug: wp.slug || base.slug,
-    title: wp.title || base.title,
+    title,
     subtitle: base.subtitle || 'Tùng Lâm Hòa Phúc',
     mainCategory: cat.mainCategory,
     subCategory: cat.subCategory,
@@ -139,18 +151,19 @@ export function mergeWpPostIntoCms(wp: WpPost, existing?: any): any {
     publishedDate: (wp.date || '').split('T')[0] || base.publishedDate || '',
     status: 'published',
     viewsCount: base.viewsCount ?? 0,
-    thumbnailUrl: imageUrl,
-    bannerUrl: imageUrl,
+    thumbnailUrl: chosenThumb,
+    bannerUrl: chosenBanner,
     thumbnailPosition: base.thumbnailPosition || 'center 50%',
     bannerPosition: base.bannerPosition || 'center 50%',
-    summary: wp.summary || wp.excerpt || base.summary || 'Tóm tắt bài viết...',
-    content: cleanWpHtml(wp.contentHtml) || base.content || '',
+    summary,
+    content,
     keywords: base.keywords || [],
     photoGallery: base.photoGallery || [],
     wpModified: wp.modified || base.wpModified || '',
     wpImageUrl: wp.thumbnail || base.wpImageUrl || '',
     wpLink: wp.link || base.wpLink || '',
-    source: 'wordpress',
+    source: isCmsEdited ? 'cms' : 'wordpress',
+    editedInCms: isCmsEdited,
   };
 }
 

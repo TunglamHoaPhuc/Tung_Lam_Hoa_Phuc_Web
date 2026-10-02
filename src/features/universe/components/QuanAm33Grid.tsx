@@ -73,27 +73,34 @@ const QuanAmCard = React.memo(({ item, onSelect }: CardProps) => {
       className="group relative w-full rounded-2xl overflow-hidden border border-[#F2C14E]/35 bg-[#1C120B] shadow-2xl hover:border-[#FFDE59] transition-all duration-500 flex flex-col justify-between cursor-pointer min-h-[390px] sm:min-h-[420px]"
       onClick={() => onSelect(item)}
     >
-      {/* 1. TOP ARTWORK IMAGE FRAME */}
+      {/* 1. TOP ARTWORK IMAGE FRAME VỚI AMBIENT GLOW & OBJECT-CONTAIN */}
       <div className="relative w-full h-[270px] sm:h-[295px] bg-[#120A06] overflow-hidden shrink-0">
+        {/* Lớp nền hào quang vi diệu lan tỏa màu sắc */}
+        <img
+          src={item.imgUrl}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover blur-xl scale-135 opacity-40 brightness-75 transition-all duration-700 group-hover:scale-150 group-hover:opacity-60"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#25170E] via-black/20 to-black/30 pointer-events-none" />
+
+        {/* Tranh thờ Quán Thế Âm hiển thị 100% trọn vẹn, không cắt đầu hay chân sen */}
         <img
           src={item.imgUrl}
           alt={item.name}
           loading="lazy"
           decoding="async"
-          className="w-full h-full object-cover object-[center_12%] transition-transform duration-700 ease-out group-hover:scale-108 filter drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]"
+          className="relative z-10 w-full h-full object-contain p-2 transition-transform duration-700 ease-out group-hover:scale-105 filter drop-shadow-[0_8px_16px_rgba(0,0,0,0.85)]"
           onError={(e) => {
             (e.target as HTMLImageElement).src =
               'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp';
           }}
         />
 
-        {/* Ambient Overlays */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#25170E] via-transparent to-black/30 pointer-events-none" />
-
         {/* Number Badge Top-Left */}
         <div
           style={{ fontFamily: "'UTM Avo', sans-serif" }}
-          className="absolute top-3 left-3 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider text-[#F2C14E] bg-[#1C120B]/90 border border-[#F2C14E]/50 backdrop-blur-md shadow-md z-10"
+          className="absolute top-3 left-3 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider text-[#F2C14E] bg-[#1C120B]/90 border border-[#F2C14E]/50 backdrop-blur-md shadow-md z-20"
         >
           QUẺ SỐ {item.number}
         </div>

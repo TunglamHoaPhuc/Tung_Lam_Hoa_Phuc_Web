@@ -17,4 +17,6 @@ export interface PostItem {
   location?: string;         // Địa điểm tổ chức / thu âm
   targetUrl?: string;        // Link bài viết chi tiết
   large?: boolean;           // Cờ bài viết nổi bật (dùng cho card lớn)
+  imgFit?: 'cover' | 'contain' | 'auto'; // Chế độ hiển thị ảnh (mặc định auto phát hiện)
+  imgPosition?: string;      // Tọa độ căn ảnh (ví dụ: 'center top')
 }

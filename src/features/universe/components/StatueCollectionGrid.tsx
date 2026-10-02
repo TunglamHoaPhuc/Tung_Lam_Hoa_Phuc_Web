@@ -29,14 +29,23 @@ const StatueCard = React.memo(({ statue }: StatueCardProps) => {
       href={`/bao-tuong/${statue.slug}`}
       className="group relative w-full max-w-[300px] mx-auto overflow-hidden rounded-2xl border border-[#F2C14E]/30 bg-[#25170E] hover:border-[#F2C14E] transition-all duration-300 shadow-xl h-[415px] cursor-pointer flex flex-col justify-between block transform-gpu will-change-transform"
     >
-      {/* 1. KHUNG ẢNH THUMBNAIL (H-[330PX] LAZY & ASYNC DECODING) */}
+      {/* 1. KHUNG ẢNH THUMBNAIL (H-[330PX] VỚI AMBIENT GLOW & OBJECT-CONTAIN) */}
       <div className="relative w-full h-[330px] overflow-hidden bg-[#1A120B] shrink-0">
+        {/* Nền hào quang Ambient Glow */}
+        <img
+          src={statue.imgUrl}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover blur-xl scale-125 opacity-35 brightness-75 pointer-events-none"
+        />
+
+        {/* Tôn tượng hiển thị 100% trọn vẹn, không cắt đầu hay chân sen */}
         <img
           src={statue.imgUrl}
           alt={statue.name}
           loading="lazy"
           decoding="async"
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 transform-gpu"
+          className="relative z-10 w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-700 transform-gpu drop-shadow-[0_8px_16px_rgba(0,0,0,0.85)]"
           style={{
             objectPosition: (statue as any).imgPosition || 'center 20%',
             transform: statue.imgRotation
@@ -50,7 +59,7 @@ const StatueCard = React.memo(({ statue }: StatueCardProps) => {
         />
 
         <div
-          className="absolute inset-0 pointer-events-none"
+          className="absolute inset-0 pointer-events-none z-10"
           style={{
             background: "linear-gradient(to top, rgba(37,23,14,0.95) 0%, transparent 60%)",
           }}

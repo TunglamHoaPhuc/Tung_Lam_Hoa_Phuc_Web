@@ -156,14 +156,23 @@ export const ThapDaiDeTuCards: FC = () => {
             onClick={() => setSelectedDeTu(item)}
             className="group relative rounded-2xl overflow-hidden bg-gradient-to-b from-[#2A180E] via-[#1C1008] to-[#120803] border border-[#F2C14E]/30 p-3 flex flex-col justify-between hover:border-[#F2C14E] hover:shadow-[0_12px_35px_rgba(242,193,78,0.3)] transition-all duration-300 cursor-pointer transform hover:-translate-y-1"
           >
-            {/* Postcard Image with golden border */}
+            {/* Postcard Image with golden border and Ambient Glow Halo */}
             <div className="relative w-full aspect-[3/4] rounded-xl overflow-hidden bg-[#100702] border border-[#F2C14E]/20 mb-3">
+              {/* Nền hào quang mờ ảo đồng tông màu */}
+              <img
+                src={item.imageUrl}
+                alt=""
+                aria-hidden="true"
+                className="absolute inset-0 w-full h-full object-cover blur-xl scale-125 opacity-35 brightness-75 transition-all duration-500 group-hover:scale-140 group-hover:opacity-55"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/35 pointer-events-none" />
+
+              {/* Tôn tượng Thánh chúng hiển thị 100% trọn vẹn */}
               <img
                 src={item.imageUrl}
                 alt={item.name}
-                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 opacity-90"
+                className="relative z-10 w-full h-full object-contain p-1.5 group-hover:scale-105 transition-transform duration-500 drop-shadow-[0_6px_12px_rgba(0,0,0,0.85)]"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
               
               {/* Badge Đệ nhất */}
               <div className="absolute top-2 left-2 right-2">

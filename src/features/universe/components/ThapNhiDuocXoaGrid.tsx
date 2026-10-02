@@ -58,19 +58,26 @@ export const ThapNhiDuocXoaGrid: FC = () => {
               onClick={() => setSelectedItem(item)}
               className="group relative rounded-2xl border border-[#F2C14E]/35 bg-[#1C130D] hover:border-[#F2C14E] transition-all duration-500 shadow-xl cursor-pointer overflow-hidden flex flex-col hover:-translate-y-1.5 transform-gpu h-[270px] sm:h-[290px]"
             >
-              {/* FULL BLEED STATUE IMAGE (NO INITIAL TEXT) */}
+              {/* FULL BLEED STATUE IMAGE (NO INITIAL TEXT) VỚI AMBIENT GLOW */}
               <div className="relative w-full h-full bg-[#1A120B] overflow-hidden">
+                {/* Lớp nền hào quang Ambient Glow */}
+                <img
+                  src={item.imgUrl}
+                  alt=""
+                  aria-hidden="true"
+                  className="absolute inset-0 w-full h-full object-cover blur-xl scale-125 opacity-30 brightness-75 transition-all duration-700 pointer-events-none"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/30 pointer-events-none" />
+
+                {/* Tôn tượng Dược Xoa Đại Tướng hiển thị trọn vẹn 100% */}
                 <img
                   src={item.imgUrl}
                   alt={item.title}
-                  className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700 filter drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]"
+                  className="relative z-10 w-full h-full object-contain p-2 group-hover:scale-105 transition-transform duration-700 filter drop-shadow-[0_8px_16px_rgba(0,0,0,0.85)]"
                   onError={(e) => {
                     (e.currentTarget as HTMLImageElement).src = '/images/vu-tru-phat-giao/toan-canh-chua.jpg';
                   }}
                 />
-
-                {/* Subtle top-gradient overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 pointer-events-none" />
 
                 {/* ZODIAC BADGE: TOP-RIGHT */}
                 <div className="absolute top-2.5 right-2.5 z-10">

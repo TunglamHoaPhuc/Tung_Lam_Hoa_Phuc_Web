@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { readDb, updateDb } from '@/lib/s3-db';
 import { TONG_CHI_DB } from '@/lib/s3-collections';
 
@@ -105,6 +106,15 @@ export async function PUT(request: Request) {
         });
         return merged;
       });
+
+      // 🌟 REVALIDATE TỨC THỜI CHO TRANG CHỦ & TÔNG CHỈ TU HỌC
+      try {
+        revalidatePath('/', 'page');
+        revalidatePath('/tong-chi-tu-hoc', 'page');
+      } catch (e) {
+        console.warn('[revalidatePath error]', e);
+      }
+
       return NextResponse.json({ success: true, count: saved.length });
     }
     return NextResponse.json({ success: false, error: 'Dữ liệu phải là một mảng danh sách bài viết' }, { status: 400 });

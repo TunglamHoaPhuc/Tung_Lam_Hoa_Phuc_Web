@@ -88,7 +88,18 @@ export async function readDb<T>(entry: S3DbEntry<T>): Promise<T> {
     return cached.data as T;
   }
 
-  const client = assertClient();
+  let client: any = null;
+  try {
+    client = assertClient();
+  } catch (err: any) {
+    if (entry.seed) {
+      console.warn(`[s3-db] Chưa cấu hình S3 credentials. Đang dùng dữ liệu seed dự phòng cho ${entry.fileName}`);
+      const seeded = entry.seed();
+      memoryCache.set(key, { data: seeded, timestamp: Date.now() });
+      return seeded;
+    }
+    throw err;
+  }
 
   try {
     const res = await client.send(
@@ -103,6 +114,12 @@ export async function readDb<T>(entry: S3DbEntry<T>): Promise<T> {
   } catch (err: any) {
     if (isNotFound(err)) {
       const seeded = (entry.seed ? entry.seed() : ([] as unknown)) as T;
+      memoryCache.set(key, { data: seeded, timestamp: Date.now() });
+      return seeded;
+    }
+    if (entry.seed) {
+      console.warn(`[s3-db] Không thể đọc từ S3 (${err?.message}). Đang dùng dữ liệu seed dự phòng cho ${entry.fileName}`);
+      const seeded = entry.seed();
       memoryCache.set(key, { data: seeded, timestamp: Date.now() });
       return seeded;
     }
@@ -121,7 +138,14 @@ export async function readDb<T>(entry: S3DbEntry<T>): Promise<T> {
 /** Ghi JSON lên S3 (ghi đè object) — dùng cho cache nội dung + field riêng của web. */
 export async function writeDb<T>(entry: S3DbEntry<T>, data: T): Promise<S3DbWriteResult> {
   const key = getS3DbKey(entry.fileName);
-  const client = assertClient();
+  let client: any = null;
+  try {
+    client = assertClient();
+  } catch (err: any) {
+    console.warn(`[s3-db] Không ghi được ${key} lên S3: Chưa cấu hình S3 credentials. Đang lưu tạm vào bộ nhớ.`);
+    memoryCache.set(key, { data, timestamp: Date.now() });
+    return { key, size: 0, updatedAt: new Date().toISOString() };
+  }
 
   let jsonStr: string;
   try {

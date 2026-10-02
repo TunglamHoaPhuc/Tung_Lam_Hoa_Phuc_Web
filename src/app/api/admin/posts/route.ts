@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse, after } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import {
   loadPostsPreferringWordPress,
   persistPostsCache,
@@ -184,12 +185,25 @@ export async function PUT(req: NextRequest) {
       if (orig && !p.wpPostId && orig.wpPostId) {
         p.wpPostId = orig.wpPostId;
       }
-      // Tự động xuất bản 100% bài viết khi cập nhật
+      // Tự động xuất bản 100% bài viết khi cập nhật và đánh dấu sửa từ CMS
       p.status = 'published';
+      (p as any).editedInCms = true;
+      (p as any).cmsUpdatedAt = new Date().toISOString();
       return p;
     });
 
     await savePosts(validatedPosts);
+
+    // 🌟 LÀM MỚI TỨC THỜI TRANG CHỦ VÀ CÁC TRANG CHUYÊN MỤC
+    try {
+      revalidatePath('/', 'page');
+      revalidatePath('/dong-chay-hoang-phap', 'page');
+      revalidatePath('/tong-chi-tu-hoc', 'page');
+      revalidatePath('/tri-tue-phat-phap', 'page');
+      revalidatePath('/gioi-thieu', 'page');
+    } catch (e) {
+      console.warn('[revalidatePath error]', e);
+    }
 
     return NextResponse.json({
       success: true,
@@ -249,8 +263,18 @@ export async function POST(req: NextRequest) {
       upcomingEvents: body.upcomingEvents || [],
     };
 
+    (newPost as any).editedInCms = true;
+    (newPost as any).cmsUpdatedAt = new Date().toISOString();
     posts.unshift(newPost);
     await savePosts(posts);
+
+    try {
+      revalidatePath('/', 'page');
+      revalidatePath('/dong-chay-hoang-phap', 'page');
+      revalidatePath('/tri-tue-phat-phap', 'page');
+    } catch (e) {
+      console.warn('[revalidatePath error]', e);
+    }
 
     return NextResponse.json({
       success: true,

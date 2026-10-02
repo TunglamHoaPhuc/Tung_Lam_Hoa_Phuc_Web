@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ChevronLeft, ChevronRight, ArrowRight, MapPin, Landmark, Scroll, BookOpen, Sun, HandHeart } from "lucide-react";
 import { SectionHeader } from "@/components/common/SectionHeader";
 import { CategoryIcon } from "@/components/common/CategoryIcon";
+import { SmartImage } from "@/components/common/SmartImage";
 
 interface AreaItem {
   id: string;
@@ -143,22 +144,28 @@ export const GallerySection: FC = () => {
             className="hidden xl:block absolute -left-10 md:-left-8 top-1/2 -translate-y-1/2 w-16 md:w-20 h-[80%] rounded-r-2xl overflow-hidden opacity-30 grayscale brightness-50 hover:opacity-65 transition-all duration-300 cursor-pointer z-0 border-y border-r border-[#F2C14E]/30 shadow-2xl"
             title={`Xem khu vực: ${prevArea.name}`}
           >
-            <img
+            <SmartImage
               src={prevArea.imgUrl}
               alt={prevArea.name}
-              className="w-full h-full object-cover object-left"
+              fitMode="cover"
+              objectPosition="left center"
+              containerClassName="w-full h-full"
             />
-            <div className="absolute inset-0 bg-black/40" />
+            <div className="absolute inset-0 bg-black/40 pointer-events-none" />
           </div>
 
-          {/* ✦ SLIDE CHÍNH Ó GIỮA (TO HƠN, TỈ LỆ VÀNG 1.618 : 1) ✦ */}
+          {/* ✦ SLIDE CHÍNH Ở GIỮA (TO HƠN, TỈ LỆ VÀNG 1.618 : 1) ✦ */}
           <div className="w-full sm:w-[88%] md:w-[84%] max-w-5xl aspect-[1.618/1] relative z-10 rounded-2xl overflow-hidden shadow-2xl flex-shrink-0 border border-[#F2C14E]/60 group mx-auto">
-            <img
+            <SmartImage
+              key={`area-${currentArea.id}`}
               src={currentArea.imgUrl}
               alt={currentArea.name}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              fitMode="cover"
+              objectPosition="center 35%"
+              hoverZoom={true}
+              priority={true}
+              containerClassName="w-full h-full"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#1A1008]/95 via-black/20 to-transparent" />
 
             {/* Nút Mũi Tên Trái */}
             <button
@@ -278,18 +285,29 @@ export const GallerySection: FC = () => {
             className="hidden xl:block absolute -left-10 md:-left-8 top-1/2 -translate-y-1/2 w-16 md:w-20 h-[80%] rounded-r-2xl overflow-hidden opacity-30 grayscale brightness-50 hover:opacity-65 transition-all duration-300 cursor-pointer z-0 border-y border-r border-[#F2C14E]/30 shadow-2xl"
             title={`Xem tượng: ${prevStatue.name}`}
           >
-            <img
+            <SmartImage
               src={prevStatue.imgUrl}
               alt={prevStatue.name}
-              className="w-full h-full object-cover object-left"
+              fitMode="contain"
+              containPadding="p-1"
+              containerClassName="w-full h-full"
             />
-            <div className="absolute inset-0 bg-black/40" />
+            <div className="absolute inset-0 bg-black/40 pointer-events-none" />
           </div>
 
-          {/* ✦ SLIDE CHÍNH Ó GIỮA (TỈ LỆ VÀNG 1.618 : 1) ✦ */}
-          <div className="w-full sm:w-[88%] md:w-[84%] max-w-5xl aspect-[1.618/1] relative z-10 rounded-2xl overflow-hidden shadow-2xl flex-shrink-0 border border-[#F2C14E]/60 group mx-auto">
-            <img src={currentStatue.imgUrl} alt={currentStatue.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-            <div className="absolute inset-0 bg-gradient-to-t from-[#1A1008]/95 via-black/20 to-transparent" />
+          {/* ✦ SLIDE CHÍNH Ở GIỮA VỚI CHIỀU CAO TỐI ƯU CHO TƯỢNG PHÁP & AMBIENT GLOW ✦ */}
+          <div className="w-full sm:w-[88%] md:w-[84%] max-w-5xl h-[520px] sm:h-[580px] md:h-[640px] relative z-10 rounded-2xl overflow-hidden shadow-2xl flex-shrink-0 border border-[#F2C14E]/60 group mx-auto bg-[#150D08]">
+            {/* Tôn tượng hiển thị trang nghiêm trọn vẹn 100%, không bị che bởi thanh chú thích hay cắt đầu */}
+            <SmartImage
+              key={`statue-${currentStatue.id}`}
+              src={currentStatue.imgUrl}
+              alt={currentStatue.name}
+              fitMode="contain"
+              containPadding="p-4 pt-6 pb-24 md:pb-28"
+              hoverZoom={true}
+              priority={true}
+              containerClassName="w-full h-full"
+            />
 
             <button
               onClick={() => setStatueIdx(prevStatueIdx)}
