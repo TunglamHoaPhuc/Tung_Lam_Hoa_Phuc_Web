@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { OFFICIAL_STATUE_DATASET, StatueRecord } from '@/data/statue-data';
 import { loadServerlessJson, saveServerlessJson } from '@/lib/serverless-db';
 
@@ -16,6 +17,21 @@ function getStatues(): StatueRecord[] {
 
 async function saveStatues(statues: StatueRecord[]) {
   await saveServerlessJson<StatueRecord[]>(DB_CONFIG, statues);
+}
+
+function triggerRevalidation() {
+  try {
+    revalidatePath('/', 'page');
+    revalidatePath('/bao-tuong-phat-giao', 'page');
+    revalidatePath('/vu-tru-phat-giao', 'page');
+    revalidatePath('/vu-tru-phat-giao/tam-bao', 'page');
+    revalidatePath('/vu-tru-phat-giao/to-duong', 'page');
+    revalidatePath('/vu-tru-phat-giao/tu-an', 'page');
+    revalidatePath('/vu-tru-phat-giao/thu-vien', 'page');
+    revalidatePath('/vu-tru-phat-giao/giang-duong', 'page');
+  } catch (e) {
+    console.warn('Revalidation warning:', e);
+  }
 }
 
 export async function GET(req: NextRequest) {
@@ -65,6 +81,14 @@ export async function GET(req: NextRequest) {
 export async function PUT(req: NextRequest) {
   try {
     const body = await req.json();
+
+    // Hỗ trợ lưu danh sách sắp xếp thứ tự
+    if (Array.isArray(body)) {
+      await saveStatues(body);
+      triggerRevalidation();
+      return NextResponse.json({ success: true, count: body.length });
+    }
+
     const { id, code, updates } = body;
 
     if (!id && !code) {
@@ -90,6 +114,7 @@ export async function PUT(req: NextRequest) {
     };
 
     await saveStatues(statues);
+    triggerRevalidation();
 
     return NextResponse.json({
       success: true,
@@ -114,6 +139,7 @@ export async function POST(req: NextRequest) {
 
     statues.unshift(newStatue);
     await saveStatues(statues);
+    triggerRevalidation();
 
     return NextResponse.json({
       success: true,

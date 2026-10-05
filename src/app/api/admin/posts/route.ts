@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import path from 'path';
 
 const DB_PATH = path.resolve(process.cwd(), 'src/data/posts-database.json');
@@ -383,6 +384,17 @@ export async function PUT(req: NextRequest) {
 
     await savePosts(validatedPosts);
 
+    // 🌟 LÀM MỚI TỨC THỜI TRANG CHỦ VÀ CÁC TRANG CHUYÊN MỤC
+    try {
+      revalidatePath('/', 'page');
+      revalidatePath('/dong-chay-hoang-phap', 'page');
+      revalidatePath('/tong-chi-tu-hoc', 'page');
+      revalidatePath('/tri-tue-phat-phap', 'page');
+      revalidatePath('/gioi-thieu', 'page');
+    } catch (e) {
+      console.warn('[revalidatePath error]', e);
+    }
+
     return NextResponse.json({
       success: true,
       message: 'Đã lưu danh sách bài viết thành công!',
@@ -444,6 +456,14 @@ export async function POST(req: NextRequest) {
     posts.unshift(newPost);
     await savePosts(posts);
 
+    try {
+      revalidatePath('/', 'page');
+      revalidatePath('/dong-chay-hoang-phap', 'page');
+      revalidatePath('/tri-tue-phat-phap', 'page');
+    } catch (e) {
+      console.warn('[revalidatePath error]', e);
+    }
+
     return NextResponse.json({
       success: true,
       post: newPost,
@@ -490,6 +510,14 @@ export async function DELETE(req: NextRequest) {
       savePosts(posts),
       recordDeletedPost(deletedPost.id, deletedPost.wpPostId, deletedPost.slug),
     ]);
+
+    try {
+      revalidatePath('/', 'page');
+      revalidatePath('/dong-chay-hoang-phap', 'page');
+      revalidatePath('/tri-tue-phat-phap', 'page');
+    } catch (e) {
+      console.warn('[revalidatePath error]', e);
+    }
 
     if (deletedPost.wpPostId) {
       const numWpId = typeof deletedPost.wpPostId === 'number' ? deletedPost.wpPostId : parseInt(String(deletedPost.wpPostId), 10);

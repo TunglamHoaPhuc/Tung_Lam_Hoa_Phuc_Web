@@ -20,6 +20,8 @@ import {
   Eye,
   RefreshCw,
 } from 'lucide-react';
+import { useTableDragDrop, GripHandleIcon } from '@/components/admin/useTableDragDrop';
+import { AdminPagination, useAdminPagination } from '@/components/admin/AdminPagination';
 
 interface FeaturedProgram {
   id: string;
@@ -78,6 +80,38 @@ export default function AdminSchedulePage() {
   const [customEvents, setCustomEvents] = useState<CustomEvent[]>([]);
 
   const [selectedMonthIdx, setSelectedMonthIdx] = useState<number>(7); // Default August (index 7)
+
+  // 🪷 Quản lý Kéo Thả Sắp Xếp Thứ Tự Chương Trình Nổi Bật
+  const {
+    draggedId,
+    dragOverId,
+    dropPosition,
+    handleDragStart,
+    handleDragOver,
+    handleDragLeave,
+    handleDrop,
+    handleDragEnd,
+  } = useTableDragDrop({
+    items: programs,
+    setItems: setPrograms,
+    onToast: (msg) => setMessage({ text: msg, type: 'success' }),
+    getId: (p) => p.id,
+  });
+
+  const {
+    currentPage,
+    setCurrentPage,
+    pageSize,
+    setPageSize,
+    totalPages,
+    totalItems,
+    paginatedItems: paginatedPrograms,
+    startIndex,
+    endIndex,
+  } = useAdminPagination({
+    items: programs,
+    defaultPageSize: 10,
+  });
 
   useEffect(() => {
     fetchSchedule();
@@ -348,30 +382,45 @@ export default function AdminSchedulePage() {
               </div>
 
               <div className="space-y-4">
-                {programs.map((item, idx) => (
-                  <div
-                    key={item.id || idx}
-                    className="p-5 bg-[#1E1109] rounded-2xl border border-[#F2C14E]/25 shadow-xl flex flex-col lg:flex-row gap-6 items-start transition hover:border-[#F2C14E]/40"
-                  >
-                    {/* Thumbnail Preview */}
-                    <div className="w-full lg:w-48 h-32 relative rounded-xl overflow-hidden shrink-0 border border-[#F2C14E]/20 bg-black/40">
-                      {item.imgUrl ? (
-                        <Image
-                          src={item.imgUrl}
-                          alt={item.title}
-                          fill
-                          className="object-cover"
-                          unoptimized
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-[#e3d2c1]/40">
-                          <ImageIcon className="w-8 h-8" />
+                {paginatedPrograms.map((item, idx) => {
+                  const itemId = item.id || `prog-${idx}`;
+                  const isDragged = String(itemId) === draggedId;
+                  const isDragOver = String(itemId) === dragOverId;
+
+                  return (
+                    <div
+                      key={itemId}
+                      draggable={true}
+                      onDragStart={(e) => handleDragStart(e, itemId)}
+                      onDragOver={(e) => handleDragOver(e, itemId)}
+                      onDrop={(e) => handleDrop(e, itemId)}
+                      onDragEnd={handleDragEnd}
+                      className={`p-5 bg-[#1E1109] rounded-2xl border shadow-xl flex flex-col lg:flex-row gap-6 items-start transition-all duration-200 cursor-grab active:cursor-grabbing ${
+                        isDragged ? 'opacity-30 scale-[0.98] border-amber-400' : 'border-[#F2C14E]/25 hover:border-[#F2C14E]/40'
+                      } ${
+                        isDragOver ? 'ring-2 ring-[#ffde59] scale-[1.01]' : ''
+                      }`}
+                    >
+                      {/* Thumbnail Preview */}
+                      <div className="w-full lg:w-48 h-32 relative rounded-xl overflow-hidden shrink-0 border border-[#F2C14E]/20 bg-black/40">
+                        {item.imgUrl ? (
+                          <Image
+                            src={item.imgUrl}
+                            alt={item.title}
+                            fill
+                            className="object-cover"
+                            unoptimized
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-[#e3d2c1]/40">
+                            <ImageIcon className="w-8 h-8" />
+                          </div>
+                        )}
+                        <div className="absolute top-2 left-2 px-2 py-0.5 bg-black/70 rounded text-[10px] font-bold text-[#F2C14E] flex items-center gap-1 select-none">
+                          <GripHandleIcon className="w-3 h-3 text-[#ffde59]" />
+                          <span>#{idx + 1}</span>
                         </div>
-                      )}
-                      <div className="absolute top-2 left-2 px-2 py-0.5 bg-black/70 rounded text-[10px] font-bold text-[#F2C14E]">
-                        #{idx + 1}
                       </div>
-                    </div>
 
                     {/* Form Fields */}
                     <div className="flex-1 w-full grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -456,7 +505,24 @@ export default function AdminSchedulePage() {
                       </button>
                     </div>
                   </div>
-                ))}
+                  );
+                })}
+              </div>
+
+              {/* ── BẢNG ĐIỀU KHIỂN PHÂN TRANG (ADMIN PAGINATION BAR) ── */}
+              <div className="mt-4">
+                <AdminPagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  totalItems={totalItems}
+                  startIndex={startIndex}
+                  endIndex={endIndex}
+                  pageSize={pageSize}
+                  onPageChange={setCurrentPage}
+                  onPageSizeChange={setPageSize}
+                  pageSizeOptions={[5, 10, 20, 50, -1]}
+                  itemName="chương trình"
+                />
               </div>
             </div>
           )}

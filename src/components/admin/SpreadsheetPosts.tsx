@@ -1,7 +1,8 @@
-﻿'use client';
+'use client';
 
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import Link from 'next/link';
+import { AdminPagination, useAdminPagination } from '@/components/admin/AdminPagination';
 import {
   FileSpreadsheet,
   Plus,
@@ -1116,6 +1117,21 @@ export function SpreadsheetPosts() {
     });
   }, [posts, selectedCategory, searchQuery]);
 
+  const {
+    currentPage,
+    setCurrentPage,
+    pageSize,
+    setPageSize,
+    totalPages,
+    totalItems,
+    paginatedItems: paginatedPosts,
+    startIndex,
+    endIndex,
+  } = useAdminPagination({
+    items: filteredPosts,
+    defaultPageSize: 20,
+  });
+
   const hoangPhapCount = posts.filter((p) => p.mainCategory === 'dong-chay-hoang-phap').length;
 
   return (
@@ -1286,7 +1302,7 @@ export function SpreadsheetPosts() {
                   </td>
                 </tr>
               ) : (
-                filteredPosts.map((row, filterIdx) => {
+                paginatedPosts.map((row, filterIdx) => {
                   const targetIdx = posts.findIndex((p) => p.id === row.id);
                   const actualIdx = targetIdx !== -1 ? targetIdx : filterIdx;
 
@@ -1621,6 +1637,22 @@ export function SpreadsheetPosts() {
               )}
             </tbody>
           </table>
+        </div>
+
+        {/* ── BẢNG ĐIỀU KHIỂN PHÂN TRANG (ADMIN PAGINATION BAR) ── */}
+        <div className="mt-4 p-2">
+          <AdminPagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalItems={totalItems}
+            startIndex={startIndex}
+            endIndex={endIndex}
+            pageSize={pageSize}
+            onPageChange={setCurrentPage}
+            onPageSizeChange={setPageSize}
+            pageSizeOptions={[10, 20, 50, 100, -1]}
+            itemName="bài viết"
+          />
         </div>
       </div>
 

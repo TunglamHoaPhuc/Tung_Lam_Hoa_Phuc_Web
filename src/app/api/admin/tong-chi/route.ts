@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import fs from 'fs';
 import path from 'path';
 
@@ -98,6 +99,13 @@ export async function POST(request: Request) {
     articles.unshift(newArticle);
     saveArticles(articles);
 
+    try {
+      revalidatePath('/', 'page');
+      revalidatePath('/tong-chi-tu-hoc', 'page');
+    } catch (e) {
+      console.warn('[revalidatePath error]', e);
+    }
+
     return NextResponse.json({ success: true, data: newArticle }, { status: 201 });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
@@ -118,6 +126,15 @@ export async function PUT(request: Request) {
         return incoming;
       });
       saveArticles(merged);
+
+      // 🌟 REVALIDATE TỨC THỜI CHO TRANG CHỦ & TÔNG CHỈ TU HỌC
+      try {
+        revalidatePath('/', 'page');
+        revalidatePath('/tong-chi-tu-hoc', 'page');
+      } catch (e) {
+        console.warn('[revalidatePath error]', e);
+      }
+
       return NextResponse.json({ success: true, count: merged.length });
     }
     return NextResponse.json({ success: false, error: 'Dữ liệu phải là một mảng danh sách bài viết' }, { status: 400 });

@@ -1,9 +1,12 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Search, Edit3, Image as ImageIcon, Save, X, Sparkles, Filter, CheckCircle2, Crosshair } from 'lucide-react';
 import S3FileExplorerModal from '@/components/admin/S3FileExplorerModal';
 import { ImageFocalPositionerModal } from '@/components/admin/ImageFocalPositionerModal';
+import { useTableDragDrop, GripHandleIcon } from '@/components/admin/useTableDragDrop';
+import { AdminPagination, useAdminPagination } from '@/components/admin/AdminPagination';
+import { useDebounce } from '@/hooks/useDebounce';
 
 interface Monk {
   id: string;
@@ -39,6 +42,40 @@ export default function AdminDanhTangPage() {
     setToastMsg(msg);
     setTimeout(() => setToastMsg(null), 3500);
   };
+
+  // 🪷 Xử lý lưu thứ tự kéo thả Danh Tăng
+  const handleReorderMonks = async (newMonks: Monk[]) => {
+    setMonks(newMonks);
+    try {
+      const res = await fetch('/api/admin/danh-tang', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newMonks),
+      });
+      const data = await res.json();
+      if (data.success) {
+        showToast('✨ Đã lưu thứ tự Danh Tăng mới thành công!');
+      }
+    } catch (e: any) {
+      console.error(e);
+    }
+  };
+
+  const {
+    draggedId,
+    dragOverId,
+    dropPosition,
+    handleDragStart,
+    handleDragOver,
+    handleDragLeave,
+    handleDrop,
+    handleDragEnd,
+  } = useTableDragDrop({
+    items: monks,
+    setItems: handleReorderMonks,
+    onToast: showToast,
+    getId: (m) => m.id,
+  });
 
   useEffect(() => {
     fetchMonks();
@@ -93,11 +130,30 @@ export default function AdminDanhTangPage() {
     setS3TargetMonkId(null);
   };
 
-  const filteredMonks = monks.filter((m) => {
-    const matchName = !searchTerm.trim() || m.name.toLowerCase().includes(searchTerm.toLowerCase()) || (m.sect && m.sect.toLowerCase().includes(searchTerm.toLowerCase()));
-    const matchRegion = selectedRegion === 'all' || m.region === selectedRegion;
-    const matchAssembly = selectedAssembly === 'all' || m.hoi_chung === selectedAssembly;
-    return matchName && matchRegion && matchAssembly;
+  const debouncedSearch = useDebounce(searchTerm, 250);
+
+  const filteredMonks = useMemo(() => {
+    return monks.filter((m) => {
+      const matchName = !debouncedSearch.trim() || m.name.toLowerCase().includes(debouncedSearch.toLowerCase()) || (m.sect && m.sect.toLowerCase().includes(debouncedSearch.toLowerCase()));
+      const matchRegion = selectedRegion === 'all' || m.region === selectedRegion;
+      const matchAssembly = selectedAssembly === 'all' || m.hoi_chung === selectedAssembly;
+      return matchName && matchRegion && matchAssembly;
+    });
+  }, [monks, debouncedSearch, selectedRegion, selectedAssembly]);
+
+  const {
+    currentPage,
+    setCurrentPage,
+    pageSize,
+    setPageSize,
+    totalPages,
+    totalItems,
+    paginatedItems: paginatedMonks,
+    startIndex,
+    endIndex,
+  } = useAdminPagination({
+    items: filteredMonks,
+    defaultPageSize: 12,
   });
 
   return (
@@ -137,19 +193,9 @@ export default function AdminDanhTangPage() {
         </button>
       </div>
 
-      {/* Filter & Search Bar */}
+      {/* Filter & Search Bar (Bộ lọc bên trái, Tìm kiếm bên phải) */}
       <div className="max-w-7xl mx-auto mb-8 bg-[#180E07] border border-[#F2C14E]/30 rounded-2xl p-4 flex flex-wrap items-center justify-between gap-4">
-        <div className="flex-1 min-w-[280px] relative">
-          <Search className="w-4 h-4 text-[#F2C14E] absolute left-3.5 top-1/2 -translate-y-1/2" />
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Tìm theo tên Danh Tăng, Tông phái, Niên đại..."
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#25170E] border border-[#F2C14E]/40 text-[#F7E7CE] placeholder-[#c9b896]/50 text-xs focus:outline-none focus:border-[#F2C14E]"
-          />
-        </div>
-
+        {/* Bộ lọc Vùng miền & Hội chúng (BÊN TRÁI) */}
         <div className="flex items-center gap-2 flex-wrap text-xs">
           <span className="text-[#c9b896] flex items-center gap-1 font-bold">
             <Filter className="w-3.5 h-3.5 text-[#F2C14E]" /> Lọc:
@@ -157,7 +203,7 @@ export default function AdminDanhTangPage() {
           <select
             value={selectedRegion}
             onChange={(e) => setSelectedRegion(e.target.value)}
-            className="px-3 py-2 rounded-xl bg-[#25170E] border border-[#F2C14E]/40 text-[#FFE5A3] font-bold text-xs focus:outline-none"
+            className="px-3 py-2 rounded-xl bg-[#25170E] border border-[#F2C14E]/40 text-[#FFE5A3] font-bold text-xs focus:outline-none cursor-pointer"
           >
             <option value="all">Vùng miền: Tất cả</option>
             <option value="Miền Bắc">Miền Bắc</option>
@@ -169,12 +215,24 @@ export default function AdminDanhTangPage() {
           <select
             value={selectedAssembly}
             onChange={(e) => setSelectedAssembly(e.target.value)}
-            className="px-3 py-2 rounded-xl bg-[#25170E] border border-[#F2C14E]/40 text-[#FFE5A3] font-bold text-xs focus:outline-none"
+            className="px-3 py-2 rounded-xl bg-[#25170E] border border-[#F2C14E]/40 text-[#FFE5A3] font-bold text-xs focus:outline-none cursor-pointer"
           >
             <option value="all">Hội chúng: Tất cả</option>
             <option value="Tăng chúng">Tăng chúng</option>
             <option value="Ni chúng">Ni chúng</option>
           </select>
+        </div>
+
+        {/* Ô Tìm Kiếm (BÊN PHẢI) */}
+        <div className="flex-1 min-w-[280px] relative">
+          <Search className="w-4 h-4 text-[#F2C14E] absolute left-3.5 top-1/2 -translate-y-1/2" />
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Tìm theo tên Danh Tăng, Tông phái, Niên đại..."
+            className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#25170E] border border-[#F2C14E]/40 text-[#F7E7CE] placeholder-[#c9b896]/50 text-xs focus:outline-none focus:border-[#F2C14E]"
+          />
         </div>
       </div>
 
@@ -182,30 +240,41 @@ export default function AdminDanhTangPage() {
       <div className="max-w-7xl mx-auto">
         {loading ? (
           <div className="text-center py-20 text-[#F2C14E] animate-pulse">Đang tải danh sách Danh Tăng...</div>
-        ) : filteredMonks.length === 0 ? (
-          <div className="text-center py-20 text-[#c9b896]">Không tìm thấy Danh Tăng phù hợp.</div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {filteredMonks.map((monk) => (
-              <div
-                key={monk.id}
-                className="bg-[#180E07] border border-[#F2C14E]/30 hover:border-[#F2C14E] rounded-2xl p-4 flex flex-col justify-between transition-all duration-300 hover:shadow-[0_8px_30px_rgba(242,193,78,0.2)] group"
-              >
-                <div>
-                  {/* Avatar Frame */}
-                  <div className="relative w-full aspect-[3/4] rounded-xl overflow-hidden mb-3 bg-[#2A1D14] border border-[#F2C14E]/20">
-                    <img
-                      src={monk.avatarUrl}
-                      alt={monk.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      style={{ objectPosition: monk.avatarPosition || 'center top' }}
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/1.webp';
-                      }}
-                    />
-                    <div className="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-black/70 backdrop-blur-sm text-[#F2C14E] text-[10px] font-bold border border-[#F2C14E]/30">
-                      {monk.region} • {monk.hoi_chung}
-                    </div>
+            {paginatedMonks.map((monk) => {
+              const isDragged = monk.id === draggedId;
+              const isDragOver = monk.id === dragOverId;
+              return (
+                <div
+                  key={monk.id}
+                  draggable={true}
+                  onDragStart={(e) => handleDragStart(e, monk.id)}
+                  onDragOver={(e) => handleDragOver(e, monk.id)}
+                  onDrop={(e) => handleDrop(e, monk.id)}
+                  onDragEnd={handleDragEnd}
+                  className={`bg-[#180E07] border rounded-2xl p-4 flex flex-col justify-between transition-all duration-300 shadow-xl cursor-grab active:cursor-grabbing hover:shadow-[0_8px_30px_rgba(242,193,78,0.2)] group ${
+                    isDragged ? 'opacity-30 scale-95 border-amber-400' : 'border-[#F2C14E]/30 hover:border-[#F2C14E]'
+                  } ${
+                    isDragOver ? 'ring-2 ring-[#ffde59] scale-[1.02]' : ''
+                  }`}
+                >
+                  <div>
+                    {/* Avatar Frame */}
+                    <div className="relative w-full aspect-[3/4] rounded-xl overflow-hidden mb-3 bg-[#2A1D14] border border-[#F2C14E]/20">
+                      <img
+                        src={monk.avatarUrl}
+                        alt={monk.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        style={{ objectPosition: monk.avatarPosition || 'center top' }}
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/1.webp';
+                        }}
+                      />
+                      <div className="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-black/70 backdrop-blur-sm text-[#F2C14E] text-[10px] font-bold border border-[#F2C14E]/30 flex items-center gap-1">
+                        <GripHandleIcon className="w-3 h-3 text-[#ffde59]" />
+                        <span>{monk.region} • {monk.hoi_chung}</span>
+                      </div>
 
                     {/* Quick Focal Reticle Button */}
                     <button
@@ -250,9 +319,26 @@ export default function AdminDanhTangPage() {
                   </button>
                 </div>
               </div>
-            ))}
-          </div>
+            );
+          })}
+        </div>
         )}
+
+        {/* ── BẢNG ĐIỀU KHIỂN PHÂN TRANG (ADMIN PAGINATION BAR) ── */}
+        <div className="mt-6">
+          <AdminPagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalItems={totalItems}
+            startIndex={startIndex}
+            endIndex={endIndex}
+            pageSize={pageSize}
+            onPageChange={setCurrentPage}
+            onPageSizeChange={setPageSize}
+            pageSizeOptions={[12, 24, 48, 96, -1]}
+            itemName="vị danh tăng"
+          />
+        </div>
       </div>
 
       {/* Edit Modal */}

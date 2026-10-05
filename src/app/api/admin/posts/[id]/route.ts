@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { PostRecord } from '../route';
 import { loadServerlessJson, loadServerlessJsonAsync, saveServerlessJson } from '@/lib/serverless-db';
 import { HOANG_PHAP_ARTICLES } from '@/data/dong-chay-hoang-phap-data';
@@ -189,6 +190,19 @@ export async function PUT(
 
     await savePosts(posts);
 
+    try {
+      revalidatePath('/', 'page');
+      revalidatePath('/dong-chay-hoang-phap', 'page');
+      if (posts[index].slug) {
+        revalidatePath(`/dong-chay-hoang-phap/${posts[index].slug}`, 'page');
+        revalidatePath(`/tri-tue-phat-phap/${posts[index].slug}`, 'page');
+      }
+      revalidatePath('/tri-tue-phat-phap', 'page');
+      revalidatePath('/tong-chi-tu-hoc', 'page');
+    } catch (e) {
+      console.warn('[revalidatePath error]', e);
+    }
+
     return NextResponse.json({
       success: true,
       post: posts[index],
@@ -228,6 +242,15 @@ export async function DELETE(
       savePosts(posts),
       recordDeletedPost(deletedPost.id, deletedPost.wpPostId, deletedPost.slug),
     ]);
+
+    try {
+      revalidatePath('/', 'page');
+      revalidatePath('/dong-chay-hoang-phap', 'page');
+      revalidatePath('/tri-tue-phat-phap', 'page');
+      revalidatePath('/tong-chi-tu-hoc', 'page');
+    } catch (e) {
+      console.warn('[revalidatePath error]', e);
+    }
 
     // Thử xóa bài viết trên WordPress nếu có wpPostId
     if (deletedPost.wpPostId) {

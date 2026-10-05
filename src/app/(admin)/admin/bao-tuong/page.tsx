@@ -37,6 +37,9 @@ import {
 } from 'lucide-react';
 import { ImageFocalPositionerModal } from '@/components/admin/ImageFocalPositionerModal';
 import S3FileExplorerModal from '@/components/admin/S3FileExplorerModal';
+import { useTableDragDrop, GripHandleIcon } from '@/components/admin/useTableDragDrop';
+import { AdminPagination, useAdminPagination } from '@/components/admin/AdminPagination';
+import { useDebounce } from '@/hooks/useDebounce';
 
 export interface StatueAdminItem {
   id: string;
@@ -130,6 +133,48 @@ export default function AdminBaoTuongPage() {
 
   const [s3Target, setS3Target] = useState<S3Target | null>(null);
 
+  // Toast Notification
+  const [toastMsg, setToastMsg] = useState<string | null>(null);
+
+  const showToast = (msg: string) => {
+    setToastMsg(msg);
+    setTimeout(() => setToastMsg(null), 3500);
+  };
+
+  // 🪷 Xử lý lưu thứ tự kéo thả bảo tượng
+  const handleReorderStatues = async (newStatues: StatueAdminItem[]) => {
+    setStatues(newStatues);
+    try {
+      const res = await fetch('/api/admin/bao-tuong', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newStatues),
+      });
+      const data = await res.json();
+      if (data.success) {
+        showToast('✨ Đã lưu thứ tự bảo tượng mới thành công!');
+      }
+    } catch (e: any) {
+      console.error(e);
+    }
+  };
+
+  const {
+    draggedId,
+    dragOverId,
+    dropPosition,
+    handleDragStart,
+    handleDragOver,
+    handleDragLeave,
+    handleDrop,
+    handleDragEnd,
+  } = useTableDragDrop({
+    items: statues,
+    setItems: handleReorderStatues,
+    onToast: showToast,
+    getId: (s) => s.id || s.code,
+  });
+
   // Gallery handlers for statue
   const handleAddGalleryItem = () => {
     if (!editingStatue) return;
@@ -155,14 +200,6 @@ export default function AdminBaoTuongPage() {
       ...editingStatue,
       artVariations: currentList,
     });
-  };
-
-  // Toast Notification
-  const [toastMsg, setToastMsg] = useState<string | null>(null);
-
-  const showToast = (msg: string) => {
-    setToastMsg(msg);
-    setTimeout(() => setToastMsg(null), 3500);
   };
 
   // Fetch Statues from Backend API
@@ -195,6 +232,8 @@ export default function AdminBaoTuongPage() {
   }, [statues]);
 
   // Filter logic
+  const debouncedSearch = useDebounce(search, 250);
+
   const filtered = useMemo(() => {
     return statues.filter((s) => {
       if (selectedAssembly !== 'all' && s.assembly !== selectedAssembly && s.assemblyId !== selectedAssembly) {
@@ -211,8 +250,8 @@ export default function AdminBaoTuongPage() {
         if (selectedType === 'TƯỢNG CHÍNH' && s.categoryType !== 'TƯỢNG CHÍNH') return false;
         if (selectedType === 'NTPG' && s.categoryType === 'TƯỢNG CHÍNH') return false;
       }
-      if (search.trim()) {
-        const q = search.toLowerCase();
+      if (debouncedSearch.trim()) {
+        const q = debouncedSearch.toLowerCase();
         const matchCode = s.code?.toLowerCase().includes(q);
         const matchName = s.name?.toLowerCase().includes(q);
         const matchSub = s.subtitle?.toLowerCase().includes(q);
@@ -222,7 +261,22 @@ export default function AdminBaoTuongPage() {
       }
       return true;
     });
-  }, [statues, search, selectedAssembly, selectedArea, selectedType]);
+  }, [statues, debouncedSearch, selectedAssembly, selectedArea, selectedType]);
+
+  const {
+    currentPage,
+    setCurrentPage,
+    pageSize,
+    setPageSize,
+    totalPages,
+    totalItems,
+    paginatedItems: paginatedStatues,
+    startIndex,
+    endIndex,
+  } = useAdminPagination({
+    items: filtered,
+    defaultPageSize: 12,
+  });
 
   // Update Statue handler
   const handleUpdateStatue = async (id: string, updates: Partial<StatueAdminItem>) => {
@@ -408,27 +462,6 @@ export default function AdminBaoTuongPage() {
       {/* ── FILTER TOOLBAR ── */}
       <div className="bg-[#25170E] p-4 rounded-2xl border border-[#F2C14E]/25 space-y-3 shadow-xl">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-          {/* Search Box */}
-          <div className="relative">
-            <Search className="w-4 h-4 text-[#F2C14E] absolute left-3 top-1/2 -translate-y-1/2" />
-            <input
-              type="text"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Tìm theo Mã (TP0001), Tên tượng, Vị trí..."
-              className="w-full pl-9 pr-3 py-2 bg-[#1A120B] border border-[#F2C14E]/40 rounded-xl text-xs text-[#FFE5A3] placeholder-[#c9b896]/50 focus:outline-none focus:border-[#F2C14E]"
-            />
-            {search && (
-              <button
-                type="button"
-                onClick={() => setSearch('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#c9b896] hover:text-[#F2C14E] text-xs font-bold"
-              >
-                ✕
-              </button>
-            )}
-          </div>
-
           {/* Assembly Filter */}
           <select
             value={selectedAssembly}
@@ -468,6 +501,27 @@ export default function AdminBaoTuongPage() {
             <option value="TƯỢNG CHÍNH">TƯỢNG CHÍNH (Tôn tượng)</option>
             <option value="NTPG">Nghệ Thuật Phật Giáo (NTPG)</option>
           </select>
+
+          {/* Search Box (BÊN PHẢI) */}
+          <div className="relative">
+            <Search className="w-4 h-4 text-[#F2C14E] absolute left-3 top-1/2 -translate-y-1/2" />
+            <input
+              type="text"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              placeholder="Tìm theo Mã (TP0001), Tên tượng, Vị trí..."
+              className="w-full pl-9 pr-3 py-2 bg-[#1A120B] border border-[#F2C14E]/40 rounded-xl text-xs text-[#FFE5A3] placeholder-[#c9b896]/50 focus:outline-none focus:border-[#F2C14E]"
+            />
+            {search && (
+              <button
+                type="button"
+                onClick={() => setSearch('')}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#c9b896] hover:text-[#F2C14E] text-xs font-bold"
+              >
+                ✕
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Status Count Line */}
@@ -496,12 +550,24 @@ export default function AdminBaoTuongPage() {
       {/* ── 1. CHẾ ĐỘ THẺ ẢNH TRỰC QUAN (VISUAL GALLERY CARDS) ── */}
       {viewMode === 'grid' && (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-          {filtered.map((st) => {
+          {paginatedStatues.map((st) => {
             const focalPos = st.imgPosition || '50% 25%';
+            const stId = st.id || st.code;
+            const isDragged = String(stId) === draggedId;
+            const isDragOver = String(stId) === dragOverId;
             return (
               <div
-                key={st.id || st.code}
-                className="group relative rounded-2xl overflow-hidden bg-gradient-to-b from-[#25170E] to-[#180E07] border border-[#F2C14E]/30 hover:border-[#F2C14E] p-3 flex flex-col justify-between transition-all duration-300 shadow-xl hover:shadow-[0_12px_35px_rgba(242,193,78,0.25)] hover:-translate-y-1"
+                key={stId}
+                draggable={true}
+                onDragStart={(e) => handleDragStart(e, stId)}
+                onDragOver={(e) => handleDragOver(e, stId)}
+                onDrop={(e) => handleDrop(e, stId)}
+                onDragEnd={handleDragEnd}
+                className={`group relative rounded-2xl overflow-hidden bg-gradient-to-b from-[#25170E] to-[#180E07] border p-3 flex flex-col justify-between transition-all duration-300 shadow-xl hover:shadow-[0_12px_35px_rgba(242,193,78,0.25)] hover:-translate-y-1 ${
+                  isDragged ? 'opacity-30 scale-95 border-amber-400' : 'border-[#F2C14E]/30 hover:border-[#F2C14E]'
+                } ${
+                  isDragOver ? 'ring-2 ring-[#ffde59] scale-[1.02]' : ''
+                }`}
               >
                 <div>
                   {/* Photo Frame with Focal Position Applied */}
@@ -662,21 +728,52 @@ export default function AdminBaoTuongPage() {
             <table className="w-full text-left border-collapse text-xs">
               <thead className="sticky top-0 z-20 bg-[#2A1D14] text-[#F2C14E] uppercase tracking-wider font-bold border-b border-[#F2C14E]/30">
                 <tr>
-                  <th className="p-3 w-16">Mã</th>
+                  <th className="p-3 w-24"># / Mã</th>
                   <th className="p-3 w-20">Ảnh &amp; Tiêu Điểm</th>
                   <th className="p-3">Tên Tôn Tượng</th>
                   <th className="p-3">Chúng Hội &amp; Khu Vực</th>
                   <th className="p-3">Loại Tượng</th>
                   <th className="p-3">Lời Dạy Sư Phụ (Quote)</th>
-                  <th className="p-3 text-right">Thao Tác</th>
+                  <th className="p-3 text-right sticky right-0 z-30 bg-[#2A1D14] border-l border-[#F2C14E]/30 shadow-[-4px_0_8px_rgba(0,0,0,0.3)]">Thao Tác</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#F2C14E]/10">
-                {filtered.map((st) => {
+                {paginatedStatues.map((st) => {
                   const focalPos = st.imgPosition || '50% 25%';
+                  const stId = st.id || st.code;
+                  const isDragged = String(stId) === draggedId;
+                  const isDragOver = String(stId) === dragOverId;
+
                   return (
-                    <tr key={st.id || st.code} className="hover:bg-[#25170E]/60 transition-colors">
-                      <td className="p-3 font-mono font-bold text-[#F2C14E]">{st.code}</td>
+                    <tr
+                      key={stId}
+                      onDragOver={(e) => handleDragOver(e, stId)}
+                      onDrop={(e) => handleDrop(e, stId)}
+                      onDragLeave={handleDragLeave}
+                      className={`hover:bg-[#25170E]/60 transition-all duration-150 ${
+                        isDragged ? 'opacity-30 bg-[#2A180D]' : ''
+                      } ${
+                        isDragOver && dropPosition === 'above'
+                          ? 'border-t-2 border-[#ffde59] bg-[#321C0E]'
+                          : ''
+                      } ${
+                        isDragOver && dropPosition === 'below'
+                          ? 'border-b-2 border-[#ffde59] bg-[#321C0E]'
+                          : ''
+                      }`}
+                    >
+                      <td className="p-3 font-mono font-bold text-[#F2C14E] select-none">
+                        <div
+                          draggable={true}
+                          onDragStart={(e) => handleDragStart(e, stId)}
+                          onDragEnd={handleDragEnd}
+                          title="Bấm giữ và kéo thả chuột để thay đổi vị trí bảo tượng"
+                          className="flex items-center gap-1 cursor-grab active:cursor-grabbing p-1 rounded hover:bg-[#3A2213] text-[#F2C14E]/70 hover:text-[#ffde59]"
+                        >
+                          <GripHandleIcon className="w-3.5 h-3.5 text-[#F2C14E]/60 shrink-0" />
+                          <span>{st.code}</span>
+                        </div>
+                      </td>
                       <td className="p-3">
                         <div className="relative w-14 h-16 rounded-lg overflow-hidden border border-[#F2C14E]/30 bg-black/40 group/thumb">
                           <img
@@ -729,7 +826,7 @@ export default function AdminBaoTuongPage() {
                       <td className="p-3 max-w-xs text-[11px] text-[#c9b896]/80 line-clamp-2">
                         {st.quote ? `"${st.quote}"` : '—'}
                       </td>
-                      <td className="p-3 text-right">
+                      <td className="p-3 text-right sticky right-0 z-10 bg-[#1C120A] group-hover:bg-[#25170E] border-l border-[#F2C14E]/20 shadow-[-4px_0_8px_rgba(0,0,0,0.3)]">
                         <div className="flex items-center justify-end gap-1.5">
                           <button
                             type="button"
@@ -791,6 +888,22 @@ export default function AdminBaoTuongPage() {
           </div>
         </div>
       )}
+
+      {/* ── BẢNG ĐIỀU KHIỂN PHÂN TRANG (ADMIN PAGINATION BAR) ── */}
+      <div className="mt-4">
+        <AdminPagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          totalItems={totalItems}
+          startIndex={startIndex}
+          endIndex={endIndex}
+          pageSize={pageSize}
+          onPageChange={setCurrentPage}
+          onPageSizeChange={setPageSize}
+          pageSizeOptions={[12, 24, 48, 96, -1]}
+          itemName="bảo tượng"
+        />
+      </div>
 
       {/* ── MODAL ĐỊNH VỊ TIÊU ĐIỂM ẢNH (IMAGE FOCAL POSITIONER) ── */}
       {focalTargetStatue && (
@@ -1495,6 +1608,14 @@ export default function AdminBaoTuongPage() {
               </button>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* Toast Notification */}
+      {toastMsg && (
+        <div className="fixed bottom-6 right-6 z-50 px-4 py-3 bg-[#2A180D] border-2 border-[#F2C14E] text-[#ffde59] text-xs font-bold rounded-2xl shadow-2xl flex items-center gap-2 animate-bounce">
+          <Sparkles className="w-4 h-4 text-[#F2C14E]" />
+          <span>{toastMsg}</span>
         </div>
       )}
     </div>

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import fs from 'fs';
 import path from 'path';
 
@@ -107,6 +108,19 @@ export async function PUT(req: NextRequest) {
 
     saveTopics(validated);
 
+    try {
+      revalidatePath('/', 'page');
+      revalidatePath('/gioi-thieu', 'page');
+      revalidatePath('/gioi-thieu/lich-su-tung-lam-hoa-phuc', 'page');
+      revalidatePath('/gioi-thieu/su-ong-hoang-phap', 'page');
+      revalidatePath('/gioi-thieu/su-phu-tru-tri', 'page');
+      revalidatePath('/gioi-thieu/tieu-su-su-to', 'page');
+      revalidatePath('/gioi-thieu/van-hoa-ung-xu', 'page');
+      revalidatePath('/gioi-thieu/dai-su-lien-dang', 'page');
+    } catch (e) {
+      console.warn('Revalidation warning:', e);
+    }
+
     return NextResponse.json({
       success: true,
       message: 'Đã lưu danh sách chủ đề giới thiệu thành công!',
@@ -159,6 +173,19 @@ export async function POST(req: NextRequest) {
 
     topics.push(newTopic);
     saveTopics(topics);
+
+    try {
+      revalidatePath('/', 'page');
+      revalidatePath('/gioi-thieu', 'page');
+      revalidatePath('/gioi-thieu/lich-su-tung-lam-hoa-phuc', 'page');
+      revalidatePath('/gioi-thieu/su-ong-hoang-phap', 'page');
+      revalidatePath('/gioi-thieu/su-phu-tru-tri', 'page');
+      revalidatePath('/gioi-thieu/tieu-su-su-to', 'page');
+      revalidatePath('/gioi-thieu/van-hoa-ung-xu', 'page');
+      revalidatePath('/gioi-thieu/dai-su-lien-dang', 'page');
+    } catch (e) {
+      console.warn('Revalidation warning:', e);
+    }
 
     return NextResponse.json({
       success: true,
