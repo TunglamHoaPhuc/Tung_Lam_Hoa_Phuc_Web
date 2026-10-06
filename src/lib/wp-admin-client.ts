@@ -287,6 +287,9 @@ export interface WpPostPayload {
   status?: 'draft' | 'publish';
   forceUpdate?: boolean;
   photoGallery?: any[];
+  date?: string;
+  publishedDate?: string;
+  publishedAt?: string;
 }
 
 /**
@@ -353,6 +356,11 @@ export async function createOrUpdateWpPost(payload: WpPostPayload): Promise<{
     content: gutenbergContent,
     status: payload.status || 'draft',
   };
+
+  const rawDate = payload.date || payload.publishedDate || payload.publishedAt;
+  if (rawDate) {
+    postBody.date = formatWpDate(rawDate);
+  }
 
   if (excerpt) {
     postBody.excerpt = excerpt;
@@ -470,3 +478,107 @@ export async function deleteWpPost(wpPostId: number, force: boolean = false): Pr
     return false;
   }
 }
+
+/**
+ * 📅 Chuẩn hóa chuỗi ngày sang định dạng WordPress REST API yêu cầu: YYYY-MM-DDTHH:MM:SS (theo múi giờ Việt Nam UTC+7)
+ */
+export function formatWpDate(inputDate?: string | Date | null): string {
+  if (!inputDate) {
+    const now = new Date();
+    return formatWpDate(now);
+  }
+
+  if (typeof inputDate === 'string') {
+    const trimmed = inputDate.trim();
+    // Đã đúng định dạng YYYY-MM-DD -> Bổ sung 08:00:00 (giờ sáng trang nghiêm)
+    if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) {
+      return `${trimmed}T08:00:00`;
+    }
+    // Định dạng DD/MM/YYYY hoặc DD/MM/YYYY HH:mm:ss
+    const dmyMatch = trimmed.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:\s+(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?)?$/);
+    if (dmyMatch) {
+      const day = dmyMatch[1].padStart(2, '0');
+      const month = dmyMatch[2].padStart(2, '0');
+      const year = dmyMatch[3];
+      const hour = (dmyMatch[4] || '08').padStart(2, '0');
+      const minute = (dmyMatch[5] || '00').padStart(2, '0');
+      const second = (dmyMatch[6] || '00').padStart(2, '0');
+      return `${year}-${month}-${day}T${hour}:${minute}:${second}`;
+    }
+    // Chuỗi ISO có 'T' và không chứa 'Z' / múi giờ -> Lấy 19 ký tự đầu
+    if (trimmed.includes('T') && !trimmed.endsWith('Z') && !/[+-]\d{2}:?\d{2}$/.test(trimmed)) {
+      const match = trimmed.match(/^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})/);
+      if (match) return match[1];
+    }
+  }
+
+  const d = new Date(inputDate);
+  if (isNaN(d.getTime())) {
+    return new Date().toISOString().slice(0, 19);
+  }
+
+  // Chuẩn hóa sang múi giờ Việt Nam (UTC+7)
+  try {
+    const vnDateStr = d.toLocaleString('sv-SE', { timeZone: 'Asia/Ho_Chi_Minh' });
+    return vnDateStr.replace(' ', 'T');
+  } catch {
+    return d.toISOString().slice(0, 19);
+  }
+}
+
+/**
+ * ⚡ Cập nhật bất kỳ trường nào của bài viết lên WordPress REST API (ví dụ: ngày đăng, tiêu đề, trạng thái...)
+ */
+export async function updateWpPostFields(
+  postId: number | string,
+  fields: Record<string, any>,
+  postType: string = 'tong-chi'
+): Promise<{ success: boolean; data?: any; error?: string }> {
+  try {
+    let { cookies, nonce } = await getWpSession();
+    const endpoint = postType === 'tong-chi' ? 'tong-chi' : 'posts';
+    
+    // Nếu cập nhật ngày đăng, luôn đảm bảo status là published để WordPress không tự đổi sang future
+    const payloadToSend: Record<string, any> = { ...fields };
+    if (payloadToSend.date && !payloadToSend.status) {
+      payloadToSend.status = 'publish';
+    }
+
+    let res = await fetch(`${WP_BASE_URL}/wp-json/wp/v2/${endpoint}/${postId}`, {
+      method: 'POST',
+      headers: {
+        ...COMMON_HEADERS,
+        'Content-Type': 'application/json',
+        Cookie: cookies,
+        'X-WP-Nonce': nonce,
+      },
+      body: JSON.stringify(payloadToSend),
+    });
+
+    if (res.status === 403) {
+      invalidateWpSession();
+      const fresh = await getWpSession(true);
+      res = await fetch(`${WP_BASE_URL}/wp-json/wp/v2/${endpoint}/${postId}`, {
+        method: 'POST',
+        headers: {
+          ...COMMON_HEADERS,
+          'Content-Type': 'application/json',
+          Cookie: fresh.cookies,
+          'X-WP-Nonce': fresh.nonce,
+        },
+        body: JSON.stringify(payloadToSend),
+      });
+    }
+
+    if (!res.ok) {
+      const errText = await res.text();
+      return { success: false, error: `WordPress error (${res.status}): ${errText}` };
+    }
+
+    const data = await res.json();
+    return { success: true, data };
+  } catch (err: any) {
+    return { success: false, error: err.message };
+  }
+}
+

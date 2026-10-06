@@ -97,7 +97,7 @@ export interface PostRecord {
 
 import { loadServerlessJson, loadServerlessJsonAsync, saveServerlessJson } from '@/lib/serverless-db';
 import { isPostDeleted, isPostDeletedAsync, getDeletedPostsAsync, recordDeletedPost } from '@/lib/deleted-posts';
-import { deleteWpPost } from '@/lib/wp-admin-client';
+import { deleteWpPost, updateWpPostFields, formatWpDate } from '@/lib/wp-admin-client';
 
 const DB_CONFIG = {
   fileName: 'posts-database.json',
@@ -160,7 +160,7 @@ export async function GET(req: NextRequest) {
   try {
     const wpRes = await fetch('https://admin.tunglamhoaphuc.com/wp-json/wp/v2/posts?per_page=10&_embed=true', {
       headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' },
-      next: { revalidate: 30 },
+      cache: 'no-store',
     });
 
     if (wpRes.ok) {
@@ -181,7 +181,7 @@ export async function GET(req: NextRequest) {
           }
 
           const existingIdx = allPosts.findIndex(
-            (p) => p.wpPostId === wpId || p.id === `post-${wpId}` || p.slug === wpSlug
+            (p) => String(p.wpPostId) === String(wpId) || p.id === `post-${wpId}` || p.slug === wpSlug
           );
 
           const existing = existingIdx !== -1 ? allPosts[existingIdx] : null;
@@ -245,7 +245,7 @@ function cleanSummary(rawExcerpt: string, content: string, existingSummary?: str
               subCategory: existing?.subCategory || mappedCat.subCategory,
               categoryName: existing?.categoryName || mappedCat.categoryName,
               author: existing?.author || 'Ban Văn Hóa Tùng Lâm',
-              publishedDate: wp.date ? wp.date.split('T')[0] : (existing?.publishedDate || new Date().toISOString().split('T')[0]),
+              publishedDate: existing?.publishedDate || (wp.date ? wp.date.split('T')[0] : new Date().toISOString().split('T')[0]),
               status: 'published',
               viewsCount: existing?.viewsCount || 108,
               thumbnailUrl: existing?.thumbnailUrl || featuredUrl,
@@ -358,6 +358,7 @@ export async function PUT(req: NextRequest) {
     const currentPosts = await getPosts();
     const currentMap = new Map(currentPosts.map((p) => [p.id, p]));
 
+    const changedPostsWithWpId: { wpPostId: number; date: string }[] = [];
     // Safeguard bảo vệ không bao giờ làm rỗng nội dung nếu client gửi rỗng ngoài ý muốn, tự động xuất bản
     const validatedPosts = body.map((p: PostRecord) => {
       const orig = currentMap.get(p.id);
@@ -377,12 +378,39 @@ export async function PUT(req: NextRequest) {
       if (orig && (!p.keywords || p.keywords.length === 0) && orig.keywords && orig.keywords.length > 0) {
         p.keywords = orig.keywords;
       }
+      // ⚡ Tự động phát hiện nếu ngày đăng thay đổi để đẩy sang WordPress Gutenberg
+      if (p.wpPostId && p.publishedDate && orig && orig.publishedDate !== p.publishedDate) {
+        changedPostsWithWpId.push({
+          wpPostId: Number(p.wpPostId),
+          date: p.publishedDate,
+        });
+      }
       // Tự động xuất bản 100% bài viết khi cập nhật
       p.status = 'published';
       return p;
     });
 
     await savePosts(validatedPosts);
+
+    // ⚡ TỰ ĐỘNG ĐỒNG BỘ NGÀY ĐĂNG SANG WORDPRESS CHO TẤT CẢ BÀI CÓ THAY ĐỔI (CHỜ HOÀN TẤT)
+    if (changedPostsWithWpId.length > 0) {
+      try {
+        const syncResults = await Promise.allSettled(
+          changedPostsWithWpId.map((item) =>
+            updateWpPostFields(item.wpPostId, { date: formatWpDate(item.date), status: 'publish' }, 'posts')
+          )
+        );
+        syncResults.forEach((r, idx) => {
+          if (r.status === 'fulfilled' && r.value.success) {
+            console.log(`✅ [sync-wp-date] Đã đồng bộ ngày lên WP #${changedPostsWithWpId[idx].wpPostId}: ${changedPostsWithWpId[idx].date}`);
+          } else {
+            console.warn(`⚠️ [sync-wp-date] Lỗi đồng bộ ngày lên WP #${changedPostsWithWpId[idx].wpPostId}:`, (r as any).reason || (r as any).value?.error);
+          }
+        });
+      } catch (e) {
+        console.warn('[auto-sync-wp-date error]', e);
+      }
+    }
 
     // 🌟 LÀM MỚI TỨC THỜI TRANG CHỦ VÀ CÁC TRANG CHUYÊN MỤC
     try {

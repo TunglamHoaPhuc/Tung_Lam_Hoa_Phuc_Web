@@ -329,7 +329,7 @@ export async function POST() {
         subCategory: categoryMapping.subCategory,
         categoryName: categoryMapping.categoryName,
         author: existing?.author || 'Ban Văn Hóa Tùng Lâm',
-        publishedDate: wp.date ? wp.date.split('T')[0] : (existing?.publishedDate || new Date().toISOString().split('T')[0]),
+        publishedDate: existing?.publishedDate || (wp.date ? wp.date.split('T')[0] : new Date().toISOString().split('T')[0]),
         status: 'published',
         viewsCount: existing?.viewsCount || 0,
         thumbnailUrl: finalBannerUrl,

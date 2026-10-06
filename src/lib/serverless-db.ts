@@ -120,15 +120,30 @@ export function loadServerlessJson<T>(opts: ServerlessDbOptions<T>): T {
  * Thứ tự ưu tiên: Memory Cache (< 15s) -> S3 Backblaze B2 -> /tmp -> Local file -> Fallback
  */
 export async function loadServerlessJsonAsync<T>(opts: ServerlessDbOptions<T>): Promise<T> {
-  const { fileName, s3Key, defaultData } = opts;
+  const { fileName, localRelativePath, s3Key, defaultData } = opts;
 
-  // 1. Kiểm tra Memory Cache (chỉ dùng nếu cache < 15 giây)
-  const isDev = process.env.NODE_ENV !== 'production';
-  if (!isDev && memoryCache[fileName] && Date.now() - memoryCache[fileName].timestamp < 15000) {
+  // 1. Kiểm tra Memory Cache (áp dụng cho cả dev và prod trong 3 giây để tránh giật lag giữa các request liên tiếp)
+  if (memoryCache[fileName] && Date.now() - memoryCache[fileName].timestamp < 3000) {
     return memoryCache[fileName].data as T;
   }
 
-  // 2. Tải trực tiếp từ S3 Backblaze B2 (đảm bảo đồng bộ 100% giữa các serverless container)
+  const localPath = path.resolve(process.cwd(), localRelativePath);
+  const tmpPath = path.join('/tmp', fileName);
+
+  // 2. Nếu đang chạy môi trường phát triển cục bộ (Local Dev) và có file local -> Luôn ưu tiên file cục bộ!
+  const isDev = process.env.NODE_ENV !== 'production';
+  if (isDev && fs.existsSync(localPath)) {
+    try {
+      const raw = fs.readFileSync(localPath, 'utf8');
+      const parsed = JSON.parse(raw);
+      memoryCache[fileName] = { data: parsed, timestamp: Date.now() };
+      return parsed;
+    } catch {
+      // Tiếp tục fallback nếu file hỏng
+    }
+  }
+
+  // 3. Tải từ S3 Backblaze B2 (chủ yếu trên Vercel Serverless Production)
   const s3Info = getS3Client();
   if (s3Info) {
     try {
@@ -145,7 +160,6 @@ export async function loadServerlessJsonAsync<T>(opts: ServerlessDbOptions<T>): 
         memoryCache[fileName] = { data: parsed, timestamp: Date.now() };
 
         // Lưu vào /tmp để container dùng nhanh
-        const tmpPath = path.join('/tmp', fileName);
         try {
           fs.writeFileSync(tmpPath, str, 'utf8');
         } catch {}
@@ -157,7 +171,7 @@ export async function loadServerlessJsonAsync<T>(opts: ServerlessDbOptions<T>): 
     }
   }
 
-  // 3. Fallback xuống cơ chế đọc đồng bộ (/tmp -> local file)
+  // 4. Fallback xuống cơ chế đọc đồng bộ (/tmp -> local file)
   return loadServerlessJson<T>(opts);
 }
 

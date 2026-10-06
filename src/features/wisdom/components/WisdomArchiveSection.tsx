@@ -67,12 +67,14 @@ const WisdomCard = React.memo(({ item, onClick }: WisdomCardProps) => {
           <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-[#F2C14E]/30 to-transparent my-2" />
           <div
             style={{ fontFamily: "'UTM Avo', sans-serif" }}
-            className="flex items-center justify-between text-[11px] text-[#FFE5A3]/80 font-bold"
+            className={`flex items-center ${item.publishDate ? 'justify-between' : 'justify-end'} text-[11px] text-[#FFE5A3]/80 font-bold`}
           >
-            <div className="flex items-center gap-1">
-              <Calendar className="w-3.5 h-3.5 text-[#F2C14E]" />
-              <span>{item.publishDate}</span>
-            </div>
+            {item.publishDate && (
+              <div className="flex items-center gap-1">
+                <Calendar className="w-3.5 h-3.5 text-[#F2C14E]" />
+                <span>{item.publishDate}</span>
+              </div>
+            )}
 
             <div className="flex items-center gap-1">
               <span>{item.views}</span>
@@ -118,7 +120,7 @@ export const WisdomArchiveSection: FC = () => {
                 title: p.title?.rendered || p.title || '',
                 type: 'article' as const,
                 primaryCategoryTag: firstCat?.name || 'Trí Tuệ Phật Pháp',
-                publishDate: p.date ? new Date(p.date).toLocaleDateString('vi-VN') : '2026',
+                publishDate: p.date ? new Date(p.date).toLocaleDateString('vi-VN') : '',
                 views: p.acf?.views || 108,
                 thumbnailUrl,
                 thumbnailPosition: 'center center',

@@ -18,6 +18,9 @@ export async function POST(request: Request) {
       postType = 'post',
       status = 'draft',
       photoGallery = [],
+      date = '',
+      publishedDate = '',
+      publishedAt = '',
     } = body;
 
     // Ưu tiên category slug nếu có
@@ -34,6 +37,7 @@ export async function POST(request: Request) {
       postType,
       status,
       photoGallery,
+      date: date || publishedDate || publishedAt,
     });
 
     return NextResponse.json({

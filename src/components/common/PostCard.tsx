@@ -138,11 +138,13 @@ export const PostCard: FC<PostCardProps> = ({
               )}
 
               {/* Meta: Ngày đăng + Lượt xem */}
-              <div className="flex items-center justify-between text-[10px] text-[#A69383] pt-1.5 border-t border-[#F2C14E]/15 mt-0.5">
-                <div className="flex items-center gap-1">
-                  <Calendar className="w-3 h-3 text-[#F2C14E]/70" />
-                  <span>{post.publishedDate || '28/11/2025'}</span>
-                </div>
+              <div className={`flex items-center ${post.publishedDate ? 'justify-between' : 'justify-end'} text-[10px] text-[#A69383] pt-1.5 border-t border-[#F2C14E]/15 mt-0.5`}>
+                {post.publishedDate && (
+                  <div className="flex items-center gap-1">
+                    <Calendar className="w-3 h-3 text-[#F2C14E]/70" />
+                    <span>{post.publishedDate}</span>
+                  </div>
+                )}
                 <div className="flex items-center gap-1">
                   <span>{formattedViews}</span>
                   <Eye className="w-3 h-3 text-[#F2C14E]/70" />

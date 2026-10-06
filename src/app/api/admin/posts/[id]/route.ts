@@ -5,7 +5,7 @@ import { loadServerlessJson, loadServerlessJsonAsync, saveServerlessJson } from 
 import { HOANG_PHAP_ARTICLES } from '@/data/dong-chay-hoang-phap-data';
 import { parseGutenbergPostContent } from '@/lib/wp-post-parser';
 import { recordDeletedPost, getDeletedPostsAsync, isPostDeletedAsync } from '@/lib/deleted-posts';
-import { deleteWpPost } from '@/lib/wp-admin-client';
+import { deleteWpPost, updateWpPostFields, formatWpDate } from '@/lib/wp-admin-client';
 
 const DB_CONFIG = {
   fileName: 'posts-database.json',
@@ -182,6 +182,7 @@ export async function PUT(
       );
     }
 
+    const oldDate = posts[index].publishedDate;
     posts[index] = {
       ...posts[index],
       ...body,
@@ -189,6 +190,24 @@ export async function PUT(
     };
 
     await savePosts(posts);
+
+    // ⚡ TỰ ĐỘNG ĐỒNG BỘ NGÀY ĐĂNG SANG WORDPRESS (CHỜ HOÀN TẤT)
+    if (posts[index].wpPostId && body.publishedDate && oldDate !== body.publishedDate) {
+      try {
+        const wpRes = await updateWpPostFields(
+          posts[index].wpPostId,
+          { date: formatWpDate(body.publishedDate), status: 'publish' },
+          'posts'
+        );
+        if (wpRes.success) {
+          console.log(`✅ [sync-wp-date] Đã đồng bộ ngày lên WP #${posts[index].wpPostId}: ${body.publishedDate}`);
+        } else {
+          console.warn(`⚠️ [sync-wp-date] Lỗi đồng bộ ngày lên WP #${posts[index].wpPostId}:`, wpRes.error);
+        }
+      } catch (e) {
+        console.warn('[auto-sync-wp-date error]', e);
+      }
+    }
 
     try {
       revalidatePath('/', 'page');

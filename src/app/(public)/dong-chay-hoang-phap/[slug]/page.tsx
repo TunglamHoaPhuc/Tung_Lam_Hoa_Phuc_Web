@@ -7,8 +7,6 @@ import { Eye, Calendar, Play, Video, Clock, Landmark, Sparkles, Images, BookOpen
 import Header from '@/components/public/layout/Header';
 import Footer from '@/components/public/layout/Footer';
 import { HOANG_PHAP_ARTICLES } from '@/data/dong-chay-hoang-phap-data';
-import ALL_POSTS from '@/data/posts-database.json';
-import DELETED_POSTS from '@/data/deleted-posts.json';
 import { SmartSearchAIBar } from '@/components/public/SmartSearchAIBar';
 import { SubNavbar } from '@/components/tong-chi-tu-hoc/SubNavbar';
 import { SidebarNav } from '@/components/tong-chi-tu-hoc/SidebarNav';
@@ -40,33 +38,15 @@ export default function DongChayHoangPhapDetailPage() {
   // Detail Modal Keyword state
   const [activeKeyword, setActiveKeyword] = useState<any>(null);
 
-  // 🛡️ Kiểm tra danh sách bài viết đã bị xóa để chặn hiển thị tức thời
-  const isInitiallyDeleted = (DELETED_POSTS as any[]).some(
-    (d) => d.id === slug || d.slug === slug || String(d.wpPostId) === slug
-  );
+  const [isNotFound, setIsNotFound] = useState(false);
 
-  const [isNotFound, setIsNotFound] = useState(isInitiallyDeleted);
-
-  // Dynamic article state with fallback (ưu tiên cơ sở dữ liệu bài viết posts-database.json)
-  const fallbackFromDb = isInitiallyDeleted
-    ? null
-    : (ALL_POSTS as any[]).find(
-        (a) => a.slug === slug || a.id === slug || String(a.wpPostId) === slug
-      );
-  const initialFallback = fallbackFromDb || (isInitiallyDeleted ? null : HOANG_PHAP_ARTICLES.find((a) => a.slug === slug));
+  // Dynamic article state with initial lightweight fallback
+  const initialFallback = HOANG_PHAP_ARTICLES.find((a) => a.slug === slug || a.id === slug);
   const [article, setArticle] = useState<any>(initialFallback || null);
 
   useEffect(() => {
-    if (isInitiallyDeleted) {
-      setIsNotFound(true);
-      setArticle(null);
-      return;
-    }
-
     // 1. Cập nhật tức thời fallback khớp với slug mới để tránh lưu bài viết cũ
-    const immediateFallback = (ALL_POSTS as any[]).find(
-      (a) => a.slug === slug || a.id === slug || String(a.wpPostId) === slug
-    ) || HOANG_PHAP_ARTICLES.find((a) => a.slug === slug || a.id === slug);
+    const immediateFallback = HOANG_PHAP_ARTICLES.find((a) => a.slug === slug || a.id === slug);
     if (immediateFallback) {
       setArticle(immediateFallback);
       setIsNotFound(false);
@@ -270,10 +250,12 @@ export default function DongChayHoangPhapDetailPage() {
               className="border-t border-[#F2C14E]/20 pt-6 mt-12 flex flex-wrap items-center justify-between gap-4 text-xs md:text-sm text-[#D3C0AD]"
             >
               <div className="flex items-center gap-6">
-                <span className="flex items-center gap-1.5">
-                  <Calendar className="w-4 h-4 text-[#F2C14E]" />
-                  <span>Ngày đăng: <strong className="text-[#F2C14E]">{article.publishedDate || article.date}</strong></span>
-                </span>
+                {(article.publishedDate || article.date) && (
+                  <span className="flex items-center gap-1.5">
+                    <Calendar className="w-4 h-4 text-[#F2C14E]" />
+                    <span>Ngày đăng: <strong className="text-[#F2C14E]">{article.publishedDate || article.date}</strong></span>
+                  </span>
+                )}
 
                 <span className="flex items-center gap-1.5">
                   <Eye className="w-4 h-4 text-[#F2C14E]" />

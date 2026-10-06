@@ -43,7 +43,7 @@ export default function WisdomDetailPage() {
             setItem({
               ...json.post,
               primaryCategoryTag: json.post.subtitle || json.post.categoryName || 'Trí Tuệ Phật Pháp',
-              publishDate: json.post.publishedDate || '2026-08-01',
+              publishDate: json.post.publishedDate || '',
               views: json.post.viewsCount || 108,
             });
 
@@ -125,10 +125,12 @@ export default function WisdomDetailPage() {
             className="border-t border-[#F2C14E]/20 pt-6 mt-12 flex flex-wrap items-center justify-between gap-4 text-xs md:text-sm text-[#D3C0AD]"
           >
             <div className="flex items-center gap-6">
-              <span className="flex items-center gap-1.5">
-                <Calendar className="w-4 h-4 text-[#F2C14E]" />
-                <span>Ngày đăng: <strong className="text-[#F2C14E]">{item.publishDate || item.publishedDate || '2026-08-01'}</strong></span>
-              </span>
+              {(item.publishDate || item.publishedDate) && (
+                <span className="flex items-center gap-1.5">
+                  <Calendar className="w-4 h-4 text-[#F2C14E]" />
+                  <span>Ngày đăng: <strong className="text-[#F2C14E]">{item.publishDate || item.publishedDate}</strong></span>
+                </span>
+              )}
 
               <span className="flex items-center gap-1.5">
                 <Eye className="w-4 h-4 text-[#F2C14E]" />

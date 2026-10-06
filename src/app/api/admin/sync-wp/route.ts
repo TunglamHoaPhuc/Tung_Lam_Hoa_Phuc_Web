@@ -1,10 +1,19 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import fs from 'fs';
 import path from 'path';
 import * as cheerio from 'cheerio';
 import { getImageUrl } from '@/utils/image';
+import { formatWpDate, updateWpPostFields } from '@/lib/wp-admin-client';
+import { loadServerlessJsonAsync, saveServerlessJson } from '@/lib/serverless-db';
 
 const DATA_FILE = path.resolve(process.cwd(), 'src/data/tong-chi-data.json');
+const DB_CONFIG = {
+  fileName: 'tong-chi-data.json',
+  localRelativePath: 'src/data/tong-chi-data.json',
+  s3Key: 'tunglamhoaphuc2/database/tong-chi-data.json',
+  defaultData: [] as any[],
+};
 
 // 🪷 Parser HTML WordPress Gutenberg bằng Cheerio thành Markdown/Clean format chuẩn
 function convertWpHtmlToCleanContent(wpRawHtml: string): { cleanedContent: string; extractedSubtitle?: string } {
@@ -229,23 +238,141 @@ function normalizeArticleImages(article: any) {
   }
 }
 
-export async function POST() {
+async function handleSyncOrUpdate(req: NextRequest) {
   try {
-    if (!fs.existsSync(DATA_FILE)) {
-      return NextResponse.json({ success: false, error: 'Không tìm thấy file dữ liệu tong-chi-data.json' }, { status: 404 });
+    let body: any = null;
+    try {
+      body = await req.json();
+    } catch {
+      // Body rỗng -> Chế độ đồng bộ từ WordPress về hệ thống
     }
 
-    const rawData = fs.readFileSync(DATA_FILE, 'utf-8');
-    const articles = JSON.parse(rawData);
+    // Đọc danh sách bài viết an toàn (kết hợp cả Serverless S3 và File cục bộ)
+    let articles: any[] = await loadServerlessJsonAsync(DB_CONFIG);
+    if (!articles || articles.length === 0) {
+      if (fs.existsSync(DATA_FILE)) {
+        try {
+          articles = JSON.parse(fs.readFileSync(DATA_FILE, 'utf-8'));
+        } catch {
+          articles = [];
+        }
+      }
+    }
 
-    // Fetch bài viết từ WordPress Gutenberg API
-    const wpRes = await fetch('https://admin.tunglamhoaphuc.com/wp-json/wp/v2/tong-chi?per_page=100', {
-      headers: { 'User-Agent': 'Mozilla/5.0' },
-      cache: 'no-store',
-    });
+    // =========================================================================
+    // 🌟 TRƯỜNG HỢP 1: CẬP NHẬT NGÀY ĐĂNG BÀI VIẾT TỪ ADMIN SANG WORDPRESS & DB
+    // =========================================================================
+    if (body && (body.action === 'update-date' || body.date || body.publishedAt)) {
+      const targetId = body.id !== undefined && body.id !== null ? String(body.id) : null;
+      const targetWpId = body.wpPostId !== undefined && body.wpPostId !== null ? String(body.wpPostId) : null;
+      const rawDate = body.date || body.publishedAt;
+
+      if (!targetId && !targetWpId) {
+        return NextResponse.json({ success: false, error: 'Thiếu id hoặc wpPostId của bài viết' }, { status: 400 });
+      }
+
+      if (!rawDate) {
+        return NextResponse.json({ success: false, error: 'Thiếu thông tin ngày đăng (date hoặc publishedAt)' }, { status: 400 });
+      }
+
+      const matchIdx = articles.findIndex((a: any) => {
+        if (targetWpId && a.wpPostId && String(a.wpPostId) === targetWpId) return true;
+        if (targetId && String(a.id) === targetId) return true;
+        return false;
+      });
+
+      if (matchIdx === -1) {
+        return NextResponse.json({ success: false, error: 'Không tìm thấy bài viết trong cơ sở dữ liệu' }, { status: 404 });
+      }
+
+      const target = articles[matchIdx];
+      const formattedWpDate = formatWpDate(rawDate);
+      let isoDate = new Date(formattedWpDate).toISOString();
+      if (isNaN(new Date(isoDate).getTime())) {
+        isoDate = new Date().toISOString();
+      }
+
+      // Cập nhật trường ngày trong bài viết nội bộ
+      target.publishedAt = isoDate;
+      target.updatedAt = new Date().toISOString();
+
+      let syncedToWp = false;
+      let wpError: string | undefined = undefined;
+
+      const effectiveWpId = targetWpId || target.wpPostId;
+      if (effectiveWpId && Number(effectiveWpId) > 0) {
+        const wpUpdateRes = await updateWpPostFields(
+          Number(effectiveWpId),
+          { date: formattedWpDate },
+          'tong-chi'
+        );
+        syncedToWp = wpUpdateRes.success;
+        if (!wpUpdateRes.success) {
+          wpError = wpUpdateRes.error;
+          console.warn(`[sync-wp] Cảnh báo cập nhật ngày lên WP #${effectiveWpId}:`, wpError);
+        }
+      }
+
+      // Lưu lại dữ liệu an toàn (cả local file và S3 serverless)
+      try {
+        fs.writeFileSync(DATA_FILE, JSON.stringify(articles, null, 2), 'utf-8');
+      } catch (fsErr: any) {
+        console.warn('[sync-wp] Ghi file cục bộ thất bại, tiếp tục lưu S3:', fsErr.message);
+      }
+      await saveServerlessJson(DB_CONFIG, articles);
+
+      try {
+        revalidatePath('/', 'page');
+        revalidatePath('/tong-chi-tu-hoc', 'page');
+        if (target.slug) {
+          revalidatePath(`/tong-chi-tu-hoc/${target.slug}`, 'page');
+        }
+      } catch (e) {
+        console.warn('[revalidatePath error]', e);
+      }
+
+      return NextResponse.json({
+        success: true,
+        message: syncedToWp
+          ? `Đã cập nhật ngày đăng thành công trên cả Admin và WordPress (#${effectiveWpId})!`
+          : `Đã lưu ngày đăng vào hệ thống nội bộ${wpError ? ` (Cảnh báo WordPress: ${wpError})` : ''}`,
+        publishedAt: isoDate,
+        wpDate: formattedWpDate,
+        syncedToWp,
+        post: target,
+      });
+    }
+
+    // =========================================================================
+    // 🌟 TRƯỜNG HỢP 2: ĐỒNG BỘ TOÀN BỘ NỘI DUNG & NGÀY ĐĂNG TỪ WORDPRESS VỀ ADMIN
+    // =========================================================================
+    let wpRes: Response;
+    try {
+      wpRes = await fetch('https://admin.tunglamhoaphuc.com/wp-json/wp/v2/tong-chi?per_page=100', {
+        headers: { 'User-Agent': 'Mozilla/5.0' },
+        cache: 'no-store',
+        signal: AbortSignal.timeout(15000),
+      });
+    } catch (netErr: any) {
+      console.error('[sync-wp] Lỗi kết nối WordPress REST API:', netErr.message);
+      return NextResponse.json(
+        {
+          success: false,
+          error: `Không thể kết nối đến máy chủ WordPress (timeout hoặc lỗi mạng): ${netErr.message}`,
+        },
+        { status: 504 }
+      );
+    }
 
     if (!wpRes.ok) {
-      return NextResponse.json({ success: false, error: 'Không thể kết nối đến WordPress REST API' }, { status: 502 });
+      const errText = await wpRes.text().catch(() => '');
+      return NextResponse.json(
+        {
+          success: false,
+          error: `WordPress REST API phản hồi mã lỗi ${wpRes.status}: ${errText.slice(0, 200)}`,
+        },
+        { status: 502 }
+      );
     }
 
     const wpPosts = await wpRes.json();
@@ -283,7 +410,7 @@ export async function POST() {
 
       if (matchIdx !== -1) {
         const target = articles[matchIdx];
-        target.wpPostId = wpId;
+        target.wpPostId = wpId; // Cố định wpPostId vĩnh viễn
         if (cleanedContent && cleanedContent.length > 10) {
           target.content = cleanedContent;
         }
@@ -292,6 +419,16 @@ export async function POST() {
         if (acf.tieu_de_phu || extractedSubtitle) {
           target.subtitle = acf.tieu_de_phu || extractedSubtitle || target.subtitle;
         }
+
+        // 🌟 Đồng bộ ngày đăng từ WordPress về publishedAt
+        if (wpPost.date) {
+          try {
+            target.publishedAt = new Date(wpPost.date).toISOString();
+          } catch {
+            target.publishedAt = wpPost.date;
+          }
+        }
+
         target.updatedAt = new Date().toISOString();
         updatedCount++;
         updatedTitles.push(`${target.title} (WP #${wpId})`);
@@ -303,17 +440,38 @@ export async function POST() {
       normalizeArticleImages(article);
     });
 
-    // Lưu lại file JSON
-    fs.writeFileSync(DATA_FILE, JSON.stringify(articles, null, 2), 'utf-8');
+    // Lưu lại file JSON cả cục bộ và S3
+    try {
+      fs.writeFileSync(DATA_FILE, JSON.stringify(articles, null, 2), 'utf-8');
+    } catch (fsErr: any) {
+      console.warn('[sync-wp] Ghi file cục bộ thất bại, tiếp tục lưu S3:', fsErr.message);
+    }
+    await saveServerlessJson(DB_CONFIG, articles);
+
+    // Revalidate cache Next.js
+    try {
+      revalidatePath('/', 'page');
+      revalidatePath('/tong-chi-tu-hoc', 'page');
+    } catch (e) {
+      console.warn('[revalidatePath error]', e);
+    }
 
     return NextResponse.json({
       success: true,
       count: updatedCount,
       updatedTitles,
-      message: `Đã đồng bộ thành công ${updatedCount} bài viết từ WordPress Gutenberg và chuẩn hóa toàn bộ URL hình ảnh!`,
+      message: `Đã đồng bộ thành công ${updatedCount} bài viết và ngày đăng từ WordPress Gutenberg!`,
     });
   } catch (error: any) {
     console.error('Lỗi khi đồng bộ WordPress:', error);
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
+}
+
+export async function POST(req: NextRequest) {
+  return handleSyncOrUpdate(req);
+}
+
+export async function PUT(req: NextRequest) {
+  return handleSyncOrUpdate(req);
 }
