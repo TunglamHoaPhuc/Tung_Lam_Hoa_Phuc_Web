@@ -18,7 +18,15 @@ function getArticles() {
 }
 
 function saveArticles(articles: any[]) {
-  fs.writeFileSync(DATA_FILE, JSON.stringify(articles, null, 2), 'utf-8');
+  try {
+    const dir = path.dirname(DATA_FILE);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    fs.writeFileSync(DATA_FILE, JSON.stringify(articles, null, 2), 'utf-8');
+  } catch (err) {
+    console.warn('[tong-chi] Lỗi ghi file:', err);
+  }
 }
 
 export async function GET(
@@ -81,6 +89,8 @@ export async function PUT(
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
+
+export const PATCH = PUT;
 
 export async function DELETE(
   request: Request,

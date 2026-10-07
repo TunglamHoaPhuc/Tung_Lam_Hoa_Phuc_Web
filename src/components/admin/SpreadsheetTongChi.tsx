@@ -49,6 +49,7 @@ import {
   Info,
   Layers,
   Crosshair,
+  GripVertical,
 } from 'lucide-react';
 import ZenTipTapEditor from '@/components/admin/ZenTipTapEditor';
 import { S3FileExplorerModal } from '@/components/admin/S3FileExplorerModal';
@@ -439,6 +440,8 @@ export function SpreadsheetTongChi() {
   const [articles, setArticles] = useState<ArticleRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [savingRowId, setSavingRowId] = useState<string | number | null>(null);
+  const [savedRowId, setSavedRowId] = useState<string | number | null>(null);
   const [lastSavedTime, setLastSavedTime] = useState<string>('');
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
@@ -535,6 +538,69 @@ export function SpreadsheetTongChi() {
   const showToast = (msg: string) => {
     setToastMessage(msg);
     setTimeout(() => setToastMessage(null), 3500);
+  };
+
+  // 🌟 Kéo thả sắp xếp thứ tự ảnh trong Album (Trello-style Drag & Drop)
+  const [draggedPhotoIdx, setDraggedPhotoIdx] = useState<number | null>(null);
+  const [draggedOverPhotoIdx, setDraggedOverPhotoIdx] = useState<number | null>(null);
+
+  const handlePhotoDragStart = (e: React.DragEvent, index: number) => {
+    setDraggedPhotoIdx(index);
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', index.toString());
+  };
+
+  const handlePhotoDragOver = (e: React.DragEvent, index: number) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    if (draggedOverPhotoIdx !== index) {
+      setDraggedOverPhotoIdx(index);
+    }
+  };
+
+  const handlePhotoDragLeave = (index: number) => {
+    if (draggedOverPhotoIdx === index) {
+      setDraggedOverPhotoIdx(null);
+    }
+  };
+
+  const handlePhotoDrop = (e: React.DragEvent, targetIndex: number) => {
+    e.preventDefault();
+    if (!mediaModal || draggedPhotoIdx === null || draggedPhotoIdx === targetIndex) {
+      setDraggedPhotoIdx(null);
+      setDraggedOverPhotoIdx(null);
+      return;
+    }
+
+    const updated = [...articles];
+    const gallery = [...(updated[mediaModal.rowIndex].photoGallery || [])];
+    const [movedItem] = gallery.splice(draggedPhotoIdx, 1);
+    gallery.splice(targetIndex, 0, movedItem);
+
+    updated[mediaModal.rowIndex].photoGallery = gallery;
+    setArticles(updated);
+    setIsDirty(true);
+    showToast(`✨ Đã đổi thứ tự ảnh: #${draggedPhotoIdx + 1} ➔ #${targetIndex + 1}!`);
+    setDraggedPhotoIdx(null);
+    setDraggedOverPhotoIdx(null);
+  };
+
+  const handlePhotoDragEnd = () => {
+    setDraggedPhotoIdx(null);
+    setDraggedOverPhotoIdx(null);
+  };
+
+  const handleMovePhoto = (fromIdx: number, toIdx: number) => {
+    if (!mediaModal || toIdx < 0) return;
+    const updated = [...articles];
+    const gallery = [...(updated[mediaModal.rowIndex].photoGallery || [])];
+    if (toIdx >= gallery.length) return;
+
+    const [moved] = gallery.splice(fromIdx, 1);
+    gallery.splice(toIdx, 0, moved);
+    updated[mediaModal.rowIndex].photoGallery = gallery;
+    setArticles(updated);
+    setIsDirty(true);
   };
 
   // 🪷 Quản lý Kéo Thả Sắp Xếp Thứ Tự Bài Viết
@@ -1222,6 +1288,33 @@ export function SpreadsheetTongChi() {
     }
   };
 
+  // 💾 Lưu riêng lẻ 1 dòng bài viết (PATCH /api/admin/tong-chi/[id])
+  const handleSaveRow = async (rowId: string | number, rowData: ArticleRow) => {
+    if (savingRowId) return;
+    setSavingRowId(rowId);
+
+    try {
+      const res = await fetch(`/api/admin/tong-chi/${encodeURIComponent(String(rowId))}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(rowData),
+      });
+
+      const result = await res.json();
+      if (result.success) {
+        setSavedRowId(rowId);
+        setTimeout(() => setSavedRowId((prev) => (prev === rowId ? null : prev)), 2500);
+        showToast(`✅ Đã lưu thành công bài viết: "${rowData.title}"`);
+      } else {
+        showToast(`❌ Lỗi lưu bài viết: ${result.error || 'Thao tác thất bại'}`);
+      }
+    } catch (err: any) {
+      showToast(`❌ Lỗi kết nối máy chủ: ${err.message}`);
+    } finally {
+      setSavingRowId(null);
+    }
+  };
+
   // 🛡️ Ngăn chặn thoát / tải lại trang ngoài ý muốn khi có thay đổi chưa lưu
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
@@ -1626,7 +1719,7 @@ export function SpreadsheetTongChi() {
                     <Edit3 className="w-3.5 h-3.5 text-[#F2C14E]/80 shrink-0" />
                   </div>
                 </th>
-                <th className="p-3 w-[90px] min-w-[90px] text-center sticky right-0 z-30 bg-[#321F14] border-l border-[#F2C14E]/30 shadow-[-5px_0_12px_rgba(0,0,0,0.5)]">
+                <th className="p-3 w-[130px] min-w-[130px] text-center sticky right-0 z-30 bg-[#321F14] border-l border-[#F2C14E]/30 shadow-[-5px_0_12px_rgba(0,0,0,0.5)]">
                   Thao Tác
                 </th>
               </tr>
@@ -1870,8 +1963,36 @@ export function SpreadsheetTongChi() {
                       </td>
 
                       {/* 8. Thao Tác (Cố định sticky bên phải chống trôi khi cuộn ngang) */}
-                      <td className="p-2 w-[90px] min-w-[90px] text-center align-middle sticky right-0 bg-[#1C120A] group-hover:bg-[#25170E] z-10 border-l border-[#F2C14E]/20 shadow-[-4px_0_10px_rgba(0,0,0,0.5)]">
+                      <td className="p-2 w-[130px] min-w-[130px] text-center align-middle sticky right-0 bg-[#1C120A] group-hover:bg-[#25170E] z-10 border-l border-[#F2C14E]/20 shadow-[-4px_0_10px_rgba(0,0,0,0.5)]">
                         <div className="flex items-center justify-center gap-1.5">
+                          {/* Nút Lưu Riêng Từng Dòng */}
+                          <button
+                            type="button"
+                            disabled={savingRowId === row.id}
+                            onClick={() => handleSaveRow(row.id, row)}
+                            className={`p-2 rounded-xl border flex items-center justify-center transition-all cursor-pointer shadow-sm hover:scale-105 ${
+                              savedRowId === row.id
+                                ? 'bg-emerald-950/70 border-emerald-500 text-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.3)]'
+                                : savingRowId === row.id
+                                ? 'bg-[#3A2718] border-[#F2C14E]/60 text-[#FFE5A3] opacity-80 cursor-wait'
+                                : 'bg-[#2A1D14] hover:bg-[#3A2718] border-[#F2C14E]/40 text-[#FFE5A3] hover:text-[#FFDE59]'
+                            }`}
+                            title={
+                              savedRowId === row.id
+                                ? 'Đã lưu bài viết thành công!'
+                                : savingRowId === row.id
+                                ? 'Đang lưu bài viết...'
+                                : 'Lưu riêng bài viết này'
+                            }
+                          >
+                            {savingRowId === row.id ? (
+                              <Loader2 className="w-4 h-4 animate-spin text-[#F2C14E]" />
+                            ) : savedRowId === row.id ? (
+                              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                            ) : (
+                              <Save className="w-4 h-4" />
+                            )}
+                          </button>
                           {/* Nút Xem Web Trực Tiếp */}
                           {row.slug ? (
                             <Link
@@ -3858,13 +3979,82 @@ export function SpreadsheetTongChi() {
                       </div>
                     )}
 
+                  {/* Thanh hướng dẫn Trello & Thống kê số lượng */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 px-3.5 py-2.5 bg-[#1C120A] border border-[#F2C14E]/30 rounded-2xl text-[11px] text-[#FFE5A3]/90 shadow-inner">
+                    <div className="flex items-center gap-2">
+                      <GripVertical className="w-4 h-4 text-[#F2C14E] shrink-0" />
+                      <span>Kéo thả từng thẻ ảnh để sắp xếp lại thứ tự hiển thị (Trello-style) hoặc bấm nút mũi tên nhanh.</span>
+                    </div>
+                    <span className="font-mono font-bold text-[#F2C14E] bg-[#2E1B10] px-2.5 py-0.5 rounded-lg border border-[#F2C14E]/35 shrink-0 self-start sm:self-auto">
+                      Tổng số: {articles[mediaModal.rowIndex].photoGallery?.length || 0} ảnh
+                    </span>
+                  </div>
+
                   {articles[mediaModal.rowIndex].photoGallery && articles[mediaModal.rowIndex].photoGallery!.length > 0 && (
                     <div className="space-y-3">
-                      {articles[mediaModal.rowIndex].photoGallery!.map((item, pIdx) => (
-                        <div
-                          key={pIdx}
-                          className="p-3.5 bg-[#25170E] border border-[#F2C14E]/30 rounded-2xl flex flex-col sm:flex-row items-start gap-3.5 shadow-md"
-                        >
+                      {articles[mediaModal.rowIndex].photoGallery!.map((item, pIdx) => {
+                        const gallery = articles[mediaModal.rowIndex].photoGallery || [];
+                        const isDragging = draggedPhotoIdx === pIdx;
+                        const isOver = draggedOverPhotoIdx === pIdx;
+
+                        return (
+                          <div
+                            key={pIdx}
+                            draggable
+                            onDragStart={(e) => handlePhotoDragStart(e, pIdx)}
+                            onDragOver={(e) => handlePhotoDragOver(e, pIdx)}
+                            onDragLeave={() => handlePhotoDragLeave(pIdx)}
+                            onDrop={(e) => handlePhotoDrop(e, pIdx)}
+                            onDragEnd={handlePhotoDragEnd}
+                            className={`p-3.5 bg-[#25170E] border rounded-2xl flex flex-col sm:flex-row items-start gap-3.5 shadow-md transition-all cursor-grab active:cursor-grabbing select-none ${
+                              isDragging
+                                ? 'opacity-40 border-dashed border-[#F2C14E] scale-95'
+                                : isOver
+                                ? 'border-[#F2C14E] bg-[#382112] shadow-[0_0_15px_rgba(242,193,78,0.35)] ring-2 ring-[#F2C14E]/60 scale-[1.01]'
+                                : 'border-[#F2C14E]/30 hover:border-[#F2C14E] hover:bg-[#2A1A10]'
+                            }`}
+                          >
+                            {/* Nút tay cầm kéo thả & số thứ tự (#1, #2, ...) */}
+                            <div className="flex sm:flex-col items-center justify-between self-stretch sm:self-auto py-1 text-[#F2C14E]/60 hover:text-[#F2C14E] shrink-0 gap-2">
+                              <span
+                                className="px-1.5 py-0.5 rounded-md bg-[#160D07] border border-[#F2C14E]/40 text-[#F2C14E] text-[10px] font-bold font-mono shadow-sm"
+                                title={`Vị trí hiện tại: #${pIdx + 1}`}
+                              >
+                                #{pIdx + 1}
+                              </span>
+
+                              <span title="Giữ và kéo để đổi vị trí (Trello-style)">
+                                <GripVertical className="w-4 h-4 my-auto cursor-grab active:cursor-grabbing" />
+                              </span>
+
+                              {/* Nút mũi tên dịch chuyển nhanh */}
+                              <div className="flex sm:flex-col gap-1">
+                                <button
+                                  type="button"
+                                  disabled={pIdx === 0}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleMovePhoto(pIdx, pIdx - 1);
+                                  }}
+                                  className="p-1 rounded bg-[#1A1009] hover:bg-[#3D2515] text-[#FFE5A3] disabled:opacity-20 disabled:cursor-not-allowed transition-colors"
+                                  title="Di chuyển lên trước"
+                                >
+                                  <ArrowUp className="w-3.5 h-3.5" />
+                                </button>
+                                <button
+                                  type="button"
+                                  disabled={pIdx === gallery.length - 1}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleMovePhoto(pIdx, pIdx + 1);
+                                  }}
+                                  className="p-1 rounded bg-[#1A1009] hover:bg-[#3D2515] text-[#FFE5A3] disabled:opacity-20 disabled:cursor-not-allowed transition-colors"
+                                  title="Di chuyển ra sau"
+                                >
+                                  <ArrowDown className="w-3.5 h-3.5" />
+                                </button>
+                              </div>
+                            </div>
                           <div
                             onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); }}
                             onDrop={async (e) => {
@@ -4010,8 +4200,9 @@ export function SpreadsheetTongChi() {
                             <Trash2 className="w-4 h-4" />
                           </button>
                         </div>
-                      ))}
-                    </div>
+                      );
+                    })}
+                  </div>
                   )}
                 </div>
               )}
