@@ -600,9 +600,7 @@ export function S3FileExplorerModal({
     }
   };
 
-  if (!isOpen) return null;
-
-  // Breadcrumbs path split
+  // Breadcrumbs path split & sorting (phải đặt trước early return để tuân thủ Rules of Hooks)
   const filteredAndSortedFiles = React.useMemo(() => {
     let list = files.filter((f) => smartSearchMatch(f.name, search));
     if (filterMonth !== 'all') {
@@ -636,6 +634,8 @@ export function S3FileExplorerModal({
   }, [files, search, filterMonth, sortBy]);
 
   const filteredFiles = filteredAndSortedFiles;
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 z-[70] flex items-center justify-center p-2 sm:p-4 bg-black/90 backdrop-blur-md animate-in fade-in select-none">

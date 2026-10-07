@@ -146,6 +146,36 @@ export default function AdminKhoAnhS3Page() {
         </div>
       )}
 
+      {/* Card trạng thái khi modal đóng */}
+      {!isExplorerOpen && (
+        <div className="flex-1 flex flex-col items-center justify-center p-8 bg-[#1C120A] rounded-3xl border border-[#F2C14E]/30 text-center my-6 shadow-xl">
+          <div className="w-16 h-16 rounded-2xl bg-[#2A1D14] border-2 border-[#F2C14E] flex items-center justify-center text-[#ffde59] shadow-lg mb-4">
+            <FolderOpen className="w-8 h-8" />
+          </div>
+          <h3 className="text-xl font-bold text-[#FFE5A3] mb-2">Thư Mục Hình Ảnh S3 Cloud Đang Thu Gọn</h3>
+          <p className="text-xs text-[#c9b896] max-w-md mb-5 leading-relaxed">
+            Chọn một chuyên mục nhanh ở trên hoặc bấm nút dưới đây để tiếp tục duyệt cây thư mục S3, quản lý album ảnh và nén WebP tự động.
+          </p>
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => setIsExplorerOpen(true)}
+              className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#F2C14E] to-[#E5A93C] hover:from-[#ffde59] hover:to-[#F2C14E] text-[#1A120B] text-xs font-bold transition-all flex items-center gap-2 shadow-lg cursor-pointer hover:scale-105"
+            >
+              <FolderOpen className="w-4 h-4" />
+              <span>Mở Lại Cây Thư Mục S3</span>
+            </button>
+            <Link
+              href="/admin/posts"
+              className="px-4 py-2.5 rounded-xl bg-[#2A1D14] hover:bg-[#3A2718] border border-[#F2C14E]/40 text-[#FFE5A3] text-xs font-bold transition-all flex items-center gap-2"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              <span>Về Quản Trị Bài Viết</span>
+            </Link>
+          </div>
+        </div>
+      )}
+
       {/* Full-Feature S3 Explorer Modal (Mở sẵn mặc định để duyệt cây thư mục) */}
       <S3FileExplorerModal
         isOpen={isExplorerOpen}
