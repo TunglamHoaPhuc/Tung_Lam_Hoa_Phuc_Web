@@ -175,34 +175,39 @@ export async function PUT(
       (p) => p.id === id || p.id === decodedId || p.slug === id || p.slug === decodedId || String(p.wpPostId) === id
     );
 
-    if (index === -1) {
-      return NextResponse.json(
-        { success: false, error: 'Không tìm thấy bài viết' },
-        { status: 404 }
-      );
-    }
+    let targetIndex = index;
+    const oldDate = index !== -1 ? posts[index].publishedDate : undefined;
 
-    const oldDate = posts[index].publishedDate;
-    posts[index] = {
-      ...posts[index],
-      ...body,
-      id: posts[index].id, // Prevent ID override
-    };
+    if (targetIndex === -1) {
+      const newPost: PostRecord = {
+        ...body,
+        id: id || `post-${Date.now()}`,
+      };
+      posts.unshift(newPost);
+      targetIndex = 0;
+    } else {
+      posts[targetIndex] = {
+        ...posts[targetIndex],
+        ...body,
+        id: posts[targetIndex].id, // Prevent ID override
+      };
+    }
 
     await savePosts(posts);
 
     // ⚡ TỰ ĐỘNG ĐỒNG BỘ NGÀY ĐĂNG SANG WORDPRESS (CHỜ HOÀN TẤT)
-    if (posts[index].wpPostId && body.publishedDate && oldDate !== body.publishedDate) {
+    const targetWpPostId = posts[targetIndex].wpPostId;
+    if (targetWpPostId && body.publishedDate && oldDate !== body.publishedDate) {
       try {
         const wpRes = await updateWpPostFields(
-          posts[index].wpPostId,
+          targetWpPostId,
           { date: formatWpDate(body.publishedDate), status: 'publish' },
           'posts'
         );
         if (wpRes.success) {
-          console.log(`✅ [sync-wp-date] Đã đồng bộ ngày lên WP #${posts[index].wpPostId}: ${body.publishedDate}`);
+          console.log(`✅ [sync-wp-date] Đã đồng bộ ngày lên WP #${targetWpPostId}: ${body.publishedDate}`);
         } else {
-          console.warn(`⚠️ [sync-wp-date] Lỗi đồng bộ ngày lên WP #${posts[index].wpPostId}:`, wpRes.error);
+          console.warn(`⚠️ [sync-wp-date] Lỗi đồng bộ ngày lên WP #${targetWpPostId}:`, wpRes.error);
         }
       } catch (e) {
         console.warn('[auto-sync-wp-date error]', e);
@@ -212,9 +217,9 @@ export async function PUT(
     try {
       revalidatePath('/', 'page');
       revalidatePath('/dong-chay-hoang-phap', 'page');
-      if (posts[index].slug) {
-        revalidatePath(`/dong-chay-hoang-phap/${posts[index].slug}`, 'page');
-        revalidatePath(`/tri-tue-phat-phap/${posts[index].slug}`, 'page');
+      if (posts[targetIndex].slug) {
+        revalidatePath(`/dong-chay-hoang-phap/${posts[targetIndex].slug}`, 'page');
+        revalidatePath(`/tri-tue-phat-phap/${posts[targetIndex].slug}`, 'page');
       }
       revalidatePath('/tri-tue-phat-phap', 'page');
       revalidatePath('/tong-chi-tu-hoc', 'page');
@@ -224,7 +229,7 @@ export async function PUT(
 
     return NextResponse.json({
       success: true,
-      post: posts[index],
+      post: posts[targetIndex],
     });
   } catch (error: any) {
     return NextResponse.json(
@@ -233,6 +238,8 @@ export async function PUT(
     );
   }
 }
+
+export const PATCH = PUT;
 
 export async function DELETE(
   req: NextRequest,

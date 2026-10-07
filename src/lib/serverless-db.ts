@@ -1,9 +1,45 @@
 import fs from 'fs';
 import path from 'path';
+import os from 'os';
 import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
 
 // In-memory cache for ultra-fast response within warm Lambda containers
 const memoryCache: Record<string, { data: any; timestamp: number }> = {};
+
+/**
+ * Lấy đường dẫn file trong thư mục tạm và đảm bảo thư mục cha tồn tại.
+ * - Trên Linux / Vercel Serverless: Thư mục tạm mặc định là '/tmp'.
+ * - Trên Windows: Sử dụng os.tmpdir() để trỏ đúng thư mục tạm hợp lệ của hệ thống.
+ * - Tự động tạo thư mục bằng fs.mkdirSync(..., { recursive: true }) nếu chưa có.
+ */
+function getTmpFilePath(fileName: string): string {
+  const tmpDir = process.platform === 'win32' ? os.tmpdir() : '/tmp';
+  try {
+    if (!fs.existsSync(tmpDir)) {
+      fs.mkdirSync(tmpDir, { recursive: true });
+    }
+  } catch {
+    // Bỏ qua lỗi nếu thư mục không tạo được
+  }
+  return path.join(tmpDir, fileName);
+}
+
+/**
+ * Ghi file an toàn vào thư mục tạm, tự động tạo thư mục nếu chưa tồn tại
+ */
+function safeWriteTmpFile(filePath: string, content: string): boolean {
+  try {
+    const dir = path.dirname(filePath);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    fs.writeFileSync(filePath, content, 'utf8');
+    return true;
+  } catch (err) {
+    console.warn(`[serverless-db] Không thể ghi vào ${filePath}:`, err);
+    return false;
+  }
+}
 
 function getS3Client(): { client: S3Client; bucketName: string } | null {
   let secretKey = process.env.S3_SECRET_ACCESS_KEY || 'K005/I+vUZ8TcuI2ww8TLeRPtsVzEaA';
@@ -74,7 +110,7 @@ export function loadServerlessJson<T>(opts: ServerlessDbOptions<T>): T {
   }
 
   const localPath = path.resolve(process.cwd(), localRelativePath);
-  const tmpPath = path.join('/tmp', fileName);
+  const tmpPath = getTmpFilePath(fileName);
 
   // Nếu file cục bộ mới hơn file /tmp (ví dụ vừa deploy bản build mới), ưu tiên file cục bộ
   let useTmp = fs.existsSync(tmpPath);
@@ -128,7 +164,7 @@ export async function loadServerlessJsonAsync<T>(opts: ServerlessDbOptions<T>): 
   }
 
   const localPath = path.resolve(process.cwd(), localRelativePath);
-  const tmpPath = path.join('/tmp', fileName);
+  const tmpPath = getTmpFilePath(fileName);
 
   // 2. Nếu đang chạy môi trường phát triển cục bộ (Local Dev) và có file local -> Luôn ưu tiên file cục bộ!
   const isDev = process.env.NODE_ENV !== 'production';
@@ -160,9 +196,7 @@ export async function loadServerlessJsonAsync<T>(opts: ServerlessDbOptions<T>): 
         memoryCache[fileName] = { data: parsed, timestamp: Date.now() };
 
         // Lưu vào /tmp để container dùng nhanh
-        try {
-          fs.writeFileSync(tmpPath, str, 'utf8');
-        } catch {}
+        safeWriteTmpFile(tmpPath, str);
 
         return parsed;
       }
@@ -192,6 +226,10 @@ export async function saveServerlessJson<T>(opts: ServerlessDbOptions<T>, data: 
   let localWritten = false;
   const localPath = path.resolve(process.cwd(), localRelativePath);
   try {
+    const localDir = path.dirname(localPath);
+    if (!fs.existsSync(localDir)) {
+      fs.mkdirSync(localDir, { recursive: true });
+    }
     fs.writeFileSync(localPath, jsonStr, 'utf8');
     localWritten = true;
   } catch (err: any) {
@@ -199,12 +237,8 @@ export async function saveServerlessJson<T>(opts: ServerlessDbOptions<T>, data: 
   }
 
   // 3. Luôn ghi vào /tmp để container hiện tại luôn có dữ liệu mới nhất
-  const tmpPath = path.join('/tmp', fileName);
-  try {
-    fs.writeFileSync(tmpPath, jsonStr, 'utf8');
-  } catch (err) {
-    console.warn(`[serverless-db] Không thể ghi vào ${tmpPath}:`, err);
-  }
+  const tmpPath = getTmpFilePath(fileName);
+  safeWriteTmpFile(tmpPath, jsonStr);
 
   // 4. Đồng bộ lên S3 Backblaze B2 để các Lambda khác hoặc lần truy cập sau đều đọc được
   const s3Target = s3Key || `tunglamhoaphuc2/database/${fileName}`;
