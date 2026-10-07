@@ -390,7 +390,20 @@ export async function PUT(req: NextRequest) {
       return p;
     });
 
-    await savePosts(validatedPosts);
+    // 🌟 SMART MERGE: Nếu client gửi một danh sách chuyên mục (ví dụ chỉ 162 bài của Tri Tuệ Phật Pháp),
+    // ta hợp nhất (merge) các bài cập nhật vào cơ sở dữ liệu hiện tại theo ID,
+    // TUYỆT ĐỐI KHÔNG XÓA các bài viết thuộc các chuyên mục khác (Dòng Chảy Hoằng Pháp, Tông Chỉ Tu Học...).
+    const incomingValidatedMap = new Map(validatedPosts.map((p) => [p.id, p]));
+    const finalPosts = currentPosts.map((p) => incomingValidatedMap.get(p.id) || p);
+
+    // Thêm các bài viết mới nếu chưa có trong currentPosts
+    for (const p of validatedPosts) {
+      if (!currentMap.has(p.id)) {
+        finalPosts.unshift(p);
+      }
+    }
+
+    await savePosts(finalPosts);
 
     // ⚡ TỰ ĐỘNG ĐỒNG BỘ NGÀY ĐĂNG SANG WORDPRESS CHO TẤT CẢ BÀI CÓ THAY ĐỔI (CHỜ HOÀN TẤT)
     if (changedPostsWithWpId.length > 0) {

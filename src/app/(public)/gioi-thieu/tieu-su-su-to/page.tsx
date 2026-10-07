@@ -2,8 +2,8 @@ import { GIOI_THIEU_DETAILS } from '@/data/gioi-thieu-data';
 import { GioiThieuDetailLayout } from '@/components/gioi-thieu/GioiThieuDetailLayout';
 
 export const metadata = {
-  title: 'Tiểu Sử Sư Tổ Ngộ Chân Tử - Khai Sơn Tổ Đình Hoằng Pháp',
-  description: 'Tôn vinh cuộc đời tu tập và đạo nghiệp của Chư vị Tổ Sư khai sơn Tổ đình Hoằng Pháp.',
+  title: 'Tiểu Sử Hòa Thượng Ngộ Chân Tử - Sư Tổ Khai Sơn Tông Phong Hoằng Pháp | Tùng Lâm Hòa Phúc',
+  description: 'Tóm tắt tiểu sử Cố Lão Hòa Thượng Ngộ Chân Tử, Sư tổ khai sơn Tông phong Hoằng Pháp, cuộc đời tu tập và đạo nghiệp cứu khổ nhân sinh.',
 };
 
 export default function TieuSuSuToPage() {

@@ -79,7 +79,7 @@ const INITIAL_TOP_POSTS: PostItem[] = [
   },
   {
     id: 'post-03',
-    imageUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/page_01.webp',
+    imageUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp',
     category1: 'Trí Tuệ Phật Pháp',
     category2: 'TỦ SÁCH TỨ ÂN',
     category1Url: '/tri-tue-phat-phap',

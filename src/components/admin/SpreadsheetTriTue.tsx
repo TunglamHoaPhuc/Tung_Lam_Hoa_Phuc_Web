@@ -134,11 +134,22 @@ export function SpreadsheetTriTue() {
     getId: (p) => p.id,
   });
 
-  // Fetch all posts from API
+  // Đồng bộ ảnh bìa cho ấn phẩm / sách nếu có trường sourceBook
+  const syncBookCoverIfPresent = (post: PostRecord, newImageUrl: string) => {
+    if (post.sourceBook) {
+      if (Array.isArray(post.sourceBook)) {
+        if (post.sourceBook[0]) post.sourceBook[0].coverImage = newImageUrl;
+      } else {
+        post.sourceBook.coverImage = newImageUrl;
+      }
+    }
+  };
+
+  // Fetch posts from API - Tối ưu chỉ lấy các bài thuộc chuyên mục Trí Tuệ Phật Pháp
   const fetchPosts = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`/api/admin/posts?t=${Date.now()}`, { cache: 'no-store' });
+      const res = await fetch(`/api/admin/posts?category=tri-tue-phat-phap&t=${Date.now()}`, { cache: 'no-store' });
       const data = await res.json();
       if (data.success && data.posts) {
         setPosts(data.posts);
@@ -188,8 +199,12 @@ export function SpreadsheetTriTue() {
     if (saving) return;
     setSaving(true);
 
-    const normalized = postsToSave.map((p) => ({
+    // 🚀 Tối ưu payload: Chỉ gửi các bài thuộc 'tri-tue-phat-phap' và loại bỏ contentHtml
+    // Tránh vượt giới hạn 4.5MB của Vercel (chỉ ~400KB thay vì 7MB)
+    const triTuePosts = postsToSave.filter((p) => !p.mainCategory || p.mainCategory === 'tri-tue-phat-phap');
+    const normalized = triTuePosts.map(({ contentHtml: _ch, ...p }) => ({
       ...p,
+      mainCategory: 'tri-tue-phat-phap',
       status: 'published' as const,
     }));
 
@@ -199,20 +214,59 @@ export function SpreadsheetTriTue() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(normalized),
       });
-      const data = await res.json();
-      if (data.success) {
-        setPosts(normalized);
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.success) {
+        setPosts(postsToSave);
         setIsDirty(false);
         const timeStr = new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
         setLastSavedTime(timeStr);
         if (!silent) showToast(`✅ Đã lưu thành công ${normalized.length} bài viết!`);
       } else {
-        showToast(data.error || 'Có lỗi xảy ra khi lưu bài viết');
+        showToast(data.error || `Có lỗi khi lưu bài viết (Mã lỗi ${res.status})`);
       }
     } catch (err: any) {
       showToast(`Không thể kết nối đến máy chủ: ${err.message}`);
     } finally {
       setSaving(false);
+    }
+  };
+
+  // 💾 Lưu nhanh trực tiếp 1 dòng bài viết (1-Click Save tức thì)
+  const handleSaveSinglePost = async (target: PostRecord) => {
+    showToast(`⏳ Đang lưu bài viết "${(target.title || '').slice(0, 35)}..."`);
+    try {
+      const res = await fetch(`/api/admin/posts/${encodeURIComponent(target.id)}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: target.title,
+          subtitle: target.subtitle,
+          author: target.author,
+          publishedDate: target.publishedDate,
+          mainCategory: target.mainCategory || 'tri-tue-phat-phap',
+          subCategory: target.subCategory,
+          categoryName: target.categoryName,
+          thumbnailUrl: target.thumbnailUrl,
+          thumbnailPosition: target.thumbnailPosition,
+          bannerUrl: target.bannerUrl,
+          bannerPosition: target.bannerPosition,
+          videoBlock: target.videoBlock,
+          featuredArticle: target.featuredArticle,
+          photoGallery: target.photoGallery,
+          sourceBook: target.sourceBook,
+          summary: target.summary,
+          status: 'published',
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.success) {
+        showToast(`✅ Đã lưu thành công bài viết "${(target.title || '').slice(0, 35)}"!`);
+        setIsDirty(false);
+      } else {
+        showToast(`❌ Lỗi: ${data.error || `Lỗi máy chủ (${res.status})`}`);
+      }
+    } catch (e: any) {
+      showToast(`❌ Lỗi kết nối: ${e.message}`);
     }
   };
 
@@ -294,16 +348,23 @@ export function SpreadsheetTriTue() {
     }
   };
 
-  // Lưu Đa phương tiện tức thời (Banner, Video, Sách, v.v.)
+  // Lưu Đa phương tiện tức thời (Banner, Video, Sách, v.v.) kèm thông tin bài viết
   const handleSaveMediaModal = async (actualIdx: number) => {
     const target = posts[actualIdx];
     if (!target) return;
-    showToast(`⏳ Đang lưu thiết lập đa phương tiện...`);
+    showToast(`⏳ Đang lưu thiết lập bài viết & đa phương tiện...`);
     try {
       const res = await fetch(`/api/admin/posts/${encodeURIComponent(target.id)}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          title: target.title,
+          subtitle: target.subtitle,
+          author: target.author,
+          publishedDate: target.publishedDate,
+          mainCategory: target.mainCategory || 'tri-tue-phat-phap',
+          subCategory: target.subCategory,
+          categoryName: target.categoryName,
           thumbnailUrl: target.thumbnailUrl,
           thumbnailPosition: target.thumbnailPosition,
           bannerUrl: target.bannerUrl,
@@ -312,14 +373,15 @@ export function SpreadsheetTriTue() {
           featuredArticle: target.featuredArticle,
           photoGallery: target.photoGallery,
           sourceBook: target.sourceBook,
+          summary: target.summary,
         }),
       });
-      const data = await res.json();
-      if (data.success) {
-        showToast(`✅ Đã lưu thành công đa phương tiện của bài viết!`);
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && data.success) {
+        showToast(`✅ Đã lưu thành công bài viết & đa phương tiện!`);
         setIsDirty(false);
       } else {
-        showToast(`❌ Lỗi: ${data.error || 'Không xác định'}`);
+        showToast(`❌ Lỗi: ${data.error || `Lỗi máy chủ (${res.status})`}`);
       }
     } catch (e: any) {
       showToast(`❌ Lỗi kết nối: ${e.message}`);
@@ -746,6 +808,7 @@ export function SpreadsheetTriTue() {
                                 const updated = [...posts];
                                 updated[actualIdx].thumbnailUrl = url;
                                 updated[actualIdx].bannerUrl = url;
+                                syncBookCoverIfPresent(updated[actualIdx], url);
                                 setPosts(updated);
                                 setIsDirty(true);
                                 showToast('✨ Đã cập nhật ảnh bìa từ S3!');
@@ -951,9 +1014,19 @@ export function SpreadsheetTriTue() {
                         </div>
                       </td>
 
-                      {/* 8. Thao Tác (Xem Web Trực Tiếp & Xóa) */}
-                      <td className="p-2 w-[90px] min-w-[90px] text-center align-middle sticky right-0 z-10 bg-[#1C120A] group-hover:bg-[#26160B] group-focus-within:bg-[#2D1B0F] border-l border-[#F2C14E]/20 shadow-[-4px_0_8px_rgba(0,0,0,0.3)]">
+                      {/* 8. Thao Tác (Lưu Nhanh Dòng, Xem Web & Xóa) */}
+                      <td className="p-2 w-[125px] min-w-[125px] text-center align-middle sticky right-0 z-10 bg-[#1C120A] group-hover:bg-[#26160B] group-focus-within:bg-[#2D1B0F] border-l border-[#F2C14E]/20 shadow-[-4px_0_8px_rgba(0,0,0,0.3)]">
                         <div className="flex items-center justify-center gap-1.5">
+                          {/* Nút Lưu Nhanh Dòng Này */}
+                          <button
+                            type="button"
+                            onClick={() => handleSaveSinglePost(row)}
+                            className="p-2 rounded-xl bg-[#2A1D14] hover:bg-[#F2C14E] border border-[#F2C14E]/40 text-[#FFE5A3] hover:text-[#1A120B] transition-all cursor-pointer shadow-sm hover:scale-105"
+                            title="Lưu ngay thay đổi của riêng bài viết này"
+                          >
+                            <Save className="w-4 h-4" />
+                          </button>
+
                           {/* Nút Xem Web Trực Tiếp */}
                           {row.slug ? (
                             <Link
@@ -1684,6 +1757,10 @@ export function SpreadsheetTriTue() {
                   const updated = [...posts];
                   const existing = getPrimaryBook(updated[mediaModal.rowIndex].sourceBook) || { bookTitle: '', author: '', coverImage: '', description: '', linkUrl: '' };
                   updated[mediaModal.rowIndex].sourceBook = { ...existing, ...patch };
+                  if (patch.coverImage) {
+                    updated[mediaModal.rowIndex].thumbnailUrl = patch.coverImage;
+                    updated[mediaModal.rowIndex].bannerUrl = patch.coverImage;
+                  }
                   setPosts(updated);
                   setIsDirty(true);
                 };

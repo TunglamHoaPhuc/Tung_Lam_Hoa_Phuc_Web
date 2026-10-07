@@ -69,7 +69,7 @@ const CATEGORY_STRUCTURE = [
       { id: 'su-ong-hoang-phap', name: 'Hòa Thượng Thích Chân Tính' },
       { id: 'su-phu-tru-tri', name: 'Thầy Viện Chủ Thích Tâm Hòa' },
       { id: 'van-hoa-ung-xu', name: 'Văn Hóa Ứng Xử Tùng Lâm' },
-      { id: 'dai-su-lien-dang', name: 'Đại Sự Liên Đăng' },
+      { id: 'dai-su-lien-dang', name: 'Đại Sư Liên Đăng' },
     ],
   },
 ];

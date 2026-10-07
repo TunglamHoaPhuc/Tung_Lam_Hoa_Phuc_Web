@@ -2,8 +2,8 @@ import { GIOI_THIEU_DETAILS } from '@/data/gioi-thieu-data';
 import { GioiThieuDetailLayout } from '@/components/gioi-thieu/GioiThieuDetailLayout';
 
 export const metadata = {
-  title: 'Đôi Nét Về Đại Sư Liên Đăng - Bậc Tiền Bối Truyền Thừa',
-  description: 'Hành trạng và công hạnh của Đại sư Liên Đăng truyền thừa chánh pháp tại Tùng Lâm Hòa Phúc.',
+  title: 'Đôi Nét Về Đại Sư Liên Đăng - Viện Chủ Viện Tịnh Luật Chùa Đại Từ Ân | Tùng Lâm Hòa Phúc',
+  description: 'Đại Sư Liên Đăng là bậc cao tăng Giới sư, Giám đốc Trung tâm Tư liệu Phật giáo Việt Nam, Viện chủ Viện Tịnh Luật chùa Đại Từ Ân.',
 };
 
 export default function DaiSuLienDangPage() {

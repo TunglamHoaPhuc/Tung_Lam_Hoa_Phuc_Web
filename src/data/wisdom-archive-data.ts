@@ -25,7 +25,7 @@ export const WISDOM_ITEMS: WisdomItem[] = [
     },
     publishDate: '15/08/2026',
     views: 35401,
-    thumbnailUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/page_01.webp',
+    thumbnailUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp',
     mediaUrl: '',
     excerpt: 'Tập văn ký hồi ức đúc kết hành trình tu tập, chiêm nghiệm nhân sinh và lòng tri ân sâu sắc đối với Tam Bảo cùng Thầy Tổ.',
   },

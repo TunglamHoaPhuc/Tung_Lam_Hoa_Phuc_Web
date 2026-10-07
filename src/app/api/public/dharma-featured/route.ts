@@ -97,7 +97,7 @@ export async function GET() {
           (p.subCategory || '').toLowerCase().includes('pháp âm');
         return {
           id: p.id,
-          imageUrl: p.thumbnailUrl || p.bannerUrl || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/page_01.webp',
+          imageUrl: p.thumbnailUrl || p.bannerUrl || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp',
           category1: 'Trí Tuệ Phật Pháp',
           category2: p.categoryName || p.subCategory || 'PHÁP ÂM & KHAI THỊ',
           category1Url: '/tri-tue-phat-phap',

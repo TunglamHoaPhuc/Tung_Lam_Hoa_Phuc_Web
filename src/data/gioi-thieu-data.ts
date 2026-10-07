@@ -5,7 +5,9 @@ export interface GioiThieuTopicDetail {
   subtitle: string;
   tag: string;
   heroBanner: string;
+  heroBannerPosition?: string;
   portraitImage: string;
+  portraitImagePosition?: string;
   overviewSummary: string;
   quoteTitle: string;
   quoteContent: string[];
@@ -15,11 +17,19 @@ export interface GioiThieuTopicDetail {
     title: string;
     description: string;
   }>;
-  mainContentHtml: string;
+  mainContentHtml?: string;
+  content?: string;
   galleryImages?: Array<{
     url: string;
     caption: string;
   }>;
+  sourceBook?: {
+    bookTitle: string;
+    author: string;
+    coverImage?: string;
+    description?: string;
+  };
+  wpPostId?: string | number;
   relatedLinks?: Array<{
     title: string;
     href: string;
@@ -29,301 +39,351 @@ export interface GioiThieuTopicDetail {
 
 export const GIOI_THIEU_DETAILS: Record<string, GioiThieuTopicDetail> = {
   'lich-su-tung-lam-hoa-phuc': {
-    id: 'lich-su-tung-lam-hoa-phuc',
-    slug: 'lich-su-tung-lam-hoa-phuc',
-    title: 'LỊCH SỬ TÙNG LÂM HÒA PHÚC',
-    subtitle: 'Nguồn gốc hình thành, các giai đoạn trùng tu và phát triển chốn thiền môn.',
-    tag: 'Lịch Sử Bổn Tự',
-    heroBanner: '/images/toan-canh-chua.jpg',
-    portraitImage: '/images/trang-chu/đại - tiểu sám hối và thường kỳ.jpg',
-    overviewSummary:
-      'Chùa Hòa Phúc (Tùng Lâm Hòa Phúc) tọa lạc tại thôn Yên Nội, xã Đồng Trúc, huyện Thạch Thất, thành phố Hà Nội. Ngôi cổ tự nép mình bên sườn núi Vua Bà thanh bình, trải qua bao thăng trầm của lịch sử, nay đã chuyển mình trở thành một trong những trung tâm tu học Tịnh Độ trang nghiêm, hội tụ hàng ngàn Phật tử về quy ngưỡng mỗi tháng.',
-    quoteTitle: 'TINH THẦN KIẾN TẠO ĐẠO TRÀNG',
-    quoteContent: [
-      'Lập chùa là tạo ra một cõi Tịnh độ giữa nhân gian.',
-      'Ở đó, người già, người trẻ, người thương hay người chưa thương đều được mời về,',
-      'cùng chung sống hòa hợp trong ánh sáng từ bi và trí tuệ của Phật Pháp.'
-    ],
-    quoteAuthor: 'Thượng tọa Thích Tâm Hòa',
-    milestones: [
-      {
-        year: 'Thời Cổ Tự',
-        title: 'Khởi Dựng Chốn Già Lam',
-        description: 'Chùa Hòa Phúc vốn là ngôi chùa làng cổ kính, che chở đời sống tâm linh cho nhân dân thôn Yên Nội qua nhiều thế hệ.'
-      },
-      {
-        year: 'Năm 2008',
-        title: 'Đại Đức Thích Tâm Hòa Về Trụ Trì',
-        description: 'Theo lời thỉnh nguyện của nhân dân và chính quyền địa phương, ĐĐ. Thích Tâm Hòa chính thức về tiếp quản, bắt đầu công cuộc tái thiết chốn tổ.'
-      },
-      {
-        year: '2009 - 2018',
-        title: 'Giai Đoạn Đại Trùng Tu Toàn Diện',
-        description: 'Xây dựng Đại Hùng Bảo Điện, Thiền Đường, Tăng Xá, Nhà Khách, tôn tạo tượng Phật A Di Đà lộ thiên và kiến thiết cảnh quan sinh thái tâm linh.'
-      },
-      {
-        year: 'Hiện Nay',
-        title: 'Tùng Lâm Hòa Phúc - Đạo Tràng Tu Học Kiểu Mẫu',
-        description: 'Phát triển các khóa tu Bát Quan Trai, Pháp hội Niệm Phật, Khóa tu Mùa hè thanh thiếu niên với quy mô hàng ngàn hành giả tham dự.'
-      }
-    ],
-    mainContentHtml: `
-      <h3>1. Vị Thế Địa Linh &amp; Cảnh Quan Thanh Tịnh</h3>
-      <p>Nằm cách trung tâm thủ đô Hà Nội chừng 30km về phía Tây, Tùng Lâm Hòa Phúc được bao bọc bởi núi đồi trập trùng và không gian xanh mát. Khung cảnh non thanh thủy tú nơi đây tạo nên một môi trường lý tưởng cho người tu học gột rửa bụi trần, tìm lại sự an định trong tâm hồn.</p>
-      
-      <h3>2. Tinh Thần Hoằng Dương Chánh Pháp</h3>
-      <p>Dưới sự hướng dẫn của Thượng tọa Trụ trì, Tùng Lâm Hòa Phúc không chỉ là nơi chiêm bái tâm linh mà còn là một trường học đạo đức nhân sinh. Tông chỉ tu học của bổn tự lấy Tịnh Độ làm nòng cốt, kết hợp Thiền quán và Giới luật tinh nghiêm, hướng dẫn Phật tử ứng dụng Phật pháp vào đời sống gia đình và xã hội.</p>
-      
-      <h3>3. Các Công Trình Kiến Trúc Tiêu Biểu</h3>
-      <p>Khuôn viên chùa bao gồm: Đại Hùng Bảo Điện uy nghiêm, Giảng Đường Ngộ Chân Tử, Lầu Kinh Luân, Vườn tượng 33 Ứng Hóa Thân Quán Thế Âm, Bảo Tháp và khu trưng bày Bảo vật Triều Nguyễn cùng di sản văn hóa Phật giáo thuần Việt.</p>
-    `,
-    galleryImages: [
-      { url: '/images/trang-chu/Cầu an quốc thái dân thường kỳ.jpg', caption: 'Khóa lễ cầu an quốc thái dân an tại Đại Hùng Bảo Điện' },
-      { url: '/images/trang-chu/Đại lễ Vu Lan Báo Hiếu.JPG', caption: 'Đại chúng Phật tử trang nghiêm trong ngày Đại lễ Vu Lan' },
-      { url: '/images/trang-chu/Pháp hội niệm Phật.jpg', caption: 'Hàng ngàn Phật tử vân tập tham dự Pháp hội Niệm Phật định kỳ' },
-      { url: '/images/trang-chu/Lễ Tưởng Niệm Anh Hùng Liệt Sỹ 27.07.JPG', caption: 'Đại lễ tri ân và tưởng niệm các Anh hùng Liệt sĩ' }
-    ]
-  },
-
+  "id": "gt-01",
+  "slug": "lich-su-tung-lam-hoa-phuc",
+  "title": "LỊCH SỬ TÙNG LÂM HÒA PHÚC",
+  "subtitle": "Nguồn gốc hình thành, các giai đoạn trùng tu và phát triển chốn thiền môn",
+  "tag": "Lịch Sử Bổn Tự",
+  "heroBanner": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
+  "heroBannerPosition": "center 50%",
+  "portraitImage": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
+  "portraitImagePosition": "center 50%",
+  "overviewSummary": "Chùa Hòa Phúc (Tùng Lâm Hòa Phúc) tọa lạc tại thôn Yên Nội, xã Đồng Trúc, huyện Thạch Thất, thành phố Hà Nội. Ngôi cổ tự nép mình bên sườn núi Vua Bà thanh bình, trải qua bao thăng trầm của lịch sử, nay đã chuyển mình trở thành một trong những trung tâm tu học Tịnh Độ trang nghiêm, hội tụ hàng ngàn Phật tử về quy ngưỡng mỗi tháng.",
+  "quoteTitle": "TINH THẦN KIẾN TẠO ĐẠO TRÀNG",
+  "quoteContent": [
+    "Lập chùa là tạo ra một cõi Tịnh độ giữa nhân gian.",
+    "Ở đó, người già, người trẻ, người thương hay người chưa thương đều được mời về,",
+    "cùng chung sống hòa hợp trong ánh sáng từ bi và trí tuệ của Phật Pháp."
+  ],
+  "quoteAuthor": "Thượng tọa Thích Tâm Hòa",
+  "milestones": [
+    {
+      "year": "Thời Cổ Tự",
+      "title": "Khởi Dựng Chốn Già Lam",
+      "description": "Chùa Hòa Phúc vốn là ngôi chùa làng cổ kính, che chở đời sống tâm linh cho nhân dân thôn Yên Nội qua nhiều thế hệ."
+    },
+    {
+      "year": "Năm 2008",
+      "title": "Đại Đức Thích Tâm Hòa Về Trụ Trì",
+      "description": "Theo lời thỉnh nguyện của nhân dân và chính quyền địa phương, ĐĐ. Thích Tâm Hòa chính thức về tiếp quản, bắt đầu công cuộc tái thiết chốn tổ."
+    },
+    {
+      "year": "2009 - 2018",
+      "title": "Giai Đoạn Đại Trùng Tu Toàn Diện",
+      "description": "Xây dựng Đại Hùng Bảo Điện, Thiền Đường, Tăng Xá, Nhà Khách, tôn tạo tượng Phật A Di Đà lộ thiên và kiến thiết cảnh quan sinh thái tâm linh."
+    },
+    {
+      "year": "Hiện Nay",
+      "title": "Tùng Lâm Hòa Phúc - Đạo Tràng Tu Học Kiểu Mẫu",
+      "description": "Phát triển các khóa tu Bát Quan Trai, Pháp hội Niệm Phật, Khóa tu Mùa hè thanh thiếu niên với quy mô hàng ngàn hành giả tham dự."
+    }
+  ],
+  "content": "### 1. Vị Thế Địa Linh & Cảnh Quan Thanh Tịnh\n\nNằm cách trung tâm thủ đô Hà Nội chừng 30km về phía Tây, Tùng Lâm Hòa Phúc được bao bọc bởi núi đồi trập trùng và không gian xanh mát. Khung cảnh non thanh thủy tú nơi đây tạo nên một môi trường lý tưởng cho người tu học gột rửa bụi trần, tìm lại sự an định trong tâm hồn.\n\n### 2. Tinh Thần Hoằng Dương Chánh Pháp\n\nDưới sự hướng dẫn của Thượng tọa Trụ trì, Tùng Lâm Hòa Phúc không chỉ là nơi chiêm bái tâm linh mà còn là một trường học đạo đức nhân sinh. Tông chỉ tu học của bổn tự lấy Tịnh Độ làm nòng cốt, kết hợp Thiền quán và Giới luật tinh nghiêm, hướng dẫn Phật tử ứng dụng Phật pháp vào đời sống gia đình và xã hội.\n\n### 3. Các Công Trình Kiến Trúc Tiêu Biểu\n\nKhuôn viên chùa bao gồm: Đại Hùng Bảo Điện uy nghiêm, Giảng Đường Ngộ Chân Tử, Lầu Kinh Luân, Vườn tượng 33 Ứng Hóa Thân Quán Thế Âm, Bảo Tháp và khu trưng bày Bảo vật Triều Nguyễn cùng di sản văn hóa Phật giáo thuần Việt.",
+  "mainContentHtml": "### 1. Vị Thế Địa Linh & Cảnh Quan Thanh Tịnh\n\nNằm cách trung tâm thủ đô Hà Nội chừng 30km về phía Tây, Tùng Lâm Hòa Phúc được bao bọc bởi núi đồi trập trùng và không gian xanh mát. Khung cảnh non thanh thủy tú nơi đây tạo nên một môi trường lý tưởng cho người tu học gột rửa bụi trần, tìm lại sự an định trong tâm hồn.\n\n### 2. Tinh Thần Hoằng Dương Chánh Pháp\n\nDưới sự hướng dẫn của Thượng tọa Trụ trì, Tùng Lâm Hòa Phúc không chỉ là nơi chiêm bái tâm linh mà còn là một trường học đạo đức nhân sinh. Tông chỉ tu học của bổn tự lấy Tịnh Độ làm nòng cốt, kết hợp Thiền quán và Giới luật tinh nghiêm, hướng dẫn Phật tử ứng dụng Phật pháp vào đời sống gia đình và xã hội.\n\n### 3. Các Công Trình Kiến Trúc Tiêu Biểu\n\nKhuôn viên chùa bao gồm: Đại Hùng Bảo Điện uy nghiêm, Giảng Đường Ngộ Chân Tử, Lầu Kinh Luân, Vườn tượng 33 Ứng Hóa Thân Quán Thế Âm, Bảo Tháp và khu trưng bày Bảo vật Triều Nguyễn cùng di sản văn hóa Phật giáo thuần Việt.",
+  "galleryImages": [
+    {
+      "url": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
+      "caption": "Toàn cảnh Tùng Lâm Hòa Phúc nhìn từ trên cao"
+    },
+    {
+      "url": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
+      "caption": "Pháp hội niệm Phật định kỳ tại Giảng đường"
+    }
+  ],
+  "wpPostId": "508"
+},
   'dai-su-lien-dang': {
-    id: 'dai-su-lien-dang',
-    slug: 'dai-su-lien-dang',
-    title: 'ĐÔI NÉT VỀ ĐẠI SƯ LIÊN ĐĂNG',
-    subtitle: 'Hành trạng và công hạnh của Đại sư Liên Đăng truyền thừa chánh pháp.',
-    tag: 'Bậc Tiền Bối',
-    heroBanner: '/images/toan-canh-chua.jpg',
-    portraitImage: '/images/anh-tho-cac-vi-cao-tang/1.jpg',
-    overviewSummary:
-      'Đại sư Liên Đăng là bậc cao tăng thạc đức, ngọn đèn chánh pháp chiếu rọi muôn phương. Với tâm nguyện "Truyền đăng tục diệm, tiếp dẫn hậu lai", Đại sư đã cống hiến trọn cuộc đời cho sự nghiệp hoằng pháp lợi sinh, khai mở tuệ giác cho hàng vạn môn đồ đệ tử.',
-    quoteTitle: 'LỜI DẠY CỦA ĐẠI SƯ',
-    quoteContent: [
-      'Ngọn đèn trí tuệ thắp sáng từ bi,',
-      'Soi đường dẫn lối cho kẻ lầm mê.',
-      'Sống giữa hồng trần không vướng bụi,',
-      'Đóa sen thanh khiết ngát muôn phương.'
-    ],
-    quoteAuthor: 'Đại Sư Liên Đăng',
-    milestones: [
-      {
-        year: 'Xuất Gia Tu Học',
-        title: 'Sớm Tỏ Ngộ Lý Vô Thường',
-        description: 'Đại sư phát tâm xuất gia từ thuở thiếu thời, chuyên tâm nghiên cứu Tam Tạng thánh điển và thực hành thiền định tinh nghiêm.'
-      },
-      {
-        year: 'Hoằng Hóa',
-        title: 'Thắp Sáng Đèn Thiền Tịnh Độ',
-        description: 'Du hóa khắp nơi, kiến lập đạo tràng, truyền trao giới pháp và khuyến tấn đại chúng siêng năng niệm Phật cầu sinh Tịnh Độ.'
-      },
-      {
-        year: 'Di Sản',
-        title: 'Công Đức Lưu Danh Muôn Thuở',
-        description: 'Tấm gương đạo hạnh và những lời khai thị giản dị mà sâu sắc của Đại sư mãi là kim chỉ nam cho thế hệ hậu học noi theo.'
-      }
-    ],
-    mainContentHtml: `
-      <h3>1. Cuộc Đời &amp; Đạo Nghiệp</h3>
-      <p>Đại sư Liên Đăng là hiện thân của tinh thần tinh tấn và nhẫn nhục. Ngài luôn nhắc nhở đệ tử rằng: Đạo Phật không phải là lý thuyết suông trên trang giấy, mà là sự thực hành chuyển hóa thân tâm trong từng hơi thở và từng bước đi hàng ngày.</p>
-      
-      <h3>2. Tinh Thần Truyền Đăng Tục Diệm</h3>
-      <p>Với hạnh nguyện nối dài mạch nguồn giáo pháp, Đại sư đặc biệt chú trọng việc đào tạo Tăng tài và giáo dục đạo đức Phật giáo cho giới trẻ. Tinh thần của Đại sư luôn hiện diện trong từng sinh hoạt tu học tại Tùng Lâm Hòa Phúc.</p>
-    `,
-    galleryImages: [
-      { url: '/images/anh-tho-cac-vi-cao-tang/1.jpg', caption: 'Chân dung Đại Sư Liên Đăng' },
-      { url: '/images/anh-tho-cac-vi-cao-tang/HÒA THƯỢNG THÍCH TỪ THÔNG (1928-2025).jpg', caption: 'Chư vị Trưởng lão Cao Tăng' }
-    ]
-  },
-
+  "id": "gt-02",
+  "slug": "dai-su-lien-dang",
+  "title": "ĐÔI NÉT VỀ ĐẠI SƯ LIÊN ĐĂNG",
+  "subtitle": "Viện chủ Viện Tịnh Luật chùa Đại Từ Ân – Bậc Cao tăng Giới sư, Giám đốc Trung tâm Tư liệu Phật giáo Việt Nam",
+  "tag": "Bậc Tiền Bối",
+  "heroBanner": "https://b1.congngheviet.com.vn/file/s2-cnv03/tunglamhoaphuc-com/wp-content/uploads/2025/08/dai-su-lien-dang-anh-bia.jpg",
+  "heroBannerPosition": "center 50%",
+  "portraitImage": "https://b1.congngheviet.com.vn/file/s2-cnv03/tunglamhoaphuc-com/wp-content/uploads/2025/08/dai-su-lien-dang-to.jpg",
+  "portraitImagePosition": "center 50%",
+  "overviewSummary": "Đại Sư Liên Đăng là một vị cao tăng được kính trọng trong Phật giáo Việt Nam, với nhiều đóng góp quan trọng trong việc hoằng dương Phật pháp và giáo dục Tăng Ni. Ngài giữ vai trò tham mưu các vấn đề liên quan đến Pháp và Luật của Phật trong Giáo hội Phật Giáo Việt Nam, là vị Giới Sư trong nhiều đại giới đàn tại Việt Nam. Ngài hiện là Viện chủ Viện Tịnh Luật chùa Đại Từ Ân, tọa lạc tại thị trấn Phùng, huyện Đan Phượng, Hà Nội.",
+  "quoteTitle": "TÔNG CHỈ TU HỌC & HÀNH ĐẠO",
+  "quoteContent": [
+    "Giữ gìn Giới Luật làm nền tảng tu tập,",
+    "Xiển dương pháp môn Tịnh Độ soi đường giải thoát,",
+    "Chú trọng giáo dục Tăng Ni và Phật tử,",
+    "Sống và hành đạo trọn vẹn trên nền tảng Từ Bi và Trí Tuệ."
+  ],
+  "quoteAuthor": "Đại Sư Liên Đăng",
+  "milestones": [
+    {
+      "year": "Viện Tịnh Luật",
+      "title": "Viện Chủ Chùa Đại Từ Ân",
+      "description": "Viện chủ Viện Tịnh Luật chùa Đại Từ Ân (Đan Phượng, Hà Nội), duy trì quy củ thiền môn và giáo dục Tăng tài."
+    },
+    {
+      "year": "Tư Liệu Phật Giáo",
+      "title": "Giám Đốc Trung Tâm Tư Liệu",
+      "description": "Thành lập và điều hành Trung tâm Tư liệu Phật giáo Việt Nam, bảo tồn các nguồn tư liệu quý giá phục vụ nghiên cứu và phát triển Phật giáo."
+    },
+    {
+      "year": "Giới Sư Tịnh Luật",
+      "title": "Tham Mưu Pháp & Luật Phật Giáo",
+      "description": "Tham gia ban Giới Sư trong nhiều Đại giới đàn toàn quốc, hướng dẫn chư Tăng Ni tinh thông Yết-ma và Tứ Phần Luật."
+    },
+    {
+      "year": "Hoằng Pháp Độ Sinh",
+      "title": "Thuyết Giảng & Ấn Tống Kinh Luận",
+      "description": "Thuyết giảng các bộ kinh luận quan trọng: 'Sa Di Luật Nghi Yếu Lược Tăng Chú', 'Sám Nguyện Tịnh Độ Yếu Giải', lan tỏa Tịnh Độ nhân gian."
+    }
+  ],
+  "content": "### 1. Đôi Nét Hành Trạng & Vai Trò Giáo Dục Giới Luật\n\nĐại Sư Liên Đăng là một vị cao tăng được kính trọng trong Phật giáo Việt Nam, với nhiều đóng góp quan trọng trong việc hoằng dương Phật pháp và giáo dục Tăng Ni. Ngài giữ vai trò tham mưu các vấn đề liên quan đến Pháp và Luật của Phật trong Giáo hội Phật Giáo Việt Nam. Là vị Giới Sư trong nhiều đại giới đàn tại Việt Nam. Ngài hiện là Viện chủ Viện Tịnh Luật chùa Đại Từ Ân, tọa lạc tại thị trấn Phùng, huyện Đan Phượng, Hà Nội.\n\nĐại Sư Liên Đăng thường xuyên tham gia giảng dạy tại các khóa bồi dưỡng kiến thức về giới luật Phật giáo, chia sẻ sâu sắc về các pháp Yết-ma và nghi thức thiền môn, nhằm nâng cao hiểu biết và thực hành cho chư Tăng Ni. Bên cạnh đó, Thượng tọa còn giảng dạy cách ứng dụng pháp môn Tịnh Độ, giáo lý nhân quả vào đời sống hiện đại, đến đông đảo tín đồ Phật tử.\n\n### 2. Giám Đốc Trung Tâm Tư Liệu Phật Giáo Việt Nam\n\nĐại Sư Liên Đăng đã thành lập và đang điều hành Trung tâm Tư liệu Phật giáo Việt Nam, đặt tại chùa Đại Từ Ân, Đan Phượng, Hà Nội. Trung tâm này tập hợp và bảo tồn các nguồn tư liệu quý giá về Phật giáo Việt Nam, góp phần quan trọng trong việc nghiên cứu và phát triển Phật giáo nước nhà.\n\n### 3. Đào Tạo Tăng Tài & Giảng Dạy Kinh Luận\n\nDưới sự hướng dẫn của Đại Sư, chùa Đại Từ Ân thường xuyên tổ chức các lớp giáo lý Phật Pháp căn bản, giáo lý về Tịnh Độ và Luật học. Các bộ kinh quan trọng được Ngài thuyết giảng nổi tiếng như *“Sa Di Luật Nghi Yếu Lược Tăng Chú”* và *“Sám Nguyện Tịnh Độ Yếu Giải”*.\n\nNgoài việc giảng dạy, Đại Sư Liên Đăng còn tích cực tham gia các hoạt động hoằng pháp, thuyết giảng về các chủ đề như *“Pháp An cư, Tự tứ, Tứ Phần Luật, v.v.”*, tại nhiều tỉnh thành, góp phần lan tỏa giáo lý Phật Đà đến đông đảo phật tử, và Tăng Ni.\n\n### 4. Lan Tỏa Giá Trị Từ Bi & Trí Tuệ\n\nĐại Sư Liên Đăng luôn tâm niệm việc lan tỏa giá trị từ bi, trí tuệ và hòa hợp trong đời sống hàng ngày. Ngài nhấn mạnh tầm quan trọng của việc tu tập và giữ gìn giới luật, coi đó là nền tảng để đạt được giác ngộ và mang lại an lạc cho bản thân cũng như cộng đồng.\n\nĐại Sư Liên Đăng giữ gìn Giới Luật làm nền tảng tu tập, xiển dương pháp môn Tịnh Độ, chú trọng giáo dục Tăng Ni Phật tử, sống và hành đạo trên nền tảng từ bi và trí tuệ.",
+  "mainContentHtml": "### 1. Đôi Nét Hành Trạng & Vai Trò Giáo Dục Giới Luật\n\nĐại Sư Liên Đăng là một vị cao tăng được kính trọng trong Phật giáo Việt Nam, với nhiều đóng góp quan trọng trong việc hoằng dương Phật pháp và giáo dục Tăng Ni. Ngài giữ vai trò tham mưu các vấn đề liên quan đến Pháp và Luật của Phật trong Giáo hội Phật Giáo Việt Nam. Là vị Giới Sư trong nhiều đại giới đàn tại Việt Nam. Ngài hiện là Viện chủ Viện Tịnh Luật chùa Đại Từ Ân, tọa lạc tại thị trấn Phùng, huyện Đan Phượng, Hà Nội.\n\nĐại Sư Liên Đăng thường xuyên tham gia giảng dạy tại các khóa bồi dưỡng kiến thức về giới luật Phật giáo, chia sẻ sâu sắc về các pháp Yết-ma và nghi thức thiền môn, nhằm nâng cao hiểu biết và thực hành cho chư Tăng Ni. Bên cạnh đó, Thượng tọa còn giảng dạy cách ứng dụng pháp môn Tịnh Độ, giáo lý nhân quả vào đời sống hiện đại, đến đông đảo tín đồ Phật tử.\n\n### 2. Giám Đốc Trung Tâm Tư Liệu Phật Giáo Việt Nam\n\nĐại Sư Liên Đăng đã thành lập và đang điều hành Trung tâm Tư liệu Phật giáo Việt Nam, đặt tại chùa Đại Từ Ân, Đan Phượng, Hà Nội. Trung tâm này tập hợp và bảo tồn các nguồn tư liệu quý giá về Phật giáo Việt Nam, góp phần quan trọng trong việc nghiên cứu và phát triển Phật giáo nước nhà.\n\n### 3. Đào Tạo Tăng Tài & Giảng Dạy Kinh Luận\n\nDưới sự hướng dẫn của Đại Sư, chùa Đại Từ Ân thường xuyên tổ chức các lớp giáo lý Phật Pháp căn bản, giáo lý về Tịnh Độ và Luật học. Các bộ kinh quan trọng được Ngài thuyết giảng nổi tiếng như *“Sa Di Luật Nghi Yếu Lược Tăng Chú”* và *“Sám Nguyện Tịnh Độ Yếu Giải”*.\n\nNgoài việc giảng dạy, Đại Sư Liên Đăng còn tích cực tham gia các hoạt động hoằng pháp, thuyết giảng về các chủ đề như *“Pháp An cư, Tự tứ, Tứ Phần Luật, v.v.”*, tại nhiều tỉnh thành, góp phần lan tỏa giáo lý Phật Đà đến đông đảo phật tử, và Tăng Ni.\n\n### 4. Lan Tỏa Giá Trị Từ Bi & Trí Tuệ\n\nĐại Sư Liên Đăng luôn tâm niệm việc lan tỏa giá trị từ bi, trí tuệ và hòa hợp trong đời sống hàng ngày. Ngài nhấn mạnh tầm quan trọng của việc tu tập và giữ gìn giới luật, coi đó là nền tảng để đạt được giác ngộ và mang lại an lạc cho bản thân cũng như cộng đồng.\n\nĐại Sư Liên Đăng giữ gìn Giới Luật làm nền tảng tu tập, xiển dương pháp môn Tịnh Độ, chú trọng giáo dục Tăng Ni Phật tử, sống và hành đạo trên nền tảng từ bi và trí tuệ.",
+  "galleryImages": [
+    {
+      "url": "https://b1.congngheviet.com.vn/file/s2-cnv03/tunglamhoaphuc-com/wp-content/uploads/2025/08/dai-su-lien-dang-to.jpg",
+      "caption": "Chân dung Đại Sư Liên Đăng - Viện chủ Viện Tịnh Luật chùa Đại Từ Ân"
+    },
+    {
+      "url": "https://b1.congngheviet.com.vn/file/s2-cnv03/tunglamhoaphuc-com/wp-content/uploads/2025/08/dai-su-lien-dang-bia-4.jpg",
+      "caption": "Đại Sư Liên Đăng trong giờ hành trì thiền môn thanh tịnh"
+    },
+    {
+      "url": "https://b1.congngheviet.com.vn/file/s2-cnv03/tunglamhoaphuc-com/wp-content/uploads/2025/08/dai-su-lien-dang-don-1-1.jpg",
+      "caption": "Đại Sư giảng dạy giới luật và nghi thức Phật giáo cho chư Tăng Ni"
+    },
+    {
+      "url": "https://b1.congngheviet.com.vn/file/s2-cnv03/tunglamhoaphuc-com/wp-content/uploads/2025/08/dai-su-lien-dang-doi-1.jpg",
+      "caption": "Hoạt động hoằng pháp và tiếp dẫn Phật tử tại đạo tràng"
+    }
+  ],
+  "wpPostId": "27596"
+},
   'su-ong-hoang-phap': {
-    id: 'su-ong-hoang-phap',
-    slug: 'su-ong-hoang-phap',
-    title: 'SƯ ÔNG HOẰNG PHÁP',
-    subtitle: 'Ân đức giáo dưỡng và dấu ấn hoằng truyền Tịnh độ của Sư ông.',
-    tag: 'Ân Sư Giáo Dưỡng',
-    heroBanner: '/images/toan-canh-chua.jpg',
-    portraitImage: '/images/anh-tho-cac-vi-cao-tang/2.jpg',
-    overviewSummary:
-      'Sư Ông Hoằng Pháp – bậc Trưởng lão tôn kính của Tổ đình Hoằng Pháp, vị Ân sư khả kính đã dày công khai sáng phong trào tu học Phật pháp hiện đại, đem ánh sáng Tịnh Độ nhân gian lan tỏa khắp mọi miền đất nước và hải ngoại.',
-    quoteTitle: 'ÂM ĐỨC GIÁO DƯỠNG',
-    quoteContent: [
-      'Phụng sự nhân sinh là cúng dường chư Phật.',
-      'Muốn Phật pháp trường tồn, người xuất gia phải có hoài bão lớn,',
-      'lấy giới luật làm thầy, lấy hạnh nguyện độ sinh làm sự nghiệp cả cuộc đời.'
-    ],
-    quoteAuthor: 'Sư Ông Hoằng Pháp',
-    milestones: [
-      {
-        year: 'Khai Sơn &amp; Tái Thiết',
-        title: 'Xây Dựng Đạo Tràng Hoằng Pháp',
-        description: 'Khởi xướng các khóa tu Phật Thất 7 ngày, quy tụ hàng vạn hành giả từ khắp mọi miền đất nước về tham dự.'
-      },
-      {
-        year: 'Giáo Dục Tăng Tài',
-        title: 'Đào Tạo Các Thế Hệ Đệ Tử',
-        description: 'Tận tâm giáo dưỡng chư Tăng trẻ có đầy đủ đạo hạnh, tri thức và nhiệt huyết hoằng pháp, trong đó có Thượng tọa Thích Tâm Hòa.'
-      },
-      {
-        year: 'Hoằng Pháp Hải Ngoại',
-        title: 'Lan Tỏa Giáo Pháp Muôn Nơi',
-        description: 'Tổ chức các chuyến thuyết pháp, in ấn hàng triệu bản kinh sách và phát hành băng đĩa giảng pháp miễn phí đến tận tay đồng bào.'
-      }
-    ],
-    mainContentHtml: `
-      <h3>1. Tấm Gương Giản Dị &amp; Khiêm Cung</h3>
-      <p>Sư Ông Hoằng Pháp luôn là tấm gương mẫu mực về nếp sống thanh bần, cần kiệm và khiêm cung. Dù đạo tràng ngày một hưng thịnh, Sư Ông vẫn luôn dành tình thương yêu và sự ân cần chỉ dạy cho từng Phật tử từ nhỏ đến già.</p>
-      
-      <h3>2. Tầm Nhìn Chiến Lược Về Hoằng Pháp Hiện Đại</h3>
-      <p>Sư Ông là người tiên phong áp dụng công nghệ truyền thông, xuất bản sách báo và tổ chức các khóa tu mùa hè cho thanh thiếu niên, đưa đạo Phật đi vào lòng thế hệ trẻ một cách tự nhiên và sinh động.</p>
-    `,
-    galleryImages: [
-      { url: '/images/anh-tho-cac-vi-cao-tang/2.jpg', caption: 'Hình bóng tôn kính của Sư Ông Hoằng Pháp' },
-      { url: '/images/anh-tho-cac-vi-cao-tang/Đại lão Hòa thượng Thích Thanh Đàm (1924-2022)  1 1 1.jpg', caption: 'Chư vị Trưởng lão Hòa Thượng thời đại' }
-    ]
-  },
-
+  "id": "gt-03",
+  "slug": "su-ong-hoang-phap",
+  "title": "ĐÔI NÉT VỀ ĐẠI SƯ THANH LƯƠNG",
+  "subtitle": "Đạo trưởng Tông phong Tổ đình Hoằng Pháp – Bậc Tôn sư tiên phong chấn hưng Tịnh Độ và truyền thông Phật giáo hiện đại",
+  "tag": "Đạo Trưởng Tông Phong",
+  "heroBanner": "https://b1.congngheviet.com.vn/file/s2-cnv03/tunglamhoaphuc-com/wp-content/uploads/2025/04/su-thanh-luong-2.jpg",
+  "heroBannerPosition": "center 50%",
+  "portraitImage": "https://b1.congngheviet.com.vn/file/s2-cnv03/tunglamhoaphuc-com/wp-content/uploads/2025/04/su-thanh-luong-1.jpg",
+  "portraitImagePosition": "center 50%",
+  "overviewSummary": "Đại Sư Thanh Lương – Đạo trưởng (Trưởng Đạo tràng tu học) Tông phong Tổ đình Hoằng Pháp, một ngôi chùa nổi tiếng ở huyện Hóc Môn, Tp.HCM, là một vị Sư nổi tiếng đương đại. Ngài không chỉ nổi bật trong việc kế thừa đạo nghiệp từ Tổ Sư Ngộ Chân Tử để lại mà còn phát huy và làm rạng rỡ sự nghiệp hoằng pháp vĩ đại của Tổ Sư.",
+  "quoteTitle": "TÂM NGUYỆN PHỤNG SỰ NHÂN SINH",
+  "quoteContent": [
+    "Phụng sự nhân sinh là cúng dường chư Phật.",
+    "Muốn Phật pháp trường tồn, người xuất gia phải có hoài bão lớn,",
+    "lấy giới luật làm thầy, lấy hạnh nguyện độ sinh làm sự nghiệp cả cuộc đời."
+  ],
+  "quoteAuthor": "Đại Sư Thanh Lương",
+  "milestones": [
+    {
+      "year": "Độ Chúng Tu Hành",
+      "title": "Giáo Dưỡng Tăng Đoàn Mô Phạm",
+      "description": "Thế phát xuất gia cho hàng trăm vị tu sĩ, truyền Tam quy Ngũ giới cho hàng ngàn cư sĩ Phật tử trên khắp mọi miền."
+    },
+    {
+      "year": "Mở Rộng Đạo Tràng",
+      "title": "Hệ Thống Tự Viện Trong & Ngoài Nước",
+      "description": "Xây dựng các cơ sở tu học: Chùa Hoằng Pháp (Úc Châu), Tu viện Hạnh Phúc (Mỹ), Chùa Diên Quang (Bắc Ninh), Chùa Cổ Am (Nghệ An), Tùng Lâm Hòa Phúc (Hà Nội)..."
+    },
+    {
+      "year": "104+ Khóa Phật Thất",
+      "title": "Tiên Phong Khởi Xướng Các Khóa Tu",
+      "description": "Khởi xướng Khóa tu Phật thất 7 ngày (hơn 104 khóa), Khóa tu Mùa hè thanh thiếu niên, Khóa 'Em về bên Phật', 'Phật Pháp Nhiệm Mầu'..."
+    },
+    {
+      "year": "Truyền Thông & Từ Thiện",
+      "title": "Hàng Triệu Ấn Bản & Quỹ Tăng Tài",
+      "description": "Phát hành hàng triệu ấn bản kinh sách, băng giảng 'Hoa Mặt Trời'; lập Quỹ Đào tạo Tăng tài Ngộ Chân Tử, học bổng 'Ươm mầm trí tuệ', xây nhà tình thương."
+    }
+  ],
+  "content": "### 1. Kế Thừa Đạo Nghiệp Tổ Sư & Giáo Dưỡng Tăng Đoàn\n\nĐại Sư Thanh Lương – Đạo trưởng (Trưởng Đạo tràng tu học) Tông phong Tổ đình Hoằng Pháp, một ngôi chùa nổi tiếng ở huyện Hóc Môn, Tp.HCM, là một vị Sư nổi tiếng đương đại. Ngài không chỉ nổi bật trong việc kế thừa đạo nghiệp từ Tổ Sư Ngộ Chân Tử để lại mà còn phát huy và làm rạng rỡ sự nghiệp hoằng pháp vĩ đại của Tổ Sư.\n\nĐại Sư Thanh Lương đã thế phát xuất gia cho hằng trăm vị tu sĩ, và truyền Tam quy Ngũ giới cho hàng ngàn cư sĩ phật tử. Tăng đoàn được Đại Sư giáo dưỡng, rèn luyện trở thành những bậc Thầy tâm linh mô phạm.\n\n### 2. Xây Dựng Mạng Lưới Cơ Sở Tu Học Trong & Ngoài Nước\n\nĐại Sư Thanh Lương cùng Tăng đoàn Tông Phong Hoằng Pháp đã xây dựng nhiều cơ sở tu học trong và ngoài nước đáp ứng nhu cầu của tín đồ Phật giáo trên khắp thế giới như chùa Hoằng Pháp (Úc Châu), tu viện Hạnh Phúc (Hoa Kỳ), chùa Diên Quang (Bắc Ninh), chùa Cổ Am (Nghệ An), chùa Đống Cao (Thanh Hóa), chùa Giai Lam (Hà Tĩnh), chùa Suối Pháp (Tây Ninh), Tùng Lâm Hòa Phúc (Hà Nội), vv...\n\n### 3. Tiên Phong Khởi Xướng Các Chương Trình Tu Học Cho Mọi Tầng Lớp\n\nĐại Sư Thanh Lương là người tiên phong trong việc sáng lập và tổ chức nhiều chương trình Phật giáo, các khóa tu hướng tới tất cả các tầng lớp trong xã hội. Điểm nhấn trong sự nghiệp hoằng pháp của ngài bao gồm:\n\n- **Tổ chức các khóa tu Phật thất:** Đây là hoạt động thường niên tại chùa Hoằng Pháp, thu hút hàng ngàn phật tử tham gia. Khóa tu Phật Thất giúp cho những hành giả chuyên tu pháp môn Tịnh Độ đi sâu vào việc thực tập niệm Phật, đem lại an lạc hiện tiền, khai tâm, sáng trí, ứng dụng thực tiễn vào đời sống hằng ngày. Tính đến thời điểm năm 2024, chùa Hoằng Pháp đã tổ chức 104 khóa tu Phật Thất.\n- **Tổ chức khóa tu mùa hè, ngày tu sinh viên “Hướng về Phật Pháp”:** Tổ chức các khóa tu “Em về bên Phật” dành cho thiếu niên nhi đồng, khóa tu một ngày niệm Phật dành cho những hành giả bận rộn, đồng thời tổ chức các chương trình Phật giáo: *Phật Pháp Nhiệm Mầu*, *Ánh Sáng Phật Pháp*, vv... có ý nghĩa nhân văn cao đẹp.\n\n### 4. Ứng Dụng Truyền Thông Hiện Đại & Xuất Bản Kinh Sách\n\nĐại Sư Thanh Lương luôn nhấn mạnh tầm quan trọng của giáo dục Phật Giáo, Ngài đã tiên phong sử dụng các phương tiện truyền thông hiện đại như internet, đĩa CD/DVD, sách báo, nhằm mang giáo lý Phật pháp đến gần hơn với cộng đồng Phật tử trên khắp thế giới. Các băng giảng nổi tiếng như *Phật Pháp nhiệm màu*, *Hoa Mặt Trời*, vv... đã cứu sống bao mảnh đời trong xã hội. Những đầu sách Phật Pháp ngài đã biên soạn như *Bài học thiếu nhi*, *Lược truyện Đức Phật Thích Ca*, *Chuyển hóa khổ đau*, *Nắng muộn*, vv...; những ấn phẩm Phật Giáo như *Tặng Phẩm Xuân*, *Tạp chí Hương Pháp*, vv... số lượng lên đến hàng triệu ấn bản.\n\n### 5. Công Tác Từ Thiện Xã Hội & Quỹ Đào Tạo Tăng Tài\n\nĐại Sư Thanh Lương cùng Tăng đoàn tổ chức các chương trình thiện nguyện để giúp đỡ những người có hoàn cảnh khó khăn, xây dựng nhà tình thương, xây cầu giúp người dân đi lại thuận tiện, xây dựng trường học và tặng quà cho trẻ em. Đồng thời, ngài cũng xây dựng **Quỹ Đào tạo Tăng tài Ngộ Chân Tử**, hỗ trợ kinh phí cho các trường Phật học, học bổng *“Ươm mầm trí tuệ”* giúp đỡ cho các bạn sinh viên nghèo, vượt khó, học giỏi.",
+  "mainContentHtml": "### 1. Kế Thừa Đạo Nghiệp Tổ Sư & Giáo Dưỡng Tăng Đoàn\n\nĐại Sư Thanh Lương – Đạo trưởng (Trưởng Đạo tràng tu học) Tông phong Tổ đình Hoằng Pháp, một ngôi chùa nổi tiếng ở huyện Hóc Môn, Tp.HCM, là một vị Sư nổi tiếng đương đại. Ngài không chỉ nổi bật trong việc kế thừa đạo nghiệp từ Tổ Sư Ngộ Chân Tử để lại mà còn phát huy và làm rạng rỡ sự nghiệp hoằng pháp vĩ đại của Tổ Sư.\n\nĐại Sư Thanh Lương đã thế phát xuất gia cho hằng trăm vị tu sĩ, và truyền Tam quy Ngũ giới cho hàng ngàn cư sĩ phật tử. Tăng đoàn được Đại Sư giáo dưỡng, rèn luyện trở thành những bậc Thầy tâm linh mô phạm.\n\n### 2. Xây Dựng Mạng Lưới Cơ Sở Tu Học Trong & Ngoài Nước\n\nĐại Sư Thanh Lương cùng Tăng đoàn Tông Phong Hoằng Pháp đã xây dựng nhiều cơ sở tu học trong và ngoài nước đáp ứng nhu cầu của tín đồ Phật giáo trên khắp thế giới như chùa Hoằng Pháp (Úc Châu), tu viện Hạnh Phúc (Hoa Kỳ), chùa Diên Quang (Bắc Ninh), chùa Cổ Am (Nghệ An), chùa Đống Cao (Thanh Hóa), chùa Giai Lam (Hà Tĩnh), chùa Suối Pháp (Tây Ninh), Tùng Lâm Hòa Phúc (Hà Nội), vv...\n\n### 3. Tiên Phong Khởi Xướng Các Chương Trình Tu Học Cho Mọi Tầng Lớp\n\nĐại Sư Thanh Lương là người tiên phong trong việc sáng lập và tổ chức nhiều chương trình Phật giáo, các khóa tu hướng tới tất cả các tầng lớp trong xã hội. Điểm nhấn trong sự nghiệp hoằng pháp của ngài bao gồm:\n\n- **Tổ chức các khóa tu Phật thất:** Đây là hoạt động thường niên tại chùa Hoằng Pháp, thu hút hàng ngàn phật tử tham gia. Khóa tu Phật Thất giúp cho những hành giả chuyên tu pháp môn Tịnh Độ đi sâu vào việc thực tập niệm Phật, đem lại an lạc hiện tiền, khai tâm, sáng trí, ứng dụng thực tiễn vào đời sống hằng ngày. Tính đến thời điểm năm 2024, chùa Hoằng Pháp đã tổ chức 104 khóa tu Phật Thất.\n- **Tổ chức khóa tu mùa hè, ngày tu sinh viên “Hướng về Phật Pháp”:** Tổ chức các khóa tu “Em về bên Phật” dành cho thiếu niên nhi đồng, khóa tu một ngày niệm Phật dành cho những hành giả bận rộn, đồng thời tổ chức các chương trình Phật giáo: *Phật Pháp Nhiệm Mầu*, *Ánh Sáng Phật Pháp*, vv... có ý nghĩa nhân văn cao đẹp.\n\n### 4. Ứng Dụng Truyền Thông Hiện Đại & Xuất Bản Kinh Sách\n\nĐại Sư Thanh Lương luôn nhấn mạnh tầm quan trọng của giáo dục Phật Giáo, Ngài đã tiên phong sử dụng các phương tiện truyền thông hiện đại như internet, đĩa CD/DVD, sách báo, nhằm mang giáo lý Phật pháp đến gần hơn với cộng đồng Phật tử trên khắp thế giới. Các băng giảng nổi tiếng như *Phật Pháp nhiệm màu*, *Hoa Mặt Trời*, vv... đã cứu sống bao mảnh đời trong xã hội. Những đầu sách Phật Pháp ngài đã biên soạn như *Bài học thiếu nhi*, *Lược truyện Đức Phật Thích Ca*, *Chuyển hóa khổ đau*, *Nắng muộn*, vv...; những ấn phẩm Phật Giáo như *Tặng Phẩm Xuân*, *Tạp chí Hương Pháp*, vv... số lượng lên đến hàng triệu ấn bản.\n\n### 5. Công Tác Từ Thiện Xã Hội & Quỹ Đào Tạo Tăng Tài\n\nĐại Sư Thanh Lương cùng Tăng đoàn tổ chức các chương trình thiện nguyện để giúp đỡ những người có hoàn cảnh khó khăn, xây dựng nhà tình thương, xây cầu giúp người dân đi lại thuận tiện, xây dựng trường học và tặng quà cho trẻ em. Đồng thời, ngài cũng xây dựng **Quỹ Đào tạo Tăng tài Ngộ Chân Tử**, hỗ trợ kinh phí cho các trường Phật học, học bổng *“Ươm mầm trí tuệ”* giúp đỡ cho các bạn sinh viên nghèo, vượt khó, học giỏi.",
+  "galleryImages": [
+    {
+      "url": "https://b1.congngheviet.com.vn/file/s2-cnv03/tunglamhoaphuc-com/wp-content/uploads/2025/04/su-thanh-luong-1.jpg",
+      "caption": "Chân dung Đại Sư Thanh Lương - Đạo trưởng Tông phong Tổ đình Hoằng Pháp"
+    },
+    {
+      "url": "https://b1.congngheviet.com.vn/file/s2-cnv03/tunglamhoaphuc-com/wp-content/uploads/2025/04/su-thanh-luong-3.jpg",
+      "caption": "Đại Sư Thanh Lương trong các đại lễ và khóa tu quy mô lớn"
+    },
+    {
+      "url": "https://b1.congngheviet.com.vn/file/s2-cnv03/tunglamhoaphuc-com/wp-content/uploads/2025/04/su-thanh-luong-7.jpg",
+      "caption": "Đại Sư giáo dưỡng và rèn luyện chư Tăng trẻ trở thành bậc Thầy mô phạm"
+    },
+    {
+      "url": "https://b1.congngheviet.com.vn/file/s2-cnv03/tunglamhoaphuc-com/wp-content/uploads/2025/04/su-thanh-luong-8.jpg",
+      "caption": "Đại chúng Phật tử trang nghiêm lắng nghe lời vàng pháp thoại"
+    }
+  ],
+  "wpPostId": "24674"
+},
   'su-phu-tru-tri': {
-    id: 'su-phu-tru-tri',
-    slug: 'su-phu-tru-tri',
-    title: 'SƯ PHỤ TRỤ TRÌ - THÍCH TÂM HÒA',
-    subtitle: 'Thầy Thích Tâm Hòa - Người kiến thiết và lãnh đạo đạo tràng Tùng Lâm Hòa Phúc.',
-    tag: 'Trụ Trì Bổn Tự',
-    heroBanner: '/images/toan-canh-chua.jpg',
-    portraitImage: '/images/trang-chu/Pháp hội niệm Phật.jpg',
-    overviewSummary:
-      'Thượng tọa Thích Tâm Hòa – Viện chủ, Trụ trì Tùng Lâm Hòa Phúc. Với tâm nguyện son sắt nối tiếp bước chân của Chư Tổ và Ân Sư, Thầy đã phát tâm kiến tạo ngôi già lam Hòa Phúc từ mảnh đất hoang sơ trở thành trung tâm tâm linh Tịnh Độ trang nghiêm, ấm áp tình thương của muôn người con Phật.',
-    quoteTitle: 'PHÁP NGỮ SƯ PHỤ',
-    quoteContent: [
-      'Chắp tay khấn nguyện âm thầm,',
-      'Dân giàu, nước thịnh, thái bình thiên thu.',
-      'Sống giữa đời thường biết thương yêu và hiểu biết,',
-      'Đó chính là đóa sen thơm ngát dâng cúng Đức Từ Phụ.'
-    ],
-    quoteAuthor: 'Vô Trí - Thích Tâm Hòa',
-    milestones: [
-      {
-        year: 'Năm 2008',
-        title: 'Phát Nguyện Khởi Dựng Tùng Lâm',
-        description: 'Về vùng đất Thạch Thất hoang sơ, vượt qua muôn vàn khó khăn gian khổ để đặt viên đá đầu tiên tái thiết chùa Hòa Phúc.'
-      },
-      {
-        year: '2010 - 2020',
-        title: 'Mở Rộng Phật Sự &amp; Từ Thiện Xã Hội',
-        description: 'Kiến lập các khóa lễ sám hối thường kỳ, khóa tu một ngày an lạc, xây dựng các công trình phúc lợi và cứu trợ đồng bào thiên tai lũ lụt.'
-      },
-      {
-        year: 'Hiện Tại',
-        title: 'Hoằng Dương Tịnh Độ &amp; Văn Hóa Di Sản',
-        description: 'Định hình phong cách kiến trúc thuần Việt, phục dựng di sản văn hóa Phật giáo triều Nguyễn và phát triển hệ sinh thái tu học toàn diện.'
-      }
-    ],
-    mainContentHtml: `
-      <h3>1. Tâm Nguyện Vì Đạo Pháp &amp; Dân Tộc</h3>
-      <p>Thầy Thích Tâm Hòa luôn tâm niệm: Đạo Phật không tách rời đời sống dân tộc. Mỗi Phật tử đến chùa tu học không chỉ để cầu an cho bản thân, mà còn phải biết hiếu thuận với cha mẹ, sống có trách nhiệm với gia đình và cống hiến cho quê hương đất nước.</p>
-      
-      <h3>2. Tác Phẩm &amp; Lời Khai Thị</h3>
-      <p>Thầy là tác giả của nhiều bộ giảng luận sâu sắc như <em>Khuyến Phát Bồ Đề Tâm Giảng Luận</em>, các tập thơ thiền và những bài pháp thoại thực tiễn giải quyết những bế tắc tâm lý cho giới trẻ trong đời sống hiện đại.</p>
-    `,
-    galleryImages: [
-      { url: '/images/trang-chu/Pháp hội niệm Phật.jpg', caption: 'Thầy Thích Tâm Hòa khai thị trong Pháp hội Niệm Phật' },
-      { url: '/images/trang-chu/Cầu an quốc thái dân thường kỳ.jpg', caption: 'Khóa lễ cầu an đầu năm tại Tùng Lâm Hòa Phúc' }
-    ]
+  "id": "gt-04",
+  "slug": "su-phu-tru-tri",
+  "title": "TIỂU SỬ SA MÔN THÍCH TÂM HÒA",
+  "subtitle": "Trụ trì chùa Hòa Phúc – Người kiến thiết đạo tràng tu học Tịnh Độ và nuôi dưỡng đời sống tâm linh cho giới trẻ",
+  "tag": "Trụ Trì Bổn Tự",
+  "heroBanner": "https://b1.congngheviet.com.vn/file/s2-cnv03/tunglamhoaphuc-com/wp-content/uploads/2025/04/thay-thich-tam-hoa-2.jpg",
+  "heroBannerPosition": "center 50%",
+  "portraitImage": "https://b1.congngheviet.com.vn/file/s2-cnv03/tunglamhoaphuc-com/wp-content/uploads/2025/04/thay-thich-tam-hoa-2.jpg",
+  "portraitImagePosition": "center 50%",
+  "overviewSummary": "Thầy Thích Tâm Hòa là một nhà sư trẻ thuộc Phật giáo Việt Nam, hiện đảm nhiệm vai trò Trụ trì chùa Hòa Phúc, tọa lạc tại thôn Yên Nội, xã Đồng Trúc (trước thuộc Hòa Thạch, Quốc Oai), Hà Nội. Sa-môn được biết đến với tâm nguyện hoằng pháp và hướng dẫn đời sống tâm linh cho các Phật tử, đặc biệt là giới trẻ, giúp họ tìm được sự bình an trong cuộc sống.",
+  "quoteTitle": "LỜI NHẮC NHỞ CỦA THẦY TRỤ TRÌ",
+  "quoteContent": [
+    "Hạnh phúc thật sự đến từ sự bình an trong tâm hồn, chứ không phải từ vật chất hay danh vọng bên ngoài.",
+    "Phật pháp có thể áp dụng vào mọi mặt của đời sống để giúp con người bớt khổ đau và sống ý nghĩa hơn.",
+    "Mỗi người cần sống với lòng biết ơn, yêu thương, và thực hành từ bi trong từng suy nghĩ, lời nói, và hành động."
+  ],
+  "quoteAuthor": "Sa Môn Thích Tâm Hòa",
+  "milestones": [
+    {
+      "year": "Pháp Danh & Bổn Nguyện",
+      "title": "Xuất Gia Tu Học",
+      "description": "Pháp danh Thích Tâm Hòa (bút danh Vô Trí), kế thừa dòng thiền Tịnh Độ của Tông phong Hoằng Pháp, phát nguyện dấn thân vì đạo pháp và nhân sinh."
+    },
+    {
+      "year": "Trụ Trì Chùa Hòa Phúc",
+      "title": "Kiến Thiết Đạo Tràng Thanh Tịnh",
+      "description": "Về tiếp quản và xây dựng chùa Hòa Phúc trở thành trung tâm tu học Tịnh Độ quy mô, không gian thiền môn trang nghiêm thanh tịnh."
+    },
+    {
+      "year": "Tổ Chức Khóa Tu",
+      "title": "Hướng Dẫn Tu Tập Cho Giới Trẻ",
+      "description": "Khởi xướng các khóa tu 'Một ngày an lạc', khóa tu mùa hè thiếu niên nhi đồng, các buổi thiền trà 'Về để lắng nghe' chạm tới trái tim người trẻ."
+    },
+    {
+      "year": "Phụng Sự Xã Hội",
+      "title": "Thiện Nguyện Vùng Cao & Cứu Trợ",
+      "description": "Thực hiện nhiều chương trình từ thiện vùng sâu vùng xa, cứu trợ bão lũ thiên tai, xây trường học và khuyến khích nếp sống hiếu hạnh."
+    }
+  ],
+  "content": "### 1. Thân Thế & Tâm Nguyện Hoằng Hóa\n\nThầy Thích Tâm Hòa là một nhà sư trẻ thuộc Phật giáo Việt Nam, hiện đảm nhiệm vai trò Trụ trì chùa Hòa Phúc, tọa lạc tại xã Hòa Thạch, huyện Quốc Oai (Đồng Trúc, Thạch Thất), Hà Nội. Sa-môn được biết đến với tâm nguyện hoằng pháp và hướng dẫn đời sống tâm linh cho các Phật tử, đặc biệt là giới trẻ, giúp họ tìm được sự bình an trong cuộc sống.\n\n- **Pháp danh:** Thích Tâm Hòa (Bút danh: Vô Trí)\n- **Trụ trì:** Chùa Hòa Phúc, một ngôi chùa có không gian thanh tịnh, là nơi tổ chức nhiều khóa tu học và các hoạt động Phật giáo có ý nghĩa sâu sắc đối với đời sống cộng đồng.\n\n### 2. Tổ Chức Các Khóa Tu Cho Mọi Lứa Tuổi\n\nThầy Thích Tâm Hòa được biết đến với việc tổ chức các khóa tu *“Một ngày an lạc”*, khóa tu tuổi trẻ, và khóa tu thiền tại chùa Hòa Phúc. Những khóa tu này thu hút đông đảo Phật tử ở mọi lứa tuổi, đặc biệt là các bạn trẻ, đến tham dự để học hỏi Phật pháp và rèn luyện tâm hồn.\n\nQua những khóa tu, Sa-môn giúp các Phật tử hiểu rõ hơn về giáo lý nhà Phật và ứng dụng thực tiễn vào đời sống hàng ngày, hóa giải những áp lực, căng thẳng và tìm lại niềm an lạc tự thân.\n\n### 3. Giảng Dạy Phật Pháp Gần Gũi & Thực Tế\n\nCác bài giảng của Sa-môn thường mang phong cách gần gũi, thực tế và chứa đựng nhiều giá trị đạo đức, khuyến khích mọi người thực hành sống thiện lành, hiếu thảo với cha mẹ, biết buông bỏ phiền não.\n\nThầy thường xuyên truyền tải thông điệp về lòng từ bi, sự tỉnh thức, và cách sống an lạc ngay giữa đời sống hiện đại qua các tác phẩm giảng luận và thi phẩm sâu sắc.\n\n### 4. Hoạt Động Từ Thiện & Phụng Sự Cộng Đồng\n\nChùa Hòa Phúc không chỉ là nơi tu học mà còn là nơi diễn ra nhiều hoạt động thiện nguyện, hỗ trợ những hoàn cảnh khó khăn trong xã hội.\n\nThầy còn tổ chức các chương trình từ thiện đến vùng sâu, vùng xa, giúp đỡ người nghèo, tặng quà học sinh vượt khó và chung tay xây dựng trường học cho trẻ em vùng cao.\n\n### 5. Triết Lý Tu Học Cốt Lõi\n\nThầy Thích Tâm Hòa luôn nhấn mạnh với hàng đệ tử và Phật tử:\n\n- Hạnh phúc thật sự đến từ sự bình an trong tâm hồn, chứ không phải từ vật chất hay danh vọng bên ngoài.\n- Phật pháp có thể áp dụng vào mọi mặt của đời sống để giúp con người bớt khổ đau và sống ý nghĩa hơn.\n- Mỗi người cần sống với lòng biết ơn, yêu thương, và thực hành từ bi trong từng suy nghĩ, lời nói, và hành động.",
+  "mainContentHtml": "### 1. Thân Thế & Tâm Nguyện Hoằng Hóa\n\nThầy Thích Tâm Hòa là một nhà sư trẻ thuộc Phật giáo Việt Nam, hiện đảm nhiệm vai trò Trụ trì chùa Hòa Phúc, tọa lạc tại xã Hòa Thạch, huyện Quốc Oai (Đồng Trúc, Thạch Thất), Hà Nội. Sa-môn được biết đến với tâm nguyện hoằng pháp và hướng dẫn đời sống tâm linh cho các Phật tử, đặc biệt là giới trẻ, giúp họ tìm được sự bình an trong cuộc sống.\n\n- **Pháp danh:** Thích Tâm Hòa (Bút danh: Vô Trí)\n- **Trụ trì:** Chùa Hòa Phúc, một ngôi chùa có không gian thanh tịnh, là nơi tổ chức nhiều khóa tu học và các hoạt động Phật giáo có ý nghĩa sâu sắc đối với đời sống cộng đồng.\n\n### 2. Tổ Chức Các Khóa Tu Cho Mọi Lứa Tuổi\n\nThầy Thích Tâm Hòa được biết đến với việc tổ chức các khóa tu *“Một ngày an lạc”*, khóa tu tuổi trẻ, và khóa tu thiền tại chùa Hòa Phúc. Những khóa tu này thu hút đông đảo Phật tử ở mọi lứa tuổi, đặc biệt là các bạn trẻ, đến tham dự để học hỏi Phật pháp và rèn luyện tâm hồn.\n\nQua những khóa tu, Sa-môn giúp các Phật tử hiểu rõ hơn về giáo lý nhà Phật và ứng dụng thực tiễn vào đời sống hàng ngày, hóa giải những áp lực, căng thẳng và tìm lại niềm an lạc tự thân.\n\n### 3. Giảng Dạy Phật Pháp Gần Gũi & Thực Tế\n\nCác bài giảng của Sa-môn thường mang phong cách gần gũi, thực tế và chứa đựng nhiều giá trị đạo đức, khuyến khích mọi người thực hành sống thiện lành, hiếu thảo với cha mẹ, biết buông bỏ phiền não.\n\nThầy thường xuyên truyền tải thông điệp về lòng từ bi, sự tỉnh thức, và cách sống an lạc ngay giữa đời sống hiện đại qua các tác phẩm giảng luận và thi phẩm sâu sắc.\n\n### 4. Hoạt Động Từ Thiện & Phụng Sự Cộng Đồng\n\nChùa Hòa Phúc không chỉ là nơi tu học mà còn là nơi diễn ra nhiều hoạt động thiện nguyện, hỗ trợ những hoàn cảnh khó khăn trong xã hội.\n\nThầy còn tổ chức các chương trình từ thiện đến vùng sâu, vùng xa, giúp đỡ người nghèo, tặng quà học sinh vượt khó và chung tay xây dựng trường học cho trẻ em vùng cao.\n\n### 5. Triết Lý Tu Học Cốt Lõi\n\nThầy Thích Tâm Hòa luôn nhấn mạnh với hàng đệ tử và Phật tử:\n\n- Hạnh phúc thật sự đến từ sự bình an trong tâm hồn, chứ không phải từ vật chất hay danh vọng bên ngoài.\n- Phật pháp có thể áp dụng vào mọi mặt của đời sống để giúp con người bớt khổ đau và sống ý nghĩa hơn.\n- Mỗi người cần sống với lòng biết ơn, yêu thương, và thực hành từ bi trong từng suy nghĩ, lời nói, và hành động.",
+  "galleryImages": [
+    {
+      "url": "https://b1.congngheviet.com.vn/file/s2-cnv03/tunglamhoaphuc-com/wp-content/uploads/2025/04/thay-thich-tam-hoa-2.jpg",
+      "caption": "Chân dung Thầy Thích Tâm Hòa - Trụ trì chùa Hòa Phúc"
+    },
+    {
+      "url": "https://b1.congngheviet.com.vn/file/s2-cnv03/tunglamhoaphuc-com/wp-content/uploads/2025/04/thay-thich-tam-hoa-3.jpg",
+      "caption": "Thầy chia sẻ Phật pháp và hướng dẫn tu tập cho đại chúng Phật tử"
+    },
+    {
+      "url": "https://b1.congngheviet.com.vn/file/s2-cnv03/tunglamhoaphuc-com/wp-content/uploads/2025/04/thay-thich-tam-hoa-4.jpg",
+      "caption": "Không khí ấm áp, trang nghiêm trong các khóa tu tại chùa Hòa Phúc"
+    }
+  ],
+  "sourceBook": {
+    "bookTitle": "Đi Qua Khổ Vui Cuộc Đời",
+    "author": "Thích Tâm Hòa",
+    "coverImage": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
+    "description": "Tập hồi ức tâm linh về những chặng đường gian khó và niềm hỷ lạc trên con đường hoằng pháp."
   },
-
+  "wpPostId": "24470"
+},
   'tieu-su-su-to': {
-    id: 'tieu-su-su-to',
-    slug: 'tieu-su-su-to',
-    title: 'TIỂU SỬ SƯ TỔ NGỘ CHÂN TỬ',
-    subtitle: 'Tôn vinh cuộc đời tu tập và đạo nghiệp của chư vị Tổ Sư khai sơn.',
-    tag: 'Khai Sơn Truyền Thừa',
-    heroBanner: '/images/toan-canh-chua.jpg',
-    portraitImage: '/images/anh-tho-cac-vi-cao-tang/2 (1).jpg',
-    overviewSummary:
-      'Cố Đại lão Hòa Thượng Ngộ Chân Tử – Khai sơn Tổ đình Hoằng Pháp (Hóc Môn, TP.HCM). Cuộc đời Ngài là một bài ca bất diệt về đức hi sinh, tinh tấn tu trì và lòng từ bi vô lượng dành cho hết thảy chúng sinh.',
-    quoteTitle: 'LỜI RĂN DẠY CỦA SƯ TỔ',
-    quoteContent: [
-      'Uống nước nguồn tâm, nhớ ơn Tam Bảo.',
-      'Một ngày không niệm Phật là một ngày uổng phí tấc bóng thời gian.',
-      'Hãy lấy giới luật làm thầy, lấy sự thanh tịnh làm nơi nương tựa.'
-    ],
-    quoteAuthor: 'Sư Tổ Ngộ Chân Tử (1900 - 1988)',
-    milestones: [
-      {
-        year: 'Năm 1957',
-        title: 'Khai Sáng Tổ Đình Hoằng Pháp',
-        description: 'Đặt nền móng xây dựng Tổ đình Hoằng Pháp, khởi đầu phong trào hoằng truyền pháp môn Tịnh Độ sâu rộng tại miền Nam.'
-      },
-      {
-        year: '1960 - 1985',
-        title: 'Cứu Giúp Trẻ Mồ Côi &amp; Nạn Dân',
-        description: 'Thành lập Cô nhi viện Lục Hòa, nuôi dưỡng hàng trăm mảnh đời bất hạnh, thể hiện trọn vẹn tinh thần từ bi cứu khổ của đạo Phật.'
-      },
-      {
-        year: 'Năm 1988 (16/10 Âm Lịch)',
-        title: 'Viên Tịch Trong Chánh Niệm',
-        description: 'Tổ sư xả báo thân an nhiên thị tịch, để lại niềm kính tiếc vô biên cho hàng triệu Tăng Ni, Phật tử cả nước.'
-      }
-    ],
-    mainContentHtml: `
-      <h3>1. Cuộc Đời Thanh Cao &amp; Đạo Hạnh</h3>
-      <p>Sư Tổ Ngộ Chân Tử suốt đời giữ gìn giới luật tinh nghiêm, ngày đêm chuyên tâm niệm Phật. Dù trong thời kỳ chiến tranh loạn lạc hay hoàn cảnh khó khăn, Tổ vẫn kiên định dựng lập đạo tràng và mở rộng vòng tay che chở cho người nghèo khó.</p>
-      
-      <h3>2. Ngày Giỗ Tổ Truyền Thống</h3>
-      <p>Hằng năm vào ngày 16 tháng 10 Âm lịch, chư Tăng và Phật tử Tùng Lâm Hòa Phúc đều hướng về Tổ đình dâng nén tâm hương tưởng niệm, khắc ghi đạo lý "Uống nước nhớ nguồn".</p>
-    `,
-    galleryImages: [
-      { url: '/images/anh-tho-cac-vi-cao-tang/2 (1).jpg', caption: 'Di ảnh tôn nghiêm của Cố Sư Tổ Ngộ Chân Tử' },
-      { url: '/images/trang-chu/Lễ Tưởng Niệm Anh Hùng Liệt Sỹ 27.07.JPG', caption: 'Lễ tưởng niệm công đức Tiền bối và Anh linh Liệt sĩ' }
-    ]
-  },
-
+  "id": "gt-05",
+  "slug": "tieu-su-su-to",
+  "title": "TIỂU SỬ SƯ TỔ NGỘ CHÂN TỬ",
+  "subtitle": "Sư tổ khai sơn Tông phong Hoằng Pháp (1901 – 1988) – Ngọn đèn Tịnh Độ và tấm lòng Bồ Tát cứu khổ nhân gian",
+  "tag": "Sư Tổ Khai Sơn",
+  "heroBanner": "https://b1.congngheviet.com.vn/file/s2-cnv03/tunglamhoaphuc-com/wp-content/uploads/2025/04/tieu-su-hoa-thuong-ngo-chan-tu-0.jpg",
+  "heroBannerPosition": "center 50%",
+  "portraitImage": "https://b1.congngheviet.com.vn/file/s2-cnv03/tunglamhoaphuc-com/wp-content/uploads/2025/04/tieu-su-hoa-thuong-ngo-chan-tu-1.jpg",
+  "portraitImagePosition": "center 50%",
+  "overviewSummary": "Cố Lão Hòa Thượng Ngộ Chân Tử là Sư Tổ khai sơn Tông phong Hoằng Pháp, Ngài có tầm ảnh hưởng rất lớn tại miền Bắc và các tỉnh miền Nam Việt Nam. Với hạnh nguyện độ sinh và tấm lòng Bồ-tát, Ngài đã xây dựng và trùng tu rất nhiều chùa chiền, kiến lập đạo tràng, xiển dương pháp môn Tịnh Độ, nuôi dạy cô nhi, cứu trợ người gặp khó khăn, làm từ thiện và thực hiện nhiều công tác xã hội ích nước lợi dân.",
+  "quoteTitle": "LỜI RĂN DẠY CỦA SƯ TỔ",
+  "quoteContent": [
+    "Hãy tinh tấn tu hành, chuyên cần niệm Phật đừng để vọng niệm theo trần cảnh.",
+    "Vẫn biết nhị đế phải dung thông, nhưng trong cái tùy duyên với muôn nghìn phương tiện thiện xảo ấy,",
+    "các con đừng để bị nhận chìm trong tục đế mà phải như đóa sen thanh khiết nơi vùng bùn lầy nước đục.",
+    "Tuy bất cứ hoàn cảnh hay trạng huống nào vẫn xứng đáng với con dòng họ Thích, đừng phản bội lại lý tưởng của chính mình."
+  ],
+  "quoteAuthor": "Sư Tổ Ngộ Chân Tử (1901 - 1988)",
+  "milestones": [
+    {
+      "year": "Năm 1901",
+      "title": "Thân Thế & Quê Quán",
+      "description": "Sinh ngày 3/3 năm Tân Sửu (1901) tại tỉnh Thái Bình, thế danh Trần Rinh, trong một gia đình Nho học gia phong."
+    },
+    {
+      "year": "Năm 1919",
+      "title": "Xuất Gia & Đắc Pháp Hiệu",
+      "description": "Được Sư tổ Quang Huy hướng dẫn, gặp Tôn sư Hư Không Tử trao pháp danh Ngộ Chân Tử; tham học tại Yên Tử, Côn Sơn, Hương Tích."
+    },
+    {
+      "year": "1935 - 1938",
+      "title": "Sáng Lập Chùa Hoằng Pháp & Viện Dục Anh",
+      "description": "Sáng lập chùa Hoằng Pháp tại Kiến An (1935), mở Viện Dục Anh (1938) nuôi dạy trẻ mồ côi và người cơ nhỡ."
+    },
+    {
+      "year": "1957 - 1968",
+      "title": "Khai Sơn Hoằng Pháp Hóc Môn",
+      "description": "Mua đất tại Gia Định lập Tổ đình Hoằng Pháp (1957); thành lập Giáo hội Đạo Tràng Thiền Học (1968)."
+    },
+    {
+      "year": "1965 - 1974",
+      "title": "Cứu Nạn Chiến Tranh & Viện Dưỡng Lão",
+      "description": "Nuôi dưỡng 361 nạn nhân chiến tranh Đồng Xoài (1965), xây khu định cư và dự kiến lập Làng Cô nhi tại Bình Chánh."
+    },
+    {
+      "year": "Năm 1988 (16/10 ÂL)",
+      "title": "Thị Tịch Trong Chánh Niệm",
+      "description": "An nhiên viên tịch lúc 13h30 ngày 24/11/1988 (16/10 Mậu Thìn) tại chùa Hoằng Pháp, trụ thế 88 năm, 65 tuổi đạo."
+    }
+  ],
+  "content": "### 1. Quê Quán & Thời Niên Thiếu\n\n- **Thế danh:** Trần Rinh.\n- **Năm sinh:** Sinh ngày 3 tháng 3 năm Tân Sửu (1901), tại tỉnh Thái Bình, trong một gia đình Nho học truyền thống.\n- Sớm thâm hiểu Nho học sâu sắc, về sau chuyển hướng nghiên cứu Phật học khi nhận ra chân lý vô thường của cuộc đời.\n- Được Sư tổ Quang Huy hướng dẫn, gặp gỡ Tôn sư Hư Không Tử và được trao pháp danh **Ngộ Chân Tử** vào năm 1919.\n- Ngài đã dành nhiều năm chiêm bái danh lam cổ tự và tham học tại các chốn tổ linh thiêng như Yên Tử, Côn Sơn, Hương Tích.\n\n### 2. Hành Đạo & Khai Sáng Chốn Tổ\n\n- **Trùng tu chùa chiền miền Bắc:** Trùng tu nhiều ngôi chùa ở các tỉnh miền Bắc từ năm 1927 đến 1932, khôi phục nề nếp tu học.\n- **Sáng lập chùa Hoằng Pháp (Kiến An):** Năm 1935, Ngài sáng lập chùa Hoằng Pháp tại Kiến An (Hải Phòng), đến năm 1938 mở **Viện Dục Anh** nuôi dạy trẻ mồ côi và giúp đỡ đồng bào nghèo khó.\n- **Khai sơn Tổ đình Hoằng Pháp (Hóc Môn):** Năm 1957, Ngài mua đất tại Gia Định (nay là huyện Hóc Môn, TP.HCM), sáng lập chùa Hoằng Pháp làm trung tâm hoằng truyền chánh pháp tại miền Nam.\n- **Thành lập Giáo hội Đạo Tràng Thiền Học:** Năm 1968, Ngài thành lập Giáo hội Đạo Tràng Thiền Học, mở rộng phạm vi truyền bá giáo lý Tịnh Độ và Thiền tông.\n\n### 3. Công Tác Từ Thiện Xã Hội & Cứu Khổ Ban Vui\n\n- **Cứu tế nạn đói năm 1945:** Thành lập Viện Dục Anh và Viện Dưỡng Lão, trực tiếp cứu tế đồng bào trong nạn đói lịch sử năm Ất Dậu 1945.\n- **Nuôi dưỡng nạn nhân chiến tranh:** Năm 1965, Ngài tiếp nhận nuôi dưỡng 361 nạn nhân chiến tranh tại Đồng Xoài, xây dựng khu định cư cho người dân nghèo.\n- **Kiến tạo Làng Cô nhi:** Năm 1974, Ngài tiến hành dự án xây dựng Làng Cô nhi và đền thờ Hùng Vương tại Bình Chánh.\n\n### 4. Kinh Sách Biên Soạn & Ấn Tống\n\nSư Tổ Ngộ Chân Tử đã trước tác và biên soạn nhiều bộ kinh sách ấn tống sâu rộng cho đại chúng tu học, tiêu biểu gồm:\n- *Kinh Nhật Tụng*\n- *Quy Giới Hành Trì*\n- *Tuyên Dương Chánh Pháp*\n- *Lược Sử Phật Tổ*\n\n### 5. Tông Chỉ Tu Hành & Giờ Phút Viên Tịch\n\nSư Tổ luôn lấy Giới luật làm chánh niệm cho mọi hành động, tư duy và phát ngôn; lấy **Lục Tự Di Đà** *(Nam mô A Di Đà Phật)* làm cứu cánh cho việc thoát ly sinh tử; lấy **Lục Độ Vạn Hạnh** làm phương tiện cứu khổ chúng sinh.\n\nNăm 1988, do tuổi cao sức yếu, Ngài đã an nhiên thị tịch lúc 13 giờ 30 phút ngày 24 tháng 11 năm 1988 (nhằm ngày 16 tháng 10 năm Mậu Thìn) tại chùa Hoằng Pháp, trụ thế 88 năm và được 65 tuổi đạo.\n\nHằng năm vào ngày 16 tháng 10 Âm lịch, chư Tăng Ni và Phật tử Tông phong Hoằng Pháp trên khắp cả nước đều trang nghiêm tổ chức lễ Giỗ Tổ để tưởng niệm công đức khai sơn vô lượng của Ngài.",
+  "mainContentHtml": "### 1. Quê Quán & Thời Niên Thiếu\n\n- **Thế danh:** Trần Rinh.\n- **Năm sinh:** Sinh ngày 3 tháng 3 năm Tân Sửu (1901), tại tỉnh Thái Bình, trong một gia đình Nho học truyền thống.\n- Sớm thâm hiểu Nho học sâu sắc, về sau chuyển hướng nghiên cứu Phật học khi nhận ra chân lý vô thường của cuộc đời.\n- Được Sư tổ Quang Huy hướng dẫn, gặp gỡ Tôn sư Hư Không Tử và được trao pháp danh **Ngộ Chân Tử** vào năm 1919.\n- Ngài đã dành nhiều năm chiêm bái danh lam cổ tự và tham học tại các chốn tổ linh thiêng như Yên Tử, Côn Sơn, Hương Tích.\n\n### 2. Hành Đạo & Khai Sáng Chốn Tổ\n\n- **Trùng tu chùa chiền miền Bắc:** Trùng tu nhiều ngôi chùa ở các tỉnh miền Bắc từ năm 1927 đến 1932, khôi phục nề nếp tu học.\n- **Sáng lập chùa Hoằng Pháp (Kiến An):** Năm 1935, Ngài sáng lập chùa Hoằng Pháp tại Kiến An (Hải Phòng), đến năm 1938 mở **Viện Dục Anh** nuôi dạy trẻ mồ côi và giúp đỡ đồng bào nghèo khó.\n- **Khai sơn Tổ đình Hoằng Pháp (Hóc Môn):** Năm 1957, Ngài mua đất tại Gia Định (nay là huyện Hóc Môn, TP.HCM), sáng lập chùa Hoằng Pháp làm trung tâm hoằng truyền chánh pháp tại miền Nam.\n- **Thành lập Giáo hội Đạo Tràng Thiền Học:** Năm 1968, Ngài thành lập Giáo hội Đạo Tràng Thiền Học, mở rộng phạm vi truyền bá giáo lý Tịnh Độ và Thiền tông.\n\n### 3. Công Tác Từ Thiện Xã Hội & Cứu Khổ Ban Vui\n\n- **Cứu tế nạn đói năm 1945:** Thành lập Viện Dục Anh và Viện Dưỡng Lão, trực tiếp cứu tế đồng bào trong nạn đói lịch sử năm Ất Dậu 1945.\n- **Nuôi dưỡng nạn nhân chiến tranh:** Năm 1965, Ngài tiếp nhận nuôi dưỡng 361 nạn nhân chiến tranh tại Đồng Xoài, xây dựng khu định cư cho người dân nghèo.\n- **Kiến tạo Làng Cô nhi:** Năm 1974, Ngài tiến hành dự án xây dựng Làng Cô nhi và đền thờ Hùng Vương tại Bình Chánh.\n\n### 4. Kinh Sách Biên Soạn & Ấn Tống\n\nSư Tổ Ngộ Chân Tử đã trước tác và biên soạn nhiều bộ kinh sách ấn tống sâu rộng cho đại chúng tu học, tiêu biểu gồm:\n- *Kinh Nhật Tụng*\n- *Quy Giới Hành Trì*\n- *Tuyên Dương Chánh Pháp*\n- *Lược Sử Phật Tổ*\n\n### 5. Tông Chỉ Tu Hành & Giờ Phút Viên Tịch\n\nSư Tổ luôn lấy Giới luật làm chánh niệm cho mọi hành động, tư duy và phát ngôn; lấy **Lục Tự Di Đà** *(Nam mô A Di Đà Phật)* làm cứu cánh cho việc thoát ly sinh tử; lấy **Lục Độ Vạn Hạnh** làm phương tiện cứu khổ chúng sinh.\n\nNăm 1988, do tuổi cao sức yếu, Ngài đã an nhiên thị tịch lúc 13 giờ 30 phút ngày 24 tháng 11 năm 1988 (nhằm ngày 16 tháng 10 năm Mậu Thìn) tại chùa Hoằng Pháp, trụ thế 88 năm và được 65 tuổi đạo.\n\nHằng năm vào ngày 16 tháng 10 Âm lịch, chư Tăng Ni và Phật tử Tông phong Hoằng Pháp trên khắp cả nước đều trang nghiêm tổ chức lễ Giỗ Tổ để tưởng niệm công đức khai sơn vô lượng của Ngài.",
+  "galleryImages": [
+    {
+      "url": "https://b1.congngheviet.com.vn/file/s2-cnv03/tunglamhoaphuc-com/wp-content/uploads/2025/04/tieu-su-hoa-thuong-ngo-chan-tu-1.jpg",
+      "caption": "Di ảnh tôn kính của Cố Lão Hòa Thượng Ngộ Chân Tử"
+    },
+    {
+      "url": "https://b1.congngheviet.com.vn/file/s2-cnv03/tunglamhoaphuc-com/wp-content/uploads/2025/04/tieu-su-hoa-thuong-ngo-chan-tu-3.jpg",
+      "caption": "Thánh tích đạo nghiệp và những dấu ấn hoằng hóa của Sư Tổ"
+    }
+  ],
+  "wpPostId": "24824"
+},
   'van-hoa-ung-xu': {
-    id: 'van-hoa-ung-xu',
-    slug: 'van-hoa-ung-xu',
-    title: 'VĂN HÓA ỨNG XỬ THIỀN MÔN',
-    subtitle: 'Quy củ, oai nghi tế hạnh và nếp sống đạo đức dành cho Phật tử viếng chùa.',
-    tag: 'Thanh Quy Tự Viện',
-    heroBanner: '/images/toan-canh-chua.jpg',
-    portraitImage: '/images/trang-chu/cộng tu/1.jpg',
-    overviewSummary:
-      'Chốn thiền môn là nơi tôn nghiêm thanh tịnh. Văn hóa ứng xử của người Phật tử khi về chùa thể hiện nét đẹp đạo đức, sự khiêm cung và lòng tôn kính Tam Bảo, góp phần xây dựng một cộng đồng tu học an vui, thanh nhã.',
-    quoteTitle: 'OAI NGHI TẾ HẠNH',
-    quoteContent: [
-      'Đi đứng nằm ngồi đều trong chánh niệm,',
-      'Lời nói nhẹ nhàng, cử chỉ đoan trang.',
-      'Vào chùa dứt hết muôn điều phiền não,',
-      'Giữ lòng thanh tịnh, phúc báu miên trường.'
-    ],
-    quoteAuthor: 'Thanh Quy Tùng Lâm Hòa Phúc',
-    milestones: [
-      {
-        year: 'Trang Phục',
-        title: 'Trang Nghiêm, Kín Đáo',
-        description: 'Mặc áo tràng lam, nâu hoặc trang phục kín đáo lịch sự. Không mặc áo sát nách, quần đùi, váy ngắn khi vào chốn tự viện.'
-      },
-      {
-        year: 'Lời Nói',
-        title: 'Ái Ngữ, Điềm Đạm',
-        description: 'Giữ yên lặng nơi chánh điện, nói năng nhỏ nhẹ, chào hỏi quý Thầy và đồng tu bằng câu niệm "A Di Đà Phật" chắp tay cung kính.'
-      },
-      {
-        year: 'Hành Vi',
-        title: 'Giữ Gìn Vệ Sinh &amp; Cảnh Quan',
-        description: 'Bỏ rác đúng nơi quy định, không hái hoa bẻ cành, bảo vệ cảnh quan môi trường và bảo vật tượng Phật trong chùa.'
-      }
-    ],
-    mainContentHtml: `
-      <h3>1. Ý Nghĩa Của Việc Giữ Gìn Oai Nghi</h3>
-      <p>Oai nghi không phải là sự gò bó ép buộc, mà là phương tiện giúp ta thu thúc lục căn, lắng đọng tâm thức và biểu lộ sự tôn kính chân thật đối với Ba Ngôi Báu Phật - Pháp - Tăng.</p>
-      
-      <h3>2. Những Điều Cần Lưu Ý Khi Viếng Chùa</h3>
-      <ul>
-        <li><strong>Lễ Phật:</strong> Đứng thẳng trang nghiêm, hai tay chắp trước ngực, tâm hướng trọn vẹn vào tướng hảo quang minh của Đức Phật.</li>
-        <li><strong>Xưng hô:</strong> Kính trọng gọi quý Tăng Ni là "Thầy", "Bạch Thầy" và xưng "Con".</li>
-        <li><strong>Điện thoại:</strong> Chuyển sang chế độ rung hoặc im lặng khi bước vào giảng đường và các khóa lễ.</li>
-      </ul>
-    `,
-    galleryImages: [
-      { url: '/images/trang-chu/cộng tu/1.jpg', caption: 'Phật tử trang nghiêm trong trang phục áo tràng' },
-      { url: '/images/trang-chu/đại - tiểu sám hối và thường kỳ.jpg', caption: 'Khóa lễ sám hối lục căn thanh tịnh' }
-    ]
-  }
+  "id": "gt-06",
+  "slug": "van-hoa-ung-xu",
+  "title": "VĂN HÓA ỨNG XỬ THIỀN MÔN",
+  "subtitle": "Quy củ, oai nghi tế hạnh và nếp sống đạo đức dành cho Phật tử viếng chùa",
+  "tag": "Thanh Quy Tự Viện",
+  "heroBanner": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
+  "heroBannerPosition": "center 50%",
+  "portraitImage": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
+  "portraitImagePosition": "center 50%",
+  "overviewSummary": "Chốn thiền môn là nơi tôn nghiêm thanh tịnh. Văn hóa ứng xử của người Phật tử khi về chùa thể hiện nét đẹp đạo đức, sự khiêm cung và lòng tôn kính Tam Bảo, góp phần xây dựng một cộng đồng tu học an vui, thanh nhã.",
+  "quoteTitle": "OAI NGHI TẾ HẠNH",
+  "quoteContent": [
+    "Đi đứng nằm ngồi đều trong chánh niệm,",
+    "Lời nói nhẹ nhàng, cử chỉ đoan trang.",
+    "Vào chùa dứt hết muôn điều phiền não,",
+    "Giữ lòng thanh tịnh, phúc báu miên trường."
+  ],
+  "quoteAuthor": "Thanh Quy Tùng Lâm Hòa Phúc",
+  "milestones": [
+    {
+      "year": "Trang Phục",
+      "title": "Trang Nghiêm, Kín Đáo",
+      "description": "Mặc áo tràng lam, nâu hoặc trang phục kín đáo lịch sự. Không mặc áo sát nách, quần đùi, váy ngắn khi vào chốn tự viện."
+    },
+    {
+      "year": "Lời Nói",
+      "title": "Ái Ngữ, Điềm Đạm",
+      "description": "Giữ yên lặng nơi chánh điện, nói năng nhỏ nhẹ, chào hỏi quý Thầy và đồng tu bằng câu niệm \"A Di Đà Phật\" chắp tay cung kính."
+    },
+    {
+      "year": "Hành Vi",
+      "title": "Giữ Gìn Vệ Sinh & Cảnh Quan",
+      "description": "Bỏ rác đúng nơi quy định, không hái hoa bẻ cành, bảo vệ cảnh quan môi trường và bảo vật tượng Phật trong chùa."
+    }
+  ],
+  "content": "### 1. Ý Nghĩa Của Việc Giữ Gìn Oai Nghi\n\nOai nghi không phải là sự gò bó ép buộc, mà là phương tiện giúp ta thu thúc lục căn, lắng đọng tâm thức và biểu lộ sự tôn kính chân thật đối với Ba Ngôi Báu Phật - Pháp - Tăng.\n\n### 2. Những Điều Cần Lưu Ý Khi Viếng Chùa\n\n- **Lễ Phật:** Đứng thẳng trang nghiêm, hai tay chắp trước ngực, tâm hướng trọn vẹn vào tướng hảo quang minh của Đức Phật.\n- **Xưng hô:** Kính trọng gọi quý Tăng Ni là \"Thầy\", \"Bạch Thầy\" và xưng \"Con\".\n- **Điện thoại:** Chuyển sang chế độ rung hoặc im lặng khi bước vào giảng đường và các khóa lễ.",
+  "mainContentHtml": "### 1. Ý Nghĩa Của Việc Giữ Gìn Oai Nghi\n\nOai nghi không phải là sự gò bó ép buộc, mà là phương tiện giúp ta thu thúc lục căn, lắng đọng tâm thức và biểu lộ sự tôn kính chân thật đối với Ba Ngôi Báu Phật - Pháp - Tăng.\n\n### 2. Những Điều Cần Lưu Ý Khi Viếng Chùa\n\n- **Lễ Phật:** Đứng thẳng trang nghiêm, hai tay chắp trước ngực, tâm hướng trọn vẹn vào tướng hảo quang minh của Đức Phật.\n- **Xưng hô:** Kính trọng gọi quý Tăng Ni là \"Thầy\", \"Bạch Thầy\" và xưng \"Con\".\n- **Điện thoại:** Chuyển sang chế độ rung hoặc im lặng khi bước vào giảng đường và các khóa lễ.",
+  "galleryImages": []
+},
 };
