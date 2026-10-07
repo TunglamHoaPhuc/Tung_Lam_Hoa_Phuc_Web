@@ -619,6 +619,7 @@ export function SpreadsheetTriTue() {
                 <th className="p-3 w-[160px] min-w-[160px] border-r border-[#F2C14E]/20">Tiểu Mục</th>
                 <th className="p-3 w-[85px] min-w-[85px] border-r border-[#F2C14E]/20 text-center">Ảnh Bìa</th>
                 <th className="p-3 w-[220px] min-w-[220px] border-r border-[#F2C14E]/20">Tiêu Đề Bài Viết</th>
+                <th className="p-3 w-[200px] min-w-[200px] border-r border-[#F2C14E]/20">Tiêu Đề Phụ</th>
                 <th className="p-3 w-[180px] min-w-[180px] border-r border-[#F2C14E]/20">Tác Giả & Ngày</th>
                 <th className="p-3 w-[150px] min-w-[150px] border-r border-[#F2C14E]/20 text-center">Đa Phương Tiện</th>
                 <th className="p-3 border-r border-[#F2C14E]/20 cursor-help" title="Nhấp vào ô để mở trình soạn thảo bài viết trực tiếp">
@@ -635,14 +636,14 @@ export function SpreadsheetTriTue() {
             <tbody className="divide-y divide-[#F2C14E]/15">
               {loading ? (
                 <tr>
-                  <td colSpan={8} className="p-12 text-center text-[#c9b896]/70">
+                  <td colSpan={9} className="p-12 text-center text-[#c9b896]/70">
                     <Loader2 className="w-8 h-8 animate-spin mx-auto mb-2 text-[#F2C14E]" />
                     <span>Đang tải dữ liệu bài viết Trí Tuệ Phật Pháp...</span>
                   </td>
                 </tr>
               ) : filteredPosts.length === 0 ? (
                 <tr>
-                  <td colSpan={8} className="p-12 text-center text-[#c9b896]/70">
+                  <td colSpan={9} className="p-12 text-center text-[#c9b896]/70">
                     Chưa có bài viết nào trong chuyên mục Trí Tuệ Phật Pháp này.
                   </td>
                 </tr>
@@ -760,8 +761,8 @@ export function SpreadsheetTriTue() {
 
                       {/* 4. Tiêu Đề Bài Viết */}
                       <td className="p-2.5 w-[220px] min-w-[220px] border-r border-[#F2C14E]/15 align-middle">
-                        <input
-                          type="text"
+                        <textarea
+                          rows={3}
                           value={row.title || ''}
                           onChange={(e) => {
                             const updated = [...posts];
@@ -770,7 +771,23 @@ export function SpreadsheetTriTue() {
                             setIsDirty(true);
                           }}
                           placeholder="Tiêu đề bài viết..."
-                          className="w-full px-2.5 py-2 bg-[#22140A] border border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E] rounded-xl text-xs text-[#FFE5A3] font-bold focus:outline-none transition-all shadow-sm"
+                          className="w-full min-h-[72px] px-2.5 py-2.5 bg-[#22140A] border border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E] rounded-xl text-xs font-bold text-[#ffde59] uppercase focus:outline-none leading-snug transition-all resize-none shadow-sm flex items-center"
+                        />
+                      </td>
+
+                      {/* 5. Tiêu Đề Phụ (Lời Tựa / Phụ Đề) */}
+                      <td className="p-2.5 w-[200px] min-w-[200px] border-r border-[#F2C14E]/15 align-middle">
+                        <textarea
+                          rows={3}
+                          value={row.subtitle || ''}
+                          onChange={(e) => {
+                            const updated = [...posts];
+                            updated[actualIdx].subtitle = e.target.value;
+                            setPosts(updated);
+                            setIsDirty(true);
+                          }}
+                          placeholder="Nhập lời tựa / tiêu đề phụ..."
+                          className="w-full min-h-[72px] px-3 py-2.5 bg-[#22140A] border border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E] rounded-xl text-xs text-[#FFE5A3] italic focus:outline-none leading-relaxed transition-all resize-none shadow-sm flex items-center"
                         />
                       </td>
 
@@ -1304,12 +1321,17 @@ export function SpreadsheetTriTue() {
                     </div>
 
                     <div className="flex flex-col sm:flex-row items-center gap-4">
-                      <div className="w-44 h-36 shrink-0 rounded-2xl overflow-hidden border-2 border-[#F2C14E]/60 bg-black relative shadow-lg">
-                        <img
-                          src={posts[mediaModal.rowIndex].thumbnailUrl || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp'}
-                          alt="Thumbnail"
-                          className="w-full h-full object-cover"
-                          style={{ objectPosition: posts[mediaModal.rowIndex].thumbnailPosition || 'center 50%' }}
+                      <div className="w-48 h-36 shrink-0 rounded-2xl overflow-hidden border-2 border-[#F2C14E]/60 bg-black relative shadow-lg">
+                        <InteractiveImageDrag
+                          imageUrl={posts[mediaModal.rowIndex].thumbnailUrl || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp'}
+                          position={posts[mediaModal.rowIndex].thumbnailPosition || 'center 50%'}
+                          onPositionChange={(pos) => {
+                            const updated = [...posts];
+                            updated[mediaModal.rowIndex].thumbnailPosition = pos;
+                            setPosts(updated);
+                            setIsDirty(true);
+                          }}
+                          className="w-full h-full"
                         />
                       </div>
 

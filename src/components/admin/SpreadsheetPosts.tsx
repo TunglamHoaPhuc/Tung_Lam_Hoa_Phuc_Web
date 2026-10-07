@@ -56,7 +56,8 @@ import {
   Cloud,
   Star,
   Table as TableIcon,
-  Globe
+  Globe,
+  Camera,
 } from 'lucide-react';
 
 import ZenTipTapEditor from './ZenTipTapEditor';
@@ -1096,6 +1097,39 @@ export function SpreadsheetPosts() {
     setMediaModal({ isOpen: true, rowIndex: actualIdx, tab });
   };
 
+  // Lưu Đa phương tiện tức thời (Banner, Thumbnail, Video, Album ảnh, v.v.)
+  const handleSaveMediaModal = async (actualIdx: number) => {
+    const target = posts[actualIdx];
+    if (!target) return;
+    showToast(`⏳ Đang lưu thiết lập ảnh bìa & đa phương tiện...`);
+    try {
+      const res = await fetch(`/api/admin/posts/${encodeURIComponent(target.id)}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          thumbnailUrl: target.thumbnailUrl,
+          thumbnailPosition: target.thumbnailPosition,
+          bannerUrl: target.bannerUrl,
+          bannerPosition: target.bannerPosition,
+          videoBlock: target.videoBlock,
+          featuredArticle: target.featuredArticle,
+          photoGallery: target.photoGallery,
+          previousEditions: target.previousEditions,
+          upcomingEvents: target.upcomingEvents,
+        }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        showToast(`✅ Đã lưu thành công ảnh bìa & thumbnail của bài viết!`);
+        setIsDirty(false);
+      } else {
+        showToast(`❌ Lỗi: ${data.error || 'Không xác định'}`);
+      }
+    } catch (e: any) {
+      showToast(`❌ Lỗi kết nối: ${e.message}`);
+    }
+  };
+
   // Filtered Posts: Chỉ quản lý DÒNG CHẢY HOẰNG PHÁP
   const filteredPosts = useMemo(() => {
     return posts.filter((p) => {
@@ -1348,50 +1382,42 @@ export function SpreadsheetPosts() {
                         </select>
                       </td>
 
-                      {/* 3. Ảnh Bìa (Thumbnail) */}
-                      <td className="p-2 w-[80px] min-w-[80px] border-r border-[#F2C14E]/15 align-middle text-center">
-                        <div
-                          onClick={async () => {
-                            let targetPost = row;
-                            if (
-                              (!targetPost.photoGallery || targetPost.photoGallery.length === 0) &&
-                              ((targetPost as any).galleryCount || 0) > 0
-                            ) {
-                              try {
-                                const res = await fetch(`/api/admin/posts/${encodeURIComponent(targetPost.id)}`);
-                                const data = await res.json();
-                                if (data.success && data.post?.photoGallery) {
-                                  targetPost = { ...targetPost, photoGallery: data.post.photoGallery };
-                                  setPosts((prev) => {
-                                    const next = [...prev];
-                                    next[actualIdx] = targetPost;
-                                    return next;
-                                  });
-                                }
-                              } catch (e) {
-                                console.warn(e);
-                              }
-                            }
-                            openS3Library((newUrl: string) => {
-                              const updated = [...posts];
-                              updated[actualIdx].thumbnailUrl = newUrl;
-                              updated[actualIdx].bannerUrl = newUrl;
-                              setPosts(updated);
-                              setIsDirty(true);
-                            }, targetPost);
-                          }}
-                          className="relative w-14 h-14 mx-auto rounded-xl overflow-hidden border border-[#52331C] hover:border-[#F2C14E] cursor-pointer group/thumb bg-black/60 shadow-sm transition-all"
-                          title="Bấm để chọn ảnh từ bài viết hoặc tải ảnh mới từ S3"
-                        >
-                          <img
-                            src={row.thumbnailUrl || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp'}
-                            alt={row.title}
-                            className="w-full h-full object-cover group-hover/thumb:scale-110 transition-transform duration-300"
-                            style={{ objectPosition: row.thumbnailPosition || 'center 50%' }}
-                          />
-                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex items-center justify-center">
-                            <Cloud className="w-4 h-4 text-[#F2C14E]" />
+                      {/* 3. Ảnh Bìa (Thumbnail & Hero) */}
+                      <td className="p-2 w-[85px] min-w-[85px] border-r border-[#F2C14E]/15 align-middle text-center">
+                        <div className="relative group/thumb inline-block">
+                          <div
+                            onClick={() => handleOpenMediaModal(actualIdx, 'banner')}
+                            className="w-14 h-14 mx-auto rounded-xl overflow-hidden border border-[#52331C] hover:border-[#F2C14E] cursor-pointer bg-black/60 shadow-sm transition-all hover:scale-105 relative"
+                            title="Bấm để mở cài đặt Ảnh Bìa Hero & Thumbnail bài viết"
+                          >
+                            <img
+                              src={row.thumbnailUrl || row.bannerUrl || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp'}
+                              alt={row.title}
+                              className="w-full h-full object-cover group-hover/thumb:scale-110 transition-transform duration-300"
+                              style={{ objectPosition: row.thumbnailPosition || row.bannerPosition || 'center 50%' }}
+                            />
+                            <div className="absolute inset-0 bg-black/50 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex items-center justify-center text-[10px] text-[#ffde59] font-bold">
+                              Đổi
+                            </div>
                           </div>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              openS3Library((url) => {
+                                const updated = [...posts];
+                                updated[actualIdx].thumbnailUrl = url;
+                                updated[actualIdx].bannerUrl = url;
+                                setPosts(updated);
+                                setIsDirty(true);
+                                showToast('✨ Đã cập nhật ảnh từ S3!');
+                              }, row);
+                            }}
+                            className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-[#F2C14E] text-black hover:bg-[#ffde59] flex items-center justify-center shadow-md cursor-pointer transition-transform hover:scale-115 z-10"
+                            title="Chọn nhanh từ Kho Ảnh S3"
+                          >
+                            <Camera className="w-3 h-3" />
+                          </button>
                         </div>
                       </td>
 
@@ -1814,7 +1840,7 @@ export function SpreadsheetPosts() {
             {/* Selector Tabs (6 Tabs Đa Phương Tiện Toàn Năng) */}
             <div className="flex items-center gap-2 p-1.5 bg-[#25170E] rounded-2xl border border-[#F2C14E]/30 my-4 overflow-x-auto custom-scrollbar shrink-0">
               {[
-                { id: 'banner', label: '1. Banner Hero', icon: ImageIcon },
+                { id: 'banner', label: '1. Banner Hero & Ảnh Bìa', icon: ImageIcon },
                 { id: 'video', label: '2. Video Pháp Thoại', icon: Video },
                 { id: 'featured', label: '3. Bài Viết Nổi Bật', icon: Flame },
                 { id: 'gallery', label: '4. Album Ảnh Tư Liệu', icon: Images },
@@ -1843,98 +1869,275 @@ export function SpreadsheetPosts() {
 
             {/* Modal Body Scrollable */}
             <div className="flex-1 overflow-y-auto custom-scrollbar space-y-4 py-2 pr-1">
-              {/* TAB 1: BANNER */}
+              {/* TAB 1: BANNER & THUMBNAIL */}
               {mediaModal.tab === 'banner' && (
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between text-xs font-bold text-[#FFE5A3]">
-                    <span className="flex items-center gap-1.5">
-                      <ImageIcon className="w-3.5 h-3.5 text-[#F2C14E]" />
-                      <span>Ảnh Banner Hero & Tiêu Điểm</span>
-                    </span>
-                    <span className="text-[11px] text-[#F2C14E] font-mono">
-                      {posts[mediaModal.rowIndex].bannerPosition || 'center 50%'}
-                    </span>
-                  </div>
+                <div className="space-y-6">
+                  {/* Khối Banner Hero Ngang */}
+                  <div className="space-y-3 p-4 bg-[#21140B] rounded-2xl border border-[#F2C14E]/30">
+                    <div className="flex items-center justify-between text-xs font-bold text-[#FFE5A3]">
+                      <span className="flex items-center gap-1.5">
+                        <ImageIcon className="w-4 h-4 text-[#F2C14E]" />
+                        <span>Ảnh Banner Hero Ngang (Tiêu Điểm Đầu Bài)</span>
+                      </span>
+                      <span className="text-[11px] text-[#F2C14E] font-mono">
+                        Vị trí: {posts[mediaModal.rowIndex].bannerPosition || 'center 50%'}
+                      </span>
+                    </div>
 
-                  {posts[mediaModal.rowIndex].bannerUrl ? (
-                    <div
-                      onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); }}
-                      onDrop={async (e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        const f = e.dataTransfer.files?.[0];
-                        if (f && f.type.startsWith('image/')) {
-                          showToast('⏳ Đang tải ảnh Banner lên S3...');
-                          const url = await uploadImageFileDirectly(f);
-                          if (url) {
+                    {posts[mediaModal.rowIndex].bannerUrl ? (
+                      <div className="space-y-3">
+                        <InteractiveImageDrag
+                          imageUrl={posts[mediaModal.rowIndex].bannerUrl!}
+                          position={posts[mediaModal.rowIndex].bannerPosition || 'center 50%'}
+                          onPositionChange={(pos) => {
+                            const updated = [...posts];
+                            updated[mediaModal.rowIndex].bannerPosition = pos;
+                            setPosts(updated);
+                            setIsDirty(true);
+                          }}
+                          className="w-full h-56"
+                        >
+                          <div className="absolute top-3 right-3 flex items-center gap-2 z-40">
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                openS3Library((url) => {
+                                  const updated = [...posts];
+                                  updated[mediaModal.rowIndex].bannerUrl = url;
+                                  setPosts(updated);
+                                  setIsDirty(true);
+                                }, posts[mediaModal.rowIndex]);
+                              }}
+                              className="px-3 py-1.5 rounded-xl bg-[#F2C14E] hover:bg-[#ffde59] text-black text-xs font-bold flex items-center gap-1 shadow-md cursor-pointer hover:scale-105"
+                              title="Đổi ảnh từ S3"
+                            >
+                              <RefreshCw className="w-3.5 h-3.5" />
+                              <span>Đổi từ S3</span>
+                            </button>
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                const updated = [...posts];
+                                updated[mediaModal.rowIndex].bannerUrl = '';
+                                setPosts(updated);
+                                setIsDirty(true);
+                              }}
+                              className="p-1.5 rounded-xl bg-red-950/80 hover:bg-red-800 text-red-200 shadow-md cursor-pointer hover:scale-105"
+                              title="Gỡ ảnh Banner này"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </InteractiveImageDrag>
+                        <p className="text-[11px] text-[#c9b896]/70 italic text-center">
+                          💡 Nhấp và kéo chuột trên ảnh để điều chỉnh trọng tâm hiển thị khung hình Banner
+                        </p>
+                      </div>
+                    ) : (
+                      <div
+                        onClick={() =>
+                          openS3Library((url) => {
                             const updated = [...posts];
                             updated[mediaModal.rowIndex].bannerUrl = url;
                             setPosts(updated);
-                          }
+                            setIsDirty(true);
+                          }, posts[mediaModal.rowIndex])
                         }
-                      }}
-                      className="space-y-3"
-                    >
-                      <InteractiveImageDrag
-                        imageUrl={posts[mediaModal.rowIndex].bannerUrl}
-                        position={posts[mediaModal.rowIndex].bannerPosition || 'center 50%'}
-                        onPositionChange={(pos) => {
-                          const updated = [...posts];
-                          updated[mediaModal.rowIndex].bannerPosition = pos;
-                          setPosts(updated);
+                        onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); }}
+                        onDrop={async (e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          const f = e.dataTransfer.files?.[0];
+                          if (f && f.type.startsWith('image/')) {
+                            showToast('⏳ Đang tải ảnh Banner lên S3...');
+                            const url = await uploadImageFileDirectly(f, '03-dong-chay-hoang-phap');
+                            if (url) {
+                              const updated = [...posts];
+                              updated[mediaModal.rowIndex].bannerUrl = url;
+                              setPosts(updated);
+                              setIsDirty(true);
+                            }
+                          }
                         }}
-                        className="w-full h-60"
+                        className="border-2 border-dashed border-[#F2C14E]/40 hover:border-[#F2C14E] rounded-2xl p-8 text-center cursor-pointer bg-[#25170E]/50 hover:bg-[#25170E] transition-all group"
                       >
-                        <div className="absolute top-3 right-3 flex items-center gap-2 z-40">
-                          <button
-                            type="button"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              openS3Library((url) => {
+                        <ImageIcon className="w-8 h-8 text-[#F2C14E]/60 mx-auto mb-2" />
+                        <p className="text-xs font-bold text-[#FFE5A3]">Bấm vào đây để chọn ảnh Banner Hero từ S3 hoặc kéo thả file ảnh vào đây</p>
+                      </div>
+                    )}
+
+                    <div className="flex flex-wrap items-center gap-2 pt-2">
+                      <input
+                        type="text"
+                        value={posts[mediaModal.rowIndex].bannerUrl || ''}
+                        onChange={(e) => {
+                          const updated = [...posts];
+                          updated[mediaModal.rowIndex].bannerUrl = e.target.value;
+                          setPosts(updated);
+                          setIsDirty(true);
+                        }}
+                        placeholder="Dán URL ảnh banner..."
+                        className="flex-1 min-w-[200px] px-3 py-1.5 bg-[#1C120A] border border-[#F2C14E]/30 rounded-xl text-xs text-white focus:outline-none focus:border-[#F2C14E] font-mono"
+                      />
+                      <label className="px-3 py-1.5 rounded-xl bg-[#2A1D14] hover:bg-[#382618] border border-[#F2C14E]/40 text-[#FFE5A3] hover:text-[#ffde59] text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-sm">
+                        <Upload className="w-3.5 h-3.5 text-[#F2C14E]" />
+                        <span>Tải từ Máy Tính</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          className="hidden"
+                          onChange={async (e) => {
+                            const file = e.target.files?.[0];
+                            if (file) {
+                              showToast('⏳ Đang tải ảnh Banner lên S3...');
+                              const url = await uploadImageFileDirectly(file, '03-dong-chay-hoang-phap');
+                              if (url) {
                                 const updated = [...posts];
                                 updated[mediaModal.rowIndex].bannerUrl = url;
                                 setPosts(updated);
-                              }, posts[mediaModal.rowIndex]);
-                            }}
-                            className="w-8 h-8 rounded-xl bg-[#F2C14E] hover:bg-[#ffde59] text-black flex items-center justify-center shadow-md cursor-pointer hover:scale-105"
-                            title="Đổi ảnh từ S3 / Thư viện"
+                                setIsDirty(true);
+                              }
+                            }
+                          }}
+                        />
+                      </label>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const banner = posts[mediaModal.rowIndex].bannerUrl;
+                          if (banner) {
+                            const updated = [...posts];
+                            updated[mediaModal.rowIndex].thumbnailUrl = banner;
+                            updated[mediaModal.rowIndex].thumbnailPosition = posts[mediaModal.rowIndex].bannerPosition || 'center 50%';
+                            setPosts(updated);
+                            setIsDirty(true);
+                            showToast('✅ Đã đồng bộ Banner sang Thumbnail!');
+                          }
+                        }}
+                        className="px-3 py-1.5 rounded-xl bg-[#2A1D14] hover:bg-[#382618] border border-[#F2C14E]/40 text-[#FFE5A3] text-xs font-bold shrink-0 cursor-pointer"
+                        title="Dùng luôn làm ảnh đại diện"
+                      >
+                        Dùng làm Thumbnail
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Khối Ảnh Đại Diện (Thumbnail) */}
+                  <div className="space-y-3 p-4 bg-[#21140B] rounded-2xl border border-[#F2C14E]/30">
+                    <div className="flex items-center justify-between text-xs font-bold text-[#FFE5A3]">
+                      <span className="flex items-center gap-1.5">
+                        <ImageIcon className="w-4 h-4 text-[#F2C14E]" />
+                        <span>Ảnh Đại Diện / Thumbnail (Hiển Thị Trong Danh Sách & Thẻ Bài Viết)</span>
+                      </span>
+                      <span className="text-[11px] text-[#F2C14E] font-mono">
+                        Vị trí: {posts[mediaModal.rowIndex].thumbnailPosition || 'center 50%'}
+                      </span>
+                    </div>
+
+                    <div className="flex flex-col sm:flex-row items-center gap-4">
+                      <div className="w-48 h-36 shrink-0 rounded-2xl overflow-hidden border-2 border-[#F2C14E]/60 bg-black relative shadow-lg">
+                        <InteractiveImageDrag
+                          imageUrl={posts[mediaModal.rowIndex].thumbnailUrl || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp'}
+                          position={posts[mediaModal.rowIndex].thumbnailPosition || 'center 50%'}
+                          onPositionChange={(pos) => {
+                            const updated = [...posts];
+                            updated[mediaModal.rowIndex].thumbnailPosition = pos;
+                            setPosts(updated);
+                            setIsDirty(true);
+                          }}
+                          className="w-full h-full"
+                        />
+                      </div>
+
+                      <div className="flex-1 space-y-2 w-full">
+                        <input
+                          type="text"
+                          value={posts[mediaModal.rowIndex].thumbnailUrl || ''}
+                          onChange={(e) => {
+                            const updated = [...posts];
+                            updated[mediaModal.rowIndex].thumbnailUrl = e.target.value;
+                            setPosts(updated);
+                            setIsDirty(true);
+                          }}
+                          placeholder="Dán URL ảnh thumbnail..."
+                          className="w-full px-3 py-2 bg-[#1C120A] border border-[#F2C14E]/30 rounded-xl text-xs text-white focus:outline-none focus:border-[#F2C14E] font-mono"
+                        />
+
+                        <div className="flex flex-wrap items-center gap-2">
+                          <button
+                            type="button"
+                            onClick={() =>
+                              openS3Library((url) => {
+                                const updated = [...posts];
+                                updated[mediaModal.rowIndex].thumbnailUrl = url;
+                                setPosts(updated);
+                                setIsDirty(true);
+                              }, posts[mediaModal.rowIndex])
+                            }
+                            className="px-3 py-2 rounded-xl bg-[#F2C14E] hover:bg-[#ffde59] text-black text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-md"
                           >
-                            <RefreshCw className="w-4 h-4" />
+                            <FolderOpen className="w-3.5 h-3.5" />
+                            <span>Chọn từ Kho S3</span>
+                          </button>
+
+                          <label className="px-3 py-2 rounded-xl bg-[#2A1D14] hover:bg-[#382618] border border-[#F2C14E]/40 text-[#FFE5A3] hover:text-[#ffde59] text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-md">
+                            <Upload className="w-3.5 h-3.5 text-[#F2C14E]" />
+                            <span>Tải từ Máy Tính</span>
+                            <input
+                              type="file"
+                              accept="image/*"
+                              className="hidden"
+                              onChange={async (e) => {
+                                const file = e.target.files?.[0];
+                                if (file) {
+                                  showToast('⏳ Đang tải ảnh lên S3...');
+                                  const url = await uploadImageFileDirectly(file, '03-dong-chay-hoang-phap');
+                                  if (url) {
+                                    const updated = [...posts];
+                                    updated[mediaModal.rowIndex].thumbnailUrl = url;
+                                    setPosts(updated);
+                                    setIsDirty(true);
+                                  }
+                                }
+                              }}
+                            />
+                          </label>
+
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const thumb = posts[mediaModal.rowIndex].thumbnailUrl;
+                              if (thumb) {
+                                const updated = [...posts];
+                                updated[mediaModal.rowIndex].bannerUrl = thumb;
+                                updated[mediaModal.rowIndex].bannerPosition = posts[mediaModal.rowIndex].thumbnailPosition || 'center 50%';
+                                setPosts(updated);
+                                setIsDirty(true);
+                                showToast('✅ Đã đồng bộ Thumbnail sang Banner!');
+                              }
+                            }}
+                            className="px-3 py-2 rounded-xl bg-[#2A1D14] hover:bg-[#382618] border border-[#F2C14E]/40 text-[#FFE5A3] text-xs font-bold cursor-pointer"
+                          >
+                            Dùng làm Banner
                           </button>
                         </div>
-                      </InteractiveImageDrag>
+                      </div>
                     </div>
-                  ) : (
-                    <div
-                      onClick={() =>
-                        openS3Library((url) => {
-                          const updated = [...posts];
-                          updated[mediaModal.rowIndex].bannerUrl = url;
-                          setPosts(updated);
-                        }, posts[mediaModal.rowIndex])
-                      }
-                      onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); }}
-                      onDrop={async (e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        const f = e.dataTransfer.files?.[0];
-                        if (f && f.type.startsWith('image/')) {
-                          showToast('⏳ Đang tải ảnh Banner lên S3...');
-                          const url = await uploadImageFileDirectly(f);
-                          if (url) {
-                            const updated = [...posts];
-                            updated[mediaModal.rowIndex].bannerUrl = url;
-                            setPosts(updated);
-                          }
-                        }
-                      }}
-                      className="border-2 border-dashed border-[#F2C14E]/40 hover:border-[#F2C14E] rounded-2xl p-8 text-center cursor-pointer bg-[#25170E]/50 hover:bg-[#25170E] transition-all group"
-                      title="Bấm để chọn ảnh từ S3 hoặc Thả file ảnh vào đây"
+                  </div>
+
+                  {/* Nút lưu riêng cho Banner & Thumbnail */}
+                  <div className="flex justify-end pt-2">
+                    <button
+                      type="button"
+                      onClick={() => handleSaveMediaModal(mediaModal.rowIndex)}
+                      className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-[#F2C14E] to-[#E5A93C] hover:from-[#ffde59] hover:to-[#F2C14E] text-[#1A120B] text-xs font-bold flex items-center gap-2 shadow-md cursor-pointer hover:scale-102"
                     >
-                      <ImageIcon className="w-8 h-8 text-[#F2C14E]/60 mx-auto mb-2" />
-                      <p className="text-xs font-bold text-[#FFE5A3]">Chọn ảnh Banner từ S3 hoặc Kéo thả ảnh vào đây</p>
-                    </div>
-                  )}
+                      <Save className="w-4 h-4" />
+                      <span>Lưu Thiết Lập Ảnh Bìa</span>
+                    </button>
+                  </div>
                 </div>
               )}
 
@@ -2921,10 +3124,13 @@ export function SpreadsheetPosts() {
           } else {
             insertImageToEditor(url, caption);
           }
+          setImageLibraryOpen(false);
+          setTargetImageCallback(null);
+          setActiveArticleForMedia(null);
         }}
         articleImages={activeArticleForMedia?.images}
         articleTitle={activeArticleForMedia?.title}
-        initialPath="dong-chay-hoang-phap"
+        initialPath="03-dong-chay-hoang-phap"
       />
     </div>
   );
