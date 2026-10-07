@@ -13,6 +13,23 @@ export const MEDIA_TYPE_OPTIONS = [
 
 export const WISDOM_ITEMS: WisdomItem[] = [
   {
+    id: 'post-03',
+    slug: 'tac-pham-di-qua-kho-vui-cuoc-doi',
+    title: "Giới Thiệu Tác Phẩm 'Đi Qua Khổ Vui Cuộc Đời' — Thích Tâm Hòa",
+    type: 'book',
+    primaryCategoryTag: 'ẤN PHẨM & SÁCH',
+    originTag: {
+      type: 'space',
+      label: 'TỦ SÁCH TỨ ÂN',
+      targetUrl: '/tri-tue-phat-phap',
+    },
+    publishDate: '15/08/2026',
+    views: 35401,
+    thumbnailUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/page_01.webp',
+    mediaUrl: '',
+    excerpt: 'Tập văn ký hồi ức đúc kết hành trình tu tập, chiêm nghiệm nhân sinh và lòng tri ân sâu sắc đối với Tam Bảo cùng Thầy Tổ.',
+  },
+  {
     id: 'w1',
     slug: 'mai-mai-mot-niem-tin',
     title: '"Mãi mãi một niềm tin" Sa-môn Vô Trí | #phapthoai 001',

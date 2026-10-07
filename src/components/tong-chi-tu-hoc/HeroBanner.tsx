@@ -18,7 +18,7 @@ interface HeroBannerProps {
   backText?: string;
 }
 
-const DEFAULT_BANNER_IMAGE = 'https://admin.tunglamhoaphuc.com/wp-content/uploads/2026/07/bg-chua.jpg';
+const DEFAULT_BANNER_IMAGE = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp';
 
 export function HeroBanner({
   id = 'tong-chi-tu-hoc',

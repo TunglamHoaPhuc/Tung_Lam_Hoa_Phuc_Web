@@ -28,6 +28,9 @@ const WisdomCard = React.memo(({ item, onClick }: WisdomCardProps) => {
           decoding="async"
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 filter drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]"
           style={{ objectPosition: (item as any).thumbnailPosition || 'center center' }}
+          onError={(e) => {
+            (e.currentTarget as HTMLImageElement).src = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp';
+          }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#2C1C11] via-transparent to-black/40" />
 
@@ -97,11 +100,47 @@ export const WisdomArchiveSection: FC = () => {
   const [activeMediaModalItem, setActiveMediaModalItem] = useState<WisdomItem | null>(null);
   const [isExpanded, setIsExpanded] = useState(false);
 
-  // Tải bài viết: ưu tiên từ WordPress API admin.tunglamhoaphuc.com, fallback về local
+  // Tải bài viết: Đồng bộ động từ API Quản Trị Trí Tuệ Phật Pháp (/api/admin/posts)
   React.useEffect(() => {
     async function loadWisdomPosts() {
       try {
-        // 1. Gọi WordPress tunglam/v1 API
+        // 1. Gọi trực tiếp API Quản trị Trí Tuệ Phật Pháp để lấy toàn bộ 160+ bài viết thực tế
+        const res = await fetch(`/api/admin/posts?category=tri-tue-phat-phap&t=${Date.now()}`, { cache: 'no-store' });
+        if (res.ok) {
+          const json = await res.json();
+          if (json.success && Array.isArray(json.posts) && json.posts.length > 0) {
+            const mapped: WisdomItem[] = json.posts.map((p: any) => {
+              const thumbnailUrl = p.thumbnailUrl || p.bannerUrl || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp';
+              let mediaType: 'article' | 'audio' | 'video' | 'book' = 'article';
+              if (p.videoBlock?.videoUrl || (p.subCategory || '').includes('video')) {
+                mediaType = 'video';
+              } else if ((p.subCategory || '').includes('phap-am') || (p.title || '').toLowerCase().includes('pháp âm')) {
+                mediaType = 'audio';
+              } else if (p.sourceBook || p.subCategory === 'an-pham-sach') {
+                mediaType = 'book';
+              }
+
+              return {
+                id: String(p.id),
+                slug: p.slug || '',
+                title: p.title || '',
+                type: mediaType,
+                primaryCategoryTag: p.subtitle || p.categoryName || 'Trí Tuệ Phật Pháp',
+                publishDate: p.publishedDate ? new Date(p.publishedDate).toLocaleDateString('vi-VN') : '',
+                views: p.viewsCount || 108,
+                thumbnailUrl,
+                thumbnailPosition: p.thumbnailPosition || p.bannerPosition || 'center center',
+                excerpt: p.summary || p.subtitle || '',
+                content: p.content || '',
+                mediaUrl: p.videoBlock?.videoUrl || '',
+              };
+            });
+            setItems(mapped);
+            return;
+          }
+        }
+
+        // 2. Fallback sang WordPress API nếu cần
         const wpRes = await fetch(
           'https://admin.tunglamhoaphuc.com/wp-json/tunglam/v1/posts?per_page=50',
           { cache: 'no-store' }
@@ -112,7 +151,7 @@ export const WisdomArchiveSection: FC = () => {
           if (posts.length > 0) {
             const mapped: WisdomItem[] = posts.map((p: any) => {
               const imgUrls = p.featured_image_urls || {};
-              const thumbnailUrl = imgUrls.medium || imgUrls.large || imgUrls.thumbnail || '/images/toan-canh-chua.jpg';
+              const thumbnailUrl = imgUrls.medium || imgUrls.large || imgUrls.thumbnail || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp';
               const firstCat = Array.isArray(p.categories) ? p.categories[0] : null;
               return {
                 id: String(p.id),
@@ -129,12 +168,10 @@ export const WisdomArchiveSection: FC = () => {
               };
             });
             setItems(mapped);
-            return; // WP API thành công
           }
         }
       } catch (err) {
-        // Lỗi mạng: dùng local data
-        console.log('WP API unavailable, using local data:', err);
+        console.warn('Lỗi tải bài viết Trí Tuệ Phật Pháp:', err);
       }
     }
     loadWisdomPosts();
