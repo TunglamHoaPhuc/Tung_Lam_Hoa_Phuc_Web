@@ -318,6 +318,12 @@ export async function POST() {
       const existingSubtitle = (existing as any)?.subtitle || 'Tùng Lâm Hòa Phúc';
       const { title: cleanTitle, subtitle: cleanSubtitle } = splitTitle(wpTitle, existingSubtitle);
 
+      const wpPublishedDate = wp.date ? wp.date.split('T')[0] : (wp.date_gmt ? wp.date_gmt.split('T')[0] : '');
+      const rawWpAuthor = wp._embedded?.author?.[0]?.name;
+      const wpAuthor = (rawWpAuthor && rawWpAuthor !== 'admin_tunglam' && rawWpAuthor !== 'admin')
+        ? rawWpAuthor
+        : (existing?.author || 'Ban Văn Hóa Tùng Lâm');
+
       postMap.set(lookupKey, {
         ...(existing || {}),
         id: existingId || `post-${wpId}`,
@@ -328,8 +334,8 @@ export async function POST() {
         mainCategory: categoryMapping.mainCategory,
         subCategory: categoryMapping.subCategory,
         categoryName: categoryMapping.categoryName,
-        author: existing?.author || 'Ban Văn Hóa Tùng Lâm',
-        publishedDate: existing?.publishedDate || (wp.date ? wp.date.split('T')[0] : new Date().toISOString().split('T')[0]),
+        author: wpAuthor,
+        publishedDate: wpPublishedDate || existing?.publishedDate || new Date().toISOString().split('T')[0],
         status: 'published',
         viewsCount: existing?.viewsCount || 0,
         thumbnailUrl: finalBannerUrl,
@@ -341,6 +347,7 @@ export async function POST() {
         contentHtml: wp.content?.rendered || existing?.contentHtml || '',
         keywords: existing?.keywords || [],
         photoGallery: parsed.photoGallery.length > 0 ? parsed.photoGallery : (existing?.photoGallery || []),
+        wpModified: wp.modified,
       });
     }
 
@@ -353,6 +360,13 @@ export async function POST() {
     } catch {
       // ignore on serverless
     }
+
+    try {
+      const { revalidatePath } = await import('next/cache');
+      revalidatePath('/', 'page');
+      revalidatePath('/dong-chay-hoang-phap', 'page');
+      revalidatePath('/tri-tue-phat-phap', 'page');
+    } catch {}
 
     return NextResponse.json({
       success: true,
