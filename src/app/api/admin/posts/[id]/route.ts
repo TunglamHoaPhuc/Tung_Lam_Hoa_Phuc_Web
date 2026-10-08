@@ -47,26 +47,59 @@ export async function GET(
   let postIndex = posts.findIndex((p) => p.id === id || p.slug === id || String(p.wpPostId) === id);
   let post: any = postIndex !== -1 ? posts[postIndex] : null;
 
-  // Nếu bài đã có nhưng photoGallery chưa có hoặc rỗng, thử bóc tách lại từ WordPress
-  if (post && (!post.photoGallery || post.photoGallery.length === 0) && post.wpPostId) {
+  // 🪷 TỰ ĐỘNG ĐỒNG BỘ THỜI GIAN THỰC TỪ WORDPRESS:
+  // Nếu bài viết liên kết với WordPress, kiểm tra xem ngày xuất bản (post_date),
+  // tiêu đề, tác giả hoặc nội dung có bị thay đổi trong WordPress hay không.
+  if (post && post.wpPostId) {
     try {
       const wpRes = await fetch(`https://admin.tunglamhoaphuc.com/wp-json/wp/v2/posts/${post.wpPostId}?_embed=true`, {
         headers: { 'User-Agent': 'Mozilla/5.0' },
+        cache: 'no-store',
       });
       if (wpRes.ok) {
         const wpData = await wpRes.json();
-        const parsed = parseGutenbergPostContent(wpData.content?.rendered || '', wpData.title?.rendered || post.title);
-        if (parsed.photoGallery.length > 0) {
-          post.photoGallery = parsed.photoGallery;
-          if (parsed.cleanedContent) {
-            post.content = parsed.cleanedContent;
-          }
+        const wpDate = wpData.date ? wpData.date.split('T')[0] : (wpData.date_gmt ? wpData.date_gmt.split('T')[0] : '');
+        const cleanTitle = (wpData.title?.rendered || '')
+          .replace(/&#8211;/g, '–')
+          .replace(/&#8217;/g, '’')
+          .replace(/&amp;/g, '&')
+          .replace(/&#8230;/g, '…')
+          .trim();
+
+        const rawWpAuthor = wpData._embedded?.author?.[0]?.name;
+        const wpAuthor = (rawWpAuthor && rawWpAuthor !== 'admin_tunglam' && rawWpAuthor !== 'admin')
+          ? rawWpAuthor
+          : (post.author || 'Ban Văn Hóa Tùng Lâm');
+
+        const parsed = parseGutenbergPostContent(wpData.content?.rendered || '', cleanTitle || post.title);
+
+        const dateChanged = Boolean(wpDate && post.publishedDate !== wpDate);
+        const titleChanged = Boolean(cleanTitle && post.title !== cleanTitle);
+        const contentChanged = Boolean(parsed.cleanedContent && post.content !== parsed.cleanedContent);
+        const modifiedChanged = Boolean(wpData.modified && post.wpModified !== wpData.modified);
+        const galleryChanged = Boolean((!post.photoGallery || post.photoGallery.length === 0) && parsed.photoGallery.length > 0);
+
+        if (dateChanged || titleChanged || contentChanged || modifiedChanged || galleryChanged) {
+          post.publishedDate = wpDate || post.publishedDate;
+          if (cleanTitle) post.title = cleanTitle;
+          post.author = wpAuthor;
+          if (parsed.cleanedContent) post.content = parsed.cleanedContent;
+          if (wpData.content?.rendered) post.contentHtml = wpData.content.rendered;
+          if (parsed.photoGallery.length > 0) post.photoGallery = parsed.photoGallery;
+          post.wpModified = wpData.modified;
+
           posts[postIndex] = post;
           await savePosts(posts);
+
+          try {
+            revalidatePath('/', 'page');
+            revalidatePath('/dong-chay-hoang-phap', 'page');
+            if (post.slug) revalidatePath(`/dong-chay-hoang-phap/${post.slug}`, 'page');
+          } catch {}
         }
       }
     } catch (e) {
-      console.warn('Could not enrich post photoGallery from WP:', e);
+      console.warn('Could not check real-time post update from WP:', e);
     }
   }
 
@@ -80,6 +113,7 @@ export async function GET(
 
       const wpRes = await fetch(url, {
         headers: { 'User-Agent': 'Mozilla/5.0' },
+        cache: 'no-store',
       });
       if (wpRes.ok) {
         const wpData = await wpRes.json();
@@ -90,6 +124,11 @@ export async function GET(
             wpItem._embedded?.['wp:featuredmedia']?.[0]?.source_url ||
             parsed.featuredImageUrl ||
             'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp';
+
+          const rawWpAuthor = wpItem._embedded?.author?.[0]?.name;
+          const wpAuthor = (rawWpAuthor && rawWpAuthor !== 'admin_tunglam' && rawWpAuthor !== 'admin')
+            ? rawWpAuthor
+            : 'Ban Văn Hóa Tùng Lâm';
 
           post = {
             id: `post-${wpItem.id}`,
@@ -104,7 +143,7 @@ export async function GET(
             mainCategory: 'dong-chay-hoang-phap',
             subCategory: 'cong-tu',
             categoryName: 'Cộng Tu Định Kỳ',
-            author: 'Ban Văn Hóa Tùng Lâm',
+            author: wpAuthor,
             publishedDate: wpItem.date ? wpItem.date.split('T')[0] : new Date().toISOString().split('T')[0],
             status: 'published',
             viewsCount: 108,
@@ -115,6 +154,7 @@ export async function GET(
             contentHtml: wpItem.content?.rendered || '',
             keywords: [],
             photoGallery: parsed.photoGallery,
+            wpModified: wpItem.modified,
           };
 
           posts.unshift(post);

@@ -93,6 +93,7 @@ export interface PostRecord {
   previousEditions?: RelatedEdition[];
   upcomingEvents?: UpcomingEvent[];
   wpPostId?: string | number;
+  wpModified?: string;
 }
 
 import { loadServerlessJson, loadServerlessJsonAsync, saveServerlessJson } from '@/lib/serverless-db';
@@ -138,65 +139,6 @@ function mapCategories(catIds: number[] = []) {
   return { mainCategory: 'dong-chay-hoang-phap', subCategory: 'cong-tu', categoryName: 'Cộng Tu Định Kỳ' };
 }
 
-export async function GET(req: NextRequest) {
-  const { searchParams } = new URL(req.url);
-  const category = searchParams.get('category');
-  const search = searchParams.get('search');
-  const status = searchParams.get('status');
-
-  const [allPostsLoaded, deletedList] = await Promise.all([
-    getPosts(),
-    getDeletedPostsAsync(),
-  ]);
-  let allPosts = allPostsLoaded;
-  const deletedSet = new Set(deletedList.map((d) => d.id));
-  const deletedWpIds = new Set(deletedList.filter((d) => d.wpPostId).map((d) => String(d.wpPostId)));
-  const deletedSlugs = new Set(deletedList.filter((d) => d.slug).map((d) => d.slug));
-
-  // 🪷 TỰ ĐỘNG ĐỒNG BỘ LIÊN TỤC TỪ WORDPRESS ADMIN:
-  // Mỗi khi truy cập, tự động kiểm tra 10 bài mới nhất trên WordPress
-  // Nếu có bài mới hoặc bài chưa có photoGallery -> tự động bóc tách và lưu ngay lập tức
-  let hasChanges = false;
-  try {
-    const wpRes = await fetch('https://admin.tunglamhoaphuc.com/wp-json/wp/v2/posts?per_page=10&_embed=true', {
-      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' },
-      cache: 'no-store',
-    });
-
-    if (wpRes.ok) {
-      const wpPosts = await wpRes.json();
-      if (Array.isArray(wpPosts)) {
-        for (const wp of wpPosts) {
-          const wpId = wp.id;
-          const wpSlug = wp.slug || `bai-viet-${wpId}`;
-
-          // 🛡️ Bỏ qua nếu bài viết đã từng bị quản trị viên xóa
-          if (
-            deletedSet.has(`post-${wpId}`) ||
-            deletedWpIds.has(String(wpId)) ||
-            (wpSlug && deletedSlugs.has(wpSlug)) ||
-            isPostDeleted(`post-${wpId}`, wpId, wpSlug)
-          ) {
-            continue;
-          }
-
-          const existingIdx = allPosts.findIndex(
-            (p) => String(p.wpPostId) === String(wpId) || p.id === `post-${wpId}` || p.slug === wpSlug
-          );
-
-          const existing = existingIdx !== -1 ? allPosts[existingIdx] : null;
-          // Cần cập nhật nếu chưa có bài HOẶC bài chưa có photoGallery
-          const needsUpdate = !existing || !existing.photoGallery || existing.photoGallery.length === 0;
-
-          if (needsUpdate) {
-            const parsed = parseGutenbergPostContent(wp.content?.rendered || '', wp.title?.rendered || '');
-            const mappedCat = mapCategories(wp.categories || []);
-            const featuredUrl =
-              wp._embedded?.['wp:featuredmedia']?.[0]?.source_url ||
-              parsed.featuredImageUrl ||
-              existing?.thumbnailUrl ||
-              'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp';
-
 function decodeHtmlEntities(text: string): string {
   if (!text) return '';
   return text
@@ -233,19 +175,97 @@ function cleanSummary(rawExcerpt: string, content: string, existingSummary?: str
   return text || (existingSummary ? decodeHtmlEntities(existingSummary) : 'Tùng Lâm Hòa Phúc');
 }
 
-            const cleanTitle = decodeHtmlEntities(wp.title?.rendered || existing?.title || '').trim();
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const category = searchParams.get('category');
+  const search = searchParams.get('search');
+  const status = searchParams.get('status');
+
+  const [allPostsLoaded, deletedList] = await Promise.all([
+    getPosts(),
+    getDeletedPostsAsync(),
+  ]);
+  let allPosts = allPostsLoaded;
+  const deletedSet = new Set(deletedList.map((d) => d.id));
+  const deletedWpIds = new Set(deletedList.filter((d) => d.wpPostId).map((d) => String(d.wpPostId)));
+  const deletedSlugs = new Set(deletedList.filter((d) => d.slug).map((d) => d.slug));
+
+  // 🪷 TỰ ĐỘNG ĐỒNG BỘ LIÊN TỤC TỪ WORDPRESS ADMIN:
+  // Quét các bài viết trên WordPress theo thứ tự sửa đổi mới nhất (orderby=modified&order=desc)
+  // Đảm bảo khi bất kỳ bài viết nào được sửa ngày (post_date), tiêu đề, tác giả, nội dung trên WordPress,
+  // hệ thống sẽ tự động nhận diện và cập nhật vào cơ sở dữ liệu ngay lập tức theo thời gian thực.
+  let hasChanges = false;
+  try {
+    const wpRes = await fetch('https://admin.tunglamhoaphuc.com/wp-json/wp/v2/posts?per_page=30&orderby=modified&order=desc&_embed=true', {
+      headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' },
+      cache: 'no-store',
+    });
+
+    if (wpRes.ok) {
+      const wpPosts = await wpRes.json();
+      if (Array.isArray(wpPosts)) {
+        for (const wp of wpPosts) {
+          const wpId = wp.id;
+          const wpSlug = wp.slug || `bai-viet-${wpId}`;
+
+          // 🛡️ Bỏ qua nếu bài viết đã từng bị quản trị viên xóa
+          if (
+            deletedSet.has(`post-${wpId}`) ||
+            deletedWpIds.has(String(wpId)) ||
+            (wpSlug && deletedSlugs.has(wpSlug)) ||
+            isPostDeleted(`post-${wpId}`, wpId, wpSlug)
+          ) {
+            continue;
+          }
+
+          const existingIdx = allPosts.findIndex(
+            (p) => String(p.wpPostId) === String(wpId) || p.id === `post-${wpId}` || p.slug === wpSlug
+          );
+
+          const existing = existingIdx !== -1 ? allPosts[existingIdx] : null;
+
+          // 📅 Lấy chính xác ngày xuất bản post_date được chỉnh sửa từ bên trong WordPress (YYYY-MM-DD)
+          const wpPublishedDate = wp.date ? wp.date.split('T')[0] : (wp.date_gmt ? wp.date_gmt.split('T')[0] : '');
+
+          // ✍️ Lấy tác giả từ WordPress nếu có tên cụ thể (không phải generic admin)
+          const rawWpAuthor = wp._embedded?.author?.[0]?.name;
+          const wpAuthor = (rawWpAuthor && rawWpAuthor !== 'admin_tunglam' && rawWpAuthor !== 'admin')
+            ? rawWpAuthor
+            : (existing?.author || 'Ban Văn Hóa Tùng Lâm');
+
+          const cleanTitle = decodeHtmlEntities(wp.title?.rendered || '').trim();
+          const parsed = parseGutenbergPostContent(wp.content?.rendered || '', cleanTitle || wp.title?.rendered || '');
+
+          // ⚡ Phát hiện thay đổi tức thời từ WordPress:
+          const isNew = !existing;
+          const dateChanged = Boolean(wpPublishedDate && existing && existing.publishedDate !== wpPublishedDate);
+          const titleChanged = Boolean(cleanTitle && existing && existing.title !== cleanTitle);
+          const contentChanged = Boolean(parsed.cleanedContent && existing && existing.content !== parsed.cleanedContent);
+          const modifiedChanged = Boolean(wp.modified && existing && (existing as any).wpModified !== wp.modified);
+          const missingGallery = Boolean(existing && (!existing.photoGallery || existing.photoGallery.length === 0) && parsed.photoGallery.length > 0);
+
+          const needsUpdate = isNew || dateChanged || titleChanged || contentChanged || modifiedChanged || missingGallery;
+
+          if (needsUpdate) {
+            const mappedCat = mapCategories(wp.categories || []);
+            const featuredUrl =
+              wp._embedded?.['wp:featuredmedia']?.[0]?.source_url ||
+              parsed.featuredImageUrl ||
+              existing?.thumbnailUrl ||
+              'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp';
 
             const mergedPost: PostRecord = {
               id: existing?.id || `post-${wpId}`,
               wpPostId: wpId,
               slug: wpSlug,
-              title: cleanTitle,
+              title: cleanTitle || existing?.title || '',
               subtitle: decodeHtmlEntities(existing?.subtitle || 'Tùng Lâm Hòa Phúc'),
               mainCategory: existing?.mainCategory || mappedCat.mainCategory,
               subCategory: existing?.subCategory || mappedCat.subCategory,
               categoryName: existing?.categoryName || mappedCat.categoryName,
-              author: existing?.author || 'Ban Văn Hóa Tùng Lâm',
-              publishedDate: existing?.publishedDate || (wp.date ? wp.date.split('T')[0] : new Date().toISOString().split('T')[0]),
+              author: wpAuthor,
+              // 🌟 LUÔN LẤY CHÍNH XÁC NGÀY XUẤT BẢN POST_DATE TỪ WORDPRESS:
+              publishedDate: wpPublishedDate || existing?.publishedDate || new Date().toISOString().split('T')[0],
               status: 'published',
               viewsCount: existing?.viewsCount || 108,
               thumbnailUrl: existing?.thumbnailUrl || featuredUrl,
@@ -262,6 +282,7 @@ function cleanSummary(rawExcerpt: string, content: string, existingSummary?: str
               photoGallery: parsed.photoGallery.length > 0 ? parsed.photoGallery : (existing?.photoGallery || []),
               previousEditions: existing?.previousEditions || [],
               upcomingEvents: existing?.upcomingEvents || [],
+              wpModified: wp.modified,
             };
 
             if (existingIdx !== -1) {
@@ -280,6 +301,11 @@ function cleanSummary(rawExcerpt: string, content: string, existingSummary?: str
 
   if (hasChanges) {
     await savePosts(allPosts);
+    try {
+      revalidatePath('/', 'page');
+      revalidatePath('/dong-chay-hoang-phap', 'page');
+      revalidatePath('/tri-tue-phat-phap', 'page');
+    } catch {}
   }
 
   let posts = allPosts;

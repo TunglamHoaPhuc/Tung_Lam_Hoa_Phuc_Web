@@ -461,15 +461,21 @@ export function SpreadsheetPosts() {
   useEffect(() => {
     fetchPosts();
 
-    // 🌟 TỰ ĐỘNG CẬP NHẬT NGẦM: Khi quay lại từ tab Gutenberg, refresh nền không hiện spinner
+    // 🌟 TỰ ĐỘNG CẬP NHẬT NGẦM THEO THỜI GIAN THỰC TỪ WORDPRESS:
+    // 1. Khi quay lại cửa sổ (focus vào tab), tự động refresh ngầm nếu không có thay đổi chưa lưu
     const handleWindowFocus = () => {
-      if (hasOpenedGutenbergRef.current) {
-        hasOpenedGutenbergRef.current = false;
-        // 🛡️ CHỐNG MẤT BÀI: Nếu đang có thay đổi chưa lưu, tuyệt đối không tải đè từ máy chủ
-        if (isDirtyRef.current) return;
-        fetchPosts(true); // silent=true: không xóa bảng, không hiện spinner
-      }
+      hasOpenedGutenbergRef.current = false;
+      // 🛡️ CHỐNG MẤT BÀI: Nếu đang có thay đổi chưa lưu, tuyệt đối không tải đè từ máy chủ
+      if (isDirtyRef.current) return;
+      fetchPosts(true); // silent=true: không xóa bảng, không hiện spinner
     };
+
+    // 2. Định kỳ mỗi 45 giây tự động đồng bộ ngầm để luôn hiển thị ngày và nội dung mới nhất từ WordPress
+    const autoSyncInterval = setInterval(() => {
+      if (!isDirtyRef.current) {
+        fetchPosts(true);
+      }
+    }, 45000);
 
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       if (isDirtyRef.current) {
@@ -481,6 +487,7 @@ export function SpreadsheetPosts() {
     window.addEventListener('focus', handleWindowFocus);
     window.addEventListener('beforeunload', handleBeforeUnload);
     return () => {
+      clearInterval(autoSyncInterval);
       window.removeEventListener('focus', handleWindowFocus);
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
