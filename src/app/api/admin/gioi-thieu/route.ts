@@ -2,8 +2,16 @@ import { NextRequest, NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
 import fs from 'fs';
 import path from 'path';
+import { loadServerlessJsonAsync, saveServerlessJson } from '@/lib/serverless-db';
+import { parseGutenbergPostContent } from '@/lib/wp-post-parser';
 
 const DB_PATH = path.resolve(process.cwd(), 'src/data/gioi-thieu-database.json');
+export const DB_CONFIG = {
+  fileName: 'gioi-thieu-database.json',
+  localRelativePath: 'src/data/gioi-thieu-database.json',
+  s3Key: 'tunglamhoaphuc2/database/gioi-thieu-database.json',
+  defaultData: [] as GioiThieuRecord[],
+};
 
 export interface MilestoneItem {
   year: string;
@@ -36,31 +44,136 @@ export interface GioiThieuRecord {
   wpPostId?: string | number;
   status: 'published' | 'draft';
   orderIndex: number;
+  wpModified?: string;
 }
 
-function getTopics(): GioiThieuRecord[] {
-  if (!fs.existsSync(DB_PATH)) {
-    fs.writeFileSync(DB_PATH, '[]', 'utf8');
-    return [];
-  }
+function decodeHtmlEntities(text: string): string {
+  if (!text) return '';
+  return text
+    .replace(/&#8230;/g, '…')
+    .replace(/&hellip;/g, '…')
+    .replace(/&#8217;/g, '’')
+    .replace(/&#8216;/g, '‘')
+    .replace(/&#8220;/g, '“')
+    .replace(/&#8221;/g, '”')
+    .replace(/&#8211;/g, '–')
+    .replace(/&#8212;/g, '—')
+    .replace(/&quot;/g, '"')
+    .replace(/&#34;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&amp;/g, '&')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&#(\d+);/g, (_m, dec) => String.fromCharCode(parseInt(dec, 10)))
+    .normalize('NFC');
+}
+
+export async function getTopics(): Promise<GioiThieuRecord[]> {
   try {
-    const raw = fs.readFileSync(DB_PATH, 'utf8');
-    return JSON.parse(raw);
-  } catch {
-    return [];
+    const cloudTopics = await loadServerlessJsonAsync<GioiThieuRecord[]>(DB_CONFIG);
+    if (cloudTopics && Array.isArray(cloudTopics) && cloudTopics.length > 0) {
+      return cloudTopics;
+    }
+  } catch (e) {
+    console.warn('Could not load gioi-thieu from S3, falling back to local file:', e);
   }
+
+  if (fs.existsSync(DB_PATH)) {
+    try {
+      const raw = fs.readFileSync(DB_PATH, 'utf8');
+      return JSON.parse(raw);
+    } catch {
+      return [];
+    }
+  }
+  return [];
 }
 
-function saveTopics(topics: GioiThieuRecord[]) {
-  fs.writeFileSync(DB_PATH, JSON.stringify(topics, null, 2), 'utf8');
+export async function saveTopics(topics: GioiThieuRecord[]) {
+  try {
+    fs.writeFileSync(DB_PATH, JSON.stringify(topics, null, 2), 'utf8');
+  } catch (e) {
+    console.error('Error writing local gioi-thieu-database.json:', e);
+  }
+  await saveServerlessJson(DB_CONFIG, topics);
+}
+
+// 🔄 Đồng bộ bài viết từ WordPress Gutenberg vào danh sách chủ đề Giới Thiệu
+export async function syncWpForGioiThieu(topics: GioiThieuRecord[]): Promise<{ count: number; updatedSlugs: string[] }> {
+  let count = 0;
+  const updatedSlugs: string[] = [];
+
+  for (const topic of topics) {
+    if (!topic.wpPostId) continue;
+    const wpId = String(topic.wpPostId).trim();
+    if (!wpId || isNaN(Number(wpId))) continue;
+
+    try {
+      const wpRes = await fetch(`https://admin.tunglamhoaphuc.com/wp-json/wp/v2/posts/${wpId}?_embed=true`, {
+        headers: { 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)' },
+        cache: 'no-store',
+      });
+      if (!wpRes.ok) continue;
+
+      const wp = await wpRes.json();
+      const rawHtml = wp.content?.rendered || '';
+      const cleanTitle = decodeHtmlEntities(wp.title?.rendered || '').trim();
+      const parsed = parseGutenbergPostContent(rawHtml, cleanTitle || topic.title);
+      const featuredUrl = wp._embedded?.['wp:featuredmedia']?.[0]?.source_url;
+
+      const titleChanged = Boolean(cleanTitle && topic.title !== cleanTitle);
+      const contentChanged = Boolean(parsed.cleanedContent && topic.content !== parsed.cleanedContent);
+      const modifiedChanged = Boolean(wp.modified && topic.wpModified !== wp.modified);
+      const missingHtml = !topic.mainContentHtml || topic.mainContentHtml.trim() === '';
+
+      if (titleChanged || contentChanged || modifiedChanged || missingHtml) {
+        if (cleanTitle) topic.title = cleanTitle;
+        if (parsed.cleanedContent) topic.content = parsed.cleanedContent;
+        topic.mainContentHtml = rawHtml;
+        topic.wpModified = wp.modified;
+
+        if (featuredUrl) {
+          topic.heroBanner = featuredUrl;
+        }
+
+        if (parsed.photoGallery && parsed.photoGallery.length > 0) {
+          topic.galleryImages = parsed.photoGallery.map((p) => ({
+            url: p.imageUrl,
+            caption: p.caption || p.title || '',
+          }));
+        }
+
+        if (wp.excerpt?.rendered) {
+          const cleanEx = decodeHtmlEntities(wp.excerpt.rendered.replace(/<[^>]+>/g, '').trim());
+          if (cleanEx && cleanEx.length > 20) {
+            topic.overviewSummary = cleanEx;
+          }
+        }
+
+        count++;
+        updatedSlugs.push(topic.slug);
+      }
+    } catch (err) {
+      console.warn(`Error syncing WP post ${wpId} for topic ${topic.id}:`, err);
+    }
+  }
+
+  return { count, updatedSlugs };
 }
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const group = searchParams.get('group');
   const search = searchParams.get('search');
+  const syncWp = searchParams.get('syncWp') === 'true';
 
-  let topics = getTopics();
+  let topics = await getTopics();
+
+  if (syncWp) {
+    const { count } = await syncWpForGioiThieu(topics);
+    if (count > 0) {
+      await saveTopics(topics);
+    }
+  }
 
   if (group && group !== 'all') {
     topics = topics.filter((t) => t.groupCategory === group);
@@ -94,7 +207,7 @@ export async function PUT(req: NextRequest) {
       );
     }
 
-    const currentTopics = getTopics();
+    const currentTopics = await getTopics();
     const currentMap = new Map(currentTopics.map((t) => [t.id, t]));
 
     // Safeguard
@@ -106,7 +219,7 @@ export async function PUT(req: NextRequest) {
       return t;
     });
 
-    saveTopics(validated);
+    await saveTopics(validated);
 
     try {
       revalidatePath('/', 'page');
@@ -137,7 +250,7 @@ export async function PUT(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
-    const topics = getTopics();
+    const topics = await getTopics();
 
     const newId = body.id || `gt-${Date.now()}`;
     const slug =
@@ -169,10 +282,11 @@ export async function POST(req: NextRequest) {
       galleryImages: body.galleryImages || [],
       status: body.status || 'published',
       orderIndex: body.orderIndex || topics.length + 1,
+      wpPostId: body.wpPostId,
     };
 
     topics.push(newTopic);
-    saveTopics(topics);
+    await saveTopics(topics);
 
     try {
       revalidatePath('/', 'page');

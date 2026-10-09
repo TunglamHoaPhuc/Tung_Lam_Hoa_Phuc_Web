@@ -375,6 +375,8 @@ export function SpreadsheetGioiThieu() {
     getId: (t) => t.id,
   });
 
+  const [isSyncingWp, setIsSyncingWp] = useState(false);
+
   // Fetch topics from API
   const fetchTopics = async () => {
     try {
@@ -391,8 +393,38 @@ export function SpreadsheetGioiThieu() {
     }
   };
 
+  // 🔄 Đồng bộ toàn bộ nội dung từ WordPress Gutenberg về bảng tính Giới Thiệu
+  const handleSyncFromWordPress = async (silent: boolean = false) => {
+    if (isSyncingWp) return;
+    setIsSyncingWp(true);
+    if (!silent) showToast('⏳ Đang đồng bộ bài viết từ WordPress Gutenberg...');
+    try {
+      const res = await fetch('/api/admin/gioi-thieu/sync-wp', { method: 'POST' });
+      const data = await res.json();
+      if (data.success) {
+        await fetchTopics();
+        if (!silent) showToast(data.message || `🎉 Đã đồng bộ thành công ${data.count || 0} bài viết từ WordPress!`);
+      } else if (!silent) {
+        showToast(data.error || 'Lỗi khi đồng bộ WordPress');
+      }
+    } catch (err: any) {
+      if (!silent) showToast(`Lỗi kết nối WordPress: ${err.message}`);
+    } finally {
+      setIsSyncingWp(false);
+    }
+  };
+
   useEffect(() => {
     fetchTopics();
+  }, []);
+
+  // Tự động đồng bộ từ WordPress khi biên tập viên chuyển tab quay lại Next.js Admin
+  useEffect(() => {
+    const handleFocus = () => {
+      handleSyncFromWordPress(true);
+    };
+    window.addEventListener('focus', handleFocus);
+    return () => window.removeEventListener('focus', handleFocus);
   }, []);
 
   const openS3Library = (callback: (url: string, caption?: string) => void) => {
@@ -939,6 +971,21 @@ export function SpreadsheetGioiThieu() {
             title="Tải lại dữ liệu bài viết"
           >
             <RefreshCw className="w-5 h-5" />
+          </button>
+
+          {/* Nút 2.5: Đồng Bộ Từ WordPress Gutenberg */}
+          <button
+            type="button"
+            onClick={() => handleSyncFromWordPress(false)}
+            disabled={isSyncingWp}
+            className="w-10 h-10 rounded-xl bg-[#2A1D14] hover:bg-[#3A2718] border border-[#F2C14E]/50 text-[#F2C14E] hover:text-[#ffde59] flex items-center justify-center transition-all cursor-pointer shadow-md hover:scale-105 disabled:opacity-50"
+            title="Đồng bộ nội dung trực tiếp từ WordPress Gutenberg về bảng tính Giới Thiệu"
+          >
+            {isSyncingWp ? (
+              <Loader2 className="w-5 h-5 animate-spin text-[#F2C14E]" />
+            ) : (
+              <Scroll className="w-5 h-5" />
+            )}
           </button>
 
           {/* Nút 3: Lưu Bảng Tính */}

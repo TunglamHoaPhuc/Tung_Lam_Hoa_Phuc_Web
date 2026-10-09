@@ -107,6 +107,21 @@ const DB_CONFIG = {
   defaultData: [] as PostRecord[],
 };
 
+// 🛡️ DANH SÁCH BÀI VIẾT THUỘC CHUYÊN MỤC ĐẶC THÙ (GIỚI THIỆU & TÔNG CHỈ) - TUYỆT ĐỐI KHÔNG ĐƯA VÀO ADMIN/POSTS
+export const SPECIAL_GIOI_THIEU_WP_IDS = new Set(['508', '27596', '24824', '24674', '24470']);
+export const SPECIAL_GIOI_THIEU_SLUGS = new Set([
+  'lich-su-tung-lam-hoa-phuc',
+  'dai-su-lien-dang',
+  'su-ong-hoang-phap',
+  'su-phu-tru-tri',
+  'tieu-su-su-to',
+  'van-hoa-ung-xu',
+  'hoa-thuong-ngo-chan-tu',
+  'dai-su-thanh-luong',
+  'thay-thich-tam-hoa',
+]);
+export const SPECIAL_TONG_CHI_WP_IDS = new Set(['385', '403', '401', '470', '488', '650']);
+
 async function getPosts(): Promise<PostRecord[]> {
   const [posts, deletedList] = await Promise.all([
     loadServerlessJsonAsync<PostRecord[]>(DB_CONFIG),
@@ -117,7 +132,14 @@ async function getPosts(): Promise<PostRecord[]> {
   const deletedSlugs = new Set(deletedList.filter((d) => d.slug).map((d) => d.slug));
 
   return posts.filter(
-    (p) => !deletedSet.has(p.id) && !deletedWpIds.has(String(p.wpPostId)) && !deletedSlugs.has(p.slug)
+    (p) =>
+      !deletedSet.has(p.id) &&
+      !deletedWpIds.has(String(p.wpPostId)) &&
+      !deletedSlugs.has(p.slug) &&
+      !SPECIAL_GIOI_THIEU_WP_IDS.has(String(p.wpPostId)) &&
+      !SPECIAL_GIOI_THIEU_WP_IDS.has(String(p.id).replace('post-', '')) &&
+      !SPECIAL_GIOI_THIEU_SLUGS.has(p.slug) &&
+      !SPECIAL_TONG_CHI_WP_IDS.has(String(p.wpPostId))
   );
 }
 
@@ -210,12 +232,15 @@ export async function GET(req: NextRequest) {
             const wpId = wp.id;
             const wpSlug = wp.slug || `bai-viet-${wpId}`;
 
-            // 🛡️ Bỏ qua nếu bài viết đã từng bị quản trị viên xóa
+            // 🛡️ Bỏ qua nếu bài viết đã từng bị quản trị viên xóa hoặc thuộc Giới Thiệu / Tông Chỉ độc lập
             if (
               deletedSet.has(`post-${wpId}`) ||
               deletedWpIds.has(String(wpId)) ||
               (wpSlug && deletedSlugs.has(wpSlug)) ||
-              isPostDeleted(`post-${wpId}`, wpId, wpSlug)
+              isPostDeleted(`post-${wpId}`, wpId, wpSlug) ||
+              SPECIAL_GIOI_THIEU_WP_IDS.has(String(wpId)) ||
+              SPECIAL_GIOI_THIEU_SLUGS.has(wpSlug) ||
+              SPECIAL_TONG_CHI_WP_IDS.has(String(wpId))
             ) {
               continue;
             }
