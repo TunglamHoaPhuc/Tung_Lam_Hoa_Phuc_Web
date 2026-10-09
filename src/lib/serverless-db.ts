@@ -244,18 +244,24 @@ export async function saveServerlessJson<T>(opts: ServerlessDbOptions<T>, data: 
   const s3Target = s3Key || `tunglamhoaphuc2/database/${fileName}`;
   const s3Info = getS3Client();
   if (s3Info) {
-    try {
-      await s3Info.client.send(
-        new PutObjectCommand({
-          Bucket: s3Info.bucketName,
-          Key: s3Target,
-          Body: jsonStr,
-          ContentType: 'application/json',
-        })
-      );
+    const isDev = process.env.NODE_ENV !== 'production';
+    const s3Promise = s3Info.client.send(
+      new PutObjectCommand({
+        Bucket: s3Info.bucketName,
+        Key: s3Target,
+        Body: jsonStr,
+        ContentType: 'application/json',
+      })
+    ).then(() => {
       console.log(`✅ [serverless-db] Đã đồng bộ ${fileName} lên S3 (${s3Target}) thành công!`);
-    } catch (err) {
+    }).catch((err) => {
       console.error(`❌ [serverless-db] Lỗi đồng bộ S3 ${s3Target}:`, err);
+    });
+
+    // Trên production (Vercel): chờ S3 hoàn tất trước khi kết thúc Lambda lifecycle
+    // Trên local dev: không chặn luồng để phản hồi tức thì
+    if (!isDev) {
+      await s3Promise;
     }
   }
 
