@@ -375,42 +375,22 @@ export function SpreadsheetGioiThieu() {
     getId: (t) => t.id,
   });
 
-  const [isSyncingWp, setIsSyncingWp] = useState(false);
+  // Biến cờ ghi nhận khi người dùng vừa bấm mở tab Gutenberg
+  const hasOpenedGutenbergRef = useRef(false);
 
-  // Fetch topics from API
-  const fetchTopics = async () => {
+  // Fetch topics from API (hỗ trợ cờ silent: không làm đơ bảng khi refresh ngầm)
+  const fetchTopics = async (silent: boolean = false) => {
     try {
-      setLoading(true);
+      if (!silent) setLoading(true);
       const res = await fetch('/api/admin/gioi-thieu');
       const data = await res.json();
       if (data.success && data.topics) {
         setTopics(data.topics);
       }
     } catch (err: any) {
-      showToast(`Lỗi khi tải dữ liệu giới thiệu: ${err.message}`);
+      if (!silent) showToast(`Lỗi khi tải dữ liệu giới thiệu: ${err.message}`);
     } finally {
-      setLoading(false);
-    }
-  };
-
-  // 🔄 Đồng bộ toàn bộ nội dung từ WordPress Gutenberg về bảng tính Giới Thiệu
-  const handleSyncFromWordPress = async (silent: boolean = false) => {
-    if (isSyncingWp) return;
-    setIsSyncingWp(true);
-    if (!silent) showToast('⏳ Đang đồng bộ bài viết từ WordPress Gutenberg...');
-    try {
-      const res = await fetch('/api/admin/gioi-thieu/sync-wp', { method: 'POST' });
-      const data = await res.json();
-      if (data.success) {
-        await fetchTopics();
-        if (!silent) showToast(data.message || `🎉 Đã đồng bộ thành công ${data.count || 0} bài viết từ WordPress!`);
-      } else if (!silent) {
-        showToast(data.error || 'Lỗi khi đồng bộ WordPress');
-      }
-    } catch (err: any) {
-      if (!silent) showToast(`Lỗi kết nối WordPress: ${err.message}`);
-    } finally {
-      setIsSyncingWp(false);
+      if (!silent) setLoading(false);
     }
   };
 
@@ -418,14 +398,30 @@ export function SpreadsheetGioiThieu() {
     fetchTopics();
   }, []);
 
-  // Tự động đồng bộ từ WordPress khi biên tập viên chuyển tab quay lại Next.js Admin
+  // 🌟 ĐỒNG BỘ NGẦM THÔNG MINH: Chỉ chạy khi người dùng THỰC SỰ vừa mở tab Gutenberg sửa bài rồi quay lại
   useEffect(() => {
-    const handleFocus = () => {
-      handleSyncFromWordPress(true);
+    const handleWindowFocus = async () => {
+      if (!hasOpenedGutenbergRef.current) return;
+      hasOpenedGutenbergRef.current = false;
+
+      // 🛡️ CHỐNG MẤT BÀI: Nếu người dùng đang chỉnh sửa ô dở dang chưa lưu, không đè dữ liệu
+      if (isDirty) return;
+
+      try {
+        const res = await fetch('/api/admin/gioi-thieu/sync-wp', { method: 'POST' });
+        const data = await res.json();
+        if (data.success && data.count > 0) {
+          await fetchTopics(true); // silent refresh: không trắng màn hình, không skeleton
+          showToast(`✨ Đã tự động cập nhật nội dung mới từ WordPress Gutenberg!`);
+        }
+      } catch {
+        // Chạy ngầm êm ái, không làm phiền người dùng
+      }
     };
-    window.addEventListener('focus', handleFocus);
-    return () => window.removeEventListener('focus', handleFocus);
-  }, []);
+
+    window.addEventListener('focus', handleWindowFocus);
+    return () => window.removeEventListener('focus', handleWindowFocus);
+  }, [isDirty]);
 
   const openS3Library = (callback: (url: string, caption?: string) => void) => {
     setTargetImageCallback(() => callback);
@@ -787,6 +783,7 @@ export function SpreadsheetGioiThieu() {
 
   // 🌟 MỞ TRỰC TIẾP TRÌNH SOẠN THẢO WORDPRESS GUTENBERG (1-CLICK)
   const handleOpenGutenberg = async (row: GioiThieuRecord, index: number) => {
+    hasOpenedGutenbergRef.current = true;
     setOpeningWpId(row.id);
     showToast('⚡ Đang kết nối WordPress và nạp nội dung bài viết vào Gutenberg...');
 
@@ -966,26 +963,11 @@ export function SpreadsheetGioiThieu() {
           {/* Nút 2: Tải lại */}
           <button
             type="button"
-            onClick={fetchTopics}
+            onClick={() => fetchTopics(false)}
             className="w-10 h-10 rounded-xl bg-[#2A1D14] hover:bg-[#3A2718] border border-[#F2C14E]/50 text-[#F2C14E] hover:text-[#ffde59] flex items-center justify-center transition-all cursor-pointer shadow-md hover:scale-105"
             title="Tải lại dữ liệu bài viết"
           >
             <RefreshCw className="w-5 h-5" />
-          </button>
-
-          {/* Nút 2.5: Đồng Bộ Từ WordPress Gutenberg */}
-          <button
-            type="button"
-            onClick={() => handleSyncFromWordPress(false)}
-            disabled={isSyncingWp}
-            className="w-10 h-10 rounded-xl bg-[#2A1D14] hover:bg-[#3A2718] border border-[#F2C14E]/50 text-[#F2C14E] hover:text-[#ffde59] flex items-center justify-center transition-all cursor-pointer shadow-md hover:scale-105 disabled:opacity-50"
-            title="Đồng bộ nội dung trực tiếp từ WordPress Gutenberg về bảng tính Giới Thiệu"
-          >
-            {isSyncingWp ? (
-              <Loader2 className="w-5 h-5 animate-spin text-[#F2C14E]" />
-            ) : (
-              <Scroll className="w-5 h-5" />
-            )}
           </button>
 
           {/* Nút 3: Lưu Bảng Tính */}

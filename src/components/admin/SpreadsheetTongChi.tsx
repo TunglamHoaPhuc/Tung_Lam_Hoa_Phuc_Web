@@ -694,9 +694,11 @@ export function SpreadsheetTongChi() {
   // Trạng thái mở WordPress Gutenberg và đồng bộ
   const [openingWpId, setOpeningWpId] = useState<number | null>(null);
   const [isSyncingWp, setIsSyncingWp] = useState<boolean>(false);
+  const hasOpenedGutenbergRef = useRef<boolean>(false);
 
   // 🌟 MỞ TRỰC TIẾP TRÌNH SOẠN THẢO WORDPRESS GUTENBERG (1-CLICK KHÔNG QUA TRANG TRUNG GIAN)
   const handleOpenGutenberg = async (row: ArticleRow, index: number) => {
+    hasOpenedGutenbergRef.current = true;
     // 1. Nếu bài viết ĐÃ CÓ ID WordPress hợp lệ: Mở thẳng bài viết đó!
     const KNOWN_VALID_IDS = [385, 403, 401, 470, 488];
     const validWpId = row.wpPostId && !isNaN(Number(row.wpPostId)) && Number(row.wpPostId) > 0 ? Number(row.wpPostId) : null;
@@ -776,14 +778,17 @@ export function SpreadsheetTongChi() {
     }
   };
 
-  // Tự động đồng bộ từ WordPress khi biên tập viên chuyển tab quay lại Next.js Admin
+  // 🌟 Tự động đồng bộ ngầm khi biên tập viên THỰC SỰ vừa mở Gutenberg sửa bài rồi quay lại
   useEffect(() => {
     const handleWindowFocus = () => {
+      if (!hasOpenedGutenbergRef.current) return;
+      hasOpenedGutenbergRef.current = false;
+      if (isDirty) return;
       handleSyncFromWordPress(true);
     };
     window.addEventListener('focus', handleWindowFocus);
     return () => window.removeEventListener('focus', handleWindowFocus);
-  }, []);
+  }, [isDirty]);
 
   useEffect(() => {
     loadData();
