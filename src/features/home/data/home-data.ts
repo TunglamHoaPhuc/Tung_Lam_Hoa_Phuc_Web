@@ -55,21 +55,21 @@ export const HERO_CTAS: Array<{ label: string; icon: typeof Volume2 }> = [
 // ─── news ───────────────────────────────────────────────────────────────────
 export const NEWS: NewsItem[] = [
   {
-    img: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+    img: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     cat: "Tông chỉ tu học",
     title: "Pháp hội Bồ Đề Tâm – Đại lễ khai giảng khóa tu mùa hè 2024",
     date: "15/06/2024",
     side: "Dòng chảy hoằng pháp",
   },
   {
-    img: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
+    img: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     cat: "Dòng chảy hoằng pháp",
     title: "Chư Tôn Đức Tăng Ni thuyết pháp tại Đại giảng đường Hòa Phúc",
     date: "10/06/2024",
     side: "Tượng pháp",
   },
   {
-    img: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
+    img: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     cat: "Sinh hoạt cộng tu",
     title: "Lễ Sám Hối Sáu Căn tháng 6 – Hơn 500 Phật tử cùng tu học",
     date: "05/06/2024",
@@ -80,7 +80,7 @@ export const NEWS: NewsItem[] = [
 // ─── dharma ─────────────────────────────────────────────────────────────────
 export const DHARMA: DharmaCard[] = [
   {
-    img: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
+    img: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     type: "Pháp Âm",
     Icon: Volume2,
     title: "Pháp thoại: Tứ Diệu Đế và con đường giải thoát",
@@ -89,7 +89,7 @@ export const DHARMA: DharmaCard[] = [
     large: false,
   },
   {
-    img: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
+    img: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     type: "Videos",
     Icon: Video,
     title: "Phim tài liệu: Hành trình hoằng pháp tại Tùng Lâm Hòa Phúc",
@@ -98,7 +98,7 @@ export const DHARMA: DharmaCard[] = [
     large: false,
   },
   {
-    img: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
+    img: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     type: "Bài Viết",
     Icon: FileText,
     title: "Giáo lý Bát Nhã Ba La Mật và thực hành thiền quán",
@@ -107,7 +107,7 @@ export const DHARMA: DharmaCard[] = [
     large: false,
   },
   {
-    img: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
+    img: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     type: "Truyện Ngắn",
     Icon: BookOpen,
     title: "Câu chuyện thiền: Tiếng chuông ban mai và tâm thức tỉnh",
@@ -116,7 +116,7 @@ export const DHARMA: DharmaCard[] = [
     large: false,
   },
   {
-    img: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
+    img: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     type: "Giáo Lý Phật Giáo",
     Icon: Book,
     title: "Khuyến Phát Bồ Đề Tâm Giảng Luận (4 quyển) – Thích Tâm Hòa",
@@ -187,21 +187,21 @@ export const LEGEND: Legend[] = [
 
 export const EVT_SLIDES: EventSlide[] = [
   {
-    img: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+    img: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     type: "Sám Nguyện",
     title: "Lễ Sám Nguyện tháng 6",
     date: "14 & 29 âm lịch",
     dot: C.dotRed,
   },
   {
-    img: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
+    img: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     type: "Sám Hối Sáu Căn",
     title: "Khóa Sám Hối Sáu Căn định kỳ",
     date: "Mỗi thứ 7 đầu tháng",
     dot: C.dotPurple,
   },
   {
-    img: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
+    img: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     type: "Sinh Hoạt Ngoại Khóa",
     title: "Sinh Hoạt Ngoại Khóa – Mùa hè 2024",
     date: "Chủ nhật, 30/06/2024",
@@ -212,19 +212,19 @@ export const EVT_SLIDES: EventSlide[] = [
 // ─── programs ───────────────────────────────────────────────────────────────
 export const PROGRAMS: Program[] = [
   {
-    img: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
+    img: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     title: "Sám Nguyện",
     schedule: "Mùng 1 và Rằm âm lịch hằng tháng",
     emoji: "🪷",
   },
   {
-    img: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
+    img: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     title: "Sám Hối Sáu Căn",
     schedule: "14 và 29/30 âm lịch hằng tháng",
     emoji: "🔔",
   },
   {
-    img: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
+    img: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     title: "Sinh Hoạt Ngoại Khóa",
     schedule: "Chủ nhật đầu tháng âm lịch",
     emoji: "🌿",
@@ -234,25 +234,25 @@ export const PROGRAMS: Program[] = [
 // ─── gallery: areas ────────────────────────────────────────────────────────
 export const AREAS: Area[] = [
   {
-    img: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
+    img: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-_-tong-phong-truyen-thua_-bai-tho-mien-nam-chon-to_thumbnail_herobanner-1787470412489.webp",
     name: "TAM BẢO",
     sub: "Chánh điện – Trung tâm tu học",
     info: "Diện tích: 2.500 m²",
   },
   {
-    img: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
+    img: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
     name: "THIỀN ĐƯỜNG",
     sub: "Không gian thiền tọa tĩnh lặng",
     info: "Sức chứa: 300 người",
   },
   {
-    img: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+    img: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
     name: "HỒ PHÓNG SINH",
     sub: "Vườn phóng sinh & thiền hành",
     info: "Diện tích: 1.200 m²",
   },
   {
-    img: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
+    img: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
     name: "ĐẠI GIẢNG ĐƯỜNG",
     sub: "Hội trường đa năng hoằng pháp",
     info: "Sức chứa: 500 người",
@@ -262,21 +262,21 @@ export const AREAS: Area[] = [
 // ─── gallery: statues ──────────────────────────────────────────────────────
 export const STATUES: Statue[] = [
   {
-    img: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
+    img: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     name: "THÍCH CA MÂU NI PHẬT",
     sub: "Bảo tượng ngoài trời – Sân chính",
     cluster: "Tứ Phật Cảnh",
     area: "Tam Bảo",
   },
   {
-    img: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
+    img: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     name: "QUAN THẾ ÂM BỒ TÁT",
     sub: "Bảo tượng giữa hồ phóng sinh",
     cluster: "Bồ Tát Đạo Tràng",
     area: "Hồ Phóng Sinh",
   },
   {
-    img: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
+    img: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     name: "A DI ĐÀ PHẬT",
     sub: "Bảo tượng vườn thiền hành",
     cluster: "Tịnh Độ Đạo Tràng",

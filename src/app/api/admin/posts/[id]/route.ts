@@ -73,18 +73,23 @@ export async function GET(
 
         const parsed = parseGutenbergPostContent(wpData.content?.rendered || '', cleanTitle || post.title);
 
-        const dateChanged = Boolean(wpDate && post.publishedDate !== wpDate);
-        const titleChanged = Boolean(cleanTitle && post.title !== cleanTitle);
-        const contentChanged = Boolean(parsed.cleanedContent && post.content !== parsed.cleanedContent);
+        // 🛡️ CHỈ CHO PHÉP WORDPRESS GHI ĐÈ NẾU WP THỰC SỰ ĐƯỢC SỬA TỪ GUTENBERG (modified thay đổi)
+        const isWpModifiedNewer = Boolean(wpData.modified && post.wpModified && wpData.modified !== post.wpModified);
+        const isFirstWpSync = !post.wpModified;
+        const allowWpOverride = isWpModifiedNewer || isFirstWpSync;
+
+        const dateChanged = Boolean(wpDate && post.publishedDate !== wpDate && allowWpOverride);
+        const titleChanged = Boolean(cleanTitle && post.title !== cleanTitle && allowWpOverride);
+        const contentChanged = Boolean(parsed.cleanedContent && post.content !== parsed.cleanedContent && allowWpOverride);
         const modifiedChanged = Boolean(wpData.modified && post.wpModified !== wpData.modified);
         const galleryChanged = Boolean((!post.photoGallery || post.photoGallery.length === 0) && parsed.photoGallery.length > 0);
 
         if (dateChanged || titleChanged || contentChanged || modifiedChanged || galleryChanged) {
-          post.publishedDate = wpDate || post.publishedDate;
-          if (cleanTitle) post.title = cleanTitle;
-          post.author = wpAuthor;
-          if (parsed.cleanedContent) post.content = parsed.cleanedContent;
-          if (wpData.content?.rendered) post.contentHtml = wpData.content.rendered;
+          if (dateChanged) post.publishedDate = wpDate || post.publishedDate;
+          if (titleChanged && cleanTitle) post.title = cleanTitle;
+          if (allowWpOverride) post.author = wpAuthor;
+          if (contentChanged && parsed.cleanedContent) post.content = parsed.cleanedContent;
+          if (allowWpOverride && wpData.content?.rendered) post.contentHtml = wpData.content.rendered;
           if (parsed.photoGallery.length > 0) post.photoGallery = parsed.photoGallery;
           post.wpModified = wpData.modified;
 
@@ -123,7 +128,7 @@ export async function GET(
           const featuredUrl =
             wpItem._embedded?.['wp:featuredmedia']?.[0]?.source_url ||
             parsed.featuredImageUrl ||
-            'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp';
+            'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp';
 
           const rawWpAuthor = wpItem._embedded?.author?.[0]?.name;
           const wpAuthor = (rawWpAuthor && rawWpAuthor !== 'admin_tunglam' && rawWpAuthor !== 'admin')
@@ -217,6 +222,7 @@ export async function PUT(
 
     let targetIndex = index;
     const oldDate = index !== -1 ? posts[index].publishedDate : undefined;
+    const oldTitle = index !== -1 ? posts[index].title : undefined;
 
     if (targetIndex === -1) {
       const newPost: PostRecord = {
@@ -226,31 +232,55 @@ export async function PUT(
       posts.unshift(newPost);
       targetIndex = 0;
     } else {
+      const orig = posts[targetIndex];
+      let safeContent = body.content;
+      if (orig && orig.content && orig.content.trim() !== '') {
+        if (!safeContent || safeContent.trim() === '') {
+          safeContent = orig.content;
+        } else if (
+          safeContent.trim().length <= 300 &&
+          orig.content.trim().length > 300 &&
+          orig.content.trim().startsWith(safeContent.trim().slice(0, 50))
+        ) {
+          safeContent = orig.content;
+        }
+      }
       posts[targetIndex] = {
         ...posts[targetIndex],
         ...body,
+        content: safeContent ?? posts[targetIndex].content,
         id: posts[targetIndex].id, // Prevent ID override
       };
     }
 
     await savePosts(posts);
 
-    // ⚡ TỰ ĐỘNG ĐỒNG BỘ NGÀY ĐĂNG SANG WORDPRESS (CHỜ HOÀN TẤT)
+    // ⚡ TỰ ĐỘNG ĐỒNG BỘ NGÀY ĐĂNG & TIÊU ĐỀ SANG WORDPRESS (CHỜ HOÀN TẤT)
     const targetWpPostId = posts[targetIndex].wpPostId;
-    if (targetWpPostId && body.publishedDate && oldDate !== body.publishedDate) {
-      try {
-        const wpRes = await updateWpPostFields(
-          targetWpPostId,
-          { date: formatWpDate(body.publishedDate), status: 'publish' },
-          'posts'
-        );
-        if (wpRes.success) {
-          console.log(`✅ [sync-wp-date] Đã đồng bộ ngày lên WP #${targetWpPostId}: ${body.publishedDate}`);
-        } else {
-          console.warn(`⚠️ [sync-wp-date] Lỗi đồng bộ ngày lên WP #${targetWpPostId}:`, wpRes.error);
+    if (targetWpPostId) {
+      const wpPayload: Record<string, any> = {};
+      if (body.publishedDate && oldDate !== body.publishedDate) {
+        wpPayload.date = formatWpDate(body.publishedDate);
+      }
+      if (body.title && oldTitle !== body.title) {
+        wpPayload.title = body.title;
+      }
+      if (Object.keys(wpPayload).length > 0) {
+        try {
+          wpPayload.status = 'publish';
+          const wpRes = await updateWpPostFields(targetWpPostId, wpPayload, 'posts');
+          if (wpRes.success) {
+            console.log(`✅ [sync-wp-fields] Đã đồng bộ lên WP #${targetWpPostId}:`, Object.keys(wpPayload));
+            if (wpRes.data?.modified) {
+              posts[targetIndex].wpModified = wpRes.data.modified;
+              await savePosts(posts);
+            }
+          } else {
+            console.warn(`⚠️ [sync-wp-fields] Lỗi đồng bộ lên WP #${targetWpPostId}:`, wpRes.error);
+          }
+        } catch (e) {
+          console.warn('[auto-sync-wp-fields error]', e);
         }
-      } catch (e) {
-        console.warn('[auto-sync-wp-date error]', e);
       }
     }
 

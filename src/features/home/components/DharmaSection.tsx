@@ -14,7 +14,7 @@ import { PostItem } from '@/types/post';
 const INITIAL_TOP_POSTS: PostItem[] = [
   {
     id: 'tc-4',
-    imageUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-nen-tang-tu-hoc-bo-de-tam-herobanner-thumbnail.webp',
+    imageUrl: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-nen-tang-tu-hoc-bo-de-tam-herobanner-thumbnail.webp',
     category1: 'Tông Chỉ Tu Học',
     category2: 'NỀN TẢNG TU HỌC',
     category1Url: '/tong-chi-tu-hoc',
@@ -27,7 +27,7 @@ const INITIAL_TOP_POSTS: PostItem[] = [
   },
   {
     id: 'post-02',
-    imageUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp',
+    imageUrl: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp',
     category1: 'Dòng Chảy Hoằng Pháp',
     category2: 'HOẰNG PHÁP ĐỘ SINH',
     category1Url: '/dong-chay-hoang-phap',
@@ -40,7 +40,7 @@ const INITIAL_TOP_POSTS: PostItem[] = [
   },
   {
     id: 'post-26827',
-    imageUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/page_01.webp',
+    imageUrl: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/page_01.webp',
     category1: 'Trí Tuệ Phật Pháp',
     category2: 'PHÁP ÂM & KHAI THỊ',
     category1Url: '/tri-tue-phat-phap',
@@ -66,7 +66,7 @@ const INITIAL_TOP_POSTS: PostItem[] = [
   },
   {
     id: 'post-01',
-    imageUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp',
+    imageUrl: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp',
     category1: 'Dòng Chảy Hoằng Pháp',
     category2: 'CỘNG TU ĐỊNH KỲ',
     category1Url: '/dong-chay-hoang-phap',
@@ -79,7 +79,7 @@ const INITIAL_TOP_POSTS: PostItem[] = [
   },
   {
     id: 'post-03',
-    imageUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp',
+    imageUrl: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp',
     category1: 'Trí Tuệ Phật Pháp',
     category2: 'TỦ SÁCH TỨ ÂN',
     category1Url: '/tri-tue-phat-phap',

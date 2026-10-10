@@ -27,7 +27,7 @@ export interface VerticalAnchorNavProps {
 export const VerticalAnchorNav: FC<VerticalAnchorNavProps> = ({
   sections,
   pageTitle = "TRANG CHỦ",
-  logoUrl = "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/bieu-tuong-tong-chi-tu-hoc-tung-lam-hoa-phuc.webp",
+  logoUrl = "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/bieu-tuong-tong-chi-tu-hoc-tung-lam-hoa-phuc.webp",
   activeSectionId,
   onSectionChange,
   position = "left",

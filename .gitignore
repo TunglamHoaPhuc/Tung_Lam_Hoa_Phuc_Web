@@ -1,4 +1,4 @@
-﻿# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # =========================
 # Dependencies
@@ -88,6 +88,7 @@ next-env.d.ts
 s3_keys.json
 rclone.conf
 *.rclone*
+scripts/s3/migrate_s2_to_new_bucket.mjs
 
 # =========================
 # Scratch, Temp AI/Dev Files

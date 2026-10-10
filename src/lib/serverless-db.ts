@@ -46,7 +46,7 @@ function getS3Client(): { client: S3Client; bucketName: string } | null {
   let accessKey = process.env.S3_ACCESS_KEY_ID || '005bc25330e1c1f0000000029';
   let endpoint = process.env.S3_ENDPOINT || 'https://s3.us-east-005.backblazeb2.com';
   let region = process.env.S3_REGION || 'us-east-005';
-  let bucketName = process.env.S3_BUCKET_NAME || 's2-cnv03';
+  let bucketName = process.env.S3_BUCKET_NAME || 'media-tunglamhoaphuc';
 
   // Fallback: read .env.local on disk if secretKey missing in process.env
   if (!secretKey) {

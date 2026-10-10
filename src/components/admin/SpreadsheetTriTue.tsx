@@ -91,6 +91,7 @@ export function SpreadsheetTriTue() {
 
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [sortBy, setSortBy] = useState<'default' | 'views-desc' | 'views-asc'>('default');
   const [openingWpId, setOpeningWpId] = useState<string | null>(null);
 
   // S3 File Explorer Modal
@@ -482,9 +483,9 @@ export function SpreadsheetTriTue() {
       publishedDate: new Date().toISOString().split('T')[0],
       status: 'published',
       viewsCount: 0,
-      thumbnailUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp',
+      thumbnailUrl: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp',
       thumbnailPosition: 'center 50%',
-      bannerUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp',
+      bannerUrl: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp',
       bannerPosition: 'center 50%',
       summary: 'Tóm tắt nội dung bài viết...',
       content: 'Nội dung bài viết bắt đầu tại đây...',
@@ -534,7 +535,7 @@ export function SpreadsheetTriTue() {
 
   // Danh sách đã lọc: Chỉ hiển thị các bài thuộc 'tri-tue-phat-phap'
   const filteredPosts = useMemo(() => {
-    return posts.filter((p) => {
+    let result = posts.filter((p) => {
       if (p.mainCategory !== 'tri-tue-phat-phap') return false;
       if (selectedCategory !== 'all' && p.subCategory !== selectedCategory) return false;
 
@@ -547,7 +548,15 @@ export function SpreadsheetTriTue() {
       }
       return true;
     });
-  }, [posts, selectedCategory, debouncedSearch]);
+
+    if (sortBy === 'views-desc') {
+      result = [...result].sort((a, b) => (Number(b.viewsCount) || 0) - (Number(a.viewsCount) || 0));
+    } else if (sortBy === 'views-asc') {
+      result = [...result].sort((a, b) => (Number(a.viewsCount) || 0) - (Number(b.viewsCount) || 0));
+    }
+
+    return result;
+  }, [posts, selectedCategory, debouncedSearch, sortBy]);
 
   const {
     currentPage,
@@ -658,16 +667,28 @@ export function SpreadsheetTriTue() {
           })}
         </div>
 
-        {/* Search Input */}
-        <div className="relative w-full sm:w-72">
-          <Search className="w-4 h-4 text-[#F2C14E]/70 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Tìm theo tiêu đề, tác giả..."
-            className="w-full pl-9 pr-3 py-2 bg-[#1C120A] border border-[#F2C14E]/30 rounded-xl text-xs text-[#FFE5A3] placeholder-[#c9b896]/40 focus:outline-none focus:border-[#F2C14E] shadow-inner"
-          />
+        {/* Search Input & Sort Dropdown */}
+        <div className="flex items-center gap-2.5 w-full sm:w-auto">
+          <div className="relative w-full sm:w-64">
+            <Search className="w-4 h-4 text-[#F2C14E]/70 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Tìm theo tiêu đề, tác giả..."
+              className="w-full pl-9 pr-3 py-2 bg-[#1C120A] border border-[#F2C14E]/30 rounded-xl text-xs text-[#FFE5A3] placeholder-[#c9b896]/40 focus:outline-none focus:border-[#F2C14E] shadow-inner"
+            />
+          </div>
+
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value as any)}
+            className="px-3 py-2 bg-[#1C120A] border border-[#F2C14E]/30 rounded-xl text-xs text-[#FFE5A3] font-bold focus:outline-none focus:border-[#F2C14E] cursor-pointer shadow-inner shrink-0"
+          >
+            <option value="default">Thứ tự mặc định</option>
+            <option value="views-desc">👁️ Lượt xem cao nhất</option>
+            <option value="views-asc">👁️ Lượt xem thấp nhất</option>
+          </select>
         </div>
       </div>
 
@@ -683,6 +704,7 @@ export function SpreadsheetTriTue() {
                 <th className="p-3 w-[220px] min-w-[220px] border-r border-[#F2C14E]/20">Tiêu Đề Bài Viết</th>
                 <th className="p-3 w-[200px] min-w-[200px] border-r border-[#F2C14E]/20">Tiêu Đề Phụ</th>
                 <th className="p-3 w-[180px] min-w-[180px] border-r border-[#F2C14E]/20">Tác Giả & Ngày</th>
+                <th className="p-3 w-[110px] min-w-[110px] border-r border-[#F2C14E]/20 text-center" title="Lượt xem đo lường thực tế từ độc giả khi đọc bài">Lượt Xem</th>
                 <th className="p-3 w-[150px] min-w-[150px] border-r border-[#F2C14E]/20 text-center">Đa Phương Tiện</th>
                 <th className="p-3 border-r border-[#F2C14E]/20 cursor-help" title="Nhấp vào ô để mở trình soạn thảo bài viết trực tiếp">
                   <div className="flex items-center gap-1.5">
@@ -698,14 +720,14 @@ export function SpreadsheetTriTue() {
             <tbody className="divide-y divide-[#F2C14E]/15">
               {loading ? (
                 <tr>
-                  <td colSpan={9} className="p-12 text-center text-[#c9b896]/70">
+                  <td colSpan={10} className="p-12 text-center text-[#c9b896]/70">
                     <Loader2 className="w-8 h-8 animate-spin mx-auto mb-2 text-[#F2C14E]" />
                     <span>Đang tải dữ liệu bài viết Trí Tuệ Phật Pháp...</span>
                   </td>
                 </tr>
               ) : filteredPosts.length === 0 ? (
                 <tr>
-                  <td colSpan={9} className="p-12 text-center text-[#c9b896]/70">
+                  <td colSpan={10} className="p-12 text-center text-[#c9b896]/70">
                     Chưa có bài viết nào trong chuyên mục Trí Tuệ Phật Pháp này.
                   </td>
                 </tr>
@@ -791,7 +813,7 @@ export function SpreadsheetTriTue() {
                             title="Bấm để mở cài đặt Ảnh Bìa Hero / Thumbnail"
                           >
                             <img
-                              src={row.thumbnailUrl || row.bannerUrl || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp'}
+                              src={row.thumbnailUrl || row.bannerUrl || 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp'}
                               alt="Ảnh bìa"
                               className="w-full h-full object-cover"
                               style={{ objectPosition: row.thumbnailPosition || row.bannerPosition || 'center 50%' }}
@@ -880,6 +902,30 @@ export function SpreadsheetTriTue() {
                             }}
                             className="w-full px-2.5 py-1 bg-[#22140A] border border-[#52331C] rounded-xl text-[11px] text-[#c9b896] focus:outline-none cursor-pointer"
                           />
+                        </div>
+                      </td>
+
+                      {/* 5.5. Số Lượt Xem Thực Tế (Đo lường từ độc giả đọc bài) */}
+                      <td className="p-2 w-[110px] min-w-[110px] border-r border-[#F2C14E]/15 align-middle text-center bg-[#170E08]/40">
+                        <div className="flex flex-col items-center justify-center gap-1">
+                          <span
+                            title={`Lượt xem đo lường thực tế: ${typeof row.viewsCount === 'number' ? row.viewsCount.toLocaleString('vi-VN') : row.viewsCount || 0} lượt`}
+                            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-[#25170E] border border-[#F2C14E]/40 text-[#FFE5A3] font-mono text-xs font-bold shadow-sm"
+                          >
+                            <Eye className="w-3.5 h-3.5 text-[#F2C14E] shrink-0" />
+                            <span>
+                              {typeof row.viewsCount === 'number'
+                                ? row.viewsCount >= 10000
+                                  ? `${(row.viewsCount / 1000).toFixed(1)}K`
+                                  : row.viewsCount.toLocaleString('vi-VN')
+                                : row.viewsCount || 0}
+                            </span>
+                          </span>
+                          <span className="text-[10px] text-[#c9b896]/60 font-sans">
+                            {typeof row.viewsCount === 'number' && row.viewsCount >= 10000
+                              ? `(${row.viewsCount.toLocaleString('vi-VN')})`
+                              : 'lượt đọc'}
+                          </span>
                         </div>
                       </td>
 
@@ -1396,7 +1442,7 @@ export function SpreadsheetTriTue() {
                     <div className="flex flex-col sm:flex-row items-center gap-4">
                       <div className="w-48 h-36 shrink-0 rounded-2xl overflow-hidden border-2 border-[#F2C14E]/60 bg-black relative shadow-lg">
                         <InteractiveImageDrag
-                          imageUrl={posts[mediaModal.rowIndex].thumbnailUrl || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp'}
+                          imageUrl={posts[mediaModal.rowIndex].thumbnailUrl || 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp'}
                           position={posts[mediaModal.rowIndex].thumbnailPosition || 'center 50%'}
                           onPositionChange={(pos) => {
                             const updated = [...posts];

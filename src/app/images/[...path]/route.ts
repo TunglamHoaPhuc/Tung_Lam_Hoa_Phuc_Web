@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import path from 'path';
 
-const S3_BASE_DOMAIN = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com';
+const S3_BASE_DOMAIN = 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com';
 
 // Cache lookup map trong bộ nhớ để tốc độ xử lý đạt micro-seconds
 let keyLookupMap: Map<string, string> | null = null;

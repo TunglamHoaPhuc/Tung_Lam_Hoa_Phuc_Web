@@ -2,16 +2,17 @@
 
 import React, { FC } from 'react';
 import Link from 'next/link';
-import { Eye, Calendar } from 'lucide-react';
+import { Eye, Calendar, Sparkles } from 'lucide-react';
 import { PostItem } from '@/types/post';
 
 export interface PostCardProps {
   post: PostItem;
   large?: boolean;
   className?: string;
+  variant?: 'portrait' | 'golden';
 }
 
-const DEFAULT_TEMPLE_LOGO = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/bieu-tuong-tong-chi-tu-hoc-tung-lam-hoa-phuc.webp';
+const DEFAULT_TEMPLE_LOGO = 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/bieu-tuong-tong-chi-tu-hoc-tung-lam-hoa-phuc.webp';
 
 /**
  * Tự động ánh xạ biểu tượng đặc trưng theo từng danh mục bài viết
@@ -23,21 +24,85 @@ const getCategoryIcon = (category?: string, subCategory?: string, title?: string
   const t = (title || '').toLowerCase();
 
   // 1. Trí Tuệ Phật Pháp / Pháp Âm
-  if (cat.includes('trí tuệ') || cat.includes('tri tue') || sub.includes('pháp âm') || sub.includes('phap am') || t.includes('pháp âm') || t.includes('phap am')) {
-    if (sub.includes('pháp âm') || sub.includes('phap am') || t.includes('pháp âm') || t.includes('phap am')) {
+  if (cat.includes('trí tuệ') || cat.includes('tri tue') || sub.includes('pháp âm') || sub.includes('phap am') || t.includes('pháp âm') || t.includes('phap am') || cat.includes('phap-am') || sub.includes('phap-am')) {
+    if (sub.includes('pháp âm') || sub.includes('phap am') || t.includes('pháp âm') || t.includes('phap am') || sub.includes('phap-am')) {
       return '/images/icons/icon-phap-am.webp';
     }
     return '/images/icons/icon-tri-tue-phat-phap.webp';
   }
 
-  // 2. Dòng Chảy Hoằng Pháp
-  if (cat.includes('dòng chảy') || cat.includes('dong chay') || cat.includes('hoằng pháp') || cat.includes('hoang phap') || sub.includes('hoằng pháp') || sub.includes('cộng tu')) {
-    return '/images/icons/icon-dong-chay-hoang-phap.webp';
+  // 2. Tông Chỉ Tu Học
+  if (cat.includes('tông chỉ') || cat.includes('tong chi') || cat.includes('tong-chi') || cat.includes('tông phong') || cat.includes('bồ đề tâm')) {
+    return '/images/icons/icon-tong-chi-tu-hoc.webp';
   }
 
-  // 3. Tông Chỉ Tu Học
-  if (cat.includes('tông chỉ') || cat.includes('tong chi') || cat.includes('tông phong') || cat.includes('bồ đề tâm')) {
-    return '/images/icons/icon-tong-chi-tu-hoc.webp';
+  // 3. Dòng Chảy Hoằng Pháp (4 Chuyên Mục Con Đặc Trưng)
+  // 3.1. Khóa Lễ Truyền Thống
+  if (
+    cat.includes('khoa-le-truyen-thong') ||
+    sub.includes('khoa-le-truyen-thong') ||
+    cat.includes('khóa lễ') ||
+    cat.includes('khoa le') ||
+    sub.includes('khóa lễ') ||
+    sub.includes('khoa le') ||
+    cat.includes('truyền thống') ||
+    sub.includes('truyền thống') ||
+    t.includes('địa tạng') ||
+    t.includes('dia tang') ||
+    t.includes('sám hối') ||
+    t.includes('sam hoi')
+  ) {
+    return '/images/icons/icon-khoa-le-truyen-thong.png';
+  }
+
+  // 3.2. Đại Lễ Sự Kiện
+  if (
+    cat.includes('dai-le-su-kien') ||
+    sub.includes('dai-le-su-kien') ||
+    cat.includes('đại lễ') ||
+    cat.includes('dai le') ||
+    sub.includes('đại lễ') ||
+    sub.includes('dai le') ||
+    cat.includes('sự kiện') ||
+    sub.includes('sự kiện') ||
+    t.includes('vu lan') ||
+    t.includes('phật đản') ||
+    t.includes('phat dan')
+  ) {
+    return '/images/icons/icon-dai-le-su-kien.png';
+  }
+
+  // 3.3. Cộng Tu Định Kỳ
+  if (
+    cat.includes('cong-tu') ||
+    sub.includes('cong-tu') ||
+    cat.includes('cộng tu') ||
+    sub.includes('cộng tu') ||
+    t.includes('cộng tu') ||
+    t.includes('niệm phật') ||
+    t.includes('niem phat') ||
+    t.includes('bát quan trai')
+  ) {
+    return '/images/icons/icon-cong-tu.png';
+  }
+
+  // 3.4. Tịnh Độ Nhân Gian
+  if (
+    cat.includes('tinh-do-nhan-gian') ||
+    sub.includes('tinh-do-nhan-gian') ||
+    cat.includes('tịnh độ') ||
+    sub.includes('tịnh độ') ||
+    cat.includes('tinh do') ||
+    sub.includes('tinh do') ||
+    t.includes('tịnh độ') ||
+    t.includes('tinh do')
+  ) {
+    return '/images/icons/icon-tinh-do-nhan-gian.png';
+  }
+
+  // 3.5. Dòng Chảy Hoằng Pháp chung
+  if (cat.includes('dòng chảy') || cat.includes('dong chay') || cat.includes('hoằng pháp') || cat.includes('hoang phap') || sub.includes('hoằng pháp')) {
+    return '/images/icons/icon-dong-chay-hoang-phap.webp';
   }
 
   return DEFAULT_TEMPLE_LOGO;
@@ -57,6 +122,7 @@ export const PostCard: FC<PostCardProps> = ({
   post,
   large = false,
   className = '',
+  variant = 'portrait',
 }) => {
   const CardWrapper = post.targetUrl ? Link : 'div';
   const wrapperProps = post.targetUrl ? { href: post.targetUrl } : {};
@@ -65,11 +131,99 @@ export const PostCard: FC<PostCardProps> = ({
     typeof post.viewsCount === 'number'
       ? post.viewsCount >= 1000
         ? `${(post.viewsCount / 1000).toFixed(1)}K`
-        : post.viewsCount.toString()
-      : post.viewsCount || '350';
+        : post.viewsCount.toLocaleString('vi-VN')
+      : post.viewsCount
+        ? post.viewsCount.toString()
+        : '0';
 
   const categoryTag = post.category1 || 'Phật Pháp – Đời Sống';
   const logoUrl = getCategoryIcon(post.category1, post.category2, post.title, post.category1IconUrl);
+
+  if (variant === 'golden') {
+    return (
+      <CardWrapper
+        {...(wrapperProps as any)}
+        className={`group relative w-full overflow-hidden rounded-xl border border-[#F2C14E]/25 bg-[#2C1C11] cursor-pointer transition-all duration-300 hover:-translate-y-1.5 hover:border-[#F2C14E] shadow-xl hover:shadow-[0_12px_36px_rgba(0,0,0,0.6)] flex flex-col h-full ${className}`}
+      >
+        {/* 1. Khung ảnh Thumbnail Tỷ Lệ Vàng (1.618 : 1) - Kích thước ngang tiêu chuẩn */}
+        <div className="relative w-full aspect-[1.618/1] overflow-hidden bg-[#1A120B] shrink-0">
+          <img
+            src={post.imageUrl || 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp'}
+            alt={post.title}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+            loading="lazy"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
+        </div>
+
+        {/* 2. Đường kẻ Gradient cắt ĐÚNG ranh giới mép chân ảnh */}
+        <div className="relative w-full h-[1px] bg-gradient-to-r from-transparent via-[#F2C14E]/70 to-transparent z-10 shrink-0">
+          {/* Huy hiệu Logo Chuyên mục con nổi chính giữa tim đường kẻ */}
+          <div className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-[44px] h-[44px] md:w-[50px] md:h-[50px] rounded-full border-2 border-[#F2C14E] bg-[#24160E] flex items-center justify-center p-2 shadow-[0_0_16px_rgba(242,193,78,0.6)] group-hover:scale-110 group-hover:shadow-[0_0_24px_rgba(242,193,78,0.85)] transition-all duration-300">
+            <img
+              src={`${logoUrl}?v=4`}
+              alt={categoryTag}
+              className="w-full h-full object-contain filter drop-shadow-[0_0_6px_rgba(242,193,78,0.5)]"
+            />
+          </div>
+        </div>
+
+        {/* 3. Khung nội dung tối giản: Tiêu đề + Sub tiêu đề (Mặc định). Bỏ tag danh mục. Ẩn mô tả & meta, mở khi hover */}
+        <div className="p-4 md:p-5 pt-8 sm:pt-9 md:pt-10 flex flex-col items-center text-center justify-end bg-[#2C1C11] shrink-0">
+          {/* Tiêu Đề Bài Viết - Căn chính giữa, ở trên */}
+          <h3
+            style={{ fontFamily: "'UTM Avo', sans-serif" }}
+            className="font-bold text-[18px] md:text-[20px] text-[#F2C14E] group-hover:text-[#FFE5A3] line-clamp-2 leading-snug transition-colors w-full text-center"
+          >
+            {post.title}
+          </h3>
+
+          {/* Sub Tiêu Đề - Căn chính giữa, chữ thường, ở dưới tiêu đề */}
+          {(post.subtitle || post.category2) && (
+            <p
+              style={{ fontFamily: "'UTM Avo', sans-serif" }}
+              className="text-xs md:text-[13px] text-[#D3C0AD] line-clamp-1 leading-normal font-normal mt-1 w-full text-center tracking-wide"
+            >
+              {post.subtitle || post.category2}
+            </p>
+          )}
+
+          {/* Phần mở rộng khi hover: Mô tả ngắn + Ngày đăng & Lượt xem */}
+          <div
+            style={{ fontFamily: "'UTM Avo', sans-serif" }}
+            className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-300 ease-out w-full"
+          >
+            <div className="overflow-hidden">
+              <div className="flex flex-col gap-2 pt-2.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                {/* Mô tả ngắn bài viết */}
+                {post.description && (
+                  <p
+                    className="text-[#c9b896] leading-relaxed line-clamp-3 text-justify text-[12px] md:text-[13px]"
+                  >
+                    {post.description}
+                  </p>
+                )}
+
+                {/* Meta: Ngày đăng + Lượt xem */}
+                <div className={`flex items-center ${post.publishedDate ? 'justify-between' : 'justify-end'} text-[11px] text-[#A69383] pt-2 border-t border-[#F2C14E]/15 mt-0.5`}>
+                  {post.publishedDate && (
+                    <div className="flex items-center gap-1.5">
+                      <Calendar className="w-3.5 h-3.5 text-[#F2C14E]/70" />
+                      <span>{post.publishedDate}</span>
+                    </div>
+                  )}
+                  <div className="flex items-center gap-1.5">
+                    <span>{formattedViews}</span>
+                    <Eye className="w-3.5 h-3.5 text-[#F2C14E]" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </CardWrapper>
+    );
+  }
 
   return (
     <CardWrapper
@@ -79,7 +233,7 @@ export const PostCard: FC<PostCardProps> = ({
       {/* 1. Khung ảnh Thumbnail tỷ lệ 3:4 linh hoạt */}
       <div className="relative w-full flex-1 min-h-0 overflow-hidden bg-[#1A120B]">
         <img
-          src={post.imageUrl || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp'}
+          src={post.imageUrl || 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp'}
           alt={post.title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
           loading="lazy"

@@ -120,7 +120,7 @@ export const CalendarSection: FC = () => {
               timeSlot1Label: ce.timeSlot1Label || 'Thời Khóa',
               timeSlot1Time: ce.timeSlot1Time || '08h00',
               color: '#F2C14E',
-              imgUrl: ce.imgUrl || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp',
+              imgUrl: ce.imgUrl || 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp',
               isImportant: true,
             };
             baseMap[d] = [...(baseMap[d] || []), customEvt];
@@ -176,7 +176,7 @@ export const CalendarSection: FC = () => {
           className="w-full h-full object-cover opacity-15 blur-sm"
           loading="lazy"
           onError={(e) => {
-            (e.currentTarget as HTMLImageElement).src = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp';
+            (e.currentTarget as HTMLImageElement).src = 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp';
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-[#1A120B] via-transparent to-[#1A120B]" />

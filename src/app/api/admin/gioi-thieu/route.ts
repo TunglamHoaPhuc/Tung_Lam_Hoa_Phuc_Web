@@ -271,7 +271,7 @@ export async function POST(req: NextRequest) {
       tag: body.tag || 'Tùng Lâm Hòa Phúc',
       groupCategory: body.groupCategory || 'lich-su-chua',
       groupCategoryName: body.groupCategoryName || 'Lịch Sử Chùa',
-      heroBanner: body.heroBanner || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp',
+      heroBanner: body.heroBanner || 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp',
       heroBannerPosition: body.heroBannerPosition || 'center 50%',
       overviewSummary: body.overviewSummary || '',
       content: body.content || '',

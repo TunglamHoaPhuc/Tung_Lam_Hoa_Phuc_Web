@@ -51,9 +51,9 @@ export const GIOI_THIEU_DETAILS: Record<string, GioiThieuTopicDetail> = {
   "tag": "Lịch Sử Bổn Tự",
   "groupCategory": "lich-su-chua",
   "groupCategoryName": "Lịch Sử Chùa",
-  "heroBanner": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
+  "heroBanner": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
   "heroBannerPosition": "center 50%",
-  "portraitImage": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
+  "portraitImage": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
   "portraitImagePosition": "center 50%",
   "overviewSummary": "Chùa Hòa Phúc (Tùng Lâm Hòa Phúc) tọa lạc tại thôn Yên Nội, xã Đồng Trúc, huyện Thạch Thất, thành phố Hà Nội. Ngôi cổ tự nép mình bên sườn núi Vua Bà thanh bình, trải qua bao thăng trầm của lịch sử, nay đã chuyển mình trở thành một trong những trung tâm tu học Tịnh Độ trang nghiêm, hội tụ hàng ngàn Phật tử về quy ngưỡng mỗi tháng.",
   "quoteTitle": "TINH THẦN KIẾN TẠO ĐẠO TRÀNG",
@@ -88,11 +88,11 @@ export const GIOI_THIEU_DETAILS: Record<string, GioiThieuTopicDetail> = {
   "content": "Tùng Lâm Hòa Phúc (tên chữ: Hòa Phúc Tự) tọa trên gò Kim Quy, lưng tựa Tản Viên Sơn, mặt hướng dòng Tích Giang, bên cạnh ngôi Đền Trúc Đóng, dưới bóng cổ thụ hàng trăm năm tuổi. Thế đất Rồng chầu Hổ phục, hội tụ khí thiêng trời đất, ôm trọn văn hiến ngàn đời, nuôi dưỡng anh tài Lạc Việt.\n\nđất thiêng xưa tục gọi là “Thất Tinh Hạ Phàm”, tức bảy ngôi sao từ trời cao giáng hạ tạo nên bảy gò ngăn cách nhau bởi dòng suối, con sông.\n\nVào thời Hai Bà Trưng (14–43), vùng này thuộc địa giới đất Chu Diên – cứ địa hoạt động của nghĩa quân anh hùng Thi Sách (?–40), phu quân của Nữ vương Trưng Trắc. Đến thời vua Lê Thánh Tông (1442–1497), vùng đất này được ban sắc chỉ là nơi cải táng và phụng thờ hương khói cho Lưỡng Quốc Trạng Nguyên Nguyễn Trực (1417–1473).\n\nSử chép: “Ngày 13 tháng 07 năm Giáp Thìn (1484), vua cho cải táng, đưa về khu Ao Đế, thôn Đại Lại, xã Bạch Thạch, huyện Mỹ Lương, phủ Quảng Oai (nay thuộc xã Hòa Thạch, huyện Quốc Oai)”. Theo sách Đại Nam nhất thống chí, phần tỉnh Sơn Tây chép rằng, tên huyện Mỹ Lương bắt đầu xuất hiện từ thời Trần (1009–1225). Đây là bộ sách có niên đại sớm nhất ghi chép về huyện Mỹ Lương. Huyện Mỹ Lương thuộc phủ Quốc Oai, tỉnh Sơn Tây tiếp tục tồn tại đến những năm tám mươi của Thế kỷ XIX.\n\nSách Đồng Khánh địa dư chí do Quốc sử quán triều Nguyễn biên soạn, hoàn thành năm 1887 cho biết, tháng 04 năm 1888 theo lệnh Thống sứ Bắc Kỳ, huyện Mỹ Lương bị chia tách rồi hợp với huyện Chương Đức của tỉnh Hà Nội thành lập nên huyện Chương Mỹ, đóng tại Quảng Bị. Đến đầu Thế kỷ XX, tổng Dã Cát có bảy xã ứng với bảy gò, tục gọi bảy ngôi sao: Dã Cát, Hòa Mục, Bạch Thạch, Quất Lâm, Bằng Lộ, Phú Mãn, Đào Lãng. Sau đó lại bị chia tách, bốn xã Dã Cát, Hòa Mục, Bạch Thạch, Phú Mãn được chuyển sang tổng Cấn Xá, huyện Yên Sơn.\n\nKể từ sau khi lăng mộ cụ Trạng được cải táng yên vị, đất này trở thành linh địa với sự ra đời của nhiều công trình kiến trúc như quán, miếu, đền, đình, chùa… phục vụ nhu cầu tín ngưỡng tâm linh cho bà con từ các vùng miền về đây sinh cơ lập nghiệp.\n\ntùng lâm Hòa Phúc đã ra đời từ rất sớm. Tuy nhiên do biến thiên thời cuộc và chiến tranh tàn phá, mãi đến năm 1996 mới được nhân dân hai giới các cụ phục dựng lại bằng mái tôn tre nứa. Sau đó được tỉnh Hà Tây cấp phép xây dựng trên khuôn viên đất chùa khiêm tốn nhưng trang nghiêm tố hảo. Nơi đây dần trở thành điểm hội tụ và lan tỏa tinh thần tu học Chánh pháp, giữ gìn, phát huy nếp sống văn hóa dân tộc Việt dựa trên tư duy giáo dục Phật giáo đúng với tinh thần thời Lý – Trần: “Phật pháp không rời thế gian”.\n\nBước sang đầu Thế kỷ XXI, nhờ sự gia hộ của Tam Bảo, chư Tổ Sư, Hòa thượng Ân sư, chư Tăng Tông Phong Hoằng Pháp, cùng sự hộ niệm của chư vị Thần linh, Thành Hoàng bản thổ, Tỳ kheo Thích Tâm Hòa hiệu Vô Trí cùng hai giới các cụ xóm 4, xóm 5 và một phần xóm 3, quý nhân sĩ trí thức, quý ân nhân ngoại hộ, quý nam nữ cư sĩ và nhân dân Phật tử, Đạo tràng Tịnh độ niệm Phật tùng lâm Hòa Phúc đã góp phần hoàn thiện dần các công trình, đáp ứng nguyện vọng tu học của nhân dân trong và ngoài địa phương.\n\nCác hạng mục xây dựng:\n\nNăm 2006: xây dựng các công trình phụ và quy hoạch tổng thể.\n\nNăm 2008: xây dựng Giảng Đường (nay là Tòa Tam Bảo).\n\nNăm 2010: xây dựng Nhà Tứ Ân, Nhà Vãng Sinh, Lầu Quán Thế Âm.\n\nNăm 2012: xây dựng Giảng Đường Ngộ Chân Tử, Cổng Tam Quan, mua đất mở rộng diện tích.\n\nNăm 2014: xây dựng Tòa Tam Bảo, khu Nội Viện.\n\nNăm 2018: xây dựng Tháp Xá Lợi Vạn Phật Hòa Bình, Nhà Khách Ni, Nhà Nghỉ Phật Tử.\n\nNăm 2020: xây dựng Nhà Thờ Mẫu, Đại Tượng Quán Âm Bồ Tát và các hạng mục phụ trợ như: Ao Thất Bảo, Vườn Lâm Tỳ Ni, Tháp Tổ, Bia Đá, Sân A Di Đà…\n\nTrải qua các cuộc kháng chiến vệ quốc, tùng lâm Hòa Phúc cũng như bao ngôi tùng lâm khác đều bị chiến tranh huỷ hoại cho đến không còn viên gạch, mảnh ngói. Thế nhưng bất cứ ai là người dân tộc Việt đều không quên nguồn cội với mái già lam thiêng liêng, gần gũi, hiền hòa:\n\n“Chùa là mái ấm của dân taChùa giữ tình quê nghĩa đậm đàChùa mang hơi ấm cho nhân loạiChùa vẫn muôn đời, ôi thiết tha!”\n\n(Vô Trí – Tâm Hòa)\n\nNgày nay trong xu thế hội nhập, tùng lâm không chỉ là nơi phục vụ tín ngưỡng mà còn là địa chỉ định hướng nhân cách, thăng hoa đạo đức, tịnh hóa tâm hồn. Khuôn viên tùng lâm được mở rộng nhờ đạo lực tu hành của chư Tăng trụ xứ cộng với sự đắc lực hộ trì của cư sĩ Phật tử thuần thành mộ đạo và sự hòa hợp sắc son chung thủy của bách tín vạn dân đã làm cho cảnh sắc tâm linh vùng quê xứ Đoài ngày càng trang nghiêm tươi đẹp.\n\nQuá trình tu tạo xuyên suốt hai thập niên qua và tiếp tục về sau luôn giữ vững định hướng: “Phật bảo là mái nhà, Pháp bảo là nền móng, Tăng bảo là sự sống”, hòa quyện trong lòng Dân tộc ngàn năm bất diệt.\n\nVì vậy, đến cùng tận vị lai, tùng lâm Hòa Phúc mãi mãi là ngôi nhà chung, là nơi nương tựa tu hành của bậc xuất thế và cũng là nơi trở về của bách gia trăm họ. Kính xin những ai hữu duyên đọc những dòng này cùng phát nguyện hộ trì Tam Bảo, tu hành Chánh đạo. Đừng vì tư riêng, bè phái hơn thua, biến chùa thành chợ, thay đạo bằng đời, khiến chốn thiêng nhuốm mùi tục lụy thì thật đáng xót xa thay.\n\nSa môn Tâm Hòa, hiệu Vô Trí\n\nCẩn soạn",
   "galleryImages": [
     {
-      "url": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
+      "url": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
       "caption": "Toàn cảnh Tùng Lâm Hòa Phúc nhìn từ trên cao"
     },
     {
-      "url": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
+      "url": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
       "caption": "Pháp hội niệm Phật định kỳ tại Giảng đường"
     }
   ],
@@ -286,7 +286,7 @@ export const GIOI_THIEU_DETAILS: Record<string, GioiThieuTopicDetail> = {
   "sourceBook": {
     "bookTitle": "Đi Qua Khổ Vui Cuộc Đời",
     "author": "Thích Tâm Hòa",
-    "coverImage": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
+    "coverImage": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp",
     "description": "Tập hồi ức tâm linh về những chặng đường gian khó và niềm hỷ lạc trên con đường hoằng pháp."
   },
   "wpPostId": "24470"
@@ -362,9 +362,9 @@ export const GIOI_THIEU_DETAILS: Record<string, GioiThieuTopicDetail> = {
   "title": "VĂN HÓA ỨNG XỬ THIỀN MÔN",
   "subtitle": "Quy củ, oai nghi tế hạnh và nếp sống đạo đức dành cho Phật tử viếng chùa",
   "tag": "Thanh Quy Tự Viện",
-  "heroBanner": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
+  "heroBanner": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
   "heroBannerPosition": "center 50%",
-  "portraitImage": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
+  "portraitImage": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
   "portraitImagePosition": "center 50%",
   "overviewSummary": "Chốn thiền môn là nơi tôn nghiêm thanh tịnh. Văn hóa ứng xử của người Phật tử khi về chùa thể hiện nét đẹp đạo đức, sự khiêm cung và lòng tôn kính Tam Bảo, góp phần xây dựng một cộng đồng tu học an vui, thanh nhã.",
   "quoteTitle": "OAI NGHI TẾ HẠNH",

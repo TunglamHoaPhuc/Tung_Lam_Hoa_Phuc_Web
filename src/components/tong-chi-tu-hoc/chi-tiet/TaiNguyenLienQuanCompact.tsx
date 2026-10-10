@@ -67,7 +67,7 @@ export function TaiNguyenLienQuanCompact({
     title: 'KHUYẾN PHÁT BỒ ĐỀ TÂM GIẢNG LUẬN',
     author: 'Đại Đức Thích Tâm Hòa',
     description: 'Giảng giải chi tiết về phương pháp phát khởi và nuôi dưỡng Bồ Đề tâm kiên cố.',
-    coverImage: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/uploads/chua-pho-chieu-hai-phong-1787464212629.webp',
+    coverImage: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/uploads/chua-pho-chieu-hai-phong-1787464212629.webp',
     linkUrl: '/vu-tru-phat-giao/tang-kinh-cac',
   };
 

@@ -29,7 +29,7 @@ const WisdomCard = React.memo(({ item, onClick }: WisdomCardProps) => {
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 filter drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]"
           style={{ objectPosition: (item as any).thumbnailPosition || 'center center' }}
           onError={(e) => {
-            (e.currentTarget as HTMLImageElement).src = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp';
+            (e.currentTarget as HTMLImageElement).src = 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp';
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#2C1C11] via-transparent to-black/40" />
@@ -110,7 +110,7 @@ export const WisdomArchiveSection: FC = () => {
           const json = await res.json();
           if (json.success && Array.isArray(json.posts) && json.posts.length > 0) {
             const mapped: WisdomItem[] = json.posts.map((p: any) => {
-              const thumbnailUrl = p.thumbnailUrl || p.bannerUrl || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp';
+              const thumbnailUrl = p.thumbnailUrl || p.bannerUrl || 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp';
               let mediaType: 'article' | 'audio' | 'video' | 'book' = 'article';
               if (p.videoBlock?.videoUrl || (p.subCategory || '').includes('video')) {
                 mediaType = 'video';
@@ -151,7 +151,7 @@ export const WisdomArchiveSection: FC = () => {
           if (posts.length > 0) {
             const mapped: WisdomItem[] = posts.map((p: any) => {
               const imgUrls = p.featured_image_urls || {};
-              const thumbnailUrl = imgUrls.medium || imgUrls.large || imgUrls.thumbnail || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp';
+              const thumbnailUrl = imgUrls.medium || imgUrls.large || imgUrls.thumbnail || 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp';
               const firstCat = Array.isArray(p.categories) ? p.categories[0] : null;
               return {
                 id: String(p.id),

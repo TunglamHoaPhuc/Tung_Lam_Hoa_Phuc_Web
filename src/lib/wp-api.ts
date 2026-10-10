@@ -75,7 +75,7 @@ export async function getTongChiPageData(): Promise<TongChiPageData> {
           imageUrl:
             extractImageUrl(acf.banner_image) ||
             p._embedded?.['wp:featuredmedia']?.[0]?.source_url ||
-            'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp',
+            'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp',
           link: `/tong-chi-tu-hoc/${p.slug}`,
         };
 

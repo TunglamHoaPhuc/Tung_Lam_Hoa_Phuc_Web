@@ -147,7 +147,7 @@ export const TAM_BAO_VIDEOS: TamBaoVideo[] = [
     id: "vid-tb-1",
     title: "Câu Chuyện Về Khu Vực Tam Bảo - Tùng Lâm Hòa Phúc",
     summary: "Thước phim tư liệu ghi lại quá trình kiến tạo, ý nghĩa tâm linh và kiến trúc chữ Công độc đáo của Đại Hùng Bảo Điện Tùng Lâm Hòa Phúc.",
-    thumbnailUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
+    thumbnailUrl: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
     videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     durationText: "15:30",
     date: "15/08/2023",
@@ -160,14 +160,14 @@ export const TAM_BAO_SPACES: TamBaoSpaceImage[] = [
     id: "sp-tb-1",
     title: "Khuôn Viên Chánh Điện Tam Bảo",
     description: "Không gian trang nghiêm thanh tịnh là nơi diễn ra các khóa tu tụng kinh bái sám.",
-    imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
+    imgUrl: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     category: "CHÁNH ĐIỆN"
   },
   {
     id: "sp-tb-2",
     title: "Sân Thiền Hành Tam Bảo",
     description: "Khuôn viên tĩnh mịch cho chư Tăng và Phật tử thiền hành chánh niệm.",
-    imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
+    imgUrl: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/canh-1.webp",
     category: "SÂN THIỀN"
   }
 ];

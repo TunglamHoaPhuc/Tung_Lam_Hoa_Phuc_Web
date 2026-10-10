@@ -199,7 +199,7 @@ export function SpreadsheetVuTru() {
       subtitle: 'Tùng Lâm Hòa Phúc',
       temple: selectedTemple === 'quynh-nhai-cam-lo-tu' ? 'quynh-nhai-cam-lo-tu' : 'tung-lam-hoa-phuc',
       templeName: selectedTemple === 'quynh-nhai-cam-lo-tu' ? 'Quỳnh Nhai Cam Lộ Tự' : 'Tùng Lâm Hòa Phúc',
-      imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp',
+      imgUrl: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp',
       mapPos: { x: 50, y: 50 },
       description: 'Mô tả tổng quan về không gian tâm linh này...',
       fullContent: 'Nội dung chi tiết về kiến trúc, lịch sử và ý nghĩa của không gian...',
@@ -490,7 +490,7 @@ export function SpreadsheetVuTru() {
                           title="Bấm để đổi ảnh không gian từ S3"
                         >
                           <img
-                            src={row.imgUrl || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp'}
+                            src={row.imgUrl || 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp'}
                             alt="Banner"
                             className="w-full h-full object-cover"
                           />

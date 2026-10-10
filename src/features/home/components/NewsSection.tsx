@@ -8,6 +8,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 interface NewsItem {
   id: string;
   category: string;
+  iconUrl?: string;
   title: string;
   subtitle: string;
   imgUrl: string;
@@ -19,59 +20,72 @@ const INITIAL_NEWS_DATA: NewsItem[] = [
   {
     id: "post-632",
     category: "Khóa Lễ Truyền Thống",
+    iconUrl: "/images/icons/icon-khoa-le-truyen-thong.png",
     title: "NGÀI ĐỊA TẠNG BỒ TÁT, TẠI SAO NGÀI ĐƯỢC CA NGỢI VÀ TÔN VINH?",
-    subtitle: "Hạnh Nguyện Đại Bi Cứu Khổ Độ Sanh Nơi Cảnh Giới Khổ Đau",
-    imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/03-dong-chay-hoang-phap/khoa-le-truyen-thong/le-dia-tang-bo-tat-80-bia.webp",
+    subtitle: "Hạnh nguyện Đại bi cứu khổ độ sanh nơi cảnh giới khổ đau",
+    imgUrl: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/03-dong-chay-hoang-phap/khoa-le-truyen-thong/le-dia-tang-bo-tat-80-bia.webp",
     targetUrl: "/dong-chay-hoang-phap/ngai-dia-tang-bo-tat-tai-sao-ngai-duoc-ca-ngoi-va-ton-vinh-2",
     imgPosition: "center 35%",
   },
   {
-    id: "hp-1",
-    category: "Dòng chảy hoằng pháp",
-    title: "THÁNG BẢY – THÁNG CỦA HIẾU ÂN VÀ TÌNH THƯƠNG",
-    subtitle: "Tháng ân tình báo hiếu & gieo trồng phước điền nơi ruộng phúc Tam Bảo",
-    imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/03-dong-chay-hoang-phap/dai-le-su-kien/32-1-scaled.jpg",
-    targetUrl: "/dong-chay-hoang-phap/thang-bay-thang-cua-hieu-an-va-tinh-thuong",
-  },
-  {
-    id: "hp-2",
-    category: "Dòng chảy hoằng pháp",
-    title: "PHÁP HỘI HUYẾT BỒN TRAI",
-    subtitle: "Hồi hướng công đức, cầu nguyện quốc thái dân an và cha mẹ hiện tiền an lạc",
-    imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/03-dong-chay-hoang-phap/dai-le-su-kien/21-2-scaled.jpg",
-    targetUrl: "/dong-chay-hoang-phap/phap-hoi-huyet-bon-trai",
-  },
-  {
-    id: "hp-3",
-    category: "Dòng chảy hoằng pháp",
-    title: "KHAI MẠC TUẦN LỄ PHẬT ĐẢN NĂM 2026",
-    subtitle: "Trang nghiêm ngày Đức Từ Phụ Bổn Sư Thích Ca Mâu Ni Phật thị hiện nơi đời",
-    imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/03-dong-chay-hoang-phap/dai-le-su-kien/2-2-scaled.jpg",
-    targetUrl: "/dong-chay-hoang-phap/khai-mac-tuan-le-phat-dan-nam-2026-pl-2570",
-  },
-  {
     id: "core-bdt",
-    category: "Tông chỉ tu học",
+    category: "Tông Chỉ Tu Học",
+    iconUrl: "/images/icons/icon-tong-chi-tu-hoc.webp",
     title: "BỒ ĐỀ TÂM",
-    subtitle: "Cội nguồn thiện pháp — Nền tảng mọi công hạnh tu tập & phụng sự",
-    imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/nen-tang-tu-hoc/tong-chi-tu-hoc-nen-tang-tu-hoc-bo-de-tam-herobanner-thumbnail.webp",
+    subtitle: "Cội nguồn thiện pháp",
+    imgUrl: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/nen-tang-tu-hoc/tong-chi-tu-hoc-nen-tang-tu-hoc-bo-de-tam-herobanner-thumbnail.webp",
     targetUrl: "/tong-chi-tu-hoc/bo-de-tam-coi-nguon-thien-phap",
+    imgPosition: "center 35%",
   },
   {
     id: "core-statue",
-    category: "Bảo tượng Phật giáo",
+    category: "Bảo Tượng Phật Giáo",
+    iconUrl: "/images/icons/icon-cac-bao-tuong-noi-bat.webp",
     title: "ĐỨC PHẬT THÍCH CA MÂU NI",
-    subtitle: "Bảo tượng Vô Thượng Năng Nhân ngự tại Đại Hùng Bảo Điện",
-    imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/chu_phat_hai_hoi/duc_phat_thich_ca/tuong_chinh/duc_phat_thich_ca_tuongchinh.webp",
+    subtitle: "Vô Thượng Năng Nhân",
+    imgUrl: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/chu_phat_hai_hoi/duc_phat_thich_ca/tuong_chinh/duc_phat_thich_ca_tuongchinh.webp",
     targetUrl: "/bao-tuong/duc_phat_thich_ca_mau_ni_vo_thuong_nang_nhan_tp0001",
+    imgPosition: "center 35%",
+  },
+  {
+    id: "hp-1",
+    category: "Đại Lễ Sự Kiện",
+    iconUrl: "/images/icons/icon-dai-le-su-kien.png",
+    title: "THÁNG BẢY – THÁNG CỦA HIẾU ÂN VÀ TÌNH THƯƠNG",
+    subtitle: "Tháng ân tình báo hiếu & gieo trồng phước điền nơi ruộng phúc Tam Bảo",
+    imgUrl: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/03-dong-chay-hoang-phap/dai-le-su-kien/32-1-scaled.jpg",
+    targetUrl: "/dong-chay-hoang-phap/thang-bay-thang-cua-hieu-an-va-tinh-thuong",
+    imgPosition: "center 35%",
+  },
+  {
+    id: "tt-1",
+    category: "Trí Tuệ Phật Pháp",
+    iconUrl: "/images/icons/icon-tri-tue-phat-phap.webp",
+    title: "ĐI QUA KHỔ VUI CUỘC ĐỜI",
+    subtitle: "Hành trình tu tập của Sư Phụ Tâm Hòa",
+    imgUrl: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
+    targetUrl: "/tri-tue-phat-phap/tac-pham-di-qua-kho-vui-cuoc-doi",
+    imgPosition: "center 35%",
   },
   {
     id: "core-retreat",
-    category: "Sự kiện định kỳ",
-    title: "KHÓA TU MỘT NGÀY AN LẠC",
-    subtitle: "Trang nghiêm khóa tu hằng tháng dành cho hàng trăm Phật tử",
-    imgUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp",
+    category: "Cộng Tu Định Kỳ",
+    iconUrl: "/images/icons/icon-cong-tu.png",
+    title: "PHÁP HỘI NIỆM PHẬT & KHÓA LỄ BÁT QUAN TRAI GIỚI",
+    subtitle: "Đạo tràng niệm Phật thanh tịnh hàng tuần nuôi dưỡng Bồ Đề Tâm",
+    imgUrl: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/03-dong-chay-hoang-phap/dai-le-su-kien/21-2-scaled.jpg",
     targetUrl: "/dong-chay-hoang-phap",
+    imgPosition: "center 35%",
+  },
+  {
+    id: "tc-2",
+    category: "Tông Chỉ Tu Học",
+    iconUrl: "/images/icons/icon-tong-chi-tu-hoc.webp",
+    title: "TIẾP BƯỚC THẦY TÔI",
+    subtitle: "Hoằng Pháp – Kiến An mãi nhớ Thầy",
+    imgUrl: "https://admin.tunglamhoaphuc.com/wp-content/uploads/2026/07/tong-chi-tu-hoc-tong-phong-truyen-thua-tiep-buoc-thay-toi-banner-thumnail-scaled.jpg",
+    targetUrl: "/tong-chi-tu-hoc/tong-phong-truyen-thua-truc-lam",
+    imgPosition: "center 35%",
   },
 ];
 
@@ -80,34 +94,15 @@ export const NewsSection: FC = () => {
   const [activeIdx, setActiveIdx] = useState(0);
   const [slideDirection, setSlideDirection] = useState<'next' | 'prev'>('next');
 
-  // Dynamic fetch latest Hoang Phap news from API
+  // Dynamic fetch aggregated news from 4 admin systems
   useEffect(() => {
     async function fetchLatestNews() {
       try {
-        const res = await fetch('/api/admin/posts?category=dong-chay-hoang-phap&status=published', { cache: 'no-store' });
+        const res = await fetch('/api/home/news-carousel', { cache: 'no-store' });
         if (res.ok) {
           const json = await res.json();
-          if (json.success && Array.isArray(json.posts) && json.posts.length > 0) {
-            // Sort strictly descending by date
-            const sorted = [...json.posts].sort((a: any, b: any) => {
-              const timeA = a.publishedDate ? new Date(a.publishedDate).getTime() : 0;
-              const timeB = b.publishedDate ? new Date(b.publishedDate).getTime() : 0;
-              return timeB - timeA;
-            });
-
-            const dynamicMapped: NewsItem[] = sorted.slice(0, 4).map((p: any) => ({
-              id: p.id,
-              category: p.categoryName || p.subCategory || 'Dòng chảy hoằng pháp',
-              title: (p.title || '').toUpperCase(),
-              subtitle: p.subtitle || (p.summary ? p.summary.replace(/<[^>]*>?/gm, '').slice(0, 95) + '...' : 'Dòng Chảy Hoằng Pháp Tùng Lâm Hòa Phúc'),
-              imgUrl: p.thumbnailUrl || p.bannerUrl || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/03-dong-chay-hoang-phap/dai-le-su-kien/32-1-scaled.jpg',
-              targetUrl: `/dong-chay-hoang-phap/${p.slug}`,
-              imgPosition: p.thumbnailPosition || p.bannerPosition || 'center 35%',
-            }));
-
-            // Keep foundational core highlights
-            const coreItems = INITIAL_NEWS_DATA.filter((n) => n.id.startsWith('core-'));
-            setNewsList([...dynamicMapped, ...coreItems]);
+          if (json.success && Array.isArray(json.data) && json.data.length > 0) {
+            setNewsList(json.data);
           }
         }
       } catch (err) {
@@ -199,16 +194,30 @@ export const NewsSection: FC = () => {
             </div>
 
             {/* Thanh Chú Thích Tối Giản Bên Trái */}
-            <div className="w-full py-2.5 px-4 text-center bg-[#1A120B]/90 border-b border-l border-[#F2C14E]/25 rounded-bl-lg">
-              <span className="text-[10px] uppercase text-[#F2C14E]/60 tracking-[0.2em] block" style={{ fontFamily: "'UTM Avo', sans-serif" }}>
-                {prevNews.category}
-              </span>
+            <div className="w-full py-2.5 px-3 text-center bg-[#1A120B]/90 border-b border-l border-[#F2C14E]/25 rounded-bl-lg flex flex-col items-center justify-center">
+              {prevNews.iconUrl && (
+                <div className="w-7 h-7 rounded-full border border-[#F2C14E]/60 bg-[#1C120B] shadow-[0_0_10px_rgba(242,193,78,0.3)] flex items-center justify-center p-1 mb-1">
+                  <img
+                    src={prevNews.iconUrl}
+                    alt="Biểu tượng"
+                    className="w-full h-full object-contain opacity-85"
+                  />
+                </div>
+              )}
               <h4
-                className="text-base md:text-lg font-normal uppercase text-amber-100/80 truncate max-w-[90%] mx-auto mt-0.5"
+                className="text-base md:text-lg font-normal uppercase text-amber-100/80 truncate max-w-[90%] mx-auto"
                 style={{ fontFamily: "'UTM Niagara', serif" }}
               >
                 {prevNews.title}
               </h4>
+              {prevNews.subtitle && (
+                <p
+                  className="text-[10px] sm:text-[11px] text-[#D4C3AC] font-normal truncate max-w-[95%] mt-0.5"
+                  style={{ fontFamily: "'UTM Avo', sans-serif", fontWeight: 400 }}
+                >
+                  {prevNews.subtitle}
+                </p>
+              )}
             </div>
           </div>
 
@@ -256,30 +265,28 @@ export const NewsSection: FC = () => {
               </button>
             </div>
 
-            {/* ── KHUNG CHÚ THÍCH TRUNG TÂM (TỐI GIẢN, PHONG CÁCH UNIVERSE LIÊN MINH HUYỀN THOẠI) ── */}
+            {/* ── KHUNG CHÚ THÍCH TRUNG TÂM (CÓ BIỂU TƯỢNG VÒNG TRÒN VIỀN VÀNG & NÉT KẺ GRADIENT) ── */}
             <div
-              className="relative -mt-10 sm:-mt-14 z-40 flex items-center justify-center w-[92%] sm:w-[84%] max-w-[720px] cursor-pointer group"
+              className="relative -mt-10 sm:-mt-14 z-40 flex items-center justify-center w-[92%] sm:w-[84%] max-w-[760px] cursor-pointer group"
               onClick={() => (window.location.href = currentNews.targetUrl)}
             >
-              <div className="relative w-full bg-gradient-to-b from-[#251810]/98 via-[#1C120B]/98 to-[#120B07]/98 border border-[#F2C14E]/70 rounded-xl px-5 sm:px-8 py-3.5 sm:py-4.5 text-center flex flex-col items-center justify-center shadow-[0_20px_50px_rgba(0,0,0,0.9),0_0_30px_rgba(242,193,78,0.25)] backdrop-blur-md transition-transform group-hover:scale-[1.02]">
-                {/* Crest Icon Vàng Nhỏ Trên Đỉnh */}
-                <div className="w-4 h-4 text-[#F2C14E] mb-1 opacity-90">
-                  <svg viewBox="0 0 24 24" fill="currentColor" className="w-full h-full">
-                    <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" />
-                  </svg>
-                </div>
+              <div className="relative w-full bg-gradient-to-b from-[#251810]/98 via-[#1C120B]/98 to-[#120B07]/98 border border-[#F2C14E]/70 rounded-xl px-5 sm:px-8 pt-8 sm:pt-9 pb-4 sm:pb-5 text-center flex flex-col items-center justify-center shadow-[0_20px_50px_rgba(0,0,0,0.9),0_0_30px_rgba(242,193,78,0.25)] backdrop-blur-md transition-transform group-hover:scale-[1.02]">
+                
+                {/* 🌟 Biểu Tượng Icon Đặt Trong Đường Tròn Viền Vàng Hoàng Kim (Tỏa sáng như mẫu thumbnail) */}
+                {currentNews.iconUrl && (
+                  <div className="absolute -top-7 sm:-top-8 md:-top-9 left-1/2 -translate-x-1/2 w-14 h-14 sm:w-16 sm:h-16 md:w-18 md:h-18 rounded-full border-2 border-[#F2C14E] bg-[#1C120B] shadow-[0_0_20px_rgba(242,193,78,0.5),0_6px_20px_rgba(0,0,0,0.9)] flex items-center justify-center p-2.5 sm:p-3 transition-transform group-hover:scale-110 duration-300 z-50">
+                    <img
+                      src={currentNews.iconUrl}
+                      alt={currentNews.category || 'Biểu tượng'}
+                      className="w-full h-full object-contain drop-shadow-[0_2px_8px_rgba(242,193,78,0.6)]"
+                      loading="lazy"
+                    />
+                  </div>
+                )}
 
-                {/* Subtitle / Danh mục Tối giản */}
-                <span
-                  className="text-[10px] sm:text-[11px] font-semibold tracking-[0.25em] text-[#E5A93C] uppercase block mb-0.5"
-                  style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                >
-                  {currentNews.category}
-                </span>
-
-                {/* Tiêu Đề Bài Viết Vàng Kim (UTM Niagara) */}
+                {/* 1. Tiêu Đề Bài Viết Vàng Kim (UTM Niagara) Ở TRÊN */}
                 <h3
-                  className="text-2xl sm:text-3xl md:text-4xl uppercase font-normal text-[#F2C14E] leading-tight px-2"
+                  className="text-2xl sm:text-3xl md:text-4xl uppercase font-normal text-[#F2C14E] leading-tight px-2 line-clamp-2 mt-1 sm:mt-1.5 mb-1"
                   style={{
                     fontFamily: "'UTM Niagara', 'Playfair Display', serif",
                     fontWeight: "normal",
@@ -289,8 +296,19 @@ export const NewsSection: FC = () => {
                   {currentNews.title}
                 </h3>
 
-                {/* Vạch Kẻ Nhỏ Tinh Tế Dưới Cùng */}
-                <div className="w-12 sm:w-16 h-[1.5px] bg-[#F2C14E]/60 rounded-full mt-2" />
+                {/* 2. Sub Tiêu Đề Bài Viết Ở DƯỚI: Chữ Thường, Regular (Ko Bold), Font UTM Avo */}
+                {currentNews.subtitle && (
+                  <p
+                    className="text-[12px] sm:text-[13px] md:text-[14px] font-normal tracking-[0.03em] text-[#E0CEB5] line-clamp-1 max-w-[92%]"
+                    style={{
+                      fontFamily: "'UTM Avo', sans-serif",
+                      fontWeight: 400,
+                    }}
+                  >
+                    {currentNews.subtitle}
+                  </p>
+                )}
+
               </div>
             </div>
 
@@ -314,16 +332,30 @@ export const NewsSection: FC = () => {
             </div>
 
             {/* Thanh Chú Thích Tối Giản Bên Phải */}
-            <div className="w-full py-2.5 px-4 text-center bg-[#1A120B]/90 border-b border-r border-[#F2C14E]/25 rounded-br-lg">
-              <span className="text-[10px] uppercase text-[#F2C14E]/60 tracking-[0.2em] block" style={{ fontFamily: "'UTM Avo', sans-serif" }}>
-                {nextNews.category}
-              </span>
+            <div className="w-full py-2.5 px-3 text-center bg-[#1A120B]/90 border-b border-r border-[#F2C14E]/25 rounded-br-lg flex flex-col items-center justify-center">
+              {nextNews.iconUrl && (
+                <div className="w-7 h-7 rounded-full border border-[#F2C14E]/60 bg-[#1C120B] shadow-[0_0_10px_rgba(242,193,78,0.3)] flex items-center justify-center p-1 mb-1">
+                  <img
+                    src={nextNews.iconUrl}
+                    alt="Biểu tượng"
+                    className="w-full h-full object-contain opacity-85"
+                  />
+                </div>
+              )}
               <h4
-                className="text-base md:text-lg font-normal uppercase text-amber-100/80 truncate max-w-[90%] mx-auto mt-0.5"
+                className="text-base md:text-lg font-normal uppercase text-amber-100/80 truncate max-w-[90%] mx-auto"
                 style={{ fontFamily: "'UTM Niagara', serif" }}
               >
                 {nextNews.title}
               </h4>
+              {nextNews.subtitle && (
+                <p
+                  className="text-[10px] sm:text-[11px] text-[#D4C3AC] font-normal truncate max-w-[95%] mt-0.5"
+                  style={{ fontFamily: "'UTM Avo', sans-serif", fontWeight: 400 }}
+                >
+                  {nextNews.subtitle}
+                </p>
+              )}
             </div>
           </div>
 

@@ -268,7 +268,7 @@ export default function AdminDanhTangPage() {
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         style={{ objectPosition: monk.avatarPosition || 'center top' }}
                         onError={(e) => {
-                          (e.target as HTMLImageElement).src = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/1.webp';
+                          (e.target as HTMLImageElement).src = 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/1.webp';
                         }}
                       />
                       <div className="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-black/70 backdrop-blur-sm text-[#F2C14E] text-[10px] font-bold border border-[#F2C14E]/30 flex items-center gap-1">

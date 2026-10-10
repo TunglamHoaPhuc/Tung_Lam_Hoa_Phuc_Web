@@ -3,11 +3,11 @@ import path from 'path';
 import sharp from 'sharp';
 
 // Cấu hình S3 chuẩn
-const S3_BUCKET = process.env.S3_BUCKET_NAME || 's2-cnv03';
+const S3_BUCKET = process.env.S3_BUCKET_NAME || 'media-tunglamhoaphuc';
 const S3_REGION = process.env.S3_REGION || 'us-east-005';
 const S3_ENDPOINT = (process.env.S3_ENDPOINT || 'https://s3.us-east-005.backblazeb2.com').replace(/\/+$/, '');
-const S3_ACCESS_KEY = (process.env.S3_ACCESS_KEY_ID || '005bc25330e1c1f0000000029').replace(/["']/g, '').trim();
-const S3_SECRET_KEY = (process.env.S3_SECRET_ACCESS_KEY || 'K005/I+vUZ8TcuI2ww8TLeRPtsVzEaA').replace(/["']/g, '').trim();
+const S3_ACCESS_KEY = (process.env.S3_ACCESS_KEY_ID || '005bc25330e1c1f000000003e').replace(/["']/g, '').trim();
+const S3_SECRET_KEY = (process.env.S3_SECRET_ACCESS_KEY || 'K005XHjiQ99dAcUkjPewsrz+mC4DrLA').replace(/["']/g, '').trim();
 const S3_PUBLIC_BASE = (process.env.S3_PUBLIC_URL || `https://${S3_BUCKET}.s3.${S3_REGION}.backblazeb2.com`).replace(/\/+$/, '');
 
 export interface ExtractedPhoto {

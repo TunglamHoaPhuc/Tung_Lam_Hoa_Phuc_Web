@@ -98,7 +98,7 @@ export async function POST(req: NextRequest) {
       subtitle: subtitle || '',
       author: author || 'Sa Môn Vô Trí (Thích Tâm Hòa)',
       description: description || '',
-      coverImage: coverImage || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/uploads/chua-pho-chieu-hai-phong-1787464212629.webp',
+      coverImage: coverImage || 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/uploads/chua-pho-chieu-hai-phong-1787464212629.webp',
       pdfUrl: pdfUrl || '',
       linkUrl: linkUrl || '/vu-tru-phat-giao/tang-kinh-cac',
       category: category || 'Phật Học Phổ Thông',

@@ -64,6 +64,21 @@ export const StatueDetailCoreLayout: FC<StatueDetailCoreLayoutProps> = ({ statue
     };
   }, [lightboxIndex]);
 
+  // 👁️ Tự động đo lường lượt xem tôn tượng thật (chống trùng lặp bằng sessionStorage)
+  useEffect(() => {
+    const idOrSlug = statue.slug || statue.id || statue.code;
+    if (!idOrSlug) return;
+    const viewKey = `viewed_statue_${idOrSlug}`;
+    if (typeof window !== 'undefined' && !sessionStorage.getItem(viewKey)) {
+      sessionStorage.setItem(viewKey, '1');
+      fetch('/api/public/increment-view', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'bao-tuong', idOrSlug }),
+      }).catch(() => {});
+    }
+  }, [statue.slug, statue.id, statue.code]);
+
   // ── 1. TÌM CÁC TƯỢNG TRONG CÙNG CỤM TƯỢNG (GROUP) ──
   const clusterMembers = useMemo(() => {
     const groupName = statue.group || statue.clusterName;
@@ -330,11 +345,11 @@ export const StatueDetailCoreLayout: FC<StatueDetailCoreLayoutProps> = ({ statue
                 {/* Logo Bảo tượng nổi lên trên */}
                 <div className="w-9 h-9 flex items-center justify-center filter drop-shadow-[0_0_8px_rgba(242,193,78,0.7)] group-hover:scale-110 transition-transform">
                   <img
-                    src="https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/bieu-tuong-tuong-phap.webp"
+                    src="https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/bieu-tuong-tuong-phap.webp"
                     alt="Logo Bảo tượng"
                     className="w-full h-full object-contain"
                     onError={(e) => {
-                      (e.currentTarget as HTMLImageElement).src = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/logo-tung-lam-hoa-phuc-tron.webp';
+                      (e.currentTarget as HTMLImageElement).src = 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/logo-tung-lam-hoa-phuc-tron.webp';
                     }}
                   />
                 </div>
@@ -443,11 +458,11 @@ export const StatueDetailCoreLayout: FC<StatueDetailCoreLayoutProps> = ({ statue
               {/* Khoang Logo To bên trái */}
               <div className="w-16 h-16 sm:w-18 sm:h-18 rounded-xl border border-[#F2C14E]/60 bg-[#1C130D] p-2 flex items-center justify-center shrink-0 group-hover:scale-105 group-hover:border-[#F2C14E] transition-transform shadow-inner">
                 <img
-                  src="https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/bieu-tuong-tuong-phap.webp"
+                  src="https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/bieu-tuong-tuong-phap.webp"
                   alt="Biểu tượng Chúng hội"
                   className="w-full h-full object-contain filter drop-shadow-[0_0_6px_rgba(242,193,78,0.8)]"
                   onError={(e) => {
-                    (e.currentTarget as HTMLImageElement).src = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/logo-tung-lam-hoa-phuc-tron.webp';
+                    (e.currentTarget as HTMLImageElement).src = 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/logo-tung-lam-hoa-phuc-tron.webp';
                   }}
                 />
               </div>
@@ -508,11 +523,11 @@ export const StatueDetailCoreLayout: FC<StatueDetailCoreLayoutProps> = ({ statue
                 {/* Khoang Logo Khu vực to có hiệu ứng hover nhẹ */}
                 <div className="w-12 h-12 rounded-xl border border-[#F2C14E]/60 bg-[#1C130D] p-1.5 flex items-center justify-center text-[#F2C14E] shrink-0 group-hover/area:scale-108 group-hover/area:border-[#F2C14E] transition-all duration-300 shadow-md">
                   <img
-                    src="https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/bieu-tuong-tuong-phap.webp"
+                    src="https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/bieu-tuong-tuong-phap.webp"
                     alt="Logo Khu vực"
                     className="w-full h-full object-contain filter drop-shadow-[0_0_6px_rgba(242,193,78,0.8)]"
                     onError={(e) => {
-                      (e.currentTarget as HTMLImageElement).src = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/logo-tung-lam-hoa-phuc-tron.webp';
+                      (e.currentTarget as HTMLImageElement).src = 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/logo-tung-lam-hoa-phuc-tron.webp';
                     }}
                   />
                 </div>
@@ -527,11 +542,11 @@ export const StatueDetailCoreLayout: FC<StatueDetailCoreLayoutProps> = ({ statue
               >
                 <div className="w-9 h-9 flex items-center justify-center filter drop-shadow-[0_0_8px_rgba(242,193,78,0.7)] group-hover:scale-110 transition-transform">
                   <img
-                    src="https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/bieu-tuong-tuong-phap.webp"
+                    src="https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/bieu-tuong-tuong-phap.webp"
                     alt="Logo Bảo tượng"
                     className="w-full h-full object-contain"
                     onError={(e) => {
-                      (e.currentTarget as HTMLImageElement).src = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/logo-tung-lam-hoa-phuc-tron.webp';
+                      (e.currentTarget as HTMLImageElement).src = 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/logo-tung-lam-hoa-phuc-tron.webp';
                     }}
                   />
                 </div>
@@ -557,11 +572,11 @@ export const StatueDetailCoreLayout: FC<StatueDetailCoreLayoutProps> = ({ statue
         <div className="flex flex-col items-center text-center my-10">
           <div className="w-16 h-16 sm:w-20 sm:h-20 mb-2 flex items-center justify-center" aria-hidden="true">
             <img
-              src="https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/bieu-tuong-tuong-phap.webp"
+              src="https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/bieu-tuong-tuong-phap.webp"
               alt=""
               className="w-full h-full object-contain filter drop-shadow-[0_0_20px_rgba(242,193,78,0.95)] scale-135 transform-gpu"
               onError={(e) => {
-                (e.currentTarget as HTMLImageElement).src = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/logo-tung-lam-hoa-phuc-tron.webp';
+                (e.currentTarget as HTMLImageElement).src = 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/logo-tung-lam-hoa-phuc-tron.webp';
               }}
             />
           </div>
@@ -945,7 +960,7 @@ export const StatueDetailCoreLayout: FC<StatueDetailCoreLayoutProps> = ({ statue
       <section className="relative w-full border-y border-[#F2C14E]/40 overflow-hidden bg-[#160B04] min-h-[380px] sm:min-h-[440px] flex items-center justify-center text-center p-6 sm:p-12 group my-6">
         <div className="absolute inset-0 opacity-40 scale-105 transition-transform duration-1000 group-hover:scale-100">
           <img
-            src={statue.article?.bannerUrl || "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp"}
+            src={statue.article?.bannerUrl || "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/di-qua-kho-vui-cuoc-doi-bia-1.webp"}
             alt="Bài viết"
             className="w-full h-full object-cover object-center"
           />

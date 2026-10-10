@@ -1,5 +1,5 @@
 export const WP_BASE_URL = 'https://admin.tunglamhoaphuc.com';
-export const PLACEHOLDER_IMAGE = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp';
+export const PLACEHOLDER_IMAGE = 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp';
 
 /**
  * 🛠️ Helper function chuẩn hóa đường dẫn hình ảnh cho toàn bộ hệ thống:

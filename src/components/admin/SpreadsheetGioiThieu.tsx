@@ -842,7 +842,7 @@ export function SpreadsheetGioiThieu() {
       tag: 'Giới Thiệu Tông Phong',
       groupCategory: selectedGroup !== 'all' ? (selectedGroup as any) : 'lich-su-chua',
       groupCategoryName: selectedGroup === 'nguoi-lien-quan' ? 'Người Liên Quan' : selectedGroup === 'thanh-quy-van-hoa' ? 'Thanh Quy & Văn Hóa' : 'Lịch Sử Chùa',
-      heroBanner: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp',
+      heroBanner: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp',
       heroBannerPosition: 'center 50%',
       overviewSummary: 'Tổng quan chủ đề...',
       content: 'Nội dung chi tiết chủ đề...',
@@ -1141,7 +1141,7 @@ export function SpreadsheetGioiThieu() {
                           title="Bấm để đổi ảnh banner từ S3"
                         >
                           <img
-                            src={row.heroBanner || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp'}
+                            src={row.heroBanner || 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp'}
                             alt="Banner"
                             style={{ objectPosition: row.heroBannerPosition || 'center 50%' }}
                             className="w-full h-full object-cover"

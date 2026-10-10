@@ -88,10 +88,10 @@ export function PostFormEditor({ initialData, isEditing = false }: PostFormEdito
     status: initialData?.status || 'published',
     thumbnailUrl:
       initialData?.thumbnailUrl ||
-      'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp',
+      'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp',
     bannerUrl:
       initialData?.bannerUrl ||
-      'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp',
+      'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp',
     summary: initialData?.summary || '',
     contentHtml: initialData?.contentHtml || '',
   });

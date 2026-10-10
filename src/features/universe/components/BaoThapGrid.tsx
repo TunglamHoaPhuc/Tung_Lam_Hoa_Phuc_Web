@@ -24,14 +24,14 @@ export const BaoThapGrid: FC = () => {
             {/* Background Image */}
             <div className="absolute inset-0 opacity-45 scale-105 transition-transform duration-1000 ease-out group-hover:scale-100">
               <Image
-                src="https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp"
+                src="https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp"
                 alt="Sơ đồ 2D Bảo Tháp Vạn Phật Xá Lợi Hòa Bình"
                 fill
                 sizes="100vw"
                 className="object-cover object-center"
                 loading="lazy"
                 onError={(e) => {
-                  (e.target as any).src = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp';
+                  (e.target as any).src = 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp';
                 }}
               />
             </div>

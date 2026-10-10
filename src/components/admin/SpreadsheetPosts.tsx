@@ -282,6 +282,7 @@ export function SpreadsheetPosts() {
   // Filters & Search (Tối giản 1 dropdown & 1 ô tìm kiếm giống Tông Chỉ)
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
+  const [sortBy, setSortBy] = useState<'default' | 'views-desc' | 'views-asc'>('default');
   const [openingWpId, setOpeningWpId] = useState<string | null>(null);
 
   // 🌟 S3 File Explorer Modal
@@ -506,7 +507,7 @@ export function SpreadsheetPosts() {
               }
             }
           }
-        } catch {}
+        } catch { }
 
         setPosts(serverPosts);
       }
@@ -904,7 +905,7 @@ export function SpreadsheetPosts() {
         setPosts(postsToSave); // Giữ nguyên state đầy đủ ở client (bao gồm photoGallery)
         setIsDirty(false);
         isDirtyRef.current = false;
-        try { localStorage.removeItem('tunglam_admin_posts_draft'); } catch {}
+        try { localStorage.removeItem('tunglam_admin_posts_draft'); } catch { }
         const timeStr = new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
         setLastSavedTime(timeStr);
         if (!silent) showToast(`✅ Đã lưu thành công ${normalized.length} bài viết!`);
@@ -1122,9 +1123,9 @@ export function SpreadsheetPosts() {
       publishedDate: new Date().toISOString().split('T')[0],
       status: 'published',
       viewsCount: 0,
-      thumbnailUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp',
+      thumbnailUrl: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp',
       thumbnailPosition: 'center 50%',
-      bannerUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp',
+      bannerUrl: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp',
       bannerPosition: 'center 50%',
       summary: 'Tóm tắt nội dung bài viết...',
       content: 'Nội dung bài viết bắt đầu tại đây...',
@@ -1143,7 +1144,7 @@ export function SpreadsheetPosts() {
         timestamp: Date.now(),
         posts: updated.slice(0, 10),
       }));
-    } catch {}
+    } catch { }
 
     showToast('⚡ Đang lưu bài viết mới vào hệ thống máy chủ...');
 
@@ -1257,7 +1258,7 @@ export function SpreadsheetPosts() {
 
   // Filtered Posts: Chỉ quản lý DÒNG CHẢY HOẰNG PHÁP
   const filteredPosts = useMemo(() => {
-    return posts.filter((p) => {
+    let result = posts.filter((p) => {
       // 🌟 Chỉ hiển thị bài viết thuộc Dòng Chảy Hoằng Pháp
       if (p.mainCategory !== 'dong-chay-hoang-phap') return false;
 
@@ -1274,7 +1275,15 @@ export function SpreadsheetPosts() {
       }
       return true;
     });
-  }, [posts, selectedCategory, searchQuery]);
+
+    if (sortBy === 'views-desc') {
+      result = [...result].sort((a, b) => (Number(b.viewsCount) || 0) - (Number(a.viewsCount) || 0));
+    } else if (sortBy === 'views-asc') {
+      result = [...result].sort((a, b) => (Number(a.viewsCount) || 0) - (Number(b.viewsCount) || 0));
+    }
+
+    return result;
+  }, [posts, selectedCategory, searchQuery, sortBy]);
 
   const {
     currentPage,
@@ -1405,7 +1414,7 @@ export function SpreadsheetPosts() {
         <select
           value={selectedCategory}
           onChange={(e) => setSelectedCategory(e.target.value)}
-          className="px-3.5 py-2.5 bg-[#22140A] border border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E] rounded-xl text-xs text-[#FFE5A3] font-bold focus:outline-none cursor-pointer shadow-sm min-w-[240px]"
+          className="px-3.5 py-2.5 bg-[#22140A] border border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E] rounded-xl text-xs text-[#FFE5A3] font-bold focus:outline-none cursor-pointer shadow-sm min-w-[220px]"
         >
           {HOANG_PHAP_CATEGORIES.map((c) => {
             const count =
@@ -1418,6 +1427,17 @@ export function SpreadsheetPosts() {
               </option>
             );
           })}
+        </select>
+
+        {/* Dropdown Sắp Xếp Lượt Xem Đo Lường Thật */}
+        <select
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value as any)}
+          className="px-3.5 py-2.5 bg-[#22140A] border border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E] rounded-xl text-xs text-[#FFE5A3] font-bold focus:outline-none cursor-pointer shadow-sm min-w-[190px]"
+        >
+          <option value="default">Thứ tự mặc định (Kéo thả)</option>
+          <option value="views-desc">👁️ Lượt xem cao nhất</option>
+          <option value="views-asc">👁️ Lượt xem thấp nhất</option>
         </select>
       </div>
 
@@ -1432,7 +1452,8 @@ export function SpreadsheetPosts() {
                 <th className="p-3 w-[80px] min-w-[80px] text-center border-r border-[#F2C14E]/20">Ảnh Bìa</th>
                 <th className="p-3 w-[220px] min-w-[220px] border-r border-[#F2C14E]/20">Tiêu Đề Bài Viết</th>
                 <th className="p-3 w-[220px] min-w-[220px] border-r border-[#F2C14E]/20">Tiêu Đề Phụ</th>
-                <th className="p-3 w-[200px] min-w-[200px] border-r border-[#F2C14E]/20">Tác Giả & Ngày</th>
+                <th className="p-3 w-[190px] min-w-[190px] border-r border-[#F2C14E]/20">Tác Giả & Ngày</th>
+                <th className="p-3 w-[110px] min-w-[110px] border-r border-[#F2C14E]/20 text-center" title="Lượt xem đo lường thực tế từ độc giả khi đọc bài">Lượt Xem</th>
                 <th className="p-3 w-[140px] min-w-[140px] border-r border-[#F2C14E]/20 text-center">Đa Phương Tiện</th>
                 <th
                   className="p-3 border-r border-[#F2C14E]/20 cursor-help"
@@ -1449,14 +1470,14 @@ export function SpreadsheetPosts() {
             <tbody className="divide-y divide-[#F2C14E]/15">
               {loading ? (
                 <tr>
-                  <td colSpan={9} className="p-12 text-center text-[#c9b896]/70">
+                  <td colSpan={10} className="p-12 text-center text-[#c9b896]/70">
                     <Loader2 className="w-8 h-8 animate-spin mx-auto mb-2 text-[#F2C14E]" />
                     <span>Đang tải dữ liệu bài viết...</span>
                   </td>
                 </tr>
               ) : filteredPosts.length === 0 ? (
                 <tr>
-                  <td colSpan={9} className="p-12 text-center text-[#c9b896]/70">
+                  <td colSpan={10} className="p-12 text-center text-[#c9b896]/70">
                     Chưa có bài viết nào trong chuyên mục Hoằng Pháp này.
                   </td>
                 </tr>
@@ -1481,19 +1502,15 @@ export function SpreadsheetPosts() {
                       onDragOver={(e) => handleDragOver(e, row.id)}
                       onDragLeave={handleDragLeave}
                       onDrop={(e) => handleDrop(e, row.id)}
-                      className={`transition-colors group focus-within:bg-[#2D1B0F] ${
-                        filterIdx % 2 === 0 ? 'bg-[#170E08]' : 'bg-[#120A05]'
-                      } hover:bg-[#26160B] ${
-                        isDragged ? 'opacity-30 bg-[#352012] scale-[0.99]' : ''
-                      } ${
-                        isDragOver && dropPosition === 'above'
+                      className={`transition-colors group focus-within:bg-[#2D1B0F] ${filterIdx % 2 === 0 ? 'bg-[#170E08]' : 'bg-[#120A05]'
+                        } hover:bg-[#26160B] ${isDragged ? 'opacity-30 bg-[#352012] scale-[0.99]' : ''
+                        } ${isDragOver && dropPosition === 'above'
                           ? 'border-t-2 border-[#ffde59] bg-[#321C0E] shadow-[0_-4px_12px_rgba(255,222,89,0.35)]'
                           : ''
-                      } ${
-                        isDragOver && dropPosition === 'below'
+                        } ${isDragOver && dropPosition === 'below'
                           ? 'border-b-2 border-[#ffde59] bg-[#321C0E] shadow-[0_4px_12px_rgba(255,222,89,0.35)]'
                           : ''
-                      }`}
+                        }`}
                     >
                       {/* 1. STT & KÉO THẢ SẮP XẾP */}
                       <td className="p-2 w-[55px] min-w-[55px] text-center font-mono font-bold text-[#F2C14E] border-r border-[#F2C14E]/15 bg-[#140D07]/60 align-middle select-none">
@@ -1541,7 +1558,7 @@ export function SpreadsheetPosts() {
                             title="Bấm để mở cài đặt Ảnh Bìa Hero & Thumbnail bài viết"
                           >
                             <img
-                              src={row.thumbnailUrl || row.bannerUrl || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp'}
+                              src={row.thumbnailUrl || row.bannerUrl || 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp'}
                               alt={row.title}
                               className="w-full h-full object-cover group-hover/thumb:scale-110 transition-transform duration-300"
                               style={{ objectPosition: row.thumbnailPosition || row.bannerPosition || 'center 50%' }}
@@ -1633,18 +1650,41 @@ export function SpreadsheetPosts() {
                         </div>
                       </td>
 
-                      {/* 6.5. Đa Phương Tiện */}
+                      {/* 6.5. Số Lượt Xem Thực Tế (Đo lường từ độc giả đọc bài) */}
+                      <td className="p-2 w-[110px] min-w-[110px] border-r border-[#F2C14E]/15 align-middle text-center bg-[#170E08]/40">
+                        <div className="flex flex-col items-center justify-center gap-1">
+                          <span
+                            title={`Lượt xem đo lường thực tế: ${typeof row.viewsCount === 'number' ? row.viewsCount.toLocaleString('vi-VN') : row.viewsCount || 0} lượt`}
+                            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-[#25170E] border border-[#F2C14E]/40 text-[#FFE5A3] font-mono text-xs font-bold shadow-sm group-hover:border-[#F2C14E]"
+                          >
+                            <Eye className="w-3.5 h-3.5 text-[#F2C14E] shrink-0" />
+                            <span>
+                              {typeof row.viewsCount === 'number'
+                                ? row.viewsCount >= 10000
+                                  ? `${(row.viewsCount / 1000).toFixed(1)}K`
+                                  : row.viewsCount.toLocaleString('vi-VN')
+                                : row.viewsCount || 0}
+                            </span>
+                          </span>
+                          <span className="text-[10px] text-[#c9b896]/60 font-sans">
+                            {typeof row.viewsCount === 'number' && row.viewsCount >= 10000
+                              ? `(${row.viewsCount.toLocaleString('vi-VN')})`
+                              : 'lượt đọc'}
+                          </span>
+                        </div>
+                      </td>
+
+                      {/* 6.6. Đa Phương Tiện */}
                       <td className="p-2.5 w-[140px] min-w-[140px] border-r border-[#F2C14E]/15 align-middle">
                         <div className="flex items-center justify-center gap-1.5">
                           {/* Nút Video */}
                           <button
                             type="button"
                             onClick={() => handleOpenMediaModal(actualIdx, 'video')}
-                            className={`p-2 rounded-xl border flex items-center justify-center relative transition-all cursor-pointer shadow-sm hover:scale-110 ${
-                              hasVideo
+                            className={`p-2 rounded-xl border flex items-center justify-center relative transition-all cursor-pointer shadow-sm hover:scale-110 ${hasVideo
                                 ? 'bg-[#352012] border-[#F2C14E] text-[#ffde59] shadow-[0_0_10px_rgba(242,193,78,0.2)]'
                                 : 'bg-[#1C120A] border-[#52331C] text-[#c9b896]/60 hover:text-[#FFE5A3]'
-                            }`}
+                              }`}
                             title={hasVideo ? `Video: ${row.videoBlock?.title || 'Đã cài đặt video'}` : 'Quản lý Video Minh Họa'}
                           >
                             <Video className="w-4 h-4" />
@@ -1659,11 +1699,10 @@ export function SpreadsheetPosts() {
                           <button
                             type="button"
                             onClick={() => handleOpenMediaModal(actualIdx, 'featured')}
-                            className={`p-2 rounded-xl border flex items-center justify-center relative transition-all cursor-pointer shadow-sm hover:scale-110 ${
-                              hasFeatured
+                            className={`p-2 rounded-xl border flex items-center justify-center relative transition-all cursor-pointer shadow-sm hover:scale-110 ${hasFeatured
                                 ? 'bg-[#352012] border-[#F2C14E] text-[#ffde59] shadow-[0_0_10px_rgba(242,193,78,0.2)]'
                                 : 'bg-[#1C120A] border-[#52331C] text-[#c9b896]/60 hover:text-[#FFE5A3]'
-                            }`}
+                              }`}
                             title={hasFeatured ? `Nổi bật: ${row.featuredArticle?.title}` : 'Quản lý Bài Viết Nổi Bật'}
                           >
                             <Star className="w-4 h-4" />
@@ -1678,11 +1717,10 @@ export function SpreadsheetPosts() {
                           <button
                             type="button"
                             onClick={() => handleOpenMediaModal(actualIdx, 'gallery')}
-                            className={`p-2 rounded-xl border flex items-center justify-center relative transition-all cursor-pointer shadow-sm hover:scale-110 ${
-                              galleryCount > 0
+                            className={`p-2 rounded-xl border flex items-center justify-center relative transition-all cursor-pointer shadow-sm hover:scale-110 ${galleryCount > 0
                                 ? 'bg-[#352012] border-[#F2C14E] text-[#ffde59] shadow-[0_0_10px_rgba(242,193,78,0.2)]'
                                 : 'bg-[#1C120A] border-[#52331C] text-[#c9b896]/60 hover:text-[#FFE5A3]'
-                            }`}
+                              }`}
                             title={`Bộ sưu tập ảnh (${galleryCount} ảnh)`}
                           >
                             <Images className="w-4 h-4" />
@@ -1695,33 +1733,46 @@ export function SpreadsheetPosts() {
                         </div>
                       </td>
 
-                      {/* 7. Nội Dung Chi Tiết (Bấm Mở Trực Tiếp WordPress Gutenberg) */}
+                      {/* 7. Nội Dung Chi Tiết (Soạn Thảo Trên Web hoặc Mở WordPress Gutenberg) */}
                       <td className="p-2.5 border-r border-[#F2C14E]/15 align-middle max-w-full overflow-hidden">
                         <div
-                          onClick={() => handleOpenGutenberg(row, actualIdx)}
-                          className="w-full min-h-[72px] p-2.5 bg-[#22140A] hover:bg-[#2C1A0E] border border-[#52331C] hover:border-[#F2C14E] rounded-xl cursor-pointer transition-all flex flex-col justify-between group/cell shadow-inner overflow-hidden"
-                          title="Bấm vào để mở trực tiếp trong trình soạn thảo WordPress Gutenberg"
+                          className="w-full min-h-[72px] p-2.5 bg-[#22140A] hover:bg-[#2C1A0E] border border-[#52331C] hover:border-[#F2C14E] rounded-xl transition-all flex flex-col justify-between group/cell shadow-inner overflow-hidden relative"
                         >
-                          <p className="text-xs text-[#F5EADB]/80 line-clamp-2 leading-relaxed truncate">
-                            {row.content
-                              ? row.content.replace(/!\[.*?\]\(.*?\)/g, '[Hình Ảnh]').replace(/<[^>]+>/g, '').slice(0, 140) + '...'
-                              : row.summary
-                              ? row.summary.slice(0, 140) + '...'
-                              : row.contentHtml
-                              ? row.contentHtml.replace(/<[^>]+>/g, '').slice(0, 140) + '...'
-                              : 'Chưa có nội dung...'}
-                          </p>
+                          <div
+                            onClick={() => handleOpenGutenberg(row, actualIdx)}
+                            className="cursor-pointer"
+                            title="Bấm để mở trực tiếp trong trình soạn thảo WordPress Gutenberg"
+                          >
+                            <p className="text-xs text-[#F5EADB]/80 line-clamp-2 leading-relaxed truncate hover:text-[#ffde59] transition-colors">
+                              {row.content
+                                ? row.content.replace(/!\[.*?\]\(.*?\)/g, '[Hình Ảnh]').replace(/<[^>]+>/g, '').slice(0, 140) + '...'
+                                : row.summary
+                                  ? row.summary.slice(0, 140) + '...'
+                                  : row.contentHtml
+                                    ? row.contentHtml.replace(/<[^>]+>/g, '').slice(0, 140) + '...'
+                                    : 'Chưa có nội dung...'}
+                            </p>
+                          </div>
                           <div className="flex items-center justify-between gap-1 mt-2 pt-1.5 border-t border-[#F2C14E]/15 text-[11px] text-[#F2C14E] overflow-hidden">
-                            <span className="flex items-center gap-1.5 font-bold text-[#F2C14E] group-hover/cell:text-[#ffde59]">
-                              <Edit3 className="w-3.5 h-3.5 shrink-0 text-[#F2C14E]" />
-                              <span className="text-[10px] font-bold uppercase tracking-wider text-[#ffde59]">
+                            {/* Mở WordPress Gutenberg */}
+                            <button
+                              type="button"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleOpenGutenberg(row, actualIdx);
+                              }}
+                              className="flex items-center gap-1.5 font-bold text-[#F2C14E] hover:text-[#ffde59] px-2 py-0.5 rounded-lg bg-[#2A1D14] hover:bg-[#3A2718] border border-[#F2C14E]/30 hover:border-[#F2C14E] transition-all cursor-pointer shadow-sm hover:scale-102"
+                              title="Mở bài viết trực tiếp trong WordPress Gutenberg (1-Click)"
+                            >
+                              <ExternalLink className="w-3.5 h-3.5 text-[#F2C14E]" />
+                              <span className="text-[10px] font-semibold text-[#FFE5A3]">
                                 {openingWpId === row.id
                                   ? 'Đang mở WP...'
                                   : row.wpPostId
-                                  ? `Gutenberg #${row.wpPostId}`
-                                  : 'Mở Gutenberg'}
+                                    ? `Gutenberg #${row.wpPostId}`
+                                    : 'Mở Gutenberg'}
                               </span>
-                            </span>
+                            </button>
                             <div className="flex items-center gap-1 text-[10px] text-[#c9b896]/75 shrink-0">
                               {kwCount > 0 && (
                                 <span
@@ -1756,19 +1807,18 @@ export function SpreadsheetPosts() {
                             type="button"
                             disabled={savingRowId === row.id}
                             onClick={() => handleSaveRow(row.id, row)}
-                            className={`p-2 rounded-xl border flex items-center justify-center transition-all cursor-pointer shadow-sm hover:scale-105 ${
-                              savedRowId === row.id
+                            className={`p-2 rounded-xl border flex items-center justify-center transition-all cursor-pointer shadow-sm hover:scale-105 ${savedRowId === row.id
                                 ? 'bg-emerald-950/70 border-emerald-500 text-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.3)]'
                                 : savingRowId === row.id
-                                ? 'bg-[#3A2718] border-[#F2C14E]/60 text-[#FFE5A3] opacity-80 cursor-wait'
-                                : 'bg-[#2A1D14] hover:bg-[#3A2718] border-[#F2C14E]/40 text-[#FFE5A3] hover:text-[#FFDE59]'
-                            }`}
+                                  ? 'bg-[#3A2718] border-[#F2C14E]/60 text-[#FFE5A3] opacity-80 cursor-wait'
+                                  : 'bg-[#2A1D14] hover:bg-[#3A2718] border-[#F2C14E]/40 text-[#FFE5A3] hover:text-[#FFDE59]'
+                              }`}
                             title={
                               savedRowId === row.id
                                 ? 'Đã lưu bài viết thành công!'
                                 : savingRowId === row.id
-                                ? 'Đang lưu bài viết...'
-                                : 'Lưu riêng bài viết này'
+                                  ? 'Đang lưu bài viết...'
+                                  : 'Lưu riêng bài viết này'
                             }
                           >
                             {savingRowId === row.id ? (
@@ -1791,7 +1841,7 @@ export function SpreadsheetPosts() {
                                   if (data.success && data.post) {
                                     target = { ...target, ...data.post };
                                   }
-                                } catch {}
+                                } catch { }
                               }
                               setPreviewModal(target);
                             }}
@@ -1867,11 +1917,10 @@ export function SpreadsheetPosts() {
       {bigEditor && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 bg-black/90 backdrop-blur-md animate-in fade-in">
           <div
-            className={`bg-[#1C120A] border-2 border-[#F2C14E] flex flex-col shadow-[0_0_60px_rgba(242,193,78,0.4)] transition-all duration-200 ${
-              isEditorMaximized
+            className={`bg-[#1C120A] border-2 border-[#F2C14E] flex flex-col shadow-[0_0_60px_rgba(242,193,78,0.4)] transition-all duration-200 ${isEditorMaximized
                 ? 'fixed inset-0 rounded-none w-screen h-screen max-w-none max-h-none p-4 sm:p-6'
                 : 'rounded-3xl p-5 sm:p-7 w-full max-w-5xl max-h-[94vh]'
-            }`}
+              }`}
           >
             {/* Modal Header */}
             <div className="flex items-center justify-between pb-3 border-b border-[#F2C14E]/30 shrink-0">
@@ -2033,11 +2082,10 @@ export function SpreadsheetPosts() {
                     key={t.id}
                     type="button"
                     onClick={() => setMediaModal({ ...mediaModal, tab: t.id as any })}
-                    className={`px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer ${
-                      isActive
+                    className={`px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer ${isActive
                         ? 'bg-[#F2C14E] text-[#1A120B] shadow-md'
                         : 'text-[#c9b896] hover:text-white hover:bg-[#352012]'
-                    }`}
+                      }`}
                   >
                     <Icon className="w-3.5 h-3.5" />
                     <span>{t.label}</span>
@@ -2218,7 +2266,7 @@ export function SpreadsheetPosts() {
                     <div className="flex flex-col sm:flex-row items-center gap-4">
                       <div className="w-48 h-36 shrink-0 rounded-2xl overflow-hidden border-2 border-[#F2C14E]/60 bg-black relative shadow-lg">
                         <InteractiveImageDrag
-                          imageUrl={posts[mediaModal.rowIndex].thumbnailUrl || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp'}
+                          imageUrl={posts[mediaModal.rowIndex].thumbnailUrl || 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp'}
                           position={posts[mediaModal.rowIndex].thumbnailPosition || 'center 50%'}
                           onPositionChange={(pos) => {
                             const updated = [...posts];
@@ -2553,13 +2601,12 @@ export function SpreadsheetPosts() {
                           onDragLeave={() => handlePhotoDragLeave(pIdx)}
                           onDrop={(e) => handlePhotoDrop(e, pIdx)}
                           onDragEnd={handlePhotoDragEnd}
-                          className={`p-3 bg-[#25170E] border rounded-2xl flex gap-3 relative group/card transition-all cursor-grab active:cursor-grabbing select-none ${
-                            isDragging
+                          className={`p-3 bg-[#25170E] border rounded-2xl flex gap-3 relative group/card transition-all cursor-grab active:cursor-grabbing select-none ${isDragging
                               ? 'opacity-40 border-dashed border-[#F2C14E] scale-95'
                               : isOver
-                              ? 'border-[#F2C14E] bg-[#382112] shadow-[0_0_15px_rgba(242,193,78,0.35)] ring-2 ring-[#F2C14E]/60 scale-[1.02]'
-                              : 'border-[#F2C14E]/30 hover:border-[#F2C14E] hover:bg-[#2A1A10]'
-                          }`}
+                                ? 'border-[#F2C14E] bg-[#382112] shadow-[0_0_15px_rgba(242,193,78,0.35)] ring-2 ring-[#F2C14E]/60 scale-[1.02]'
+                                : 'border-[#F2C14E]/30 hover:border-[#F2C14E] hover:bg-[#2A1A10]'
+                            }`}
                         >
                           {/* Nút tay cầm kéo thả & số thứ tự */}
                           <div className="flex flex-col items-center justify-between py-1 text-[#F2C14E]/60 hover:text-[#F2C14E] shrink-0">
@@ -2680,7 +2727,7 @@ export function SpreadsheetPosts() {
                           title: 'Pháp Hội Niệm Phật Kỳ Trước',
                           period: 'Tháng trước / Năm trước',
                           slug: '',
-                          thumbnailUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp',
+                          thumbnailUrl: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp',
                         });
                         setPosts(updated);
                       }}
@@ -3139,7 +3186,7 @@ export function SpreadsheetPosts() {
 
                 {/* 3. Photo gallery */}
                 {previewModal.photoGallery && previewModal.photoGallery.length > 0 && (
-                  <PhotoGallery photoGallery={previewModal.photoGallery} onSelectPhoto={() => {}} />
+                  <PhotoGallery photoGallery={previewModal.photoGallery} onSelectPhoto={() => { }} />
                 )}
 
                 {/* 4. Book citation */}
@@ -3211,7 +3258,7 @@ export function SpreadsheetPosts() {
                     .map((p) => ({
                       category: p.categoryName || p.subCategory || 'Bài viết liên quan',
                       title: p.title,
-                      url: p.thumbnailUrl || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp',
+                      url: p.thumbnailUrl || 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp',
                       link: p.mainCategory === 'dong-chay-hoang-phap' ? `/dong-chay-hoang-phap/${p.slug}` : `/tri-tue-phat-phap/${p.slug}`,
                     }))}
                 />
@@ -3259,10 +3306,10 @@ export function SpreadsheetPosts() {
                 </h4>
                 {activePreviewKeyword.subtitle &&
                   activePreviewKeyword.subtitle.trim().toLowerCase() !== (activePreviewKeyword.title || activePreviewKeyword.keyword).trim().toLowerCase() && (
-                  <p className="text-xs font-semibold text-[#F2C14E]/80 uppercase mt-0.5 tracking-wide">
-                    {activePreviewKeyword.subtitle}
-                  </p>
-                )}
+                    <p className="text-xs font-semibold text-[#F2C14E]/80 uppercase mt-0.5 tracking-wide">
+                      {activePreviewKeyword.subtitle}
+                    </p>
+                  )}
               </div>
 
               {activePreviewKeyword.imageUrl && (

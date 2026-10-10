@@ -223,7 +223,11 @@ export default function TongChiTuHocPage() {
 
       <div className="px-4 sm:px-8 md:pl-20 md:pr-10">
         {/* Banner chính */}
-        <HeroBanner bannerUrl={bannerUrl} />
+        <HeroBanner
+          bannerUrl={bannerUrl}
+          emblemUrl="/images/icons/icon-tong-chi-tu-hoc.webp"
+          emblemAlt="Biểu tượng Tông Chỉ Tu Học"
+        />
 
         {/* Khối mô tả trang đầy đủ không bị cắt */}
         <PageIntro description={pageDescription} />

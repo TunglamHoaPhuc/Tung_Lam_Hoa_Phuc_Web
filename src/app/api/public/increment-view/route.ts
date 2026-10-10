@@ -17,6 +17,13 @@ const TONG_CHI_DB_CONFIG = {
   defaultData: [] as any[],
 };
 
+const STATUES_DB_CONFIG = {
+  fileName: 'statues-database.json',
+  localRelativePath: 'src/data/statues-database.json',
+  s3Key: 'tunglamhoaphuc2/database/statues-database.json',
+  defaultData: [] as any[],
+};
+
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json().catch(() => ({}));
@@ -41,6 +48,25 @@ export async function POST(req: NextRequest) {
           console.error('Lỗi lưu views tong-chi:', e)
         );
         return NextResponse.json({ success: true, viewsCount: target.viewsCount });
+      }
+    }
+
+    // 2. Bảo Tượng Phật Giáo
+    if (type === 'bao-tuong' || type === 'statue') {
+      const statues = await loadServerlessJsonAsync<any[]>(STATUES_DB_CONFIG);
+      const statue = statues.find(
+        (s) =>
+          s.slug === idOrSlug ||
+          s.id === idOrSlug ||
+          s.code === idOrSlug ||
+          s.code?.toLowerCase() === idOrSlug.toLowerCase()
+      );
+      if (statue) {
+        statue.viewsCount = (Number(statue.viewsCount) || 108) + 1;
+        saveServerlessJson(STATUES_DB_CONFIG, statues).catch((e) =>
+          console.error('Lỗi lưu views statue:', e)
+        );
+        return NextResponse.json({ success: true, viewsCount: statue.viewsCount });
       }
     }
 

@@ -26,13 +26,13 @@ Sử dụng công cụ mã nguồn mở miễn phí **Rclone** để biến S3 t
 Chạy file **`Ket_Noi_S3_Hoa_Phuc.bat`** (đã được tạo sẵn ở thư mục gốc dự án) hoặc chạy lệnh sau trong PowerShell / CMD:
 
 ```cmd
-rclone config create s3hoaphuc s3 provider=Other env_auth=false access_key_id=005bc25330e1c1f0000000029 secret_access_key=K005/I+vUZ8TcuI2ww8TLeRPtsVzEaA endpoint=https://s3.us-east-005.backblazeb2.com acl=public-read
+rclone config create s3hoaphuc s3 provider=Other env_auth=false access_key_id=005bc25330e1c1f000000003e secret_access_key=K005XHjiQ99dAcUkjPewsrz+mC4DrLA endpoint=https://s3.us-east-005.backblazeb2.com acl=public-read
 ```
 
 ### Bước 3: Mount S3 thành Ổ Đĩa Z:
-Chạy lệnh:
+Chạy file `Ket_Noi_S3_Hoa_Phuc.bat` hoặc chạy lệnh:
 ```cmd
-rclone mount s3hoaphuc:s2-cnv03 Z: --vfs-cache-mode full
+rclone mount s3hoaphuc:media-tunglamhoaphuc/tunglamhoaphuc2 Z: --vfs-cache-mode full
 ```
 
-👉 Mở **This PC** trên máy tính: Bạn sẽ thấy **Ổ Đĩa Z: (s2-cnv03)** xuất hiện sẵn sàng! Bạn có thể kéo thả, copy, paste ảnh vào S3 như ổ đĩa bình thường.
+👉 Mở **This PC** trên máy tính: Bạn sẽ thấy **Ổ Đĩa Z: (Tung Lam Hoa Phuc)** xuất hiện sẵn sàng! Bạn có thể kéo thả, copy, paste ảnh vào S3 như ổ đĩa bình thường.

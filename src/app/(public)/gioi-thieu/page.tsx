@@ -15,7 +15,7 @@ const INTRO_TOPICS = [
     subtitle: 'Nguồn gốc hình thành, các giai đoạn trùng tu và phát triển chốn thiền môn.',
     href: '/gioi-thieu/lich-su-tung-lam-hoa-phuc',
     icon: Landmark,
-    image: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp',
+    image: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp',
     tag: 'Lịch Sử Bổn Tự',
   },
   {
@@ -60,7 +60,7 @@ const INTRO_TOPICS = [
     subtitle: 'Quy củ, oai nghi tế hạnh và nếp sống đạo đức dành cho Phật tử viếng chùa.',
     href: '/gioi-thieu/van-hoa-ung-xu',
     icon: HeartHandshake,
-    image: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp',
+    image: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp',
     tag: 'Thanh Quy Tự Viện',
   },
 ];

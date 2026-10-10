@@ -124,6 +124,7 @@ interface ArticleRow {
   photoGallery?: PhotoGalleryItem[];
   keywords: KeywordItem[];
   wpPostId?: string | number;
+  viewsCount?: number;
 }
 
 // 🌟 COMPONENT KÉO THẢ TRỰC TIẾP CĂN CHỈNH VỊ TRÍ ẢNH VỚI LƯỚI 3x3
@@ -231,28 +232,28 @@ export const POPULAR_BOOKS: SourceBook[] = [
     bookTitle: 'Đi Qua Khổ Vui Cuộc Đời',
     author: 'Vô Trí - Tâm Hòa',
     description: "Tác phẩm văn học Phật giáo 'Đi Qua Khổ Vui Cuộc Đời' (Quyển 1 & Quyển 2) do Sa Môn Vô Trí hiệu Tâm Hòa biên soạn, ghi lại những chặng đường tu học, hoằng pháp lợi sinh và những bài học nhân duyên sâu sắc.",
-    coverImage: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-phong-truyen-thua/tong-chi-tu-hoc-tong-phong-truyen-thua-tiep-buoc-thay-toi-thay-chu-thich-popup-sach-dqkvcd.webp',
+    coverImage: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-phong-truyen-thua/tong-chi-tu-hoc-tong-phong-truyen-thua-tiep-buoc-thay-toi-thay-chu-thich-popup-sach-dqkvcd.webp',
     linkUrl: '/tri-tue-phat-phap',
   },
   {
     bookTitle: 'Đóa Sen Khắc Vách Núi',
     author: 'Vô Trí - Tâm Hòa',
     description: 'Tác phẩm văn học Phật giáo khắc họa hành trình xây dựng Tùng Lâm Hòa Phúc và tiếp nối tông phong của Thầy Tổ.',
-    coverImage: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/bia-sach-doa-sen-khac-vach-nui.webp',
+    coverImage: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/bia-sach-doa-sen-khac-vach-nui.webp',
     linkUrl: '/tri-tue-phat-phap',
   },
   {
     bookTitle: 'Lược Sử Sư Tổ Ngộ Chân Tử',
     author: 'Tổ Đình Hoằng Pháp',
     description: 'Cuộc đời, hành trạng và công đức hoằng hóa lợi sinh của Đại Lão Hòa Thượng Ngộ Chân Tử - Tổ khai sáng Tông phong Hoằng Pháp.',
-    coverImage: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/bia-sach-luoc-su-su-to.webp',
+    coverImage: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/bia-sach-luoc-su-su-to.webp',
     linkUrl: '/gioi-thieu/tieu-su-su-to',
   },
   {
     bookTitle: 'Tập Văn Hòa Phúc',
     author: 'Tùng Lâm Hòa Phúc',
     description: 'Tuyển tập các bài nghiên cứu, tham luận và cảm nhận tu học tại Tùng Lâm Hòa Phúc.',
-    coverImage: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/bia-sach-tap-van-hoa-phuc.webp',
+    coverImage: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/08-tu-an-book/bia-sach-tap-van-hoa-phuc.webp',
     linkUrl: '/tri-tue-phat-phap',
   },
 ];
@@ -445,6 +446,7 @@ export function SpreadsheetTongChi() {
   const [lastSavedTime, setLastSavedTime] = useState<string>('');
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [sortBy, setSortBy] = useState<'default' | 'views-desc' | 'views-asc'>('default');
   const [previewModal, setPreviewModal] = useState<ArticleRow | null>(null);
 
   // 🌟 Quản lý trạng thái chưa lưu & ngăn chặn thoát ngoài ý muốn
@@ -1548,7 +1550,7 @@ export function SpreadsheetTongChi() {
 
   // Filtered rows memoized
   const filtered = useMemo(() => {
-    return articles.filter((a) => {
+    let result = articles.filter((a) => {
       if (selectedCategory !== 'all' && a.category !== selectedCategory) return false;
       if (!debouncedSearch.trim()) return true;
       const q = debouncedSearch.toLowerCase();
@@ -1559,7 +1561,15 @@ export function SpreadsheetTongChi() {
         a.author?.toLowerCase().includes(q)
       );
     });
-  }, [articles, selectedCategory, debouncedSearch]);
+
+    if (sortBy === 'views-desc') {
+      result = [...result].sort((a, b) => (Number(b.viewsCount) || 0) - (Number(a.viewsCount) || 0));
+    } else if (sortBy === 'views-asc') {
+      result = [...result].sort((a, b) => (Number(a.viewsCount) || 0) - (Number(b.viewsCount) || 0));
+    }
+
+    return result;
+  }, [articles, selectedCategory, debouncedSearch, sortBy]);
 
   const {
     currentPage,
@@ -1680,7 +1690,7 @@ export function SpreadsheetTongChi() {
         <select
           value={selectedCategory}
           onChange={(e) => setSelectedCategory(e.target.value)}
-          className="px-3.5 py-2.5 bg-[#22140A] border border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E] rounded-xl text-xs text-[#FFE5A3] font-bold focus:outline-none cursor-pointer shadow-sm min-w-[220px]"
+          className="px-3.5 py-2.5 bg-[#22140A] border border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E] rounded-xl text-xs text-[#FFE5A3] font-bold focus:outline-none cursor-pointer shadow-sm min-w-[200px]"
         >
           <option value="all">Tất Cả Chuyên Mục ({articles.length})</option>
           {CATEGORIES.map((c) => (
@@ -1688,6 +1698,17 @@ export function SpreadsheetTongChi() {
               {c.name} ({articles.filter((a) => a.category === c.id).length})
             </option>
           ))}
+        </select>
+
+        {/* Dropdown Sắp Xếp Lượt Xem */}
+        <select
+          value={sortBy}
+          onChange={(e) => setSortBy(e.target.value as any)}
+          className="px-3.5 py-2.5 bg-[#22140A] border border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E] rounded-xl text-xs text-[#FFE5A3] font-bold focus:outline-none cursor-pointer shadow-sm min-w-[190px]"
+        >
+          <option value="default">Thứ tự mặc định (Kéo thả)</option>
+          <option value="views-desc">👁️ Lượt xem cao nhất</option>
+          <option value="views-asc">👁️ Lượt xem thấp nhất</option>
         </select>
 
         {/* Ô Tìm Kiếm (BÊN PHẢI) */}
@@ -1714,6 +1735,7 @@ export function SpreadsheetTongChi() {
                 <th className="p-3 w-[80px] min-w-[80px] text-center border-r border-[#F2C14E]/20">Banner</th>
                 <th className="p-3 w-[190px] min-w-[190px] border-r border-[#F2C14E]/20">Tiêu Đề Bài Viết</th>
                 <th className="p-3 w-[250px] min-w-[250px] border-r border-[#F2C14E]/20">Tiêu Đề Phụ</th>
+                <th className="p-3 w-[110px] min-w-[110px] border-r border-[#F2C14E]/20 text-center" title="Lượt xem đo lường thực tế từ độc giả khi đọc bài">Lượt Xem</th>
                 <th className="p-3 w-[140px] min-w-[140px] border-r border-[#F2C14E]/20 text-center">Đa Phương Tiện</th>
                 <th
                   className="p-3 border-r border-[#F2C14E]/20 cursor-help"
@@ -1732,13 +1754,13 @@ export function SpreadsheetTongChi() {
             <tbody className="divide-y divide-[#F2C14E]/15">
               {loading ? (
                 <tr>
-                  <td colSpan={8} className="p-12 text-center text-[#c9b896]/70">
+                  <td colSpan={9} className="p-12 text-center text-[#c9b896]/70">
                     Đang tải dữ liệu bảng tính...
                   </td>
                 </tr>
               ) : filtered.length === 0 ? (
                 <tr>
-                  <td colSpan={8} className="p-12 text-center text-[#c9b896]/70">
+                  <td colSpan={9} className="p-12 text-center text-[#c9b896]/70">
                     Chưa có bài viết nào trong danh mục này.
                   </td>
                 </tr>
@@ -1859,6 +1881,30 @@ export function SpreadsheetTongChi() {
                           placeholder="Nhập lời tựa / phụ..."
                           className="w-full min-h-[72px] px-3 py-2.5 bg-[#22140A] border border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E] rounded-xl text-xs text-[#FFE5A3] italic focus:outline-none leading-relaxed transition-all resize-none shadow-sm flex items-center"
                         />
+                      </td>
+
+                      {/* 5.5. Số Lượt Xem Thực Tế (Đo lường từ độc giả đọc bài) */}
+                      <td className="p-2 w-[110px] min-w-[110px] border-r border-[#F2C14E]/15 align-middle text-center bg-[#170E08]/40">
+                        <div className="flex flex-col items-center justify-center gap-1">
+                          <span
+                            title={`Lượt xem đo lường thực tế: ${typeof row.viewsCount === 'number' ? row.viewsCount.toLocaleString('vi-VN') : row.viewsCount || 0} lượt`}
+                            className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-[#25170E] border border-[#F2C14E]/40 text-[#FFE5A3] font-mono text-xs font-bold shadow-sm"
+                          >
+                            <Eye className="w-3.5 h-3.5 text-[#F2C14E] shrink-0" />
+                            <span>
+                              {typeof row.viewsCount === 'number'
+                                ? row.viewsCount >= 10000
+                                  ? `${(row.viewsCount / 1000).toFixed(1)}K`
+                                  : row.viewsCount.toLocaleString('vi-VN')
+                                : row.viewsCount || 0}
+                            </span>
+                          </span>
+                          <span className="text-[10px] text-[#c9b896]/60 font-sans">
+                            {typeof row.viewsCount === 'number' && row.viewsCount >= 10000
+                              ? `(${row.viewsCount.toLocaleString('vi-VN')})`
+                              : 'lượt đọc'}
+                          </span>
+                        </div>
                       </td>
 
                       {/* 6. Đa Phương Tiện (Icon Vector SVG với tooltip & số đếm) */}
@@ -4372,7 +4418,7 @@ export function SpreadsheetTongChi() {
                     .map((a) => ({
                       category: a.categoryName || a.category,
                       title: a.title,
-                      url: a.bannerImage || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp',
+                      url: a.bannerImage || 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp',
                       link: `/tong-chi-tu-hoc/${a.slug}`,
                     }))}
                 />

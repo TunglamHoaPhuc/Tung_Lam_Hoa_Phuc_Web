@@ -21,6 +21,7 @@ export default async function DongChayHoangPhapPage() {
       id: p.id,
       slug: p.slug,
       title: p.title,
+      subtitle: p.subtitle || '',
       date: p.publishedDate || p.date || '',
       author: p.author || 'Ban Văn Hóa Tùng Lâm',
       category: p.subCategory || 'cong-tu',
@@ -28,11 +29,18 @@ export default async function DongChayHoangPhapPage() {
       subCategoryIcon: '',
       templeLogo: (p.templeLogo || 'tung-lam-hoa-phuc') as 'tung-lam-hoa-phuc' | 'quynh-nhai-cam-lo-tu',
       templeName: p.templeName || 'Tùng Lâm Hòa Phúc',
-      views: p.viewsCount || 108,
+      views: typeof p.viewsCount === 'number' ? p.viewsCount : (parseInt(p.viewsCount, 10) || 0),
       thumbnailUrl: p.thumbnailUrl || '/images/toan-canh-chua.jpg',
       thumbnailPosition: p.thumbnailPosition || 'center center',
       bannerUrl: p.bannerUrl || '/images/toan-canh-chua.jpg',
-      summary: p.summary || '',
+      summary:
+        p.summary && !p.summary.includes('Tóm tắt')
+          ? p.summary
+          : p.content
+            ? p.content.replace(/!\[.*?\]\(.*?\)/g, '').replace(/<[^>]+>/g, '').replace(/[#*`_>]/g, '').trim().slice(0, 180) + '...'
+            : p.contentHtml
+              ? p.contentHtml.replace(/<[^>]+>/g, '').trim().slice(0, 180) + '...'
+              : '',
       contentHtml: p.contentHtml || '',
     }));
 

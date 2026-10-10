@@ -103,7 +103,7 @@ const ArticleDetailTemplate: FC<ArticleDetailTemplateProps> = ({
         style={{ height: 'clamp(300px, 55vh, 580px)' }}
       >
         <img
-          src={getImageUrl(heroBannerUrl) || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp'}
+          src={getImageUrl(heroBannerUrl) || 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp'}
           alt={title}
           className="absolute inset-0 w-full h-full object-cover"
         />

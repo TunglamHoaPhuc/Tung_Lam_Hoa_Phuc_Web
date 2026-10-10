@@ -7,11 +7,11 @@ import sharp from 'sharp';
 export const S3_ROOT_PREFIX = 'tunglamhoaphuc2';
 
 function getEnvConfig() {
-  let secretKey = (process.env.S3_SECRET_ACCESS_KEY || 'K005/I+vUZ8TcuI2ww8TLeRPtsVzEaA').replace(/["']/g, '').trim();
-  let accessKey = (process.env.S3_ACCESS_KEY_ID || '005bc25330e1c1f0000000029').replace(/["']/g, '').trim();
+  let secretKey = (process.env.S3_SECRET_ACCESS_KEY || 'K005XHjiQ99dAcUkjPewsrz+mC4DrLA').replace(/["']/g, '').trim();
+  let accessKey = (process.env.S3_ACCESS_KEY_ID || '005bc25330e1c1f000000003e').replace(/["']/g, '').trim();
   let endpoint = (process.env.S3_ENDPOINT || 'https://s3.us-east-005.backblazeb2.com').replace(/["']/g, '').trim();
   let region = (process.env.S3_REGION || 'us-east-005').replace(/["']/g, '').trim();
-  let bucketName = (process.env.S3_BUCKET_NAME || 's2-cnv03').replace(/["']/g, '').trim();
+  let bucketName = (process.env.S3_BUCKET_NAME || 'media-tunglamhoaphuc').replace(/["']/g, '').trim();
   let publicUrl = (process.env.S3_PUBLIC_URL || `https://${bucketName}.s3.${region}.backblazeb2.com`).replace(/["']/g, '').trim();
 
   // Fallback: If secretKey is empty, read directly from .env.local on disk

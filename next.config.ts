@@ -21,6 +21,12 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
         hostname: 's2-cnv03.s3.us-east-005.backblazeb2.com',
         port: '',
         pathname: '/**',
@@ -54,7 +60,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: '/images/:path*',
-        destination: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/:path*',
+        destination: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/:path*',
       },
     ];
   },

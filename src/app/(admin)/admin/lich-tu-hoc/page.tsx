@@ -55,18 +55,18 @@ interface CustomEvent {
 }
 
 const DEFAULT_BANNER_SUGGESTIONS = [
-  { label: 'Tháng 1: Đức Bản Sư Thành Đạo', url: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-01-duc-ban-su-thanh-dao.webp' },
-  { label: 'Tháng 2: Nghinh Xuân Di Lặc', url: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-02-nghinh-xuan-di-lac.webp' },
-  { label: 'Tháng 3: Hương Sen Tây Bắc', url: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-03-huong-sen-tay-bac.webp' },
-  { label: 'Tháng 4: Hướng Về Cội Nguồn', url: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-04-huong-ve-coi-nguon.webp' },
-  { label: 'Tháng 5: Phật Đản', url: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-05-phat-dan.webp' },
-  { label: 'Tháng 6: Ươm Mầm Sen Việt', url: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-06-uom-mam-sen-viet.webp' },
-  { label: 'Tháng 7: Đền Ơn Đáp Nghĩa', url: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-07-den-on-dap-nghia.webp' },
-  { label: 'Tháng 8: Hiếu Hạnh Đáp Đền', url: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-08-hieu-hanh-dap-den.webp' },
-  { label: 'Tháng 9: Thanh Nguyệt Hương Thu', url: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-09-thanh-nguyet-huong-thu.webp' },
-  { label: 'Tháng 10: Hạnh Nguyện Quan Âm', url: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-10-hanh-nguyen-quan-am.webp' },
-  { label: 'Tháng 11: Ân Đức Tổ Thầy', url: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-11-an-duc-to-thay.webp' },
-  { label: 'Tháng 12: Vía Phật Di Đà', url: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-12-via-phat-di-da.webp' },
+  { label: 'Tháng 1: Đức Bản Sư Thành Đạo', url: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-01-duc-ban-su-thanh-dao.webp' },
+  { label: 'Tháng 2: Nghinh Xuân Di Lặc', url: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-02-nghinh-xuan-di-lac.webp' },
+  { label: 'Tháng 3: Hương Sen Tây Bắc', url: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-03-huong-sen-tay-bac.webp' },
+  { label: 'Tháng 4: Hướng Về Cội Nguồn', url: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-04-huong-ve-coi-nguon.webp' },
+  { label: 'Tháng 5: Phật Đản', url: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-05-phat-dan.webp' },
+  { label: 'Tháng 6: Ươm Mầm Sen Việt', url: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-06-uom-mam-sen-viet.webp' },
+  { label: 'Tháng 7: Đền Ơn Đáp Nghĩa', url: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-07-den-on-dap-nghia.webp' },
+  { label: 'Tháng 8: Hiếu Hạnh Đáp Đền', url: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-08-hieu-hanh-dap-den.webp' },
+  { label: 'Tháng 9: Thanh Nguyệt Hương Thu', url: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-09-thanh-nguyet-huong-thu.webp' },
+  { label: 'Tháng 10: Hạnh Nguyện Quan Âm', url: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-10-hanh-nguyen-quan-am.webp' },
+  { label: 'Tháng 11: Ân Đức Tổ Thầy', url: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-11-an-duc-to-thay.webp' },
+  { label: 'Tháng 12: Vía Phật Di Đà', url: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-12-via-phat-di-da.webp' },
 ];
 
 export default function AdminSchedulePage() {
@@ -168,7 +168,7 @@ export default function AdminSchedulePage() {
       title: 'CHƯƠNG TRÌNH TU HỌC MỚI',
       schedule: 'ĐỊNH KỲ HẰNG THÁNG',
       summary: 'Mô tả tóm tắt thời khóa tu học và ý nghĩa sự kiện...',
-      imgUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp',
+      imgUrl: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp',
     };
     setPrograms([newProg, ...programs]);
   };
@@ -469,7 +469,7 @@ export default function AdminSchedulePage() {
                           type="text"
                           value={item.imgUrl}
                           onChange={(e) => updateProgram(idx, 'imgUrl', e.target.value)}
-                          placeholder="https://s2-cnv03.s3.us-east-005.backblazeb2.com/..."
+                          placeholder="https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/..."
                           className="w-full bg-[#140A04] border border-[#F2C14E]/30 rounded-lg px-3 py-2 text-sm text-[#e3d2c1] font-mono text-xs focus:outline-none focus:border-[#F2C14E]"
                         />
                       </div>
@@ -623,7 +623,7 @@ export default function AdminSchedulePage() {
                         type="text"
                         value={currentMonthData.bannerImg}
                         onChange={(e) => updateCurrentMonthField('bannerImg', e.target.value)}
-                        placeholder="https://s2-cnv03.s3.us-east-005.backblazeb2.com/..."
+                        placeholder="https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/..."
                         className="w-full bg-[#140A04] border border-[#F2C14E]/30 rounded-lg px-3 py-2 text-xs font-mono text-[#e3d2c1] focus:outline-none focus:border-[#F2C14E]"
                       />
                     </div>

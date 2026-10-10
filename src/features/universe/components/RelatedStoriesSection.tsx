@@ -23,7 +23,7 @@ const DEFAULT_STORIES: StoryItem[] = [
     title: "CÂU CHUYỆN VỀ KHU VỰC TAM BẢO",
     subtitle: "Tùng Lâm Hòa Phúc - Chốn Tổ Trang Nghiêm",
     summary: "Phật có phải một đấng quyền năng, một đấng thần linh để cứu rỗi, đáp ứng những nguyện vọng, ham muốn của chúng ta hay không?",
-    thumbnailUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
+    thumbnailUrl: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
   },
   {
@@ -31,7 +31,7 @@ const DEFAULT_STORIES: StoryItem[] = [
     title: "Ý NGHĨA CỦA LỄ GIỖ TỔ & TINH THẦN TRI ÂN",
     subtitle: "Ngày 16/10 Âm Lịch, Lễ Giỗ Tổ lần thứ 37 tại Tổ đình Hoằng Pháp",
     summary: "Bài pháp thoại sâu sắc của Thượng tọa Trụ trì giảng giải về đạo lý Uống nước nhớ nguồn và trách nhiệm tiếp nối ngọn đèn hoằng pháp.",
-    thumbnailUrl: "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
+    thumbnailUrl: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp",
     videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
   },
 ];

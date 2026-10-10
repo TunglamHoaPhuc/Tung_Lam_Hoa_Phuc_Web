@@ -26,7 +26,7 @@ const PORTAL_ITEMS: PortalItem[] = [
     categoryKey: 'nen-tang',
     description: 'Quy y Tam Bảo & Thọ trì năm giới lành của người con Phật tại gia.',
     link: '/tong-chi-tu-hoc/tam-quy',
-    image: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/nen-tang-tu-hoc/tong-chi-tu-hoc-nen-tang-tu-hoc-tam-quy-ngu-gioi-banner-sach-3-nt-5-th-jpg.webp',
+    image: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/nen-tang-tu-hoc/tong-chi-tu-hoc-nen-tang-tu-hoc-tam-quy-ngu-gioi-banner-sach-3-nt-5-th-jpg.webp',
   },
   {
     id: 'thap-thien',
@@ -36,7 +36,7 @@ const PORTAL_ITEMS: PortalItem[] = [
     categoryKey: 'nen-tang',
     description: 'Chuyển hóa mười nghiệp xấu thành mười nhân lành an vui, giải thoát.',
     link: '/tong-chi-tu-hoc/thap-thien-nghiep-con-duong-phuoc-duc',
-    image: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/nen-tang-tu-hoc/tong-chi-tu-hoc-nen-tang-tu-hoc-thap-thien-thumbnail-herobanner.webp',
+    image: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/nen-tang-tu-hoc/tong-chi-tu-hoc-nen-tang-tu-hoc-thap-thien-thumbnail-herobanner.webp',
   },
   {
     id: 'bo-tat-hanh',
@@ -46,7 +46,7 @@ const PORTAL_ITEMS: PortalItem[] = [
     categoryKey: 'nen-tang',
     description: 'Sáu hạnh nguyện dấn thân phụng sự, đem an vui chan rải đến muôn loài.',
     link: '/tong-chi-tu-hoc/bo-tat-hanh-luc-do-ba-la-mat',
-    image: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/03-dong-chay-hoang-phap/tinh-do-nhan-gian/BO-TAT-QUAN-AM.jpg',
+    image: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/03-dong-chay-hoang-phap/tinh-do-nhan-gian/BO-TAT-QUAN-AM.jpg',
   },
 
   // 2. PHƯƠNG PHÁP HÀNH TRÌ
@@ -58,7 +58,7 @@ const PORTAL_ITEMS: PortalItem[] = [
     categoryKey: 'phuong-phap',
     description: 'Nhất tâm quy kính hồng danh Phật, an định thân tâm giữa sóng gió cuộc đời.',
     link: '/tong-chi-tu-hoc/niem-phat-phuong-phap-tro-hanh',
-    image: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp',
+    image: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp',
   },
   {
     id: 'thien-tap',
@@ -68,7 +68,7 @@ const PORTAL_ITEMS: PortalItem[] = [
     categoryKey: 'phuong-phap',
     description: 'Trở về quan sát hơi thở và tâm ý, nuôi dưỡng an lạc trong hiện tại.',
     link: '/tong-chi-tu-hoc/thien-tap-tinh-lang-tu-than',
-    image: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/03-dong-chay-hoang-phap/cong-tu/thien-su-thich-nhat-hanh-4-0950.jpg',
+    image: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/03-dong-chay-hoang-phap/cong-tu/thien-su-thich-nhat-hanh-4-0950.jpg',
   },
   {
     id: 'nghe-phap-tung-kinh',
@@ -78,7 +78,7 @@ const PORTAL_ITEMS: PortalItem[] = [
     categoryKey: 'phuong-phap',
     description: 'Huân tập lời Phật dạy, thắp sáng ngọn đèn trí tuệ và chánh tín vững bền.',
     link: '/dong-chay-hoang-phap',
-    image: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tung-kinh.webp',
+    image: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tung-kinh.webp',
   },
 
   // 3. LỘ TRÌNH TU HỌC
@@ -90,7 +90,7 @@ const PORTAL_ITEMS: PortalItem[] = [
     categoryKey: 'lo-trinh',
     description: 'Các bước nhập môn căn bản, làm quen nếp sống thiền môn và giáo lý.',
     link: '/tong-chi-tu-hoc/lo-trinh-tu-hoc-nguoi-moi-bat-dau',
-    image: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp',
+    image: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp',
   },
   {
     id: 'lo-trinh-nguoi-tre',
@@ -100,7 +100,7 @@ const PORTAL_ITEMS: PortalItem[] = [
     categoryKey: 'lo-trinh',
     description: 'Ứng dụng Phật pháp xây dựng lý tưởng sống, rèn luyện bản lĩnh và vượt áp lực.',
     link: '/tong-chi-tu-hoc/lo-trinh-tu-hoc-nguoi-tre',
-    image: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/giang-duong/giang-duong-hoa-phuc-canh-1.webp',
+    image: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/giang-duong/giang-duong-hoa-phuc-canh-1.webp',
   },
   {
     id: 'lo-trinh-nguoi-ban-ron',
@@ -110,7 +110,7 @@ const PORTAL_ITEMS: PortalItem[] = [
     categoryKey: 'lo-trinh',
     description: 'Phương pháp tu tập ngắn gọn, chuyển hóa công việc và gia đình thành đạo tràng.',
     link: '/tong-chi-tu-hoc/lo-trinh-tu-hoc-nguoi-ban-ron',
-    image: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/phat-giao/chua-viet-nam-xua/Bao-thap-Phuoc-Duyen-tai-chua-Thien-Mu-Hue-Bieu-tuong-ton-nghiem-cua-Phat-giao-xu-Hue.webp',
+    image: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-tang/trien-lam/phat-giao/chua-viet-nam-xua/Bao-thap-Phuoc-Duyen-tai-chua-Thien-Mu-Hue-Bieu-tuong-ton-nghiem-cua-Phat-giao-xu-Hue.webp',
   },
 
   // 4. NẾP SỐNG THIỀN GIA
@@ -122,7 +122,7 @@ const PORTAL_ITEMS: PortalItem[] = [
     categoryKey: 'nep-song',
     description: 'Lời nói khiêm cung, cử chỉ trang nghiêm nơi chốn thiền môn thanh tịnh.',
     link: '/gioi-thieu/van-hoa-ung-xu',
-    image: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/van-hoa-ung-xu-giao-tiep-tai-chua.webp',
+    image: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/van-hoa-ung-xu-giao-tiep-tai-chua.webp',
   },
   {
     id: 'oai-nghi',
@@ -132,7 +132,7 @@ const PORTAL_ITEMS: PortalItem[] = [
     categoryKey: 'nep-song',
     description: 'Đi đứng nằm ngồi trong tỉnh thức, toát lên phong thái an nhiên giải thoát.',
     link: '/tong-chi-tu-hoc/oai-nghi-nguoi-con-phat',
-    image: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/ho_phap_than_vuong/nghe_thuat_phat_giao/vi_da_ho_phap_phu_dong_thien_vuong.webp',
+    image: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/ho_phap_than_vuong/nghe_thuat_phat_giao/vi_da_ho_phap_phu_dong_thien_vuong.webp',
   },
   {
     id: 'bon-phan-tai-gia',
@@ -142,7 +142,7 @@ const PORTAL_ITEMS: PortalItem[] = [
     categoryKey: 'nep-song',
     description: 'Tròn đạo làm con, giữ vẹn nghĩa vụ gia đình và chung tay lợi ích xã hội.',
     link: '/tong-chi-tu-hoc/bon-phan-nguoi-phat-tu-tai-gia',
-    image: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/chu_thanh_ho_quoc/phu_dong_thien_vuong.webp',
+    image: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/chu_thanh_ho_quoc/phu_dong_thien_vuong.webp',
   },
 ];
 

@@ -20,8 +20,8 @@ function getS3Config() {
   const envPath = path.resolve(process.cwd(), '.env.local');
   let accessKey = process.env.S3_ACCESS_KEY_ID || '';
   let secretKey = process.env.S3_SECRET_ACCESS_KEY || '';
-  let bucketName = process.env.S3_BUCKET_NAME || 's2-cnv03';
-  let publicBaseUrl = process.env.S3_PUBLIC_URL || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com';
+  let bucketName = process.env.S3_BUCKET_NAME || 'media-tunglamhoaphuc';
+  let publicBaseUrl = process.env.S3_PUBLIC_URL || 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com';
 
   if (!secretKey && fs.existsSync(envPath)) {
     const env = fs.readFileSync(envPath, 'utf-8');
@@ -267,7 +267,7 @@ export async function POST() {
         }
       }
 
-      let finalBannerUrl = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp';
+      let finalBannerUrl = 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp';
 
       if (rawFeaturedUrl) {
         const match = rawFeaturedUrl.match(/tunglamhoaphuc-com\/wp-content\/uploads\/(.+)$/);

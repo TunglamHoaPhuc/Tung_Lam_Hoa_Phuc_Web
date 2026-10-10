@@ -28,5 +28,15 @@
     "wpPostId": 131,
     "slug": "asda-sda-sdadasd",
     "deletedAt": "2026-09-22T09:09:53.084Z"
+  },
+  {
+    "id": "post-01",
+    "slug": "phap-hoi-niem-phat-hang-tuan",
+    "deletedAt": "2026-10-09T14:22:21.280Z"
+  },
+  {
+    "id": "post-02",
+    "slug": "dai-le-vu-lan-bao-hieu-tri-an",
+    "deletedAt": "2026-10-09T14:22:24.274Z"
   }
 ]

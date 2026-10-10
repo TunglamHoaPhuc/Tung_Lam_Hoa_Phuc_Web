@@ -280,7 +280,7 @@ export function TongChiEditor({ initialData, isEdit }: TongChiEditorProps) {
         title: 'KHUYẾN PHÁT BỒ ĐỀ TÂM GIẢNG LUẬN',
         author: 'Đại Đức Thích Tâm Hòa',
         description: 'Bộ sách giảng giải chi tiết về tầm quan trọng và phương pháp phát khởi Bồ Đề tâm của người học Phật.',
-        coverImage: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/uploads/chua-pho-chieu-hai-phong-1787464212629.webp',
+        coverImage: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/uploads/chua-pho-chieu-hai-phong-1787464212629.webp',
         pdfUrl: 'https://drive.google.com/file/d/1bIo3HRT7asCbIeVF_NTs5u4kqTGw3Ear/view?usp=sharing',
         linkUrl: '/vu-tru-phat-giao/tang-kinh-cac',
       },
@@ -289,7 +289,7 @@ export function TongChiEditor({ initialData, isEdit }: TongChiEditorProps) {
         title: 'ĐI QUA KHỔ VUI CUỘC ĐỜI (QUYỂN 01, 02, 03)',
         author: 'Sa Môn Vô Trí (hiệu Tâm Hòa)',
         description: 'Những chia sẻ chân thật và sâu sắc về hành trình tu học, vượt qua nghịch cảnh và kiến tạo đời sống an lạc.',
-        coverImage: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/uploads/tong-chi-tu-hoc_tong-phong-truyen-thua_tiep-buoc-thay-toi_thay_-chu-thich-popup-sach-dqkvcd-1787464550735.jpg',
+        coverImage: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/uploads/tong-chi-tu-hoc_tong-phong-truyen-thua_tiep-buoc-thay-toi_thay_-chu-thich-popup-sach-dqkvcd-1787464550735.jpg',
         linkUrl: '/vu-tru-phat-giao/tang-kinh-cac',
       },
       {
@@ -297,7 +297,7 @@ export function TongChiEditor({ initialData, isEdit }: TongChiEditorProps) {
         title: 'LỜI ĐỨC PHẬT DẠY & CÁC BÀI GIẢNG',
         author: 'Tùng Lâm Hòa Phúc',
         description: 'Tập hợp các lời dạy căn bản của Đức Phật và các bài pháp thoại trong các khóa tu tại Tùng Lâm Hòa Phúc.',
-        coverImage: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/uploads/chua-hoang-phap--kien-an-tinh-hai-phong-1787463859334.jpg',
+        coverImage: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/uploads/chua-hoang-phap--kien-an-tinh-hai-phong-1787463859334.jpg',
         linkUrl: 'https://www.youtube.com/playlist?list=PL2aRqXTU1nn456nh72vOF1W7Au764sTVN',
       },
     ];
@@ -1549,7 +1549,7 @@ export function TongChiEditor({ initialData, isEdit }: TongChiEditorProps) {
                       >
                         <div className="flex items-center gap-3 min-w-0">
                           <img
-                            src={sb.coverImage || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/uploads/chua-pho-chieu-hai-phong-1787464212629.webp'}
+                            src={sb.coverImage || 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/uploads/chua-pho-chieu-hai-phong-1787464212629.webp'}
                             alt={sb.bookTitle || sb.title}
                             className="w-9 h-11 rounded-lg object-cover border border-[#F2C14E]/30 shrink-0"
                           />

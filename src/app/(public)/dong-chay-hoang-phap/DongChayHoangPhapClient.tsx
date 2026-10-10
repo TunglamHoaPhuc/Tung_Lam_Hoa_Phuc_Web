@@ -1,11 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { Eye, Calendar, ChevronDown, Sparkles } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import { HOANG_PHAP_CATEGORIES, HoangPhapArticle } from '@/data/dong-chay-hoang-phap-data';
 import { SmartSearchAIBar } from '@/components/public/SmartSearchAIBar';
 import { CategoryFilter } from '@/components/common/CategoryFilter';
+import { PostCard } from '@/components/common/PostCard';
+import { PostItem } from '@/types/post';
 
 type SortOption = 'newest' | 'oldest' | 'a-z' | 'z-a';
 
@@ -45,6 +46,7 @@ export default function DongChayHoangPhapClient({
               id: p.id,
               slug: p.slug,
               title: p.title,
+              subtitle: p.subtitle || '',
               date: p.publishedDate || p.date || '',
               author: p.author || 'Ban Văn Hóa Tùng Lâm',
               category: p.subCategory || 'cong-tu',
@@ -52,11 +54,18 @@ export default function DongChayHoangPhapClient({
               subCategoryIcon: '',
               templeLogo: (p.templeLogo || 'tung-lam-hoa-phuc') as 'tung-lam-hoa-phuc' | 'quynh-nhai-cam-lo-tu',
               templeName: p.templeName || 'Tùng Lâm Hòa Phúc',
-              views: p.viewsCount || 108,
+              views: typeof p.viewsCount === 'number' ? p.viewsCount : (parseInt(p.viewsCount, 10) || 0),
               thumbnailUrl: p.thumbnailUrl || '/images/toan-canh-chua.jpg',
               thumbnailPosition: p.thumbnailPosition || 'center center',
               bannerUrl: p.bannerUrl || '/images/toan-canh-chua.jpg',
-              summary: p.summary || '',
+              summary:
+                p.summary && !p.summary.includes('Tóm tắt')
+                  ? p.summary
+                  : p.content
+                    ? p.content.replace(/!\[.*?\]\(.*?\)/g, '').replace(/<[^>]+>/g, '').replace(/[#*`_>]/g, '').trim().slice(0, 180) + '...'
+                    : p.contentHtml
+                      ? p.contentHtml.replace(/<[^>]+>/g, '').trim().slice(0, 180) + '...'
+                      : '',
               contentHtml: p.contentHtml || '',
             }));
             setArticles(mapped);
@@ -167,12 +176,12 @@ export default function DongChayHoangPhapClient({
         <div className="relative mb-12">
           <div
             className={`relative transition-all duration-500 overflow-hidden ${
-              !isExpanded && filteredArticles.length > 6 ? 'max-h-[1700px] md:max-h-[1800px]' : 'max-h-[10000px] pb-8'
+              !isExpanded && filteredArticles.length > 6 ? 'max-h-[1550px] md:max-h-[1650px]' : 'max-h-[10000px] pb-8'
             }`}
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
               {filteredArticles.map((art) => (
-                <HoangPhapCard key={art.id} article={art} />
+                <PostCard key={art.id} post={mapArticleToPostItem(art)} variant="golden" />
               ))}
             </div>
 
@@ -227,79 +236,37 @@ function decodeHtmlEntities(text: string): string {
     .normalize('NFC');
 }
 
-// ─── Sub-component: HoangPhapCard (Golden Ratio φ ≈ 1.618) ────────────────
-function HoangPhapCard({ article }: { article: HoangPhapArticle }) {
-  return (
-    <Link
-      href={`/dong-chay-hoang-phap/${article.slug}`}
-      className="group relative w-full overflow-hidden rounded-xl border border-[#F2C14E]/20 bg-[#2C1C11] cursor-pointer transition-all duration-300 hover:-translate-y-1.5 hover:border-[#F2C14E] shadow-xl hover:shadow-2xl flex flex-col h-full"
-    >
-      {/* 1. Khung ảnh Thumbnail Tỷ Lệ Vàng (1.618 : 1) */}
-      <div className="relative w-full aspect-[1.618/1] overflow-hidden bg-[#1A120B] shrink-0">
-        <img
-          src={article.thumbnailUrl}
-          alt={article.title}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-          style={{ objectPosition: (article as any).thumbnailPosition || 'center center' }}
-        />
-      </div>
+function mapArticleToPostItem(art: HoangPhapArticle): PostItem {
+  let categoryName = 'DÒNG CHẢY HOẰNG PHÁP';
+  let categoryIconUrl = '/images/icons/icon-dong-chay-hoang-phap.webp';
 
-      {/* 2. Đường kẻ Gradient cắt ĐÚNG ranh giới mép chân ảnh */}
-      <div className="relative w-full h-[1px] bg-gradient-to-r from-transparent via-[#F2C14E]/70 to-transparent z-10 shrink-0">
-        <div className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-10 h-10 md:w-11 md:h-11 rounded-full border-2 border-[#F2C14E] bg-[#2C1C11] flex items-center justify-center p-1 shadow-[0_0_12px_rgba(242,193,78,0.5)]">
-          <img
-            src="https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/bieu-tuong-tong-chi-tu-hoc-tung-lam-hoa-phuc.webp"
-            alt="Logo Chùa"
-            className="w-full h-full object-contain"
-          />
-        </div>
-      </div>
+  const cat = (art.category || '').toLowerCase();
+  if (cat.includes('cong-tu') || cat.includes('cộng tu')) {
+    categoryName = 'CỘNG TU ĐỊNH KỲ';
+    categoryIconUrl = '/images/icons/icon-cong-tu.png';
+  } else if (cat.includes('khoa-le-truyen-thong') || cat.includes('khóa lễ') || cat.includes('khoa le')) {
+    categoryName = 'KHÓA LỄ TRUYỀN THỐNG';
+    categoryIconUrl = '/images/icons/icon-khoa-le-truyen-thong.png';
+  } else if (cat.includes('dai-le-su-kien') || cat.includes('đại lễ') || cat.includes('dai le') || cat.includes('sự kiện')) {
+    categoryName = 'ĐẠI LỄ SỰ KIỆN';
+    categoryIconUrl = '/images/icons/icon-dai-le-su-kien.png';
+  } else if (cat.includes('tinh-do-nhan-gian') || cat.includes('tịnh độ') || cat.includes('tinh do')) {
+    categoryName = 'TỊNH ĐỘ NHÂN GIAN';
+    categoryIconUrl = '/images/icons/icon-tinh-do-nhan-gian.png';
+  }
 
-      {/* 3. Khung nội dung chú thích phía dưới */}
-      <div className="p-4 md:p-6 pt-6 md:pt-8 flex flex-col gap-2.5 bg-[#2C1C11] flex-1 justify-between">
-        <div className="space-y-2">
-          {/* Tag Danh Mục */}
-          <div
-            style={{ fontFamily: "'UTM Avo', sans-serif" }}
-            className="text-[11px] md:text-[12px] font-bold text-[#F2C14E] tracking-wide flex items-center gap-1.5"
-          >
-            <Sparkles className="w-3.5 h-3.5 text-[#F2C14E]" />
-            <span>{article.subCategory || 'Dòng chảy hoằng pháp'}</span>
-          </div>
-
-          {/* Tiêu Đề Bài Viết */}
-          <h3
-            style={{ fontFamily: "'UTM Avo', sans-serif" }}
-            className="font-bold text-[18px] md:text-[20px] text-[#F2C14E] hover:text-[#FFE5A3] line-clamp-2 leading-snug transition-colors"
-          >
-            {decodeHtmlEntities(article.title)}
-          </h3>
-
-          {/* Mô Tả / Bối Cảnh */}
-          <p
-            style={{ fontFamily: "'UTM Avo', sans-serif" }}
-            className="text-[13px] md:text-[14px] text-[#D3C0AD] line-clamp-2 leading-relaxed font-normal"
-          >
-            {decodeHtmlEntities(article.summary)}
-          </p>
-        </div>
-
-        {/* Thanh Chân Bài Viết */}
-        <div
-          style={{ fontFamily: "'UTM Avo', sans-serif" }}
-          className="border-t border-[#F2C14E]/15 pt-3 mt-3 flex items-center justify-between text-[11px] md:text-[12px] text-[#A69383]"
-        >
-          <div className="flex items-center gap-1.5">
-            <Calendar className="w-3.5 h-3.5 text-[#F2C14E]" />
-            <span>{article.date}</span>
-          </div>
-
-          <div className="flex items-center gap-1.5">
-            <span>{article.views}</span>
-            <Eye className="w-3.5 h-3.5 text-[#F2C14E]" />
-          </div>
-        </div>
-      </div>
-    </Link>
-  );
+  return {
+    id: art.id,
+    imageUrl: art.thumbnailUrl || '/images/toan-canh-chua.jpg',
+    category1: categoryName,
+    category1IconUrl: categoryIconUrl,
+    title: decodeHtmlEntities(art.title),
+    subtitle: decodeHtmlEntities(art.subtitle || ''),
+    category2: decodeHtmlEntities(art.subtitle || ''),
+    publishedDate: art.date,
+    viewsCount: typeof art.views === 'number' ? art.views : (parseInt(art.views as any, 10) || 0),
+    description: decodeHtmlEntities(art.summary),
+    targetUrl: `/dong-chay-hoang-phap/${art.slug}`,
+    large: true,
+  };
 }

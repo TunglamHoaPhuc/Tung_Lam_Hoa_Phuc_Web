@@ -451,7 +451,7 @@ export default function TrangChiTietTongChi() {
         }
 
         // 3. WordPress Gutenberg là nguồn nội dung duy nhất; Banner quản trị lấy từ CMS
-        const finalBanner = localItem?.bannerImage || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/nen-tang-tu-hoc/tong-chi-tu-hoc-nen-tang-tu-hoc-bo-de-tam-herobanner-thumbnail.webp';
+        const finalBanner = localItem?.bannerImage || 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/nen-tang-tu-hoc/tong-chi-tu-hoc-nen-tang-tu-hoc-bo-de-tam-herobanner-thumbnail.webp';
         const finalBannerPosition = localItem?.bannerPosition || 'center 47%';
         const finalContent = wpContent || localItem?.content || '';
         const finalTitle = wpTitle || localItem?.title || (isBoDeTam ? 'BỒ ĐỀ TÂM' : 'TÔNG CHỈ TU HỌC');
@@ -462,21 +462,21 @@ export default function TrangChiTietTongChi() {
             title: 'KHUYẾN PHÁT BỒ ĐỀ TÂM GIẢNG LUẬN',
             author: 'Đại Đức Thích Tâm Hòa',
             description: 'Bộ sách giảng giải chi tiết về tầm quan trọng và phương pháp phát khởi Bồ Đề tâm của người học Phật.',
-            coverImage: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/uploads/chua-pho-chieu-hai-phong-1787464212629.webp',
+            coverImage: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/uploads/chua-pho-chieu-hai-phong-1787464212629.webp',
             linkUrl: 'https://drive.google.com/file/d/1bIo3HRT7asCbIeVF_NTs5u4kqTGw3Ear/view?usp=sharing',
           },
           {
             title: 'ĐI QUA KHỔ VUI CUỘC ĐỜI (QUYỂN 01, 02, 03)',
             author: 'Sa Môn Vô Trí (hiệu Tâm Hòa)',
             description: 'Những chia sẻ chân thật và sâu sắc về hành trình tu học, vượt qua nghịch cảnh và kiến tạo đời sống an lạc.',
-            coverImage: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/uploads/tong-chi-tu-hoc_tong-phong-truyen-thua_tiep-buoc-thay-toi_thay_-chu-thich-popup-sach-dqkvcd-1787464550735.jpg',
+            coverImage: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/uploads/tong-chi-tu-hoc_tong-phong-truyen-thua_tiep-buoc-thay-toi_thay_-chu-thich-popup-sach-dqkvcd-1787464550735.jpg',
             linkUrl: '/vu-tru-phat-giao/tang-kinh-cac',
           },
           {
             title: 'LỜI ĐỨC PHẬT DẠY & CÁC BÀI GIẢNG',
             author: 'Tùng Lâm Hòa Phúc',
             description: 'Tập hợp các lời dạy căn bản của Đức Phật và các bài pháp thoại trong các khóa tu tại Tùng Lâm Hòa Phúc.',
-            coverImage: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/uploads/chua-hoang-phap--kien-an-tinh-hai-phong-1787463859334.jpg',
+            coverImage: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/uploads/chua-hoang-phap--kien-an-tinh-hai-phong-1787463859334.jpg',
             linkUrl: 'https://www.youtube.com/playlist?list=PL2aRqXTU1nn456nh72vOF1W7Au764sTVN',
           },
         ];
@@ -508,7 +508,7 @@ export default function TrangChiTietTongChi() {
           photoGallery: localItem?.photoGallery || [
             {
               title: 'LỄ TƯỞNG NIỆM KHAI SƠN TÔNG PHONG HOẰNG PHÁP',
-              imageUrl: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp',
+              imageUrl: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp',
               khuVuc: 'Bảo tàng',
               noiDung: 'Lễ Tưởng Niệm Khai Sơn Tông Phong Hoằng Pháp',
             },
@@ -660,7 +660,13 @@ export default function TrangChiTietTongChi() {
           </div>
         )}
 
-        <HeroBanner bannerUrl={data?.heroBanner} bannerPosition={data?.bannerPosition} title={data?.title} subtitle={data?.subtitle} />
+        <HeroBanner
+          id="tong-chi-tu-hoc"
+          bannerUrl={data?.heroBanner}
+          bannerPosition={data?.bannerPosition}
+          title={data?.title}
+          subtitle={data?.subtitle}
+        />
 
         <main className="max-w-5xl mx-auto pt-4 pb-16 space-y-16 w-full">
           {/* KHỐI BÀI THƠ / NỘI DUNG CHÍNH */}

@@ -7,7 +7,7 @@
     "subtitle": "ĐẠI HÙNG BẢO ĐIỆN",
     "temple": "tung-lam-hoa-phuc",
     "templeName": "Tùng Lâm Hòa Phúc",
-    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/tam-bao.webp",
+    "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/tam-bao.webp",
     "mapPos": {
       "x": 58,
       "y": 52
@@ -17,7 +17,7 @@
     "statues": [
       {
         "name": "ĐỨC PHẬT THÍCH CA MÂU NI",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/chu_phat_hai_hoi/duc_phat_thich_ca/tuong_chinh/duc_phat_thich_ca_tuongchinh.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/chu_phat_hai_hoi/duc_phat_thich_ca/tuong_chinh/duc_phat_thich_ca_tuongchinh.webp",
         "quote": "Ngài sinh ở thế gian nhưng không nhiễm thế gian. Vì Ngài đã rõ giáo lý duyên khởi, đã đoạn trừ mầm mống dẫn đến sinh tử luân hồi; đã đoạn trừ lậu hoặc, phiền não, nhiễm ô. Thế nên, cùng tột bờ sinh tử, cho nên gọi là Phật",
         "group": "CHƯ PHẬT HẢI HỘI",
         "cluster": "CỤM TƯỢNG TÔN THỜ",
@@ -25,7 +25,7 @@
       },
       {
         "name": "ĐỨC PHẬT DƯỢC SƯ",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/chu_phat_hai_hoi/duc_phat_duoc_su/phat_duoc_su_luu_ly_quang_vuong_nhu_lai_tuong_chinh.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/chu_phat_hai_hoi/duc_phat_duoc_su/phat_duoc_su_luu_ly_quang_vuong_nhu_lai_tuong_chinh.webp",
         "quote": "Khi làm chủ tâm sân, bệnh tật và đau khổ dần được chuyển hóa.",
         "group": "CHƯ PHẬT HẢI HỘI",
         "cluster": "ĐÔNG PHƯƠNG TAM THÁNH",
@@ -33,7 +33,7 @@
       },
       {
         "name": "NHẬT QUANG BỒ TÁT",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/thanh_tinh_dai_hai_chung/bo_tat_nhat_nguyet_quang/nhat_nguyet_quang_bo_tat-JPG.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/thanh_tinh_dai_hai_chung/bo_tat_nhat_nguyet_quang/nhat_nguyet_quang_bo_tat-JPG.webp",
         "quote": "Ánh sáng soi chiếu phá tan đêm tối vô minh của thế gian.",
         "group": "THANH TỊNH ĐẠI HẢI CHÚNG",
         "cluster": "ĐÔNG PHƯƠNG TAM THÁNH",
@@ -41,7 +41,7 @@
       },
       {
         "name": "NGUYỆT QUANG BỒ TÁT",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/thanh_tinh_dai_hai_chung/bo_tat_nhat_nguyet_quang/nhat_nguyet_quang_bo_tat-JPG.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/thanh_tinh_dai_hai_chung/bo_tat_nhat_nguyet_quang/nhat_nguyet_quang_bo_tat-JPG.webp",
         "quote": "Ánh sáng soi chiếu xoa dịu mọi muộn phiền khổ đau của vạn loài.",
         "group": "THANH TỊNH ĐẠI HẢI CHÚNG",
         "cluster": "ĐÔNG PHƯƠNG TAM THÁNH",
@@ -49,7 +49,7 @@
       },
       {
         "name": "TỔ SƯ ĐẠT MA",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/chu_lich_dai_to_su/to_su_dat_ma.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/chu_lich_dai_to_su/to_su_dat_ma.webp",
         "quote": "Đạo không phải tìm từ nơi dễ chịu. Vì dễ chịu là sự nuông chiều cảm xúc và nô lệ giác quan.",
         "group": "CHƯ LỊCH ĐẠI TỔ SƯ",
         "cluster": "TÂY THIÊN ĐÔNG ĐỘ",
@@ -57,7 +57,7 @@
       },
       {
         "name": "TỔ SƯ LONG THỌ",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/chu_lich_dai_to_su/to_su_long_tho.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/chu_lich_dai_to_su/to_su_long_tho.webp",
         "quote": "Khai mở Trung Quán, soi sáng tính Không và thực tướng vạn pháp.",
         "group": "CHƯ LỊCH ĐẠI TỔ SƯ",
         "cluster": "TÂY THIÊN ĐÔNG ĐỘ",
@@ -65,7 +65,7 @@
       },
       {
         "name": "PHẬT HOÀNG TRẦN NHÂN TÔNG",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/chu_lich_dai_to_su/phat_hoang_tran_nhan_tong.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/chu_lich_dai_to_su/phat_hoang_tran_nhan_tong.webp",
         "quote": "Ở đời vui đạo hãy tùy duyên, hễ đói thì ăn mệt ngủ liền.",
         "group": "CHƯ LỊCH ĐẠI TỔ SƯ",
         "cluster": "VIỆT NAM PHẬT GIÁO",
@@ -73,7 +73,7 @@
       },
       {
         "name": "TỔ SƯ KHƯƠNG TĂNG HỘI",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/chu_lich_dai_to_su/to_su_khuong_tang_hoi.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/chu_lich_dai_to_su/to_su_khuong_tang_hoi.webp",
         "quote": "Gieo mầm Bồ đề đầu tiên trên đất Việt, tiếp dẫn hậu nhân.",
         "group": "CHƯ LỊCH ĐẠI TỔ SƯ",
         "cluster": "VIỆT NAM PHẬT GIÁO",
@@ -81,7 +81,7 @@
       },
       {
         "name": "SƯ TỔ NGỘ CHÂN TỬ",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/su-to-ngo-chan-tu.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/su-to-ngo-chan-tu.webp",
         "quote": "Khai sơn Tổ đình Hoằng Pháp, hoằng dương chánh pháp độ muôn người.",
         "group": "CHƯ LỊCH ĐẠI TỔ SƯ",
         "cluster": "VIỆT NAM PHẬT GIÁO",
@@ -89,7 +89,7 @@
       },
       {
         "name": "VI ĐÀ HỘ PHÁP",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/ho_phap_than_vuong/tuong_chinh/vi_da_ho_phap.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/ho_phap_than_vuong/tuong_chinh/vi_da_ho_phap.webp",
         "quote": "Hộ trì chánh pháp trang nghiêm thanh tịnh, bảo hộ người tu học.",
         "group": "HỘ PHÁP THẦN VƯƠNG",
         "cluster": "ỨNG HÓA NHÂN GIAN",
@@ -97,7 +97,7 @@
       },
       {
         "name": "NGÀI TRỪNG ÁC",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/ho_phap_than_vuong/tuong_chinh/trung_ac.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/ho_phap_than_vuong/tuong_chinh/trung_ac.webp",
         "quote": "Nếu người làm điều ác, chớ tiếp tục làm thêm, chớ ước muốn điều ác, chứa ác tất chịu khổ.",
         "group": "HỘ PHÁP THẦN VƯƠNG",
         "cluster": "ỨNG HÓA NHÂN GIAN",
@@ -105,7 +105,7 @@
       },
       {
         "name": "NGÀI KHUYẾN THIỆN",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/ho_phap_than_vuong/tuong_chinh/khuyen_thien.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/ho_phap_than_vuong/tuong_chinh/khuyen_thien.webp",
         "quote": "Nếu người làm điều thiện, nên tiếp tục làm thêm, hãy ước muốn điều thiện, chứa thiện được an lạc.",
         "group": "HỘ PHÁP THẦN VƯƠNG",
         "cluster": "ỨNG HÓA NHÂN GIAN",
@@ -113,7 +113,7 @@
       },
       {
         "name": "THẬP NHỊ DƯỢC XOA ĐẠI TƯỚNG",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/ho_phap_than_vuong/tuong_chinh/thap_nhi_duoc_xoa/an_de_la_dai_tuong.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/ho_phap_than_vuong/tuong_chinh/thap_nhi_duoc_xoa/an_de_la_dai_tuong.webp",
         "quote": "Mười hai đại tướng bảo hộ người trì tụng kinh Dược Sư tiêu trừ tai ách.",
         "group": "HỘ PHÁP THẦN VƯƠNG",
         "cluster": "ỨNG HÓA NHÂN GIAN",
@@ -121,7 +121,7 @@
       },
       {
         "name": "ĐỨC ÔNG CẤP CÔ ĐỘC",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/dai_thi_chu/duc_ong_cap_co_doc.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/dai_thi_chu/duc_ong_cap_co_doc.webp",
         "quote": "Muốn đến được quả vị tối thượng, bố thí cúng dàng Đức Phật và chư Tăng là bước đầu tiên; không thể không làm.",
         "group": "ĐẠI THÍ CHỦ",
         "cluster": "ỨNG HÓA NHÂN GIAN",
@@ -130,8 +130,8 @@
     ],
     "stories": [],
     "wpPostId": "509",
-    "bannerUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/tam-bao.webp",
-    "thumbnailUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/tam-bao.webp"
+    "bannerUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/tam-bao.webp",
+    "thumbnailUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/tam-bao.webp"
   },
   {
     "id": "2",
@@ -141,7 +141,7 @@
     "subtitle": "TỔ ẤN TRÙNG QUANG",
     "temple": "tung-lam-hoa-phuc",
     "templeName": "Tùng Lâm Hòa Phúc",
-    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/to-duong.webp",
+    "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/to-duong.webp",
     "mapPos": {
       "x": 62,
       "y": 38
@@ -151,7 +151,7 @@
     "statues": [
       {
         "name": "QUAN ÂM BỒ TÁT TAM DIỆN",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "",
         "group": "Thanh Tịnh Đại Hải Chúng",
         "cluster": "Nghệ Thuật Phật Giáo",
@@ -159,7 +159,7 @@
       },
       {
         "name": "ĐỊA TẠNG BỒ TÁT PHỎNG CỎ",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "",
         "group": "Thanh Tịnh Đại Hải Chúng",
         "cluster": "",
@@ -167,7 +167,7 @@
       },
       {
         "name": "THIỀN SƯ TỪ ĐẠO HẠNH",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "",
         "group": "Chư Lịch Đại Tổ Sư",
         "cluster": "Việt Nam Phật Giáo",
@@ -175,7 +175,7 @@
       },
       {
         "name": "TUỆ TĨNH THIỀN SƯ",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "",
         "group": "Chư Lịch Đại Tổ Sư",
         "cluster": "Việt Nam Phật Giáo",
@@ -183,7 +183,7 @@
       },
       {
         "name": "TIÊU DIỆN ĐẠI SỸ",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "Hiện tướng quỷ vương, độ kẻ lầm đường.",
         "group": "Thanh Tịnh Đại Hải Chúng",
         "cluster": "Ứng Hóa Nhân Gian",
@@ -191,8 +191,8 @@
       }
     ],
     "stories": [],
-    "bannerUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/to-duong.webp",
-    "thumbnailUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/to-duong.webp"
+    "bannerUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/to-duong.webp",
+    "thumbnailUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/to-duong.webp"
   },
   {
     "id": "3",
@@ -202,7 +202,7 @@
     "subtitle": "MẪU NGHI THIÊN HẠ",
     "temple": "tung-lam-hoa-phuc",
     "templeName": "Tùng Lâm Hòa Phúc",
-    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/dai-nam-quoc-mau.webp",
+    "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/dai-nam-quoc-mau.webp",
     "mapPos": {
       "x": 48,
       "y": 65
@@ -212,7 +212,7 @@
     "statues": [
       {
         "name": "ĐỨC PHẬT A DI ĐÀ CHẤT LIỆU GỐM TRUYỀN THỐNG",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "\"Giữ lòng thuần khiết và vững chãi giữa cuộc đời đổi thay.\"",
         "group": "Chư Phật Hải Hội",
         "cluster": "",
@@ -220,7 +220,7 @@
       },
       {
         "name": "QUAN ÂM THIÊN THỦ THIÊN NHÃN",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "",
         "group": "Thanh Tịnh Đại Hải Chúng",
         "cluster": "",
@@ -228,7 +228,7 @@
       },
       {
         "name": "ĐẠI THẾ CHÍ PHỎNG CỔ",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "",
         "group": "Thanh Tịnh Đại Hải Chúng",
         "cluster": "Tây Phương Tam Thánh",
@@ -236,7 +236,7 @@
       },
       {
         "name": "CHUẨN ĐỀ BỒ TÁT",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "",
         "group": "Thanh Tịnh Đại Hải Chúng",
         "cluster": "Nghệ Thuật Phật Giáo",
@@ -244,7 +244,7 @@
       },
       {
         "name": "THÍCH ĐẾ HOÀN NHÂN",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "Người động viên khuyến khích chúng ta vượt qua những chướng ngại từ gia đình, xã hội, những định kiến cuộc sống, củng cố đức tin trên con đường của bậc Thánh, đó chính là sự hiện thân của trời đế Thích.",
         "group": "Hộ Pháp Thần Vương",
         "cluster": "Ứng Hóa Nhân Gian",
@@ -252,7 +252,7 @@
       },
       {
         "name": "ĐOAN QUỐC CÔNG NGUYỄN HOÀNG",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "",
         "group": "Chư Thánh Hộ Quốc",
         "cluster": "Ứng Hóa Nhân Gian",
@@ -260,7 +260,7 @@
       },
       {
         "name": "TAM TÒA THÁNH MẪU",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "",
         "group": "Chư Thánh Hộ Quốc",
         "cluster": "Ứng Hóa Nhân Gian",
@@ -268,7 +268,7 @@
       },
       {
         "name": "HƯNG ĐẠO ĐẠI VƯƠNG",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "",
         "group": "Chư Thánh Hộ Quốc",
         "cluster": "Ứng Hóa Nhân Gian",
@@ -276,7 +276,7 @@
       },
       {
         "name": "BÀ NGUYỆT TRANG ĐÀI (ĐỨC BÀ VISHAKHA)",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "Cúng dường không nhất thiết phải là những vật phẩm quý giá, lớn lao, mà là ở lòng thành và sự cống hiến vô điều kiện với những gì trong khả năng.",
         "group": "Đại Thí Chủ",
         "cluster": "Ứng Hóa Nhân Gian",
@@ -284,7 +284,7 @@
       },
       {
         "name": "LINH QUY TRƯỜNG THỌ",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "",
         "group": "Linh Vật Phật Giáo",
         "cluster": "Linh Thú Hộ Đạo",
@@ -301,7 +301,7 @@
     "subtitle": "DẤU XƯA LƯU TRUYỀN",
     "temple": "tung-lam-hoa-phuc",
     "templeName": "Tùng Lâm Hòa Phúc",
-    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/bao-tang.webp",
+    "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/bao-tang.webp",
     "mapPos": {
       "x": 70,
       "y": 72
@@ -311,7 +311,7 @@
     "statues": [
       {
         "name": "ĐỨC BẢN SƯ THÍCH CA MÂU NI RỜI NÚI TƯỢNG ĐẦU, RỪNG KHỔ HẠNH HƯỚNG VỀ SÔNG NI-LIÊN-THIỀN",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "Trải nghiệm nào cũng có giá trị nhất định.",
         "group": "Chư Phật Hải Hội",
         "cluster": "",
@@ -319,7 +319,7 @@
       },
       {
         "name": "TƯỢNG ĐỨC BẢN SƯ THÀNH ĐẠO  PHỎNG CỔ, THẾ KỶ 18",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "\"Im lặng là sức mạnh của nội tâm.\"",
         "group": "Chư Phật Hải Hội",
         "cluster": "",
@@ -327,7 +327,7 @@
       },
       {
         "name": "ĐỨC BẢN SƯ THÍCH CA MÂU NI GIƠ CÀNH HOA TRÊN HỘI LINH SƠN- NGHỆ THUẬT TẠC TƯỢNG BẢO HÀ, THẾ KỶ 18",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "Hoa là quả chứng, đâu là nhân tu.",
         "group": "Chư Phật Hải Hội",
         "cluster": "",
@@ -335,7 +335,7 @@
       },
       {
         "name": "ĐỨC PHẬT THÍCH CA - NGƯỜI THẦY GIÁO",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "Ba vị Thầy có trong một vị Thầy, \nMột vị Thầy gồm đủ ba vị Thầy.",
         "group": "Chư Phật Hải Hội",
         "cluster": "",
@@ -343,7 +343,7 @@
       },
       {
         "name": "ĐỨC BẢN SƯ SƠ SINH ĐỨNG TRÊN ĐẦU THẦN LONG VƯƠNG -THỜI HẬU LÊ",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "“Quyền lực không là gì với sự hồn nhiên của một đứa bé.”",
         "group": "Chư Phật Hải Hội",
         "cluster": "",
@@ -351,7 +351,7 @@
       },
       {
         "name": "ĐỨC BẢN SƯ SƠ SINH NGHỆ THUẬT PHẬT GIÁO BẮC BỘ",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "“Sinh ra là quý khi biết song và làm lợi ích cho muôn người.”",
         "group": "Chư Phật Hải Hội",
         "cluster": "",
@@ -359,7 +359,7 @@
       },
       {
         "name": "ĐỨC PHẬT A DI ĐÀ PHỎNG CỘ NGHỆ THUẬT TƯỢNG GHÉP NHẬT BẢN",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "",
         "group": "Chư Phật Hải Hội",
         "cluster": "",
@@ -367,7 +367,7 @@
       },
       {
         "name": "TƯỢNG ĐỨC PHẬT A DI ĐÀ PHỎNG CỔ,  NGHỆ THUẬT TẠC TƯỢNG ĐỜI TỐNG, TRUNG HOA",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "Không nghèo cũng không giàu,\nChẳng trí cũng chẳng ngu,\nA Di Đà chuyên niệm,\nMặc kệ! Tự tại đi…",
         "group": "Chư Phật Hải Hội",
         "cluster": "",
@@ -375,7 +375,7 @@
       },
       {
         "name": "ĐỨC PHẬT DI ĐÀ TIỂU BẢN",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "Bản chất cõi Tịnh độ của Đức Phật A Di Đà được xây dựng trên nền tảng của thương yêu và hiểu biết thật sự.",
         "group": "Chư Phật Hải Hội",
         "cluster": "",
@@ -383,7 +383,7 @@
       },
       {
         "name": "ĐỨC PHẬT DƯỢC SƯ - THẦY THUỐC",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "3 vị Thầy có trong 1 vị Thầy; 1 vị Thầy gồm đủ 3 vị Thầy.",
         "group": "Chư Phật Hải Hội",
         "cluster": "Nghệ Thuật Phật Giáo",
@@ -391,7 +391,7 @@
       },
       {
         "name": "PHẬT TỲ LÔ GIÁ NA PHỎNG CỔ \nNGHỆ THUẬT TẠC TƯỢNG ĐỜI ĐƯỜNG, TRUNG HOA",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "Vũ trụ nằm trong hạt cải, hạt cải chứa cả vũ trụ.",
         "group": "Chư Phật Hải Hội",
         "cluster": "",
@@ -399,7 +399,7 @@
       },
       {
         "name": "BỒ TÁT VĂN THÙ",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "Biến kinh nghiệm của người khác thành cái biết của bản thân.",
         "group": "Thanh Tịnh Đại Hải Chúng",
         "cluster": "Hoa Nghiêm Tam Thánh",
@@ -407,7 +407,7 @@
       },
       {
         "name": "BỒ TÁT PHỔ HIỀN",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "Trí tuệ sẽ sống mãi nếu biết hiến tặng hạnh phúc cho chúng sinh.",
         "group": "Thanh Tịnh Đại Hải Chúng",
         "cluster": "Hoa Nghiêm Tam Thánh",
@@ -415,7 +415,7 @@
       },
       {
         "name": "QUAN ÂM NGUYỆT TRÍ",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "Cơn mưa tình thương không phân biệt giúp tưới mát, chuyển hóa sức nóng của tham dục, sân hận và vô minh trong bạn.",
         "group": "Thanh Tịnh Đại Hải Chúng",
         "cluster": "Tây Phương Tam Thánh",
@@ -423,7 +423,7 @@
       },
       {
         "name": "QUÁN ÂM HƯƠNG TÍCH",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "Hương thiền không dứt, tích cũ lưu danh.",
         "group": "Thanh Tịnh Đại Hải Chúng",
         "cluster": "",
@@ -431,7 +431,7 @@
       },
       {
         "name": "ĐỨC BỒ TÁT QUÁN TỰ TẠI",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "Tự tại nơi sinh tử quyền lực có là gì!",
         "group": "Thanh Tịnh Đại Hải Chúng",
         "cluster": "",
@@ -439,7 +439,7 @@
       },
       {
         "name": "BỒ TÁT ĐỊA TẠNG PHỎNG CỔ, NGHỆ THUẬT TẠC TƯỢNG PHẬT GIÁO MIỀN NAM",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "Tâm lành như đất, chứa hết vạn vật.",
         "group": "Thanh Tịnh Đại Hải Chúng",
         "cluster": "",
@@ -447,7 +447,7 @@
       },
       {
         "name": "THÁNH TĂNG A-NAN, NGHỆ THUẬT TẠC TƯỢNG BẢO HÀ, THẾ KỶ 18",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "Trí tuệ là sự trau dồi không ngừng nghỉ,",
         "group": "Thanh Văn Thánh Chúng",
         "cluster": "Nghệ Thuật Phật Giáo",
@@ -455,7 +455,7 @@
       },
       {
         "name": "THÁNH TĂNG ĐẠI CA-DIẾP, NGHỆ THUẬT TẠC TƯỢNG BẢO HÀ, THẾ KỶ 18",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "Đạo đức là sự biết đủ và tỉnh thức với ham muốn bản năng.",
         "group": "Thanh Văn Thánh Chúng",
         "cluster": "Nghệ Thuật Phật Giáo",
@@ -463,7 +463,7 @@
       },
       {
         "name": "THIỀN SƯ TỲ-NI-DA-LƯU-CHI - (? – 594) SƠ TỔ THIỀN PHÁI MANG TÊN NGÀI, MỘT TRONG NHỮNG DÒNG THIỀN ĐẦU TIÊN TẠI VIỆT NAM",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "Xứ xứ đều là Đạo tràng, nơi nơi đều là Phật địa.",
         "group": "Chư Lịch Đại Tổ Sư",
         "cluster": "Tây Thiên Đông Độ",
@@ -471,7 +471,7 @@
       },
       {
         "name": "THIỀN SƯ VẠN HẠNH (938 - 1018) VỪA LÀ THẦY, VỪA LÀ QUỐC SƯ GIÚP \nVUA LÝ CÔNG UẨN SÁNG LẬP TRIỀU ĐẠI NHÀ LÝ NĂM 1010",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "Đế nghiệp muốn vững, đạo nghiệp chớ xem thường,",
         "group": "Chư Lịch Đại Tổ Sư",
         "cluster": "Việt Nam Phật Giáo",
@@ -479,7 +479,7 @@
       },
       {
         "name": "QUỐC SƯ KHUÔNG VIỆT (933–1011) VỪA LÀ THẦY CỦA VUA, VỪA LÀ QUỐC SƯ CỦA HAI TRIỀU ĐẠI ĐINH VÀ TIỀN LÊ (968 - 1009)",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "Quốc Sư hai triều, \nXưa tiếp nối,\nNay lưu truyền,\nMãi mãi muôn đời, \nĐại Việt thái bình.",
         "group": "Chư Lịch Đại Tổ Sư",
         "cluster": "Việt Nam Phật Giáo",
@@ -487,7 +487,7 @@
       },
       {
         "name": "TUỆ TRUNG THƯỢNG SĨ (1230–1291) VỪA LÀ PHẬT TỬ,VỪA LÀ THẦY CỦA PHẬT HOÀNG TRẦN NHÂN TÔNG",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "Phản quang tự kỷ bản phận sự, bất tùng tha đắc.\n(nghĩa: thường xuyên nhìn lại chính mình, chớ vọng hướng bên ngoài)",
         "group": "Chư Lịch Đại Tổ Sư",
         "cluster": "Việt Nam Phật Giáo",
@@ -495,7 +495,7 @@
       },
       {
         "name": "ĐẾ THÍCH THIÊN CHỦ , TỤC GỌI VUA CHA NGỌC HOÀNG, PHỎNG CỔ THẾ KỶ 18",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "Bảo tồn phú quý vinh hoa bằng cách hộ trì phụng sự tam bảo với tâm trong sạch.",
         "group": "Hộ Pháp Thần Vương",
         "cluster": "Ứng Hóa Nhân Gian",
@@ -503,7 +503,7 @@
       },
       {
         "name": "VI ĐÀ HỘ PHÁP HÓA THÂN PHÙ ĐỔNG THIÊN VƯƠNG",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "",
         "group": "Hộ Pháp Thần Vương",
         "cluster": "Ứng Hóa Nhân Gian",
@@ -511,7 +511,7 @@
       },
       {
         "name": "NGÀI TRỪNG ÁC CẬN ĐẠI",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "",
         "group": "Hộ Pháp Thần Vương",
         "cluster": "Ứng Hóa Nhân Gian",
@@ -519,7 +519,7 @@
       },
       {
         "name": "NGÀI KHUYẾN THIỆN CẬN ĐẠI",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "",
         "group": "Hộ Pháp Thần Vương",
         "cluster": "Ứng Hóa Nhân Gian",
@@ -527,7 +527,7 @@
       },
       {
         "name": "MẬT TÍCH KIM CANG TƯỢNG CỔ",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "",
         "group": "Hộ Pháp Thần Vương",
         "cluster": "Ứng Hóa Nhân Gian",
@@ -535,7 +535,7 @@
       },
       {
         "name": "NA LA DIEN KIM CANG TƯỢNG CỔ",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "",
         "group": "Hộ Pháp Thần Vương",
         "cluster": "Ứng Hóa Nhân Gian",
@@ -543,7 +543,7 @@
       },
       {
         "name": "TIÊU DIỆN ĐẠI SỸ PHỎNG CỔ, NGHỆ THUẬT TẠC TƯỢNG PHẬT GIÁO MIỀN NAM",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "",
         "group": "Thanh Tịnh Đại Hải Chúng",
         "cluster": "Ứng Hóa Nhân Gian",
@@ -551,7 +551,7 @@
       },
       {
         "name": "TƯỢNG PHÙ ĐỔNG THIÊN VƯƠNG PHỎNG CỔ, NGHỆ THUẬT TẠC TƯỢNG ĐỜI TỐNG, TRUNG HOA",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "Hộ Phật chắp tay kiếm nằm ngang, \nHộ Pháp uy nghiêm cưỡi long thần,\nHộ Tăng kiếm báu cầm sáng lóa,\nTam bảo miên trường, Phật Pháp Tăng.",
         "group": "Chư Thánh Hộ Quốc",
         "cluster": "Ứng Hóa Nhân Gian",
@@ -559,7 +559,7 @@
       },
       {
         "name": "LÝ THÁNH TÔNG (1023–1072) VỪA LÀ VUA, VỪA LÀ MỘT PHẬT TỬ ĐƯỢC XEM LÀ NHỊ TỔ CỦA THIỀN PHÁI THẢO ĐƯỜNG TẠI VIỆT NAM",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "Đại ngộ thiền cơ,\nKhoan dân trị nước,\nThảo Đường Nhị Tổ,\nPhật Pháp xương minh.",
         "group": "Chư Thánh Hộ Quốc",
         "cluster": "Ứng Hóa Nhân Gian",
@@ -567,7 +567,7 @@
       },
       {
         "name": "NGUYỄN TRÃI ĐẠI TƯ ĐỒ (1380 –1442)",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "Bình Ngô Đại Cáo dựng cơ đồ,\nCôn Sơn thắp đèn soi hậu thế,\nNgoài giữ nho phong, trong rèn Phật đạo\nDanh chẳng màng, lợi chẳng nghĩ,\nRõ nguồn cơn, hai chữ vô thường.",
         "group": "Chư Thánh Hộ Quốc",
         "cluster": "Ứng Hóa Nhân Gian",
@@ -575,7 +575,7 @@
       },
       {
         "name": "THÁNH NỮ SUJATA",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "",
         "group": "Đại Thí Chủ",
         "cluster": "Ứng Hóa Nhân Gian",
@@ -583,7 +583,7 @@
       },
       {
         "name": "THIỀM THỨ CÓC",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "",
         "group": "Linh Vật Phật Giáo",
         "cluster": "Linh Thú Hộ Đạo",
@@ -591,8 +591,8 @@
       }
     ],
     "stories": [],
-    "bannerUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/bao-tang.webp",
-    "thumbnailUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/bao-tang.webp"
+    "bannerUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/bao-tang.webp",
+    "thumbnailUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/bao-tang.webp"
   },
   {
     "id": "5",
@@ -602,7 +602,7 @@
     "subtitle": "VẠN PHẬT QUANG MINH",
     "temple": "tung-lam-hoa-phuc",
     "templeName": "Tùng Lâm Hòa Phúc",
-    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/bao-thap.webp",
+    "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/bao-thap.webp",
     "mapPos": {
       "x": 42,
       "y": 22
@@ -612,7 +612,7 @@
     "statues": [
       {
         "name": "QUAN ÂM THIÊN THỦ THIÊN NHÃN",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "Sống cho riêng mình là người chật hẹp. Sống cho muôn người thì rộng lớn thênh thang.",
         "group": "Thanh Tịnh Đại Hải Chúng",
         "cluster": "",
@@ -620,8 +620,8 @@
       }
     ],
     "stories": [],
-    "bannerUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/bao-thap.webp",
-    "thumbnailUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/bao-thap.webp"
+    "bannerUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/bao-thap.webp",
+    "thumbnailUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/bao-thap.webp"
   },
   {
     "id": "6",
@@ -631,7 +631,7 @@
     "subtitle": "CHƯ PHẬT HẢI HỘI",
     "temple": "tung-lam-hoa-phuc",
     "templeName": "Tùng Lâm Hòa Phúc",
-    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/giang-duong.webp",
+    "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/giang-duong.webp",
     "mapPos": {
       "x": 78,
       "y": 48
@@ -641,7 +641,7 @@
     "statues": [
       {
         "name": "ĐỨC PHẬT THÍCH CA MÂU NI KHỔ HẠNH",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "\"Tận cùng của đau khổ, năng lực tỉnh thức hiển bày.\"",
         "group": "Chư Phật Hải Hội",
         "cluster": "",
@@ -649,7 +649,7 @@
       },
       {
         "name": "ĐỨC PHẬT A DI ĐÀ",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "\"Tâm bình an thì ở đâu cũng là Tịnh Độ.\"",
         "group": "Chư Phật Hải Hội",
         "cluster": "Tây Phương Tam Thánh",
@@ -657,7 +657,7 @@
       },
       {
         "name": "PHẬT MẪU CHUẨN ĐỀ",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "",
         "group": "Thanh Tịnh Đại Hải Chúng",
         "cluster": "Sứ Giả Như Lai",
@@ -665,8 +665,8 @@
       }
     ],
     "stories": [],
-    "bannerUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/giang-duong.webp",
-    "thumbnailUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/giang-duong.webp"
+    "bannerUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/giang-duong.webp",
+    "thumbnailUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/giang-duong.webp"
   },
   {
     "id": "7",
@@ -676,7 +676,7 @@
     "subtitle": "CHƯ HƯƠNG LINH VỀ MIỀN TỊNH ĐỘ",
     "temple": "tung-lam-hoa-phuc",
     "templeName": "Tùng Lâm Hòa Phúc",
-    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/tu-an.webp",
+    "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/tu-an.webp",
     "mapPos": {
       "x": 30,
       "y": 78
@@ -686,7 +686,7 @@
     "statues": [
       {
         "name": "ĐỊA TẠNG BỒ TÁT HIỆN ĐẠI",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "",
         "group": "Thanh Tịnh Đại Hải Chúng",
         "cluster": "Nghệ Thuật Phật Giáo",
@@ -694,7 +694,7 @@
       },
       {
         "name": "ĐỊA TẠNG BỒ TÁT",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "",
         "group": "Thanh Tịnh Đại Hải Chúng",
         "cluster": "Sứ Giả Như Lai",
@@ -702,7 +702,7 @@
       },
       {
         "name": "ĐỊA TẠNG BỒ TÁT THUẦN VIỆT",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "Trên bước đường tu, chúng ta phải thấy hạnh phúc khi được làm những công việc hoằng pháp lợi sinh, phải nuôi dưỡng tâm này bằng cách quán chiếu tất cả chúng sinh là cha mẹ, là thân bằng quyến thuộc.",
         "group": "Thanh Tịnh Đại Hải Chúng",
         "cluster": "Sứ Giả Như Lai",
@@ -719,7 +719,7 @@
     "subtitle": "PHÁP BẢO LƯU THÔNG",
     "temple": "tung-lam-hoa-phuc",
     "templeName": "Tùng Lâm Hòa Phúc",
-    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/tang-kinh-cac-v2.webp",
+    "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/tang-kinh-cac-v2.webp",
     "mapPos": {
       "x": 82,
       "y": 28
@@ -737,7 +737,7 @@
     "subtitle": "HÒA CHÍNH TRAI ĐƯỜNG & HƯƠNG TÍCH BẾP",
     "temple": "tung-lam-hoa-phuc",
     "templeName": "Tùng Lâm Hòa Phúc",
-    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/trai-duong.webp",
+    "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/trai-duong.webp",
     "mapPos": {
       "x": 64,
       "y": 14
@@ -755,7 +755,7 @@
     "subtitle": "QUANG MINH DI ĐÀ",
     "temple": "tung-lam-hoa-phuc",
     "templeName": "Tùng Lâm Hòa Phúc",
-    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/san-di-da.webp",
+    "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/san-di-da.webp",
     "mapPos": {
       "x": 57,
       "y": 33
@@ -765,7 +765,7 @@
     "statues": [
       {
         "name": "ĐỨC PHẬT THÍCH CA MÂU NI CHUYỂN PHÁP LUÂN",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "\"Hiểu rõ khổ đau để tìm ra con đường hạnh phúc thực sự.\"",
         "group": "Chư Phật Hải Hội",
         "cluster": "Nghệ Thuật Phật Giáo\n(mỗi một tượng là một nhân vật, một tượng có nhiều biến thể khác nhau gọi là nghệ thuật phật giáo, nghệ thuật phật giáo xuất hiện ở trong trang của mỗi NHÂN VẬT)",
@@ -773,7 +773,7 @@
       },
       {
         "name": "QUAN ÂM BỒ TÁT BẠCH Y",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "Tự tính thanh tịnh vốn có sẵn ngay nơi tâm của mỗi người.",
         "group": "Thanh Tịnh Đại Hải Chúng",
         "cluster": "Nghệ Thuật Phật Giáo",
@@ -781,7 +781,7 @@
       },
       {
         "name": "QUAN ÂM BỒ TÁT TỐNG TỬ",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "",
         "group": "Thanh Tịnh Đại Hải Chúng",
         "cluster": "Nghệ Thuật Phật Giáo",
@@ -789,7 +789,7 @@
       },
       {
         "name": "DI LẶC BỒ TÁT",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "",
         "group": "Thanh Tịnh Đại Hải Chúng",
         "cluster": "Nghệ Thuật Phật Giáo",
@@ -806,7 +806,7 @@
     "subtitle": "TAM GIẢI THOÁT MÔN & SÂN DI LẶC",
     "temple": "tung-lam-hoa-phuc",
     "templeName": "Tùng Lâm Hòa Phúc",
-    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/cong-tam-quan.webp",
+    "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/cong-tam-quan.webp",
     "mapPos": {
       "x": 12,
       "y": 55
@@ -816,7 +816,7 @@
     "statues": [
       {
         "name": "DI LẶC BỒ TÁT",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/thanh_tinh_dai_hai_chung/bo_tat_di_lac/di_lac_bo_tat_tuong_chinh.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/thanh_tinh_dai_hai_chung/bo_tat_di_lac/di_lac_bo_tat_tuong_chinh.webp",
         "quote": "Nụ cười Di Lặc xua tan muộn phiền nhân thế, mở lòng từ bi ôm trọn vạn loại chúng sinh.",
         "group": "Thanh Tịnh Đại Hải Chúng",
         "cluster": "Cụm Di Lặc Tôn Phật",
@@ -824,7 +824,7 @@
       },
       {
         "name": "PHẬT DI LẶC (TƯỢNG GỖ)",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/thanh_tinh_dai_hai_chung/bo_tat_di_lac/Phat-Di-Lac-tuong-go-JPG.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/thanh_tinh_dai_hai_chung/bo_tat_di_lac/Phat-Di-Lac-tuong-go-JPG.webp",
         "quote": "Nghệ thuật tạc tượng gỗ quý tôn vinh nét hoan hỷ bất tận của Đức Di Lặc.",
         "group": "Thanh Tịnh Đại Hải Chúng",
         "cluster": "Nghệ Thuật Phật Giáo",
@@ -841,7 +841,7 @@
     "subtitle": "VĂN HÓA LÀNG XÃ BẮC BỘ",
     "temple": "tung-lam-hoa-phuc",
     "templeName": "Tùng Lâm Hòa Phúc",
-    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/lang-xa-tam-linh.webp",
+    "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/lang-xa-tam-linh.webp",
     "mapPos": {
       "x": 42,
       "y": 57
@@ -859,7 +859,7 @@
     "subtitle": "THÁNH TĂNG ỨNG HÓA",
     "temple": "tung-lam-hoa-phuc",
     "templeName": "Tùng Lâm Hòa Phúc",
-    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/san-la-han-v2.webp",
+    "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/san-la-han-v2.webp",
     "mapPos": {
       "x": 42,
       "y": 79
@@ -869,7 +869,7 @@
     "statues": [
       {
         "name": "THẬP BÁT LA HÁN ĐÁ",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "",
         "group": "Thanh Văn Thánh Chúng",
         "cluster": "Nghệ Thuật Phật Giáo",
@@ -877,7 +877,7 @@
       },
       {
         "name": "KIÊN LAO ĐỊA THẦN",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "",
         "group": "Hộ Pháp Thần Vương",
         "cluster": "Ứng Hóa Nhân Gian",
@@ -894,7 +894,7 @@
     "subtitle": "PHÁP LUÂN THƯỜNG CHUYỂN",
     "temple": "tung-lam-hoa-phuc",
     "templeName": "Tùng Lâm Hòa Phúc",
-    "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/lau-kinh-luan.webp",
+    "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/lau-kinh-luan.webp",
     "mapPos": {
       "x": 6,
       "y": 46
@@ -904,7 +904,7 @@
     "statues": [
       {
         "name": "THẬP ĐẠI ĐỆ TỬ",
-        "imgUrl": "https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
+        "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
         "quote": "Tấm gương của các Ngài, lời dạy của các Ngài là chất liệu nuôi dưỡng chúng ta.",
         "group": "Thanh Văn Thánh Chúng",
         "cluster": "Thập Đại Đệ Tử",

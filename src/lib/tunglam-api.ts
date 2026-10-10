@@ -172,7 +172,7 @@ function transformTongChi(p: any): TungLamTongChi {
   const imageUrl =
     imgUrls.large || imgUrls.medium || imgUrls.thumbnail ||
     imgUrls.full ||
-    'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp';
+    'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp';
 
   const firstCat = Array.isArray(p.categories) ? p.categories[0] : null;
 

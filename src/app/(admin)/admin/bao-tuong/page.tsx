@@ -84,6 +84,7 @@ export interface StatueAdminItem {
     imgUrl: string;
     imgPosition?: string;
   }>;
+  viewsCount?: number;
 }
 
 const UNIVERSE_AREAS = [
@@ -109,6 +110,7 @@ export default function AdminBaoTuongPage() {
   const [selectedAssembly, setSelectedAssembly] = useState('all');
   const [selectedArea, setSelectedArea] = useState('all');
   const [selectedType, setSelectedType] = useState('all');
+  const [sortBy, setSortBy] = useState<'default' | 'views-desc' | 'views-asc'>('default');
 
   // Focal Point Modal State
   const [focalModalOpen, setFocalModalOpen] = useState(false);
@@ -235,7 +237,7 @@ export default function AdminBaoTuongPage() {
   const debouncedSearch = useDebounce(search, 250);
 
   const filtered = useMemo(() => {
-    return statues.filter((s) => {
+    let result = statues.filter((s) => {
       if (selectedAssembly !== 'all' && s.assembly !== selectedAssembly && s.assemblyId !== selectedAssembly) {
         return false;
       }
@@ -261,7 +263,15 @@ export default function AdminBaoTuongPage() {
       }
       return true;
     });
-  }, [statues, debouncedSearch, selectedAssembly, selectedArea, selectedType]);
+
+    if (sortBy === 'views-desc') {
+      result = [...result].sort((a, b) => (Number(b.viewsCount) || 0) - (Number(a.viewsCount) || 0));
+    } else if (sortBy === 'views-asc') {
+      result = [...result].sort((a, b) => (Number(a.viewsCount) || 0) - (Number(b.viewsCount) || 0));
+    }
+
+    return result;
+  }, [statues, debouncedSearch, selectedAssembly, selectedArea, selectedType, sortBy]);
 
   const {
     currentPage,
@@ -461,7 +471,7 @@ export default function AdminBaoTuongPage() {
 
       {/* ── FILTER TOOLBAR ── */}
       <div className="bg-[#25170E] p-4 rounded-2xl border border-[#F2C14E]/25 space-y-3 shadow-xl">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
           {/* Assembly Filter */}
           <select
             value={selectedAssembly}
@@ -500,6 +510,17 @@ export default function AdminBaoTuongPage() {
             <option value="all">Tất cả Loại tượng</option>
             <option value="TƯỢNG CHÍNH">TƯỢNG CHÍNH (Tôn tượng)</option>
             <option value="NTPG">Nghệ Thuật Phật Giáo (NTPG)</option>
+          </select>
+
+          {/* Sắp Xếp Theo Lượt Xem */}
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value as any)}
+            className="px-3 py-2 bg-[#1A120B] border border-[#F2C14E]/40 rounded-xl text-xs text-[#FFE5A3] font-bold focus:outline-none focus:border-[#F2C14E]"
+          >
+            <option value="default">Thứ tự mặc định (Kéo thả)</option>
+            <option value="views-desc">👁️ Lượt xem cao nhất</option>
+            <option value="views-asc">👁️ Lượt xem thấp nhất</option>
           </select>
 
           {/* Search Box (BÊN PHẢI) */}
@@ -598,15 +619,21 @@ export default function AdminBaoTuongPage() {
                           </span>
                         ) : null}
                       </div>
-                      <span
-                        className={`px-2 py-0.5 rounded-md text-[9px] font-bold uppercase backdrop-blur-md ${
-                          st.categoryType === 'TƯỢNG CHÍNH'
-                            ? 'bg-amber-500/80 text-black border border-amber-300'
-                            : 'bg-blue-600/80 text-white border border-blue-400'
-                        }`}
-                      >
-                        {st.categoryType === 'TƯỢNG CHÍNH' ? 'Tượng Chính' : 'NTPG'}
-                      </span>
+                      <div className="flex items-center gap-1.5">
+                        <span className="px-2 py-0.5 rounded-md bg-black/80 backdrop-blur-md text-[#FFE5A3] font-mono text-[9px] font-bold border border-[#F2C14E]/30 flex items-center gap-1" title="Lượt xem tôn tượng đo lường thật">
+                          <Eye className="w-2.5 h-2.5 text-[#F2C14E]" />
+                          {typeof st.viewsCount === 'number' ? st.viewsCount.toLocaleString('vi-VN') : st.viewsCount || 0}
+                        </span>
+                        <span
+                          className={`px-2 py-0.5 rounded-md text-[9px] font-bold uppercase backdrop-blur-md ${
+                            st.categoryType === 'TƯỢNG CHÍNH'
+                              ? 'bg-amber-500/80 text-black border border-amber-300'
+                              : 'bg-blue-600/80 text-white border border-blue-400'
+                          }`}
+                        >
+                          {st.categoryType === 'TƯỢNG CHÍNH' ? 'Tượng Chính' : 'NTPG'}
+                        </span>
+                      </div>
                     </div>
 
                     {/* Interactive Action Buttons on Card */}
@@ -734,6 +761,7 @@ export default function AdminBaoTuongPage() {
                   <th className="p-3">Chúng Hội &amp; Khu Vực</th>
                   <th className="p-3">Loại Tượng</th>
                   <th className="p-3">Lời Dạy Sư Phụ (Quote)</th>
+                  <th className="p-3 w-28 text-center border-r border-[#F2C14E]/20" title="Lượt xem thực tế từ độc giả khi chiêm bái bảo tượng">Lượt Xem</th>
                   <th className="p-3 text-right sticky right-0 z-30 bg-[#2A1D14] border-l border-[#F2C14E]/30 shadow-[-4px_0_8px_rgba(0,0,0,0.3)]">Thao Tác</th>
                 </tr>
               </thead>
@@ -825,6 +853,21 @@ export default function AdminBaoTuongPage() {
                       </td>
                       <td className="p-3 max-w-xs text-[11px] text-[#c9b896]/80 line-clamp-2">
                         {st.quote ? `"${st.quote}"` : '—'}
+                      </td>
+                      <td className="p-3 text-center align-middle border-r border-[#F2C14E]/15 bg-[#170E08]/40">
+                        <span
+                          title={`Lượt xem tôn tượng: ${typeof st.viewsCount === 'number' ? st.viewsCount.toLocaleString('vi-VN') : st.viewsCount || 0} lượt`}
+                          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-[#25170E] border border-[#F2C14E]/40 text-[#FFE5A3] font-mono text-xs font-bold"
+                        >
+                          <Eye className="w-3.5 h-3.5 text-[#F2C14E]" />
+                          <span>
+                            {typeof st.viewsCount === 'number'
+                              ? st.viewsCount >= 10000
+                                ? `${(st.viewsCount / 1000).toFixed(1)}K`
+                                : st.viewsCount.toLocaleString('vi-VN')
+                              : st.viewsCount || 0}
+                          </span>
+                        </span>
                       </td>
                       <td className="p-3 text-right sticky right-0 z-10 bg-[#1C120A] group-hover:bg-[#25170E] border-l border-[#F2C14E]/20 shadow-[-4px_0_8px_rgba(0,0,0,0.3)]">
                         <div className="flex items-center justify-end gap-1.5">

@@ -3,7 +3,7 @@
  * Chuyển đổi mọi đường dẫn ảnh cục bộ sang URL S3 Backblaze B2 tốc độ cao.
  */
 
-const S3_BASE_URL = process.env.NEXT_PUBLIC_S3_BASE_URL || 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2';
+const S3_BASE_URL = process.env.NEXT_PUBLIC_S3_BASE_URL || 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2';
 
 export function getMediaUrl(src?: string | null): string {
   if (!src) return '/images/toan-canh-chua.jpg';

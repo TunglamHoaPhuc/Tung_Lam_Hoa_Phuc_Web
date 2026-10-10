@@ -9,6 +9,7 @@ export interface PostItem {
   category1IconName?: string; // Tên Lucide Icon đại diện (nếu có)
   category1Icon?: ReactNode;  // Icon ReactNode trực tiếp (nếu có)
   title: string;             // Tiêu đề bài viết/video
+  subtitle?: string;         // Sub tiêu đề bài viết (từ admin/posts)
   category2?: string;        // Chuỗi sự kiện/chương trình (Ví dụ: "CỘNG TU MỘT NGÀY AN LẠC")
   publishedDate: string;     // Ngày đăng (Ví dụ: "28/11/2025")
   viewsCount: number | string; // Lượt xem (Ví dụ: 300 hoặc "24.5K")

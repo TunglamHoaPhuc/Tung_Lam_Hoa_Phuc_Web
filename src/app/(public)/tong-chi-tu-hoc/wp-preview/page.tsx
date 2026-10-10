@@ -183,7 +183,7 @@ export default function WpPreviewPage() {
   // Tự động lấy Hero Banner từ: Ảnh đại diện WordPress (Featured Media) HOẶC trường ACF anh_nen
   const heroBannerUrl =
     getImageUrl(wpData?.acf?.anh_nen || wpData?._embedded?.['wp:featuredmedia']?.[0]?.source_url) ||
-    'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/nen-tang-tu-hoc/tong-chi-tu-hoc-nen-tang-tu-hoc-bo-de-tam-herobanner-thumbnail.webp';
+    'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/nen-tang-tu-hoc/tong-chi-tu-hoc-nen-tang-tu-hoc-bo-de-tam-herobanner-thumbnail.webp';
 
   // Dynamic Navigation Items
   const navItems = React.useMemo(() => {
@@ -453,7 +453,7 @@ export default function WpPreviewPage() {
                   {
                     title: 'Khuyến Phát Bồ Đề Tâm Giảng Luận (Trọn bộ 4 quyển)',
                     author: 'Đại Đức Thích Tâm Hòa',
-                    coverImage: 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-nen-tang-tu-hoc-bo-de-tam-banner-sach.webp',
+                    coverImage: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/tong-chi-tu-hoc-nen-tang-tu-hoc-bo-de-tam-banner-sach.webp',
                     description: 'Bộ sách giảng giải chi tiết về tầm quan trọng của việc phát Bồ Đề Tâm trong đời sống tu học và phụng sự nhân sinh.',
                     linkUrl: '/vu-tru-phat-giao/tang-kinh-cac',
                   },

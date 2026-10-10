@@ -26,7 +26,7 @@ const BookCard = React.memo(({ book, onSelect }: BookCardProps) => {
           decoding="async"
           className="w-auto h-full max-h-[230px] object-contain shadow-2xl rounded-lg group-hover:scale-105 transition-transform duration-700 filter drop-shadow-[0_10px_20px_rgba(0,0,0,0.8)]"
           onError={(e) => {
-            (e.target as HTMLImageElement).src = 'https://s2-cnv03.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp';
+            (e.target as HTMLImageElement).src = 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/bao-thap-banner.webp';
           }}
         />
         <div
