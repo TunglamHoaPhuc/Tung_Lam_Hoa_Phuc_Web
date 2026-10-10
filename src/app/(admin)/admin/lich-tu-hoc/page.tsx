@@ -19,9 +19,30 @@ import {
   Palette,
   Eye,
   RefreshCw,
+  ChevronLeft,
+  ChevronRight,
+  PanelLeftClose,
+  PanelLeftOpen,
+  MapPin,
+  FileText,
+  Video,
+  X,
+  Edit3,
 } from 'lucide-react';
 import { useTableDragDrop, GripHandleIcon } from '@/components/admin/useTableDragDrop';
 import { AdminPagination, useAdminPagination } from '@/components/admin/AdminPagination';
+import { S3FileExplorerModal } from '@/components/admin/S3FileExplorerModal';
+import {
+  getDaysInMonth,
+  getStartDayOffset,
+  getLunarCellString,
+  getBuddhistEraYear,
+  convertSolarToLunar,
+} from '@/lib/lunar-calendar';
+import {
+  getEventCategoryIcon,
+  splitEventTitle,
+} from '@/data/schedule-data';
 
 interface FeaturedProgram {
   id: string;
@@ -42,46 +63,64 @@ interface MonthTheme {
   themeBg: string;
 }
 
-interface CustomEvent {
+export interface CustomScheduleEvent {
   id: string;
-  solarDateStr: string;
+  slug?: string;
+  solarDateStr: string; // "DD.MM.YYYY"
   title: string;
-  category: string;
+  subtitle?: string; // Sub tiêu đề bóc tách (đỡ dài dòng trong ô lịch)
+  category: 'Cộng Tu' | 'Đại Lễ Sự Kiện' | 'Khóa Lễ Truyền Thống' | string;
   timeSlot1Label?: string;
   timeSlot1Time?: string;
   location: string;
   description: string;
+  notes?: string;
   imgUrl?: string;
+  videoUrl?: string;
+  gallery?: string[];
+  contentHtml?: string;
 }
 
-const DEFAULT_BANNER_SUGGESTIONS = [
-  { label: 'Tháng 1: Đức Bản Sư Thành Đạo', url: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-01-duc-ban-su-thanh-dao.webp' },
-  { label: 'Tháng 2: Nghinh Xuân Di Lặc', url: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-02-nghinh-xuan-di-lac.webp' },
-  { label: 'Tháng 3: Hương Sen Tây Bắc', url: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-03-huong-sen-tay-bac.webp' },
-  { label: 'Tháng 4: Hướng Về Cội Nguồn', url: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-04-huong-ve-coi-nguon.webp' },
-  { label: 'Tháng 5: Phật Đản', url: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-05-phat-dan.webp' },
-  { label: 'Tháng 6: Ươm Mầm Sen Việt', url: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-06-uom-mam-sen-viet.webp' },
-  { label: 'Tháng 7: Đền Ơn Đáp Nghĩa', url: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-07-den-on-dap-nghia.webp' },
-  { label: 'Tháng 8: Hiếu Hạnh Đáp Đền', url: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-08-hieu-hanh-dap-den.webp' },
-  { label: 'Tháng 9: Thanh Nguyệt Hương Thu', url: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-09-thanh-nguyet-huong-thu.webp' },
-  { label: 'Tháng 10: Hạnh Nguyện Quan Âm', url: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-10-hanh-nguyen-quan-am.webp' },
-  { label: 'Tháng 11: Ân Đức Tổ Thầy', url: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-11-an-duc-to-thay.webp' },
-  { label: 'Tháng 12: Vía Phật Di Đà', url: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-12-via-phat-di-da.webp' },
-];
+function slugify(text: string): string {
+  return text
+    .toString()
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[đĐ]/g, 'd')
+    .replace(/[^a-z0-9\s-]/g, '')
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
+}
 
 export default function AdminSchedulePage() {
-  const [activeTab, setActiveTab] = useState<'programs' | 'themes' | 'custom'>('programs');
+  const [activeTab, setActiveTab] = useState<'traditional' | 'calendar'>('calendar');
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
 
+  // Data states
   const [programs, setPrograms] = useState<FeaturedProgram[]>([]);
   const [monthThemes, setMonthThemes] = useState<Record<string, MonthTheme>>({});
-  const [customEvents, setCustomEvents] = useState<CustomEvent[]>([]);
+  const [customEvents, setCustomEvents] = useState<CustomScheduleEvent[]>([]);
 
-  const [selectedMonthIdx, setSelectedMonthIdx] = useState<number>(7); // Default August (index 7)
+  // Calendar view states
+  const [currentYear, setCurrentYear] = useState<number>(2026);
+  const [selectedMonthIdx, setSelectedMonthIdx] = useState<number>(7); // 0-indexed: 7 = Tháng 8
+  const [isThemeCollapsed, setIsThemeCollapsed] = useState<boolean>(false);
+  const [filterCategory, setFilterCategory] = useState<string>('Tất Cả');
 
-  // 🪷 Quản lý Kéo Thả Sắp Xếp Thứ Tự Chương Trình Nổi Bật
+  // Modal S3 Explorer
+  const [s3ModalOpen, setS3ModalOpen] = useState(false);
+  const [s3TargetCallback, setS3TargetCallback] = useState<((url: string) => void) | null>(null);
+  const [s3InitialPath, setS3InitialPath] = useState<string>('01-trang-chu');
+
+  // Event Edit Modal
+  const [editingEvent, setEditingEvent] = useState<CustomScheduleEvent | null>(null);
+  const [isNewEvent, setIsNewEvent] = useState<boolean>(false);
+
+  // Drag Drop for Traditional Rituals (Programs)
   const {
     draggedId,
     dragOverId,
@@ -161,11 +200,18 @@ export default function AdminSchedulePage() {
     }
   };
 
-  // Program Handlers
+  // Open S3 Image Picker
+  const handleOpenImagePicker = (callback: (url: string) => void, initialPath = '01-trang-chu') => {
+    setS3TargetCallback(() => callback);
+    setS3InitialPath(initialPath);
+    setS3ModalOpen(true);
+  };
+
+  // Traditional Rituals Handlers
   const addProgram = () => {
     const newProg: FeaturedProgram = {
       id: 'p-' + Date.now(),
-      title: 'CHƯƠNG TRÌNH TU HỌC MỚI',
+      title: 'KHÓA LỄ TRUYỀN THỐNG MỚI',
       schedule: 'ĐỊNH KỲ HẰNG THÁNG',
       summary: 'Mô tả tóm tắt thời khóa tu học và ý nghĩa sự kiện...',
       imgUrl: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp',
@@ -180,31 +226,27 @@ export default function AdminSchedulePage() {
   };
 
   const deleteProgram = (index: number) => {
-    if (confirm('Bạn có chắc chắn muốn xóa chương trình này?')) {
+    if (confirm('Bạn có chắc chắn muốn xóa khóa lễ truyền thống này?')) {
       const updated = programs.filter((_, i) => i !== index);
       setPrograms(updated);
     }
   };
 
-  const moveProgram = (index: number, direction: 'up' | 'down') => {
-    if ((direction === 'up' && index === 0) || (direction === 'down' && index === programs.length - 1)) return;
-    const targetIdx = direction === 'up' ? index - 1 : index + 1;
-    const updated = [...programs];
-    const [moved] = updated.splice(index, 1);
-    updated.splice(targetIdx, 0, moved);
-    setPrograms(updated);
-  };
-
   // Month Theme Handlers
-  const currentMonthData = monthThemes[String(selectedMonthIdx)] || {
+  const currentMonthData: MonthTheme = monthThemes[String(selectedMonthIdx)] || {
     month: selectedMonthIdx + 1,
-    bannerImg: '',
-    title: '',
-    quoteLines: [],
+    bannerImg: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-08-hieu-hanh-dap-den.webp',
+    title: 'HIẾU HẠNH ĐÁP ĐỀN',
+    quoteLines: [
+      'Không một tác phẩm nào đẹp và thiêng liêng',
+      'bằng sự hiện hữu của cha và mẹ.',
+      'Đó là tượng đài của tình thương',
+      'và sự hy sinh bất tử.',
+    ],
     author: 'Vô Trí - Tâm Hòa',
-    primaryColor: '#8B3A1C',
+    primaryColor: '#7C2D12',
     secondaryColor: '#F2C14E',
-    themeBg: '#2A170F',
+    themeBg: '#240E06',
   };
 
   const updateCurrentMonthField = (field: keyof MonthTheme, value: any) => {
@@ -217,37 +259,89 @@ export default function AdminSchedulePage() {
     });
   };
 
-  // Custom Events Handlers
-  const addCustomEvent = () => {
-    const newEvent: CustomEvent = {
+  // Calendar calculations
+  const daysInMonth = getDaysInMonth(currentYear, selectedMonthIdx);
+  const startDayOffset = getStartDayOffset(currentYear, selectedMonthIdx);
+  const buddhistEra = getBuddhistEraYear(currentYear);
+
+  // Month navigation
+  const handlePrevMonth = () => {
+    if (selectedMonthIdx === 0) {
+      setSelectedMonthIdx(11);
+      setCurrentYear((prev) => prev - 1);
+    } else {
+      setSelectedMonthIdx((prev) => prev - 1);
+    }
+  };
+
+  const handleNextMonth = () => {
+    if (selectedMonthIdx === 11) {
+      setSelectedMonthIdx(0);
+      setCurrentYear((prev) => prev + 1);
+    } else {
+      setSelectedMonthIdx((prev) => prev + 1);
+    }
+  };
+
+  // Event modal actions
+  const handleOpenAddEventForDay = (day: number) => {
+    const formattedDate = `${String(day).padStart(2, '0')}.${String(selectedMonthIdx + 1).padStart(2, '0')}.${currentYear}`;
+    const newEvt: CustomScheduleEvent = {
       id: 'evt-' + Date.now(),
-      solarDateStr: '15.08.2026',
-      title: 'ĐẠI LỄ ĐẶC BIỆT',
-      category: 'Đại Lễ Sự Kiện',
+      slug: slugify(`khoa-tu-ngay-${day}-thang-${selectedMonthIdx + 1}-${currentYear}`),
+      solarDateStr: formattedDate,
+      title: 'PHÁP HỘI CỘNG TU NIỆM PHẬT',
+      subtitle: '',
+      category: 'Cộng Tu',
       timeSlot1Label: 'Buổi Sáng',
-      timeSlot1Time: '08h00',
+      timeSlot1Time: '08h00 - 11h30',
       location: 'Đại Hùng Bảo Điện & Giảng Đường',
-      description: 'Nội dung chi tiết về chương trình đại lễ...',
+      description: 'Khóa tu hành trì trang nghiêm, thanh tịnh thân tâm và hồi hướng công đức an lạc.',
+      notes: 'Phật tử vân tập trước 07h30, y phục áo tràng lam trang nghiêm, ăn chay và giữ tâm thanh tịnh.',
+      imgUrl: currentMonthData.bannerImg || 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp',
+      videoUrl: '',
     };
-    setCustomEvents([newEvent, ...customEvents]);
+    setEditingEvent(newEvt);
+    setIsNewEvent(true);
   };
 
-  const updateCustomEvent = (index: number, field: keyof CustomEvent, value: string) => {
-    const updated = [...customEvents];
-    updated[index] = { ...updated[index], [field]: value };
-    setCustomEvents(updated);
+  const handleOpenEditEvent = (evt: CustomScheduleEvent) => {
+    setEditingEvent({ ...evt });
+    setIsNewEvent(false);
   };
 
-  const deleteCustomEvent = (index: number) => {
-    if (confirm('Xóa sự kiện này?')) {
-      setCustomEvents(customEvents.filter((_, i) => i !== index));
+  const handleSaveEditingEvent = () => {
+    if (!editingEvent) return;
+    if (!editingEvent.title.trim()) {
+      alert('Vui lòng nhập tên khóa lễ / sự kiện');
+      return;
+    }
+
+    const finalSlug = editingEvent.slug?.trim() || slugify(editingEvent.title + '-' + editingEvent.solarDateStr);
+    const eventWithSlug = { ...editingEvent, slug: finalSlug };
+
+    if (isNewEvent) {
+      setCustomEvents([eventWithSlug, ...customEvents]);
+    } else {
+      setCustomEvents(customEvents.map((e) => (e.id === eventWithSlug.id ? eventWithSlug : e)));
+    }
+    setEditingEvent(null);
+    setMessage({ text: 'Đã cập nhật thời khóa sự kiện thành công! Hãy bấm "Lưu Thay Đổi (Cloud S3)" để đồng bộ vĩnh viễn.', type: 'success' });
+  };
+
+  const handleDeleteEditingEvent = () => {
+    if (!editingEvent) return;
+    if (confirm('Bạn có chắc chắn muốn xóa sự kiện này?')) {
+      setCustomEvents(customEvents.filter((e) => e.id !== editingEvent.id));
+      setEditingEvent(null);
+      setMessage({ text: 'Đã xóa sự kiện thành công!', type: 'success' });
     }
   };
 
   return (
-    <div className="p-4 md:p-8 max-w-7xl mx-auto space-y-8">
-      {/* Top Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-r from-[#2A180D] via-[#1E1109] to-[#2A180D] p-6 rounded-2xl border border-[#F2C14E]/30 shadow-2xl">
+    <div className="p-3 md:p-6 max-w-[1550px] mx-auto space-y-6">
+      {/* ── 1. Top Header ── */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-r from-[#2A180D] via-[#1E1109] to-[#2A180D] p-5 md:p-6 rounded-2xl border border-[#F2C14E]/30 shadow-2xl">
         <div>
           <div className="flex items-center gap-3">
             <div className="p-2.5 bg-[#F2C14E]/15 rounded-xl border border-[#F2C14E]/40 text-[#F2C14E]">
@@ -258,7 +352,7 @@ export default function AdminSchedulePage() {
                 Quản Trị Lịch Tu Học & Sự Kiện
               </h1>
               <p className="text-xs md:text-sm text-[#e3d2c1]/80 mt-0.5">
-                Thiết lập chương trình nổi bật, sắp xếp thời khóa và tùy biến banner 12 tháng
+                Thiết lập khóa lễ truyền thống, cập nhật lịch cộng tu & đại lễ sự kiện theo ngày, tùy biến banner 12 tháng
               </p>
             </div>
           </div>
@@ -300,7 +394,7 @@ export default function AdminSchedulePage() {
       {/* Alert / Notification */}
       {message && (
         <div
-          className={`p-4 rounded-xl border flex items-center gap-3 ${
+          className={`p-4 rounded-xl border flex items-center gap-3 animate-in fade-in duration-300 ${
             message.type === 'success'
               ? 'bg-emerald-950/70 border-emerald-500/50 text-emerald-200'
               : 'bg-rose-950/70 border-rose-500/50 text-rose-200'
@@ -315,512 +409,865 @@ export default function AdminSchedulePage() {
         </div>
       )}
 
-      {/* Tabs */}
+      {/* ── 2. Tinh Gọn 2 Tabs Cấp Cao Nhất ── */}
       <div className="flex border-b border-[#F2C14E]/20 gap-2 overflow-x-auto pb-1">
         <button
           type="button"
-          onClick={() => setActiveTab('programs')}
-          className={`px-5 py-3 font-medium text-sm rounded-t-xl flex items-center gap-2 transition whitespace-nowrap ${
-            activeTab === 'programs'
-              ? 'bg-[#2A180D] text-[#F2C14E] border-t border-x border-[#F2C14E]/40'
+          onClick={() => setActiveTab('calendar')}
+          className={`px-6 py-3 font-bold text-sm rounded-t-xl flex items-center gap-2 transition cursor-pointer ${
+            activeTab === 'calendar'
+              ? 'bg-[#2A180D] text-[#F2C14E] border-t border-x border-[#F2C14E]/40 shadow-inner'
               : 'text-[#e3d2c1]/70 hover:text-[#e3d2c1] hover:bg-[#2A180D]/40'
           }`}
         >
-          <Layers className="w-4 h-4" />
-          <span>Chương Trình Tu Học Nổi Bật ({programs.length})</span>
+          <Calendar className="w-4 h-4 text-[#F2C14E]" />
+          <span>Lịch Tu Học & Sự Kiện Theo Tháng ({customEvents.length})</span>
         </button>
 
         <button
           type="button"
-          onClick={() => setActiveTab('themes')}
-          className={`px-5 py-3 font-medium text-sm rounded-t-xl flex items-center gap-2 transition whitespace-nowrap ${
-            activeTab === 'themes'
-              ? 'bg-[#2A180D] text-[#F2C14E] border-t border-x border-[#F2C14E]/40'
+          onClick={() => setActiveTab('traditional')}
+          className={`px-6 py-3 font-bold text-sm rounded-t-xl flex items-center gap-2 transition cursor-pointer ${
+            activeTab === 'traditional'
+              ? 'bg-[#2A180D] text-[#F2C14E] border-t border-x border-[#F2C14E]/40 shadow-inner'
               : 'text-[#e3d2c1]/70 hover:text-[#e3d2c1] hover:bg-[#2A180D]/40'
           }`}
         >
-          <Palette className="w-4 h-4" />
-          <span>Chủ Đề & Banner 12 Tháng</span>
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setActiveTab('custom')}
-          className={`px-5 py-3 font-medium text-sm rounded-t-xl flex items-center gap-2 transition whitespace-nowrap ${
-            activeTab === 'custom'
-              ? 'bg-[#2A180D] text-[#F2C14E] border-t border-x border-[#F2C14E]/40'
-              : 'text-[#e3d2c1]/70 hover:text-[#e3d2c1] hover:bg-[#2A180D]/40'
-          }`}
-        >
-          <Sparkles className="w-4 h-4" />
-          <span>Sự Kiện Đặc Biệt Bổ Sung ({customEvents.length})</span>
+          <Layers className="w-4 h-4 text-[#F2C14E]" />
+          <span>Khóa Lễ Truyền Thống ({programs.length})</span>
         </button>
       </div>
 
-      {loading ? (
-        <div className="py-20 text-center text-[#e3d2c1]/60 flex flex-col items-center justify-center gap-3">
-          <RefreshCw className="w-8 h-8 animate-spin text-[#F2C14E]" />
-          <p>Đang tải dữ liệu lịch tu học...</p>
-        </div>
-      ) : (
-        <>
-          {/* TAB 1: FEATURED PROGRAMS */}
-          {activeTab === 'programs' && (
-            <div className="space-y-6">
-              <div className="flex items-center justify-between">
-                <p className="text-sm text-[#e3d2c1]/70">
-                  Các thẻ chương trình định kỳ hiển thị nổi bật dạng Carousel và danh sách trên trang chủ.
-                </p>
-                <button
-                  type="button"
-                  onClick={addProgram}
-                  className="px-4 py-2 bg-[#2A180D] hover:bg-[#3A2213] text-[#F2C14E] border border-[#F2C14E]/40 rounded-xl text-xs md:text-sm flex items-center gap-2 transition cursor-pointer"
+      {/* ── TAB 1: KHÓA LỄ TRUYỀN THỐNG (Cố định hằng tháng) ── */}
+      {activeTab === 'traditional' && (
+        <div className="space-y-6 animate-in fade-in duration-300">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#2A180D]/50 p-4 rounded-xl border border-[#F2C14E]/20">
+            <div>
+              <h2 className="text-lg font-bold text-[#F2C14E]">
+                Khóa Lễ Truyền Thống Định Kỳ Cố Định
+              </h2>
+              <p className="text-xs text-[#e3d2c1]/70 mt-0.5">
+                Các khóa lễ sám hối, cầu an hàng tháng diễn ra cố định vào các ngày âm lịch (không đổi theo từng năm)
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={addProgram}
+              className="px-4 py-2 bg-[#F2C14E]/20 hover:bg-[#F2C14E]/30 text-[#F2C14E] border border-[#F2C14E]/50 rounded-xl text-xs font-bold flex items-center gap-1.5 transition cursor-pointer shrink-0"
+            >
+              <Plus className="w-4 h-4" />
+              <span>Thêm Khóa Lễ Mới</span>
+            </button>
+          </div>
+
+          <div className="space-y-4">
+            {paginatedPrograms.map((prog, paginatedIdx) => {
+              const actualIdx = startIndex + paginatedIdx;
+              const isDragSource = draggedId === prog.id;
+              const isDropTarget = dragOverId === prog.id;
+
+              return (
+                <div
+                  key={prog.id}
+                  draggable
+                  onDragStart={(e) => handleDragStart(e, prog.id)}
+                  onDragOver={(e) => handleDragOver(e, prog.id)}
+                  onDragLeave={handleDragLeave}
+                  onDrop={(e) => handleDrop(e, prog.id)}
+                  onDragEnd={handleDragEnd}
+                  className={`p-5 rounded-2xl border transition-all ${
+                    isDropTarget
+                      ? dropPosition === 'above'
+                        ? 'border-t-4 border-t-[#F2C14E] bg-[#3A2213]'
+                        : 'border-b-4 border-b-[#F2C14E] bg-[#3A2213]'
+                      : isDragSource
+                      ? 'opacity-40 border-dashed border-[#F2C14E]'
+                      : 'bg-gradient-to-r from-[#201007] to-[#170C05] border-[#F2C14E]/25 hover:border-[#F2C14E]/50 shadow-md'
+                  }`}
                 >
-                  <Plus className="w-4 h-4" />
-                  <span>Thêm Chương Trình Mới</span>
-                </button>
-              </div>
+                  <div className="flex flex-col lg:flex-row gap-5 items-start lg:items-center">
+                    {/* Drag Handle */}
+                    <div className="cursor-grab active:cursor-grabbing text-[#F2C14E]/50 hover:text-[#F2C14E] p-1 shrink-0">
+                      <GripHandleIcon />
+                    </div>
 
-              <div className="space-y-4">
-                {paginatedPrograms.map((item, idx) => {
-                  const itemId = item.id || `prog-${idx}`;
-                  const isDragged = String(itemId) === draggedId;
-                  const isDragOver = String(itemId) === dragOverId;
-
-                  return (
+                    {/* Image with Direct S3 Picker Click */}
                     <div
-                      key={itemId}
-                      draggable={true}
-                      onDragStart={(e) => handleDragStart(e, itemId)}
-                      onDragOver={(e) => handleDragOver(e, itemId)}
-                      onDrop={(e) => handleDrop(e, itemId)}
-                      onDragEnd={handleDragEnd}
-                      className={`p-5 bg-[#1E1109] rounded-2xl border shadow-xl flex flex-col lg:flex-row gap-6 items-start transition-all duration-200 cursor-grab active:cursor-grabbing ${
-                        isDragged ? 'opacity-30 scale-[0.98] border-amber-400' : 'border-[#F2C14E]/25 hover:border-[#F2C14E]/40'
-                      } ${
-                        isDragOver ? 'ring-2 ring-[#ffde59] scale-[1.01]' : ''
-                      }`}
+                      onClick={() =>
+                        handleOpenImagePicker((url) => updateProgram(actualIdx, 'imgUrl', url), '01-trang-chu')
+                      }
+                      className="relative w-full sm:w-48 h-32 rounded-xl overflow-hidden border border-[#F2C14E]/40 shrink-0 cursor-pointer group bg-black"
                     >
-                      {/* Thumbnail Preview */}
-                      <div className="w-full lg:w-48 h-32 relative rounded-xl overflow-hidden shrink-0 border border-[#F2C14E]/20 bg-black/40">
-                        {item.imgUrl ? (
-                          <Image
-                            src={item.imgUrl}
-                            alt={item.title}
-                            fill
-                            className="object-cover"
-                            unoptimized
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center text-[#e3d2c1]/40">
-                            <ImageIcon className="w-8 h-8" />
-                          </div>
-                        )}
-                        <div className="absolute top-2 left-2 px-2 py-0.5 bg-black/70 rounded text-[10px] font-bold text-[#F2C14E] flex items-center gap-1 select-none">
-                          <GripHandleIcon className="w-3 h-3 text-[#ffde59]" />
-                          <span>#{idx + 1}</span>
-                        </div>
+                      <Image
+                        src={prog.imgUrl || '/images/default.jpg'}
+                        alt={prog.title}
+                        fill
+                        className="object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center text-[#F2C14E] gap-1 p-2 text-center">
+                        <ImageIcon className="w-5 h-5" />
+                        <span className="text-[11px] font-bold">Bấm để đổi ảnh S3</span>
                       </div>
+                    </div>
 
                     {/* Form Fields */}
                     <div className="flex-1 w-full grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-xs font-semibold text-[#F2C14E] mb-1">
-                          TIÊU ĐỀ CHƯƠNG TRÌNH
+                        <label className="text-xs text-[#F2C14E] font-semibold block mb-1">
+                          Tên Khóa Lễ Truyền Thống
                         </label>
                         <input
                           type="text"
-                          value={item.title}
-                          onChange={(e) => updateProgram(idx, 'title', e.target.value)}
-                          className="w-full bg-[#140A04] border border-[#F2C14E]/30 rounded-lg px-3 py-2 text-sm text-[#e3d2c1] focus:outline-none focus:border-[#F2C14E]"
+                          value={prog.title}
+                          onChange={(e) => updateProgram(actualIdx, 'title', e.target.value)}
+                          className="w-full px-3 py-2 bg-[#120803] border border-[#F2C14E]/30 rounded-lg text-white font-bold text-sm focus:border-[#F2C14E] outline-none"
                         />
                       </div>
 
                       <div>
-                        <label className="block text-xs font-semibold text-[#F2C14E] mb-1">
-                          LỊCH THỜI KHÓA (SCHEDULE TAG)
+                        <label className="text-xs text-[#F2C14E] font-semibold block mb-1">
+                          Thời Khóa Định Kỳ (Âm Lịch)
                         </label>
                         <input
                           type="text"
-                          value={item.schedule}
-                          onChange={(e) => updateProgram(idx, 'schedule', e.target.value)}
-                          placeholder="Ví dụ: 14 VÀ 29/30 ÂM LỊCH HẰNG THÁNG"
-                          className="w-full bg-[#140A04] border border-[#F2C14E]/30 rounded-lg px-3 py-2 text-sm text-[#e3d2c1] focus:outline-none focus:border-[#F2C14E]"
+                          value={prog.schedule}
+                          onChange={(e) => updateProgram(actualIdx, 'schedule', e.target.value)}
+                          className="w-full px-3 py-2 bg-[#120803] border border-[#F2C14E]/30 rounded-lg text-amber-200 text-sm focus:border-[#F2C14E] outline-none"
                         />
                       </div>
 
                       <div className="md:col-span-2">
-                        <label className="block text-xs font-semibold text-[#F2C14E] mb-1">
-                          TÓM TẮT THỜI KHÓA & Ý NGHĨA
+                        <label className="text-xs text-[#F2C14E] font-semibold block mb-1">
+                          Tóm Tắt Ý Nghĩa & Hướng Dẫn
                         </label>
                         <textarea
                           rows={2}
-                          value={item.summary}
-                          onChange={(e) => updateProgram(idx, 'summary', e.target.value)}
-                          className="w-full bg-[#140A04] border border-[#F2C14E]/30 rounded-lg px-3 py-2 text-sm text-[#e3d2c1] focus:outline-none focus:border-[#F2C14E]"
-                        />
-                      </div>
-
-                      <div className="md:col-span-2">
-                        <label className="block text-xs font-semibold text-[#F2C14E] mb-1">
-                          ĐƯỜNG DẪN ẢNH BANNER / THUMBNAIL S3
-                        </label>
-                        <input
-                          type="text"
-                          value={item.imgUrl}
-                          onChange={(e) => updateProgram(idx, 'imgUrl', e.target.value)}
-                          placeholder="https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/..."
-                          className="w-full bg-[#140A04] border border-[#F2C14E]/30 rounded-lg px-3 py-2 text-sm text-[#e3d2c1] font-mono text-xs focus:outline-none focus:border-[#F2C14E]"
+                          value={prog.summary}
+                          onChange={(e) => updateProgram(actualIdx, 'summary', e.target.value)}
+                          className="w-full px-3 py-2 bg-[#120803] border border-[#F2C14E]/30 rounded-lg text-white/90 text-xs focus:border-[#F2C14E] outline-none leading-relaxed"
                         />
                       </div>
                     </div>
 
-                    {/* Actions & Reordering */}
-                    <div className="flex lg:flex-col items-center gap-2 shrink-0 self-center lg:self-start pt-2">
+                    {/* Actions */}
+                    <div className="flex lg:flex-col gap-2 shrink-0 self-end lg:self-center">
                       <button
                         type="button"
-                        onClick={() => moveProgram(idx, 'up')}
-                        disabled={idx === 0}
-                        title="Di chuyển lên"
-                        className="p-2 bg-[#2A180D] hover:bg-[#3A2213] text-[#e3d2c1] rounded-lg border border-[#F2C14E]/20 disabled:opacity-30 cursor-pointer"
-                      >
-                        <MoveUp className="w-4 h-4" />
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => moveProgram(idx, 'down')}
-                        disabled={idx === programs.length - 1}
-                        title="Di chuyển xuống"
-                        className="p-2 bg-[#2A180D] hover:bg-[#3A2213] text-[#e3d2c1] rounded-lg border border-[#F2C14E]/20 disabled:opacity-30 cursor-pointer"
-                      >
-                        <MoveDown className="w-4 h-4" />
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => deleteProgram(idx)}
-                        title="Xóa chương trình"
-                        className="p-2 bg-rose-950/50 hover:bg-rose-900/60 text-rose-400 rounded-lg border border-rose-700/30 cursor-pointer"
+                        onClick={() => deleteProgram(actualIdx)}
+                        className="p-2 text-red-400 hover:text-red-300 hover:bg-red-950/50 rounded-lg border border-red-500/30 transition cursor-pointer"
+                        title="Xóa khóa lễ"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
                   </div>
-                  );
-                })}
-              </div>
-
-              {/* ── BẢNG ĐIỀU KHIỂN PHÂN TRANG (ADMIN PAGINATION BAR) ── */}
-              <div className="mt-4">
-                <AdminPagination
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  totalItems={totalItems}
-                  startIndex={startIndex}
-                  endIndex={endIndex}
-                  pageSize={pageSize}
-                  onPageChange={setCurrentPage}
-                  onPageSizeChange={setPageSize}
-                  pageSizeOptions={[5, 10, 20, 50, -1]}
-                  itemName="chương trình"
-                />
-              </div>
-            </div>
-          )}
-
-          {/* TAB 2: MONTH THEMES */}
-          {activeTab === 'themes' && (
-            <div className="space-y-6">
-              {/* Month Selector Grid */}
-              <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-12 gap-2">
-                {Array.from({ length: 12 }, (_, i) => {
-                  const mInfo = monthThemes[String(i)];
-                  const isSelected = selectedMonthIdx === i;
-                  return (
-                    <button
-                      key={i}
-                      type="button"
-                      onClick={() => setSelectedMonthIdx(i)}
-                      className={`p-2.5 rounded-xl border text-center transition flex flex-col items-center justify-center cursor-pointer ${
-                        isSelected
-                          ? 'bg-[#F2C14E] text-black font-bold border-[#F2C14E] shadow-lg'
-                          : 'bg-[#1E1109] text-[#e3d2c1]/80 hover:bg-[#2A180D] border-[#F2C14E]/25'
-                      }`}
-                    >
-                      <span className="text-xs uppercase opacity-80">Tháng</span>
-                      <span className="text-base font-bold">{i + 1}</span>
-                      <span className="text-[10px] truncate max-w-[70px] opacity-70">
-                        {mInfo?.title ? mInfo.title.split(' ')[0] : `T${i + 1}`}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Selected Month Detail Editor */}
-              <div className="p-6 bg-[#1E1109] rounded-2xl border border-[#F2C14E]/30 shadow-2xl space-y-6">
-                <div className="flex flex-col md:flex-row md:items-center justify-between pb-4 border-b border-[#F2C14E]/20 gap-3">
-                  <div>
-                    <h3 className="text-lg font-bold text-[#F2C14E] flex items-center gap-2">
-                      <Calendar className="w-5 h-5" />
-                      <span>Cấu Hình Banner & Thiền Ngữ: Tháng {selectedMonthIdx + 1} Dương Lịch</span>
-                    </h3>
-                    <p className="text-xs text-[#e3d2c1]/70 mt-1">
-                      Hiển thị trực tiếp trên hero banner phần Lịch Tu Học ngoài trang chủ khi người dùng chọn xem tháng này.
-                    </p>
-                  </div>
-
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs text-[#e3d2c1]/60">Màu chủ đạo:</span>
-                    <input
-                      type="color"
-                      value={currentMonthData.primaryColor || '#8B3A1C'}
-                      onChange={(e) => updateCurrentMonthField('primaryColor', e.target.value)}
-                      className="w-8 h-8 rounded border border-[#F2C14E]/30 cursor-pointer bg-transparent"
-                    />
-                    <input
-                      type="color"
-                      value={currentMonthData.secondaryColor || '#F2C14E'}
-                      onChange={(e) => updateCurrentMonthField('secondaryColor', e.target.value)}
-                      className="w-8 h-8 rounded border border-[#F2C14E]/30 cursor-pointer bg-transparent"
-                    />
-                  </div>
                 </div>
+              );
+            })}
+          </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                  {/* Left Column: Banner Preview & Image URL */}
-                  <div className="lg:col-span-5 space-y-4">
-                    <div className="relative w-full aspect-video rounded-xl overflow-hidden border border-[#F2C14E]/30 bg-black/60 shadow-lg">
-                      {currentMonthData.bannerImg ? (
-                        <Image
-                          src={currentMonthData.bannerImg}
-                          alt={currentMonthData.title}
-                          fill
-                          className="object-cover"
-                          unoptimized
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-[#e3d2c1]/40">
-                          <ImageIcon className="w-12 h-12" />
-                        </div>
-                      )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex items-end p-4">
-                        <div>
-                          <p className="text-xs text-[#F2C14E] uppercase tracking-widest font-semibold">
-                            Tháng {selectedMonthIdx + 1}
-                          </p>
-                          <h4 className="text-base font-bold text-white uppercase drop-shadow">
-                            {currentMonthData.title || 'CHƯA CÓ TIÊU ĐỀ'}
-                          </h4>
-                        </div>
-                      </div>
+          <AdminPagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            totalItems={totalItems}
+            startIndex={totalItems === 0 ? 0 : (currentPage - 1) * pageSize + 1}
+            endIndex={Math.min(currentPage * pageSize, totalItems)}
+            pageSize={pageSize}
+            onPageChange={setCurrentPage}
+            onPageSizeChange={setPageSize}
+          />
+        </div>
+      )}
+
+      {/* ── TAB 2: LỊCH TU HỌC & SỰ KIỆN THEO THÁNG (TO ĐẦY TRANG) ── */}
+      {activeTab === 'calendar' && (
+        <div className="space-y-4 animate-in fade-in duration-300">
+          <div className="flex flex-col lg:flex-row items-stretch gap-5">
+            {/* ── CỘT TRÁI: CHỦ ĐỀ THÁNG (Có thể thu gọn / mở rộng) ── */}
+            <div
+              className={`transition-all duration-300 shrink-0 ${
+                isThemeCollapsed
+                  ? 'w-full lg:w-14'
+                  : 'w-full lg:w-[350px] xl:w-[380px]'
+              }`}
+            >
+              {isThemeCollapsed ? (
+                /* Collapsed Slim Bar */
+                <div className="h-full min-h-[300px] bg-gradient-to-b from-[#2A170F] to-[#150A04] border border-[#F2C14E]/40 rounded-2xl p-2 flex flex-col items-center justify-between shadow-xl">
+                  <button
+                    type="button"
+                    onClick={() => setIsThemeCollapsed(false)}
+                    className="p-2.5 rounded-xl bg-[#F2C14E]/20 hover:bg-[#F2C14E]/30 text-[#F2C14E] border border-[#F2C14E]/50 transition cursor-pointer"
+                    title="Mở rộng chỉnh sửa Chủ Đề Tháng"
+                  >
+                    <PanelLeftOpen className="w-5 h-5" />
+                  </button>
+
+                  <div className="py-6 writing-vertical flex items-center justify-center text-center">
+                    <span
+                      style={{ fontFamily: "'UTM Niagara', serif" }}
+                      className="text-lg text-[#F2C14E] uppercase tracking-widest whitespace-nowrap"
+                    >
+                      CHỦ ĐỀ THÁNG {selectedMonthIdx + 1}
+                    </span>
+                  </div>
+
+                  <span className="text-xs font-bold text-amber-300/80">T{selectedMonthIdx + 1}</span>
+                </div>
+              ) : (
+                /* Expanded Card Chủ Đề Tháng (17x19cm) */
+                <div className="rounded-2xl bg-gradient-to-b from-[#2A170F] via-[#201007] to-[#150A04] border border-[#F2C14E]/40 shadow-2xl p-4 md:p-5 space-y-4 h-full flex flex-col justify-between">
+                  {/* Header Cột Trái với nút Thu gọn */}
+                  <div className="flex items-center justify-between pb-2 border-b border-[#F2C14E]/20">
+                    <div className="flex items-center gap-2">
+                      <Palette className="w-4 h-4 text-[#F2C14E]" />
+                      <h3 className="text-xs md:text-sm font-bold text-[#F2C14E] uppercase tracking-wider">
+                        Chủ Đề Tháng {selectedMonthIdx + 1}
+                      </h3>
                     </div>
 
-                    <div>
-                      <label className="block text-xs font-semibold text-[#F2C14E] mb-1">
-                        URL ẢNH BANNER S3
-                      </label>
-                      <input
-                        type="text"
-                        value={currentMonthData.bannerImg}
-                        onChange={(e) => updateCurrentMonthField('bannerImg', e.target.value)}
-                        placeholder="https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/..."
-                        className="w-full bg-[#140A04] border border-[#F2C14E]/30 rounded-lg px-3 py-2 text-xs font-mono text-[#e3d2c1] focus:outline-none focus:border-[#F2C14E]"
+                    <button
+                      type="button"
+                      onClick={() => setIsThemeCollapsed(true)}
+                      className="px-2.5 py-1 text-[11px] font-bold rounded-lg bg-[#3A2213] text-[#FFE5A3] hover:text-[#F2C14E] border border-[#F2C14E]/40 flex items-center gap-1 transition cursor-pointer"
+                      title="Thu gọn để mở rộng tối đa bảng lịch"
+                    >
+                      <PanelLeftClose className="w-3.5 h-3.5" />
+                      <span className="hidden sm:inline">Thu gọn</span>
+                    </button>
+                  </div>
+
+                  {/* Poster Image with S3 Picker Click */}
+                  <div>
+                    <label className="text-[11px] text-[#FFE5A3]/90 font-semibold block mb-1">
+                      Ảnh Poster Chủ Đề (Bấm ảnh để đổi qua S3):
+                    </label>
+                    <div
+                      onClick={() =>
+                        handleOpenImagePicker(
+                          (url) => updateCurrentMonthField('bannerImg', url),
+                          'calendar_webp'
+                        )
+                      }
+                      className="relative w-full aspect-[1200/1015] rounded-xl overflow-hidden border border-[#F2C14E]/40 cursor-pointer group bg-black"
+                    >
+                      <Image
+                        src={currentMonthData.bannerImg || '/images/default.jpg'}
+                        alt={currentMonthData.title}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
                       />
-                    </div>
-
-                    {/* Suggestion list */}
-                    <div className="pt-1">
-                      <span className="text-[11px] text-[#e3d2c1]/60 block mb-1.5">
-                        Gợi ý ảnh chuẩn từ kho S3 Tùng Lâm Hòa Phúc:
-                      </span>
-                      <div className="space-y-1 max-h-36 overflow-y-auto pr-1">
-                        {DEFAULT_BANNER_SUGGESTIONS.map((sug, i) => (
-                          <button
-                            key={i}
-                            type="button"
-                            onClick={() => updateCurrentMonthField('bannerImg', sug.url)}
-                            className="w-full text-left text-[11px] px-2.5 py-1.5 rounded bg-[#140A04] hover:bg-[#2A180D] text-[#e3d2c1]/80 hover:text-[#F2C14E] border border-[#F2C14E]/10 truncate cursor-pointer transition"
-                          >
-                            {sug.label}
-                          </button>
-                        ))}
+                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center text-[#F2C14E] gap-1 p-2 text-center">
+                        <ImageIcon className="w-6 h-6" />
+                        <span className="text-xs font-bold">Bấm để đổi poster S3</span>
                       </div>
                     </div>
                   </div>
 
-                  {/* Right Column: Title, Quotes, Author */}
-                  <div className="lg:col-span-7 space-y-4">
+                  {/* Title & Author */}
+                  <div className="space-y-3">
                     <div>
-                      <label className="block text-xs font-semibold text-[#F2C14E] mb-1">
-                        TIÊU ĐỀ CHỦ ĐỀ THÁNG
+                      <label className="text-[11px] text-[#FFE5A3]/90 font-semibold block mb-1">
+                        Tiêu Đề Chủ Đề Tháng
                       </label>
                       <input
                         type="text"
                         value={currentMonthData.title}
                         onChange={(e) => updateCurrentMonthField('title', e.target.value)}
-                        placeholder="Ví dụ: ĐỨC BẢN SƯ THÀNH ĐẠO"
-                        className="w-full bg-[#140A04] border border-[#F2C14E]/30 rounded-lg px-3 py-2 text-sm text-[#e3d2c1] font-bold focus:outline-none focus:border-[#F2C14E]"
+                        className="w-full px-3 py-1.5 bg-[#120803] border border-[#F2C14E]/30 rounded-lg text-[#FFDE59] font-bold text-sm outline-none focus:border-[#F2C14E]"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-semibold text-[#F2C14E] mb-1">
-                        LỜI DẠY / BÀI KỆ THIỀN NGỮ (MỖI DÒNG LÀ MỘT CÂU)
+                      <label className="text-[11px] text-[#FFE5A3]/90 font-semibold block mb-1">
+                        Câu Trích Dẫn (Thơ / Văn Xuôi)
                       </label>
                       <textarea
-                        rows={7}
-                        value={(currentMonthData.quoteLines || []).join('\n')}
+                        rows={4}
+                        value={currentMonthData.quoteLines.join('\n')}
                         onChange={(e) => updateCurrentMonthField('quoteLines', e.target.value.split('\n'))}
-                        placeholder="Nhập từng dòng thơ hoặc lời dạy thiền ngữ..."
-                        className="w-full bg-[#140A04] border border-[#F2C14E]/30 rounded-lg px-3 py-2 text-sm text-[#e3d2c1] leading-relaxed focus:outline-none focus:border-[#F2C14E]"
+                        className="w-full px-3 py-1.5 bg-[#120803] border border-[#F2C14E]/30 rounded-lg text-white/90 text-xs outline-none focus:border-[#F2C14E] leading-relaxed"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-semibold text-[#F2C14E] mb-1">
-                        TÁC GIẢ / BẬC KHAI SƠN
+                      <label className="text-[11px] text-[#FFE5A3]/90 font-semibold block mb-1">
+                        Tác Giả Câu Quote
                       </label>
                       <input
                         type="text"
-                        value={currentMonthData.author || 'Vô Trí - Tâm Hòa'}
+                        value={currentMonthData.author}
                         onChange={(e) => updateCurrentMonthField('author', e.target.value)}
-                        className="w-full bg-[#140A04] border border-[#F2C14E]/30 rounded-lg px-3 py-2 text-sm text-[#e3d2c1] focus:outline-none focus:border-[#F2C14E]"
+                        className="w-full px-3 py-1.5 bg-[#120803] border border-[#F2C14E]/30 rounded-lg text-amber-200 text-xs outline-none focus:border-[#F2C14E]"
                       />
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
-          )}
 
-          {/* TAB 3: CUSTOM SPECIAL EVENTS */}
-          {activeTab === 'custom' && (
-            <div className="space-y-6">
-              <div className="flex items-center justify-between">
-                <p className="text-sm text-[#e3d2c1]/70">
-                  Thêm các khóa tu đột xuất hoặc sự kiện đặc biệt theo ngày cụ thể (Dương lịch DD.MM.YYYY).
-                </p>
-                <button
-                  type="button"
-                  onClick={addCustomEvent}
-                  className="px-4 py-2 bg-[#2A180D] hover:bg-[#3A2213] text-[#F2C14E] border border-[#F2C14E]/40 rounded-xl text-xs md:text-sm flex items-center gap-2 transition cursor-pointer"
-                >
-                  <Plus className="w-4 h-4" />
-                  <span>Thêm Sự Kiện Đặc Biệt</span>
-                </button>
-              </div>
-
-              {customEvents.length === 0 ? (
-                <div className="py-16 text-center text-[#e3d2c1]/60 bg-[#1E1109] rounded-2xl border border-[#F2C14E]/20">
-                  <Calendar className="w-10 h-10 mx-auto text-[#F2C14E]/50 mb-3" />
-                  <p className="text-sm">Chưa có sự kiện đột xuất nào được tạo.</p>
-                  <p className="text-xs opacity-70 mt-1">
-                    Các sự kiện định kỳ (Sám hối, Cầu an, Niệm Phật...) đã được hệ thống tính toán tự động theo quy chuẩn Tùng Lâm.
-                  </p>
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  {customEvents.map((evt, idx) => (
-                    <div
-                      key={evt.id || idx}
-                      className="p-5 bg-[#1E1109] rounded-2xl border border-[#F2C14E]/25 shadow-xl flex flex-col md:flex-row gap-4 items-start"
-                    >
-                      <div className="flex-1 w-full grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div>
-                          <label className="block text-xs font-semibold text-[#F2C14E] mb-1">
-                            NGÀY DƯƠNG LỊCH (DD.MM.YYYY)
-                          </label>
-                          <input
-                            type="text"
-                            value={evt.solarDateStr}
-                            onChange={(e) => updateCustomEvent(idx, 'solarDateStr', e.target.value)}
-                            placeholder="Ví dụ: 15.08.2026"
-                            className="w-full bg-[#140A04] border border-[#F2C14E]/30 rounded-lg px-3 py-2 text-sm text-[#e3d2c1] font-mono focus:outline-none focus:border-[#F2C14E]"
-                          />
-                        </div>
-
-                        <div>
-                          <label className="block text-xs font-semibold text-[#F2C14E] mb-1">
-                            TIÊU ĐỀ SỰ KIỆN
-                          </label>
-                          <input
-                            type="text"
-                            value={evt.title}
-                            onChange={(e) => updateCustomEvent(idx, 'title', e.target.value)}
-                            className="w-full bg-[#140A04] border border-[#F2C14E]/30 rounded-lg px-3 py-2 text-sm text-[#e3d2c1] font-bold focus:outline-none focus:border-[#F2C14E]"
-                          />
-                        </div>
-
-                        <div>
-                          <label className="block text-xs font-semibold text-[#F2C14E] mb-1">
-                            DANH MỤC
-                          </label>
-                          <select
-                            value={evt.category}
-                            onChange={(e) => updateCustomEvent(idx, 'category', e.target.value)}
-                            className="w-full bg-[#140A04] border border-[#F2C14E]/30 rounded-lg px-3 py-2 text-sm text-[#e3d2c1] focus:outline-none focus:border-[#F2C14E]"
-                          >
-                            <option value="Khóa Lễ Truyền Thống">Khóa Lễ Truyền Thống</option>
-                            <option value="Đại Lễ Sự Kiện">Đại Lễ Sự Kiện</option>
-                            <option value="Cộng Tu">Cộng Tu</option>
-                            <option value="Tịnh Độ Nhân Gian">Tịnh Độ Nhân Gian</option>
-                          </select>
-                        </div>
-
-                        <div>
-                          <label className="block text-xs font-semibold text-[#F2C14E] mb-1">
-                            THỜI GIAN
-                          </label>
-                          <input
-                            type="text"
-                            value={evt.timeSlot1Time || ''}
-                            onChange={(e) => updateCustomEvent(idx, 'timeSlot1Time', e.target.value)}
-                            placeholder="Ví dụ: 08h00 - 11h30"
-                            className="w-full bg-[#140A04] border border-[#F2C14E]/30 rounded-lg px-3 py-2 text-sm text-[#e3d2c1] focus:outline-none focus:border-[#F2C14E]"
-                          />
-                        </div>
-
-                        <div className="md:col-span-2">
-                          <label className="block text-xs font-semibold text-[#F2C14E] mb-1">
-                            ĐỊA ĐIỂM
-                          </label>
-                          <input
-                            type="text"
-                            value={evt.location}
-                            onChange={(e) => updateCustomEvent(idx, 'location', e.target.value)}
-                            placeholder="Ví dụ: Đại Hùng Bảo Điện & Tổ Đường"
-                            className="w-full bg-[#140A04] border border-[#F2C14E]/30 rounded-lg px-3 py-2 text-sm text-[#e3d2c1] focus:outline-none focus:border-[#F2C14E]"
-                          />
-                        </div>
-
-                        <div className="md:col-span-3">
-                          <label className="block text-xs font-semibold text-[#F2C14E] mb-1">
-                            NỘI DUNG TÓM TẮT
-                          </label>
-                          <textarea
-                            rows={2}
-                            value={evt.description}
-                            onChange={(e) => updateCustomEvent(idx, 'description', e.target.value)}
-                            className="w-full bg-[#140A04] border border-[#F2C14E]/30 rounded-lg px-3 py-2 text-sm text-[#e3d2c1] focus:outline-none focus:border-[#F2C14E]"
-                          />
-                        </div>
-                      </div>
-
-                      <button
-                        type="button"
-                        onClick={() => deleteCustomEvent(idx)}
-                        className="p-2 bg-rose-950/50 hover:bg-rose-900/60 text-rose-400 rounded-lg border border-rose-700/30 shrink-0 cursor-pointer self-center md:self-start"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
+                  {/* 12 Months Fast Selector */}
+                  <div className="pt-2 border-t border-[#F2C14E]/20">
+                    <span className="text-[10px] text-[#FFE5A3]/70 uppercase font-bold tracking-wider block mb-1.5">
+                      Chọn nhanh tháng:
+                    </span>
+                    <div className="grid grid-cols-6 gap-1 text-center">
+                      {Array.from({ length: 12 }).map((_, mIdx) => (
+                        <button
+                          key={mIdx}
+                          type="button"
+                          onClick={() => setSelectedMonthIdx(mIdx)}
+                          className={`py-1 rounded-md text-xs font-bold transition cursor-pointer ${
+                            selectedMonthIdx === mIdx
+                              ? 'bg-[#F2C14E] text-black shadow-md'
+                              : 'bg-black/40 text-[#FFE5A3]/70 hover:text-white hover:bg-black/80'
+                          }`}
+                        >
+                          T{mIdx + 1}
+                        </button>
+                      ))}
                     </div>
-                  ))}
+                  </div>
                 </div>
               )}
             </div>
-          )}
-        </>
+
+            {/* ── CỘT PHẢI: BẢNG LỊCH TO TOÀN MÀN HÌNH (42 Ô) ── */}
+            <div className="flex-1 rounded-2xl bg-gradient-to-b from-[#2A170F]/95 via-[#1D0F08]/95 to-[#140A04]/98 border border-[#F2C14E]/40 p-4 md:p-6 shadow-2xl flex flex-col justify-between space-y-4">
+              {/* Calendar Top Navigation */}
+              <div className="flex flex-wrap items-center justify-between gap-3 p-2.5 rounded-xl bg-black/60 border border-[#F2C14E]/30">
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={handlePrevMonth}
+                    className="w-8 h-8 rounded-full bg-[#3D2210] border border-[#F2C14E]/60 text-[#FFDE59] hover:bg-[#F2C14E] hover:text-black transition flex items-center justify-center cursor-pointer shadow-md"
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </button>
+
+                  <div className="px-4 py-1.5 rounded-full bg-gradient-to-r from-[#A3520A] via-[#C87515] to-[#A3520A] border border-[#F2C14E]">
+                    <span
+                      style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                      className="text-xs sm:text-sm font-black uppercase tracking-wider text-white"
+                    >
+                      THÁNG {String(selectedMonthIdx + 1).padStart(2, '0')} / {currentYear}
+                    </span>
+                  </div>
+
+                  <div className="px-3 py-1 rounded-full bg-black/60 border border-[#F2C14E]/40 hidden sm:flex items-center gap-1.5">
+                    <span className="text-xs font-bold text-[#FFDE59]">PL. {buddhistEra}</span>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={handleNextMonth}
+                    className="w-8 h-8 rounded-full bg-[#3D2210] border border-[#F2C14E]/60 text-[#FFDE59] hover:bg-[#F2C14E] hover:text-black transition flex items-center justify-center cursor-pointer shadow-md"
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                </div>
+
+                {/* Filter and Collapsed Trigger button */}
+                <div className="flex items-center gap-2">
+                  {isThemeCollapsed && (
+                    <button
+                      type="button"
+                      onClick={() => setIsThemeCollapsed(false)}
+                      className="px-3 py-1 rounded-lg bg-[#3A2213] text-[#F2C14E] border border-[#F2C14E]/50 text-xs font-bold flex items-center gap-1.5 hover:bg-[#F2C14E] hover:text-black transition cursor-pointer"
+                    >
+                      <PanelLeftOpen className="w-3.5 h-3.5" />
+                      <span>Mở Chủ Đề Tháng</span>
+                    </button>
+                  )}
+
+                  <div className="flex items-center gap-1 bg-[#120803] p-1 rounded-lg border border-[#F2C14E]/20 text-xs">
+                    {['Tất Cả', 'Cộng Tu', 'Đại Lễ Sự Kiện'].map((cat) => (
+                      <button
+                        key={cat}
+                        type="button"
+                        onClick={() => setFilterCategory(cat)}
+                        className={`px-2.5 py-0.5 rounded font-semibold transition cursor-pointer ${
+                          filterCategory === cat
+                            ? 'bg-[#F2C14E] text-black font-bold'
+                            : 'text-[#FFE5A3]/70 hover:text-white'
+                        }`}
+                      >
+                        {cat}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Day of week headers */}
+              <div className="grid grid-cols-7 gap-2 text-center font-bold text-xs uppercase py-2 rounded-xl bg-black/60 border border-[#F2C14E]/25">
+                <span className="text-[#FFE5A3]">T2</span>
+                <span className="text-[#FFE5A3]">T3</span>
+                <span className="text-[#FFE5A3]">T4</span>
+                <span className="text-[#FFE5A3]">T5</span>
+                <span className="text-[#FFE5A3]">T6</span>
+                <span className="text-[#FFE5A3]">T7</span>
+                <span className="text-black font-black bg-gradient-to-r from-[#F2C14E] to-[#FFDE59] rounded-md mx-1 py-0.5">
+                  CN
+                </span>
+              </div>
+
+              {/* Grid 42 Cells */}
+              <div className="grid grid-cols-7 gap-2 text-center flex-1">
+                {(() => {
+                  const cells: (number | null)[] = Array(42).fill(null);
+                  for (let d = 1; d <= daysInMonth; d++) {
+                    const idx = startDayOffset + (d - 1);
+                    if (idx < 42) cells[idx] = d;
+                  }
+
+                  return cells.map((dayNum, cellIdx) => {
+                    if (!dayNum) {
+                      return (
+                        <div
+                          key={`empty-${cellIdx}`}
+                          className="min-h-[100px] sm:min-h-[115px] md:min-h-[125px] rounded-xl border border-transparent opacity-0 pointer-events-none"
+                        />
+                      );
+                    }
+
+                    const dateStr = `${String(dayNum).padStart(2, '0')}.${String(selectedMonthIdx + 1).padStart(2, '0')}.${currentYear}`;
+                    const lunarCellStr = getLunarCellString(dayNum, selectedMonthIdx, currentYear);
+                    const lunarObj = convertSolarToLunar(dayNum, selectedMonthIdx, currentYear);
+                    const isFirstOrFullMoon = lunarObj.day === 1 || lunarObj.day === 15;
+                    const isSunday = cellIdx % 7 === 6;
+
+                    // Filter events for this day
+                    const dayEvents = customEvents.filter((e) => {
+                      if (e.solarDateStr !== dateStr) return false;
+                      if (filterCategory === 'Tất Cả') return true;
+                      return e.category === filterCategory;
+                    });
+
+                    return (
+                      <div
+                        key={`cell-${dayNum}`}
+                        className="group min-h-[100px] sm:min-h-[115px] md:min-h-[125px] p-2 rounded-xl border border-[#F2C14E]/25 bg-black/45 hover:bg-black/65 hover:border-[#F2C14E]/70 transition-all flex flex-col justify-between relative shadow-sm"
+                      >
+                        {/* Top row: Solar day + Plus button + Lunar day */}
+                        <div className="flex items-center justify-between">
+                          <span
+                            style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                            className={`text-base sm:text-lg font-black leading-none ${
+                              isSunday ? 'text-[#FFDE59]' : 'text-white'
+                            }`}
+                          >
+                            {dayNum}
+                          </span>
+
+                          <button
+                            type="button"
+                            onClick={() => handleOpenAddEventForDay(dayNum)}
+                            className="w-5 h-5 rounded-full bg-[#F2C14E]/20 hover:bg-[#F2C14E] text-[#F2C14E] hover:text-black flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer shadow"
+                            title={`Thêm thời khóa ngày ${dateStr}`}
+                          >
+                            <Plus className="w-3.5 h-3.5" />
+                          </button>
+
+                          <span
+                            style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                            className={`text-[10px] sm:text-[11px] font-bold rounded px-1 ${
+                              isFirstOrFullMoon
+                                ? 'bg-red-600 text-white font-black'
+                                : 'text-amber-200/80'
+                            }`}
+                          >
+                            {lunarCellStr}
+                          </span>
+                        </div>
+
+                        {/* Event Badges List in Cell: Logo Biểu Tượng + Tooltip */}
+                        <div className="my-1 flex items-center justify-center gap-1.5 flex-wrap flex-1 content-center">
+                          {dayEvents.map((evt) => {
+                            const iconUrl = getEventCategoryIcon(evt.category);
+                            const isDaiLe = evt.category === 'Đại Lễ Sự Kiện';
+                            return (
+                              <div
+                                key={evt.id}
+                                onClick={() => handleOpenEditEvent(evt)}
+                                className="relative group/admin-icon cursor-pointer transition-transform hover:scale-125 z-10 hover:z-50"
+                              >
+                                <div
+                                  className={`w-7 h-7 rounded-full p-0.5 shadow-md flex items-center justify-center transition-all ${
+                                    isDaiLe
+                                      ? 'bg-red-950/90 border border-red-500 hover:border-[#FFDE59] shadow-[0_0_8px_rgba(239,68,68,0.5)]'
+                                      : 'bg-black/70 border border-[#F2C14E]/70 hover:border-[#FFDE59]'
+                                  }`}
+                                >
+                                  <img
+                                    src={iconUrl}
+                                    alt={evt.title}
+                                    className="w-full h-full object-contain filter drop-shadow"
+                                  />
+                                </div>
+
+                                {/* Rich Tooltip khi rê chuột vào logo */}
+                                <div className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-56 p-2.5 rounded-xl bg-[#1C0F08]/98 border border-[#FFDE59] shadow-[0_10px_30px_rgba(0,0,0,0.95)] backdrop-blur-md opacity-0 group-hover/admin-icon:opacity-100 transition-all duration-200 z-50 text-left space-y-1 transform scale-95 group-hover/admin-icon:scale-100">
+                                  <div className="flex items-center gap-1.5 pb-1 border-b border-[#F2C14E]/25">
+                                    <img src={iconUrl} alt="" className="w-3.5 h-3.5 object-contain" />
+                                    <span className="text-[10px] font-bold uppercase text-[#FFDE59]">
+                                      {evt.category}
+                                    </span>
+                                  </div>
+                                  <div className="text-xs font-bold text-white leading-tight line-clamp-2">
+                                    {evt.title}
+                                  </div>
+                                  {evt.subtitle && (
+                                    <div className="text-[11px] text-amber-200/90 italic leading-tight line-clamp-2">
+                                      {evt.subtitle}
+                                    </div>
+                                  )}
+                                  <div className="text-[10px] text-amber-300/80 pt-1 border-t border-[#F2C14E]/20 flex items-center justify-between">
+                                    <span>{evt.timeSlot1Time || 'Thời khóa'}</span>
+                                    <span className="text-[#FFDE59] font-semibold text-[9px]">Bấm để sửa ✎</span>
+                                  </div>
+                                  <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-x-4 border-x-transparent border-t-4 border-t-[#FFDE59]" />
+                                </div>
+                              </div>
+                            );
+                          })}
+                        </div>
+
+                        {/* Subtle bottom hint */}
+                        <div className="text-[9px] text-[#FFE5A3]/50 text-center truncate">
+                          {dayEvents.length > 0 ? `${dayEvents.length} sự kiện` : ''}
+                        </div>
+                      </div>
+                    );
+                  });
+                })()}
+              </div>
+
+              {/* Thanh chú thích ý nghĩa logo ở góc dưới bên phải lịch admin */}
+              <div className="flex flex-wrap items-center justify-end gap-2.5 pt-2 text-[11px] border-t border-[#F2C14E]/20">
+                <span className="text-[#F2C14E] font-bold text-[11px] uppercase tracking-wider flex items-center gap-1">
+                  ❖ Chú thích biểu tượng:
+                </span>
+                <div className="flex items-center gap-1.5 bg-black/50 px-2.5 py-1 rounded-full border border-[#F2C14E]/30 shadow-xs">
+                  <img src="/images/icons/icon-cong-tu.png" alt="Cộng Tu" className="w-4 h-4 object-contain" />
+                  <span className="font-semibold text-[#FFE5A3]">Cộng Tu</span>
+                </div>
+                <div className="flex items-center gap-1.5 bg-black/50 px-2.5 py-1 rounded-full border border-[#F2C14E]/30 shadow-xs">
+                  <img src="/images/icons/icon-khoa-le-truyen-thong.png" alt="Khóa Lễ Truyền Thống" className="w-4 h-4 object-contain" />
+                  <span className="font-semibold text-[#FFE5A3]">Khóa Lễ Truyền Thống</span>
+                </div>
+                <div className="flex items-center gap-1.5 bg-black/50 px-2.5 py-1 rounded-full border border-[#F2C14E]/30 shadow-xs">
+                  <img src="/images/icons/icon-dai-le-su-kien.png" alt="Đại Lễ Sự Kiện" className="w-4 h-4 object-contain" />
+                  <span className="font-semibold text-[#FFE5A3]">Đại Lễ Sự Kiện</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
+
+      {/* ── MODAL CẬP NHẬT THỜI KHÓA SỰ KIỆN CHI TIẾT ── */}
+      {editingEvent && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-300">
+          <div className="relative max-w-2xl w-full max-h-[90vh] overflow-y-auto rounded-3xl bg-[#1C0F08] border border-[#F2C14E]/60 shadow-[0_20px_70px_rgba(0,0,0,0.95)] p-5 sm:p-7 space-y-5 text-white">
+            {/* Header Modal */}
+            <div className="flex items-center justify-between pb-3 border-b border-[#F2C14E]/30">
+              <div>
+                <span className="text-xs text-[#F2C14E] font-bold uppercase tracking-widest block">
+                  Cập Nhật Thời Khóa Ngày {editingEvent.solarDateStr}
+                </span>
+                <h3 className="text-lg sm:text-xl font-bold text-white mt-0.5">
+                  {isNewEvent ? 'Thêm Khóa Lễ / Sự Kiện Mới' : 'Chỉnh Sửa Thời Khóa Khóa Lễ'}
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setEditingEvent(null)}
+                className="w-8 h-8 rounded-full bg-black/60 hover:bg-[#F2C14E] text-[#FFE5A3] hover:text-black border border-[#F2C14E]/40 flex items-center justify-center transition cursor-pointer"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Form Fields */}
+            <div className="space-y-4 text-xs sm:text-sm">
+              {/* Phân Loại (3 loại có icon chính thức) */}
+              <div>
+                <label className="text-xs text-[#F2C14E] font-bold block mb-1.5">
+                  Phân Loại Chương Trình (Biểu Tượng Hiển Thị Trên Lịch):
+                </label>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                  {/* Loại 1: Cộng Tu */}
+                  <label
+                    className={`flex items-center gap-2 p-2.5 rounded-xl border cursor-pointer transition ${
+                      editingEvent.category === 'Cộng Tu'
+                        ? 'bg-[#3D2210] border-[#F2C14E] text-[#FFDE59] shadow-md ring-1 ring-[#F2C14E]/60'
+                        : 'bg-black/40 border-white/20 text-white/70 hover:border-white/40'
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="eventCategory"
+                      checked={editingEvent.category === 'Cộng Tu'}
+                      onChange={() => setEditingEvent({ ...editingEvent, category: 'Cộng Tu' })}
+                      className="accent-[#F2C14E]"
+                    />
+                    <img src="/images/icons/icon-cong-tu.png" alt="Cộng Tu" className="w-5 h-5 object-contain" />
+                    <span className="font-bold text-xs">Cộng Tu</span>
+                  </label>
+
+                  {/* Loại 2: Khóa Lễ Truyền Thống */}
+                  <label
+                    className={`flex items-center gap-2 p-2.5 rounded-xl border cursor-pointer transition ${
+                      editingEvent.category === 'Khóa Lễ Truyền Thống'
+                        ? 'bg-[#3D2210] border-[#F2C14E] text-[#FFDE59] shadow-md ring-1 ring-[#F2C14E]/60'
+                        : 'bg-black/40 border-white/20 text-white/70 hover:border-white/40'
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="eventCategory"
+                      checked={editingEvent.category === 'Khóa Lễ Truyền Thống'}
+                      onChange={() => setEditingEvent({ ...editingEvent, category: 'Khóa Lễ Truyền Thống' })}
+                      className="accent-[#F2C14E]"
+                    />
+                    <img src="/images/icons/icon-khoa-le-truyen-thong.png" alt="Khóa Lễ" className="w-5 h-5 object-contain" />
+                    <span className="font-bold text-xs">Khóa Lễ Truyền Thống</span>
+                  </label>
+
+                  {/* Loại 3: Đại Lễ Sự Kiện */}
+                  <label
+                    className={`flex items-center gap-2 p-2.5 rounded-xl border cursor-pointer transition ${
+                      editingEvent.category === 'Đại Lễ Sự Kiện'
+                        ? 'bg-red-950/80 border-red-500 text-[#FFDE59] shadow-md ring-1 ring-red-500/60'
+                        : 'bg-black/40 border-white/20 text-white/70 hover:border-white/40'
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="eventCategory"
+                      checked={editingEvent.category === 'Đại Lễ Sự Kiện'}
+                      onChange={() => setEditingEvent({ ...editingEvent, category: 'Đại Lễ Sự Kiện' })}
+                      className="accent-[#F2C14E]"
+                    />
+                    <img src="/images/icons/icon-dai-le-su-kien.png" alt="Đại Lễ" className="w-5 h-5 object-contain" />
+                    <span className="font-bold text-xs">Đại Lễ Sự Kiện</span>
+                  </label>
+                </div>
+              </div>
+
+              {/* Tên Sự Kiện + Nút Tự Động Bóc Tách */}
+              <div>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="text-xs text-[#F2C14E] font-bold">
+                    Tên Khóa Lễ / Sự Kiện Chính:
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const { title, subtitle } = splitEventTitle(editingEvent.title);
+                      setEditingEvent({
+                        ...editingEvent,
+                        title,
+                        subtitle: subtitle || editingEvent.subtitle || '',
+                      });
+                    }}
+                    className="text-[11px] text-[#FFE5A3] bg-[#3A2213] hover:bg-[#F2C14E] hover:text-black px-2 py-0.5 rounded border border-[#F2C14E]/40 font-semibold transition cursor-pointer flex items-center gap-1"
+                    title="Tự động bóc tách tiêu đề chính và tiêu đề phụ dựa trên dấu -, —, :"
+                  >
+                    <span>🪄 Tự Động Bóc Tách</span>
+                  </button>
+                </div>
+                <input
+                  type="text"
+                  value={editingEvent.title}
+                  onChange={(e) =>
+                    setEditingEvent({
+                      ...editingEvent,
+                      title: e.target.value,
+                      slug: isNewEvent ? slugify(e.target.value + '-' + editingEvent.solarDateStr) : editingEvent.slug,
+                    })
+                  }
+                  placeholder="Ví dụ: PHÁP HỘI HUYẾT BỒN TRAI"
+                  className="w-full px-3.5 py-2.5 bg-[#120803] border border-[#F2C14E]/40 rounded-xl text-white font-bold focus:border-[#F2C14E] outline-none"
+                />
+              </div>
+
+              {/* Sub Tiêu Đề Bóc Tách */}
+              <div>
+                <label className="text-xs text-[#F2C14E] font-bold block mb-1">
+                  Sub Tiêu Đề (Thông tin chi tiết phụ, ngày âm, mục đích khóa lễ):
+                </label>
+                <input
+                  type="text"
+                  value={editingEvent.subtitle || ''}
+                  onChange={(e) => setEditingEvent({ ...editingEvent, subtitle: e.target.value })}
+                  placeholder="Ví dụ: Cầu Siêu Thai Nhi Sản Nạn, Mẫu Nạn (Khai Đàn)"
+                  className="w-full px-3.5 py-2 bg-[#120803] border border-[#F2C14E]/30 rounded-xl text-amber-200 text-xs focus:border-[#F2C14E] outline-none"
+                />
+              </div>
+
+              {/* Ảnh Poster với S3 Picker Click */}
+              <div>
+                <label className="text-xs text-[#F2C14E] font-bold block mb-1">
+                  Ảnh Poster / Banner (Bấm ảnh để chọn từ S3):
+                </label>
+                <div
+                  onClick={() =>
+                    handleOpenImagePicker(
+                      (url) => setEditingEvent({ ...editingEvent, imgUrl: url }),
+                      '01-trang-chu'
+                    )
+                  }
+                  className="relative w-full h-36 rounded-xl overflow-hidden border border-[#F2C14E]/40 cursor-pointer group bg-black"
+                >
+                  <Image
+                    src={editingEvent.imgUrl || '/images/default.jpg'}
+                    alt={editingEvent.title}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center text-[#F2C14E] gap-1 p-2">
+                    <ImageIcon className="w-6 h-6" />
+                    <span className="text-xs font-bold">Bấm để đổi ảnh S3</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Khung Giờ & Địa Điểm */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs text-[#F2C14E] font-bold block mb-1">
+                    Khung Giờ / Thời Khóa:
+                  </label>
+                  <input
+                    type="text"
+                    value={editingEvent.timeSlot1Time || ''}
+                    onChange={(e) => setEditingEvent({ ...editingEvent, timeSlot1Time: e.target.value })}
+                    placeholder="Ví dụ: 08h00 - 17h00"
+                    className="w-full px-3 py-2 bg-[#120803] border border-[#F2C14E]/30 rounded-xl text-white focus:border-[#F2C14E] outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-xs text-[#F2C14E] font-bold block mb-1">
+                    Địa Điểm Tổ Chức:
+                  </label>
+                  <input
+                    type="text"
+                    value={editingEvent.location}
+                    onChange={(e) => setEditingEvent({ ...editingEvent, location: e.target.value })}
+                    placeholder="Ví dụ: Đại Hùng Bảo Điện & Giảng Đường"
+                    className="w-full px-3 py-2 bg-[#120803] border border-[#F2C14E]/30 rounded-xl text-white focus:border-[#F2C14E] outline-none"
+                  />
+                </div>
+              </div>
+
+              {/* Nội dung ý nghĩa */}
+              <div>
+                <label className="text-xs text-[#F2C14E] font-bold block mb-1">
+                  Nội Dung & Ý Nghĩa Khóa Lễ:
+                </label>
+                <textarea
+                  rows={3}
+                  value={editingEvent.description}
+                  onChange={(e) => setEditingEvent({ ...editingEvent, description: e.target.value })}
+                  placeholder="Mô tả tóm tắt thời khóa tu học và mục đích hướng đạo..."
+                  className="w-full px-3 py-2 bg-[#120803] border border-[#F2C14E]/30 rounded-xl text-white/90 text-xs focus:border-[#F2C14E] outline-none leading-relaxed"
+                />
+              </div>
+
+              {/* Lưu ý cho Phật tử */}
+              <div>
+                <label className="text-xs text-[#F2C14E] font-bold block mb-1">
+                  Lưu Ý Dành Cho Phật Tử Tham Dự:
+                </label>
+                <textarea
+                  rows={2}
+                  value={editingEvent.notes || ''}
+                  onChange={(e) => setEditingEvent({ ...editingEvent, notes: e.target.value })}
+                  placeholder="Y phục trang nghiêm áo tràng lam, mang theo CCCD, đăng ký trước nếu ở lại qua đêm..."
+                  className="w-full px-3 py-2 bg-[#120803] border border-[#F2C14E]/30 rounded-xl text-amber-200/90 text-xs focus:border-[#F2C14E] outline-none leading-relaxed"
+                />
+              </div>
+
+              {/* Video URL & Slug */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs text-[#F2C14E] font-bold block mb-1">
+                    Link Video / Pháp Thoại (YouTube nếu có):
+                  </label>
+                  <input
+                    type="text"
+                    value={editingEvent.videoUrl || ''}
+                    onChange={(e) => setEditingEvent({ ...editingEvent, videoUrl: e.target.value })}
+                    placeholder="https://www.youtube.com/watch?v=..."
+                    className="w-full px-3 py-2 bg-[#120803] border border-[#F2C14E]/30 rounded-xl text-white text-xs focus:border-[#F2C14E] outline-none"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-xs text-[#F2C14E] font-bold block mb-1">
+                    Đường Dẫn Chi Tiết (Slug):
+                  </label>
+                  <input
+                    type="text"
+                    value={editingEvent.slug || ''}
+                    onChange={(e) => setEditingEvent({ ...editingEvent, slug: e.target.value })}
+                    placeholder="phap-hoi-niem-phat-thang-8-2026"
+                    className="w-full px-3 py-2 bg-[#120803] border border-[#F2C14E]/30 rounded-xl text-white text-xs focus:border-[#F2C14E] outline-none"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Modal Actions */}
+            <div className="flex items-center justify-between pt-4 border-t border-[#F2C14E]/20">
+              {!isNewEvent ? (
+                <button
+                  type="button"
+                  onClick={handleDeleteEditingEvent}
+                  className="px-4 py-2 bg-red-950/60 hover:bg-red-900/80 text-red-300 border border-red-500/40 rounded-xl text-xs font-bold flex items-center gap-1.5 transition cursor-pointer"
+                >
+                  <Trash2 className="w-4 h-4" />
+                  <span>Xóa Sự Kiện</span>
+                </button>
+              ) : (
+                <div />
+              )}
+
+              <div className="flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={() => setEditingEvent(null)}
+                  className="px-4 py-2 bg-black/60 hover:bg-black/90 text-white/80 rounded-xl text-xs font-medium border border-white/20 transition cursor-pointer"
+                >
+                  Đóng
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleSaveEditingEvent}
+                  className="px-5 py-2.5 bg-gradient-to-r from-[#F2C14E] to-[#E5A93C] text-black rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-lg hover:scale-105 transition cursor-pointer"
+                >
+                  <CheckCircle2 className="w-4 h-4" />
+                  <span>Lưu Thời Khóa Này</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── S3 FILE EXPLORER MODAL ── */}
+      <S3FileExplorerModal
+        isOpen={s3ModalOpen}
+        onClose={() => setS3ModalOpen(false)}
+        onSelectImage={(url) => {
+          if (s3TargetCallback) {
+            s3TargetCallback(url);
+          }
+          setS3ModalOpen(false);
+        }}
+        initialPath={s3InitialPath}
+      />
     </div>
   );
 }

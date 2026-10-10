@@ -10,6 +10,7 @@ import {
 } from '@/lib/lunar-calendar';
 
 export interface CalendarEvent {
+  id?: string | number;
   day: number;
   solarDateStr: string;
   dayOfWeekStr: string;
@@ -17,6 +18,7 @@ export interface CalendarEvent {
   lunarTag: string;
   subTitle1: string; // e.g. "CỘNG TU", "KHÓA LỄ TRUYỀN THỐNG", "ĐẠI LỄ SỰ KIỆN", "TỊNH ĐỘ NHÂN GIAN"
   title: string;      // e.g. "PHÁP HỘI NIỆM PHẬT", "KHÓA LỄ ĐẠI SÁM HỐI"
+  subtitle?: string;  // Tiêu đề phụ bóc tách (ngắn gọn, chống dài dòng)
   subTitle2: string; // e.g. "Tháng 7 (Ngày 1)", "Tổ Đường & Đại Giảng Đường Ngộ Chân Tử"
   description: string;
   category: string;  // "Khóa Lễ Truyền Thống", "Đại Lễ Sự Kiện", "Cộng Tu", "Tịnh Độ Nhân Gian"
@@ -28,6 +30,31 @@ export interface CalendarEvent {
   color: string;
   imgUrl: string;
   isImportant?: boolean;
+  slug?: string;
+  notes?: string;
+}
+
+export function getEventCategoryIcon(category?: string): string {
+  if (category === 'Cộng Tu') return '/images/icons/icon-cong-tu.png';
+  if (category === 'Khóa Lễ Truyền Thống') return '/images/icons/icon-khoa-le-truyen-thong.png';
+  if (category === 'Đại Lễ Sự Kiện') return '/images/icons/icon-dai-le-su-kien.png';
+  if (category === 'Tịnh Độ Nhân Gian') return '/images/icons/icon-tinh-do-nhan-gian.png';
+  return '/images/icons/icon-dai-le-su-kien.png';
+}
+
+export function splitEventTitle(rawTitle: string): { title: string; subtitle: string } {
+  if (!rawTitle) return { title: '', subtitle: '' };
+  const delimiters = [' — ', ' - ', ' – ', ': '];
+  for (const d of delimiters) {
+    if (rawTitle.includes(d)) {
+      const parts = rawTitle.split(d);
+      return {
+        title: parts[0].trim(),
+        subtitle: parts.slice(1).join(' - ').trim(),
+      };
+    }
+  }
+  return { title: rawTitle.trim(), subtitle: '' };
 }
 
 export interface MonthThemeInfo {
@@ -310,53 +337,9 @@ export function getEventsForMonth(solarYear: number, solarMonth: number): Record
     const lunarDateStr = `(${String(lunar.day).padStart(2, '0')}.${String(lunar.month).padStart(2, '0')}.ÂL)`;
 
     // ─────────────────────────────────────────────────────────────────────────────
-    // 1. PHÁP HỘI HUYẾT BỔN TRAI (TỪ NGÀY 23 ĐẾN 29 HOẶC 30 ÂM LỊCH HẰNG THÁNG)
+    // 1. CỘNG TU CỐ ĐỊNH: TIỂU SÁM HỐI ĐỊNH KỲ (MÙNG 8 VÀ 23 ÂM LỊCH HẰNG THÁNG)
     // ─────────────────────────────────────────────────────────────────────────────
-    if (lunar.day >= 23 && lunar.day <= monthLength) {
-      const isKhaiDan = lunar.day === 23;
-      const isTaDan = isLastDayOfLunarMonth;
-
-      let eventTitle = "PHÁP HỘI HUYẾT BỔN TRAI";
-      let subTitle1 = "PHÁP HỘI HUYẾT BỔN TRAI";
-      let timeSlot1Label = "Sáng: Tụng kinh Pháp Bảo Đàn & Cúng Phật";
-      let timeSlot1Time = "08:00 SÁNG";
-      let timeSlot2Label = "Chiều: Tụng Mục Liên Sám Pháp & Cúng Thí Thực";
-      let timeSlot2Time = "02:00 CHIỀU";
-
-      if (isKhaiDan) {
-        eventTitle = "KHAI ĐÀN PHÁP HỘI HUYẾT BỔN TRAI";
-        subTitle1 = "KHAI ĐÀN MỤC LIÊN SÁM PHÁP";
-      } else if (isTaDan) {
-        eventTitle = "TẠ ĐÀN PHÁP HỘI HUYẾT BỔN TRAI";
-        subTitle1 = "TẠ ĐÀN MỤC LIÊN SÁM PHÁP";
-      }
-
-      dayEvents.push({
-        day,
-        solarDateStr,
-        dayOfWeekStr,
-        lunarDate: lunarDateStr,
-        lunarTag: "PHÁP HỘI",
-        subTitle1,
-        title: eventTitle,
-        subTitle2: `${isKhaiDan ? "Khai đàn " : isTaDan ? "Tạ đàn " : ""}Ngày ${lunar.day} Âm lịch`,
-        description: `Thời khóa tu tập trong tuần lễ Pháp Hội Huyết Bổn Trai: Sáng 08h00 trì tụng kinh Pháp Bảo Đàn & cúng Phật; Chiều 14h00 trì tụng Mục Liên Sám Pháp & cúng thí thực.${isKhaiDan || isTaDan ? " Tối 19h15 sám hối Mục Liên Sám Pháp." : ""}`,
-        category: "Pháp Hội",
-        location: "Chánh Điện Tam Bảo & Đại Giảng Đường Tùng Lâm Hòa Phúc",
-        timeSlot1Label,
-        timeSlot1Time,
-        timeSlot2Label,
-        timeSlot2Time,
-        color: isKhaiDan || isTaDan ? "#DC2626" : "#EAB308",
-        imgUrl: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-08-hieu-hanh-dap-den.webp",
-        isImportant: isKhaiDan || isTaDan,
-      });
-    }
-
-    // ─────────────────────────────────────────────────────────────────────────────
-    // 2. CỘNG TU CỐ ĐỊNH: TIỂU SÁM HỐI & ĐẠI SÁM HỐI (MÙNG 8 & 14)
-    // ─────────────────────────────────────────────────────────────────────────────
-    if (lunar.day === 8) {
+    if (lunar.day === 8 || lunar.day === 23) {
       dayEvents.push({
         day,
         solarDateStr,
@@ -365,8 +348,8 @@ export function getEventsForMonth(solarYear: number, solarMonth: number): Record
         lunarTag: "CỘNG TU",
         subTitle1: "KHÓA LỄ TRUYỀN THỐNG",
         title: "KHÓA LỄ TIỂU SÁM HỐI",
-        subTitle2: "Mùng 8 Âm lịch hàng tháng",
-        description: "Thời khóa tụng kinh Tiểu Sám Hối định kỳ tối ngày mùng 8 âm lịch, đại chúng chí tâm trì tụng kinh chú, làm mới thân tâm và tăng trưởng thiện căn phước báu.",
+        subTitle2: `${lunar.day === 8 ? "Mùng 8" : "Ngày 23"} Âm lịch hàng tháng`,
+        description: `Thời khóa tụng kinh Tiểu Sám Hối định kỳ tối ngày ${lunar.day} âm lịch, đại chúng chí tâm trì tụng kinh chú, làm mới thân tâm và tăng trưởng thiện căn phước báu.`,
         category: "Khóa Lễ Truyền Thống",
         location: "Chánh Điện Tam Bảo - Tùng Lâm Hòa Phúc",
         timeSlot1Label: "Thời khóa Tiểu Sám Hối",
@@ -374,9 +357,14 @@ export function getEventsForMonth(solarYear: number, solarMonth: number): Record
         timeSlot2Label: "Thời lượng",
         timeSlot2Time: "120 phút",
         color: "#059669",
-        imgUrl: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-01-duc-ban-su-thanh-dao.webp",
+        imgUrl: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/dai-tieu-sam-hoi-va-thuong-ky.webp",
       });
-    } else if (lunar.day === 14) {
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────────
+    // 2. CỘNG TU CỐ ĐỊNH: ĐẠI SÁM HỐI ĐỊNH KỲ (14 VÀ 29/30 ÂM LỊCH HẰNG THÁNG)
+    // ─────────────────────────────────────────────────────────────────────────────
+    if (lunar.day === 14 || isLastDayOfLunarMonth) {
       dayEvents.push({
         day,
         solarDateStr,
@@ -385,8 +373,8 @@ export function getEventsForMonth(solarYear: number, solarMonth: number): Record
         lunarTag: "CỘNG TU",
         subTitle1: "KHÓA LỄ TRUYỀN THỐNG",
         title: "KHÓA LỄ ĐẠI SÁM HỐI",
-        subTitle2: "14 Âm lịch hàng tháng",
-        description: "Đại lễ Sám Hối trang nghiêm định kỳ tối 19h15 ngày 14 âm lịch, đại chúng phủ phục trước mười phương Tam Bảo thành tâm sám trừ nghiệp chướng, đón nhận năng lượng an lành.",
+        subTitle2: `${lunar.day === 14 ? "14 Âm lịch" : "Cuối tháng Âm lịch"} hàng tháng`,
+        description: `Đại lễ Sám Hối trang nghiêm định kỳ tối 19h15 ngày ${lunar.day} âm lịch, đại chúng phủ phục trước mười phương Tam Bảo thành tâm sám trừ nghiệp chướng, đón nhận năng lượng an lành.`,
         category: "Khóa Lễ Truyền Thống",
         location: "Chánh Điện Tam Bảo - Tùng Lâm Hòa Phúc",
         timeSlot1Label: "Thời khóa Đại Sám Hối",
@@ -394,7 +382,7 @@ export function getEventsForMonth(solarYear: number, solarMonth: number): Record
         timeSlot2Label: "Thời lượng",
         timeSlot2Time: "120 phút",
         color: "#D97706",
-        imgUrl: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-01-duc-ban-su-thanh-dao.webp",
+        imgUrl: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/dai-tieu-sam-hoi-va-thuong-ky.webp",
         isImportant: true,
       });
     }
@@ -420,7 +408,7 @@ export function getEventsForMonth(solarYear: number, solarMonth: number): Record
         timeSlot2Label: "Thời lượng",
         timeSlot2Time: "150 phút",
         color: "#4F46E5",
-        imgUrl: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-03-huong-sen-tay-bac.webp",
+        imgUrl: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Cau-an-quoc-thai-dan-thuong-ky.webp",
         isImportant: true,
       });
     }

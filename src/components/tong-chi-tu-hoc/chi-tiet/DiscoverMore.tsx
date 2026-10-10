@@ -123,6 +123,7 @@ export function DiscoverMore({ relatedArticles }: PropsTimHieuThem) {
                   src={getImageUrl(item.url) || '/images/toan-canh-chua.jpg'}
                   alt={item.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                  style={{ objectPosition: (item as any).thumbnailPosition || (item as any).imagePosition || 'center 20%' }}
                   loading="lazy"
                   onError={(e) => {
                     (e.currentTarget as HTMLImageElement).src = '/images/toan-canh-chua.jpg';
@@ -140,17 +141,17 @@ export function DiscoverMore({ relatedArticles }: PropsTimHieuThem) {
               <div className="absolute inset-0 border-2 border-transparent group-hover:border-[#f2cc8f]/70 rounded-xl transition-colors duration-300 pointer-events-none" />
 
               {/* NỘI DUNG CARD: CHUYÊN MỤC TAXONOMY + TIÊU ĐỀ */}
-              <div className="absolute bottom-0 inset-x-0 p-4 sm:p-5 text-left space-y-1 z-20">
+              <div className="absolute bottom-0 inset-x-0 p-4 sm:p-5 text-left z-20">
                 <span
                   style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                  className="text-[11px] sm:text-xs font-semibold text-[#F2C14E] uppercase tracking-wider block"
+                  className="text-[11px] sm:text-xs font-medium italic text-[#E5A93C] normal-case tracking-wide block mb-1"
                 >
-                  {item.category || 'TÔNG CHỈ TU HỌC'}
+                  {item.category || 'Tông Chỉ Tu Học'}
                 </span>
 
                 <h3
                   style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                  className="text-base sm:text-[17px] font-normal text-white uppercase tracking-wide leading-snug group-hover:font-bold group-hover:text-[#FFE5A3] transition-all line-clamp-2 drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]"
+                  className="text-base sm:text-[17px] font-bold text-[#FFE5A3] uppercase tracking-wide leading-snug group-hover:text-[#FFDE59] transition-all line-clamp-2 drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]"
                 >
                   {item.title}
                 </h3>

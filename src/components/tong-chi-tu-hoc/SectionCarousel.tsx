@@ -97,12 +97,12 @@ export function SectionCarousel({ section, dynamicBgImage }: SectionCarouselProp
                 unoptimized
                 sizes="(max-width: 768px) 280px, 310px"
                 className="object-cover transition-transform duration-500 ease-out group-hover:scale-105 transform-gpu"
-                style={{ objectPosition: (card as any).imagePosition || 'center center' }}
+                style={{ objectPosition: (card as any).thumbnailPosition || (card as any).imagePosition || 'center 20%' }}
               />
 
               {/* Gradient màu nâu đậm đồng màu với nền trang, đổ đậm chân ảnh để tôn chữ trắng sáng chuẩn theo mẫu */}
               <div
-                className="absolute inset-x-0 bottom-0 h-[42%] pointer-events-none transition-all duration-300 group-hover:h-[52%]"
+                className="absolute inset-x-0 bottom-0 h-[48%] pointer-events-none transition-all duration-300 group-hover:h-[56%]"
                 style={{
                   background: 'linear-gradient(to top, rgba(35, 21, 12, 0.98) 0%, rgba(35, 21, 12, 0.85) 30%, rgba(35, 21, 12, 0.42) 65%, transparent 100%)',
                 }}
@@ -110,25 +110,23 @@ export function SectionCarousel({ section, dynamicBgImage }: SectionCarouselProp
               <div className="absolute inset-0 border-2 border-transparent group-hover:border-[#f2cc8f]/70 rounded-xl transition-colors duration-300 pointer-events-none" />
 
               <div className="absolute inset-0 p-4 sm:p-5 flex flex-col justify-end text-left z-10">
-                {/* Tiêu đề in hoa thường, khi đưa chuột vào mới bold */}
+                {/* Sub tiêu đề: Ở trên tiêu đề, chữ thường, bold nhẹ, nghiêng */}
+                {card.subtitle && (
+                  <p
+                    style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                    className="text-xs sm:text-[13px] font-medium italic normal-case text-[#E5A93C] line-clamp-1 leading-normal tracking-wide mb-1"
+                  >
+                    {card.subtitle}
+                  </p>
+                )}
+
+                {/* Tiêu đề bài viết: BẮT BUỘC BOLD & VIẾT IN HOA TOÀN BỘ */}
                 <h3
                   style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                  className="text-base md:text-[17px] uppercase font-normal text-[#ffffff] group-hover:font-bold group-hover:text-[#FFE5A3] transition-all duration-300 leading-snug drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)] transform-gpu group-hover:-translate-y-0.5 tracking-wide"
+                  className="text-base md:text-[17px] uppercase font-bold text-[#FFE5A3] group-hover:text-[#FFDE59] transition-all duration-300 leading-snug drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)] transform-gpu tracking-wide line-clamp-2"
                 >
                   {card.title}
                 </h3>
-
-                {/* Sub tiêu đề chỉ hiện ra khi rê chuột vào */}
-                {card.subtitle && (
-                  <div className="max-h-0 opacity-0 overflow-hidden group-hover:max-h-36 group-hover:opacity-100 group-hover:mt-2 transition-all duration-300 ease-out transform-gpu translate-y-2 group-hover:translate-y-0">
-                    <p
-                      style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                      className="text-xs sm:text-[13px] font-normal text-[#E8D7C8]/95 line-clamp-3 leading-relaxed border-t border-[#F2C14E]/25 pt-1.5 italic"
-                    >
-                      {card.subtitle}
-                    </p>
-                  </div>
-                )}
               </div>
             </Link>
           );

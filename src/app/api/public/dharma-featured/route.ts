@@ -60,11 +60,14 @@ export async function GET() {
         category1Url: '/tong-chi-tu-hoc',
         category1IconUrl: '/images/icons/icon-tong-chi-tu-hoc.webp',
         title: item.title,
+        subtitle: item.subtitle || item.categoryName || 'Tông Chỉ Tu Học',
         description:
           item.excerpt || item.subtitle || 'Hệ thống tông chỉ tu học kế thừa tông phong chư Tổ Tùng Lâm Hòa Phúc.',
         publishedDate: formatDate(item.publishedAt),
         viewsCount: Number(item.viewsCount) || 0,
         targetUrl: `/tong-chi-tu-hoc/${item.slug}`,
+        thumbnailPosition: item.thumbnailPosition || item.bannerPosition || 'center 20%',
+        imagePosition: item.thumbnailPosition || item.bannerPosition || 'center 20%',
       }))
       .sort((a, b) => (Number(b.viewsCount) || 0) - (Number(a.viewsCount) || 0));
 
@@ -82,10 +85,13 @@ export async function GET() {
         category1Url: '/dong-chay-hoang-phap',
         category1IconUrl: '/images/icons/icon-dong-chay-hoang-phap.webp',
         title: p.title,
+        subtitle: p.subtitle || p.categoryName || p.subCategory || 'Dòng Chảy Hoằng Pháp',
         description: p.summary || p.subtitle || 'Hành trình lan tỏa chánh pháp, các sự kiện pháp hội và Phật sự trọng đại.',
         publishedDate: formatDate(p.publishedDate),
         viewsCount: Number(p.viewsCount) || 0,
         targetUrl: `/dong-chay-hoang-phap/${p.slug || p.id}`,
+        thumbnailPosition: p.thumbnailPosition || p.bannerPosition || 'center 20%',
+        imagePosition: p.thumbnailPosition || p.bannerPosition || 'center 20%',
       }))
       .sort((a, b) => (Number(b.viewsCount) || 0) - (Number(a.viewsCount) || 0));
 
@@ -108,10 +114,13 @@ export async function GET() {
           category1Url: '/tri-tue-phat-phap',
           category1IconUrl: isPhapAm ? '/images/icons/icon-phap-am.webp' : '/images/icons/icon-tri-tue-phat-phap.webp',
           title: p.title,
+          subtitle: p.subtitle || p.categoryName || p.subCategory || 'Trí Tuệ Phật Pháp',
           description: p.summary || p.subtitle || 'Kho tàng giáo lý Phật đà, pháp âm giảng giải và các tác phẩm Phật học sâu sắc.',
           publishedDate: formatDate(p.publishedDate),
           viewsCount: Number(p.viewsCount) || 0,
           targetUrl: `/tri-tue-phat-phap/${p.slug || p.id}`,
+          thumbnailPosition: p.thumbnailPosition || p.bannerPosition || 'center 20%',
+          imagePosition: p.thumbnailPosition || p.bannerPosition || 'center 20%',
         };
       })
       .sort((a, b) => (Number(b.viewsCount) || 0) - (Number(a.viewsCount) || 0));

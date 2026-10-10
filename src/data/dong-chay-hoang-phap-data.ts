@@ -9,7 +9,10 @@ export interface HoangPhapArticle {
   templeLogo: "tung-lam-hoa-phuc" | "quynh-nhai-cam-lo-tu";
   templeName: string;
   thumbnailUrl: string;
+  thumbnailPosition?: string;
+  imagePosition?: string;
   bannerUrl?: string;
+  bannerPosition?: string;
   date: string;
   views: number;
   author?: string;

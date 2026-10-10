@@ -42,6 +42,7 @@ import { UnsavedChangesModal } from '@/components/admin/UnsavedChangesModal';
 import { ImageFocalPositionerModal } from '@/components/admin/ImageFocalPositionerModal';
 import { InfographicArticleRenderer } from '@/components/tong-chi-tu-hoc/chi-tiet/InfographicArticleRenderer';
 import { WordPressMediaModal, WordPressMediaItem } from '@/components/admin/WordPressMediaModal';
+import { CharCounter } from '@/components/admin/CharCounter';
 
 interface KeywordItem {
   keyword: string;
@@ -826,31 +827,57 @@ export function TongChiEditor({ initialData, isEdit }: TongChiEditorProps) {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <label className="text-xs font-semibold text-[#FFE5A3]">Tiêu đề bài viết / Kệ thơ *</label>
+                  <CharCounter
+                    current={title.length}
+                    max={80}
+                    recommendedMin={15}
+                    label="Tiêu đề bài viết / Kệ thơ *"
+                    hint="⚡ Tối đa 80 ký tự: Chuẩn 1-2 dòng trang nghiêm, không nhảy tràn dòng trên Hero Banner."
+                  />
                   <input
                     type="text"
+                    maxLength={80}
                     value={title}
                     onChange={(e) => {
                       setIsDirty(true);
                       setTitle(e.target.value);
                     }}
-                    placeholder="Ví dụ: BỒ ĐỀ TÂM"
+                    placeholder="Ví dụ: BỒ ĐỀ TÂM (tối đa 80 kt)..."
                     required
-                    className="w-full px-3 py-2 bg-[#25170E] border border-[#F2C14E]/40 rounded-xl text-xs sm:text-sm text-white placeholder-[#c9b896]/40 focus:outline-none focus:border-[#F2C14E]"
+                    className={`w-full px-3 py-2 bg-[#25170E] border rounded-xl text-xs sm:text-sm font-semibold text-white placeholder-[#c9b896]/40 focus:outline-none transition-all ${
+                      title.length > 80
+                        ? 'border-red-500 ring-1 ring-red-500'
+                        : title.length >= 70
+                        ? 'border-amber-400 focus:border-amber-400'
+                        : 'border-[#F2C14E]/40 focus:border-[#F2C14E]'
+                    }`}
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label className="text-xs font-semibold text-[#FFE5A3]">Tiêu đề phụ / Lời tựa ngắn</label>
+                  <CharCounter
+                    current={subtitle.length}
+                    max={60}
+                    recommendedMin={10}
+                    label="Tiêu đề phụ / Lời tựa ngắn (Subtitle)"
+                    hint="📜 Tối đa 60 ký tự: Chuẩn duy nhất 1 dòng, đúc kết tinh hoa kệ kinh."
+                  />
                   <input
                     type="text"
+                    maxLength={60}
                     value={subtitle}
                     onChange={(e) => {
                       setIsDirty(true);
                       setSubtitle(e.target.value);
                     }}
-                    placeholder="Ví dụ: Cội nguồn thiện pháp"
-                    className="w-full px-3 py-2 bg-[#25170E] border border-[#F2C14E]/40 rounded-xl text-xs sm:text-sm text-white placeholder-[#c9b896]/40 focus:outline-none focus:border-[#F2C14E]"
+                    placeholder="Ví dụ: Cội nguồn thiện pháp (tối đa 60 kt)..."
+                    className={`w-full px-3 py-2 bg-[#25170E] border rounded-xl text-xs sm:text-sm italic text-white placeholder-[#c9b896]/40 focus:outline-none transition-all ${
+                      subtitle.length > 60
+                        ? 'border-red-500 ring-1 ring-red-500'
+                        : subtitle.length >= 50
+                        ? 'border-amber-400 focus:border-amber-400'
+                        : 'border-[#F2C14E]/40 focus:border-[#F2C14E]'
+                    }`}
                   />
                 </div>
               </div>

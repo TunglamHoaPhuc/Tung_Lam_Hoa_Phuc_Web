@@ -118,28 +118,38 @@ export const Hero: FC = () => {
       {/* ── Hero Center Content ── */}
       <div className="relative z-20 max-w-6xl mx-auto px-4 text-center flex flex-col items-center gap-4 my-auto py-8">
 
-        {/* Tiêu đề chính phông UTM Niagara */}
-        <h1
-          className="text-6xl md:text-9xl tracking-normal text-[#F2C14E] uppercase leading-none font-normal"
-          style={{
-            fontFamily: "'UTM Niagara', 'Playfair Display', serif",
-            fontWeight: "normal",
-            textShadow: "0 0 36px rgba(242,193,78,0.8), 0 0 72px rgba(242,193,78,0.4)",
-          }}
-        >
-          NƠI ĐỂ TRỞ VỀ
-        </h1>
+        {/* ── Tiêu đề chính & Phụ tiêu đề cân xứng hoàn hảo ── */}
+        <div className="inline-flex flex-col items-stretch max-w-full mx-auto select-none">
+          {/* Tiêu đề chính phông UTM Niagara */}
+          <h1
+            className="text-6xl sm:text-7xl md:text-9xl tracking-normal text-[#F2C14E] uppercase leading-none font-normal text-center whitespace-nowrap"
+            style={{
+              fontFamily: "'UTM Niagara', 'Playfair Display', serif",
+              fontWeight: "normal",
+              textShadow: "0 0 36px rgba(242,193,78,0.8), 0 0 72px rgba(242,193,78,0.4)",
+            }}
+          >
+            NƠI ĐỂ TRỞ VỀ
+          </h1>
 
-        {/* Phụ tiêu đề phông UTM Classizism Antiqua */}
-        <p
-          className="text-xl md:text-3xl text-[#e3d2c1] uppercase font-semibold leading-tight w-full max-w-4xl mx-auto"
-          style={{
-            fontFamily: "'UTM ClassizismAntiqua', 'Playfair Display', serif",
-            letterSpacing: "0.38em",
-          }}
-        >
-          CHỐN THIÊNG BÌNH YÊN
-        </p>
+          {/* Phụ tiêu đề phông UTM Classizism Antiqua: Dạng không bold, chiều dài tự động căn đều khít 100% bằng tiêu đề "NƠI ĐỂ TRỞ VỀ" */}
+          <p
+            className="w-full flex justify-between items-center text-sm sm:text-base md:text-xl lg:text-2xl text-[#e3d2c1] uppercase font-normal leading-tight mt-2 sm:mt-3"
+            style={{
+              fontFamily: "'UTM ClassizismAntiqua', 'Playfair Display', serif",
+              fontWeight: "normal",
+            }}
+          >
+            {"CHỐN THIÊNG BÌNH YÊN".split("").map((char, i) => (
+              <span
+                key={i}
+                className={char === " " ? "inline-block w-2 sm:w-3.5 md:w-5" : "inline-block"}
+              >
+                {char}
+              </span>
+            ))}
+          </p>
+        </div>
 
         {/* ── Dải 5 nút thao tác nhanh (nổi rõ rệt trên z-20, không bị lớp gradient che khuất) ── */}
         <div className="relative z-20 flex flex-wrap items-center justify-center gap-2.5 md:gap-3.5 mt-8 w-full max-w-6xl">

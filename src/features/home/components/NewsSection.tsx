@@ -126,7 +126,7 @@ export const NewsSection: FC = () => {
 
   const safeIdx = activeIdx % total;
   const currentNews = newsList[safeIdx] || newsList[0];
-  const prevNews = newsList[(safeIdx - 1 + total) % total] || newsList[0];
+  const prevNews = newsList[(safeIdx - 1 + total * 10) % total] || newsList[0];
   const nextNews = newsList[(safeIdx + 1) % total] || newsList[0];
 
   const animClass = slideDirection === 'next' ? 'animate-slide-next' : 'animate-slide-prev';
@@ -172,8 +172,8 @@ export const NewsSection: FC = () => {
         iconUrl="/images/icons/icon-tin-moi-nhat.webp"
       />
 
-      {/* ── 2. CAROUSEL TRẢI RỘNG TRÀN MÀN HÌNH VỚI HIỆU ỨNG TRƯỢT (LO L UNIVERSE STYLE) ── */}
-      <div className="relative w-full z-20 overflow-hidden px-0 sm:px-2 md:px-4">
+      {/* ── 2. CAROUSEL TRẢI RỘNG VỚI HIỆU ỨNG TRƯỢT (LO L UNIVERSE STYLE - BẢN 3 CARD CHUẨN GỐC) ── */}
+      <div className="relative w-full max-w-[1720px] mx-auto z-20 overflow-visible py-4 sm:py-6 px-0 sm:px-2 md:px-4 select-none">
         <div className="flex items-center justify-center w-full min-h-[500px] md:min-h-[580px] lg:min-h-[640px]">
 
           {/* ── 3A. LEFT SIDE PREVIEW CARD ── */}
@@ -181,8 +181,8 @@ export const NewsSection: FC = () => {
             onClick={prevSlide}
             className="hidden lg:flex flex-col items-center justify-center w-[18%] xl:w-[20%] -mr-12 xl:-mr-14 z-10 cursor-pointer transition-all duration-500 grayscale brightness-60 opacity-60 hover:opacity-85 hover:brightness-85 group shrink-0"
           >
-            {/* Box Ảnh Bên Trái với viền mờ dần sang trái */}
-            <div className="relative w-full h-[320px] md:h-[380px] lg:h-[430px] overflow-hidden border-y border-l border-[#F2C14E]/30 rounded-l-xl shadow-2xl [mask-image:linear-gradient(to_left,black_60%,transparent_100%)]">
+            {/* Box Ảnh Bên Trái với viền mờ dần ở cả 2 mép (mép ngoài và góc trong luồn dưới card chính) */}
+            <div className="relative w-full h-[320px] md:h-[380px] lg:h-[430px] overflow-hidden border-y border-l border-[#F2C14E]/30 rounded-l-xl shadow-2xl [mask-image:linear-gradient(to_right,transparent_0%,black_28%,black_82%,transparent_100%)]">
               <img
                 key={`left-img-${prevNews.id}`}
                 src={prevNews.imgUrl}
@@ -193,8 +193,8 @@ export const NewsSection: FC = () => {
               <div className="absolute inset-0 bg-black/40" />
             </div>
 
-            {/* Thanh Chú Thích Tối Giản Bên Trái */}
-            <div className="w-full py-2.5 px-3 text-center bg-[#1A120B]/90 border-b border-l border-[#F2C14E]/25 rounded-bl-lg flex flex-col items-center justify-center">
+            {/* Thanh Chú Thích Tối Giản Bên Trái (Viền và nền mờ dần cả mép ngoài lẫn góc trong) */}
+            <div className="w-full py-2.5 px-3 text-center bg-[#1A120B]/90 border-b border-l border-[#F2C14E]/30 rounded-bl-xl flex flex-col items-center justify-center [mask-image:linear-gradient(to_right,transparent_0%,black_28%,black_82%,transparent_100%)]">
               {prevNews.iconUrl && (
                 <div className="w-7 h-7 rounded-full border border-[#F2C14E]/60 bg-[#1C120B] shadow-[0_0_10px_rgba(242,193,78,0.3)] flex items-center justify-center p-1 mb-1">
                   <img
@@ -205,15 +205,15 @@ export const NewsSection: FC = () => {
                 </div>
               )}
               <h4
-                className="text-base md:text-lg font-normal uppercase text-amber-100/80 truncate max-w-[90%] mx-auto"
-                style={{ fontFamily: "'UTM Niagara', serif" }}
+                className="text-base md:text-lg font-normal uppercase text-amber-100/90 truncate max-w-[90%] mx-auto"
+                style={{ fontFamily: "'UTM Niagara', serif", fontWeight: "normal" }}
               >
                 {prevNews.title}
               </h4>
               {prevNews.subtitle && (
                 <p
-                  className="text-[10px] sm:text-[11px] text-[#D4C3AC] font-normal truncate max-w-[95%] mt-0.5"
-                  style={{ fontFamily: "'UTM Avo', sans-serif", fontWeight: 400 }}
+                  className="text-[10px] sm:text-[11px] text-[#E5A93C] font-medium italic normal-case truncate max-w-[95%] mt-0.5"
+                  style={{ fontFamily: "'UTM Avo', sans-serif" }}
                 >
                   {prevNews.subtitle}
                 </p>
@@ -223,9 +223,9 @@ export const NewsSection: FC = () => {
 
           {/* ── 3B. CENTER ACTIVE CARD (ẢNH TO NHẤT, RỘNG RÃI & HOÀNH TRÁNG THEO MẪU LIÊN MINH) ── */}
           <div className="relative w-full lg:w-[66%] xl:w-[64%] max-w-[1020px] flex flex-col items-center z-30 px-2 sm:px-4 shrink-0">
-            {/* Box Ảnh Chính To Bề Thế */}
+            {/* Box Ảnh Chính To Bề Thế - Shadow đa tầng mịn màng, fade hòa tan vào nền không lộ cạnh */}
             <div
-              className="relative w-full overflow-hidden border-2 border-[#F2C14E] rounded-2xl shadow-[0_25px_80px_rgba(0,0,0,0.95),0_0_50px_rgba(242,193,78,0.35)] group cursor-pointer"
+              className="relative w-full overflow-hidden border-2 border-[#F2C14E] rounded-2xl shadow-[0_15px_35px_rgba(0,0,0,0.6),0_35px_80px_rgba(0,0,0,0.45),0_60px_130px_rgba(0,0,0,0.3),0_0_50px_rgba(242,193,78,0.18)] group cursor-pointer"
               style={{
                 height: "clamp(340px, 44vw, 520px)",
               }}
@@ -235,7 +235,7 @@ export const NewsSection: FC = () => {
                 key={`center-img-${currentNews.id}`}
                 src={currentNews.imgUrl}
                 alt={currentNews.title}
-                style={{ objectPosition: currentNews.imgPosition || 'center 35%' }}
+                style={{ objectPosition: currentNews.imgPosition || 'center 20%' }}
                 className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out ${animClass}`}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/20 pointer-events-none" />
@@ -270,7 +270,7 @@ export const NewsSection: FC = () => {
               className="relative -mt-10 sm:-mt-14 z-40 flex items-center justify-center w-[92%] sm:w-[84%] max-w-[760px] cursor-pointer group"
               onClick={() => (window.location.href = currentNews.targetUrl)}
             >
-              <div className="relative w-full bg-gradient-to-b from-[#251810]/98 via-[#1C120B]/98 to-[#120B07]/98 border border-[#F2C14E]/70 rounded-xl px-5 sm:px-8 pt-8 sm:pt-9 pb-4 sm:pb-5 text-center flex flex-col items-center justify-center shadow-[0_20px_50px_rgba(0,0,0,0.9),0_0_30px_rgba(242,193,78,0.25)] backdrop-blur-md transition-transform group-hover:scale-[1.02]">
+              <div className="relative w-full bg-gradient-to-b from-[#251810]/98 via-[#1C120B]/98 to-[#120B07]/98 border border-[#F2C14E]/70 rounded-xl px-5 sm:px-8 pt-8 sm:pt-9 pb-4 sm:pb-5 text-center flex flex-col items-center justify-center shadow-[0_12px_28px_rgba(0,0,0,0.6),0_30px_70px_rgba(0,0,0,0.45),0_50px_100px_rgba(0,0,0,0.25),0_0_35px_rgba(242,193,78,0.12)] backdrop-blur-md transition-transform group-hover:scale-[1.02]">
                 
                 {/* 🌟 Biểu Tượng Icon Đặt Trong Đường Tròn Viền Vàng Hoàng Kim (Tỏa sáng như mẫu thumbnail) */}
                 {currentNews.iconUrl && (
@@ -284,25 +284,29 @@ export const NewsSection: FC = () => {
                   </div>
                 )}
 
-                {/* 1. Tiêu Đề Bài Viết Vàng Kim (UTM Niagara) Ở TRÊN */}
-                <h3
-                  className="text-2xl sm:text-3xl md:text-4xl uppercase font-normal text-[#F2C14E] leading-tight px-2 line-clamp-2 mt-1 sm:mt-1.5 mb-1"
-                  style={{
-                    fontFamily: "'UTM Niagara', 'Playfair Display', serif",
-                    fontWeight: "normal",
-                    textShadow: "0 0 16px rgba(242,193,78,0.6)",
-                  }}
-                >
-                  {currentNews.title}
-                </h3>
+                {/* 1. Tiêu Đề Bài Viết Vàng Kim (UTM Niagara): KHÔNG BOLD + HÀO QUANG TỎA MỜ DẦN VÀO KHÔNG GIAN (KHÔNG BỊ CẮT HỘP) */}
+                <div className="relative w-full flex items-center justify-center mt-1 sm:mt-1.5 mb-1.5 overflow-visible">
+                  {/* Hào quang nền mờ dịu tỏa vào không gian 360 độ */}
+                  <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_at_center,rgba(242,193,78,0.18)_0%,rgba(242,193,78,0.05)_45%,transparent_75%)] blur-md -z-10" />
+
+                  <h3
+                    className="text-2xl sm:text-3xl md:text-4xl uppercase font-normal text-[#F2C14E] leading-tight px-2 text-center"
+                    style={{
+                      fontFamily: "'UTM Niagara', 'Playfair Display', serif",
+                      fontWeight: "normal",
+                      textShadow: "0 0 18px rgba(242,193,78,0.65), 0 0 38px rgba(242,193,78,0.3)",
+                    }}
+                  >
+                    {currentNews.title}
+                  </h3>
+                </div>
 
                 {/* 2. Sub Tiêu Đề Bài Viết Ở DƯỚI: Chữ Thường, Regular (Ko Bold), Font UTM Avo */}
                 {currentNews.subtitle && (
                   <p
-                    className="text-[12px] sm:text-[13px] md:text-[14px] font-normal tracking-[0.03em] text-[#E0CEB5] line-clamp-1 max-w-[92%]"
+                    className="text-[12px] sm:text-[13px] md:text-[14px] font-medium italic normal-case tracking-[0.03em] text-[#E5A93C] max-w-[92%]"
                     style={{
                       fontFamily: "'UTM Avo', sans-serif",
-                      fontWeight: 400,
                     }}
                   >
                     {currentNews.subtitle}
@@ -319,8 +323,8 @@ export const NewsSection: FC = () => {
             onClick={nextSlide}
             className="hidden lg:flex flex-col items-center justify-center w-[18%] xl:w-[20%] -ml-12 xl:-ml-14 z-10 cursor-pointer transition-all duration-500 grayscale brightness-60 opacity-60 hover:opacity-85 hover:brightness-85 group shrink-0"
           >
-            {/* Box Ảnh Bên Phải với viền mờ dần sang phải */}
-            <div className="relative w-full h-[320px] md:h-[380px] lg:h-[430px] overflow-hidden border-y border-r border-[#F2C14E]/30 rounded-r-xl shadow-2xl [mask-image:linear-gradient(to_right,black_60%,transparent_100%)]">
+            {/* Box Ảnh Bên Phải với viền mờ dần ở cả 2 mép (góc trong luồn dưới card chính và mép ngoài) */}
+            <div className="relative w-full h-[320px] md:h-[380px] lg:h-[430px] overflow-hidden border-y border-r border-[#F2C14E]/30 rounded-r-xl shadow-2xl [mask-image:linear-gradient(to_right,transparent_0%,black_18%,black_72%,transparent_100%)]">
               <img
                 key={`right-img-${nextNews.id}`}
                 src={nextNews.imgUrl}
@@ -331,8 +335,8 @@ export const NewsSection: FC = () => {
               <div className="absolute inset-0 bg-black/40" />
             </div>
 
-            {/* Thanh Chú Thích Tối Giản Bên Phải */}
-            <div className="w-full py-2.5 px-3 text-center bg-[#1A120B]/90 border-b border-r border-[#F2C14E]/25 rounded-br-lg flex flex-col items-center justify-center">
+            {/* Thanh Chú Thích Tối Giản Bên Phải (Viền và nền mờ dần cả góc trong lẫn mép ngoài) */}
+            <div className="w-full py-2.5 px-3 text-center bg-[#1A120B]/90 border-b border-r border-[#F2C14E]/30 rounded-br-xl flex flex-col items-center justify-center [mask-image:linear-gradient(to_right,transparent_0%,black_18%,black_72%,transparent_100%)]">
               {nextNews.iconUrl && (
                 <div className="w-7 h-7 rounded-full border border-[#F2C14E]/60 bg-[#1C120B] shadow-[0_0_10px_rgba(242,193,78,0.3)] flex items-center justify-center p-1 mb-1">
                   <img
@@ -343,15 +347,15 @@ export const NewsSection: FC = () => {
                 </div>
               )}
               <h4
-                className="text-base md:text-lg font-normal uppercase text-amber-100/80 truncate max-w-[90%] mx-auto"
-                style={{ fontFamily: "'UTM Niagara', serif" }}
+                className="text-base md:text-lg font-normal uppercase text-amber-100/90 truncate max-w-[90%] mx-auto"
+                style={{ fontFamily: "'UTM Niagara', serif", fontWeight: "normal" }}
               >
                 {nextNews.title}
               </h4>
               {nextNews.subtitle && (
                 <p
-                  className="text-[10px] sm:text-[11px] text-[#D4C3AC] font-normal truncate max-w-[95%] mt-0.5"
-                  style={{ fontFamily: "'UTM Avo', sans-serif", fontWeight: 400 }}
+                  className="text-[10px] sm:text-[11px] text-[#E5A93C] font-medium italic normal-case truncate max-w-[95%] mt-0.5"
+                  style={{ fontFamily: "'UTM Avo', sans-serif" }}
                 >
                   {nextNews.subtitle}
                 </p>

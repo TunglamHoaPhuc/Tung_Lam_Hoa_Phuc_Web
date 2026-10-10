@@ -54,6 +54,7 @@ import { PhotoGallery } from '@/components/tong-chi-tu-hoc/chi-tiet/PhotoGallery
 import { useTableDragDrop, GripHandleIcon } from './useTableDragDrop';
 import { AdminPagination, useAdminPagination } from './AdminPagination';
 import { useDebounce } from '@/hooks/useDebounce';
+import { CharCounter } from './CharCounter';
 
 // 🪷 KHỐI KÉO THẢ CHỈNH TIÊU ĐIỂM HÌNH ẢNH TRỰC QUAN
 function InteractiveImageDrag({
@@ -1026,8 +1027,18 @@ export function SpreadsheetGioiThieu() {
                 <th className="p-3 w-[55px] min-w-[55px] text-center border-r border-[#F2C14E]/20" title="Bấm giữ và kéo thả biểu tượng ⠿ ở từng hàng để sắp xếp thứ tự">#</th>
                 <th className="p-3 w-[160px] min-w-[160px] border-r border-[#F2C14E]/20 text-center">Phân Nhóm</th>
                 <th className="p-3 w-[80px] min-w-[80px] text-center border-r border-[#F2C14E]/20">Ảnh Bìa</th>
-                <th className="p-3 w-[220px] min-w-[220px] border-r border-[#F2C14E]/20">Tiêu Đề Chủ Đề</th>
-                <th className="p-3 w-[200px] min-w-[200px] border-r border-[#F2C14E]/20">Phụ Đề / Tác Giả</th>
+                <th className="p-3 w-[220px] min-w-[220px] border-r border-[#F2C14E]/20">
+                  <div className="flex flex-col items-start gap-0.5">
+                    <span>Tiêu Đề Chủ Đề</span>
+                    <span className="text-[9.5px] text-[#FFE5A3]/70 font-mono font-normal normal-case tracking-normal">Tối đa 80 ký tự</span>
+                  </div>
+                </th>
+                <th className="p-3 w-[200px] min-w-[200px] border-r border-[#F2C14E]/20">
+                  <div className="flex flex-col items-start gap-0.5">
+                    <span>Phụ Đề / Tác Giả</span>
+                    <span className="text-[9.5px] text-[#FFE5A3]/70 font-mono font-normal normal-case tracking-normal">Tối đa 60 ký tự</span>
+                  </div>
+                </th>
                 <th className="p-3 w-[140px] min-w-[140px] border-r border-[#F2C14E]/20 text-center">Đa Phương Tiện</th>
                 <th
                   className="p-3 border-r border-[#F2C14E]/20 cursor-help"
@@ -1152,36 +1163,64 @@ export function SpreadsheetGioiThieu() {
                         </div>
                       </td>
 
-                      {/* 4. Tiêu đề chủ đề */}
+                      {/* 4. Tiêu đề chủ đề (Tối đa 80 ký tự) */}
                       <td className="p-2.5 w-[220px] min-w-[220px] border-r border-[#F2C14E]/15 align-middle">
-                        <input
-                          type="text"
-                          value={row.title || ''}
-                          onChange={(e) => {
-                            const updated = [...topics];
-                            updated[origIndex].title = e.target.value;
-                            setTopics(updated);
-                            setIsDirty(true);
-                          }}
-                          placeholder="Tiêu đề chủ đề..."
-                          className="w-full px-2.5 py-2 bg-[#22140A] border border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E] rounded-xl text-xs text-[#FFE5A3] font-bold focus:outline-none transition-all shadow-sm"
-                        />
+                        <div className="w-full">
+                          <input
+                            type="text"
+                            maxLength={80}
+                            value={row.title || ''}
+                            onChange={(e) => {
+                              const updated = [...topics];
+                              updated[origIndex].title = e.target.value;
+                              setTopics(updated);
+                              setIsDirty(true);
+                            }}
+                            placeholder="Tiêu đề chủ đề (tối đa 80 kt)..."
+                            className={`w-full px-2.5 py-2 bg-[#22140A] border rounded-xl text-xs text-[#FFE5A3] font-bold focus:outline-none transition-all shadow-sm ${
+                              (row.title?.length || 0) > 80
+                                ? 'border-red-500 ring-1 ring-red-500'
+                                : (row.title?.length || 0) >= 70
+                                ? 'border-amber-400 focus:border-amber-400'
+                                : 'border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E]'
+                            }`}
+                          />
+                          <CharCounter
+                            current={row.title?.length || 0}
+                            max={80}
+                            compact
+                          />
+                        </div>
                       </td>
 
-                      {/* 5. Phụ đề / Tác giả */}
+                      {/* 5. Phụ đề / Tác giả (Tối đa 60 ký tự) */}
                       <td className="p-2.5 w-[200px] min-w-[200px] border-r border-[#F2C14E]/15 align-middle">
-                        <input
-                          type="text"
-                          value={row.subtitle || row.quoteAuthor || ''}
-                          onChange={(e) => {
-                            const updated = [...topics];
-                            updated[origIndex].subtitle = e.target.value;
-                            setTopics(updated);
-                            setIsDirty(true);
-                          }}
-                          placeholder="Phụ đề / tác giả..."
-                          className="w-full px-2.5 py-2 bg-[#22140A] border border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E] rounded-xl text-xs text-[#FFE5A3] focus:outline-none transition-all shadow-sm"
-                        />
+                        <div className="w-full">
+                          <input
+                            type="text"
+                            maxLength={60}
+                            value={row.subtitle || row.quoteAuthor || ''}
+                            onChange={(e) => {
+                              const updated = [...topics];
+                              updated[origIndex].subtitle = e.target.value;
+                              setTopics(updated);
+                              setIsDirty(true);
+                            }}
+                            placeholder="Phụ đề / tác giả (tối đa 60 kt)..."
+                            className={`w-full px-2.5 py-2 bg-[#22140A] border rounded-xl text-xs text-[#FFE5A3] focus:outline-none transition-all shadow-sm ${
+                              ((row.subtitle || row.quoteAuthor)?.length || 0) > 60
+                                ? 'border-red-500 ring-1 ring-red-500'
+                                : ((row.subtitle || row.quoteAuthor)?.length || 0) >= 50
+                                ? 'border-amber-400 focus:border-amber-400'
+                                : 'border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E]'
+                            }`}
+                          />
+                          <CharCounter
+                            current={(row.subtitle || row.quoteAuthor)?.length || 0}
+                            max={60}
+                            compact
+                          />
+                        </div>
                       </td>
 
                       {/* 6. Đa Phương Tiện & Niên Biểu (3 Nút Vector Chuẩn Hóa) */}

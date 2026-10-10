@@ -143,69 +143,70 @@ export const PostCard: FC<PostCardProps> = ({
     return (
       <CardWrapper
         {...(wrapperProps as any)}
-        className={`group relative w-full overflow-hidden rounded-xl border border-[#F2C14E]/25 bg-[#2C1C11] cursor-pointer transition-all duration-300 hover:-translate-y-1.5 hover:border-[#F2C14E] shadow-xl hover:shadow-[0_12px_36px_rgba(0,0,0,0.6)] flex flex-col h-full ${className}`}
+        className={`group relative w-full aspect-[16/13] overflow-hidden rounded-xl border border-[#F2C14E]/25 bg-[#2C1C11] cursor-pointer transition-all duration-500 hover:-translate-y-1.5 hover:border-[#F2C14E] shadow-xl hover:shadow-[0_12px_36px_rgba(0,0,0,0.6)] flex flex-col ${className}`}
       >
-        {/* 1. Khung ảnh Thumbnail Tỷ Lệ Vàng (1.618 : 1) - Kích thước ngang tiêu chuẩn */}
-        <div className="relative w-full aspect-[1.618/1] overflow-hidden bg-[#1A120B] shrink-0">
+        {/* 1. Khung ảnh Thumbnail: flex-1 min-h-0 co lại mượt mà vào trong khi hover */}
+        <div className="relative w-full flex-1 min-h-0 overflow-hidden bg-[#1A120B] transition-all duration-500 ease-out">
           <img
             src={post.imageUrl || 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp'}
             alt={post.title}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+            style={{ objectPosition: post.thumbnailPosition || post.imagePosition || 'center 20%' }}
             loading="lazy"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
         </div>
 
         {/* 2. Đường kẻ Gradient cắt ĐÚNG ranh giới mép chân ảnh */}
-        <div className="relative w-full h-[1px] bg-gradient-to-r from-transparent via-[#F2C14E]/70 to-transparent z-10 shrink-0">
+        <div className="relative w-full h-[1px] bg-gradient-to-r from-transparent via-[#F2C14E]/70 to-transparent z-10 shrink-0 transition-all duration-500 ease-out">
           {/* Huy hiệu Logo Chuyên mục con nổi chính giữa tim đường kẻ */}
           <div className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-[44px] h-[44px] md:w-[50px] md:h-[50px] rounded-full border-2 border-[#F2C14E] bg-[#24160E] flex items-center justify-center p-2 shadow-[0_0_16px_rgba(242,193,78,0.6)] group-hover:scale-110 group-hover:shadow-[0_0_24px_rgba(242,193,78,0.85)] transition-all duration-300">
             <img
               src={`${logoUrl}?v=4`}
-              alt={categoryTag}
+              alt={post.title}
               className="w-full h-full object-contain filter drop-shadow-[0_0_6px_rgba(242,193,78,0.5)]"
             />
           </div>
         </div>
 
-        {/* 3. Khung nội dung tối giản: Tiêu đề + Sub tiêu đề (Mặc định). Bỏ tag danh mục. Ẩn mô tả & meta, mở khi hover */}
-        <div className="p-4 md:p-5 pt-8 sm:pt-9 md:pt-10 flex flex-col items-center text-center justify-end bg-[#2C1C11] shrink-0">
-          {/* Tiêu Đề Bài Viết - Căn chính giữa, ở trên */}
-          <h3
-            style={{ fontFamily: "'UTM Avo', sans-serif" }}
-            className="font-bold text-[18px] md:text-[20px] text-[#F2C14E] group-hover:text-[#FFE5A3] line-clamp-2 leading-snug transition-colors w-full text-center"
-          >
-            {post.title}
-          </h3>
-
-          {/* Sub Tiêu Đề - Căn chính giữa, chữ thường, ở dưới tiêu đề */}
+        {/* 3. Khung nội dung: Cố định khung, mở rộng vào trong, Sub tiêu đề ở trên nghiêng nhẹ & bold nhẹ */}
+        <div className="p-3.5 sm:p-4 md:p-5 pt-7 sm:pt-8 md:pt-9 flex flex-col items-center text-center justify-end bg-[#2C1C11] shrink-0 transition-all duration-500 ease-out">
+          {/* Sub Tiêu Đề - Đưa lên trên tiêu đề, viết thường, bold nhẹ & nghiêng */}
           {(post.subtitle || post.category2) && (
             <p
               style={{ fontFamily: "'UTM Avo', sans-serif" }}
-              className="text-xs md:text-[13px] text-[#D3C0AD] line-clamp-1 leading-normal font-normal mt-1 w-full text-center tracking-wide"
+              className="text-[11.5px] sm:text-xs md:text-[13px] text-[#E5A93C] font-medium italic normal-case line-clamp-1 leading-normal w-full text-center tracking-wide"
             >
               {post.subtitle || post.category2}
             </p>
           )}
 
-          {/* Phần mở rộng khi hover: Mô tả ngắn + Ngày đăng & Lượt xem */}
+          {/* Tiêu Đề Bài Viết - Đưa xuống dưới sub tiêu đề, BẮT BUỘC BOLD & IN HOA TOÀN BỘ */}
+          <h3
+            style={{ fontFamily: "'UTM Avo', sans-serif" }}
+            className="font-bold uppercase text-[17px] sm:text-[18px] md:text-[20px] text-[#F2C14E] group-hover:text-[#FFE5A3] line-clamp-2 leading-snug transition-colors w-full text-center mt-1"
+          >
+            {post.title}
+          </h3>
+
+          {/* Phần mở rộng khi hover vào trong post: Mô tả ngắn + Ngày đăng & Lượt xem */}
           <div
             style={{ fontFamily: "'UTM Avo', sans-serif" }}
-            className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-300 ease-out w-full"
+            className="grid grid-rows-[0fr] group-hover:grid-rows-[1fr] transition-[grid-template-rows] duration-500 ease-out w-full"
           >
             <div className="overflow-hidden">
-              <div className="flex flex-col gap-2 pt-2.5 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <div className="flex flex-col gap-2 pt-2 md:pt-2.5 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
                 {/* Mô tả ngắn bài viết */}
                 {post.description && (
                   <p
-                    className="text-[#c9b896] leading-relaxed line-clamp-3 text-justify text-[12px] md:text-[13px]"
+                    className="text-[#c9b896] leading-relaxed line-clamp-2 md:line-clamp-3 text-justify text-[11.5px] md:text-[12.5px]"
                   >
                     {post.description}
                   </p>
                 )}
 
                 {/* Meta: Ngày đăng + Lượt xem */}
-                <div className={`flex items-center ${post.publishedDate ? 'justify-between' : 'justify-end'} text-[11px] text-[#A69383] pt-2 border-t border-[#F2C14E]/15 mt-0.5`}>
+                <div className={`flex items-center ${post.publishedDate ? 'justify-between' : 'justify-end'} text-[10.5px] md:text-[11px] text-[#A69383] pt-2 border-t border-[#F2C14E]/15 mt-0.5`}>
                   {post.publishedDate && (
                     <div className="flex items-center gap-1.5">
                       <Calendar className="w-3.5 h-3.5 text-[#F2C14E]/70" />
@@ -236,6 +237,7 @@ export const PostCard: FC<PostCardProps> = ({
           src={post.imageUrl || 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp'}
           alt={post.title}
           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+          style={{ objectPosition: post.thumbnailPosition || post.imagePosition || 'center 20%' }}
           loading="lazy"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
@@ -255,18 +257,18 @@ export const PostCard: FC<PostCardProps> = ({
 
       {/* 3. Khung nội dung tối giản: Căn chính giữa danh mục & tiêu đề, khoảng cách thoáng đãng tuyệt đối không chạm vòng tròn */}
       <div className="p-3 md:p-4 pt-8 sm:pt-9 md:pt-11 flex flex-col items-center text-center justify-end bg-[#2C1C11] shrink-0">
-        {/* Tag Danh Mục - Căn chính giữa */}
+        {/* Sub Tiêu Đề - Viết thường, bold nhẹ & nghiêng */}
         <div
           style={{ fontFamily: "'UTM Avo', sans-serif" }}
-          className="text-[10px] md:text-[11.5px] font-semibold text-[#E5A93C] tracking-widest uppercase truncate w-full text-center"
+          className="text-[10.5px] sm:text-[11px] md:text-[12px] font-medium italic text-[#E5A93C] tracking-wide normal-case truncate w-full text-center"
         >
-          {categoryTag}
+          {post.subtitle || categoryTag}
         </div>
 
-        {/* Tiêu Đề Bài Viết - Căn chính giữa */}
+        {/* Tiêu Đề Bài Viết - BẮT BUỘC BOLD & IN HOA TOÀN BỘ */}
         <h3
           style={{ fontFamily: "'UTM Avo', sans-serif" }}
-          className={`font-bold ${
+          className={`font-bold uppercase ${
             large ? 'text-[17px] md:text-[20px]' : 'text-[13px] md:text-[15px]'
           } text-[#F2C14E] group-hover:text-[#FFE5A3] line-clamp-2 leading-snug transition-colors mt-1.5 w-full text-center`}
         >

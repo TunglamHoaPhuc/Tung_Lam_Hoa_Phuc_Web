@@ -29,6 +29,7 @@ import { S3FileExplorerModal } from './S3FileExplorerModal';
 import { useTableDragDrop, GripHandleIcon } from './useTableDragDrop';
 import { AdminPagination, useAdminPagination } from './AdminPagination';
 import { useDebounce } from '@/hooks/useDebounce';
+import { CharCounter } from './CharCounter';
 
 export function SpreadsheetVuTru() {
   const [areas, setAreas] = useState<UniverseArea[]>([]);
@@ -379,8 +380,18 @@ export function SpreadsheetVuTru() {
                 <th className="p-3 w-[55px] min-w-[55px] text-center border-r border-[#F2C14E]/20" title="Bấm giữ và kéo thả biểu tượng ⠿ ở từng hàng để sắp xếp thứ tự">#</th>
                 <th className="p-3 w-[160px] min-w-[160px] border-r border-[#F2C14E]/20 text-center">Tự Viện / Phân Khu</th>
                 <th className="p-3 w-[80px] min-w-[80px] text-center border-r border-[#F2C14E]/20">Ảnh Bìa</th>
-                <th className="p-3 w-[220px] min-w-[220px] border-r border-[#F2C14E]/20">Tên Không Gian</th>
-                <th className="p-3 w-[200px] min-w-[200px] border-r border-[#F2C14E]/20">Phụ Đề & Vị Trí</th>
+                <th className="p-3 w-[220px] min-w-[220px] border-r border-[#F2C14E]/20">
+                  <div className="flex flex-col items-start gap-0.5">
+                    <span>Tên Không Gian</span>
+                    <span className="text-[9.5px] text-[#FFE5A3]/70 font-mono font-normal normal-case tracking-normal">Tối đa 80 ký tự</span>
+                  </div>
+                </th>
+                <th className="p-3 w-[200px] min-w-[200px] border-r border-[#F2C14E]/20">
+                  <div className="flex flex-col items-start gap-0.5">
+                    <span>Phụ Đề & Vị Trí</span>
+                    <span className="text-[9.5px] text-[#FFE5A3]/70 font-mono font-normal normal-case tracking-normal">Tối đa 60 ký tự</span>
+                  </div>
+                </th>
                 <th className="p-3 w-[160px] min-w-[160px] border-r border-[#F2C14E]/20 text-center">Tượng & Câu Chuyện</th>
                 <th
                   className="p-3 border-r border-[#F2C14E]/20 cursor-help"
@@ -500,27 +511,42 @@ export function SpreadsheetVuTru() {
                         </div>
                       </td>
 
-                      {/* 4. Tên Không Gian */}
+                      {/* 4. Tên Không Gian (Tối đa 80 ký tự) */}
                       <td className="p-2.5 w-[220px] min-w-[220px] border-r border-[#F2C14E]/15 align-middle">
-                        <input
-                          type="text"
-                          value={row.name || ''}
-                          onChange={(e) => {
-                            const updated = [...areas];
-                            updated[actualIdx].name = e.target.value;
-                            setAreas(updated);
-                            setIsDirty(true);
-                          }}
-                          placeholder="Tên không gian..."
-                          className="w-full px-2.5 py-2 bg-[#22140A] border border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E] rounded-xl text-xs text-[#FFE5A3] font-bold focus:outline-none transition-all shadow-sm uppercase tracking-wide"
-                        />
-                      </td>
-
-                      {/* 5. Phụ Đề & Vị Trí */}
-                      <td className="p-2.5 w-[200px] min-w-[200px] border-r border-[#F2C14E]/15 align-middle">
-                        <div className="space-y-1.5">
+                        <div className="w-full">
                           <input
                             type="text"
+                            maxLength={80}
+                            value={row.name || ''}
+                            onChange={(e) => {
+                              const updated = [...areas];
+                              updated[actualIdx].name = e.target.value;
+                              setAreas(updated);
+                              setIsDirty(true);
+                            }}
+                            placeholder="Tên không gian (tối đa 80 kt)..."
+                            className={`w-full px-2.5 py-2 bg-[#22140A] border rounded-xl text-xs text-[#FFE5A3] font-bold focus:outline-none transition-all shadow-sm uppercase tracking-wide ${
+                              (row.name?.length || 0) > 80
+                                ? 'border-red-500 ring-1 ring-red-500'
+                                : (row.name?.length || 0) >= 70
+                                ? 'border-amber-400 focus:border-amber-400'
+                                : 'border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E]'
+                            }`}
+                          />
+                          <CharCounter
+                            current={row.name?.length || 0}
+                            max={80}
+                            compact
+                          />
+                        </div>
+                      </td>
+
+                      {/* 5. Phụ Đề & Vị Trí (Tối đa 60 ký tự) */}
+                      <td className="p-2.5 w-[200px] min-w-[200px] border-r border-[#F2C14E]/15 align-middle">
+                        <div className="space-y-1">
+                          <input
+                            type="text"
+                            maxLength={60}
                             value={row.subtitle || ''}
                             onChange={(e) => {
                               const updated = [...areas];
@@ -528,8 +554,19 @@ export function SpreadsheetVuTru() {
                               setAreas(updated);
                               setIsDirty(true);
                             }}
-                            placeholder="Phụ đề không gian..."
-                            className="w-full px-2.5 py-1.5 bg-[#22140A] border border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E] rounded-xl text-xs text-[#FFE5A3] focus:outline-none transition-all shadow-sm"
+                            placeholder="Phụ đề không gian (tối đa 60 kt)..."
+                            className={`w-full px-2.5 py-1.5 bg-[#22140A] border rounded-xl text-xs text-[#FFE5A3] focus:outline-none transition-all shadow-sm ${
+                              (row.subtitle?.length || 0) > 60
+                                ? 'border-red-500 ring-1 ring-red-500'
+                                : (row.subtitle?.length || 0) >= 50
+                                ? 'border-amber-400 focus:border-amber-400'
+                                : 'border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E]'
+                            }`}
+                          />
+                          <CharCounter
+                            current={row.subtitle?.length || 0}
+                            max={60}
+                            compact
                           />
                           <div className="flex items-center gap-2">
                             <span className="text-[10px] text-[#c9b896]/60 font-mono">Pin #{row.pinNumber}</span>

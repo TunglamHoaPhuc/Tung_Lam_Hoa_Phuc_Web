@@ -2,6 +2,24 @@ import { NextRequest, NextResponse } from 'next/server';
 import { loadServerlessJson, saveServerlessJson, ServerlessDbOptions } from '@/lib/serverless-db';
 import scheduleDbJson from '@/data/schedule-database.json';
 
+export interface CustomScheduleEvent {
+  id: string;
+  slug?: string;
+  solarDateStr: string; // "DD.MM.YYYY"
+  title: string;
+  subtitle?: string;
+  category: 'Cộng Tu' | 'Đại Lễ Sự Kiện' | 'Khóa Lễ Truyền Thống' | string;
+  timeSlot1Label?: string;
+  timeSlot1Time?: string;
+  location: string;
+  description: string;
+  notes?: string;
+  imgUrl?: string;
+  videoUrl?: string;
+  gallery?: string[];
+  contentHtml?: string;
+}
+
 export interface ScheduleDatabaseData {
   featuredPrograms: Array<{
     id: string;
@@ -20,17 +38,7 @@ export interface ScheduleDatabaseData {
     secondaryColor: string;
     themeBg: string;
   }>;
-  customEvents: Array<{
-    id: string;
-    solarDateStr: string; // "DD.MM.YYYY"
-    title: string;
-    category: string;
-    timeSlot1Label?: string;
-    timeSlot1Time?: string;
-    location: string;
-    description: string;
-    imgUrl?: string;
-  }>;
+  customEvents: Array<CustomScheduleEvent>;
 }
 
 const DB_OPTIONS: ServerlessDbOptions<ScheduleDatabaseData> = {

@@ -56,7 +56,7 @@ export default function DongChayHoangPhapClient({
               templeName: p.templeName || 'Tùng Lâm Hòa Phúc',
               views: typeof p.viewsCount === 'number' ? p.viewsCount : (parseInt(p.viewsCount, 10) || 0),
               thumbnailUrl: p.thumbnailUrl || '/images/toan-canh-chua.jpg',
-              thumbnailPosition: p.thumbnailPosition || 'center center',
+              thumbnailPosition: p.thumbnailPosition || p.imagePosition || 'center 20%',
               bannerUrl: p.bannerUrl || '/images/toan-canh-chua.jpg',
               summary:
                 p.summary && !p.summary.includes('Tóm tắt')
@@ -268,5 +268,7 @@ function mapArticleToPostItem(art: HoangPhapArticle): PostItem {
     description: decodeHtmlEntities(art.summary),
     targetUrl: `/dong-chay-hoang-phap/${art.slug}`,
     large: true,
+    thumbnailPosition: art.thumbnailPosition || 'center 20%',
+    imagePosition: art.thumbnailPosition || 'center 20%',
   };
 }

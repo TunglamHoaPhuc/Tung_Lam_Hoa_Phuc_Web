@@ -23,6 +23,7 @@ import Link from 'next/link';
 import { S3FileExplorerModal } from './S3FileExplorerModal';
 import { UnsavedChangesModal } from './UnsavedChangesModal';
 import { ImageFocalPositionerModal } from './ImageFocalPositionerModal';
+import { CharCounter } from './CharCounter';
 import { PostRecord } from '@/app/api/admin/posts/route';
 
 interface PostFormEditorProps {
@@ -302,21 +303,59 @@ export function PostFormEditor({ initialData, isEditing = false }: PostFormEdito
           {/* LEFT COLUMN: MAIN CONTENT (2 Cols) */}
           <div className="lg:col-span-2 space-y-6">
             {/* Tiêu đề & Subtitle */}
-            <div className="bg-[#1C120A] border border-[#F2C14E]/25 rounded-2xl p-5 space-y-4 shadow-xl">
+            <div className="bg-[#1C120A] border border-[#F2C14E]/25 rounded-2xl p-5 space-y-5 shadow-xl">
+              {/* 🪷 KHỐI HƯỚNG DẪN QUY CHUẨN NỘI DUNG VÀNG (CONTENT HOOK GUIDELINES) */}
+              <div className="p-3.5 rounded-xl bg-[#25170E]/80 border border-[#F2C14E]/30 text-xs text-[#D3C0AD] leading-relaxed space-y-1.5 shadow-inner">
+                <div className="flex items-center gap-2 text-[#ffde59] font-bold text-xs uppercase tracking-wide">
+                  <Sparkles className="w-4 h-4 text-[#F2C14E] shrink-0" />
+                  <span>Quy chuẩn thiết kế nội dung vàng (Chống nhảy dòng & Giữ Hook)</span>
+                </div>
+                <p className="text-[11px] text-[#FFE5A3]/90">
+                  Để đảm bảo các thẻ bài viết (Post Card) và Hero Banner luôn trang nghiêm, cân đối tuyệt đối theo tỷ lệ vàng:
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-1 text-[10.5px]">
+                  <div className="bg-[#1C120A] p-2 rounded-lg border border-[#F2C14E]/20">
+                    <strong className="text-[#F2C14E] block">1. Tiêu Đề (≤ 80 kt)</strong>
+                    <span>Ngắn gọn, giật tít cuốn hút, tối đa 2 dòng.</span>
+                  </div>
+                  <div className="bg-[#1C120A] p-2 rounded-lg border border-[#F2C14E]/20">
+                    <strong className="text-[#F2C14E] block">2. Sub Tiêu Đề (≤ 60 kt)</strong>
+                    <span>Duy nhất 1 dòng, đúc kết tinh hoa/thời gian.</span>
+                  </div>
+                  <div className="bg-[#1C120A] p-2 rounded-lg border border-[#F2C14E]/20">
+                    <strong className="text-[#F2C14E] block">3. Tóm Tắt Hook (≤ 180 kt)</strong>
+                    <span>2-3 dòng câu Hook kích thích click đọc, chuẩn SEO.</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* 1. Tiêu Đề Bài Viết (Max 80 ký tự) */}
               <div>
-                <label className="block text-xs text-[#F2C14E] font-bold mb-1.5">
-                  Tiêu Đề Bài Viết *
-                </label>
+                <CharCounter
+                  current={(formData.title || '').length}
+                  max={80}
+                  recommendedMin={20}
+                  label="Tiêu Đề Bài Viết *"
+                  hint="⚡ Tối đa 80 ký tự (chuẩn 1-2 dòng): Súc tích, cuốn hút, chứa từ khóa chính; chống tràn vỡ Hero Banner & Post Card."
+                />
                 <input
                   type="text"
-                  value={formData.title}
+                  maxLength={80}
+                  value={formData.title || ''}
                   onChange={handleTitleChange}
-                  placeholder="Nhập tiêu đề bài viết..."
+                  placeholder="Nhập tiêu đề bài viết súc tích (tối đa 80 ký tự)..."
                   required
-                  className="w-full px-4 py-2.5 bg-[#25170E] border border-[#F2C14E]/30 rounded-xl text-sm text-[#FFE5A3] placeholder-[#FFE5A3]/30 focus:outline-none focus:border-[#F2C14E]"
+                  className={`w-full px-4 py-2.5 bg-[#25170E] border rounded-xl text-sm font-semibold text-[#FFE5A3] placeholder-[#FFE5A3]/30 focus:outline-none transition-all ${
+                    (formData.title || '').length > 80
+                      ? 'border-red-500 ring-1 ring-red-500'
+                      : (formData.title || '').length >= 70
+                      ? 'border-amber-400 focus:border-amber-400'
+                      : 'border-[#F2C14E]/30 focus:border-[#F2C14E]'
+                  }`}
                 />
               </div>
 
+              {/* 2. Đường Dẫn Slug */}
               <div>
                 <label className="block text-xs text-[#F2C14E] font-bold mb-1.5">
                   Đường Dẫn Slug (Tự động tạo)
@@ -330,29 +369,53 @@ export function PostFormEditor({ initialData, isEditing = false }: PostFormEdito
                 />
               </div>
 
+              {/* 3. Tiêu Đề Phụ / Trích Dẫn (Max 60 ký tự) */}
               <div>
-                <label className="block text-xs text-[#F2C14E] font-bold mb-1.5">
-                  Tiêu Đề Phụ / Trích Dẫn (Subtitle)
-                </label>
+                <CharCounter
+                  current={formData.subtitle?.length || 0}
+                  max={60}
+                  recommendedMin={15}
+                  label="Tiêu Đề Phụ / Trích Dẫn (Subtitle)"
+                  hint="📜 Tối đa 60 ký tự (duy nhất 1 dòng): Đúc kết thông điệp tinh hoa hoặc mốc thời gian pháp hội, không bị ngắt cụt."
+                />
                 <input
                   type="text"
-                  value={formData.subtitle}
+                  maxLength={60}
+                  value={formData.subtitle || ''}
                   onChange={(e) => setFormData({ ...formData, subtitle: e.target.value })}
-                  placeholder="Câu chú thích hoặc trích yếu ngắn gọn..."
-                  className="w-full px-4 py-2 bg-[#25170E] border border-[#F2C14E]/20 rounded-xl text-xs text-[#FFE5A3] focus:outline-none focus:border-[#F2C14E]"
+                  placeholder="Câu chú thích hoặc trích yếu ngắn gọn (tối đa 60 ký tự)..."
+                  className={`w-full px-4 py-2 bg-[#25170E] border rounded-xl text-xs italic text-[#FFE5A3] focus:outline-none transition-all ${
+                    (formData.subtitle?.length || 0) > 60
+                      ? 'border-red-500 ring-1 ring-red-500'
+                      : (formData.subtitle?.length || 0) >= 50
+                      ? 'border-amber-400 focus:border-amber-400'
+                      : 'border-[#F2C14E]/20 focus:border-[#F2C14E]'
+                  }`}
                 />
               </div>
 
+              {/* 4. Tóm Tắt Ngắn Gọn (Max 180 ký tự) */}
               <div>
-                <label className="block text-xs text-[#F2C14E] font-bold mb-1.5">
-                  Tóm Tắt Ngắn Gọn (Summary)
-                </label>
+                <CharCounter
+                  current={formData.summary?.length || 0}
+                  max={180}
+                  recommendedMin={60}
+                  label="Tóm Tắt Ngắn Gọn / Câu Hook Dẫn Nhập (Summary)"
+                  hint="🪷 Tối đa 180 ký tự (chuẩn 2-3 dòng): Câu Hook khơi gợi cảm hứng tu học, kích thích độc giả click đọc khi hover vào Post Card, chuẩn SEO Meta Description."
+                />
                 <textarea
                   rows={3}
-                  value={formData.summary}
+                  maxLength={180}
+                  value={formData.summary || ''}
                   onChange={(e) => setFormData({ ...formData, summary: e.target.value })}
-                  placeholder="Đoạn văn ngắn hiển thị trên thẻ bài viết ở Trang Chủ và danh sách..."
-                  className="w-full px-4 py-2.5 bg-[#25170E] border border-[#F2C14E]/20 rounded-xl text-xs text-[#FFE5A3] focus:outline-none focus:border-[#F2C14E] leading-relaxed"
+                  placeholder="Đoạn văn ngắn gọn, súc tích (Hook) hiển thị trên thẻ bài viết và trang chủ (tối đa 180 ký tự)..."
+                  className={`w-full px-4 py-2.5 bg-[#25170E] border rounded-xl text-xs text-[#FFE5A3] focus:outline-none leading-relaxed transition-all ${
+                    (formData.summary?.length || 0) > 180
+                      ? 'border-red-500 ring-1 ring-red-500'
+                      : (formData.summary?.length || 0) >= 155
+                      ? 'border-amber-400 focus:border-amber-400'
+                      : 'border-[#F2C14E]/20 focus:border-[#F2C14E]'
+                  }`}
                 />
               </div>
             </div>

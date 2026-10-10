@@ -89,6 +89,8 @@ s3_keys.json
 rclone.conf
 *.rclone*
 scripts/s3/migrate_s2_to_new_bucket.mjs
+scripts/s3/sync_uploads_folder.mjs
+scripts/s3/*.mjs
 
 # =========================
 # Scratch, Temp AI/Dev Files

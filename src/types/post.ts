@@ -18,4 +18,6 @@ export interface PostItem {
   location?: string;         // Địa điểm tổ chức / thu âm
   targetUrl?: string;        // Link bài viết chi tiết
   large?: boolean;           // Cờ bài viết nổi bật (dùng cho card lớn)
+  thumbnailPosition?: string; // Vị trí căn chỉnh hiển thị ảnh (ví dụ: 'center 20%', 'center top')
+  imagePosition?: string;     // Alias vị trí ảnh
 }

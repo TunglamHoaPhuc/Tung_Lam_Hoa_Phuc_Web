@@ -65,6 +65,7 @@ import { PostRecord, SourceBook, VideoBlock, FeaturedArticle, PhotoItem } from '
 import { useTableDragDrop, GripHandleIcon } from './useTableDragDrop';
 import { AdminPagination, useAdminPagination } from './AdminPagination';
 import { useDebounce } from '@/hooks/useDebounce';
+import { CharCounter } from './CharCounter';
 
 // 🌟 CHUYÊN MỤC TRÍ TUỆ PHẬT PHÁP
 export const TRI_TUE_CATEGORIES = [
@@ -844,36 +845,64 @@ export function SpreadsheetTriTue() {
                         </div>
                       </td>
 
-                      {/* 4. Tiêu Đề Bài Viết */}
+                      {/* 4. Tiêu Đề Bài Viết (Tối đa 80 ký tự) */}
                       <td className="p-2.5 w-[220px] min-w-[220px] border-r border-[#F2C14E]/15 align-middle">
-                        <textarea
-                          rows={3}
-                          value={row.title || ''}
-                          onChange={(e) => {
-                            const updated = [...posts];
-                            updated[actualIdx].title = e.target.value;
-                            setPosts(updated);
-                            setIsDirty(true);
-                          }}
-                          placeholder="Tiêu đề bài viết..."
-                          className="w-full min-h-[72px] px-2.5 py-2.5 bg-[#22140A] border border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E] rounded-xl text-xs font-bold text-[#ffde59] uppercase focus:outline-none leading-snug transition-all resize-none shadow-sm flex items-center"
-                        />
+                        <div className="w-full">
+                          <textarea
+                            rows={3}
+                            maxLength={80}
+                            value={row.title || ''}
+                            onChange={(e) => {
+                              const updated = [...posts];
+                              updated[actualIdx].title = e.target.value;
+                              setPosts(updated);
+                              setIsDirty(true);
+                            }}
+                            placeholder="Tiêu đề (tối đa 80 kt)..."
+                            className={`w-full min-h-[64px] px-2.5 py-2 bg-[#22140A] border rounded-xl text-xs font-bold text-[#ffde59] uppercase focus:outline-none leading-snug transition-all resize-none shadow-sm flex items-center ${
+                              (row.title?.length || 0) > 80
+                                ? 'border-red-500 text-red-300 ring-1 ring-red-500'
+                                : (row.title?.length || 0) >= 70
+                                ? 'border-amber-400 focus:border-amber-400'
+                                : 'border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E]'
+                            }`}
+                          />
+                          <CharCounter
+                            current={row.title?.length || 0}
+                            max={80}
+                            compact
+                          />
+                        </div>
                       </td>
 
-                      {/* 5. Tiêu Đề Phụ (Lời Tựa / Phụ Đề) */}
+                      {/* 5. Tiêu Đề Phụ (Tối đa 60 ký tự) */}
                       <td className="p-2.5 w-[200px] min-w-[200px] border-r border-[#F2C14E]/15 align-middle">
-                        <textarea
-                          rows={3}
-                          value={row.subtitle || ''}
-                          onChange={(e) => {
-                            const updated = [...posts];
-                            updated[actualIdx].subtitle = e.target.value;
-                            setPosts(updated);
-                            setIsDirty(true);
-                          }}
-                          placeholder="Nhập lời tựa / tiêu đề phụ..."
-                          className="w-full min-h-[72px] px-3 py-2.5 bg-[#22140A] border border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E] rounded-xl text-xs text-[#FFE5A3] italic focus:outline-none leading-relaxed transition-all resize-none shadow-sm flex items-center"
-                        />
+                        <div className="w-full">
+                          <textarea
+                            rows={3}
+                            maxLength={60}
+                            value={row.subtitle || ''}
+                            onChange={(e) => {
+                              const updated = [...posts];
+                              updated[actualIdx].subtitle = e.target.value;
+                              setPosts(updated);
+                              setIsDirty(true);
+                            }}
+                            placeholder="Nhập lời tựa (tối đa 60 kt)..."
+                            className={`w-full min-h-[64px] px-3 py-2 bg-[#22140A] border rounded-xl text-xs italic text-[#FFE5A3] focus:outline-none leading-relaxed transition-all resize-none shadow-sm flex items-center ${
+                              (row.subtitle?.length || 0) > 60
+                                ? 'border-red-500 text-red-300 ring-1 ring-red-500'
+                                : (row.subtitle?.length || 0) >= 50
+                                ? 'border-amber-400 focus:border-amber-400'
+                                : 'border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E]'
+                            }`}
+                          />
+                          <CharCounter
+                            current={row.subtitle?.length || 0}
+                            max={60}
+                            compact
+                          />
+                        </div>
                       </td>
 
                       {/* 5. Tác Giả & Ngày */}

@@ -64,6 +64,7 @@ import { DiscoverMore } from '@/components/tong-chi-tu-hoc/chi-tiet/DiscoverMore
 import { useTableDragDrop, GripHandleIcon } from './useTableDragDrop';
 import { AdminPagination, useAdminPagination } from './AdminPagination';
 import { useDebounce } from '@/hooks/useDebounce';
+import { CharCounter } from './CharCounter';
 
 interface KeywordItem {
   keyword: string;
@@ -1733,8 +1734,18 @@ export function SpreadsheetTongChi() {
                 <th className="p-3 w-[55px] min-w-[55px] text-center border-r border-[#F2C14E]/20" title="Bấm giữ và kéo thả biểu tượng ⠿ ở từng hàng để sắp xếp thứ tự">#</th>
                 <th className="p-3 w-[150px] min-w-[150px] border-r border-[#F2C14E]/20 text-center">Chuyên Mục</th>
                 <th className="p-3 w-[80px] min-w-[80px] text-center border-r border-[#F2C14E]/20">Banner</th>
-                <th className="p-3 w-[190px] min-w-[190px] border-r border-[#F2C14E]/20">Tiêu Đề Bài Viết</th>
-                <th className="p-3 w-[250px] min-w-[250px] border-r border-[#F2C14E]/20">Tiêu Đề Phụ</th>
+                <th className="p-3 w-[190px] min-w-[190px] border-r border-[#F2C14E]/20">
+                  <div className="flex flex-col items-start gap-0.5">
+                    <span>Tiêu Đề Bài Viết</span>
+                    <span className="text-[9.5px] text-[#FFE5A3]/70 font-mono font-normal normal-case tracking-normal">Tối đa 80 ký tự</span>
+                  </div>
+                </th>
+                <th className="p-3 w-[250px] min-w-[250px] border-r border-[#F2C14E]/20">
+                  <div className="flex flex-col items-start gap-0.5">
+                    <span>Tiêu Đề Phụ</span>
+                    <span className="text-[9.5px] text-[#FFE5A3]/70 font-mono font-normal normal-case tracking-normal">Tối đa 60 ký tự</span>
+                  </div>
+                </th>
                 <th className="p-3 w-[110px] min-w-[110px] border-r border-[#F2C14E]/20 text-center" title="Lượt xem đo lường thực tế từ độc giả khi đọc bài">Lượt Xem</th>
                 <th className="p-3 w-[140px] min-w-[140px] border-r border-[#F2C14E]/20 text-center">Đa Phương Tiện</th>
                 <th
@@ -1853,34 +1864,64 @@ export function SpreadsheetTongChi() {
                         </div>
                       </td>
 
-                      {/* 4. Tiêu Đề Bài Viết (Căn giữa dọc đẹp mắt) */}
+                      {/* 4. Tiêu Đề Bài Viết (Tối đa 80 ký tự) */}
                       <td className="p-2.5 w-[190px] min-w-[190px] border-r border-[#F2C14E]/15 align-middle">
-                        <textarea
-                          rows={3}
-                          value={row.title}
-                          onChange={(e) => {
-                            const updated = [...articles];
-                            updated[actualIdx].title = e.target.value;
-                            setArticles(updated);
-                          }}
-                          placeholder="Nhập tiêu đề bài viết..."
-                          className="w-full min-h-[72px] px-2.5 py-2.5 bg-[#22140A] border border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E] rounded-xl text-xs font-bold text-[#ffde59] uppercase focus:outline-none leading-snug transition-all resize-none shadow-sm flex items-center"
-                        />
+                        <div className="w-full">
+                          <textarea
+                            rows={3}
+                            maxLength={80}
+                            value={row.title}
+                            onChange={(e) => {
+                              const updated = [...articles];
+                              updated[actualIdx].title = e.target.value;
+                              setArticles(updated);
+                              setIsDirty(true);
+                            }}
+                            placeholder="Nhập tiêu đề (tối đa 80 kt)..."
+                            className={`w-full min-h-[64px] px-2.5 py-2 bg-[#22140A] border rounded-xl text-xs font-bold text-[#ffde59] uppercase focus:outline-none leading-snug transition-all resize-none shadow-sm flex items-center ${
+                              (row.title?.length || 0) > 80
+                                ? 'border-red-500 text-red-300 ring-1 ring-red-500'
+                                : (row.title?.length || 0) >= 70
+                                ? 'border-amber-400 focus:border-amber-400'
+                                : 'border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E]'
+                            }`}
+                          />
+                          <CharCounter
+                            current={row.title?.length || 0}
+                            max={80}
+                            compact
+                          />
+                        </div>
                       </td>
 
-                      {/* 5. Tiêu Đề Phụ (Căn giữa dọc đẹp mắt) */}
+                      {/* 5. Tiêu Đề Phụ (Tối đa 60 ký tự) */}
                       <td className="p-2.5 w-[250px] min-w-[250px] border-r border-[#F2C14E]/15 align-middle">
-                        <textarea
-                          rows={3}
-                          value={row.subtitle || ''}
-                          onChange={(e) => {
-                            const updated = [...articles];
-                            updated[actualIdx].subtitle = e.target.value;
-                            setArticles(updated);
-                          }}
-                          placeholder="Nhập lời tựa / phụ..."
-                          className="w-full min-h-[72px] px-3 py-2.5 bg-[#22140A] border border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E] rounded-xl text-xs text-[#FFE5A3] italic focus:outline-none leading-relaxed transition-all resize-none shadow-sm flex items-center"
-                        />
+                        <div className="w-full">
+                          <textarea
+                            rows={3}
+                            maxLength={60}
+                            value={row.subtitle || ''}
+                            onChange={(e) => {
+                              const updated = [...articles];
+                              updated[actualIdx].subtitle = e.target.value;
+                              setArticles(updated);
+                              setIsDirty(true);
+                            }}
+                            placeholder="Nhập lời tựa / phụ (tối đa 60 kt)..."
+                            className={`w-full min-h-[64px] px-3 py-2 bg-[#22140A] border rounded-xl text-xs italic text-[#FFE5A3] focus:outline-none leading-relaxed transition-all resize-none shadow-sm flex items-center ${
+                              (row.subtitle?.length || 0) > 60
+                                ? 'border-red-500 text-red-300 ring-1 ring-red-500'
+                                : (row.subtitle?.length || 0) >= 50
+                                ? 'border-amber-400 focus:border-amber-400'
+                                : 'border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E]'
+                            }`}
+                          />
+                          <CharCounter
+                            current={row.subtitle?.length || 0}
+                            max={60}
+                            compact
+                          />
+                        </div>
                       </td>
 
                       {/* 5.5. Số Lượt Xem Thực Tế (Đo lường từ độc giả đọc bài) */}

@@ -136,7 +136,8 @@ export default function TongChiTuHocPage() {
                       title: item.title,
                       subtitle: item.subtitle || item.excerpt || 'Tông phong tu học Tùng Lâm Hòa Phúc.',
                       imageUrl: item.bannerImage || '/images/toan-canh-chua.jpg',
-                      imagePosition: item.bannerPosition || 'center center',
+                      imagePosition: item.thumbnailPosition || item.bannerPosition || 'center 20%',
+                      thumbnailPosition: item.thumbnailPosition || item.bannerPosition || 'center 20%',
                       link: `/tong-chi-tu-hoc/${item.slug}`,
                     }));
                     return { ...sec, cards };

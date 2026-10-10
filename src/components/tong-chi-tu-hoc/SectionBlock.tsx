@@ -88,27 +88,28 @@ const SectionBlock: FC<SectionBlockProps> = ({ section }) => {
               loading="lazy"
               unoptimized
               sizes="(max-width: 768px) 280px, 310px"
-              className="object-cover object-center transition-transform duration-700 group-hover:scale-110"
+              className="object-cover transition-transform duration-700 group-hover:scale-110"
+              style={{ objectPosition: (card as any).thumbnailPosition || (card as any).imagePosition || 'center 20%' }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#1a0f08] via-[#1a0f08]/60 to-transparent opacity-85 group-hover:opacity-95 transition-opacity" />
             <div className="absolute inset-0 border-2 border-transparent group-hover:border-[#f2cc8f]/80 rounded-xl transition-all pointer-events-none" />
 
             <div className="absolute inset-0 p-6 flex flex-col justify-end text-left z-10">
-              <h3
-                style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                className="text-lg md:text-xl text-[#ffffff] font-bold group-hover:text-[#ffde59] transition-colors leading-snug"
-              >
-                {card.title}
-              </h3>
-
               {card.subtitle && (
                 <p
                   style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                  className="text-xs font-normal text-[#e3d2c1] mt-2 opacity-0 max-h-0 group-hover:opacity-100 group-hover:max-h-24 transition-all duration-500 ease-in-out line-clamp-3 leading-relaxed"
+                  className="text-xs sm:text-[13px] font-medium italic normal-case text-[#E5A93C] line-clamp-1 leading-normal tracking-wide mb-1"
                 >
                   {card.subtitle}
                 </p>
               )}
+
+              <h3
+                style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                className="text-base md:text-[18px] uppercase font-bold text-[#FFE5A3] group-hover:text-[#FFDE59] transition-colors leading-snug line-clamp-2"
+              >
+                {card.title}
+              </h3>
             </div>
           </a>
         ))}

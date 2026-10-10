@@ -59,6 +59,7 @@ import {
   Table as TableIcon,
   Globe,
   Camera,
+  Crosshair,
   GripVertical,
   ArrowUp,
   ArrowDown
@@ -66,6 +67,7 @@ import {
 
 import ZenTipTapEditor from './ZenTipTapEditor';
 import { S3FileExplorerModal } from './S3FileExplorerModal';
+import { ImageFocalPositionerModal } from './ImageFocalPositionerModal';
 import { PostRecord, KeywordItem, SourceBook, VideoBlock, FeaturedArticle, PhotoItem, RelatedEdition, UpcomingEvent } from '@/app/api/admin/posts/route';
 import { HeroBanner } from '@/components/tong-chi-tu-hoc/HeroBanner';
 import { InfographicArticleRenderer } from '@/components/tong-chi-tu-hoc/chi-tiet/InfographicArticleRenderer';
@@ -76,6 +78,7 @@ import { PhotoGallery } from '@/components/tong-chi-tu-hoc/chi-tiet/PhotoGallery
 import { DiscoverMore } from '@/components/tong-chi-tu-hoc/chi-tiet/DiscoverMore';
 // Cac helper component tach rieng de de bao tri
 import { InteractiveImageDrag, HOANG_PHAP_CATEGORIES } from './posts/ImageDragHelper';
+import { CharCounter } from './CharCounter';
 
 // 🪷 Converter Markdown -> WYSIWYG Google Docs HTML
 function markdownToWysiwygHtml(raw: string): string {
@@ -369,6 +372,23 @@ export function SpreadsheetPosts() {
     rowIndex: number;
     tab: 'banner' | 'video' | 'featured' | 'gallery' | 'editions' | 'events';
   } | null>(null);
+
+  // 🌟 Image Focal Positioner Modal State (Căn Tiêu Điểm Chống Mất Đầu/Mặt)
+  const [focalModal, setFocalModal] = useState<{
+    isOpen: boolean;
+    rowIndex: number;
+    imageUrl: string;
+    initialPosition: string;
+    field: 'thumbnailPosition' | 'bannerPosition';
+    title: string;
+  }>({
+    isOpen: false,
+    rowIndex: -1,
+    imageUrl: '',
+    initialPosition: '50% 20%',
+    field: 'thumbnailPosition',
+    title: '',
+  });
 
   // 🌟 Annotation Modal State
   const [annotationModal, setAnnotationModal] = useState<{
@@ -1332,7 +1352,9 @@ export function SpreadsheetPosts() {
               <span>•</span>
               <span>Bấm ô &quot;Nội Dung&quot; mở Gutenberg</span>
               <span>•</span>
-              <span>Tự động xuất bản</span>
+              <span className="px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-300 text-[10px] font-semibold border border-amber-500/30">
+                📐 Chuẩn thiết kế: Tiêu đề ≤ 80 kt | Sub ≤ 60 kt
+              </span>
             </p>
           </div>
         </div>
@@ -1450,8 +1472,18 @@ export function SpreadsheetPosts() {
                 <th className="p-3 w-[55px] min-w-[55px] text-center border-r border-[#F2C14E]/20">#</th>
                 <th className="p-3 w-[160px] min-w-[160px] border-r border-[#F2C14E]/20 text-center">Chuyên Mục</th>
                 <th className="p-3 w-[80px] min-w-[80px] text-center border-r border-[#F2C14E]/20">Ảnh Bìa</th>
-                <th className="p-3 w-[220px] min-w-[220px] border-r border-[#F2C14E]/20">Tiêu Đề Bài Viết</th>
-                <th className="p-3 w-[220px] min-w-[220px] border-r border-[#F2C14E]/20">Tiêu Đề Phụ</th>
+                <th className="p-3 w-[220px] min-w-[220px] border-r border-[#F2C14E]/20">
+                  <div className="flex flex-col items-start gap-0.5">
+                    <span>Tiêu Đề Bài Viết</span>
+                    <span className="text-[9.5px] text-[#FFE5A3]/70 font-mono font-normal normal-case tracking-normal">Tối đa 80 ký tự</span>
+                  </div>
+                </th>
+                <th className="p-3 w-[220px] min-w-[220px] border-r border-[#F2C14E]/20">
+                  <div className="flex flex-col items-start gap-0.5">
+                    <span>Tiêu Đề Phụ</span>
+                    <span className="text-[9.5px] text-[#FFE5A3]/70 font-mono font-normal normal-case tracking-normal">Tối đa 60 ký tự</span>
+                  </div>
+                </th>
                 <th className="p-3 w-[190px] min-w-[190px] border-r border-[#F2C14E]/20">Tác Giả & Ngày</th>
                 <th className="p-3 w-[110px] min-w-[110px] border-r border-[#F2C14E]/20 text-center" title="Lượt xem đo lường thực tế từ độc giả khi đọc bài">Lượt Xem</th>
                 <th className="p-3 w-[140px] min-w-[140px] border-r border-[#F2C14E]/20 text-center">Đa Phương Tiện</th>
@@ -1561,12 +1593,34 @@ export function SpreadsheetPosts() {
                               src={row.thumbnailUrl || row.bannerUrl || 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp'}
                               alt={row.title}
                               className="w-full h-full object-cover group-hover/thumb:scale-110 transition-transform duration-300"
-                              style={{ objectPosition: row.thumbnailPosition || row.bannerPosition || 'center 50%' }}
+                              style={{ objectPosition: row.thumbnailPosition || row.bannerPosition || 'center 20%' }}
                             />
                             <div className="absolute inset-0 bg-black/50 opacity-0 group-hover/thumb:opacity-100 transition-opacity flex items-center justify-center text-[10px] text-[#ffde59] font-bold">
                               Đổi
                             </div>
                           </div>
+
+                          {/* 🎯 Nút Căn Chỉnh Tiêu Điểm Ảnh (Chống Mất Đầu/Mặt) */}
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setFocalModal({
+                                isOpen: true,
+                                rowIndex: actualIdx,
+                                imageUrl: row.thumbnailUrl || row.bannerUrl || 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp',
+                                initialPosition: row.thumbnailPosition || '50% 20%',
+                                field: 'thumbnailPosition',
+                                title: `Căn Tiêu Điểm: ${row.title || 'Ảnh Thumbnail'}`,
+                              });
+                            }}
+                            className="absolute -top-1.5 -left-1.5 w-5 h-5 rounded-full bg-[#2A1810] border border-[#F2C14E] text-[#F2C14E] hover:bg-[#F2C14E] hover:text-black flex items-center justify-center shadow-md cursor-pointer transition-transform hover:scale-115 z-10"
+                            title="🎯 Căn tiêu điểm ảnh Thumbnail (Chống mất đầu/mặt)"
+                          >
+                            <Crosshair className="w-3 h-3" />
+                          </button>
+
+                          {/* 📸 Nút Chọn Ảnh từ S3 */}
                           <button
                             type="button"
                             onClick={(e) => {
@@ -1588,36 +1642,64 @@ export function SpreadsheetPosts() {
                         </div>
                       </td>
 
-                      {/* 4. Tiêu Đề Bài Viết (Không còn ô slug) */}
+                      {/* 4. Tiêu Đề Bài Viết (Tối đa 80 ký tự - Chuẩn chống tràn Hero & Card) */}
                       <td className="p-2.5 w-[220px] min-w-[220px] border-r border-[#F2C14E]/15 align-middle">
-                        <textarea
-                          rows={3}
-                          value={row.title || ''}
-                          onChange={(e) => {
-                            const updated = [...posts];
-                            updated[actualIdx].title = e.target.value;
-                            setPosts(updated);
-                            setIsDirty(true);
-                          }}
-                          placeholder="Nhập tiêu đề bài viết..."
-                          className="w-full min-h-[72px] px-2.5 py-2.5 bg-[#22140A] border border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E] rounded-xl text-xs font-bold text-[#ffde59] uppercase focus:outline-none leading-snug transition-all resize-none shadow-sm flex items-center"
-                        />
+                        <div className="w-full">
+                          <textarea
+                            rows={3}
+                            maxLength={80}
+                            value={row.title || ''}
+                            onChange={(e) => {
+                              const updated = [...posts];
+                              updated[actualIdx].title = e.target.value;
+                              setPosts(updated);
+                              setIsDirty(true);
+                            }}
+                            placeholder="Nhập tiêu đề (tối đa 80 kt)..."
+                            className={`w-full min-h-[64px] px-2.5 py-2 bg-[#22140A] border rounded-xl text-xs font-bold text-[#ffde59] uppercase focus:outline-none leading-snug transition-all resize-none shadow-sm flex items-center ${
+                              (row.title?.length || 0) > 80
+                                ? 'border-red-500 text-red-300 ring-1 ring-red-500'
+                                : (row.title?.length || 0) >= 70
+                                ? 'border-amber-400 focus:border-amber-400'
+                                : 'border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E]'
+                            }`}
+                          />
+                          <CharCounter
+                            current={row.title?.length || 0}
+                            max={80}
+                            compact
+                          />
+                        </div>
                       </td>
 
-                      {/* 5. Tiêu Đề Phụ (Căn giữa dọc đẹp mắt — đồng bộ với /admin/tong-chi) */}
+                      {/* 5. Tiêu Đề Phụ (Tối đa 60 ký tự - Chuẩn 1 dòng duy nhất) */}
                       <td className="p-2.5 w-[220px] min-w-[220px] border-r border-[#F2C14E]/15 align-middle">
-                        <textarea
-                          rows={3}
-                          value={row.subtitle || ''}
-                          onChange={(e) => {
-                            const updated = [...posts];
-                            updated[actualIdx].subtitle = e.target.value;
-                            setPosts(updated);
-                            setIsDirty(true);
-                          }}
-                          placeholder="Nhập lời tựa / phụ..."
-                          className="w-full min-h-[72px] px-3 py-2.5 bg-[#22140A] border border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E] rounded-xl text-xs text-[#FFE5A3] italic focus:outline-none leading-relaxed transition-all resize-none shadow-sm flex items-center"
-                        />
+                        <div className="w-full">
+                          <textarea
+                            rows={3}
+                            maxLength={60}
+                            value={row.subtitle || ''}
+                            onChange={(e) => {
+                              const updated = [...posts];
+                              updated[actualIdx].subtitle = e.target.value;
+                              setPosts(updated);
+                              setIsDirty(true);
+                            }}
+                            placeholder="Nhập lời tựa / phụ (tối đa 60 kt)..."
+                            className={`w-full min-h-[64px] px-3 py-2 bg-[#22140A] border rounded-xl text-xs italic text-[#FFE5A3] focus:outline-none leading-relaxed transition-all resize-none shadow-sm flex items-center ${
+                              (row.subtitle?.length || 0) > 60
+                                ? 'border-red-500 text-red-300 ring-1 ring-red-500'
+                                : (row.subtitle?.length || 0) >= 50
+                                ? 'border-amber-400 focus:border-amber-400'
+                                : 'border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E]'
+                            }`}
+                          />
+                          <CharCounter
+                            current={row.subtitle?.length || 0}
+                            max={60}
+                            compact
+                          />
+                        </div>
                       </td>
 
                       {/* 6. Tác Giả & Ngày Đăng */}
@@ -2307,6 +2389,26 @@ export function SpreadsheetPosts() {
                           >
                             <FolderOpen className="w-3.5 h-3.5" />
                             <span>Chọn từ Kho S3</span>
+                          </button>
+
+                          {/* 🎯 Nút Căn Tiêu Điểm Thumbnail Nâng Cao */}
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setFocalModal({
+                                isOpen: true,
+                                rowIndex: mediaModal.rowIndex,
+                                imageUrl: posts[mediaModal.rowIndex].thumbnailUrl || 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp',
+                                initialPosition: posts[mediaModal.rowIndex].thumbnailPosition || '50% 20%',
+                                field: 'thumbnailPosition',
+                                title: `Căn Tiêu Điểm: ${posts[mediaModal.rowIndex].title || 'Ảnh Thumbnail'}`,
+                              });
+                            }}
+                            className="px-3 py-2 rounded-xl bg-[#2A1810] hover:bg-[#F2C14E] text-[#F2C14E] hover:text-black border border-[#F2C14E]/60 text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-md transition-colors"
+                            title="Mở bộ căn chỉnh tiêu điểm nâng cao (Tránh mất đầu/mặt)"
+                          >
+                            <Crosshair className="w-3.5 h-3.5" />
+                            <span>Căn Tiêu Điểm (Chống Mất Mặt)</span>
                           </button>
 
                           <label className="px-3 py-2 rounded-xl bg-[#2A1D14] hover:bg-[#382618] border border-[#F2C14E]/40 text-[#FFE5A3] hover:text-[#ffde59] text-xs font-bold flex items-center gap-1.5 cursor-pointer shadow-md">
@@ -3435,6 +3537,29 @@ export function SpreadsheetPosts() {
         articleImages={activeArticleForMedia?.images}
         articleTitle={activeArticleForMedia?.title}
         initialPath="03-dong-chay-hoang-phap"
+      />
+
+      {/* 🎯 Image Focal Positioner Modal (Căn Tiêu Điểm Chống Mất Đầu/Mặt) */}
+      <ImageFocalPositionerModal
+        isOpen={focalModal.isOpen}
+        imageUrl={focalModal.imageUrl}
+        initialPosition={focalModal.initialPosition}
+        title={focalModal.title}
+        onSave={(newPos) => {
+          if (focalModal.rowIndex >= 0) {
+            const updated = [...posts];
+            if (focalModal.field === 'thumbnailPosition') {
+              updated[focalModal.rowIndex].thumbnailPosition = newPos;
+            } else {
+              updated[focalModal.rowIndex].bannerPosition = newPos;
+            }
+            setPosts(updated);
+            setIsDirty(true);
+            showToast(`🎯 Đã cập nhật tiêu điểm ảnh: ${newPos}. Bấm "Lưu Thay Đổi" để xuất bản!`);
+          }
+          setFocalModal((prev) => ({ ...prev, isOpen: false }));
+        }}
+        onClose={() => setFocalModal((prev) => ({ ...prev, isOpen: false }))}
       />
     </div>
   );
