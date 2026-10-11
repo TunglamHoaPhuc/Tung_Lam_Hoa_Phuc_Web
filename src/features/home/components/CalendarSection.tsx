@@ -1,6 +1,7 @@
 'use client';
 
 import { FC, useState, useMemo, useEffect } from "react";
+import { createPortal } from "react-dom";
 import Link from "next/link";
 import {
   ChevronLeft,
@@ -26,6 +27,9 @@ import {
   MonthThemeInfo,
   getEventsForMonth,
   getEventCategoryIcon,
+  parseSolarDateStr,
+  formatSolarDateStr,
+  calcDaysDifference,
 } from "@/data/schedule-data";
 
 function toSlug(str: string): string {
@@ -39,11 +43,124 @@ function toSlug(str: string): string {
     .replace(/\s+/g, '-');
 }
 
+export function cleanEventTitle(title?: string): string {
+  if (!title) return '';
+  let t = title.trim();
+  // Nếu bắt đầu bằng "KHÓA LỄ " hoặc "Khóa lễ " hoặc "Khóa Lễ "
+  if (/^khóa lễ\s+/i.test(t)) {
+    t = t.replace(/^khóa lễ\s+/i, '').trim();
+  }
+  return t;
+}
+
+/**
+ * Chống nhảy chữ rớt từ đơn (Orphan words) và hỗ trợ ngắt dòng chủ động:
+ * 1. Nếu có ký tự '|' -> ngắt dòng chủ động theo ý biên tập viên.
+ * 2. Thay khoảng trắng giữa 2 từ cuối cùng bằng \u00A0 (non-breaking space) để từ cuối cùng không bao giờ bị rớt lại 1 mình.
+ */
+export function formatBalancedTitle(title?: string): string {
+  if (!title) return '';
+  let t = cleanEventTitle(title);
+
+  // Nếu người quản trị chủ động ngắt dòng bằng '|'
+  if (t.includes('|')) {
+    return t.replace(/\s*\|\s*/g, '\n');
+  }
+
+  // Chống rớt 1 từ đơn lẻ xuống dòng (Orphan Word Prevention)
+  const words = t.split(/\s+/);
+  if (words.length >= 3) {
+    const lastTwo = words.slice(-2).join('\u00A0');
+    return [...words.slice(0, -2), lastTwo].join(' ');
+  }
+  return t;
+}
+
+/**
+ * Tự động tính toán cỡ chữ linh hoạt theo độ dài tiêu đề (Fluid Typography)
+ */
+export function getAdaptiveTitleClasses(title?: string): { fontSize: string; lineHeight: string; tracking: string } {
+  if (!title) {
+    return {
+      fontSize: 'text-4xl sm:text-5xl md:text-[50px]',
+      lineHeight: 'leading-none',
+      tracking: 'tracking-normal',
+    };
+  }
+
+  const clean = cleanEventTitle(title);
+  const len = clean.length;
+  const wordCount = clean.split(/\s+/).length;
+
+  if (len <= 14 && wordCount <= 3) {
+    // Ngắn: "ĐẠI SÁM HỐI", "TIỂU SÁM HỐI", "CẦU AN"
+    return {
+      fontSize: 'text-4xl sm:text-5xl md:text-[50px]',
+      lineHeight: 'leading-none',
+      tracking: 'tracking-wide',
+    };
+  } else if (len <= 22) {
+    // Vừa: "LÃO TỔ SƯ NGỘ CHÂN TỬ", "PHÁP HỘI NIỆM PHẬT", "LƯƠNG HOÀNG SÁM"
+    return {
+      fontSize: 'text-3xl sm:text-4xl md:text-[40px]',
+      lineHeight: 'leading-tight',
+      tracking: 'tracking-normal',
+    };
+  } else if (len <= 32) {
+    // Dài: "ĐẠI LỄ TRI ÂN CHA MẸ MÙA VU LAN"
+    return {
+      fontSize: 'text-2xl sm:text-3xl md:text-[34px]',
+      lineHeight: 'leading-tight',
+      tracking: 'tracking-normal',
+    };
+  } else {
+    // Rất dài: > 32 ký tự
+    return {
+      fontSize: 'text-xl sm:text-2xl md:text-[28px]',
+      lineHeight: 'leading-snug',
+      tracking: 'tracking-tight',
+    };
+  }
+}
+
+export function getDisplaySubtitle(event?: { subtitle?: string; subTitle1?: string; category?: string } | null): string | null {
+  if (!event) return null;
+  const sub = (event.subtitle || event.subTitle1 || '').trim();
+  if (!sub) return null;
+  // Bỏ chữ "KHÓA LỄ TRUYỀN THỐNG" / "Khóa Lễ Truyền Thống" / "KHOA LE TRUYEN THONG"
+  const normalized = sub
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/đ/g, 'd')
+    .trim();
+  if (normalized === 'khoa le truyen thong') {
+    return null;
+  }
+  return sub;
+}
+
 export const CalendarSection: FC = () => {
   // Mặc định mở Tháng 10 Dương Lịch 2026 (Tương ứng Tháng 9 Âm Lịch Bính Ngọ - Học Hạnh Buông Xả)
   const [activeDate, setActiveDate] = useState<Date>(new Date(2026, 9, 1));
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>("Tất Cả");
+  const [mounted, setMounted] = useState<boolean>(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Khóa cuộn trang nền khi mở pop-up xem chi tiết thời khóa
+  useEffect(() => {
+    if (selectedEvent) {
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = originalOverflow;
+      };
+    }
+  }, [selectedEvent]);
 
   // State cho Slide Poster Tương Tác Cột Trái
   const [activeSlideIdx, setActiveSlideIdx] = useState<number>(0);
@@ -65,7 +182,7 @@ export const CalendarSection: FC = () => {
   useEffect(() => {
     async function loadSchedule() {
       try {
-        const res = await fetch('/api/admin/schedule');
+        const res = await fetch('/api/admin/schedule', { cache: 'no-store' });
         if (res.ok) {
           const json = await res.json();
           if (json.success && json.data) {
@@ -100,48 +217,195 @@ export const CalendarSection: FC = () => {
   // Dynamic automatic calculation of all events for this month
   const monthEventsMap = useMemo(() => {
     const baseMap = getEventsForMonth(currentYear, currentMonth);
-    // Bổ sung slug mặc định cho các sự kiện cơ bản
+    // Bổ sung slug mặc định cho các sự kiện cơ bản và cập nhật cấu hình từ featuredPrograms (nếu admin có sửa)
     Object.keys(baseMap).forEach((dayKey) => {
       const d = Number(dayKey);
-      baseMap[d] = baseMap[d].map((ev) => ({
-        ...ev,
-        slug: ev.slug || toSlug(ev.title),
-      }));
+      baseMap[d] = baseMap[d].map((ev) => {
+        let enhancedEv = {
+          ...ev,
+          slug: ev.slug || toSlug(ev.title),
+        };
+
+        if (dbData?.featuredPrograms && Array.isArray(dbData.featuredPrograms)) {
+          const matchedProg = dbData.featuredPrograms.find((p: any) => {
+            const pTitle = (p.title || '').toLowerCase().trim();
+            const evTitle = (ev.title || '').toLowerCase().trim();
+            if (!pTitle) return false;
+            if (evTitle.includes(pTitle) || pTitle.includes(evTitle)) return true;
+            if (evTitle.includes('tiểu sám hối') && pTitle.includes('tiểu sám hối')) return true;
+            if (evTitle.includes('đại sám hối') && pTitle.includes('đại sám hối')) return true;
+            if ((evTitle.includes('cầu an') || evTitle.includes('quốc thái')) && (pTitle.includes('cầu an') || pTitle.includes('quốc thái'))) return true;
+            if (evTitle.includes('niệm phật') && pTitle.includes('niệm phật')) return true;
+            return false;
+          });
+          if (matchedProg) {
+            enhancedEv = {
+              ...enhancedEv,
+              title: (matchedProg.title && matchedProg.title.trim()) || enhancedEv.title,
+              subtitle: matchedProg.subtitle !== undefined ? matchedProg.subtitle : enhancedEv.subtitle,
+              subTitle1: matchedProg.subtitle || enhancedEv.subTitle1,
+              timeSlot1Time: (matchedProg.time && matchedProg.time.trim()) || (matchedProg.schedule && matchedProg.schedule.trim()) || enhancedEv.timeSlot1Time,
+              timeSlot2Time: (matchedProg.duration && matchedProg.duration.trim()) || enhancedEv.timeSlot2Time,
+              location: (matchedProg.location && matchedProg.location.trim()) ? matchedProg.location.trim() : enhancedEv.location,
+              description: (matchedProg.summary && matchedProg.summary.trim()) || enhancedEv.description,
+              imgUrl: (matchedProg.imgUrl && matchedProg.imgUrl.trim()) || enhancedEv.imgUrl,
+              imgPositionY: matchedProg.imgPositionY !== undefined ? matchedProg.imgPositionY : enhancedEv.imgPositionY,
+            };
+          }
+        }
+
+        return enhancedEv;
+      });
     });
 
+    // Nếu người quản trị đã xóa khóa lễ khỏi featuredPrograms (ví dụ: Pháp Hội Niệm Phật), tự động lọc bỏ khỏi baseMap
+    if (dbData?.featuredPrograms && Array.isArray(dbData.featuredPrograms)) {
+      const hasNiemPhat = dbData.featuredPrograms.some((p: any) =>
+        (p.title || '').toLowerCase().includes('niệm phật') || (p.title || '').toLowerCase().includes('niem phat')
+      );
+      if (!hasNiemPhat) {
+        Object.keys(baseMap).forEach((dayKey) => {
+          const d = Number(dayKey);
+          baseMap[d] = baseMap[d].filter((ev) => !ev.title.toLowerCase().includes('niệm phật'));
+          if (baseMap[d].length === 0) {
+            delete baseMap[d];
+          }
+        });
+      }
+    }
+
     if (dbData?.customEvents && Array.isArray(dbData.customEvents)) {
-      dbData.customEvents.forEach((ce) => {
-        const parts = (ce.solarDateStr || '').split('.');
-        if (parts.length === 3) {
-          const d = parseInt(parts[0], 10);
-          const m = parseInt(parts[1], 10) - 1;
-          const y = parseInt(parts[2], 10);
-          if (m === currentMonth && y === currentYear && d >= 1 && d <= daysInMonth) {
+      dbData.customEvents.forEach((ce: any) => {
+        const isMulti = !!(ce.isMultiDay || (ce.endDateStr && ce.endDateStr.trim() !== '' && ce.endDateStr.trim() !== ce.solarDateStr.trim()));
+        const startDate = parseSolarDateStr(ce.solarDateStr);
+        const endDate = isMulti && ce.endDateStr ? parseSolarDateStr(ce.endDateStr) : startDate;
+
+        if (!startDate) return;
+
+        const startTime = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate()).getTime();
+        const coreEndTime = endDate
+          ? new Date(endDate.getFullYear(), endDate.getMonth(), endDate.getDate()).getTime()
+          : startTime;
+
+        const continueUntilDate = (ce.continueChanting && ce.continueChantingUntil)
+          ? parseSolarDateStr(ce.continueChantingUntil)
+          : null;
+        const finalEndTime = continueUntilDate && continueUntilDate.getTime() > coreEndTime
+          ? new Date(continueUntilDate.getFullYear(), continueUntilDate.getMonth(), continueUntilDate.getDate()).getTime()
+          : coreEndTime;
+
+        // Phủ sự kiện vào tất cả các ngày d trong tháng hiện tại nằm trong khoảng [startDate, finalEndTime]
+        for (let d = 1; d <= daysInMonth; d++) {
+          const currentDate = new Date(currentYear, currentMonth, d);
+          const currentTime = currentDate.getTime();
+
+          if (currentTime >= startTime && currentTime <= finalEndTime) {
+            // Loại bỏ sự kiện mặc định bị trùng lặp hoặc mâu thuẫn trong ngày d
+            if (baseMap[d]) {
+              const ceTitleLower = (ce.title || '').toLowerCase().trim();
+              baseMap[d] = baseMap[d].filter((ev) => {
+                const evTitleLower = (ev.title || '').toLowerCase().trim();
+                if (evTitleLower === ceTitleLower) return false;
+                if (
+                  (ceTitleLower.includes('ngũ bách danh') || ceTitleLower.includes('quan am') || ceTitleLower.includes('quán âm')) &&
+                  (evTitleLower.includes('quán thế âm') || evTitleLower.includes('ngũ bách danh'))
+                ) {
+                  return false;
+                }
+                return true;
+              });
+            }
+
             const lunar = convertSolarToLunar(d, currentMonth, currentYear);
             const isCongTu = ce.category === 'Cộng Tu';
+
+            // Phân biệt các giai đoạn:
+            // 1. Giai đoạn khóa tu chính: currentTime <= coreEndTime
+            // 2. Giai đoạn tụng kinh duy trì tiếp: currentTime > coreEndTime && currentTime < finalEndTime
+            // 3. Ngày tạ đàn hoàn mãn: currentTime === finalEndTime && currentTime > coreEndTime
+            const isChantingFinalDay = currentTime === finalEndTime && currentTime > coreEndTime;
+            const isChantingExtension = currentTime > coreEndTime && currentTime < finalEndTime;
+            const isCoreLastDay = currentTime === coreEndTime;
+
+            // Tính multiDayInfo
+            let multiDayInfo = undefined;
+            if (isMulti) {
+              const totalDays = Math.max(1, Math.round((coreEndTime - startTime) / 86400000) + 1);
+              const currentDayIndex = Math.max(1, Math.round((currentTime - startTime) / 86400000) + 1);
+              multiDayInfo = {
+                totalDays,
+                currentDayIndex,
+                isFirstDay: currentDayIndex === 1,
+                isLastDay: isCoreLastDay,
+                startDateStr: ce.solarDateStr,
+                endDateStr: ce.endDateStr,
+                isChantingExtension,
+                isChantingFinalDay,
+              };
+            }
+
+            // Tự động xử lý giờ thời khóa và lưu ý hành trì:
+            let eventTime = ce.timeSlot1Time || '08h00';
+            let eventNotes = ce.notes || '';
+            let eventSubtitle = ce.subtitle || '';
+            let eventSubTitle1 = ce.subtitle || (isCongTu ? 'Cộng tu' : 'Đại lễ sự kiện');
+
+            if (isCoreLastDay) {
+              // Ngày kết khóa chính
+              if (ce.endDayTime && ce.endDayTime.trim()) {
+                eventTime = ce.endDayTime.trim();
+              }
+              if (ce.continueChanting && ce.continueChantingUntil) {
+                const rawName = (ce.continueChantingName && ce.continueChantingName.trim()) || ce.title;
+                const chantName = rawName.toLowerCase().startsWith('kinh') ? rawName : `Kinh ${rawName}`;
+                const autoNotice = `❖ Lưu ý: Thời khóa tụng ${chantName} sẽ được tiếp tục duy trì tụng tiếp đến ngày ${ce.continueChantingUntil}.`;
+                eventNotes = eventNotes ? `${eventNotes}\n\n${autoNotice}` : autoNotice;
+              }
+            } else if (isChantingFinalDay) {
+              // Ngày Tạ Đàn tự động
+              eventSubtitle = 'Tạ đàn';
+              eventSubTitle1 = 'Tạ đàn';
+              const autoNotice = `❖ Lễ Tạ đàn hoàn mãn thời khóa tụng kinh.`;
+              eventNotes = eventNotes ? `${eventNotes}\n\n${autoNotice}` : autoNotice;
+            } else if (isChantingExtension) {
+              // Ngày tụng kinh tiếp
+              eventSubtitle = 'Tụng kinh tiếp';
+              eventSubTitle1 = 'Tụng kinh tiếp';
+            }
+
             const customEvt: CalendarEvent = {
-              id: ce.id,
+              id: isChantingFinalDay || isChantingExtension ? `${ce.id}-chant-${d}` : ce.id,
               day: d,
-              solarDateStr: ce.solarDateStr,
-              dayOfWeekStr: '',
+              solarDateStr: `${String(d).padStart(2, '0')}.${String(currentMonth + 1).padStart(2, '0')}.${currentYear}`,
+              endDateStr: ce.endDateStr,
+              isMultiDay: isMulti,
+              multiDayInfo,
+              dayOfWeekStr: ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'][currentDate.getDay()],
               lunarDate: `(${String(lunar.day).padStart(2, '0')}.${String(lunar.month).padStart(2, '0')}.ÂL)`,
-              lunarTag: `MÙNG ${lunar.day}`,
-              subTitle1: isCongTu ? 'CỘNG TU HỌC' : 'SỰ KIỆN ĐẶC BIỆT',
+              lunarTag: isCongTu ? 'CỘNG TU' : 'SỰ KIỆN',
+              subTitle1: eventSubTitle1,
               title: ce.title,
-              subtitle: ce.subtitle || '',
+              subtitle: eventSubtitle,
               subTitle2: ce.location || 'Tùng Lâm Hòa Phúc',
               description: ce.description || '',
               category: ce.category || 'Đại Lễ Sự Kiện',
               location: ce.location || 'Tùng Lâm Hòa Phúc',
-              timeSlot1Label: ce.timeSlot1Label || 'Thời Khóa',
-              timeSlot1Time: ce.timeSlot1Time || '08h00',
+              timeSlot1Label: isCoreLastDay && ce.endDayTime ? 'Thời Khóa Kết Khóa' : (ce.timeSlot1Label || 'Thời Khóa'),
+              timeSlot1Time: eventTime,
               timeSlot2Label: ce.timeSlot2Label,
               timeSlot2Time: ce.timeSlot2Time,
               color: isCongTu ? '#10B981' : '#F2C14E',
               imgUrl: ce.imgUrl || 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp',
+              imgPositionY: ce.imgPositionY !== undefined ? ce.imgPositionY : 50,
               isImportant: true,
               slug: ce.slug || toSlug(ce.title),
-              notes: ce.notes || '',
+              notes: eventNotes,
+              endDayType: ce.endDayType,
+              endDayLabel: ce.endDayLabel,
+              endDayTime: ce.endDayTime,
+              continueChanting: ce.continueChanting,
+              continueChantingUntil: ce.continueChantingUntil,
+              continueChantingName: ce.continueChantingName,
             };
             baseMap[d] = [...(baseMap[d] || []), customEvt];
           }
@@ -165,12 +429,24 @@ export const CalendarSection: FC = () => {
   }, [monthEventsMap]);
 
   // Cấu trúc Slides Cột Trái: Slide 0 là Chủ Đề Tháng, Slide 1..N là các sự kiện trong tháng
+  // Tối ưu: Gộp (Deduplicate) các sự kiện kéo dài nhiều ngày để CHỈ HIỆN 1 SLIDE DUY NHẤT
   type SlideItem =
     | { type: 'theme'; day: null }
     | { type: 'event'; day: number; event: CalendarEvent };
 
   const slides: SlideItem[] = useMemo(() => {
-    const eventSlides: SlideItem[] = allMonthEvents.map((ev) => ({
+    const seenEventKeys = new Set<string>();
+    const uniqueEvents: CalendarEvent[] = [];
+
+    allMonthEvents.forEach((ev) => {
+      const key = ev.id ? String(ev.id) : `${ev.title}_${ev.category}`;
+      if (!seenEventKeys.has(key)) {
+        seenEventKeys.add(key);
+        uniqueEvents.push(ev);
+      }
+    });
+
+    const eventSlides: SlideItem[] = uniqueEvents.map((ev) => ({
       type: 'event',
       day: ev.day,
       event: ev,
@@ -192,11 +468,11 @@ export const CalendarSection: FC = () => {
     return () => clearInterval(interval);
   }, [slides.length, isSlidePaused]);
 
-  // Xác định ngày đang được kích hoạt highlight từ Slide cột trái
-  const activeHighlightedDay: number | null = useMemo(() => {
+  // Xác định sự kiện đang được kích hoạt highlight từ Slide cột trái (áp dụng cho toàn chuỗi ngày)
+  const activeHighlightedEvent = useMemo(() => {
     const cur = slides[activeSlideIdx];
     if (cur && cur.type === 'event') {
-      return cur.day;
+      return cur.event;
     }
     return null;
   }, [slides, activeSlideIdx]);
@@ -230,7 +506,12 @@ export const CalendarSection: FC = () => {
   // Khi click vào ô ngày trên bảng lịch: Chuyển slide cột trái tới poster sự kiện của ngày đó
   const handleDayCellClick = (dayNumber: number, dayEvents: CalendarEvent[]) => {
     if (dayEvents.length > 0) {
-      const targetIdx = slides.findIndex((s) => s.type === 'event' && s.day === dayNumber);
+      const clickedEv = dayEvents[0];
+      const targetIdx = slides.findIndex(
+        (s) =>
+          s.type === 'event' &&
+          (s.event.id === clickedEv.id || (s.event.title && s.event.title === clickedEv.title))
+      );
       if (targetIdx !== -1) {
         setActiveSlideIdx(targetIdx);
       }
@@ -402,7 +683,10 @@ export const CalendarSection: FC = () => {
                   <img
                     src={currentSlide.event.imgUrl}
                     alt={currentSlide.event.title}
-                    className="w-full h-full object-cover object-center transition-transform duration-700 hover:scale-102"
+                    className="w-full h-full object-cover transition-transform duration-700 hover:scale-102"
+                    style={{
+                      objectPosition: `center ${currentSlide.event.imgPositionY ?? 50}%`,
+                    }}
                     onError={(e) => {
                       (e.currentTarget as HTMLImageElement).src = '/images/vu-tru-phat-giao/bao-thap/bao-thap-banner.jpg';
                     }}
@@ -424,35 +708,91 @@ export const CalendarSection: FC = () => {
 
                 {/* Chi tiết nội dung Sự Kiện */}
                 <div className="p-4 sm:p-5 pt-7 sm:pt-8 flex-1 flex flex-col justify-between space-y-3 text-center">
-                  <div className="space-y-1 my-auto w-full">
-                    {/* Sub Tiêu Đề NẰM Ở TRÊN - Viết thường, nghiêng, không bold, font UTM Avo */}
-                    <p
-                      style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                      className="text-xs sm:text-[13px] text-amber-200/90 font-normal italic normal-case tracking-wide line-clamp-1 w-full text-center"
-                    >
-                      {currentSlide.event.subtitle || currentSlide.event.subTitle1 || currentSlide.event.category}
-                    </p>
+                  <div className="space-y-1.5 my-auto w-full">
+                    {/* Sub Tiêu Đề NẰM Ở TRÊN - Lọc bỏ chữ mặc định "KHÓA LỄ TRUYỀN THỐNG", chỉ hiện khi có tiêu đề phụ thực tế, font UTM Avo */}
+                    {(() => {
+                      const cleanSub = getDisplaySubtitle(currentSlide.event);
+                      return cleanSub ? (
+                        <p
+                          style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                          className="text-sm sm:text-base md:text-[18px] text-amber-200/95 font-medium italic normal-case tracking-wide line-clamp-1 w-full text-center"
+                        >
+                          {cleanSub}
+                        </p>
+                      ) : null;
+                    })()}
 
-                    {/* Tiêu Đề Chính NẰM Ở DƯỚI - Bắt buộc BOLD & IN HOA TOÀN BỘ, font UTM Avo */}
-                    <h3
-                      style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                      className="text-base sm:text-lg font-bold uppercase text-[#FFDE59] tracking-wider leading-snug drop-shadow w-full text-center mt-1"
-                    >
-                      {currentSlide.event.title}
-                    </h3>
+                    {/* Tiêu Đề Chính NẰM Ở DƯỚI - Tự động co giãn kích thước, cân bằng dòng text-wrap: balance, chống nhảy chữ */}
+                    {(() => {
+                      const titleStr = cleanEventTitle(currentSlide.event.title);
+                      const styleInfo = getAdaptiveTitleClasses(titleStr);
+                      const formatted = formatBalancedTitle(titleStr);
 
-                    {/* Khung giờ & địa điểm */}
-                    <div className="flex items-center justify-center gap-3 text-xs text-[#FFE5A3]/90 pt-1.5">
-                      {currentSlide.event.timeSlot1Time && (
-                        <span className="flex items-center gap-1 font-semibold text-white">
-                          <Clock className="w-3.5 h-3.5 text-[#F2C14E]" />
-                          {currentSlide.event.timeSlot1Time}
-                        </span>
+                      return (
+                        <h3
+                          style={{
+                            fontFamily: "'UTM Niagara', serif",
+                            textWrap: 'balance',
+                            whiteSpace: formatted.includes('\n') ? 'pre-line' : 'normal',
+                          }}
+                          className={`${styleInfo.fontSize} ${styleInfo.lineHeight} ${styleInfo.tracking} font-normal uppercase text-[#FFDE59] drop-shadow-[0_0_16px_rgba(255,222,89,0.65)] w-full text-center mt-1.5 px-0.5`}
+                        >
+                          {formatted}
+                        </h3>
+                      );
+                    })()}
+
+                    {/* Khung Thời Gian, Thời Lượng & Vị Trí - Xếp DỌC: Thời gian ghi riêng, Thời lượng xuống dòng ghi riêng */}
+                    <div
+                      style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                      className="flex flex-col items-center justify-center gap-2 pt-2.5 w-full"
+                    >
+                      {/* Dòng 1: Thời Gian Bắt Đầu (Ghi riêng, chữ to rõ, dùng icon Lịch Tu Học) */}
+                      <div className="flex items-center justify-center gap-2 text-base sm:text-lg font-bold text-[#FFDE59] tracking-wide">
+                        <img
+                          src="/images/icons/icon-lich-tu-hoc.webp"
+                          alt="Thời gian"
+                          className="w-5 h-5 sm:w-6 sm:h-6 object-contain shrink-0 drop-shadow-[0_0_8px_rgba(242,193,78,0.6)]"
+                        />
+                        <span>{currentSlide.event.timeSlot1Time || '08h00'}</span>
+                      </div>
+
+                      {/* Huy hiệu chuỗi ngày nếu là Khóa tu nhiều ngày */}
+                      {currentSlide.event.multiDayInfo && (
+                        <div
+                          style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                          className="flex items-center justify-center gap-1.5 text-xs sm:text-[13px] text-[#FFDE59] font-bold tracking-wide px-3 py-1 rounded-full bg-[#F2C14E]/20 border border-[#F2C14E]/40 shadow-xs"
+                        >
+                          <Clock className="w-3.5 h-3.5 text-[#F2C14E] shrink-0" />
+                          <span>Kỳ hạn: {currentSlide.event.multiDayInfo.totalDays} ngày</span>
+                        </div>
                       )}
-                      <span className="flex items-center gap-1">
-                        <MapPin className="w-3.5 h-3.5 text-[#F2C14E]" />
-                        {currentSlide.event.location || 'Tùng Lâm Hòa Phúc'}
-                      </span>
+
+                      {/* Dòng 2: Thời Lượng (Xuống dòng ghi riêng nếu có) */}
+                      {currentSlide.event.timeSlot2Time && (
+                        <div className="flex items-center justify-center gap-1.5 text-xs sm:text-[13.5px] text-[#FFE5A3]/95 font-medium tracking-wide">
+                          <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#F2C14E] shrink-0 drop-shadow-[0_0_6px_rgba(242,193,78,0.5)]" />
+                          <span>
+                            {currentSlide.event.timeSlot2Time.toLowerCase().includes('phút') ||
+                            currentSlide.event.timeSlot2Time.toLowerCase().includes('giờ') ||
+                            currentSlide.event.timeSlot2Time.toLowerCase().includes('ngày')
+                              ? `Thời lượng: ${currentSlide.event.timeSlot2Time}`
+                              : currentSlide.event.timeSlot2Label && !currentSlide.event.timeSlot2Label.toLowerCase().includes('tiếp')
+                              ? `${currentSlide.event.timeSlot2Label}: ${currentSlide.event.timeSlot2Time}`
+                              : currentSlide.event.timeSlot2Time}
+                          </span>
+                        </div>
+                      )}
+
+                      {/* Dòng 3: Vị Trí / Địa Điểm (Dùng icon Các Khu Vực Nổi Bật) */}
+                      <div className="flex items-center justify-center gap-2 text-xs sm:text-[13.5px] text-[#FFE5A3]/95 font-medium tracking-wide">
+                        <img
+                          src="/images/icons/icon-cac-khu-vuc-noi-bat.webp"
+                          alt="Địa điểm"
+                          className="w-5 h-5 sm:w-6 sm:h-6 object-contain shrink-0 drop-shadow-[0_0_8px_rgba(242,193,78,0.6)]"
+                        />
+                        <span>{currentSlide.event.location || 'Tùng Lâm Hòa Phúc'}</span>
+                      </div>
                     </div>
                   </div>
 
@@ -617,8 +957,17 @@ export const CalendarSection: FC = () => {
                   }
 
                   const hasEvent = cell.events.length > 0;
-                  // ĐỒNG BỘ VIỀN VÀNG: Ô ngày trùng khớp với sự kiện trên Slide Cột Trái
-                  const isHighlightedBySlide = activeHighlightedDay !== null && cell.dayNumber === activeHighlightedDay;
+                  // ĐỒNG BỘ VIỀN VÀNG: Ô ngày trùng khớp với sự kiện trên Slide Cột Trái (toàn dải ngày)
+                  const isHighlightedBySlide =
+                    activeHighlightedEvent !== null &&
+                    cell.events.some(
+                      (e) =>
+                        (e.id && e.id === activeHighlightedEvent.id) ||
+                        (e.title && e.title === activeHighlightedEvent.title)
+                    );
+
+                  // Kiểm tra ô này có chứa khóa tu nhiều ngày không
+                  const multiDayEvent = cell.events.find((e) => e.multiDayInfo);
 
                   return (
                     <div
@@ -626,8 +975,10 @@ export const CalendarSection: FC = () => {
                       onClick={() => handleDayCellClick(cell.dayNumber, cell.events)}
                       className={`min-h-[58px] sm:min-h-[64px] md:min-h-[68px] p-1 sm:p-1.5 flex flex-col justify-between relative rounded-xl transition-all duration-300 cursor-pointer group/cell ${
                         isHighlightedBySlide
-                          ? "border-2 border-[#FFDE59] shadow-[0_0_25px_rgba(255,222,89,0.95)] ring-2 ring-[#FFDE59]/70 scale-105 z-30 bg-gradient-to-b from-[#633B18] via-[#4A260F] to-[#2B1408]"
-                          : "bg-black/45 border border-[#F2C14E]/20 hover:border-[#F2C14E]/60 hover:bg-black/65 hover:z-20"
+                          ? "border-2 border-[#FFDE59] shadow-[0_0_25px_rgba(255,222,89,0.95)] ring-2 ring-[#FFDE59]/70 scale-105 z-20 bg-gradient-to-b from-[#633B18] via-[#4A260F] to-[#2B1408] hover:z-50"
+                          : multiDayEvent
+                          ? "bg-[#25150C]/90 border border-[#F2C14E]/50 shadow-[0_0_10px_rgba(242,193,78,0.2)] hover:border-[#FFDE59] hover:bg-[#351C0F] z-10 hover:z-50"
+                          : "bg-black/45 border border-[#F2C14E]/20 hover:border-[#F2C14E]/60 hover:bg-black/65 z-10 hover:z-50"
                       }`}
                     >
                       {/* Hàng trên: Số ngày dương & Ngày âm */}
@@ -637,9 +988,11 @@ export const CalendarSection: FC = () => {
                           className={`text-sm sm:text-base md:text-lg font-black leading-none ${
                             isHighlightedBySlide
                               ? "text-[#FFDE59] drop-shadow-[0_0_8px_rgba(255,222,89,0.9)]"
+                              : multiDayEvent
+                              ? "text-[#FFDE59]"
                               : cell.isSunday
-                                ? "text-[#FFDE59] drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]"
-                                : "text-white"
+                              ? "text-[#FFDE59] drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]"
+                              : "text-white"
                           }`}
                         >
                           {cell.dayNumber}
@@ -651,8 +1004,8 @@ export const CalendarSection: FC = () => {
                             cell.isFirstOrFullMoon
                               ? "bg-[#DC2626] text-white shadow-sm font-black"
                               : cell.isSamHoi
-                                ? "text-[#FFC107] font-bold"
-                                : "text-amber-200/80"
+                              ? "text-[#FFC107] font-bold"
+                              : "text-amber-200/80"
                           }`}
                         >
                           {cell.lunarCellStr}
@@ -675,29 +1028,74 @@ export const CalendarSection: FC = () => {
                                   setSelectedEvent(ev);
                                 }}
                               >
-                                {/* Logo Biểu Tượng Nằm Trực Tiếp Trên Nền Ô (Không Khung Tròn, Không Phủ Nền Vàng) */}
+                                {/* Logo Biểu Tượng Nằm Trực Tiếp Trên Nền Ô */}
                                 <img
                                   src={iconUrl}
                                   alt={ev.title}
                                   className="w-5 h-5 sm:w-6 sm:h-6 object-contain filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"
                                 />
 
-                                {/* Tooltip Gọn Gàng 2 Dòng (Sub-tiêu đề trên, Tiêu đề chính dưới) */}
-                                <div className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-[200px] sm:max-w-[220px] px-2.5 py-1.5 rounded-xl bg-[#1C0F08]/98 border border-[#FFDE59] shadow-[0_10px_25px_rgba(0,0,0,0.95)] backdrop-blur-xl opacity-0 group-hover/icon:opacity-100 transition-all duration-200 z-[100] text-center transform scale-95 group-hover/icon:scale-100">
-                                  {/* Dòng 1: Sub-tiêu đề (Viết thường, nghiêng, không bold) */}
+                                {/* Tooltip Gọn Gàng 2 Dòng: Sub-tiêu đề ở trên, Tiêu đề chính ở dưới */}
+                                <div className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-[220px] sm:max-w-[250px] px-2.5 py-1.5 rounded-xl bg-[#1C0F08]/98 border border-[#FFDE59] shadow-[0_10px_25px_rgba(0,0,0,0.95)] backdrop-blur-xl opacity-0 group-hover/icon:opacity-100 transition-all duration-200 z-[100] text-center transform scale-95 group-hover/icon:scale-100">
+                                  {/* Dòng 1 (Ở TRÊN): Sub-tiêu đề (Lấy từ edit + bổ sung tiến trình ngày, tự động Tạ đàn / Kết khóa) */}
                                   <div
                                     style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                                    className="text-[10.5px] sm:text-[11px] text-amber-200/90 italic font-normal leading-tight"
+                                    className="text-[10px] sm:text-[11px] text-amber-200/90 italic font-normal leading-tight"
                                   >
-                                    {subtitleText || ev.category}
+                                    {(() => {
+                                      const rawSub = getDisplaySubtitle(ev);
+                                      if (ev.multiDayInfo) {
+                                        if (ev.multiDayInfo.isChantingFinalDay) {
+                                          return '(Tạ đàn)';
+                                        }
+                                        if (ev.multiDayInfo.isChantingExtension) {
+                                          return '(Tụng kinh tiếp)';
+                                        }
+
+                                        const baseSub = rawSub
+                                          ? rawSub.replace(/\s*\((Khai Đàn|Khai đàn|Tạ đàn|Hoàn Mãn|Kết khóa|Kết khoá|ngày\s*\d+\/\d+)[^)]*\)/gi, '').trim()
+                                          : '';
+
+                                        // Nhận diện tính chất: Pháp hội (Tạ đàn) vs Cộng tu (Kết khóa)
+                                        const isPhapHoi =
+                                          ev.category === 'Đại Lễ Sự Kiện' ||
+                                          (ev.title || '').toLowerCase().includes('pháp hội') ||
+                                          (ev.title || '').toLowerCase().includes('sám') ||
+                                          (rawSub || '').toLowerCase().includes('pháp hội');
+
+                                        let suffix = `ngày ${ev.multiDayInfo.currentDayIndex}/${ev.multiDayInfo.totalDays}`;
+                                        if (ev.multiDayInfo.isFirstDay) {
+                                          suffix = isPhapHoi
+                                            ? `Khai đàn - ngày 1/${ev.multiDayInfo.totalDays}`
+                                            : `Khai khóa - ngày 1/${ev.multiDayInfo.totalDays}`;
+                                        } else if (ev.multiDayInfo.isLastDay) {
+                                          if (ev.continueChanting) {
+                                            suffix = `Kết khóa`;
+                                          } else if (ev.endDayLabel) {
+                                            suffix = ev.endDayLabel;
+                                          } else {
+                                            suffix = isPhapHoi
+                                              ? `Tạ đàn - ngày ${ev.multiDayInfo.totalDays}/${ev.multiDayInfo.totalDays}`
+                                              : `Kết khóa - ngày ${ev.multiDayInfo.totalDays}/${ev.multiDayInfo.totalDays}`;
+                                          }
+                                        }
+
+                                        const progressStr = `(${suffix})`;
+                                        return baseSub ? `${baseSub} ${progressStr}` : progressStr;
+                                      }
+                                      return rawSub || (ev.category === 'Khóa Lễ Truyền Thống' ? 'Khóa lễ' : ev.category);
+                                    })()}
                                   </div>
 
-                                  {/* Dòng 2: Tiêu đề chính (In hoa toàn bộ, bold) */}
+                                  {/* Dòng 2 (Ở DƯỚI): Tiêu đề chính (Lấy từ edit, VD: LƯƠNG HOÀNG SÁM) */}
                                   <div
-                                    style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                                    style={{
+                                      fontFamily: "'UTM Avo', sans-serif",
+                                      textWrap: 'balance',
+                                    }}
                                     className="text-xs sm:text-[13px] font-bold uppercase text-[#FFDE59] leading-tight mt-0.5"
                                   >
-                                    {ev.title}
+                                    {cleanEventTitle(ev.title)}
                                   </div>
 
                                   {/* Mũi tên tooltip */}
@@ -716,43 +1114,49 @@ export const CalendarSection: FC = () => {
               })()}
             </div>
 
-            {/* 2.4 THANH CHÚ THÍCH Ý NGHĨA LOGO BIỂU TƯỢNG (GÓC DƯỚI BÊN PHẢI BẢNG LỊCH) */}
-            <div
-              style={{ fontFamily: "'UTM Avo', sans-serif" }}
-              className="flex flex-wrap items-center justify-end gap-2.5 pt-2 text-[11px] border-t border-[#F2C14E]/20"
-            >
-              <span className="text-[#F2C14E] font-bold text-[11px] uppercase tracking-wider flex items-center gap-1">
-                ❖ Chú thích:
-              </span>
+            {/* 2.4 THANH CHÚ THÍCH Ý NGHĨA LOGO BIỂU TƯỢNG (ĐƯỜNG KẺ GRADIENT, CĂN GIỮA TUYỆT ĐỐI) */}
+            <div className="-mx-4 sm:-mx-5 md:-mx-6 -mb-4 sm:-mb-5 md:-mb-6 px-4 sm:px-5 md:px-6 pt-2">
+              {/* Đường kẻ dạng gradient */}
+              <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-[#F2C14E]/35 to-transparent" />
 
-              {/* Logo 1: Cộng Tu */}
-              <div className="flex items-center gap-1.5 bg-black/50 px-2.5 py-1 rounded-full border border-[#F2C14E]/30 shadow-xs">
-                <img
-                  src="/images/icons/icon-cong-tu.png"
-                  alt="Cộng Tu"
-                  className="w-4 h-4 object-contain"
-                />
-                <span className="font-medium text-[#FFE5A3]">Cộng Tu</span>
-              </div>
+              {/* Dòng chú thích căn CHÍNH GIỮA tuyệt đối giữa đường kẻ và mép đáy khung */}
+              <div
+                style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                className="py-3.5 sm:py-4 flex flex-wrap items-center justify-end gap-3.5 sm:gap-4 text-[11px] sm:text-xs"
+              >
+                <span className="text-[#F2C14E] font-bold uppercase tracking-wider flex items-center gap-1">
+                  ❖ Chú thích:
+                </span>
 
-              {/* Logo 2: Khóa Lễ Truyền Thống */}
-              <div className="flex items-center gap-1.5 bg-black/50 px-2.5 py-1 rounded-full border border-[#F2C14E]/30 shadow-xs">
-                <img
-                  src="/images/icons/icon-khoa-le-truyen-thong.png"
-                  alt="Khóa Lễ Truyền Thống"
-                  className="w-4 h-4 object-contain"
-                />
-                <span className="font-medium text-[#FFE5A3]">Khóa Lễ Truyền Thống</span>
-              </div>
+                {/* Logo 1: Cộng Tu (Bỏ khung, để trên nền, chữ nghiêng) */}
+                <div className="flex items-center gap-1.5">
+                  <img
+                    src="/images/icons/icon-cong-tu.png"
+                    alt="Cộng Tu"
+                    className="w-4 h-4 object-contain"
+                  />
+                  <span className="font-normal italic text-[#FFE5A3]/95">Cộng Tu</span>
+                </div>
 
-              {/* Logo 3: Đại Lễ Sự Kiện */}
-              <div className="flex items-center gap-1.5 bg-black/50 px-2.5 py-1 rounded-full border border-[#F2C14E]/30 shadow-xs">
-                <img
-                  src="/images/icons/icon-dai-le-su-kien.png"
-                  alt="Đại Lễ Sự Kiện"
-                  className="w-4 h-4 object-contain"
-                />
-                <span className="font-medium text-[#FFE5A3]">Đại Lễ Sự Kiện</span>
+                {/* Logo 2: Khóa Lễ Truyền Thống (Bỏ khung, để trên nền, chữ nghiêng) */}
+                <div className="flex items-center gap-1.5">
+                  <img
+                    src="/images/icons/icon-khoa-le-truyen-thong.png"
+                    alt="Khóa Lễ Truyền Thống"
+                    className="w-4 h-4 object-contain"
+                  />
+                  <span className="font-normal italic text-[#FFE5A3]/95">Khóa Lễ Truyền Thống</span>
+                </div>
+
+                {/* Logo 3: Đại Lễ Sự Kiện (Bỏ khung, để trên nền, chữ nghiêng) */}
+                <div className="flex items-center gap-1.5">
+                  <img
+                    src="/images/icons/icon-dai-le-su-kien.png"
+                    alt="Đại Lễ Sự Kiện"
+                    className="w-4 h-4 object-contain"
+                  />
+                  <span className="font-normal italic text-[#FFE5A3]/95">Đại Lễ Sự Kiện</span>
+                </div>
               </div>
             </div>
 
@@ -761,15 +1165,15 @@ export const CalendarSection: FC = () => {
         </div>
 
         {/* ══════════════════════════════════════════════════════════════════════
-            POPUP POSTER MODEL (BRING TO FRONT Z-[9999], TỶ LỆ VÀNG)
+            POPUP POSTER MODEL (PORTAL VÀO BODY, TRÁNH CHE KHUẤT KHI CUỘN, TỶ LỆ VÀNG)
         ══════════════════════════════════════════════ */}
-        {selectedEvent && (
+        {mounted && selectedEvent && typeof document !== "undefined" && createPortal(
           <div
-            className="fixed inset-0 z-[9999] flex items-center justify-center p-3 sm:p-4 bg-black/90 backdrop-blur-xl animate-in fade-in duration-300"
+            className="fixed inset-0 z-[999999] flex items-center justify-center p-3 sm:p-4 pt-16 sm:pt-20 pb-6 sm:pb-8 bg-black/85 backdrop-blur-md animate-in fade-in duration-300"
             onClick={() => setSelectedEvent(null)}
           >
             <div
-              className="relative max-w-md w-full max-h-[85vh] overflow-y-auto rounded-3xl shadow-[0_25px_80px_rgba(0,0,0,0.95)] border bg-[#1E1108] transition-all animate-in zoom-in-95 flex flex-col scrollbar-none"
+              className="relative max-w-md w-full max-h-[82vh] overflow-y-auto rounded-3xl shadow-[0_25px_80px_rgba(0,0,0,0.95)] border bg-[#1E1108] transition-all animate-in zoom-in-95 flex flex-col scrollbar-none my-auto"
               style={{
                 borderColor: "#F2C14E",
                 boxShadow: "0 0 50px rgba(242,193,78,0.4)",
@@ -786,11 +1190,14 @@ export const CalendarSection: FC = () => {
               </button>
 
               {/* 1. TOP BANNER IMAGE */}
-              <div className="relative w-full h-[180px] sm:h-[200px] bg-black shrink-0 overflow-hidden">
+              <div className="relative w-full h-[160px] sm:h-[185px] bg-black shrink-0 overflow-hidden">
                 <img
                   src={selectedEvent.imgUrl}
                   alt={selectedEvent.title}
-                  className="w-full h-full object-cover object-center"
+                  className="w-full h-full object-cover"
+                  style={{
+                    objectPosition: `center ${selectedEvent.imgPositionY ?? 50}%`,
+                  }}
                   onError={(e) => {
                     (e.currentTarget as HTMLImageElement).src = '/images/vu-tru-phat-giao/bao-thap/bao-thap-banner.jpg';
                   }}
@@ -798,79 +1205,138 @@ export const CalendarSection: FC = () => {
                 <div className="absolute inset-0 bg-gradient-to-t from-[#1E1108] via-transparent to-black/40" />
               </div>
 
-              {/* 2. POSTER CONTENT BODY */}
-              <div className="p-4 sm:p-5 space-y-3 text-center bg-[#1E1108] text-white">
-                {/* Badge Phân Loại */}
-                <div className="flex items-center justify-center gap-2">
-                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-[#F2C14E]/60 bg-black/60 shadow-md">
-                    <img
-                      src={getEventCategoryIcon(selectedEvent.category)}
-                      alt={selectedEvent.category}
-                      className="w-4 h-4 object-contain"
-                    />
-                    <span className="text-[11px] font-bold uppercase text-[#FFDE59]">
-                      {selectedEvent.category}
-                    </span>
-                  </div>
+              {/* 2. ĐƯỜNG KẺ GRADIENT CẮT MẾP CHÂN ẢNH CÓ BIỂU TƯỢNG HÌNH TRÒN CHÍNH GIỮA (GIỐNG POSTER, BỎ CHỮ DANH MỤC) */}
+              <div className="relative w-full h-[1px] bg-gradient-to-r from-transparent via-[#F2C14E]/70 to-transparent z-10 shrink-0">
+                <div className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-12 sm:h-12 rounded-full border-2 border-[#F2C14E] bg-[#24160E] flex items-center justify-center p-2 shadow-[0_0_16px_rgba(242,193,78,0.6)]">
+                  <img
+                    src={getEventCategoryIcon(selectedEvent.category)}
+                    alt={selectedEvent.category}
+                    className="w-full h-full object-contain filter drop-shadow-[0_0_6px_rgba(242,193,78,0.5)]"
+                  />
+                </div>
+              </div>
+
+              {/* 3. POSTER CONTENT BODY */}
+              <div className="p-4 sm:p-5 pt-7 sm:pt-8 pb-6 sm:pb-7 space-y-3.5 text-center bg-[#1E1108] text-white">
+                {/* 3.1 & 3.2 KHỐI TIÊU ĐỀ: Sub Tiêu Đề trên, Tiêu Đề dưới - To rõ, uy nghiêm */}
+                <div className="space-y-1">
+                  {(() => {
+                    const cleanSub = getDisplaySubtitle(selectedEvent);
+                    return cleanSub ? (
+                      <p
+                        style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                        className="text-sm sm:text-base text-amber-200/95 font-medium italic normal-case tracking-wide line-clamp-1 w-full text-center"
+                      >
+                        {cleanSub}
+                      </p>
+                    ) : null;
+                  })()}
+
+                  {(() => {
+                    const titleStr = cleanEventTitle(selectedEvent.title);
+                    const styleInfo = getAdaptiveTitleClasses(titleStr);
+                    const formatted = formatBalancedTitle(titleStr);
+
+                    return (
+                      <h3
+                        style={{
+                          fontFamily: "'UTM Niagara', serif",
+                          textWrap: 'balance',
+                          whiteSpace: formatted.includes('\n') ? 'pre-line' : 'normal',
+                        }}
+                        className={`${styleInfo.fontSize} ${styleInfo.lineHeight} ${styleInfo.tracking} font-normal uppercase text-[#FFDE59] drop-shadow-[0_0_16px_rgba(255,222,89,0.6)] w-full text-center px-1`}
+                      >
+                        {formatted}
+                      </h3>
+                    );
+                  })()}
                 </div>
 
-                {/* Tiêu đề chính */}
-                <div className="inline-block px-5 py-2 rounded-xl bg-gradient-to-r from-[#A3520A] via-[#C87515] to-[#A3520A] border border-[#F2C14E] shadow-[0_0_20px_rgba(200,117,21,0.5)]">
-                  <h3
-                    style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                    className="text-base sm:text-lg font-bold uppercase text-white tracking-wider leading-snug"
-                  >
-                    {selectedEvent.title}
-                  </h3>
-                </div>
-
-                {/* Sub Tiêu Đề Bóc Tách */}
-                {(selectedEvent.subtitle || selectedEvent.subTitle1) && (
-                  <p
-                    style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                    className="text-xs sm:text-sm text-[#FFE5A3] font-medium italic opacity-95"
-                  >
-                    {selectedEvent.subtitle || selectedEvent.subTitle1}
-                  </p>
-                )}
-
-                {/* 3. POSTER SCHEDULE GLASS BOX */}
-                <div className="rounded-xl p-3.5 sm:p-4 bg-[#2C180E]/90 border border-[#F2C14E]/35 shadow-inner grid grid-cols-1 sm:grid-cols-2 gap-3 items-center text-left">
-                  {/* Left Column: Thứ, Ngày Dương, Ngày Âm */}
-                  <div className="border-b sm:border-b-0 sm:border-r border-[#F2C14E]/25 pb-2.5 sm:pb-0 sm:pr-3 space-y-1 flex flex-col justify-between">
-                    <span
-                      style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                      className="text-sm sm:text-base font-normal uppercase text-white block tracking-wider leading-none"
-                    >
-                      {selectedEvent.dayOfWeekStr}
-                    </span>
-                    <span
-                      style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                      className="text-xl sm:text-2xl font-extrabold text-[#F2C14E] block tracking-wide leading-none py-1"
-                    >
-                      {selectedEvent.solarDateStr}
-                    </span>
-                    <span
-                      style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                      className="text-sm sm:text-base font-normal text-[#FFE5A3] block tracking-wide leading-none opacity-95"
-                    >
-                      {selectedEvent.lunarDate}
-                    </span>
-                  </div>
-
-                  {/* Right Column: Giờ và Thời Khóa */}
-                  <div className="space-y-2 sm:pl-2">
-                    {selectedEvent.timeSlot1Time && (
-                      <div>
+                {/* 3.3 KHỐI LỊCH & THỜI KHÓA (SCHEDULE GLASS BOX) */}
+                <div className="rounded-xl p-3 sm:p-3.5 bg-[#2C180E]/90 border border-[#F2C14E]/35 shadow-inner grid grid-cols-1 sm:grid-cols-2 gap-3 items-stretch text-left">
+                  {/* Left Column: Căn chính giữa so với chiều cao khung hình */}
+                  <div className="border-b sm:border-b-0 sm:border-r border-[#F2C14E]/25 pb-2.5 sm:pb-0 sm:pr-3 flex flex-col justify-center items-center text-center my-auto h-full">
+                    {selectedEvent.multiDayInfo && !selectedEvent.multiDayInfo.isChantingFinalDay && !selectedEvent.multiDayInfo.isChantingExtension ? (
+                      <>
+                        {/* Dòng Ngày Dương: 09.11 - 18.11 (UTM avo bold to hơn) */}
                         <span
                           style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                          className="text-[11px] text-[#FFE5A3] block tracking-wide font-normal opacity-90"
+                          className="text-lg sm:text-xl md:text-[22px] font-bold text-[#F2C14E] block tracking-normal leading-tight py-0.5 whitespace-nowrap"
                         >
-                          {selectedEvent.timeSlot1Label || 'Thời Khóa'}
+                          {(() => {
+                            const startParts = (selectedEvent.multiDayInfo.startDateStr || '').split('.');
+                            const endParts = (selectedEvent.multiDayInfo.endDateStr || '').split('.');
+                            const startShort = startParts.length >= 2 ? `${startParts[0]}.${startParts[1]}` : selectedEvent.multiDayInfo.startDateStr;
+                            const endShort = endParts.length >= 2 ? `${endParts[0]}.${endParts[1]}` : selectedEvent.multiDayInfo.endDateStr;
+                            return `${startShort} - ${endShort}`;
+                          })()}
+                        </span>
+
+                        {/* Dòng Ngày Âm: (XX.XX - XX.XX ÂL) (UTM avo thường nhỏ hơn) */}
+                        <span
+                          style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                          className="text-xs sm:text-[13px] font-normal text-[#FFE5A3]/95 block leading-tight text-center mt-1 whitespace-nowrap"
+                        >
+                          {(() => {
+                            const d1 = parseSolarDateStr(selectedEvent.multiDayInfo.startDateStr);
+                            const d2 = parseSolarDateStr(selectedEvent.multiDayInfo.endDateStr);
+                            if (d1 && d2) {
+                              const l1 = convertSolarToLunar(d1.getDate(), d1.getMonth(), d1.getFullYear());
+                              const l2 = convertSolarToLunar(d2.getDate(), d2.getMonth(), d2.getFullYear());
+                              return `(${String(l1.day).padStart(2, '0')}.${String(l1.month).padStart(2, '0')} - ${String(l2.day).padStart(2, '0')}.${String(l2.month).padStart(2, '0')} ÂL)`;
+                            }
+                            return `(${selectedEvent.multiDayInfo.startDateStr} - ${selectedEvent.multiDayInfo.endDateStr})`;
+                          })()}
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <span
+                          style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                          className="text-[11px] sm:text-xs font-medium uppercase text-[#FFE5A3]/90 tracking-wider block"
+                        >
+                          {selectedEvent.dayOfWeekStr}
                         </span>
                         <span
                           style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                          className="text-lg sm:text-xl font-bold text-white block leading-tight"
+                          className="text-xl sm:text-[22px] font-bold text-[#F2C14E] block tracking-normal leading-tight py-0.5"
+                        >
+                          {selectedEvent.solarDateStr}
+                        </span>
+                        <span
+                          style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                          className="text-xs sm:text-[13px] font-normal text-[#FFE5A3]/95 block uppercase tracking-[0.38em] pl-[0.38em] leading-tight text-center mt-0.5 whitespace-nowrap"
+                        >
+                          {`(${(selectedEvent.lunarDate || '').replace(/[()]/g, '').trim()})`}
+                        </span>
+                      </>
+                    )}
+                  </div>
+
+                  {/* Right Column: Giờ và Thời Khóa cân đối thanh thoát */}
+                  <div className="space-y-2 sm:pl-2 flex flex-col justify-center h-full my-auto text-left">
+                    {selectedEvent.timeSlot1Time && (
+                      <div>
+                        {(() => {
+                          const rawLabel = (selectedEvent.timeSlot1Label || '').trim();
+                          const isDefaultOrEmpty =
+                            !rawLabel ||
+                            rawLabel.toLowerCase() === 'buổi sáng' ||
+                            rawLabel.toLowerCase() === 'thời khóa' ||
+                            rawLabel.toLowerCase() === 'buoi sang';
+                          const displayLabel = isDefaultOrEmpty ? 'Thời Gian Bắt Đầu' : rawLabel;
+                          return (
+                            <span
+                              style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                              className="text-xs sm:text-[13px] text-[#FFE5A3]/85 block tracking-wide font-normal mb-0.5"
+                            >
+                              {displayLabel}
+                            </span>
+                          );
+                        })()}
+                        <span
+                          style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                          className="text-base sm:text-lg font-bold text-white block leading-tight"
                         >
                           {selectedEvent.timeSlot1Time}
                         </span>
@@ -881,13 +1347,18 @@ export const CalendarSection: FC = () => {
                       <div>
                         <span
                           style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                          className="text-[11px] text-[#FFE5A3] block tracking-wide font-normal opacity-90"
+                          className="text-xs sm:text-[13px] text-[#FFE5A3]/85 block tracking-wide font-normal mb-0.5"
                         >
-                          {selectedEvent.timeSlot2Label || 'Thời Khóa Tiếp'}
+                          {selectedEvent.timeSlot2Label ||
+                            (selectedEvent.timeSlot2Time.toLowerCase().includes('phút') ||
+                            selectedEvent.timeSlot2Time.toLowerCase().includes('giờ') ||
+                            selectedEvent.timeSlot2Time.toLowerCase().includes('ngày')
+                              ? 'Thời Lượng'
+                              : 'Thời Khóa Tiếp')}
                         </span>
                         <span
                           style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                          className="text-lg sm:text-xl font-bold text-[#F2C14E] block leading-tight"
+                          className="text-base sm:text-lg font-bold text-[#F2C14E] block leading-tight"
                         >
                           {selectedEvent.timeSlot2Time}
                         </span>
@@ -896,44 +1367,60 @@ export const CalendarSection: FC = () => {
                   </div>
                 </div>
 
-                {/* 4. DESCRIPTION & LOCATION */}
-                <div className="space-y-1.5 text-left pt-1">
+                {/* 3.4 NỘI DUNG MÔ TẢ & ĐỊA ĐIỂM (DÙNG FONT UTM AVO) */}
+                <div className="space-y-2 text-left pt-1">
+                  {selectedEvent.description && (
+                    <p
+                      style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                      className="text-xs sm:text-[13.5px] text-white/95 leading-relaxed font-normal text-justify"
+                    >
+                      {selectedEvent.description}
+                    </p>
+                  )}
                   <p
                     style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                    className="text-xs text-white/90 leading-relaxed font-normal"
+                    className="text-xs sm:text-[13px] text-[#FFE5A3] flex items-center gap-2 font-medium"
                   >
-                    {selectedEvent.description}
-                  </p>
-                  <p
-                    style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                    className="text-xs text-[#F2C14E] flex items-center gap-1.5 font-bold"
-                  >
-                    <MapPin className="w-3.5 h-3.5 shrink-0" />
+                    <img
+                      src="/images/icons/icon-cac-khu-vuc-noi-bat.webp"
+                      alt="Địa điểm"
+                      className="w-4 h-4 object-contain shrink-0 drop-shadow-[0_0_6px_rgba(242,193,78,0.5)]"
+                    />
                     <span>{selectedEvent.location}</span>
                   </p>
                 </div>
 
-                {/* 5. NOTES (NẾU CÓ) */}
+                {/* 3.5 LƯU Ý HÀNH TRÌ (NẾU CÓ) - DÙNG FONT UTM AVO */}
                 {selectedEvent.notes && (
-                  <div className="p-2.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-left text-xs text-amber-200/90 space-y-1">
-                    <span className="font-bold text-amber-300 flex items-center gap-1">
-                      <Sparkles className="w-3.5 h-3.5" /> Lưu ý hành trì:
+                  <div className="p-3 rounded-xl bg-[#2A180E] border border-[#F2C14E]/35 text-left space-y-1 shadow-inner">
+                    <span
+                      style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                      className="font-bold text-xs text-[#FFDE59] flex items-center gap-1.5 uppercase tracking-wide"
+                    >
+                      <Sparkles className="w-3.5 h-3.5 text-[#F2C14E]" /> Lưu ý hành trì:
                     </span>
-                    <p className="leading-relaxed">{selectedEvent.notes}</p>
+                    <p
+                      style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                      className="text-xs sm:text-[13px] text-[#FFE5A3]/95 leading-relaxed italic font-normal"
+                    >
+                      {selectedEvent.notes}
+                    </p>
                   </div>
                 )}
 
-                {/* 6. NÚT XEM CHI TIẾT BÀI VIẾT */}
+                {/* 3.6 NÚT XEM CHI TIẾT BÀI VIẾT - FONT UTM AVO KHÔNG BOLD, KHÔNG IN HOA */}
                 <Link
                   href={`/lich-tu-hoc/${selectedEvent.slug || toSlug(selectedEvent.title)}`}
-                  className="mt-3 w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-[#A3520A] via-[#C87515] to-[#A3520A] hover:from-[#B85D0B] hover:to-[#C87515] text-white font-bold text-xs sm:text-sm tracking-wide uppercase flex items-center justify-center gap-2 border border-[#F2C14E] shadow-[0_4px_15px_rgba(200,117,21,0.4)] transition-all hover:scale-[1.02] cursor-pointer"
+                  style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                  className="mt-3.5 mb-1 w-full py-2.5 px-6 rounded-full bg-[#2A180E] hover:bg-[#F2C14E] text-[#FFE5A3] hover:text-[#1A120B] border border-[#F2C14E]/60 hover:border-[#FFDE59] font-normal text-xs sm:text-sm tracking-wider flex items-center justify-center gap-2 shadow-lg hover:shadow-[0_0_20px_rgba(242,193,78,0.5)] transition-all duration-300 hover:scale-[1.01] cursor-pointer group/link"
                 >
-                  <span>Xem Chi Tiết Bài Viết</span>
-                  <ArrowRight className="w-4 h-4" />
+                  <span>Xem chi tiết bài viết</span>
+                  <ArrowRight className="w-4 h-4 text-[#F2C14E] group-hover/link:text-[#1A120B] transition-transform duration-300 group-hover/link:translate-x-1" />
                 </Link>
               </div>
             </div>
-          </div>
+          </div>,
+          document.body
         )}
       </div>
     </section>

@@ -42,14 +42,22 @@ import {
 import {
   getEventCategoryIcon,
   splitEventTitle,
+  parseSolarDateStr,
+  formatSolarDateStr,
+  calcDaysDifference,
 } from '@/data/schedule-data';
 
 interface FeaturedProgram {
   id: string;
   title: string;
+  subtitle?: string;
+  time?: string;
+  duration?: string;
+  location?: string;
   schedule: string;
   summary: string;
   imgUrl: string;
+  imgPositionY?: number;
 }
 
 interface MonthTheme {
@@ -66,19 +74,72 @@ interface MonthTheme {
 export interface CustomScheduleEvent {
   id: string;
   slug?: string;
-  solarDateStr: string; // "DD.MM.YYYY"
+  solarDateStr: string; // "DD.MM.YYYY" (Ngày bắt đầu)
+  endDateStr?: string;   // "DD.MM.YYYY" (Ngày kết thúc nếu kéo dài nhiều ngày)
+  isMultiDay?: boolean;  // Cờ đánh dấu khóa tu nhiều ngày
   title: string;
   subtitle?: string; // Sub tiêu đề bóc tách (đỡ dài dòng trong ô lịch)
   category: 'Cộng Tu' | 'Đại Lễ Sự Kiện' | 'Khóa Lễ Truyền Thống' | string;
   timeSlot1Label?: string;
   timeSlot1Time?: string;
+  timeSlot2Label?: string;
+  timeSlot2Time?: string;
   location: string;
   description: string;
   notes?: string;
   imgUrl?: string;
+  imgPositionY?: number; // Tọa độ căn dọc 0% (Top) - 100% (Bottom)
   videoUrl?: string;
   gallery?: string[];
   contentHtml?: string;
+  endDayType?: string;
+  endDayLabel?: string;
+  endDayTime?: string;
+  continueChanting?: boolean;
+  continueChantingUntil?: string;
+  continueChantingName?: string;
+}
+
+export function isEventOnDate(evt: CustomScheduleEvent, targetDateStr: string): boolean {
+  if (evt.solarDateStr === targetDateStr) return true;
+  const effectiveEndStr = (evt.continueChanting && evt.continueChantingUntil)
+    ? evt.continueChantingUntil
+    : evt.endDateStr;
+  if (!effectiveEndStr || effectiveEndStr === evt.solarDateStr) return false;
+
+  const target = parseSolarDateStr(targetDateStr);
+  const start = parseSolarDateStr(evt.solarDateStr);
+  const end = parseSolarDateStr(effectiveEndStr);
+  if (!target || !start || !end) return false;
+
+  return target.getTime() >= start.getTime() && target.getTime() <= end.getTime();
+}
+
+export function getEventDayStatus(evt: CustomScheduleEvent, targetDateStr: string): { isFirst: boolean; isLast: boolean; dayIndex: number; totalDays: number; isChantingExt?: boolean; isChantingFinal?: boolean } {
+  const target = parseSolarDateStr(targetDateStr);
+  const start = parseSolarDateStr(evt.solarDateStr);
+  const coreEnd = evt.endDateStr ? parseSolarDateStr(evt.endDateStr) : start;
+  const finalEnd = (evt.continueChanting && evt.continueChantingUntil)
+    ? parseSolarDateStr(evt.continueChantingUntil) || coreEnd
+    : coreEnd;
+
+  if (!target || !start || !coreEnd || !finalEnd) {
+    return { isFirst: true, isLast: true, dayIndex: 1, totalDays: 1 };
+  }
+  const totalDays = Math.max(1, Math.round((coreEnd.getTime() - start.getTime()) / 86400000) + 1);
+  const dayIndex = Math.max(1, Math.round((target.getTime() - start.getTime()) / 86400000) + 1);
+
+  const isChantingExt = target.getTime() > coreEnd.getTime() && target.getTime() < finalEnd.getTime();
+  const isChantingFinal = target.getTime() === finalEnd.getTime() && target.getTime() > coreEnd.getTime();
+
+  return {
+    isFirst: dayIndex === 1,
+    isLast: target.getTime() === coreEnd.getTime(),
+    dayIndex,
+    totalDays,
+    isChantingExt,
+    isChantingFinal,
+  };
 }
 
 function slugify(text: string): string {
@@ -119,6 +180,7 @@ export default function AdminSchedulePage() {
   // Event Edit Modal
   const [editingEvent, setEditingEvent] = useState<CustomScheduleEvent | null>(null);
   const [isNewEvent, setIsNewEvent] = useState<boolean>(false);
+  const [dragActiveId, setDragActiveId] = useState<string | null>(null);
 
   // Drag Drop for Traditional Rituals (Programs)
   const {
@@ -212,23 +274,26 @@ export default function AdminSchedulePage() {
     const newProg: FeaturedProgram = {
       id: 'p-' + Date.now(),
       title: 'KHÓA LỄ TRUYỀN THỐNG MỚI',
-      schedule: 'ĐỊNH KỲ HẰNG THÁNG',
+      subtitle: '',
+      time: '19h15',
+      duration: '120 phút',
+      location: 'Chánh Điện Tam Bảo',
+      schedule: '19h15',
       summary: 'Mô tả tóm tắt thời khóa tu học và ý nghĩa sự kiện...',
       imgUrl: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp',
     };
-    setPrograms([newProg, ...programs]);
+    setPrograms((prev) => [newProg, ...prev]);
   };
 
-  const updateProgram = (index: number, field: keyof FeaturedProgram, value: string) => {
-    const updated = [...programs];
-    updated[index] = { ...updated[index], [field]: value };
-    setPrograms(updated);
+  const updateProgram = (id: string, field: keyof FeaturedProgram, value: string) => {
+    setPrograms((prev) =>
+      prev.map((p) => (p.id === id ? { ...p, [field]: value } : p))
+    );
   };
 
-  const deleteProgram = (index: number) => {
+  const deleteProgram = (id: string) => {
     if (confirm('Bạn có chắc chắn muốn xóa khóa lễ truyền thống này?')) {
-      const updated = programs.filter((_, i) => i !== index);
-      setPrograms(updated);
+      setPrograms((prev) => prev.filter((p) => p.id !== id));
     }
   };
 
@@ -290,12 +355,15 @@ export default function AdminSchedulePage() {
       id: 'evt-' + Date.now(),
       slug: slugify(`khoa-tu-ngay-${day}-thang-${selectedMonthIdx + 1}-${currentYear}`),
       solarDateStr: formattedDate,
+      endDateStr: undefined,
+      isMultiDay: false,
       title: 'PHÁP HỘI CỘNG TU NIỆM PHẬT',
       subtitle: '',
       category: 'Cộng Tu',
-      timeSlot1Label: 'Buổi Sáng',
-      timeSlot1Time: '08h00 - 11h30',
-      location: 'Đại Hùng Bảo Điện & Giảng Đường',
+      timeSlot1Label: '',
+      timeSlot1Time: '08h00',
+      timeSlot2Time: '',
+      location: 'Tùng lâm Hòa Phúc',
       description: 'Khóa tu hành trì trang nghiêm, thanh tịnh thân tâm và hồi hướng công đức an lạc.',
       notes: 'Phật tử vân tập trước 07h30, y phục áo tràng lam trang nghiêm, ăn chay và giữ tâm thanh tịnh.',
       imgUrl: currentMonthData.bannerImg || 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp',
@@ -318,7 +386,18 @@ export default function AdminSchedulePage() {
     }
 
     const finalSlug = editingEvent.slug?.trim() || slugify(editingEvent.title + '-' + editingEvent.solarDateStr);
-    const eventWithSlug = { ...editingEvent, slug: finalSlug };
+    const isMulti = !!(
+      editingEvent.endDateStr &&
+      editingEvent.endDateStr.trim() !== '' &&
+      editingEvent.endDateStr.trim() !== editingEvent.solarDateStr.trim()
+    );
+
+    const eventWithSlug: CustomScheduleEvent = {
+      ...editingEvent,
+      slug: finalSlug,
+      isMultiDay: isMulti,
+      endDateStr: isMulti ? editingEvent.endDateStr?.trim() : undefined,
+    };
 
     if (isNewEvent) {
       setCustomEvents([eventWithSlug, ...customEvents]);
@@ -326,7 +405,12 @@ export default function AdminSchedulePage() {
       setCustomEvents(customEvents.map((e) => (e.id === eventWithSlug.id ? eventWithSlug : e)));
     }
     setEditingEvent(null);
-    setMessage({ text: 'Đã cập nhật thời khóa sự kiện thành công! Hãy bấm "Lưu Thay Đổi (Cloud S3)" để đồng bộ vĩnh viễn.', type: 'success' });
+    setMessage({
+      text: isMulti
+        ? `Đã lưu khóa tu chuỗi ${calcDaysDifference(eventWithSlug.solarDateStr, eventWithSlug.endDateStr || '')} ngày thành công! Hệ thống đã tự động phủ kín lịch cho các ngày này. Hãy bấm "Lưu Thay Đổi (Cloud S3)" để đồng bộ vĩnh viễn.`
+        : 'Đã cập nhật thời khóa sự kiện thành công! Hãy bấm "Lưu Thay Đổi (Cloud S3)" để đồng bộ vĩnh viễn.',
+      type: 'success',
+    });
   };
 
   const handleDeleteEditingEvent = () => {
@@ -469,12 +553,18 @@ export default function AdminSchedulePage() {
               return (
                 <div
                   key={prog.id}
-                  draggable
+                  draggable={dragActiveId === prog.id}
                   onDragStart={(e) => handleDragStart(e, prog.id)}
                   onDragOver={(e) => handleDragOver(e, prog.id)}
                   onDragLeave={handleDragLeave}
-                  onDrop={(e) => handleDrop(e, prog.id)}
-                  onDragEnd={handleDragEnd}
+                  onDrop={(e) => {
+                    handleDrop(e, prog.id);
+                    setDragActiveId(null);
+                  }}
+                  onDragEnd={() => {
+                    handleDragEnd();
+                    setDragActiveId(null);
+                  }}
                   className={`p-5 rounded-2xl border transition-all ${
                     isDropTarget
                       ? dropPosition === 'above'
@@ -486,65 +576,157 @@ export default function AdminSchedulePage() {
                   }`}
                 >
                   <div className="flex flex-col lg:flex-row gap-5 items-start lg:items-center">
-                    {/* Drag Handle */}
-                    <div className="cursor-grab active:cursor-grabbing text-[#F2C14E]/50 hover:text-[#F2C14E] p-1 shrink-0">
+                    {/* Drag Handle - Chỉ khi giữ chuột tại đây mới kích hoạt kéo thả */}
+                    <div
+                      onMouseDown={() => setDragActiveId(prog.id)}
+                      onMouseUp={() => setDragActiveId(null)}
+                      className="cursor-grab active:cursor-grabbing text-[#F2C14E]/50 hover:text-[#F2C14E] p-1.5 shrink-0 select-none rounded hover:bg-[#F2C14E]/10 transition"
+                      title="Kéo thả để đổi thứ tự khóa lễ"
+                    >
                       <GripHandleIcon />
                     </div>
 
-                    {/* Image with Direct S3 Picker Click */}
-                    <div
-                      onClick={() =>
-                        handleOpenImagePicker((url) => updateProgram(actualIdx, 'imgUrl', url), '01-trang-chu')
-                      }
-                      className="relative w-full sm:w-48 h-32 rounded-xl overflow-hidden border border-[#F2C14E]/40 shrink-0 cursor-pointer group bg-black"
-                    >
-                      <Image
-                        src={prog.imgUrl || '/images/default.jpg'}
-                        alt={prog.title}
-                        fill
-                        className="object-cover transition-transform duration-300 group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center text-[#F2C14E] gap-1 p-2 text-center">
-                        <ImageIcon className="w-5 h-5" />
-                        <span className="text-[11px] font-bold">Bấm để đổi ảnh S3</span>
+                    {/* Image with Direct S3 Picker Click & Position Control */}
+                    <div className="flex flex-col gap-1.5 w-full sm:w-48 shrink-0">
+                      <div
+                        onClick={() =>
+                          handleOpenImagePicker((url) => updateProgram(prog.id, 'imgUrl', url), '01-trang-chu')
+                        }
+                        className="relative w-full h-28 rounded-xl overflow-hidden border border-[#F2C14E]/40 cursor-pointer group bg-black"
+                      >
+                        <Image
+                          src={prog.imgUrl || '/images/default.jpg'}
+                          alt={prog.title}
+                          fill
+                          style={{
+                            objectPosition: `center ${prog.imgPositionY ?? 50}%`,
+                          }}
+                          className="object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center text-[#F2C14E] gap-1 p-2 text-center">
+                          <ImageIcon className="w-5 h-5" />
+                          <span className="text-[11px] font-bold">Bấm để đổi ảnh S3</span>
+                        </div>
+                      </div>
+
+                      {/* Slider căn dọc cho khóa lễ truyền thống */}
+                      <div className="flex items-center gap-1.5 px-2 py-1 bg-black/45 rounded-lg border border-[#F2C14E]/25 text-[10px] text-[#FFE5A3]">
+                        <span title="Căn Lên / Xuống">↕</span>
+                        <input
+                          type="range"
+                          min="0"
+                          max="100"
+                          value={prog.imgPositionY ?? 50}
+                          onChange={(e) => updateProgram(prog.id, 'imgPositionY' as any, parseInt(e.target.value, 10) as any)}
+                          className="w-full accent-[#F2C14E] h-1.5 bg-[#2A180D] rounded cursor-pointer"
+                          title="Căn chỉnh vị trí ảnh Lên / Xuống"
+                        />
+                        <span className="w-6 text-right font-medium">{prog.imgPositionY ?? 50}%</span>
                       </div>
                     </div>
 
-                    {/* Form Fields */}
-                    <div className="flex-1 w-full grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* Form Fields - 5 ô tiện ích: Tên, Tiêu đề phụ, Thời gian (Giờ bắt đầu), Thời lượng, Địa điểm */}
+                    <div className="flex-1 w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-4">
                       <div>
                         <label className="text-xs text-[#F2C14E] font-semibold block mb-1">
                           Tên Khóa Lễ Truyền Thống
                         </label>
                         <input
                           type="text"
-                          value={prog.title}
-                          onChange={(e) => updateProgram(actualIdx, 'title', e.target.value)}
-                          className="w-full px-3 py-2 bg-[#120803] border border-[#F2C14E]/30 rounded-lg text-white font-bold text-sm focus:border-[#F2C14E] outline-none"
+                          draggable={false}
+                          onFocus={() => setDragActiveId(null)}
+                          onMouseDown={(e) => e.stopPropagation()}
+                          value={prog.title || ''}
+                          onChange={(e) => updateProgram(prog.id, 'title', e.target.value)}
+                          className="w-full px-3 py-2 bg-[#120803] border border-[#F2C14E]/30 rounded-lg text-white font-bold text-sm focus:border-[#F2C14E] focus:ring-1 focus:ring-[#F2C14E]/50 outline-none select-text cursor-text"
+                          placeholder="Nhập tên khóa lễ..."
                         />
                       </div>
 
                       <div>
                         <label className="text-xs text-[#F2C14E] font-semibold block mb-1">
-                          Thời Khóa Định Kỳ (Âm Lịch)
+                          Tiêu Đề Phụ (Sub-title)
                         </label>
                         <input
                           type="text"
-                          value={prog.schedule}
-                          onChange={(e) => updateProgram(actualIdx, 'schedule', e.target.value)}
-                          className="w-full px-3 py-2 bg-[#120803] border border-[#F2C14E]/30 rounded-lg text-amber-200 text-sm focus:border-[#F2C14E] outline-none"
+                          draggable={false}
+                          onFocus={() => setDragActiveId(null)}
+                          onMouseDown={(e) => e.stopPropagation()}
+                          value={prog.subtitle || ''}
+                          onChange={(e) => updateProgram(prog.id, 'subtitle', e.target.value)}
+                          className="w-full px-3 py-2 bg-[#120803] border border-[#F2C14E]/30 rounded-lg text-[#FFDE59] text-sm focus:border-[#F2C14E] focus:ring-1 focus:ring-[#F2C14E]/50 outline-none select-text cursor-text"
+                          placeholder="Ví dụ: Sám Hối Định Kỳ, Đại Lễ..."
                         />
                       </div>
 
-                      <div className="md:col-span-2">
+                      <div>
+                        <label className="text-xs text-[#F2C14E] font-semibold block mb-1">
+                          Thời Gian (Giờ Bắt Đầu)
+                        </label>
+                        <input
+                          type="text"
+                          draggable={false}
+                          onFocus={() => setDragActiveId(null)}
+                          onMouseDown={(e) => e.stopPropagation()}
+                          value={prog.time || prog.schedule || ''}
+                          onChange={(e) => {
+                            const val = e.target.value;
+                            setPrograms((prev) =>
+                              prev.map((p) =>
+                                p.id === prog.id ? { ...p, time: val, schedule: val } : p
+                              )
+                            );
+                          }}
+                          className="w-full px-3 py-2 bg-[#120803] border border-[#F2C14E]/30 rounded-lg text-amber-200 text-sm focus:border-[#F2C14E] focus:ring-1 focus:ring-[#F2C14E]/50 outline-none select-text cursor-text"
+                          placeholder="Ví dụ: 08h00, 19h15..."
+                        />
+                      </div>
+
+                      <div>
+                        <label className="text-xs text-[#F2C14E] font-semibold block mb-1">
+                          Thời Lượng (Nếu Có)
+                        </label>
+                        <input
+                          type="text"
+                          draggable={false}
+                          onFocus={() => setDragActiveId(null)}
+                          onMouseDown={(e) => e.stopPropagation()}
+                          value={prog.duration || ''}
+                          onChange={(e) => updateProgram(prog.id, 'duration', e.target.value)}
+                          className="w-full px-3 py-2 bg-[#120803] border border-[#F2C14E]/30 rounded-lg text-amber-200 text-sm focus:border-[#F2C14E] focus:ring-1 focus:ring-[#F2C14E]/50 outline-none select-text cursor-text"
+                          placeholder="Ví dụ: 120 phút, 2 ngày..."
+                        />
+                      </div>
+
+                      <div>
+                        <label className="text-xs text-[#F2C14E] font-semibold block mb-1">
+                          Địa Điểm Tổ Chức
+                        </label>
+                        <input
+                          type="text"
+                          draggable={false}
+                          onFocus={() => setDragActiveId(null)}
+                          onMouseDown={(e) => e.stopPropagation()}
+                          value={prog.location || ''}
+                          onChange={(e) => updateProgram(prog.id, 'location', e.target.value)}
+                          className="w-full px-3 py-2 bg-[#120803] border border-[#F2C14E]/30 rounded-lg text-[#FFE5A3] text-sm focus:border-[#F2C14E] focus:ring-1 focus:ring-[#F2C14E]/50 outline-none select-text cursor-text"
+                          placeholder="Ví dụ: Chánh Điện Tam Bảo..."
+                        />
+                      </div>
+
+                      <div className="sm:col-span-2 md:col-span-3 xl:col-span-5">
                         <label className="text-xs text-[#F2C14E] font-semibold block mb-1">
                           Tóm Tắt Ý Nghĩa & Hướng Dẫn
                         </label>
                         <textarea
                           rows={2}
-                          value={prog.summary}
-                          onChange={(e) => updateProgram(actualIdx, 'summary', e.target.value)}
-                          className="w-full px-3 py-2 bg-[#120803] border border-[#F2C14E]/30 rounded-lg text-white/90 text-xs focus:border-[#F2C14E] outline-none leading-relaxed"
+                          draggable={false}
+                          onFocus={() => setDragActiveId(null)}
+                          onMouseDown={(e) => e.stopPropagation()}
+                          value={prog.summary || ''}
+                          onChange={(e) => updateProgram(prog.id, 'summary', e.target.value)}
+                          className="w-full px-3 py-2 bg-[#120803] border border-[#F2C14E]/30 rounded-lg text-white/90 text-xs focus:border-[#F2C14E] focus:ring-1 focus:ring-[#F2C14E]/50 outline-none leading-relaxed select-text cursor-text"
+                          placeholder="Nhập mô tả tóm tắt ý nghĩa thời khóa..."
                         />
                       </div>
                     </div>
@@ -553,7 +735,7 @@ export default function AdminSchedulePage() {
                     <div className="flex lg:flex-col gap-2 shrink-0 self-end lg:self-center">
                       <button
                         type="button"
-                        onClick={() => deleteProgram(actualIdx)}
+                        onClick={() => deleteProgram(prog.id)}
                         className="p-2 text-red-400 hover:text-red-300 hover:bg-red-950/50 rounded-lg border border-red-500/30 transition cursor-pointer"
                         title="Xóa khóa lễ"
                       >
@@ -834,9 +1016,10 @@ export default function AdminSchedulePage() {
                     const isFirstOrFullMoon = lunarObj.day === 1 || lunarObj.day === 15;
                     const isSunday = cellIdx % 7 === 6;
 
-                    // Filter events for this day
+                    // Filter events for this day (Bao gồm cả sự kiện đơn ngày và chuỗi khóa tu nhiều ngày)
                     const dayEvents = customEvents.filter((e) => {
-                      if (e.solarDateStr !== dateStr) return false;
+                      const isOnDate = isEventOnDate(e, dateStr);
+                      if (!isOnDate) return false;
                       if (filterCategory === 'Tất Cả') return true;
                       return e.category === filterCategory;
                     });
@@ -883,9 +1066,12 @@ export default function AdminSchedulePage() {
                           {dayEvents.map((evt) => {
                             const iconUrl = getEventCategoryIcon(evt.category);
                             const isDaiLe = evt.category === 'Đại Lễ Sự Kiện';
+                            const isMulti = evt.isMultiDay || (evt.endDateStr && evt.endDateStr !== evt.solarDateStr);
+                            const status = isMulti ? getEventDayStatus(evt, dateStr) : null;
+
                             return (
                               <div
-                                key={evt.id}
+                                key={`${evt.id}-${dayNum}`}
                                 onClick={() => handleOpenEditEvent(evt)}
                                 className="relative group/admin-icon cursor-pointer transition-transform hover:scale-125 z-10 hover:z-50"
                               >
@@ -893,6 +1079,8 @@ export default function AdminSchedulePage() {
                                   className={`w-7 h-7 rounded-full p-0.5 shadow-md flex items-center justify-center transition-all ${
                                     isDaiLe
                                       ? 'bg-red-950/90 border border-red-500 hover:border-[#FFDE59] shadow-[0_0_8px_rgba(239,68,68,0.5)]'
+                                      : isMulti
+                                      ? 'bg-[#3A2010] border-2 border-[#FFDE59] hover:border-white shadow-[0_0_8px_rgba(255,222,89,0.6)]'
                                       : 'bg-black/70 border border-[#F2C14E]/70 hover:border-[#FFDE59]'
                                   }`}
                                 >
@@ -904,16 +1092,28 @@ export default function AdminSchedulePage() {
                                 </div>
 
                                 {/* Rich Tooltip khi rê chuột vào logo */}
-                                <div className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-56 p-2.5 rounded-xl bg-[#1C0F08]/98 border border-[#FFDE59] shadow-[0_10px_30px_rgba(0,0,0,0.95)] backdrop-blur-md opacity-0 group-hover/admin-icon:opacity-100 transition-all duration-200 z-50 text-left space-y-1 transform scale-95 group-hover/admin-icon:scale-100">
-                                  <div className="flex items-center gap-1.5 pb-1 border-b border-[#F2C14E]/25">
-                                    <img src={iconUrl} alt="" className="w-3.5 h-3.5 object-contain" />
-                                    <span className="text-[10px] font-bold uppercase text-[#FFDE59]">
-                                      {evt.category}
-                                    </span>
+                                <div className="pointer-events-none absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-60 p-2.5 rounded-xl bg-[#1C0F08]/98 border border-[#FFDE59] shadow-[0_10px_30px_rgba(0,0,0,0.95)] backdrop-blur-md opacity-0 group-hover/admin-icon:opacity-100 transition-all duration-200 z-50 text-left space-y-1 transform scale-95 group-hover/admin-icon:scale-100">
+                                  <div className="flex items-center justify-between pb-1 border-b border-[#F2C14E]/25">
+                                    <div className="flex items-center gap-1.5">
+                                      <img src={iconUrl} alt="" className="w-3.5 h-3.5 object-contain" />
+                                      <span className="text-[10px] font-bold uppercase text-[#FFDE59]">
+                                        {evt.category}
+                                      </span>
+                                    </div>
+                                    {status && (
+                                      <span className="text-[9px] font-extrabold px-1.5 py-0.5 rounded-md bg-[#F2C14E] text-black">
+                                        {status.isFirst ? 'Khai Đàn' : status.isLast ? 'Hoàn Mãn' : `Ngày ${status.dayIndex}/${status.totalDays}`}
+                                      </span>
+                                    )}
                                   </div>
                                   <div className="text-xs font-bold text-white leading-tight line-clamp-2">
                                     {evt.title}
                                   </div>
+                                  {status && (
+                                    <div className="text-[10px] text-[#FFE5A3] font-medium">
+                                      ⏱ Khóa tu {status.totalDays} ngày ({evt.solarDateStr} ➔ {evt.endDateStr})
+                                    </div>
+                                  )}
                                   {evt.subtitle && (
                                     <div className="text-[11px] text-amber-200/90 italic leading-tight line-clamp-2">
                                       {evt.subtitle}
@@ -921,7 +1121,7 @@ export default function AdminSchedulePage() {
                                   )}
                                   <div className="text-[10px] text-amber-300/80 pt-1 border-t border-[#F2C14E]/20 flex items-center justify-between">
                                     <span>{evt.timeSlot1Time || 'Thời khóa'}</span>
-                                    <span className="text-[#FFDE59] font-semibold text-[9px]">Bấm để sửa ✎</span>
+                                    <span className="text-[#FFDE59] font-semibold text-[9px]">Bấm để sửa toàn chuỗi ✎</span>
                                   </div>
                                   <div className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-x-4 border-x-transparent border-t-4 border-t-[#FFDE59]" />
                                 </div>
@@ -970,11 +1170,27 @@ export default function AdminSchedulePage() {
             {/* Header Modal */}
             <div className="flex items-center justify-between pb-3 border-b border-[#F2C14E]/30">
               <div>
-                <span className="text-xs text-[#F2C14E] font-bold uppercase tracking-widest block">
-                  Cập Nhật Thời Khóa Ngày {editingEvent.solarDateStr}
+                <span className="text-[11px] text-[#F2C14E] font-bold uppercase tracking-widest block">
+                  {isNewEvent ? 'Thêm Thời Khóa Mới' : 'Thông Tin Thời Khóa Tu Học'}
                 </span>
-                <h3 className="text-lg sm:text-xl font-bold text-white mt-0.5">
-                  {isNewEvent ? 'Thêm Khóa Lễ / Sự Kiện Mới' : 'Chỉnh Sửa Thời Khóa Khóa Lễ'}
+                <h3 className="text-lg sm:text-xl font-bold text-[#FFDE59] mt-0.5 tracking-wide">
+                  {editingEvent.isMultiDay || (editingEvent.endDateStr && editingEvent.endDateStr !== editingEvent.solarDateStr) ? (
+                    `Khóa Tu Chuỗi Ngày: ${editingEvent.solarDateStr} ➔ ${editingEvent.endDateStr || editingEvent.solarDateStr}`
+                  ) : (
+                    `Thời Khóa Ngày ${editingEvent.solarDateStr}`
+                  )}
+                  {(() => {
+                    if (!editingEvent.solarDateStr) return '';
+                    const parts = editingEvent.solarDateStr.split('.');
+                    if (parts.length === 3) {
+                      const d = parseInt(parts[0], 10);
+                      const m = parseInt(parts[1], 10) - 1;
+                      const y = parseInt(parts[2], 10);
+                      const l = convertSolarToLunar(d, m, y);
+                      return ` (${String(l.day).padStart(2, '0')}.${String(l.month).padStart(2, '0')} ÂL)`;
+                    }
+                    return '';
+                  })()}
                 </h3>
               </div>
               <button
@@ -988,6 +1204,184 @@ export default function AdminSchedulePage() {
 
             {/* Form Fields */}
             <div className="space-y-4 text-xs sm:text-sm">
+              {/* Lựa Chọn Hình Thức Thời Gian: Kỳ hạn Khóa Tu Trong 1 ngày vs Khóa tu nhiều ngày (Chuẩn SEO) */}
+              <div className="p-3.5 rounded-2xl bg-black/50 border border-[#F2C14E]/30 space-y-3">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <label className="text-xs text-[#F2C14E] font-bold block">
+                    Kỳ hạn Khóa Tu:
+                  </label>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setEditingEvent({
+                          ...editingEvent,
+                          isMultiDay: false,
+                          endDateStr: undefined,
+                        });
+                      }}
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
+                        !editingEvent.isMultiDay && (!editingEvent.endDateStr || editingEvent.endDateStr === editingEvent.solarDateStr)
+                          ? 'bg-[#F2C14E] text-black shadow-md ring-1 ring-[#FFDE59]'
+                          : 'bg-[#2A180D] text-[#FFE5A3]/70 hover:text-white border border-[#F2C14E]/20'
+                      }`}
+                    >
+                      <span>Trong 1 ngày</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const curStart = parseSolarDateStr(editingEvent.solarDateStr) || new Date();
+                        const nextDays = new Date(curStart);
+                        nextDays.setDate(curStart.getDate() + 9); // Gợi ý mặc định 10 ngày
+                        setEditingEvent({
+                          ...editingEvent,
+                          isMultiDay: true,
+                          endDateStr: editingEvent.endDateStr || formatSolarDateStr(nextDays),
+                        });
+                      }}
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
+                        editingEvent.isMultiDay || (editingEvent.endDateStr && editingEvent.endDateStr !== editingEvent.solarDateStr)
+                          ? 'bg-gradient-to-r from-[#F2C14E] to-[#FFDE59] text-black shadow-md ring-1 ring-[#FFDE59]'
+                          : 'bg-[#2A180D] text-[#FFE5A3]/70 hover:text-white border border-[#F2C14E]/20'
+                      }`}
+                    >
+                      <Clock className="w-3.5 h-3.5" />
+                      <span>Khóa tu nhiều ngày</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Chi Tiết Từ Ngày & Đến Ngày nếu chọn Khóa tu nhiều ngày */}
+                {editingEvent.isMultiDay || (editingEvent.endDateStr && editingEvent.endDateStr !== editingEvent.solarDateStr) ? (
+                  <div className="pt-2 border-t border-[#F2C14E]/20 space-y-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div>
+                        {(() => {
+                          const isPhapHoi =
+                            editingEvent.category === 'Đại Lễ Sự Kiện' ||
+                            (editingEvent.title || '').toLowerCase().includes('pháp hội') ||
+                            (editingEvent.title || '').toLowerCase().includes('sám');
+                          const startLabel = isPhapHoi ? 'Khai Đàn' : 'Khai Khóa';
+                          return (
+                            <label className="text-[11px] text-[#FFE5A3]/90 font-semibold block mb-1">
+                              Từ Ngày ({startLabel}) [DD.MM.YYYY]:
+                            </label>
+                          );
+                        })()}
+                        <input
+                          type="text"
+                          value={editingEvent.solarDateStr}
+                          onChange={(e) => setEditingEvent({ ...editingEvent, solarDateStr: e.target.value })}
+                          placeholder="09.11.2026"
+                          className="w-full px-3 py-2 bg-[#120803] border border-[#F2C14E]/40 rounded-xl text-white font-bold text-xs focus:border-[#F2C14E] outline-none"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="text-[11px] text-[#FFE5A3]/90 font-semibold block mb-1">
+                          Đến Ngày (Kết Khóa) [DD.MM.YYYY]:
+                        </label>
+                        <input
+                          type="text"
+                          value={editingEvent.endDateStr || ''}
+                          onChange={(e) => setEditingEvent({ ...editingEvent, endDateStr: e.target.value, isMultiDay: true })}
+                          placeholder="18.11.2026"
+                          className="w-full px-3 py-2 bg-[#120803] border border-[#F2C14E]/40 rounded-xl text-[#FFDE59] font-bold text-xs focus:border-[#F2C14E] outline-none"
+                        />
+                      </div>
+                    </div>
+
+                    {/* Ô Nhập Riêng: Giờ Ngày Kết Khóa */}
+                    <div>
+                      <label className="text-[11px] text-[#FFE5A3]/90 font-semibold block mb-1">
+                        Giờ Ngày Kết Khóa (Nhập riêng nếu khác ngày thường):
+                      </label>
+                      <input
+                        type="text"
+                        value={editingEvent.endDayTime || ''}
+                        onChange={(e) => setEditingEvent({ ...editingEvent, endDayTime: e.target.value })}
+                        placeholder="Ví dụ: 14h00 - 16h00 hoặc Đến 16h00 chiều..."
+                        className="w-full px-3 py-2 bg-[#120803] border border-[#F2C14E]/40 rounded-xl text-white font-medium text-xs focus:border-[#F2C14E] outline-none"
+                      />
+                    </div>
+
+                    {/* Checkbox: Sau khi kết khóa, thời khóa tụng kinh vẫn tiếp tục được duy trì */}
+                    <div className="p-3 rounded-xl bg-[#201109] border border-[#F2C14E]/25 space-y-2.5">
+                      <label className="flex items-start gap-2.5 text-xs text-[#FFE5A3] font-medium cursor-pointer select-none">
+                        <input
+                          type="checkbox"
+                          checked={!!editingEvent.continueChanting}
+                          onChange={(e) =>
+                            setEditingEvent({
+                              ...editingEvent,
+                              continueChanting: e.target.checked,
+                              continueChantingUntil: e.target.checked ? (editingEvent.continueChantingUntil || '') : undefined,
+                            })
+                          }
+                          className="accent-[#F2C14E] w-4 h-4 cursor-pointer rounded mt-0.5"
+                        />
+                        <div>
+                          <span className="font-semibold text-white">Sau khi kết khóa, thời khóa tụng kinh vẫn tiếp tục được duy trì</span>
+                          <p className="text-[11px] text-[#FFE5A3]/70 font-normal mt-0.5">
+                            Ngày kết thúc khóa tu sẽ hiển thị &quot;Kết khóa&quot;. Hệ thống sẽ phủ tiếp lịch tụng kinh và tự động hiển thị &quot;Tạ đàn&quot; vào ngày kết thúc tụng.
+                          </p>
+                        </div>
+                      </label>
+
+                      {editingEvent.continueChanting && (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 border-t border-[#F2C14E]/15">
+                          <div>
+                            <label className="text-[11px] text-[#F2C14E] font-semibold block mb-1">
+                              Tụng kinh tiếp đến ngày (Tạ đàn) [DD.MM.YYYY]:
+                            </label>
+                            <input
+                              type="text"
+                              value={editingEvent.continueChantingUntil || ''}
+                              onChange={(e) => setEditingEvent({ ...editingEvent, continueChantingUntil: e.target.value })}
+                              placeholder="Ví dụ: 20.11.2026"
+                              className="w-full px-3 py-2 bg-[#120803] border border-[#F2C14E]/40 rounded-xl text-[#FFDE59] font-bold text-xs focus:border-[#F2C14E] outline-none"
+                            />
+                          </div>
+                          <div>
+                            <label className="text-[11px] text-[#FFE5A3]/80 font-semibold block mb-1">
+                              Tên kinh tụng tiếp (Tùy chọn):
+                            </label>
+                            <input
+                              type="text"
+                              value={editingEvent.continueChantingName || ''}
+                              onChange={(e) => setEditingEvent({ ...editingEvent, continueChantingName: e.target.value })}
+                              placeholder="Để trống sẽ lấy theo tên khóa tu (VD: Lương Hoàng Sám)"
+                              className="w-full px-3 py-2 bg-[#120803] border border-[#F2C14E]/40 rounded-xl text-white text-xs focus:border-[#F2C14E] outline-none"
+                            />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Tóm tắt thời lượng */}
+                    {(() => {
+                      const total = calcDaysDifference(editingEvent.solarDateStr, editingEvent.endDateStr || editingEvent.solarDateStr);
+                      return (
+                        <div className="p-2.5 rounded-xl bg-[#2A180D] border border-[#F2C14E]/30 flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-xs text-[#FFE5A3]">
+                          <span className="flex items-center gap-1.5 font-medium">
+                            <Clock className="w-3.5 h-3.5 text-[#F2C14E] shrink-0" />
+                            <span>Tổng thời gian: <b className="text-[#FFDE59]">{total} ngày liên tục</b> ({editingEvent.solarDateStr} ➔ {editingEvent.endDateStr || editingEvent.solarDateStr})</span>
+                          </span>
+                          <span className="text-[11px] text-[#F2C14E]/90 italic">
+                            ★ Bạn chỉ cần lưu 1 lần, hệ thống tự động phủ kín cả {total} ngày
+                          </span>
+                        </div>
+                      );
+                    })()}
+                  </div>
+                ) : (
+                  <div className="text-[11px] text-[#FFE5A3]/70 italic">
+                    Sự kiện diễn ra trong 1 ngày duy nhất: <b className="text-white">{editingEvent.solarDateStr}</b>
+                  </div>
+                )}
+              </div>
               {/* Phân Loại (3 loại có icon chính thức) */}
               <div>
                 <label className="text-xs text-[#F2C14E] font-bold block mb-1.5">
@@ -1053,28 +1447,11 @@ export default function AdminSchedulePage() {
                 </div>
               </div>
 
-              {/* Tên Sự Kiện + Nút Tự Động Bóc Tách */}
+              {/* Tên Sự Kiện */}
               <div>
-                <div className="flex items-center justify-between mb-1">
-                  <label className="text-xs text-[#F2C14E] font-bold">
-                    Tên Khóa Lễ / Sự Kiện Chính:
-                  </label>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      const { title, subtitle } = splitEventTitle(editingEvent.title);
-                      setEditingEvent({
-                        ...editingEvent,
-                        title,
-                        subtitle: subtitle || editingEvent.subtitle || '',
-                      });
-                    }}
-                    className="text-[11px] text-[#FFE5A3] bg-[#3A2213] hover:bg-[#F2C14E] hover:text-black px-2 py-0.5 rounded border border-[#F2C14E]/40 font-semibold transition cursor-pointer flex items-center gap-1"
-                    title="Tự động bóc tách tiêu đề chính và tiêu đề phụ dựa trên dấu -, —, :"
-                  >
-                    <span>🪄 Tự Động Bóc Tách</span>
-                  </button>
-                </div>
+                <label className="text-xs text-[#F2C14E] font-bold block mb-1">
+                  Tên Khóa Lễ / Sự Kiện Chính:
+                </label>
                 <input
                   type="text"
                   value={editingEvent.title}
@@ -1090,10 +1467,10 @@ export default function AdminSchedulePage() {
                 />
               </div>
 
-              {/* Sub Tiêu Đề Bóc Tách */}
+              {/* Sub Tiêu Đề */}
               <div>
                 <label className="text-xs text-[#F2C14E] font-bold block mb-1">
-                  Sub Tiêu Đề (Thông tin chi tiết phụ, ngày âm, mục đích khóa lễ):
+                  Sub Tiêu Đề (Thông tin chi tiết phụ, mục đích khóa lễ):
                 </label>
                 <input
                   type="text"
@@ -1104,11 +1481,17 @@ export default function AdminSchedulePage() {
                 />
               </div>
 
-              {/* Ảnh Poster với S3 Picker Click */}
-              <div>
-                <label className="text-xs text-[#F2C14E] font-bold block mb-1">
-                  Ảnh Poster / Banner (Bấm ảnh để chọn từ S3):
-                </label>
+              {/* Ảnh Poster với S3 Picker Click & Căn Chỉnh Vị Trí Lên / Xuống */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <label className="text-xs text-[#F2C14E] font-bold block">
+                    Ảnh Poster / Banner (Bấm ảnh để chọn từ S3):
+                  </label>
+                  <span className="text-[11px] text-[#FFE5A3]/80 font-medium">
+                    Điểm hiển thị dọc: <b className="text-[#F2C14E]">{editingEvent.imgPositionY ?? 50}%</b>
+                  </span>
+                </div>
+
                 <div
                   onClick={() =>
                     handleOpenImagePicker(
@@ -1116,36 +1499,116 @@ export default function AdminSchedulePage() {
                       '01-trang-chu'
                     )
                   }
-                  className="relative w-full h-36 rounded-xl overflow-hidden border border-[#F2C14E]/40 cursor-pointer group bg-black"
+                  className="relative w-full h-40 rounded-xl overflow-hidden border border-[#F2C14E]/40 cursor-pointer group bg-black shadow-inner"
                 >
                   <Image
                     src={editingEvent.imgUrl || '/images/default.jpg'}
                     alt={editingEvent.title}
                     fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    style={{
+                      objectPosition: `center ${editingEvent.imgPositionY ?? 50}%`,
+                    }}
+                    className="object-cover transition-all duration-200 group-hover:scale-102"
                   />
                   <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center text-[#F2C14E] gap-1 p-2">
                     <ImageIcon className="w-6 h-6" />
                     <span className="text-xs font-bold">Bấm để đổi ảnh S3</span>
                   </div>
                 </div>
+
+                {/* Thanh điều khiển căn chỉnh Lên / Xuống (Trục Y) - Kéo trượt thời gian thực */}
+                <div className="p-2.5 rounded-xl bg-black/45 border border-[#F2C14E]/30 flex flex-col sm:flex-row items-center gap-2.5">
+                  <div className="flex items-center gap-1.5 text-xs text-[#FFE5A3] shrink-0 font-medium">
+                    <span>↕ Căn Lên / Xuống:</span>
+                  </div>
+
+                  <input
+                    type="range"
+                    min="0"
+                    max="100"
+                    step="1"
+                    value={editingEvent.imgPositionY ?? 50}
+                    onChange={(e) =>
+                      setEditingEvent({
+                        ...editingEvent,
+                        imgPositionY: parseInt(e.target.value, 10),
+                      })
+                    }
+                    className="flex-1 w-full accent-[#F2C14E] h-2 bg-[#2A180D] rounded-lg cursor-pointer"
+                  />
+
+                  {/* 3 Nút chọn nhanh */}
+                  <div className="flex items-center gap-1.5 shrink-0">
+                    <button
+                      type="button"
+                      onClick={() => setEditingEvent({ ...editingEvent, imgPositionY: 15 })}
+                      className="px-2 py-0.5 rounded text-[10.5px] bg-[#2A180D] hover:bg-[#F2C14E] text-[#FFE5A3] hover:text-black border border-[#F2C14E]/30 transition cursor-pointer"
+                    >
+                      Đỉnh (Top)
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setEditingEvent({ ...editingEvent, imgPositionY: 50 })}
+                      className="px-2 py-0.5 rounded text-[10.5px] bg-[#2A180D] hover:bg-[#F2C14E] text-[#FFE5A3] hover:text-black border border-[#F2C14E]/30 transition cursor-pointer"
+                    >
+                      Giữa (50%)
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setEditingEvent({ ...editingEvent, imgPositionY: 85 })}
+                      className="px-2 py-0.5 rounded text-[10.5px] bg-[#2A180D] hover:bg-[#F2C14E] text-[#FFE5A3] hover:text-black border border-[#F2C14E]/30 transition cursor-pointer"
+                    >
+                      Đáy (Bottom)
+                    </button>
+                  </div>
+                </div>
               </div>
 
-              {/* Khung Giờ & Địa Điểm */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {/* Khung 4 Ô: Tên Thời Khóa, Thời Gian, Thời Lượng, Địa Điểm (Sắp xếp theo thứ tự yêu cầu, lưới 2 cột gọn gàng) */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 p-3.5 rounded-2xl bg-black/40 border border-[#F2C14E]/30 shadow-inner">
+                {/* 1. Tên Thời Khóa (Đưa lên trước theo yêu cầu) */}
                 <div>
                   <label className="text-xs text-[#F2C14E] font-bold block mb-1">
-                    Khung Giờ / Thời Khóa:
+                    Tên Thời Khóa (Tùy Chọn):
+                  </label>
+                  <input
+                    type="text"
+                    value={editingEvent.timeSlot1Label || ''}
+                    onChange={(e) => setEditingEvent({ ...editingEvent, timeSlot1Label: e.target.value })}
+                    placeholder="Ví dụ: Cả ngày, Khai Đàn, Lễ Quy Y..."
+                    className="w-full px-3.5 py-2 bg-[#120803] border border-[#F2C14E]/40 rounded-xl text-[#FFDE59] text-xs focus:border-[#F2C14E] outline-none"
+                  />
+                </div>
+
+                {/* 2. Thời Gian (Giờ Bắt Đầu) */}
+                <div>
+                  <label className="text-xs text-[#F2C14E] font-bold block mb-1">
+                    Thời Gian (Giờ Bắt Đầu):
                   </label>
                   <input
                     type="text"
                     value={editingEvent.timeSlot1Time || ''}
                     onChange={(e) => setEditingEvent({ ...editingEvent, timeSlot1Time: e.target.value })}
-                    placeholder="Ví dụ: 08h00 - 17h00"
-                    className="w-full px-3 py-2 bg-[#120803] border border-[#F2C14E]/30 rounded-xl text-white focus:border-[#F2C14E] outline-none"
+                    placeholder="Ví dụ: 08h00, 19h00, 08h00 - 17h00..."
+                    className="w-full px-3.5 py-2 bg-[#120803] border border-[#F2C14E]/40 rounded-xl text-white font-medium text-xs focus:border-[#F2C14E] outline-none"
                   />
                 </div>
 
+                {/* 3. Thời Lượng (Nếu Có) */}
+                <div>
+                  <label className="text-xs text-[#F2C14E] font-bold block mb-1">
+                    Thời Lượng (Nếu Có):
+                  </label>
+                  <input
+                    type="text"
+                    value={editingEvent.timeSlot2Time || ''}
+                    onChange={(e) => setEditingEvent({ ...editingEvent, timeSlot2Time: e.target.value })}
+                    placeholder="Ví dụ: 90 phút, 120 phút, Cả ngày..."
+                    className="w-full px-3.5 py-2 bg-[#120803] border border-[#F2C14E]/40 rounded-xl text-amber-200 text-xs focus:border-[#F2C14E] outline-none"
+                  />
+                </div>
+
+                {/* 4. Địa Điểm Tổ Chức */}
                 <div>
                   <label className="text-xs text-[#F2C14E] font-bold block mb-1">
                     Địa Điểm Tổ Chức:
@@ -1154,8 +1617,8 @@ export default function AdminSchedulePage() {
                     type="text"
                     value={editingEvent.location}
                     onChange={(e) => setEditingEvent({ ...editingEvent, location: e.target.value })}
-                    placeholder="Ví dụ: Đại Hùng Bảo Điện & Giảng Đường"
-                    className="w-full px-3 py-2 bg-[#120803] border border-[#F2C14E]/30 rounded-xl text-white focus:border-[#F2C14E] outline-none"
+                    placeholder="Ví dụ: Tùng Lâm Hòa Phúc..."
+                    className="w-full px-3.5 py-2 bg-[#120803] border border-[#F2C14E]/40 rounded-xl text-white text-xs focus:border-[#F2C14E] outline-none"
                   />
                 </div>
               </div>

@@ -119,15 +119,16 @@ export default function ScheduleDetailPage() {
       (p) => p.id === slug || toSlug(p.title) === slug || `khoa-le-${p.id}` === slug
     );
     if (matchProgram) {
+      const prog = matchProgram as any;
       return {
         id: String(matchProgram.id),
         title: matchProgram.title,
-        category: 'Khóa Lễ Truyền Thống',
-        solarDateStr: matchProgram.schedule,
+        category: prog.subtitle || 'Khóa Lễ Định Kỳ',
+        solarDateStr: prog.time || matchProgram.schedule,
         lunarDate: 'Cố định hàng tháng theo Âm lịch',
-        timeSlot: 'Khóa lễ tối lúc 19h15 (hoặc theo thông bạch cụ thể)',
-        timeSlot2: '',
-        location: 'Tùng Lâm Hòa Phúc - Thôn Yên Trình, Xã Hoàng Văn Thụ, Chương Mỹ, Hà Nội',
+        timeSlot: prog.time ? `Giờ bắt đầu: ${prog.time}` : 'Khóa lễ tối lúc 19h15 (hoặc theo thông bạch cụ thể)',
+        timeSlot2: prog.duration ? `Thời lượng: ${prog.duration}` : '',
+        location: prog.location || 'Tùng Lâm Hòa Phúc - Thôn Yên Trình, Xã Hoàng Văn Thụ, Chương Mỹ, Hà Nội',
         description: matchProgram.summary,
         contentHtml: '',
         notes: 'Quý Phật tử gần xa phát tâm vân tập về Tổ Đình hoặc an tọa tại gia cùng hướng tâm trì tụng kinh chú thanh tịnh.',

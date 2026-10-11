@@ -15,6 +15,7 @@ export interface CustomScheduleEvent {
   description: string;
   notes?: string;
   imgUrl?: string;
+  imgPositionY?: number; // Tọa độ căn chỉnh trục dọc (0% - 100%)
   videoUrl?: string;
   gallery?: string[];
   contentHtml?: string;
@@ -24,9 +25,14 @@ export interface ScheduleDatabaseData {
   featuredPrograms: Array<{
     id: string;
     title: string;
+    subtitle?: string;
+    time?: string;
+    duration?: string;
+    location?: string;
     schedule: string;
     summary: string;
     imgUrl: string;
+    imgPositionY?: number;
   }>;
   monthThemes: Record<string, {
     month: number;
@@ -48,10 +54,22 @@ const DB_OPTIONS: ServerlessDbOptions<ScheduleDatabaseData> = {
   defaultData: scheduleDbJson as unknown as ScheduleDatabaseData,
 };
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export async function GET() {
   try {
     const data = loadServerlessJson(DB_OPTIONS);
-    return NextResponse.json({ success: true, data });
+    return NextResponse.json(
+      { success: true, data },
+      {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+          Pragma: 'no-cache',
+          Expires: '0',
+        },
+      }
+    );
   } catch (error: any) {
     console.error('Error fetching schedule:', error);
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });

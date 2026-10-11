@@ -9,10 +9,24 @@ import {
   getDaysInMonth,
 } from '@/lib/lunar-calendar';
 
+export interface MultiDayInfo {
+  totalDays: number;
+  currentDayIndex: number;
+  isFirstDay: boolean;
+  isLastDay: boolean;
+  startDateStr: string;
+  endDateStr: string;
+  isChantingExtension?: boolean;
+  isChantingFinalDay?: boolean;
+}
+
 export interface CalendarEvent {
   id?: string | number;
   day: number;
   solarDateStr: string;
+  endDateStr?: string; // Ngày kết thúc nếu là khóa tu kéo dài nhiều ngày
+  isMultiDay?: boolean; // Đánh dấu khóa tu kéo dài nhiều ngày
+  multiDayInfo?: MultiDayInfo; // Metadata chi tiết vị trí ngày trong chuỗi khóa tu
   dayOfWeekStr: string;
   lunarDate: string;
   lunarTag: string;
@@ -29,9 +43,43 @@ export interface CalendarEvent {
   timeSlot2Time?: string;
   color: string;
   imgUrl: string;
+  imgPositionY?: number; // Tọa độ căn chỉnh trục dọc (0% = Top, 50% = Center, 100% = Bottom)
   isImportant?: boolean;
   slug?: string;
   notes?: string;
+  endDayType?: string;
+  endDayLabel?: string;
+  endDayTime?: string;
+  continueChanting?: boolean;
+  continueChantingUntil?: string;
+  continueChantingName?: string;
+}
+
+export function parseSolarDateStr(str?: string): Date | null {
+  if (!str) return null;
+  const parts = str.trim().split('.');
+  if (parts.length !== 3) return null;
+  const d = parseInt(parts[0], 10);
+  const m = parseInt(parts[1], 10) - 1;
+  const y = parseInt(parts[2], 10);
+  if (isNaN(d) || isNaN(m) || isNaN(y)) return null;
+  return new Date(y, m, d);
+}
+
+export function formatSolarDateStr(date: Date): string {
+  const d = String(date.getDate()).padStart(2, '0');
+  const m = String(date.getMonth() + 1).padStart(2, '0');
+  const y = date.getFullYear();
+  return `${d}.${m}.${y}`;
+}
+
+export function calcDaysDifference(startStr: string, endStr: string): number {
+  const d1 = parseSolarDateStr(startStr);
+  const d2 = parseSolarDateStr(endStr);
+  if (!d1 || !d2) return 1;
+  const diffTime = d2.getTime() - d1.getTime();
+  const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
+  return diffDays >= 0 ? diffDays + 1 : 1;
 }
 
 export function getEventCategoryIcon(category?: string): string {
@@ -281,38 +329,27 @@ const DAY_OF_WEEK_NAMES = [
 export const FEATURED_PROGRAMS = [
   {
     id: "p1",
-    title: "ĐẠI SÁM HỐI ĐỊNH KỲ",
+    title: "ĐẠI SÁM HỐI",
+    subtitle: "Khóa lễ",
     schedule: "14 VÀ 29/30 ÂM LỊCH HẰNG THÁNG",
-    summary: "Thời khóa sám hối trang nghiêm vào tối 19h15 ngày 14 và cuối tháng âm lịch, gột rửa thân tâm và tịnh hóa nghiệp chướng.",
+    summary: "Thời khóa sám hối trang nghiêm vào tối 19h00 ngày 14 và cuối tháng âm lịch, gột rửa thân tâm và tịnh hóa nghiệp chướng.",
     imgUrl: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/dai-tieu-sam-hoi-va-thuong-ky.webp",
   },
   {
     id: "p2",
-    title: "TIỂU SÁM HỐI ĐỊNH KỲ",
+    title: "TIỂU SÁM HỐI",
+    subtitle: "Khóa lễ",
     schedule: "MÙNG 8 VÀ 23 ÂM LỊCH HẰNG THÁNG",
-    summary: "Thời khóa tụng kinh sám hối vào tối 19h15 ngày mùng 8 và 23 âm lịch, nuôi dưỡng tâm bồ đề và huân tu công đức lành.",
+    summary: "Thời khóa tụng kinh sám hối vào tối 19h00 ngày mùng 8 và 23 âm lịch, nuôi dưỡng tâm bồ đề và huân tu công đức lành.",
     imgUrl: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/dai-tieu-sam-hoi-va-thuong-ky.webp",
   },
   {
     id: "p3",
-    title: "LỄ CẦU AN HÀNG THÁNG",
+    title: "CẦU QUỐC THÁI DÂN AN",
+    subtitle: "Khóa lễ",
     schedule: "MÙNG 1 VÀ 15 ÂM LỊCH HẰNG THÁNG",
     summary: "Khóa lễ tụng kinh Dược Sư cầu an vào sáng 08h00 mùng 1 và ngày rằm 15 âm lịch, cầu nguyện quốc thái dân an, cát tường như ý.",
     imgUrl: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Cau-an-quoc-thai-dan-thuong-ky.webp",
-  },
-  {
-    id: "p4",
-    title: "PHÁP HỘI NIỆM PHẬT",
-    schedule: "THỨ BẢY & CHỦ NHẬT ĐỊNH KỲ",
-    summary: "Khóa tu 2 ngày trọn vẹn, sáng thứ Bảy tại Tổ Đường truyền giới Bát Quan Trai bước vào thời khóa hành trì ngày thứ nhất đến chiều Chủ Nhật.",
-    imgUrl: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp",
-  },
-  {
-    id: "p5",
-    title: "ĐẠI LỄ TRI ÂN MÙA VU LAN",
-    schedule: "CHỦ NHẬT 18/07 ÂM LỊCH (17H00)",
-    summary: "Đại lễ Báo Hiếu Tri Ân Cha Mẹ mùa Vu Lan, dâng trà tri ân và hoa đăng cầu nguyện cửu huyền thất tổ siêu sinh Tịnh Độ.",
-    imgUrl: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/-ai-le-Vu-Lan-Bao-Hieu-JPG.webp",
   },
 ];
 
@@ -346,16 +383,16 @@ export function getEventsForMonth(solarYear: number, solarMonth: number): Record
         dayOfWeekStr,
         lunarDate: lunarDateStr,
         lunarTag: "CỘNG TU",
-        subTitle1: "KHÓA LỄ TRUYỀN THỐNG",
-        title: "KHÓA LỄ TIỂU SÁM HỐI",
+        subTitle1: "Khóa lễ",
+        title: "TIỂU SÁM HỐI",
         subTitle2: `${lunar.day === 8 ? "Mùng 8" : "Ngày 23"} Âm lịch hàng tháng`,
         description: `Thời khóa tụng kinh Tiểu Sám Hối định kỳ tối ngày ${lunar.day} âm lịch, đại chúng chí tâm trì tụng kinh chú, làm mới thân tâm và tăng trưởng thiện căn phước báu.`,
         category: "Khóa Lễ Truyền Thống",
         location: "Chánh Điện Tam Bảo - Tùng Lâm Hòa Phúc",
         timeSlot1Label: "Thời khóa Tiểu Sám Hối",
-        timeSlot1Time: "07:15 TỐI",
+        timeSlot1Time: "19h00",
         timeSlot2Label: "Thời lượng",
-        timeSlot2Time: "120 phút",
+        timeSlot2Time: "90 phút",
         color: "#059669",
         imgUrl: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/dai-tieu-sam-hoi-va-thuong-ky.webp",
       });
@@ -371,16 +408,16 @@ export function getEventsForMonth(solarYear: number, solarMonth: number): Record
         dayOfWeekStr,
         lunarDate: lunarDateStr,
         lunarTag: "CỘNG TU",
-        subTitle1: "KHÓA LỄ TRUYỀN THỐNG",
-        title: "KHÓA LỄ ĐẠI SÁM HỐI",
+        subTitle1: "Khóa lễ",
+        title: "ĐẠI SÁM HỐI",
         subTitle2: `${lunar.day === 14 ? "14 Âm lịch" : "Cuối tháng Âm lịch"} hàng tháng`,
-        description: `Đại lễ Sám Hối trang nghiêm định kỳ tối 19h15 ngày ${lunar.day} âm lịch, đại chúng phủ phục trước mười phương Tam Bảo thành tâm sám trừ nghiệp chướng, đón nhận năng lượng an lành.`,
+        description: `Đại lễ Sám Hối trang nghiêm định kỳ tối 19h00 ngày ${lunar.day} âm lịch, đại chúng phủ phục trước mười phương Tam Bảo thành tâm sám trừ nghiệp chướng, đón nhận năng lượng an lành.`,
         category: "Khóa Lễ Truyền Thống",
         location: "Chánh Điện Tam Bảo - Tùng Lâm Hòa Phúc",
         timeSlot1Label: "Thời khóa Đại Sám Hối",
-        timeSlot1Time: "07:15 TỐI",
+        timeSlot1Time: "19h00",
         timeSlot2Label: "Thời lượng",
-        timeSlot2Time: "120 phút",
+        timeSlot2Time: "90 phút",
         color: "#D97706",
         imgUrl: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/dai-tieu-sam-hoi-va-thuong-ky.webp",
         isImportant: true,
@@ -388,7 +425,7 @@ export function getEventsForMonth(solarYear: number, solarMonth: number): Record
     }
 
     // ─────────────────────────────────────────────────────────────────────────────
-    // 3. CỘNG TU CỐ ĐỊNH: LỄ CẦU AN HÀNG THÁNG (Sáng 08h00 ngày mùng 1 và ngày rằm 15)
+    // 3. CỘNG TU CỐ ĐỊNH: LỄ CẦU QUỐC THÁI DÂN AN (Sáng 08h00 ngày mùng 1 và ngày rằm 15)
     // ─────────────────────────────────────────────────────────────────────────────
     if (lunar.day === 1 || lunar.day === 15) {
       dayEvents.push({
@@ -397,16 +434,16 @@ export function getEventsForMonth(solarYear: number, solarMonth: number): Record
         dayOfWeekStr,
         lunarDate: lunarDateStr,
         lunarTag: "CỘNG TU",
-        subTitle1: "KHÓA LỄ TRUYỀN THỐNG",
-        title: "KHÓA LỄ CẦU AN HÀNG THÁNG",
+        subTitle1: "Khóa lễ",
+        title: "CẦU QUỐC THÁI DÂN AN",
         subTitle2: lunar.day === 1 ? "Mùng 1 đầu tháng Âm lịch" : "Ngày rằm 15 Âm lịch",
         description: `Khóa lễ Cầu An trang nghiêm sáng 08h00 ngày ${lunar.day} âm lịch, trì tụng kinh Dược Sư cầu nguyện quốc thái dân an, mưa thuận gió hòa, gia đạo bình an cát tường.`,
         category: "Khóa Lễ Truyền Thống",
         location: "Chánh Điện Tam Bảo & Sân Di Đà",
-        timeSlot1Label: "Chủ trì nghi thức Cầu An Dược Sư",
-        timeSlot1Time: "08:00 SÁNG",
+        timeSlot1Label: "Chủ trì nghi thức Cầu An",
+        timeSlot1Time: "08h00",
         timeSlot2Label: "Thời lượng",
-        timeSlot2Time: "150 phút",
+        timeSlot2Time: "90 phút",
         color: "#4F46E5",
         imgUrl: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Cau-an-quoc-thai-dan-thuong-ky.webp",
         isImportant: true,
@@ -537,29 +574,6 @@ export function getEventsForMonth(solarYear: number, solarMonth: number): Record
       }
     }
 
-    // THÁNG 2 ÂL: Vía Đức Quán Thế Âm (19/2 ÂL)
-    if (lunar.month === 2 && lunar.day === 19) {
-      dayEvents.push({
-        day,
-        solarDateStr,
-        dayOfWeekStr,
-        lunarDate: lunarDateStr,
-        lunarTag: "ĐẠI LỄ SỰ KIỆN",
-        subTitle1: "ĐẠI LỄ SỰ KIỆN",
-        title: "ĐẠI LỄ VÍA BỒ TÁT QUÁN THẾ ÂM (XUẤT GIA)",
-        subTitle2: "19 Tháng 2 Âm lịch",
-        description: "Kỷ niệm khánh đản Bồ Tát Quán Thế Âm xuất gia, đại chúng thành tâm chiêm bái bảo tượng và đảnh lễ 12 Đại Nguyện.",
-        category: "Đại Lễ Sự Kiện",
-        location: "Tượng Đài Nguyệt Trí Quan Âm & Chánh Điện",
-        timeSlot1Label: "Khóa lễ Chiêm Bái",
-        timeSlot1Time: "08:00 SÁNG",
-        timeSlot2Label: "Lễ Hoa Đăng Cầu Nguyện",
-        timeSlot2Time: "07:00 TỐI",
-        color: "#DC2626",
-        imgUrl: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-10-hanh-nguyen-quan-am.webp",
-        isImportant: true,
-      });
-    }
 
     // THÁNG 4 ÂL: Đại Lễ Phật Đản Vesak
     if (lunar.month === 4 && lunar.day === 15) {
@@ -585,29 +599,6 @@ export function getEventsForMonth(solarYear: number, solarMonth: number): Record
       });
     }
 
-    // THÁNG 6 ÂL: Vía Đức Quán Thế Âm Thành Đạo (19/6 ÂL)
-    if (lunar.month === 6 && lunar.day === 19) {
-      dayEvents.push({
-        day,
-        solarDateStr,
-        dayOfWeekStr,
-        lunarDate: lunarDateStr,
-        lunarTag: "ĐẠI LỄ SỰ KIỆN",
-        subTitle1: "ĐẠI LỄ SỰ KIỆN",
-        title: "ĐẠI LỄ VÍA BỒ TÁT QUÁN THẾ ÂM THÀNH ĐẠO",
-        subTitle2: "19 Tháng 6 Âm lịch",
-        description: "Khóa lễ kỷ niệm ngày Bồ Tát Quán Thế Âm thành tựu Phật đạo, trì chú Đại Bi và thắp nến cầu nguyện.",
-        category: "Đại Lễ Sự Kiện",
-        location: "Bảo Tháp Vạn Phật Xá Lợi & Chánh Điện",
-        timeSlot1Label: "Khóa lễ Trì Chú Đại Bi",
-        timeSlot1Time: "08:00 SÁNG",
-        timeSlot2Label: "Thắp Nến Cầu Nguyện",
-        timeSlot2Time: "07:00 TỐI",
-        color: "#DC2626",
-        imgUrl: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/month_10 - Hạnh nguyện Quan Âm.webp",
-        isImportant: true,
-      });
-    }
 
     // THÁNG 7 ÂL: ĐẠI LỄ VU LAN & PHÁP HỘI NIỆM PHẬT THÁNG 7
     if (lunar.month === 7) {
@@ -681,29 +672,6 @@ export function getEventsForMonth(solarYear: number, solarMonth: number): Record
       }
     }
 
-    // THÁNG 9 ÂL: Vía Đức Quán Thế Âm Đản Sanh (19/9 ÂL)
-    if (lunar.month === 9 && lunar.day === 19) {
-      dayEvents.push({
-        day,
-        solarDateStr,
-        dayOfWeekStr,
-        lunarDate: lunarDateStr,
-        lunarTag: "ĐẠI LỄ SỰ KIỆN",
-        subTitle1: "ĐẠI LỄ SỰ KIỆN",
-        title: "ĐẠI LỄ VÍA BỒ TÁT QUÁN THẾ ÂM (ĐẢN SANH)",
-        subTitle2: "19 Tháng 9 Âm lịch",
-        description: "Khóa lễ kỷ niệm ngày Bồ Tát Quán Thế Âm đản sanh ứng hóa độ sinh, khóa tụng kinh Phổ Môn và phóng sanh cầu an.",
-        category: "Đại Lễ Sự Kiện",
-        location: "Chánh Điện & Tượng Đài Nguyệt Trí Quan Âm",
-        timeSlot1Label: "Khóa tụng kinh Phổ Môn",
-        timeSlot1Time: "08:00 SÁNG",
-        timeSlot2Label: "Lễ Phóng Sinh Cầu An",
-        timeSlot2Time: "02:00 CHIỀU",
-        color: "#DC2626",
-        imgUrl: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/month_10 - Hạnh nguyện Quan Âm.webp",
-        isImportant: true,
-      });
-    }
 
     // THÁNG 11 ÂL: Vía Đức Phật A Di Đà (17/11 ÂL)
     if (lunar.month === 11 && lunar.day === 17) {
@@ -753,51 +721,8 @@ export function getEventsForMonth(solarYear: number, solarMonth: number): Record
       });
     }
 
-    // ─────────────────────────────────────────────────────────────────────────────
-    // 5. KHÓA TU 2 NGÀY VÀO THỨ BẢY - CHỦ NHẬT (Các tháng khác)
-    // ─────────────────────────────────────────────────────────────────────────────
-    if (lunar.month !== 7 && lunar.month !== 1) {
-      if (dayOfWeek === 6 && lunar.day >= 20 && lunar.day <= 26 && dayEvents.length === 0) {
-        dayEvents.push({
-          day,
-          solarDateStr,
-          dayOfWeekStr,
-          lunarDate: lunarDateStr,
-          lunarTag: "CỘNG TU",
-          subTitle1: "CỘNG TU",
-          title: "PHÁP HỘI NIỆM PHẬT",
-          subTitle2: `Tháng ${lunar.month} (Ngày 1)`,
-          description: "Sáng 07h00 tại Tổ Đường làm lễ truyền giới Bát Quan Trai, bước vào thời khóa hành trì ngày thứ nhất.",
-          category: "Cộng Tu",
-          location: "Tổ Đường (Truyền giới) & Đại Giảng Đường Ngộ Chân Tử",
-          timeSlot1Label: "Truyền giới Bát Quan Trai",
-          timeSlot1Time: "07:00 SÁNG",
-          timeSlot2Label: "Kinh hành Niệm Phật",
-          timeSlot2Time: "02:00 CHIỀU",
-          color: "#7C3AED",
-          imgUrl: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Pháp hội niệm Phật.jpg",
-        });
-      } else if (dayOfWeek === 0 && lunar.day >= 21 && lunar.day <= 27 && dayEvents.length === 0) {
-        dayEvents.push({
-          day,
-          solarDateStr,
-          dayOfWeekStr,
-          lunarDate: lunarDateStr,
-          lunarTag: "CỘNG TU",
-          subTitle1: "CỘNG TU",
-          title: "PHÁP HỘI NIỆM PHẬT",
-          subTitle2: `Tháng ${lunar.month} (Ngày 2)`,
-          description: "Tiếp tục thời khóa tọa thiền niệm Phật, nghe pháp thoại và hoàn mãn xả giới vào lúc 16h30 chiều.",
-          category: "Cộng Tu",
-          location: "Đại Giảng Đường Ngộ Chân Tử",
-          timeSlot1Label: "Thời khóa Niệm Phật sáng",
-          timeSlot1Time: "04:30 SÁNG",
-          timeSlot2Label: "Pháp thoại & Hoàn Mãn",
-          timeSlot2Time: "02:00 CHIỀU",
-          color: "#7C3AED",
-          imgUrl: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Pháp hội niệm Phật.jpg",
-        });
-      }
+    if (dayEvents.length > 0) {
+      eventsByDay[day] = dayEvents;
     }
 
     if (dayEvents.length > 0) {
