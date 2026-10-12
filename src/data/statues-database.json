@@ -1403,7 +1403,7 @@
     "areaName": "Bảo Tàng Văn Hóa Phật Giáo",
     "location": "Bảo Tàng Văn Hóa Phật Giáo",
     "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/thanh_tinh_dai_hai_chung/bo_tat_quan_am/quan_am_nguyet_tri_tuong_chinh.webp",
-    "avatarUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/thanh_tinh_dai_hai_chung/bo_tat_quan_am/quan_am_nguyet_tri_tuong_chinh.webp",
+    "avatarUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/thanh_tinh_dai_hai_chung/bo_tat_quan_am/quan_am_nguyet_tri_avatar.webp",
     "quoteAuthor": "VÔ TRÍ - TÂM HÒA",
     "summary": "Vào thời Pháp Hoa (thời kỳ giáo pháp viên mãn, căn cơ đại chúng đã thuần thục), trong pháp hội trên núi Linh Thứu, giữa hàng ngàn Bồ Tát và các vị Tỳ-kheo vân tập, Bồ Tát Vô Tân Ý bạch Phật về ý nghĩa tên của ngài Quan Â...",
     "fullHistoryHtml": "<p>Vào thời Pháp Hoa (thời kỳ giáo pháp viên mãn, căn cơ đại chúng đã thuần thục), trong pháp hội trên núi Linh Thứu, giữa hàng ngàn Bồ Tát và các vị Tỳ-kheo vân tập, Bồ Tát Vô Tân Ý bạch Phật về ý nghĩa tên của ngài Quan Âm Bồ Tát.</p>\n<p>Đức Phật nhìn khắp hội chúng rồi nói: khi chúng sinh khởi lên một tiếng kêu cầu cứu – dù là thành lời hay chỉ ở trong tâm – thì vị ấy đều nghe thấy. Nghe bằng trọn vẹn lòng từ, và theo tiếng gọi ấy mà đến.</p>\n<p>Có khi hiện làm Phật, có khi hiện làm Bồ Tát, có khi chỉ là một người bình thường đi ngang qua giữa cơn nguy khốn. Chỉ cần chúng sinh chí thành xưng niệm danh hiệu, thì liền được che chở, thoát khỏi sợ hãi.</p>\n<p>Vì luôn quán sát âm thanh của thế gian mà cứu độ, nên Ngài được gọi là Quán Thế Âm.</p>",
@@ -1478,8 +1478,7 @@
       "author": "Ban Văn Hóa Tùng Lâm",
       "bannerUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/mandala-tang-1-quan-am-bo-tat.webp",
       "url": "/bao-tuong-phat-giao/quan_am_bo_tat_nguyet_tri_hoa_than_tp0026"
-    },
-    "imgRotation": 90
+    }
   },
   {
     "code": "TP0027",
