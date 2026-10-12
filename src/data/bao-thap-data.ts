@@ -94,7 +94,7 @@ export const BAO_THAP_FLOORS: BaoThapFloor[] = [
     mandalaName: 'Mandala Thập Chủng Tử Kalachakra',
     statueName: 'Bảo tháp Srilanka',
     statueSubtitle: 'Xá Lợi Phật Tối Thượng - Thời Luân Kim Cương',
-    statueImg: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/Bao-thap-Srilanka-JPG.webp',
+    statueImg: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/Bao-thap-Srilanka-JPG-v2.webp',
     mandalaImg: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/bao-thap/mandala-tang-5-thap-chung-tu-kalachakra.webp',
     mandalaMeaning:
       'Mạn Đà La Thập Chủng Tử Kalachakra (Thời Luân Kim Cương) kết tinh tinh hoa tối thượng của Mật giáo, chuyển hóa thời gian và không gian hướng tới Đại Hòa Bình thế giới.',
