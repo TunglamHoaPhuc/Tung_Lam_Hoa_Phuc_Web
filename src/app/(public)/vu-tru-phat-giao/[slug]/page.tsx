@@ -57,8 +57,8 @@ export default function UniverseDetailPage() {
   const rawSlug = typeof routeParams?.slug === 'string' ? routeParams.slug : (Array.isArray(routeParams?.slug) ? routeParams.slug[0] : '');
   const slug = (rawSlug || '').toLowerCase().trim();
 
-  // Find area matching slug, or generate a rich fallback object to NEVER trigger a 404 error!
-  let area: UniverseArea | undefined = UNIVERSE_AREAS.find(
+  // Find initial area matching slug, or generate a rich fallback object to NEVER trigger a 404 error!
+  const initialArea: UniverseArea = UNIVERSE_AREAS.find(
     (a) =>
       a.slug.toLowerCase() === slug ||
       (slug === 'bao-thap' && a.slug === 'bao-thap-van-phat-xa-loi') ||
@@ -70,29 +70,61 @@ export default function UniverseDetailPage() {
       ((slug === 'san-di-lac' || slug === 'tam-quan') && a.slug === 'cong-tam-quan') ||
       ((slug === 'nha-mau' || slug === 'quoc-mau') && a.slug === 'dai-nam-quoc-mau') ||
       ((slug === 'lam-ty-ni' || slug === 'san-dan-sinh') && a.slug === 'san-di-da')
-  );
-  if (!area) {
-    const formattedTitle = (slug || 'khu-vuc-tam-linh')
+  ) || {
+    id: slug || 'khu-vuc',
+    pinNumber: 99,
+    slug: slug || 'khu-vuc',
+    name: (slug || 'khu-vuc-tam-linh')
       .split('-')
       .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-      .join(' ');
+      .join(' ')
+      .toUpperCase(),
+    subtitle: 'TÙNG LÂM HÒA PHÚC',
+    temple: 'tung-lam-hoa-phuc',
+    templeName: 'Tùng Lâm Hòa Phúc',
+    imgUrl: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp',
+    mapPos: { x: 50, y: 50 },
+    description: `Không gian tâm linh thuộc tự viện Tùng Lâm Hòa Phúc. Nơi đây là điểm tựa tinh thần trang nghiêm để chư tôn đức và Phật tử thập phương cúng dường lễ bái, tụng kinh và chiêm bái các pho bảo tượng Phật giáo truyền thống.`,
+    fullContent: `Không gian tâm linh thuộc tự viện Tùng Lâm Hòa Phúc. Nơi đây là điểm tựa tinh thần trang nghiêm để chư tôn đức và Phật tử thập phương cúng dường lễ bái, tụng kinh và chiêm bái các pho bảo tượng Phật giáo truyền thống.`,
+    statues: [],
+    stories: [],
+  };
 
-    area = {
-      id: slug || 'khu-vuc',
-      pinNumber: 99,
-      slug: slug || 'khu-vuc',
-      name: formattedTitle.toUpperCase(),
-      subtitle: "TÙNG LÂM HÒA PHÚC",
-      temple: "tung-lam-hoa-phuc",
-      templeName: "Tùng Lâm Hòa Phúc",
-      imgUrl: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/06-33-ung-hoa-than-duc-quan-am/33-ung-hoa-01.webp",
-      mapPos: { x: 50, y: 50 },
-      description: `Không gian tâm linh ${formattedTitle} thuộc tự viện Tùng Lâm Hòa Phúc. Nơi đây là điểm tựa tinh thần trang nghiêm để chư tôn đức và Phật tử thập phương cúng dường lễ bái, tụng kinh và chiêm bái các pho bảo tượng Phật giáo truyền thống.`,
-      fullContent: `Không gian tâm linh ${formattedTitle} thuộc tự viện Tùng Lâm Hòa Phúc. Nơi đây là điểm tựa tinh thần trang nghiêm để chư tôn đức và Phật tử thập phương cúng dường lễ bái, tụng kinh và chiêm bái các pho bảo tượng Phật giáo truyền thống.`,
-      statues: [],
-      stories: [],
+  const [area, setArea] = useState<UniverseArea>(initialArea);
+
+  useEffect(() => {
+    if (initialArea) {
+      setArea(initialArea);
+    }
+  }, [slug]);
+
+  // 🌟 Nạp động dữ liệu không gian mới nhất từ máy chủ / S3 (đảm bảo đồng bộ tức thì sau khi sửa từ WordPress Gutenberg)
+  useEffect(() => {
+    if (!slug) return;
+    let isMounted = true;
+    async function loadDynamicArea() {
+      try {
+        const res = await fetch(`/api/admin/vu-tru/${slug}`, { cache: 'no-store' });
+        if (res.ok) {
+          const json = await res.json();
+          if (json.success && json.area && isMounted) {
+            setArea((prev) => ({
+              ...prev,
+              ...json.area,
+              statues: json.area.statues?.length ? json.area.statues : prev.statues,
+              stories: json.area.stories?.length ? json.area.stories : prev.stories,
+            }));
+          }
+        }
+      } catch {
+        // Bỏ qua lỗi kết nối ngầm, tiếp tục dùng dữ liệu ban đầu
+      }
+    }
+    loadDynamicArea();
+    return () => {
+      isMounted = false;
     };
-  }
+  }, [slug]);
 
   const [activeSection, setActiveSection] = useState('gioi-thieu');
   const [isScrolled, setIsScrolled] = useState(false);

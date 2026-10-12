@@ -11,6 +11,8 @@ export interface UniverseArea {
   description: string;
   fullContent?: string;
   wpPostId?: string | number;
+  wpModified?: string;
+  contentHtml?: string;
   statues: Array<{
     name: string;
     imgUrl: string;
@@ -57,6 +59,7 @@ export const UNIVERSE_AREAS: UniverseArea[] = [
     templeName: "Tùng Lâm Hòa Phúc",
     imgUrl: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/tam-bao.webp",
     mapPos: { x: 58, y: 52 },
+    wpPostId: "509",
     description: "Tam Bảo là nơi tôn thờ Đức Phật Bổn Sư Thích Ca Mâu Ni, chư Phật Dược Sư, chư Bồ Tát, Hộ Pháp và các bậc Tiền bối Tổ sư truyền thừa chánh pháp.",
     fullContent: "• Tiền đường: Tôn trí tượng 7 vị Phật Dược Sư cùng 12 pho tượng Dược Xoa Đại Tướng thể theo kinh Dược Sư Bản Nguyện Công Đức.\n• Chính điện: Tôn thờ tượng Đức Phật Thích Ca Mâu Ni (cao 3m), tượng Đại Ca Diếp (cao 2m, bên trái), tượng A Nan (cao 2m, bên phải) bằng gỗ mít.\n• Hậu cung:\n- Chính giữa: tôn thờ ngài Vi Đà Hộ Pháp\n- Bên trái: tôn thờ Tổ Long Thọ và Phật Hoàng Trần Nhân Tông\n- Bên phải: tôn thờ Tổ Bồ Đề Đạt Ma và Sư Tổ Ngộ Chân Tử",
     statues: [
@@ -669,8 +672,11 @@ export const UNIVERSE_AREAS: UniverseArea[] = [
     templeName: "Tùng Lâm Hòa Phúc",
     imgUrl: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/san-di-da.webp",
     mapPos: { x: 57, y: 33 },
-    description: "Không gian Sân Lâm Tỳ Ni tôn nghiêm tôn trí Tượng Đức Phật Đản Sinh một tay chỉ trời một tay chỉ đất cùng 4 ngôi Bảo Tháp hai bên.",
-    fullContent: "Không gian Sân Lâm Tỳ Ni - Sân Đản Sinh tôn nghiêm:\n- Chính giữa: tôn thờ Tượng Đức Phật Đản Sinh, một tay chỉ trời một tay chỉ đất (“Thiên thượng thiên hạ, duy ngã độc tôn”).\n- Hai bên: An trí 4 ngôi Bảo Tháp trang nghiêm hộ trì không gian tu học.",
+    wpPostId: "1033",
+    wpModified: "2026-10-12T15:55:23",
+    description: "Không gian sân Di Đà là tái hiện hình ảnh Cực Lạc Tịnh Độ tại nhân gian với ao Thất Bảo, Lầu Bát Bảo, và các vị Phật Bồ Tát hóa hiện độ sinh. Nơi đây là điểm tổ chức các khóa lễ, đại lễ quan trọng của chùa, dưới sự chứng minh gia hộ của chư Phật, chư Bồ Tát Thánh Tăng.",
+    fullContent: "Không gian sân Di Đà là tái hiện hình ảnh Cực Lạc Tịnh Độ tại nhân gian với ao Thất Bảo, Lầu Bát Bảo, và các vị Phật Bồ Tát hóa hiện độ sinh.\n\nNơi đây là điểm tổ chức các khóa lễ, đại lễ quan trọng của chùa, dưới sự chứng minh gia hộ của chư Phật, chư Bồ Tát Thánh Tăng.",
+    contentHtml: "<p class=\"wp-block-paragraph\">Không gian sân Di Đà là tái hiện hình ảnh Cực Lạc Tịnh Độ tại nhân gian với ao Thất Bảo, Lầu Bát Bảo, và các vị Phật&nbsp; Bồ Tát hóa hiện độ sinh.&nbsp;<br>Nơi đây là điểm tổ chức các khóa lễ, đại lễ quan trọng của chùa, dưới sự chứng minh gia hộ của chư Phật, chư Bồ Tát Thánh Tăng.<br></p>",
     statues: [
       {
             "name": "ĐỨC PHẬT THÍCH CA MÂU NI CHUYỂN PHÁP LUÂN",

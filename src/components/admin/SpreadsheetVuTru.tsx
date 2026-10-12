@@ -46,6 +46,8 @@ export function SpreadsheetVuTru() {
   const [targetImageCallback, setTargetImageCallback] = useState<((url: string) => void) | null>(null);
 
   const [openingWpId, setOpeningWpId] = useState<string | null>(null);
+  const [isSyncingWp, setIsSyncingWp] = useState(false);
+  const hasOpenedGutenbergRef = useRef(false);
 
   // Sub-items Modal (Statues, Stories, Special features)
   const [activeModal, setActiveModal] = useState<{
@@ -139,9 +141,53 @@ export function SpreadsheetVuTru() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [areas]);
 
+  // 🔄 Đồng bộ toàn bộ nội dung từ WordPress Gutenberg về bảng tính
+  const handleSyncFromWordPress = async (silent: boolean = false, targetWpId?: string | number) => {
+    if (isSyncingWp) return;
+    setIsSyncingWp(true);
+    if (!silent) showToast('⏳ Đang kết nối WordPress và đồng bộ nội dung không gian...');
+    try {
+      const res = await fetch('/api/admin/vu-tru/sync-wp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(targetWpId ? { wpPostId: targetWpId } : {}),
+      });
+      const data = await res.json();
+      if (data.success) {
+        await fetchAreas();
+        if (!silent) {
+          showToast(
+            data.count > 0
+              ? `🎉 Đã đồng bộ thành công ${data.count} không gian từ WordPress Gutenberg!`
+              : '✨ Tất cả các không gian đã ở phiên bản mới nhất từ WordPress.'
+          );
+        }
+      } else if (!silent) {
+        showToast(data.error || 'Lỗi khi đồng bộ WordPress');
+      }
+    } catch (err: any) {
+      if (!silent) showToast(`Lỗi kết nối khi đồng bộ WordPress: ${err.message}`);
+    } finally {
+      setIsSyncingWp(false);
+    }
+  };
+
+  // 🌟 Tự động đồng bộ ngầm khi người dùng vừa mở Gutenberg sửa bài rồi quay lại tab admin
+  useEffect(() => {
+    const handleWindowFocus = () => {
+      if (!hasOpenedGutenbergRef.current) return;
+      hasOpenedGutenbergRef.current = false;
+      if (isDirty) return;
+      handleSyncFromWordPress(true);
+    };
+    window.addEventListener('focus', handleWindowFocus);
+    return () => window.removeEventListener('focus', handleWindowFocus);
+  }, [isDirty]);
+
   // 🌟 MỞ TRỰC TIẾP TRÌNH SOẠN THẢO WORDPRESS GUTENBERG (1-CLICK)
   const handleOpenGutenberg = async (row: UniverseArea, index: number) => {
     setOpeningWpId(row.id);
+    hasOpenedGutenbergRef.current = true;
     showToast('⚡ Đang kết nối WordPress và nạp nội dung không gian vào Gutenberg...');
 
     // Mở tab trống trước để chống popup blocker của trình duyệt
@@ -326,6 +372,17 @@ export function SpreadsheetVuTru() {
             title="Tải lại dữ liệu không gian"
           >
             <RefreshCw className="w-5 h-5" />
+          </button>
+
+          {/* Nút 2.5: Đồng Bộ WordPress Gutenberg */}
+          <button
+            type="button"
+            onClick={() => handleSyncFromWordPress(false)}
+            disabled={isSyncingWp}
+            className="w-10 h-10 rounded-xl bg-[#2A1D14] hover:bg-[#3A2718] border border-[#F2C14E]/50 text-[#F2C14E] hover:text-[#ffde59] flex items-center justify-center transition-all cursor-pointer shadow-md hover:scale-105 disabled:opacity-50"
+            title="Đồng bộ toàn bộ nội dung từ WordPress Gutenberg về bảng tính"
+          >
+            {isSyncingWp ? <Loader2 className="w-5 h-5 animate-spin" /> : <RefreshCw className="w-5 h-5" />}
           </button>
 
           {/* Nút 3: Lưu Bảng Tính */}
@@ -659,7 +716,7 @@ export function SpreadsheetVuTru() {
                               : 'Chưa có mô tả chi tiết...'}
                           </p>
                           <div className="flex items-center justify-between gap-1 mt-2 pt-1.5 border-t border-[#F2C14E]/15 text-[11px] text-[#F2C14E] overflow-hidden">
-                            <span className="flex items-center gap-1.5 font-bold text-[#F2C14E] group-hover/cell:text-[#ffde59]">
+                            <div className="flex items-center gap-1.5 font-bold text-[#F2C14E] group-hover/cell:text-[#ffde59]">
                               {openingWpId === row.id ? (
                                 <Loader2 className="w-3.5 h-3.5 shrink-0 text-[#F2C14E] animate-spin" />
                               ) : (
@@ -672,8 +729,22 @@ export function SpreadsheetVuTru() {
                                   ? `Gutenberg #${row.wpPostId}`
                                   : 'Mở Gutenberg'}
                               </span>
-                            </span>
-                            <div className="flex items-center gap-1 text-[10px] text-[#c9b896]/75 shrink-0">
+                            </div>
+                            <div className="flex items-center gap-1.5 text-[10px] text-[#c9b896]/75 shrink-0">
+                              {row.wpPostId && (
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleSyncFromWordPress(false, row.wpPostId);
+                                  }}
+                                  title="Đồng bộ ngay bài viết này từ WordPress Gutenberg"
+                                  className="px-1.5 py-0.5 rounded-lg bg-[#3A2213] hover:bg-[#F2C14E] text-[#FFE5A3] hover:text-[#1A120B] border border-[#F2C14E]/40 flex items-center gap-1 transition-all"
+                                >
+                                  <RefreshCw className={`w-2.5 h-2.5 ${isSyncingWp ? 'animate-spin' : ''}`} />
+                                  <span>Đồng bộ</span>
+                                </button>
+                              )}
                               {row.stories?.length > 0 && (
                                 <span
                                   title={`${row.stories.length} câu chuyện`}
