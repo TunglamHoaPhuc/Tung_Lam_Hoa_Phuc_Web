@@ -84,7 +84,7 @@ export default function WisdomDetailPage() {
       <HeroBanner
         id="overview"
         bannerUrl={item.bannerUrl || item.thumbnailUrl}
-        bannerPosition={item.bannerPosition || item.thumbnailPosition || 'center 50%'}
+        bannerPosition={item.bannerPosition || item.thumbnailPosition || 'center 25%'}
         title={item.title}
         subtitle={item.subtitle || 'KHO TÀNG TRÍ TUỆ PHẬT PHÁP'}
       />

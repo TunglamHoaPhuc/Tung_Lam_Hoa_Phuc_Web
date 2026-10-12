@@ -22,6 +22,9 @@ export interface WisdomItem {
   publishDate: string; // '28/11/2025'
   views: number;
   thumbnailUrl: string;
+  bannerUrl?: string;
+  bannerPosition?: string;
+  thumbnailPosition?: string;
   mediaUrl?: string;
   excerpt?: string;
   contentHtml?: string;
