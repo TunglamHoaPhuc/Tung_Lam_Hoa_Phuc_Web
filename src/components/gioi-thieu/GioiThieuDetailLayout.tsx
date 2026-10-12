@@ -21,13 +21,20 @@ export function GioiThieuDetailLayout({ detail: initialDetail, slug }: Props) {
   const topicSlug = slug || initialDetail?.slug || initialDetail?.id;
 
   useEffect(() => {
+    if (initialDetail) {
+      setTopic(initialDetail);
+    }
+  }, [initialDetail]);
+
+  useEffect(() => {
+    let isMounted = true;
     async function loadDynamicTopic() {
       if (!topicSlug) return;
       try {
-        const res = await fetch(`/api/admin/gioi-thieu/${topicSlug}`, { cache: 'no-store' });
+        const res = await fetch(`/api/admin/gioi-thieu/${topicSlug}?sync=true`, { cache: 'no-store' });
         if (res.ok) {
           const json = await res.json();
-          if (json.success && json.topic) {
+          if (isMounted && json.success && json.topic) {
             setTopic(json.topic);
           }
         }
@@ -36,6 +43,9 @@ export function GioiThieuDetailLayout({ detail: initialDetail, slug }: Props) {
       }
     }
     loadDynamicTopic();
+    return () => {
+      isMounted = false;
+    };
   }, [topicSlug]);
 
   const otherTopics = Object.values(GIOI_THIEU_DETAILS).filter((t) => t.id !== topic.id && t.slug !== topic.slug);

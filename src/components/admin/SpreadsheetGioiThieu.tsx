@@ -320,6 +320,7 @@ export function SpreadsheetGioiThieu() {
   const [selectedGroup, setSelectedGroup] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [openingWpId, setOpeningWpId] = useState<string | null>(null);
+  const [isSyncingWp, setIsSyncingWp] = useState(false);
 
   // S3 Library Modal
   const [imageLibraryOpen, setImageLibraryOpen] = useState(false);
@@ -399,25 +400,47 @@ export function SpreadsheetGioiThieu() {
     fetchTopics();
   }, []);
 
+  // 🔄 Đồng bộ toàn bộ nội dung hoặc 1 bài viết từ WordPress Gutenberg về bảng tính
+  const handleSyncFromWordPress = async (silent: boolean = false, targetWpId?: string | number) => {
+    if (isSyncingWp) return;
+    setIsSyncingWp(true);
+    if (!silent) showToast('⏳ Đang kết nối WordPress và đồng bộ nội dung bài viết...');
+    try {
+      const res = await fetch('/api/admin/gioi-thieu/sync-wp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(targetWpId ? { wpPostId: targetWpId, force: true } : {}),
+      });
+      const data = await res.json();
+      if (data.success) {
+        await fetchTopics(true);
+        if (!silent) {
+          showToast(
+            data.count > 0
+              ? `🎉 Đã đồng bộ thành công ${data.count} bài viết từ WordPress Gutenberg!`
+              : '✨ Tất cả các bài viết Giới Thiệu đã ở phiên bản mới nhất từ WordPress.'
+          );
+        }
+      } else if (!silent) {
+        showToast(data.error || 'Lỗi khi đồng bộ WordPress');
+      }
+    } catch (err: any) {
+      if (!silent) showToast(`Lỗi kết nối khi đồng bộ WordPress: ${err.message}`);
+    } finally {
+      setIsSyncingWp(false);
+    }
+  };
+
   // 🌟 ĐỒNG BỘ NGẦM THÔNG MINH: Chỉ chạy khi người dùng THỰC SỰ vừa mở tab Gutenberg sửa bài rồi quay lại
   useEffect(() => {
-    const handleWindowFocus = async () => {
+    const handleWindowFocus = () => {
       if (!hasOpenedGutenbergRef.current) return;
       hasOpenedGutenbergRef.current = false;
 
       // 🛡️ CHỐNG MẤT BÀI: Nếu người dùng đang chỉnh sửa ô dở dang chưa lưu, không đè dữ liệu
       if (isDirty) return;
 
-      try {
-        const res = await fetch('/api/admin/gioi-thieu/sync-wp', { method: 'POST' });
-        const data = await res.json();
-        if (data.success && data.count > 0) {
-          await fetchTopics(true); // silent refresh: không trắng màn hình, không skeleton
-          showToast(`✨ Đã tự động cập nhật nội dung mới từ WordPress Gutenberg!`);
-        }
-      } catch {
-        // Chạy ngầm êm ái, không làm phiền người dùng
-      }
+      handleSyncFromWordPress(true);
     };
 
     window.addEventListener('focus', handleWindowFocus);
@@ -785,6 +808,15 @@ export function SpreadsheetGioiThieu() {
   // 🌟 MỞ TRỰC TIẾP TRÌNH SOẠN THẢO WORDPRESS GUTENBERG (1-CLICK)
   const handleOpenGutenberg = async (row: GioiThieuRecord, index: number) => {
     hasOpenedGutenbergRef.current = true;
+
+    // ⚡ Nếu bài viết đã có wpPostId hợp lệ: MỞ TRỰC TIẾP NGAY LẬP TỨC (không chờ server, không bị popup blocker)
+    if (row.wpPostId && !isNaN(Number(row.wpPostId)) && Number(row.wpPostId) > 0) {
+      const directEditUrl = `https://admin.tunglamhoaphuc.com/wp-admin/post.php?post=${row.wpPostId}&action=edit`;
+      window.open(directEditUrl, '_blank', 'noopener,noreferrer');
+      showToast(`✨ Đang mở bài viết #${row.wpPostId} trong WordPress Gutenberg!`);
+      return;
+    }
+
     setOpeningWpId(row.id);
     showToast('⚡ Đang kết nối WordPress và nạp nội dung bài viết vào Gutenberg...');
 
@@ -799,8 +831,8 @@ export function SpreadsheetGioiThieu() {
           id: row.wpPostId,
           title: row.title || 'Chủ đề Giới Thiệu Mới',
           subtitle: row.subtitle || row.overviewSummary || '',
-          content: (row as any).contentHtml || (row as any).content || row.overviewSummary || row.subtitle || '',
-          contentHtml: (row as any).contentHtml || '',
+          content: row.mainContentHtml || row.content || row.overviewSummary || row.subtitle || '',
+          contentHtml: row.mainContentHtml || '',
           summary: row.overviewSummary || row.subtitle || '',
           category: 'gioi-thieu',
           postType: 'post',
@@ -969,6 +1001,17 @@ export function SpreadsheetGioiThieu() {
             title="Tải lại dữ liệu bài viết"
           >
             <RefreshCw className="w-5 h-5" />
+          </button>
+
+          {/* Nút 2.5: Đồng Bộ WordPress Gutenberg */}
+          <button
+            type="button"
+            onClick={() => handleSyncFromWordPress(false)}
+            disabled={isSyncingWp}
+            className="w-10 h-10 rounded-xl bg-[#2A1D14] hover:bg-[#3A2718] border border-[#F2C14E]/50 text-[#F2C14E] hover:text-[#ffde59] flex items-center justify-center transition-all cursor-pointer shadow-md hover:scale-105 disabled:opacity-50"
+            title="Đồng bộ toàn bộ nội dung từ WordPress Gutenberg về bảng tính"
+          >
+            {isSyncingWp ? <Loader2 className="w-5 h-5 animate-spin" /> : <RefreshCw className="w-5 h-5" />}
           </button>
 
           {/* Nút 3: Lưu Bảng Tính */}
@@ -1298,20 +1341,37 @@ export function SpreadsheetGioiThieu() {
                               : 'Chưa có nội dung...'}
                           </p>
                           <div className="flex items-center justify-between gap-1 mt-2 pt-1.5 border-t border-[#F2C14E]/15 text-[11px] text-[#F2C14E] overflow-hidden">
-                            <span className="flex items-center gap-1.5 font-bold text-[#F2C14E] group-hover/cell:text-[#ffde59]">
-                              {openingWpId === row.id ? (
-                                <Loader2 className="w-3.5 h-3.5 shrink-0 text-[#F2C14E] animate-spin" />
-                              ) : (
-                                <Edit3 className="w-3.5 h-3.5 shrink-0 text-[#F2C14E]" />
-                              )}
-                              <span className="text-[10px] font-bold uppercase tracking-wider text-[#ffde59]">
-                                {openingWpId === row.id
-                                  ? 'Đang mở WP...'
-                                  : row.wpPostId
-                                  ? `Gutenberg #${row.wpPostId}`
-                                  : 'Mở Gutenberg'}
+                            <div className="flex items-center gap-1.5">
+                              <span className="flex items-center gap-1.5 font-bold text-[#F2C14E] group-hover/cell:text-[#ffde59]">
+                                {openingWpId === row.id ? (
+                                  <Loader2 className="w-3.5 h-3.5 shrink-0 text-[#F2C14E] animate-spin" />
+                                ) : (
+                                  <Edit3 className="w-3.5 h-3.5 shrink-0 text-[#F2C14E]" />
+                                )}
+                                <span className="text-[10px] font-bold uppercase tracking-wider text-[#ffde59]">
+                                  {openingWpId === row.id
+                                    ? 'Đang mở WP...'
+                                    : row.wpPostId
+                                    ? `Gutenberg #${row.wpPostId}`
+                                    : 'Mở Gutenberg'}
+                                </span>
                               </span>
-                            </span>
+
+                              {row.wpPostId && (
+                                <button
+                                  type="button"
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleSyncFromWordPress(false, row.wpPostId);
+                                  }}
+                                  disabled={isSyncingWp}
+                                  className="p-1 rounded-md bg-[#2A1D14] hover:bg-[#3A2718] border border-[#F2C14E]/40 text-[#F2C14E] hover:text-[#ffde59] transition-all cursor-pointer shadow-xs hover:scale-110 disabled:opacity-50"
+                                  title={`Đồng bộ ngay bài viết #${row.wpPostId} từ WordPress Gutenberg`}
+                                >
+                                  <RefreshCw className={`w-3 h-3 ${isSyncingWp ? 'animate-spin' : ''}`} />
+                                </button>
+                              )}
+                            </div>
                             <div className="flex items-center gap-1 text-[10px] text-[#c9b896]/75 shrink-0">
                               {hasQuote && (
                                 <span

@@ -4,19 +4,29 @@ import { getTopics, saveTopics, syncWpForGioiThieu } from '../route';
 
 export async function POST(req: NextRequest) {
   try {
-    const topics = await getTopics();
-    const { count, updatedSlugs } = await syncWpForGioiThieu(topics);
+    let body: any = {};
+    try {
+      body = await req.json();
+    } catch {
+      // Empty body is okay
+    }
+    const targetWpId = body?.wpPostId;
+    const force = Boolean(body?.force);
 
-    if (count > 0) {
+    const topics = await getTopics();
+    const { count, updatedSlugs } = await syncWpForGioiThieu(topics, targetWpId, force);
+
+    if (count > 0 || force) {
       await saveTopics(topics);
 
       // Revalidate cache các trang giới thiệu
       try {
         revalidatePath('/', 'page');
         revalidatePath('/gioi-thieu', 'page');
-        updatedSlugs.forEach((slug) => {
-          revalidatePath(`/gioi-thieu/${slug}`, 'page');
+        topics.forEach((t) => {
+          revalidatePath(`/gioi-thieu/${t.slug}`, 'page');
         });
+        revalidatePath('/gioi-thieu/lich-su-tung-lam-hoa-phuc', 'page');
       } catch (e) {
         console.warn('Revalidation warning:', e);
       }

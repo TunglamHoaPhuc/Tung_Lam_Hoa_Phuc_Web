@@ -98,7 +98,11 @@ export async function saveTopics(topics: GioiThieuRecord[]) {
 }
 
 // 🔄 Đồng bộ bài viết từ WordPress Gutenberg vào danh sách chủ đề Giới Thiệu
-export async function syncWpForGioiThieu(topics: GioiThieuRecord[]): Promise<{ count: number; updatedSlugs: string[] }> {
+export async function syncWpForGioiThieu(
+  topics: GioiThieuRecord[],
+  targetWpId?: string | number,
+  force: boolean = false
+): Promise<{ count: number; updatedSlugs: string[] }> {
   let count = 0;
   const updatedSlugs: string[] = [];
 
@@ -106,6 +110,9 @@ export async function syncWpForGioiThieu(topics: GioiThieuRecord[]): Promise<{ c
     if (!topic.wpPostId) continue;
     const wpId = String(topic.wpPostId).trim();
     if (!wpId || isNaN(Number(wpId))) continue;
+
+    // Nếu có chỉ định targetWpId thì chỉ đồng bộ đúng bài đó
+    if (targetWpId && String(targetWpId).trim() !== wpId) continue;
 
     try {
       const wpRes = await fetch(`https://admin.tunglamhoaphuc.com/wp-json/wp/v2/posts/${wpId}?_embed=true`, {
@@ -124,8 +131,9 @@ export async function syncWpForGioiThieu(topics: GioiThieuRecord[]): Promise<{ c
       const contentChanged = Boolean(parsed.cleanedContent && topic.content !== parsed.cleanedContent);
       const modifiedChanged = Boolean(wp.modified && topic.wpModified !== wp.modified);
       const missingHtml = !topic.mainContentHtml || topic.mainContentHtml.trim() === '';
+      const isTarget = Boolean(targetWpId && String(targetWpId).trim() === wpId);
 
-      if (titleChanged || contentChanged || modifiedChanged || missingHtml) {
+      if (force || isTarget || titleChanged || contentChanged || modifiedChanged || missingHtml) {
         if (cleanTitle) topic.title = cleanTitle;
         if (parsed.cleanedContent) topic.content = parsed.cleanedContent;
         topic.mainContentHtml = rawHtml;
