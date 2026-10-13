@@ -161,25 +161,7 @@ function mapCategories(catIds: number[] = []) {
   return { mainCategory: 'dong-chay-hoang-phap', subCategory: 'cong-tu', categoryName: 'Cộng Tu Định Kỳ' };
 }
 
-function decodeHtmlEntities(text: string): string {
-  if (!text) return '';
-  return text
-    .replace(/&#8230;/g, '…')
-    .replace(/&hellip;/g, '…')
-    .replace(/&#8217;/g, '’')
-    .replace(/&#8216;/g, '‘')
-    .replace(/&#8220;/g, '“')
-    .replace(/&#8221;/g, '”')
-    .replace(/&#8211;/g, '–')
-    .replace(/&#8212;/g, '—')
-    .replace(/&quot;/g, '"')
-    .replace(/&#34;/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/&amp;/g, '&')
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&#(\d+);/g, (_m, dec) => String.fromCharCode(parseInt(dec, 10)))
-    .normalize('NFC');
-}
+import { decodeHtmlEntities } from '@/lib/html-entities';
 
 function cleanSummary(rawExcerpt: string, content: string, existingSummary?: string): string {
   let text = decodeHtmlEntities((rawExcerpt || '').replace(/<[^>]+>/g, '').trim());
@@ -273,8 +255,14 @@ export async function GET(req: NextRequest) {
 
             // ⚡ Phát hiện thay đổi tức thời từ WordPress:
             const isNew = !existing;
-            const isWpModified = Boolean(wp.modified && existing && (existing as any).wpModified !== wp.modified);
-            const allowWpOverride = isNew || isWpModified;
+            const isManualSync = searchParams.get('syncWp') === 'true' || Boolean(syncPostId);
+            const isWpModifiedNewer = Boolean(
+              wp.modified &&
+              existing &&
+              (existing as any).wpModified &&
+              (existing as any).wpModified !== wp.modified
+            );
+            const allowWpOverride = isNew || (isWpModifiedNewer && isManualSync);
             const dateChanged = Boolean(wpPublishedDate && existing && existing.publishedDate !== wpPublishedDate && allowWpOverride);
             const titleChanged = Boolean(cleanTitle && existing && existing.title !== cleanTitle && allowWpOverride);
             const contentChanged = Boolean(parsed.cleanedContent && existing && existing.content !== parsed.cleanedContent && allowWpOverride);
@@ -295,8 +283,8 @@ export async function GET(req: NextRequest) {
                 id: existing?.id || `post-${wpId}`,
                 wpPostId: wpId,
                 slug: wpSlug,
-                title: allowWpOverride && cleanTitle ? cleanTitle : (existing?.title || cleanTitle || ''),
-                subtitle: decodeHtmlEntities(existing?.subtitle || 'Tùng Lâm Hòa Phúc'),
+                title: isNew ? cleanTitle : (allowWpOverride && cleanTitle ? cleanTitle : (existing?.title || cleanTitle || '')),
+                subtitle: existing?.subtitle ? decodeHtmlEntities(existing.subtitle) : 'Tùng Lâm Hòa Phúc',
                 mainCategory: existing?.mainCategory || mappedCat.mainCategory,
                 subCategory: existing?.subCategory || mappedCat.subCategory,
                 categoryName: existing?.categoryName || mappedCat.categoryName,
@@ -411,21 +399,47 @@ export async function GET(req: NextRequest) {
 // 🌟 PUT: Cập nhật mảng bài viết (Batch Save từ Bảng tính Spreadsheet)
 export async function PUT(req: NextRequest) {
   try {
-    const body = await req.json();
-    if (!Array.isArray(body)) {
+    const rawBody = await req.json();
+    let body: PostRecord[] = [];
+    let extraDeletedIds: string[] = [];
+
+    if (Array.isArray(rawBody)) {
+      body = rawBody;
+    } else if (rawBody && Array.isArray(rawBody.posts)) {
+      body = rawBody.posts;
+      if (Array.isArray(rawBody.deletedIds)) {
+        extraDeletedIds = rawBody.deletedIds.map((id: any) => String(id));
+      }
+    } else {
       return NextResponse.json(
         { success: false, error: 'Dữ liệu gửi lên phải là một danh sách bài viết' },
         { status: 400 }
       );
     }
 
+    // Nếu có danh sách ID cần xóa gửi kèm, lưu ngay vào blacklist deleted-posts
+    if (extraDeletedIds.length > 0) {
+      for (const delId of extraDeletedIds) {
+        await recordDeletedPost(delId, undefined, undefined);
+      }
+    }
+
     // Đọc toàn bộ danh sách thô từ cơ sở dữ liệu để bảo vệ 100% toàn vẹn dữ liệu
-    const rawAllPosts = await loadServerlessJsonAsync<PostRecord[]>(DB_CONFIG);
+    const [rawAllPosts, deletedList] = await Promise.all([
+      loadServerlessJsonAsync<PostRecord[]>(DB_CONFIG),
+      getDeletedPostsAsync(),
+    ]);
+    const deletedSet = new Set([...deletedList.map((d) => d.id), ...extraDeletedIds]);
+    const deletedWpIds = new Set(deletedList.filter((d) => d.wpPostId).map((d) => String(d.wpPostId)));
+    const deletedSlugs = new Set(deletedList.filter((d) => d.slug).map((d) => d.slug));
+
     const currentMap = new Map(rawAllPosts.map((p) => [p.id, p]));
 
     const changedPostsWithWpId: { wpPostId: number; date?: string; title?: string }[] = [];
     // Safeguard bảo vệ không bao giờ làm rỗng nội dung nếu client gửi rỗng ngoài ý muốn, tự động xuất bản
-    const validatedPosts = body.map((p: PostRecord) => {
+    const validatedPosts = body
+      .filter((p) => !deletedSet.has(p.id) && !deletedWpIds.has(String(p.wpPostId)) && !deletedSlugs.has(p.slug))
+      .map((p: PostRecord) => {
       const orig = currentMap.get(p.id);
 
       // 🛡️ CONTENT SHIELD: Bảo vệ nội dung, không bao giờ để nội dung bị teo nhỏ hoặc đè bởi trích đoạn cắt 300 ký tự cũ
@@ -480,9 +494,11 @@ export async function PUT(req: NextRequest) {
     });
 
     // 🌟 SMART MERGE: Hợp nhất (merge) các bài cập nhật vào cơ sở dữ liệu hiện tại theo ID,
-    // TUYỆT ĐỐI KHÔNG XÓA các bài viết thuộc các chuyên mục khác hoặc bài đặc thù.
+    // TUYỆT ĐỐI LOẠI BỎ bài viết đã xóa, không bao giờ hồi sinh bài cũ.
     const incomingValidatedMap = new Map(validatedPosts.map((p) => [p.id, p]));
-    const finalPosts = rawAllPosts.map((p) => incomingValidatedMap.get(p.id) || p);
+    const finalPosts = rawAllPosts
+      .filter((p) => !deletedSet.has(p.id) && !deletedWpIds.has(String(p.wpPostId)) && !deletedSlugs.has(p.slug))
+      .map((p) => incomingValidatedMap.get(p.id) || p);
 
     // Thêm các bài viết mới nếu chưa có trong rawAllPosts
     for (const p of validatedPosts) {
@@ -642,21 +658,23 @@ export async function DELETE(req: NextRequest) {
     }
 
     const decodedId = decodeURIComponent(id);
-    let posts = await getPosts();
-    const targetIdx = posts.findIndex(
+    const rawPosts = await loadServerlessJsonAsync<PostRecord[]>(DB_CONFIG);
+    const targetIdx = rawPosts.findIndex(
       (p) => p.id === id || p.id === decodedId || p.slug === id || p.slug === decodedId || String(p.wpPostId) === id
     );
 
     if (targetIdx === -1) {
-      return NextResponse.json({ success: false, error: 'Không tìm thấy bài viết để xóa' }, { status: 404 });
+      // Dù không thấy trong database, vẫn ghi vào danh sách đen xóa để chống hồi sinh
+      await recordDeletedPost(id, id, decodedId);
+      return NextResponse.json({ success: true, message: 'Đã xóa bài viết khỏi hệ thống.' });
     }
 
-    const deletedPost = posts[targetIdx];
-    posts.splice(targetIdx, 1);
+    const deletedPost = rawPosts[targetIdx];
+    rawPosts.splice(targetIdx, 1);
 
     // Chạy song song lưu posts và ghi blacklist bài viết đã xóa để giảm 50% thời gian phản hồi máy chủ
     await Promise.all([
-      savePosts(posts),
+      savePosts(rawPosts),
       recordDeletedPost(deletedPost.id, deletedPost.wpPostId, deletedPost.slug),
     ]);
 

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { MoveVertical } from 'lucide-react';
-import { getImageUrl } from '@/utils/image';
+import { getImageUrl, getHighResImageUrl } from '@/utils/image';
 
 interface HeroBannerProps {
   id?: string;
@@ -36,8 +36,8 @@ export function HeroBanner({
   backLink,
   backText = 'Trở về Sơ Đồ Bản Đồ 2D Vũ Trụ Phật Giáo',
 }: HeroBannerProps) {
-  // Lấy URL ảnh banner từ WP, prop hoặc ảnh mặc định
-  const initialUrl = getImageUrl(bannerUrl || bgImage) || DEFAULT_BANNER_IMAGE;
+  // Lấy URL ảnh banner từ WP, prop hoặc ảnh mặc định (Tự động ưu tiên độ phân giải cao nhất)
+  const initialUrl = getHighResImageUrl(bannerUrl || bgImage) || DEFAULT_BANNER_IMAGE;
   const [imgSrc, setImgSrc] = useState<string>(initialUrl);
 
   // Chỉ hiển thị biểu tượng khi có prop emblemUrl được truyền trực tiếp (trang chính Tông Chỉ Tu Học)
@@ -56,7 +56,7 @@ export function HeroBanner({
   useEffect(() => {
     const nextUrl = bannerUrl || bgImage;
     if (nextUrl) {
-      setImgSrc(getImageUrl(nextUrl));
+      setImgSrc(getHighResImageUrl(nextUrl));
     } else {
       setImgSrc(DEFAULT_BANNER_IMAGE);
     }
@@ -109,12 +109,14 @@ export function HeroBanner({
           alt={title || 'Hero Banner Tông Chỉ Tu Học'}
           fill
           priority
-          unoptimized
           sizes="100vw"
           className="object-cover transition-all duration-300 scale-105 pointer-events-none"
           style={{ objectPosition: currentPos || 'center' }}
           onError={() => {
-            if (imgSrc !== DEFAULT_BANNER_IMAGE) {
+            const rawFallback = getImageUrl(bannerUrl || bgImage);
+            if (rawFallback && imgSrc !== rawFallback) {
+              setImgSrc(rawFallback);
+            } else if (imgSrc !== DEFAULT_BANNER_IMAGE) {
               setImgSrc(DEFAULT_BANNER_IMAGE);
             }
           }}

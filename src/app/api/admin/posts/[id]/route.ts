@@ -6,6 +6,7 @@ import { HOANG_PHAP_ARTICLES } from '@/data/dong-chay-hoang-phap-data';
 import { parseGutenbergPostContent } from '@/lib/wp-post-parser';
 import { recordDeletedPost, getDeletedPostsAsync, isPostDeletedAsync } from '@/lib/deleted-posts';
 import { deleteWpPost, updateWpPostFields, formatWpDate } from '@/lib/wp-admin-client';
+import { decodeHtmlEntities } from '@/lib/html-entities';
 
 const DB_CONFIG = {
   fileName: 'posts-database.json',
@@ -59,12 +60,7 @@ export async function GET(
       if (wpRes.ok) {
         const wpData = await wpRes.json();
         const wpDate = wpData.date ? wpData.date.split('T')[0] : (wpData.date_gmt ? wpData.date_gmt.split('T')[0] : '');
-        const cleanTitle = (wpData.title?.rendered || '')
-          .replace(/&#8211;/g, '–')
-          .replace(/&#8217;/g, '’')
-          .replace(/&amp;/g, '&')
-          .replace(/&#8230;/g, '…')
-          .trim();
+        const cleanTitle = decodeHtmlEntities(wpData.title?.rendered || '').trim();
 
         const rawWpAuthor = wpData._embedded?.author?.[0]?.name;
         const wpAuthor = (rawWpAuthor && rawWpAuthor !== 'admin_tunglam' && rawWpAuthor !== 'admin')
@@ -73,10 +69,10 @@ export async function GET(
 
         const parsed = parseGutenbergPostContent(wpData.content?.rendered || '', cleanTitle || post.title);
 
-        // 🛡️ CHỈ CHO PHÉP WORDPRESS GHI ĐÈ NẾU WP THỰC SỰ ĐƯỢC SỬA TỪ GUTENBERG (modified thay đổi)
+        // 🛡️ CHỈ CHO PHÉP WORDPRESS GHI ĐÈ NẾU BẬT ĐỒNG BỘ THỦ CÔNG (syncWp=true) VÀ WP ĐƯỢC SỬA MỚI HƠN
+        const isManualSync = new URL(req.url).searchParams.get('syncWp') === 'true';
         const isWpModifiedNewer = Boolean(wpData.modified && post.wpModified && wpData.modified !== post.wpModified);
-        const isFirstWpSync = !post.wpModified;
-        const allowWpOverride = isWpModifiedNewer || isFirstWpSync;
+        const allowWpOverride = isManualSync && (isWpModifiedNewer || !post.wpModified);
 
         const dateChanged = Boolean(wpDate && post.publishedDate !== wpDate && allowWpOverride);
         const titleChanged = Boolean(cleanTitle && post.title !== cleanTitle && allowWpOverride);
@@ -139,11 +135,7 @@ export async function GET(
             id: `post-${wpItem.id}`,
             wpPostId: wpItem.id,
             slug: wpItem.slug || `bai-viet-${wpItem.id}`,
-            title: (wpItem.title?.rendered || '')
-              .replace(/&#8211;/g, '–')
-              .replace(/&#8217;/g, '’')
-              .replace(/&amp;/g, '&')
-              .trim(),
+            title: decodeHtmlEntities(wpItem.title?.rendered || '').trim(),
             subtitle: 'Tùng Lâm Hòa Phúc',
             mainCategory: 'dong-chay-hoang-phap',
             subCategory: 'cong-tu',
@@ -154,7 +146,7 @@ export async function GET(
             viewsCount: 108,
             thumbnailUrl: featuredUrl,
             bannerUrl: featuredUrl,
-            summary: (wpItem.excerpt?.rendered || '').replace(/<[^>]+>/g, '').trim() || 'Tóm tắt bài viết...',
+            summary: decodeHtmlEntities((wpItem.excerpt?.rendered || '').replace(/<[^>]+>/g, '')).trim() || 'Tóm tắt bài viết...',
             content: parsed.cleanedContent || '',
             contentHtml: wpItem.content?.rendered || '',
             keywords: [],
@@ -215,24 +207,24 @@ export async function PUT(
     const { id } = await params;
     const decodedId = decodeURIComponent(id);
     const body = await req.json();
-    const posts = await getPosts();
-    const index = posts.findIndex(
+    const rawPosts = await loadServerlessJsonAsync<PostRecord[]>(DB_CONFIG);
+    const index = rawPosts.findIndex(
       (p) => p.id === id || p.id === decodedId || p.slug === id || p.slug === decodedId || String(p.wpPostId) === id
     );
 
     let targetIndex = index;
-    const oldDate = index !== -1 ? posts[index].publishedDate : undefined;
-    const oldTitle = index !== -1 ? posts[index].title : undefined;
+    const oldDate = index !== -1 ? rawPosts[index].publishedDate : undefined;
+    const oldTitle = index !== -1 ? rawPosts[index].title : undefined;
 
     if (targetIndex === -1) {
       const newPost: PostRecord = {
         ...body,
         id: id || `post-${Date.now()}`,
       };
-      posts.unshift(newPost);
+      rawPosts.unshift(newPost);
       targetIndex = 0;
     } else {
-      const orig = posts[targetIndex];
+      const orig = rawPosts[targetIndex];
       let safeContent = body.content;
       if (orig && orig.content && orig.content.trim() !== '') {
         if (!safeContent || safeContent.trim() === '') {
@@ -245,18 +237,18 @@ export async function PUT(
           safeContent = orig.content;
         }
       }
-      posts[targetIndex] = {
-        ...posts[targetIndex],
+      rawPosts[targetIndex] = {
+        ...rawPosts[targetIndex],
         ...body,
-        content: safeContent ?? posts[targetIndex].content,
-        id: posts[targetIndex].id, // Prevent ID override
+        content: safeContent ?? rawPosts[targetIndex].content,
+        id: rawPosts[targetIndex].id, // Prevent ID override
       };
     }
 
-    await savePosts(posts);
+    await savePosts(rawPosts);
 
     // ⚡ TỰ ĐỘNG ĐỒNG BỘ NGÀY ĐĂNG & TIÊU ĐỀ SANG WORDPRESS (CHỜ HOÀN TẤT)
-    const targetWpPostId = posts[targetIndex].wpPostId;
+    const targetWpPostId = rawPosts[targetIndex].wpPostId;
     if (targetWpPostId) {
       const wpPayload: Record<string, any> = {};
       if (body.publishedDate && oldDate !== body.publishedDate) {
@@ -272,8 +264,8 @@ export async function PUT(
           if (wpRes.success) {
             console.log(`✅ [sync-wp-fields] Đã đồng bộ lên WP #${targetWpPostId}:`, Object.keys(wpPayload));
             if (wpRes.data?.modified) {
-              posts[targetIndex].wpModified = wpRes.data.modified;
-              await savePosts(posts);
+              rawPosts[targetIndex].wpModified = wpRes.data.modified;
+              await savePosts(rawPosts);
             }
           } else {
             console.warn(`⚠️ [sync-wp-fields] Lỗi đồng bộ lên WP #${targetWpPostId}:`, wpRes.error);
@@ -287,9 +279,9 @@ export async function PUT(
     try {
       revalidatePath('/', 'page');
       revalidatePath('/dong-chay-hoang-phap', 'page');
-      if (posts[targetIndex].slug) {
-        revalidatePath(`/dong-chay-hoang-phap/${posts[targetIndex].slug}`, 'page');
-        revalidatePath(`/tri-tue-phat-phap/${posts[targetIndex].slug}`, 'page');
+      if (rawPosts[targetIndex].slug) {
+        revalidatePath(`/dong-chay-hoang-phap/${rawPosts[targetIndex].slug}`, 'page');
+        revalidatePath(`/tri-tue-phat-phap/${rawPosts[targetIndex].slug}`, 'page');
       }
       revalidatePath('/tri-tue-phat-phap', 'page');
       revalidatePath('/tong-chi-tu-hoc', 'page');
@@ -299,7 +291,7 @@ export async function PUT(
 
     return NextResponse.json({
       success: true,
-      post: posts[targetIndex],
+      post: rawPosts[targetIndex],
     });
   } catch (error: any) {
     return NextResponse.json(
@@ -318,24 +310,26 @@ export async function DELETE(
   try {
     const { id } = await params;
     const decodedId = decodeURIComponent(id);
-    let posts = await getPosts();
-    const targetIdx = posts.findIndex(
+    const rawPosts = await loadServerlessJsonAsync<PostRecord[]>(DB_CONFIG);
+    const targetIdx = rawPosts.findIndex(
       (p) => p.id === id || p.id === decodedId || p.slug === id || p.slug === decodedId || String(p.wpPostId) === id
     );
 
     if (targetIdx === -1) {
-      return NextResponse.json(
-        { success: false, error: 'Không tìm thấy bài viết để xóa' },
-        { status: 404 }
-      );
+      // Dù không thấy trong database, vẫn ghi vào blacklist để chống hồi sinh
+      await recordDeletedPost(id, id, decodedId);
+      return NextResponse.json({
+        success: true,
+        message: 'Đã xóa bài viết khỏi hệ thống',
+      });
     }
 
-    const deletedPost = posts[targetIdx];
-    posts.splice(targetIdx, 1);
+    const deletedPost = rawPosts[targetIdx];
+    rawPosts.splice(targetIdx, 1);
 
     // Chạy song song lưu posts và lưu blacklist bài viết đã xóa để giảm 50% thời gian phản hồi máy chủ
     await Promise.all([
-      savePosts(posts),
+      savePosts(rawPosts),
       recordDeletedPost(deletedPost.id, deletedPost.wpPostId, deletedPost.slug),
     ]);
 

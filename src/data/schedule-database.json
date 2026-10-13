@@ -386,14 +386,13 @@
       "imgPositionY": 33,
       "isMultiDay": true,
       "endDateStr": "18.11.2026",
-      "continueChanting": true,
-      "continueChantingUntil": "20.11.2026"
+      "continueChanting": false
     },
     {
       "id": "e-2026-11-18",
       "solarDateStr": "18.11.2026",
       "title": "LƯƠNG HOÀNG SÁM",
-      "subtitle": "Pháp Hội (Tạ đàn)",
+      "subtitle": "Pháp Hội (Tạ đàn - kết khóa)",
       "category": "Cộng Tu",
       "timeSlot1Label": "Thời gian ",
       "timeSlot1Time": "14h00 - 16h00",
@@ -402,7 +401,8 @@
       "notes": "Hồi hướng công đức cầu nguyện cửu huyền thất tổ siêu thăng.",
       "slug": "ta-dan-phap-hoi-luong-hoang-sam-2026",
       "imgUrl": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-11-an-duc-to-thay.webp",
-      "imgPositionY": 26
+      "imgPositionY": 26,
+      "isMultiDay": false
     },
     {
       "id": "e-2026-11-19",

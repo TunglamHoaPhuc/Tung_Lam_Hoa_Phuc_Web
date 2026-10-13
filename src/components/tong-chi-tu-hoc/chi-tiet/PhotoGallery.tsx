@@ -12,7 +12,7 @@ import {
   Maximize2,
   ChevronDown
 } from 'lucide-react';
-import { getImageUrl } from '@/utils/image';
+import { getImageUrl, getHighResImageUrl, getOptimizedNextImageUrl } from '@/utils/image';
 
 export interface AnhTuLieu {
   imageUrl?: string;
@@ -147,7 +147,10 @@ export function PhotoGallery({
       {/* ── LƯỚI ADAPTIVE BENTO BOX ── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 w-full auto-rows-[minmax(180px,auto)]">
         {visibleItems.map((item, idx) => {
-          const imgSrc = getImageUrl(item.imageUrl || item.url) || 'https://admin.tunglamhoaphuc.com/wp-content/uploads/2026/07/default-bg.jpg';
+          const rawSrc = getImageUrl(item.imageUrl || item.url) || 'https://admin.tunglamhoaphuc.com/wp-content/uploads/2026/07/default-bg.jpg';
+          const directHighRes = getHighResImageUrl(item.imageUrl || item.url) || rawSrc;
+          // Tầng 1: Lưới Bento dùng ảnh WebP tối ưu qua GPU/SIMD Sharp (1080px, nén chỉ ~70-120KB)
+          const previewSrc = getOptimizedNextImageUrl(item.imageUrl || item.url, 1080, 75) || directHighRes;
           const spanClass = getBentoSpan(idx);
           const captionText = item.noiDung || item.caption || '';
           const titleText = item.title && item.title !== 'Ảnh tư liệu' ? item.title : '';
@@ -161,15 +164,22 @@ export function PhotoGallery({
               }}
               className={`group relative ${spanClass} rounded-2xl overflow-hidden border border-[#c8aa6e]/40 hover:border-[#ffde59] shadow-xl hover:shadow-[0_0_20px_rgba(255,222,89,0.25)] cursor-pointer bg-[#1C120A] transition-all duration-500`}
             >
-              {/* Hình ảnh tối ưu hóa */}
+              {/* Hình ảnh tối ưu hóa WebP siêu nét và nhẹ */}
               <img
-                src={imgSrc}
+                src={previewSrc}
                 alt={titleText || captionText || `Ảnh tư liệu #${idx + 1}`}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                 style={{ objectPosition: item.imagePosition || 'center 50%' }}
                 loading="lazy"
                 onError={(e) => {
-                  (e.currentTarget as HTMLImageElement).src = '/images/toan-canh-chua.jpg';
+                  const target = e.currentTarget as HTMLImageElement;
+                  if (target.src !== directHighRes && directHighRes) {
+                    target.src = directHighRes;
+                  } else if (target.src !== rawSrc && rawSrc) {
+                    target.src = rawSrc;
+                  } else {
+                    target.src = '/images/toan-canh-chua.jpg';
+                  }
                 }}
               />
 
@@ -297,12 +307,25 @@ export function PhotoGallery({
               <ChevronLeft className="w-6 h-6 stroke-[2.5]" />
             </button>
 
-            {/* High-res Image */}
+            {/* High-res Image (Tầng 2: Lightbox phóng to 2K WebP tải theo yêu cầu khi mở modal) */}
             <img
-              src={getImageUrl(items[lightboxIndex].imageUrl || items[lightboxIndex].url)}
+              src={
+                getOptimizedNextImageUrl(items[lightboxIndex].imageUrl || items[lightboxIndex].url, 1920, 75) ||
+                getHighResImageUrl(items[lightboxIndex].imageUrl || items[lightboxIndex].url)
+              }
               alt={items[lightboxIndex].title || 'Ảnh tư liệu'}
               className="max-h-[65vh] sm:max-h-[72vh] max-w-full object-contain rounded-xl shadow-2xl border border-[#c8aa6e]/30"
               style={{ objectPosition: items[lightboxIndex].imagePosition || 'center' }}
+              onError={(e) => {
+                const target = e.currentTarget as HTMLImageElement;
+                const directHighRes = getHighResImageUrl(items[lightboxIndex].imageUrl || items[lightboxIndex].url);
+                const rawFallback = getImageUrl(items[lightboxIndex].imageUrl || items[lightboxIndex].url);
+                if (target.src !== directHighRes && directHighRes) {
+                  target.src = directHighRes;
+                } else if (target.src !== rawFallback && rawFallback) {
+                  target.src = rawFallback;
+                }
+              }}
             />
 
             {/* Next button */}

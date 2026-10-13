@@ -8,6 +8,7 @@ import { S3Client, CopyObjectCommand } from '@aws-sdk/client-s3';
 import { loadServerlessJson, loadServerlessJsonAsync, saveServerlessJson } from '@/lib/serverless-db';
 import { parseGutenbergPostContent } from '@/lib/wp-post-parser';
 import { getDeletedPostsAsync } from '@/lib/deleted-posts';
+import { decodeHtmlEntities } from '@/lib/html-entities';
 
 const DB_CONFIG = {
   fileName: 'posts-database.json',
@@ -61,14 +62,7 @@ function mapCategories(catIds: number[] = []) {
 
 function cleanWpHtml(rawHtml = '') {
   if (!rawHtml) return '';
-  let html = rawHtml
-    .replace(/&#8211;/g, '–')
-    .replace(/&#8217;/g, '’')
-    .replace(/&#8230;/g, '...')
-    .replace(/&hellip;/g, '...')
-    .replace(/&amp;/g, '&')
-    .replace(/&nbsp;/g, ' ')
-    .normalize('NFC');
+  let html = decodeHtmlEntities(rawHtml);
 
   html = html.replace(/<h[1-3][^>]*>(.*?)<\/h[1-3]>/gi, (_m, inner) => `\n\n### ${inner.replace(/<[^>]+>/g, '').trim()}\n\n`);
   html = html.replace(/<blockquote[^>]*>([\s\S]*?)<\/blockquote>/gi, (_m, bqInner) => {
@@ -246,11 +240,7 @@ export async function POST() {
       ) {
         continue;
       }
-      const wpTitle = (wp.title?.rendered || '')
-        .replace(/&#8211;/g, '–')
-        .replace(/&#8217;/g, '’')
-        .replace(/&amp;/g, '&')
-        .trim();
+      const wpTitle = decodeHtmlEntities(wp.title?.rendered || '').trim();
 
       // Bỏ qua bản WP trùng slug đã xử lý ở nguồn trước đó
       if (seenWpSlugs.has(wpSlug)) continue;
@@ -324,25 +314,39 @@ export async function POST() {
         ? rawWpAuthor
         : (existing?.author || 'Ban Văn Hóa Tùng Lâm');
 
+      // 🛡️ BẢO TỒN ẢNH BANNER & THUMBNAIL DO QUẢN TRỊ VIÊN ĐÃ THAY TRONG ADMIN:
+      // Tuyệt đối không để việc đồng bộ từ WordPress đè mất ảnh mà người dùng đã chọn/tải lên.
+      const defaultFallback = 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp';
+      const existingThumb = existing?.thumbnailUrl?.trim();
+      const existingBanner = existing?.bannerUrl?.trim();
+
+      const finalThumb = (existingThumb && existingThumb !== defaultFallback)
+        ? existingThumb
+        : (finalBannerUrl || existingThumb || defaultFallback);
+
+      const finalBanner = (existingBanner && existingBanner !== defaultFallback)
+        ? existingBanner
+        : (finalBannerUrl || existingBanner || defaultFallback);
+
       postMap.set(lookupKey, {
         ...(existing || {}),
         id: existingId || `post-${wpId}`,
         wpPostId: wpId,
         slug: wpSlug,
-        title: cleanTitle,
-        subtitle: cleanSubtitle,
-        mainCategory: categoryMapping.mainCategory,
-        subCategory: categoryMapping.subCategory,
-        categoryName: categoryMapping.categoryName,
-        author: wpAuthor,
+        title: existing?.title || cleanTitle,
+        subtitle: existing?.subtitle || cleanSubtitle,
+        mainCategory: existing?.mainCategory || categoryMapping.mainCategory,
+        subCategory: existing?.subCategory || categoryMapping.subCategory,
+        categoryName: existing?.categoryName || categoryMapping.categoryName,
+        author: existing?.author || wpAuthor,
         publishedDate: wpPublishedDate || existing?.publishedDate || new Date().toISOString().split('T')[0],
-        status: 'published',
+        status: existing?.status || 'published',
         viewsCount: existing?.viewsCount || 0,
-        thumbnailUrl: finalBannerUrl,
-        bannerUrl: finalBannerUrl,
+        thumbnailUrl: finalThumb,
+        bannerUrl: finalBanner,
         thumbnailPosition: existing?.thumbnailPosition || 'center 50%',
         bannerPosition: existing?.bannerPosition || 'center 50%',
-        summary: (wp.excerpt?.rendered || '').replace(/<[^>]+>/g, '').replace(/&#8211;/g, '–').replace(/&amp;/g, '&').trim() || existing?.summary || 'Tóm tắt bài viết...',
+        summary: decodeHtmlEntities((wp.excerpt?.rendered || '').replace(/<[^>]+>/g, '')).trim() || existing?.summary || 'Tóm tắt bài viết...',
         content: parsed.cleanedContent || cleanWpHtml(wp.content?.rendered || '') || existing?.content || '',
         contentHtml: wp.content?.rendered || existing?.contentHtml || '',
         keywords: existing?.keywords || [],

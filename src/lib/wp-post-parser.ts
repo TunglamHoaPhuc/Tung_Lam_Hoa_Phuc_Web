@@ -1,6 +1,7 @@
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import path from 'path';
 import sharp from 'sharp';
+import { decodeHtmlEntities } from './html-entities';
 
 // Cấu hình S3 chuẩn
 const S3_BUCKET = process.env.S3_BUCKET_NAME || 'media-tunglamhoaphuc';
@@ -59,7 +60,7 @@ export function parseGutenbergPostContent(rawHtml: string = '', postTitle: strin
         fullTag: match[0],
         src: srcMatch[1],
         alt: altMatch ? altMatch[1].trim() : '',
-        caption: capMatch ? capMatch[1].replace(/<[^>]+>/g, '').trim() : '',
+        caption: capMatch ? decodeHtmlEntities(capMatch[1].replace(/<[^>]+>/g, '').trim()) : '',
         index: match.index,
         endIndex: match.index + match[0].length,
       });
@@ -110,9 +111,9 @@ export function parseGutenbergPostContent(rawHtml: string = '', postTitle: strin
     const title = f.caption || (postTitle ? `${postTitle} - Ảnh #${idx + 1}` : `Ảnh tư liệu #${idx + 1}`);
     return {
       imageUrl: f.src,
-      title,
-      caption: f.caption || undefined,
-      noiDung: f.caption || undefined,
+      title: decodeHtmlEntities(title),
+      caption: f.caption ? decodeHtmlEntities(f.caption) : undefined,
+      noiDung: f.caption ? decodeHtmlEntities(f.caption) : undefined,
       isInline: f.index < trailingStartIndex,
     };
   });
@@ -139,14 +140,7 @@ export function parseGutenbergPostContent(rawHtml: string = '', postTitle: strin
 function cleanRemainingHtml(html: string): string {
   if (!html) return '';
 
-  let cleaned = html
-    .replace(/&#8211;/g, '–')
-    .replace(/&#8217;/g, '’')
-    .replace(/&#8230;/g, '...')
-    .replace(/&hellip;/g, '...')
-    .replace(/&amp;/g, '&')
-    .replace(/&nbsp;/g, ' ')
-    .normalize('NFC');
+  let cleaned = decodeHtmlEntities(html);
 
   // Chuyển đổi các tiêu đề
   cleaned = cleaned.replace(/<h[1-3][^>]*>(.*?)<\/h[1-3]>/gi, (_m, inner) => `\n\n### ${inner.replace(/<[^>]+>/g, '').trim()}\n\n`);
@@ -162,7 +156,7 @@ function cleanRemainingHtml(html: string): string {
     const srcMatch = figInner.match(/src=["']([^"']+)["']/i);
     const altMatch = figInner.match(/alt=["']([^"']*)["']/i);
     const capMatch = figInner.match(/<figcaption[^>]*>([\s\S]*?)<\/figcaption>/i);
-    const cap = capMatch ? capMatch[1].replace(/<[^>]+>/g, '').trim() : (altMatch ? altMatch[1].trim() : '');
+    const cap = capMatch ? decodeHtmlEntities(capMatch[1].replace(/<[^>]+>/g, '').trim()) : (altMatch ? decodeHtmlEntities(altMatch[1].trim()) : '');
     return srcMatch ? `\n\n![${cap}](${srcMatch[1]})\n\n` : '';
   });
 
@@ -170,7 +164,7 @@ function cleanRemainingHtml(html: string): string {
   cleaned = cleaned.replace(/<p[^>]*>(.*?)<\/p>/gi, (_m, pText) => `\n\n${pText.replace(/<[^>]+>/g, '').trim()}\n\n`);
   cleaned = cleaned.replace(/<[^>]+>/g, '');
 
-  return cleaned.replace(/\n{3,}/g, '\n\n').trim();
+  return decodeHtmlEntities(cleaned.replace(/\n{3,}/g, '\n\n').trim());
 }
 
 /**

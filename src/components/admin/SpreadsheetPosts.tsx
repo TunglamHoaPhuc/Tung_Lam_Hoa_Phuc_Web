@@ -79,11 +79,12 @@ import { DiscoverMore } from '@/components/tong-chi-tu-hoc/chi-tiet/DiscoverMore
 // Cac helper component tach rieng de de bao tri
 import { InteractiveImageDrag, HOANG_PHAP_CATEGORIES } from './posts/ImageDragHelper';
 import { CharCounter } from './CharCounter';
+import { decodeHtmlEntities } from '@/lib/html-entities';
 
 // 🪷 Converter Markdown -> WYSIWYG Google Docs HTML
 function markdownToWysiwygHtml(raw: string): string {
   if (!raw) return '<p class="mb-5"><br></p>';
-  let html = raw.replace(/&gt;/g, '>').replace(/&lt;/g, '<');
+  let html = decodeHtmlEntities(raw).replace(/&gt;/g, '>').replace(/&lt;/g, '<');
 
   // Images: ![caption](url) -> Khối ảnh tương tác
   html = html.replace(/!\[(.*?)\]\((.*?)\)/g, (_m, caption, url) => {
@@ -270,11 +271,41 @@ export function SpreadsheetPosts() {
   const [saving, setSaving] = useState(false);
   const [savingRowId, setSavingRowId] = useState<string | null>(null);
   const [savedRowId, setSavedRowId] = useState<string | null>(null);
-  const [isDirty, setIsDirty] = useState(false);
+  const [isDirtyState, setIsDirtyState] = useState(false);
   const isDirtyRef = useRef(false);
-  useEffect(() => {
-    isDirtyRef.current = isDirty;
-  }, [isDirty]);
+  const deletedIdsRef = useRef<Set<string>>(new Set());
+  const isDirty = isDirtyState;
+  const setIsDirty = (dirty: boolean) => {
+    isDirtyRef.current = dirty;
+    setIsDirtyState(dirty);
+  };
+
+  // ⚡ Helper cập nhật trường bài viết tức thì và đồng bộ cờ dirty ngay lập tức
+  const updatePostField = (postId: string, field: keyof PostRecord, value: any) => {
+    setPosts((prev) => prev.map((p) => (p.id === postId ? { ...p, [field]: value } : p)));
+    setIsDirty(true);
+    isDirtyRef.current = true;
+  };
+
+  const updatePostCategory = (postId: string, subCategory: string) => {
+    const matched = HOANG_PHAP_CATEGORIES.find((c) => c.id === subCategory);
+    const catName = matched ? matched.name.replace(/^\d+\.\s*/, '') : '';
+    setPosts((prev) =>
+      prev.map((p) =>
+        p.id === postId
+          ? {
+              ...p,
+              mainCategory: 'dong-chay-hoang-phap',
+              subCategory,
+              ...(catName ? { categoryName: catName } : {}),
+            }
+          : p
+      )
+    );
+    setIsDirty(true);
+    isDirtyRef.current = true;
+  };
+
   const [lastSavedTime, setLastSavedTime] = useState<string | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const showToast = (msg: string) => {
@@ -507,16 +538,35 @@ export function SpreadsheetPosts() {
         for (const p of data.posts as PostRecord[]) {
           if (!uniqueMap.has(p.id)) uniqueMap.set(p.id, p);
         }
-        const serverPosts = Array.from(uniqueMap.values());
+        const serverPosts = Array.from(uniqueMap.values()).map((p) => ({
+          ...p,
+          title: decodeHtmlEntities(p.title || ''),
+          subtitle: decodeHtmlEntities(p.subtitle || ''),
+          summary: decodeHtmlEntities(p.summary || ''),
+          content: decodeHtmlEntities(p.content || ''),
+          author: decodeHtmlEntities(p.author || ''),
+        }));
 
-        // 🛡️ Khôi phục bản nháp nếu trang vừa bị trình duyệt reload ngoài ý muốn
+        // 🛡️ Khôi phục bản nháp nếu trang vừa bị trình duyệt reload ngoài ý muốn (Chỉ áp dụng bài mới tạo chưa lưu)
         try {
           const draftJson = typeof window !== 'undefined' ? localStorage.getItem('tunglam_admin_posts_draft') : null;
           if (draftJson && !silent) {
             const draft = JSON.parse(draftJson);
-            if (draft && Array.isArray(draft.posts) && draft.posts.length > 0) {
+            if (
+              draft &&
+              Array.isArray(draft.posts) &&
+              draft.posts.length > 0 &&
+              draft.timestamp &&
+              Date.now() - draft.timestamp < 1800000
+            ) {
               const serverIds = new Set(serverPosts.map((p) => p.id));
-              const missingNewPosts = draft.posts.filter((p: any) => !serverIds.has(p.id));
+              const missingNewPosts = draft.posts.filter(
+                (p: any) =>
+                  !serverIds.has(p.id) &&
+                  !deletedIdsRef.current.has(p.id) &&
+                  String(p.id).startsWith('post-') &&
+                  p._isNewDraft
+              );
               if (missingNewPosts.length > 0) {
                 const merged = [...missingNewPosts, ...serverPosts];
                 setPosts(merged);
@@ -543,6 +593,13 @@ export function SpreadsheetPosts() {
   // 🔄 Đồng bộ bài viết và phân loại ảnh từ WordPress tunglamhoaphuc.com
   const handleSyncWordPress = async () => {
     if (syncingWp) return;
+
+    // 🛡️ BẢO TOÀN DỮ LIỆU ĐANG SỬA: Nếu có thay đổi chưa lưu, tự động lưu trước khi đồng bộ!
+    if (isDirtyRef.current) {
+      showToast('💾 Đang tự động lưu các thay đổi trên bảng tính trước khi đồng bộ...');
+      await savePostsToBackend(posts, true);
+    }
+
     setSyncingWp(true);
     showToast('⚡ Đang đồng bộ bài viết & sao chép ảnh S3 từ WordPress tunglamhoaphuc.com...');
     try {
@@ -907,9 +964,10 @@ export function SpreadsheetPosts() {
     if (saving) return;
     setSaving(true);
 
-    // 🚀 Tối ưu: Loại bỏ contentHtml trước khi gửi lên server (tránh phình payload).
-    // Giữ nguyên photoGallery có sẵn trên client để lưu cập nhật nếu có.
-    const normalized = postsToSave.map(({ contentHtml: _ch, ...p }) => ({
+    // 🚀 Tối ưu payload:
+    // Loại bỏ contentHtml và photoGallery trước khi gửi lên server (tránh phình payload 5.5MB).
+    // Server tự động giữ lại photoGallery và contentHtml gốc từ database nếu client không gửi.
+    const normalized = postsToSave.map(({ contentHtml: _ch, photoGallery: _pg, ...p }) => ({
       ...p,
       status: 'published' as const,
     }));
@@ -918,13 +976,17 @@ export function SpreadsheetPosts() {
       const res = await fetch('/api/admin/posts', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(normalized),
+        body: JSON.stringify({
+          posts: normalized,
+          deletedIds: Array.from(deletedIdsRef.current),
+        }),
       });
       const data = await res.json();
       if (data.success) {
         setPosts(postsToSave); // Giữ nguyên state đầy đủ ở client (bao gồm photoGallery)
         setIsDirty(false);
         isDirtyRef.current = false;
+        deletedIdsRef.current.clear();
         try { localStorage.removeItem('tunglam_admin_posts_draft'); } catch { }
         const timeStr = new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
         setLastSavedTime(timeStr);
@@ -962,6 +1024,20 @@ export function SpreadsheetPosts() {
         setSavedRowId(postId);
         setTimeout(() => setSavedRowId((prev) => (prev === postId ? null : prev)), 2500);
         showToast(`✅ Đã lưu thành công bài viết: "${rowData.title || 'Không có tiêu đề'}"`);
+        if (result.post) {
+          setPosts((prev) => prev.map((p) => (p.id === postId ? { ...p, ...result.post } : p)));
+        }
+        // Xóa ID khỏi draft nếu có
+        try {
+          const draftJson = localStorage.getItem('tunglam_admin_posts_draft');
+          if (draftJson) {
+            const draft = JSON.parse(draftJson);
+            if (draft && Array.isArray(draft.posts)) {
+              draft.posts = draft.posts.filter((p: any) => p.id !== postId);
+              localStorage.setItem('tunglam_admin_posts_draft', JSON.stringify(draft));
+            }
+          }
+        } catch {}
       } else {
         showToast(`❌ Lỗi lưu bài viết: ${result.error || 'Thao tác thất bại'}`);
       }
@@ -1131,7 +1207,7 @@ export function SpreadsheetPosts() {
     const subCat = selectedCategory !== 'all' ? selectedCategory : 'cong-tu';
     const catName = HOANG_PHAP_CATEGORIES.find((c) => c.id === subCat)?.name.replace(/^\d+\.\s*/, '') || 'Cộng Tu';
 
-    const newPost: PostRecord = {
+    const newPost: PostRecord & { _isNewDraft?: boolean } = {
       id: `post-${Date.now()}`,
       slug: `hoang-phap-${Date.now().toString().slice(-4)}`,
       title: 'Bài viết hoằng pháp mới',
@@ -1153,6 +1229,7 @@ export function SpreadsheetPosts() {
       photoGallery: [],
       previousEditions: [],
       upcomingEvents: [],
+      _isNewDraft: true,
     };
 
     const updated = [newPost, ...posts];
@@ -1162,7 +1239,7 @@ export function SpreadsheetPosts() {
     try {
       localStorage.setItem('tunglam_admin_posts_draft', JSON.stringify({
         timestamp: Date.now(),
-        posts: updated.slice(0, 10),
+        posts: [newPost], // CHỈ lưu đúng bài viết mới tạo vào draft, KHÔNG lưu các bài cũ
       }));
     } catch { }
 
@@ -1181,6 +1258,22 @@ export function SpreadsheetPosts() {
   const handleDeletePost = async (target: PostRecord) => {
     if (!target) return;
     if (!window.confirm(`Bạn có chắc chắn muốn xóa bài viết:\n"${target.title}"?\n\nHành động này sẽ xóa vĩnh viễn khỏi hệ thống!`)) return;
+
+    // Ghi nhận ngay vào danh sách ID đã xóa trong phiên làm việc
+    deletedIdsRef.current.add(target.id);
+    if (target.wpPostId) deletedIdsRef.current.add(String(target.wpPostId));
+
+    // Dọn sạch khỏi localStorage draft ngay lập tức
+    try {
+      const draftJson = localStorage.getItem('tunglam_admin_posts_draft');
+      if (draftJson) {
+        const draft = JSON.parse(draftJson);
+        if (draft && Array.isArray(draft.posts)) {
+          draft.posts = draft.posts.filter((p: any) => p.id !== target.id);
+          localStorage.setItem('tunglam_admin_posts_draft', JSON.stringify(draft));
+        }
+      }
+    } catch { }
 
     // ⚡ OPTIMISTIC UI: Xóa tức thì khỏi bảng tính trong 0ms ngay lần bấm đầu tiên
     setPosts((prev) => prev.filter((p) => p.id !== target.id));
@@ -1201,11 +1294,13 @@ export function SpreadsheetPosts() {
 
       // Nếu máy chủ báo lỗi thực sự (và không phải 404 do đã xóa xong), khôi phục lại bài viết
       if (!res.ok && res.status !== 404) {
+        deletedIdsRef.current.delete(target.id);
         setPosts((prev) => [target, ...prev]);
         showToast(`❌ Không thể xóa trên máy chủ: ${data.error || 'Lỗi xử lý'}. Đã khôi phục.`);
       }
     } catch (err: any) {
       console.warn('Lỗi mạng khi xóa bài viết:', err);
+      deletedIdsRef.current.delete(target.id);
       setPosts((prev) => [target, ...prev]);
       showToast(`❌ Không thể kết nối máy chủ: ${err.message}. Đã khôi phục.`);
     }
@@ -1359,8 +1454,21 @@ export function SpreadsheetPosts() {
           </div>
         </div>
 
-        {/* ICON-ONLY BUTTONS */}
+        {/* ICON-ONLY BUTTONS + STATUS BADGE */}
         <div className="flex items-center gap-2">
+          {/* Trạng thái Lưu dữ liệu */}
+          {isDirty ? (
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500/15 border border-amber-500/40 text-amber-300 text-xs font-bold animate-pulse">
+              <span className="w-2 h-2 rounded-full bg-amber-400"></span>
+              <span>Chưa lưu thay đổi</span>
+            </div>
+          ) : lastSavedTime ? (
+            <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 text-xs font-medium">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+              <span>Đã lưu lúc {lastSavedTime}</span>
+            </div>
+          ) : null}
+
           {/* Nút 0: Quản Lý Tệp S3 Đám Mây */}
           <button
             type="button"
@@ -1411,8 +1519,12 @@ export function SpreadsheetPosts() {
             type="button"
             onClick={() => savePostsToBackend(posts, false)}
             disabled={saving}
-            className="w-10 h-10 rounded-xl bg-[#2A1D14] hover:bg-[#F2C14E] border border-[#F2C14E]/50 text-[#F2C14E] hover:text-[#1A120B] flex items-center justify-center transition-all cursor-pointer shadow-md hover:scale-105 disabled:opacity-50"
-            title="Lưu toàn bộ bài viết (Ctrl+S)"
+            className={`w-10 h-10 rounded-xl border flex items-center justify-center transition-all cursor-pointer shadow-md hover:scale-105 disabled:opacity-50 relative ${
+              isDirty
+                ? 'bg-amber-500 border-amber-300 text-black hover:bg-amber-400 shadow-[0_0_12px_rgba(245,158,11,0.5)] ring-2 ring-amber-400/60'
+                : 'bg-[#2A1D14] hover:bg-[#F2C14E] border-[#F2C14E]/50 text-[#F2C14E] hover:text-[#1A120B]'
+            }`}
+            title={isDirty ? 'Có thay đổi chưa lưu! Bấm để Lưu toàn bộ bảng tính (Ctrl+S)' : 'Lưu toàn bộ bài viết (Ctrl+S)'}
           >
             {saving ? <RefreshCw className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
           </button>
@@ -1466,11 +1578,11 @@ export function SpreadsheetPosts() {
       {/* Excel Table Grid (Gọn Gàng Cốt Lõi) */}
       <div className="rounded-2xl border border-[#F2C14E]/35 bg-[#1C120A] overflow-hidden shadow-2xl">
         <div className="overflow-x-auto max-h-[78vh] custom-scrollbar">
-          <table className="w-full border-collapse text-xs text-left min-w-[1100px] table-fixed">
+          <table className="w-full border-collapse text-xs text-left min-w-[1600px] table-fixed">
             <thead className="sticky top-0 z-20 bg-[#321F14] text-[#F2C14E] uppercase tracking-wider font-bold border-b border-[#F2C14E]/40 select-none shadow-md">
               <tr>
-                <th className="p-3 w-[55px] min-w-[55px] text-center border-r border-[#F2C14E]/20">#</th>
-                <th className="p-3 w-[160px] min-w-[160px] border-r border-[#F2C14E]/20 text-center">Chuyên Mục</th>
+                <th className="p-3 w-[50px] min-w-[50px] text-center border-r border-[#F2C14E]/20">#</th>
+                <th className="p-3 w-[150px] min-w-[150px] border-r border-[#F2C14E]/20 text-center">Chuyên Mục</th>
                 <th className="p-3 w-[80px] min-w-[80px] text-center border-r border-[#F2C14E]/20">Ảnh Bìa</th>
                 <th className="p-3 w-[220px] min-w-[220px] border-r border-[#F2C14E]/20">
                   <div className="flex flex-col items-start gap-0.5">
@@ -1478,25 +1590,28 @@ export function SpreadsheetPosts() {
                     <span className="text-[9.5px] text-[#FFE5A3]/70 font-mono font-normal normal-case tracking-normal">Tối đa 80 ký tự</span>
                   </div>
                 </th>
-                <th className="p-3 w-[220px] min-w-[220px] border-r border-[#F2C14E]/20">
+                <th className="p-3 w-[210px] min-w-[210px] border-r border-[#F2C14E]/20">
                   <div className="flex flex-col items-start gap-0.5">
                     <span>Tiêu Đề Phụ</span>
                     <span className="text-[9.5px] text-[#FFE5A3]/70 font-mono font-normal normal-case tracking-normal">Tối đa 60 ký tự</span>
                   </div>
                 </th>
-                <th className="p-3 w-[190px] min-w-[190px] border-r border-[#F2C14E]/20">Tác Giả & Ngày</th>
-                <th className="p-3 w-[110px] min-w-[110px] border-r border-[#F2C14E]/20 text-center" title="Lượt xem đo lường thực tế từ độc giả khi đọc bài">Lượt Xem</th>
-                <th className="p-3 w-[140px] min-w-[140px] border-r border-[#F2C14E]/20 text-center">Đa Phương Tiện</th>
+                <th className="p-3 w-[180px] min-w-[180px] border-r border-[#F2C14E]/20">Tác Giả & Ngày</th>
+                <th className="p-3 w-[100px] min-w-[100px] border-r border-[#F2C14E]/20 text-center" title="Lượt xem đo lường thực tế từ độc giả khi đọc bài">Lượt Xem</th>
+                <th className="p-3 w-[130px] min-w-[130px] border-r border-[#F2C14E]/20 text-center">Đa Phương Tiện</th>
                 <th
-                  className="p-3 border-r border-[#F2C14E]/20 cursor-help"
-                  title="Bấm vào từng ô để mở trực tiếp trong trình soạn thảo WordPress Gutenberg"
+                  className="p-3 w-[360px] min-w-[340px] border-r border-[#F2C14E]/20 cursor-help"
+                  title="Bấm vào nút để mở trực tiếp trong trình soạn thảo WordPress Gutenberg"
                 >
-                  <div className="flex items-center gap-1.5">
-                    <span>Nội Dung Chi Tiết</span>
-                    <Edit3 className="w-3.5 h-3.5 text-[#F2C14E]/80 shrink-0" />
+                  <div className="flex flex-col items-start gap-0.5">
+                    <div className="flex items-center gap-1.5 text-[#F2C14E]">
+                      <Edit3 className="w-3.5 h-3.5 text-[#ffde59] shrink-0" />
+                      <span>Trình Soạn Thảo Gutenberg</span>
+                    </div>
+                    <span className="text-[9.5px] text-[#FFE5A3]/70 font-mono font-normal normal-case tracking-normal">Bấm mở WordPress Gutenberg (1-Click)</span>
                   </div>
                 </th>
-                <th className="p-3 w-[155px] min-w-[155px] text-center">Thao Tác</th>
+                <th className="p-3 w-[150px] min-w-[150px] text-center">Thao Tác</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[#F2C14E]/15">
@@ -1562,15 +1677,7 @@ export function SpreadsheetPosts() {
                       <td className="p-2.5 w-[160px] min-w-[160px] border-r border-[#F2C14E]/15 align-middle">
                         <select
                           value={row.subCategory || 'cong-tu'}
-                          onChange={(e) => {
-                            const updated = [...posts];
-                            updated[actualIdx].mainCategory = 'dong-chay-hoang-phap';
-                            updated[actualIdx].subCategory = e.target.value;
-                            const matched = HOANG_PHAP_CATEGORIES.find((c) => c.id === e.target.value);
-                            if (matched) updated[actualIdx].categoryName = matched.name.replace(/^\d+\.\s*/, '');
-                            setPosts(updated);
-                            setIsDirty(true);
-                          }}
+                          onChange={(e) => updatePostCategory(row.id, e.target.value)}
                           className="w-full px-2.5 py-2.5 bg-[#22140A] border border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E] rounded-xl text-xs text-[#FFE5A3] font-bold focus:outline-none transition-all cursor-pointer shadow-sm"
                         >
                           {HOANG_PHAP_CATEGORIES.filter((c) => c.id !== 'all').map((c) => (
@@ -1626,11 +1733,8 @@ export function SpreadsheetPosts() {
                             onClick={(e) => {
                               e.stopPropagation();
                               openS3Library((url) => {
-                                const updated = [...posts];
-                                updated[actualIdx].thumbnailUrl = url;
-                                updated[actualIdx].bannerUrl = url;
-                                setPosts(updated);
-                                setIsDirty(true);
+                                updatePostField(row.id, 'thumbnailUrl', url);
+                                updatePostField(row.id, 'bannerUrl', url);
                                 showToast('✨ Đã cập nhật ảnh từ S3!');
                               }, row);
                             }}
@@ -1649,12 +1753,7 @@ export function SpreadsheetPosts() {
                             rows={3}
                             maxLength={80}
                             value={row.title || ''}
-                            onChange={(e) => {
-                              const updated = [...posts];
-                              updated[actualIdx].title = e.target.value;
-                              setPosts(updated);
-                              setIsDirty(true);
-                            }}
+                            onChange={(e) => updatePostField(row.id, 'title', e.target.value)}
                             placeholder="Nhập tiêu đề (tối đa 80 kt)..."
                             className={`w-full min-h-[64px] px-2.5 py-2 bg-[#22140A] border rounded-xl text-xs font-bold text-[#ffde59] uppercase focus:outline-none leading-snug transition-all resize-none shadow-sm flex items-center ${
                               (row.title?.length || 0) > 80
@@ -1679,12 +1778,7 @@ export function SpreadsheetPosts() {
                             rows={3}
                             maxLength={60}
                             value={row.subtitle || ''}
-                            onChange={(e) => {
-                              const updated = [...posts];
-                              updated[actualIdx].subtitle = e.target.value;
-                              setPosts(updated);
-                              setIsDirty(true);
-                            }}
+                            onChange={(e) => updatePostField(row.id, 'subtitle', e.target.value)}
                             placeholder="Nhập lời tựa / phụ (tối đa 60 kt)..."
                             className={`w-full min-h-[64px] px-3 py-2 bg-[#22140A] border rounded-xl text-xs italic text-[#FFE5A3] focus:outline-none leading-relaxed transition-all resize-none shadow-sm flex items-center ${
                               (row.subtitle?.length || 0) > 60
@@ -1708,24 +1802,14 @@ export function SpreadsheetPosts() {
                           <input
                             type="text"
                             value={row.author || ''}
-                            onChange={(e) => {
-                              const updated = [...posts];
-                              updated[actualIdx].author = e.target.value;
-                              setPosts(updated);
-                              setIsDirty(true);
-                            }}
+                            onChange={(e) => updatePostField(row.id, 'author', e.target.value)}
                             placeholder="Tác giả / Người biên soạn..."
                             className="w-full px-2.5 py-1.5 bg-[#22140A] border border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E] rounded-xl text-xs text-[#FFE5A3] font-medium focus:outline-none"
                           />
                           <input
                             type="text"
                             value={row.publishedDate || ''}
-                            onChange={(e) => {
-                              const updated = [...posts];
-                              updated[actualIdx].publishedDate = e.target.value;
-                              setPosts(updated);
-                              setIsDirty(true);
-                            }}
+                            onChange={(e) => updatePostField(row.id, 'publishedDate', e.target.value)}
                             placeholder="Ngày đăng (VD: 07/10/2026)..."
                             className="w-full px-2.5 py-1.5 bg-[#22140A] border border-[#52331C] hover:border-[#F2C14E]/60 focus:border-[#F2C14E] rounded-xl text-xs text-[#FFE5A3] font-medium focus:outline-none transition-all"
                           />
@@ -1815,52 +1899,81 @@ export function SpreadsheetPosts() {
                         </div>
                       </td>
 
-                      {/* 7. Nội Dung Chi Tiết (Soạn Thảo Trên Web hoặc Mở WordPress Gutenberg) */}
-                      <td className="p-2.5 border-r border-[#F2C14E]/15 align-middle max-w-full overflow-hidden">
+                      {/* 7. Trình Soạn Thảo WordPress Gutenberg & Nội Dung Chi Tiết */}
+                      <td className="p-2.5 w-[360px] min-w-[340px] border-r border-[#F2C14E]/15 align-middle">
                         <div
-                          className="w-full min-h-[72px] p-2.5 bg-[#22140A] hover:bg-[#2C1A0E] border border-[#52331C] hover:border-[#F2C14E] rounded-xl transition-all flex flex-col justify-between group/cell shadow-inner overflow-hidden relative"
+                          className="w-full min-h-[84px] p-2.5 bg-[#22140A] hover:bg-[#2A180E] border border-[#52331C] hover:border-[#F2C14E]/70 rounded-xl transition-all flex flex-col justify-between shadow-inner relative group/cell"
                         >
+                          {/* Trích đoạn tóm tắt nội dung bài viết */}
                           <div
                             onClick={() => handleOpenGutenberg(row, actualIdx)}
                             className="cursor-pointer"
                             title="Bấm để mở trực tiếp trong trình soạn thảo WordPress Gutenberg"
                           >
-                            <p className="text-xs text-[#F5EADB]/80 line-clamp-2 leading-relaxed truncate hover:text-[#ffde59] transition-colors">
-                              {row.content
-                                ? row.content.replace(/!\[.*?\]\(.*?\)/g, '[Hình Ảnh]').replace(/<[^>]+>/g, '').slice(0, 140) + '...'
-                                : row.summary
-                                  ? row.summary.slice(0, 140) + '...'
-                                  : row.contentHtml
-                                    ? row.contentHtml.replace(/<[^>]+>/g, '').slice(0, 140) + '...'
-                                    : 'Chưa có nội dung...'}
+                            <p className="text-xs text-[#F5EADB]/80 line-clamp-2 leading-relaxed hover:text-[#ffde59] transition-colors">
+                              {decodeHtmlEntities(
+                                row.content
+                                  ? row.content.replace(/!\[.*?\]\(.*?\)/g, '[Hình Ảnh]').replace(/<[^>]+>/g, '').slice(0, 160) + '...'
+                                  : row.summary
+                                    ? row.summary.slice(0, 160) + '...'
+                                    : row.contentHtml
+                                      ? row.contentHtml.replace(/<[^>]+>/g, '').slice(0, 160) + '...'
+                                      : 'Chưa có nội dung, bấm nút bên dưới để mở Gutenberg soạn thảo...'
+                              )}
                             </p>
                           </div>
-                          <div className="flex items-center justify-between gap-1 mt-2 pt-1.5 border-t border-[#F2C14E]/15 text-[11px] text-[#F2C14E] overflow-hidden">
-                            {/* Mở WordPress Gutenberg */}
+
+                          {/* Hàng nút bấm Gutenberg và tiện ích */}
+                          <div className="flex items-center justify-between gap-2 mt-2 pt-2 border-t border-[#F2C14E]/15">
+                            {/* Nút To Rõ, Nổi Bật, Dễ Bấm Mở WordPress Gutenberg */}
                             <button
                               type="button"
+                              disabled={openingWpId === row.id}
                               onClick={(e) => {
                                 e.stopPropagation();
                                 handleOpenGutenberg(row, actualIdx);
                               }}
-                              className="flex items-center gap-1.5 font-bold text-[#F2C14E] hover:text-[#ffde59] px-2 py-0.5 rounded-lg bg-[#2A1D14] hover:bg-[#3A2718] border border-[#F2C14E]/30 hover:border-[#F2C14E] transition-all cursor-pointer shadow-sm hover:scale-102"
+                              className={`px-3 py-1.5 rounded-xl border flex items-center gap-2 font-bold text-xs transition-all cursor-pointer shadow-md hover:scale-102 shrink-0 ${
+                                openingWpId === row.id
+                                  ? 'bg-[#3A2718] border-[#F2C14E] text-[#ffde59] cursor-wait'
+                                  : 'bg-gradient-to-r from-[#2F1B0E] to-[#422613] hover:from-[#3D2312] hover:to-[#573319] border-[#F2C14E]/60 hover:border-[#F2C14E] text-[#FFE5A3] hover:text-[#ffde59] shadow-[0_2px_8px_rgba(0,0,0,0.4)] hover:shadow-[0_0_12px_rgba(242,193,78,0.35)]'
+                              }`}
                               title="Mở bài viết trực tiếp trong WordPress Gutenberg (1-Click)"
                             >
-                              <ExternalLink className="w-3.5 h-3.5 text-[#F2C14E]" />
-                              <span className="text-[10px] font-semibold text-[#FFE5A3]">
-                                {openingWpId === row.id
-                                  ? 'Đang mở WP...'
-                                  : row.wpPostId
-                                    ? `Gutenberg #${row.wpPostId}`
-                                    : 'Mở Gutenberg'}
-                              </span>
+                              {openingWpId === row.id ? (
+                                <>
+                                  <Loader2 className="w-3.5 h-3.5 animate-spin text-[#F2C14E] shrink-0" />
+                                  <span className="text-[11px] font-semibold text-[#ffde59]">Đang mở WP...</span>
+                                </>
+                              ) : (
+                                <>
+                                  <ExternalLink className="w-3.5 h-3.5 text-[#F2C14E] shrink-0" />
+                                  <span className="text-[11px] font-bold text-[#ffde59] tracking-wide">
+                                    {row.wpPostId ? `Gutenberg #${row.wpPostId}` : 'Mở Gutenberg'}
+                                  </span>
+                                </>
+                              )}
                             </button>
-                            <div className="flex items-center gap-1 text-[10px] text-[#c9b896]/75 shrink-0">
+
+                            {/* Tiện ích mở nhanh WYSIWYG modal + Chú thích */}
+                            <div className="flex items-center gap-1.5 shrink-0">
+                              <button
+                                type="button"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  openBigEditor(actualIdx);
+                                }}
+                                className="p-1.5 rounded-lg bg-[#1D1007] hover:bg-[#352012] border border-[#52331C] hover:border-[#F2C14E]/50 text-[#c9b896] hover:text-[#ffde59] transition-all cursor-pointer shadow-sm"
+                                title="Mở nhanh trình soạn thảo Web nội bộ (WYSIWYG Modal)"
+                              >
+                                <Edit3 className="w-3.5 h-3.5" />
+                              </button>
+
                               {kwCount > 0 && (
                                 <span
                                   title={`${kwCount} chú thích từ khóa`}
                                   style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                                  className="px-1.5 py-0.5 rounded-lg bg-[#180E07] border border-[#F2C14E]/30 text-[#FFE5A3] flex items-center gap-1 font-bold text-[10px]"
+                                  className="px-1.5 py-1 rounded-lg bg-[#180E07] border border-[#F2C14E]/30 text-[#FFE5A3] flex items-center gap-1 font-bold text-[10px]"
                                 >
                                   <Sparkles className="w-2.5 h-2.5 text-[#F2C14E]" />
                                   <span>{kwCount}</span>
@@ -1870,7 +1983,7 @@ export function SpreadsheetPosts() {
                                 <span
                                   title="Nguồn sách tham khảo"
                                   style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                                  className="px-1.5 py-0.5 rounded-lg bg-[#352012] border border-[#F2C14E]/40 text-[#ffde59] flex items-center gap-1 font-bold text-[10px]"
+                                  className="px-1.5 py-1 rounded-lg bg-[#352012] border border-[#F2C14E]/40 text-[#ffde59] flex items-center gap-1 font-bold text-[10px]"
                                 >
                                   <BookOpen className="w-2.5 h-2.5 text-[#F2C14E]" />
                                   <span>1</span>
@@ -1882,7 +1995,7 @@ export function SpreadsheetPosts() {
                       </td>
 
                       {/* 8. Thao Tác (Lưu dòng, Xem trước modal, Xem web tab mới, Xóa) */}
-                      <td className="p-2 w-[155px] min-w-[155px] text-center align-middle">
+                      <td className="p-2 w-[150px] min-w-[150px] text-center align-middle">
                         <div className="flex items-center justify-center gap-1.5">
                           {/* Nút Lưu Riêng Từng Dòng */}
                           <button
