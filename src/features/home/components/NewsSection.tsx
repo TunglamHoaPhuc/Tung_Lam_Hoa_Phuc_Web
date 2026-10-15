@@ -98,7 +98,10 @@ export const NewsSection: FC = () => {
   useEffect(() => {
     async function fetchLatestNews() {
       try {
-        const res = await fetch('/api/home/news-carousel', { cache: 'no-store' });
+        const res = await fetch(`/api/home/news-carousel?t=${Date.now()}`, {
+          cache: 'no-store',
+          next: { revalidate: 0 },
+        });
         if (res.ok) {
           const json = await res.json();
           if (json.success && Array.isArray(json.data) && json.data.length > 0) {

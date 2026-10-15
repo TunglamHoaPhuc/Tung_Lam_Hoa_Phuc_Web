@@ -4,6 +4,7 @@ import { PostRecord } from '@/app/api/admin/posts/route';
 import { StatueRecord, OFFICIAL_STATUE_DATASET } from '@/data/statue-data';
 
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export interface CarouselNewsItem {
   id: string;

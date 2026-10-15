@@ -1,5 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { getTopics, saveTopics, syncWpForGioiThieu, GioiThieuRecord } from '../route';
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export async function GET(
   req: NextRequest,
@@ -35,7 +39,14 @@ export async function GET(
     }
   }
 
-  return NextResponse.json({ success: true, topic });
+  return NextResponse.json(
+    { success: true, topic },
+    {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+      },
+    }
+  );
 }
 
 export async function PUT(
@@ -59,9 +70,21 @@ export async function PUT(
       ...topics[index],
       ...body,
       id: topics[index].id,
+      updatedAt: new Date().toISOString(),
     };
 
     await saveTopics(topics);
+
+    const slug = topics[index].slug;
+    try {
+      revalidatePath('/', 'page');
+      revalidatePath('/gioi-thieu', 'page');
+      if (slug) {
+        revalidatePath(`/gioi-thieu/${slug}`, 'page');
+      }
+    } catch (e) {
+      console.warn('Revalidation warning:', e);
+    }
 
     return NextResponse.json({
       success: true,
@@ -93,6 +116,13 @@ export async function DELETE(
 
     topics = topics.filter((t) => t.id !== id && t.slug !== id);
     await saveTopics(topics);
+
+    try {
+      revalidatePath('/', 'page');
+      revalidatePath('/gioi-thieu', 'page');
+    } catch (e) {
+      console.warn('Revalidation warning:', e);
+    }
 
     return NextResponse.json({
       success: true,

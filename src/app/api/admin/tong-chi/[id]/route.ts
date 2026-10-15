@@ -1,32 +1,20 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
+import { revalidatePath } from 'next/cache';
+import { loadServerlessJsonAsync, saveServerlessJson } from '@/lib/serverless-db';
 
-const DATA_FILE = path.resolve(process.cwd(), 'src/data/tong-chi-data.json');
+const DB_CONFIG = {
+  fileName: 'tong-chi-data.json',
+  localRelativePath: 'src/data/tong-chi-data.json',
+  s3Key: 'tunglamhoaphuc2/database/tong-chi-data.json',
+  defaultData: [] as any[],
+};
 
-function getArticles() {
-  if (!fs.existsSync(DATA_FILE)) {
-    return [];
-  }
-  try {
-    const raw = fs.readFileSync(DATA_FILE, 'utf-8');
-    return JSON.parse(raw);
-  } catch (err) {
-    console.error('Error reading tong-chi-data.json:', err);
-    return [];
-  }
+async function getArticles(): Promise<any[]> {
+  return await loadServerlessJsonAsync<any[]>(DB_CONFIG);
 }
 
-function saveArticles(articles: any[]) {
-  try {
-    const dir = path.dirname(DATA_FILE);
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
-    }
-    fs.writeFileSync(DATA_FILE, JSON.stringify(articles, null, 2), 'utf-8');
-  } catch (err) {
-    console.warn('[tong-chi] Lỗi ghi file:', err);
-  }
+async function saveArticles(articles: any[]): Promise<boolean> {
+  return await saveServerlessJson<any[]>(DB_CONFIG, articles);
 }
 
 export async function GET(
@@ -35,7 +23,7 @@ export async function GET(
 ) {
   try {
     const { id } = await params;
-    const articles = getArticles();
+    const articles = await getArticles();
     const article = articles.find(
       (a: any) =>
         String(a.id) === id ||
@@ -49,7 +37,14 @@ export async function GET(
       return NextResponse.json({ success: false, error: 'Không tìm thấy bài viết' }, { status: 404 });
     }
 
-    return NextResponse.json({ success: true, data: article });
+    return NextResponse.json(
+      { success: true, data: article },
+      {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        },
+      }
+    );
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
@@ -62,7 +57,7 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
-    const articles = getArticles();
+    const articles = await getArticles();
     const index = articles.findIndex(
       (a: any) =>
         String(a.id) === id ||
@@ -79,10 +74,23 @@ export async function PUT(
     articles[index] = {
       ...articles[index],
       ...body,
+      isLocalEdited: true,
       updatedAt: new Date().toISOString(),
     };
 
-    saveArticles(articles);
+    await saveArticles(articles);
+
+    const updatedSlug = articles[index].slug;
+    try {
+      revalidatePath('/', 'page');
+      revalidatePath('/tong-chi-tu-hoc', 'page');
+      if (updatedSlug) {
+        revalidatePath(`/tong-chi-tu-hoc/${updatedSlug}`, 'page');
+      }
+      revalidatePath(`/tong-chi-tu-hoc/${id}`, 'page');
+    } catch (revalErr) {
+      console.warn('[tong-chi] revalidatePath error:', revalErr);
+    }
 
     return NextResponse.json({ success: true, data: articles[index] });
   } catch (error: any) {
@@ -98,7 +106,7 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
-    const articles = getArticles();
+    const articles = await getArticles();
     const newArticles = articles.filter(
       (a: any) => String(a.id) !== id && a.slug !== id
     );
@@ -107,7 +115,15 @@ export async function DELETE(
       return NextResponse.json({ success: false, error: 'Không tìm thấy bài viết để xóa' }, { status: 404 });
     }
 
-    saveArticles(newArticles);
+    await saveArticles(newArticles);
+
+    try {
+      revalidatePath('/', 'page');
+      revalidatePath('/tong-chi-tu-hoc', 'page');
+      revalidatePath(`/tong-chi-tu-hoc/${id}`, 'page');
+    } catch (revalErr) {
+      console.warn('[tong-chi] revalidatePath error:', revalErr);
+    }
 
     return NextResponse.json({ success: true, message: 'Đã xóa bài viết thành công' });
   } catch (error: any) {

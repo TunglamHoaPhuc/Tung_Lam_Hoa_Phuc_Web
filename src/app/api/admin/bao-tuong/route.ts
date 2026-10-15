@@ -3,6 +3,9 @@ import { revalidatePath } from 'next/cache';
 import { OFFICIAL_STATUE_DATASET, StatueRecord } from '@/data/statue-data';
 import { loadServerlessJson, saveServerlessJson } from '@/lib/serverless-db';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 const DB_CONFIG = {
   fileName: 'statues-database.json',
   localRelativePath: 'src/data/statues-database.json',
