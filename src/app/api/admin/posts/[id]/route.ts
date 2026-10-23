@@ -278,6 +278,7 @@ export async function PUT(
 
     try {
       revalidatePath('/', 'page');
+      revalidatePath('/', 'layout');
       revalidatePath('/dong-chay-hoang-phap', 'page');
       if (rawPosts[targetIndex].slug) {
         revalidatePath(`/dong-chay-hoang-phap/${rawPosts[targetIndex].slug}`, 'page');

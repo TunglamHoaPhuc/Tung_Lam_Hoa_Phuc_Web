@@ -106,6 +106,7 @@ export const NewsSection: FC = () => {
           const json = await res.json();
           if (json.success && Array.isArray(json.data) && json.data.length > 0) {
             setNewsList(json.data);
+            setActiveIdx(0);
           }
         }
       } catch (err) {

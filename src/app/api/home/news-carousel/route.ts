@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
-import { loadServerlessJson } from '@/lib/serverless-db';
+import { loadServerlessJsonAsync } from '@/lib/serverless-db';
+import { getDeletedPostsAsync } from '@/lib/deleted-posts';
 import { PostRecord } from '@/app/api/admin/posts/route';
 import { StatueRecord, OFFICIAL_STATUE_DATASET } from '@/data/statue-data';
 
@@ -41,8 +42,46 @@ const STATUES_CONFIG = {
   defaultData: OFFICIAL_STATUE_DATASET,
 };
 
-// 🌟 Hàm mapping icon chuẩn xác theo phân hệ và chuyên mục con
-function getIconForCategory(mainCategory: string, subCategory?: string): string {
+// 🌟 Tính toán thời gian bài viết chính xác đến mili-giây (hỗ trợ cả ngày đăng, timestamp id và wpModified)
+function getPostExactTime(p: PostRecord): number {
+  let time = 0;
+  if (p.publishedDate) {
+    const parsed = new Date(p.publishedDate).getTime();
+    if (!isNaN(parsed)) time = parsed;
+  }
+  // Nếu ID dạng timestamp (ví dụ post-1729700000000 từ admin thêm mới)
+  if (p.id && typeof p.id === 'string' && p.id.startsWith('post-')) {
+    const rawNum = p.id.replace('post-', '');
+    if (/^\d{12,}$/.test(rawNum)) {
+      const ts = Number(rawNum);
+      if (!isNaN(ts)) {
+        time = Math.max(time, ts);
+      }
+    }
+  }
+  if (p.wpModified) {
+    const modTime = new Date(p.wpModified).getTime();
+    if (!isNaN(modTime)) time = Math.max(time, modTime);
+  }
+  return time;
+}
+
+// 🌟 Điều hướng đường dẫn chuẩn xác theo phân hệ
+function getPostTargetUrl(post: PostRecord): string {
+  if (post.mainCategory === 'tri-tue-phat-phap') {
+    return `/tri-tue-phat-phap/${post.slug}`;
+  }
+  if (post.mainCategory === 'tong-chi-tu-hoc') {
+    return `/tong-chi-tu-hoc/${post.slug}`;
+  }
+  if (post.mainCategory === 'gioi-thieu') {
+    return `/gioi-thieu/${post.slug}`;
+  }
+  return `/dong-chay-hoang-phap/${post.slug}`;
+}
+
+// 🌟 Mapping icon chuẩn xác theo phân hệ và chuyên mục con
+function getIconForCategory(mainCategory?: string, subCategory?: string): string {
   const sub = (subCategory || '').toLowerCase();
 
   if (mainCategory === 'tong-chi-tu-hoc') {
@@ -79,45 +118,64 @@ function getIconForCategory(mainCategory: string, subCategory?: string): string 
 
 export async function GET() {
   try {
-    // 1. Đọc dữ liệu từ 3 database cốt lõi
-    const allPosts = loadServerlessJson<PostRecord[]>(POSTS_CONFIG) || [];
-    const allTongChi = loadServerlessJson<any[]>(TONG_CHI_CONFIG) || [];
-    const allStatues = loadServerlessJson<StatueRecord[]>(STATUES_CONFIG) || [];
+    // 1. Đọc dữ liệu từ Serverless DB (Ưu tiên S3 để phản ánh bài viết mới tức thời trên Vercel)
+    const [allPosts, allTongChi, allStatues, deletedList] = await Promise.all([
+      loadServerlessJsonAsync<PostRecord[]>(POSTS_CONFIG),
+      loadServerlessJsonAsync<any[]>(TONG_CHI_CONFIG),
+      loadServerlessJsonAsync<StatueRecord[]>(STATUES_CONFIG),
+      getDeletedPostsAsync(),
+    ]);
+
+    const deletedSet = new Set((deletedList || []).map((d) => d.id));
+    const deletedWpIds = new Set((deletedList || []).filter((d) => d.wpPostId).map((d) => String(d.wpPostId)));
+    const deletedSlugs = new Set((deletedList || []).filter((d) => d.slug).map((d) => d.slug));
+
+    // Lọc bỏ bài đã xóa hoặc không hợp lệ
+    const validPosts = (allPosts || []).filter(
+      (p) =>
+        !deletedSet.has(p.id) &&
+        !deletedWpIds.has(String(p.wpPostId)) &&
+        !deletedSlugs.has(p.slug) &&
+        (p.status === 'published' || !p.status) &&
+        p.title &&
+        p.slug
+    );
+
+    // 🚀 Sắp xếp toàn bộ bài viết mới nhất lên đầu theo thời gian xuất bản chính xác
+    const sortedPosts = [...validPosts].sort((a, b) => {
+      const timeA = getPostExactTime(a);
+      const timeB = getPostExactTime(b);
+      if (timeB !== timeA) return timeB - timeA;
+      const wpA = typeof a.wpPostId === 'number' ? a.wpPostId : parseInt(String(a.wpPostId || 0), 10);
+      const wpB = typeof b.wpPostId === 'number' ? b.wpPostId : parseInt(String(b.wpPostId || 0), 10);
+      return (wpB || 0) - (wpA || 0);
+    });
 
     const result: CarouselNewsItem[] = [];
 
-    // ── 2A. Lấy bài viết Dòng Chảy Hoằng Pháp (Admin Posts) ──
-    const dchpPosts = allPosts
-      .filter((p) => p.mainCategory === 'dong-chay-hoang-phap' && p.status === 'published')
-      .sort((a, b) => {
-        const timeA = a.publishedDate ? new Date(a.publishedDate).getTime() : 0;
-        const timeB = b.publishedDate ? new Date(b.publishedDate).getTime() : 0;
-        return timeB - timeA;
-      });
-
-    // Lấy bài mới nhất của Khóa Lễ Truyền Thống hoặc bài hot (ưu tiên post-632 Địa Tạng Bồ Tát nếu có)
-    const postDiaTang = dchpPosts.find((p) => p.id === 'post-632') || dchpPosts[0];
-    if (postDiaTang) {
+    // ── 2A. SLOT 1: BÀI VIẾT MỚI NHẤT VỪA ĐƯỢC TẠO HOẶC CẬP NHẬT TRÊN HỆ THỐNG ADMIN ──
+    // Đảm bảo hiển thị ngay lập tức bài mới nhất ở vị trí trung tâm chính diện của Trang Chủ
+    const newestPost = sortedPosts[0];
+    if (newestPost) {
       result.push({
-        id: postDiaTang.id,
-        sourceType: 'posts',
-        category: postDiaTang.categoryName || 'Khóa Lễ Truyền Thống',
-        subCategory: postDiaTang.subCategory || 'khoa-le-truyen-thong',
-        iconUrl: getIconForCategory('dong-chay-hoang-phap', postDiaTang.subCategory || 'khoa-le-truyen-thong'),
-        title: (postDiaTang.title || '').toUpperCase(),
-        subtitle: postDiaTang.subtitle || 'Dòng Chảy Hoằng Pháp Tùng Lâm Hòa Phúc',
-        imgUrl: postDiaTang.thumbnailUrl || postDiaTang.bannerUrl || '',
-        imgPosition: postDiaTang.thumbnailPosition || postDiaTang.bannerPosition || 'center 35%',
-        targetUrl: `/dong-chay-hoang-phap/${postDiaTang.slug}`,
-        date: postDiaTang.publishedDate,
+        id: newestPost.id,
+        sourceType: (newestPost.mainCategory as any) || 'posts',
+        category: newestPost.categoryName || (newestPost.mainCategory === 'tri-tue-phat-phap' ? 'Trí Tuệ Phật Pháp' : 'Dòng Chảy Hoằng Pháp'),
+        subCategory: newestPost.subCategory || 'khoa-le-truyen-thong',
+        iconUrl: getIconForCategory(newestPost.mainCategory || 'dong-chay-hoang-phap', newestPost.subCategory),
+        title: (newestPost.title || '').toUpperCase(),
+        subtitle: newestPost.subtitle || 'Dòng Chảy Hoằng Pháp Tùng Lâm Hòa Phúc',
+        imgUrl: newestPost.thumbnailUrl || newestPost.bannerUrl || 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/toan-canh-chua.webp',
+        imgPosition: newestPost.thumbnailPosition || newestPost.bannerPosition || 'center 35%',
+        targetUrl: getPostTargetUrl(newestPost),
+        date: newestPost.publishedDate,
       });
     }
 
-    // ── 2B. Lấy bài viết Tông Chỉ Tu Học (Admin Tong Chi) ──
-    // Ưu tiên bài Bồ Đề Tâm hoặc bài đầu tiên
+    // ── 2B. SLOT 2: TÔNG CHỈ TU HỌC (Bồ Đề Tâm) ──
     const bdtTongChi =
-      allTongChi.find((tc) => tc.slug === 'bo-de-tam-coi-nguon-thien-phap' || (tc.title && tc.title.includes('BỒ ĐỀ TÂM'))) ||
-      allTongChi[0];
+      (allTongChi || []).find((tc) => tc.slug === 'bo-de-tam-coi-nguon-thien-phap' || (tc.title && tc.title.includes('BỒ ĐỀ TÂM'))) ||
+      (allTongChi || [])[0];
 
     if (bdtTongChi) {
       result.push({
@@ -136,9 +194,8 @@ export async function GET() {
       });
     }
 
-    // ── 2C. Lấy Bảo Tượng Phật Giáo (Admin Bao Tuong) ──
-    // Ưu tiên tượng chính Đức Phật Thích Ca Mâu Ni (TP0001)
-    const statueThichCa = allStatues.find((s) => s.code === 'TP0001') || allStatues[0];
+    // ── 2C. SLOT 3: BẢO TƯỢNG PHẬT GIÁO (Đức Phật Thích Ca Mâu Ni) ──
+    const statueThichCa = (allStatues || []).find((s) => s.code === 'TP0001') || (allStatues || [])[0];
     if (statueThichCa) {
       result.push({
         id: `statue-${statueThichCa.code || statueThichCa.id}`,
@@ -153,81 +210,64 @@ export async function GET() {
       });
     }
 
-    // ── 2D. Lấy bài viết Đại Lễ Sự Kiện từ Dòng Chảy Hoằng Pháp ──
-    const postDaiLe = dchpPosts.find(
-      (p) => p.subCategory === 'dai-le-su-kien' && p.id !== (postDiaTang ? postDiaTang.id : '')
-    ) || dchpPosts[1];
-
-    if (postDaiLe && !result.some((r) => r.id === postDaiLe.id)) {
+    // ── 2D. SLOT 4: BÀI VIẾT NỔI BẬT THỨ HAI TỪ ADMIN POSTS (Khác với bài mới nhất) ──
+    const secondPost = sortedPosts.find((p) => p.id !== newestPost?.id && !result.some((r) => r.id === p.id));
+    if (secondPost) {
       result.push({
-        id: postDaiLe.id,
-        sourceType: 'posts',
-        category: postDaiLe.categoryName || 'Đại Lễ Sự Kiện',
-        subCategory: postDaiLe.subCategory || 'dai-le-su-kien',
-        iconUrl: getIconForCategory('dong-chay-hoang-phap', postDaiLe.subCategory || 'dai-le-su-kien'),
-        title: (postDaiLe.title || '').toUpperCase(),
-        subtitle: postDaiLe.subtitle || 'Đại Lễ Sự Kiện Tùng Lâm Hòa Phúc',
-        imgUrl: postDaiLe.thumbnailUrl || postDaiLe.bannerUrl || '',
-        imgPosition: postDaiLe.thumbnailPosition || postDaiLe.bannerPosition || 'center 35%',
-        targetUrl: `/dong-chay-hoang-phap/${postDaiLe.slug}`,
-        date: postDaiLe.publishedDate,
+        id: secondPost.id,
+        sourceType: (secondPost.mainCategory as any) || 'posts',
+        category: secondPost.categoryName || 'Đại Lễ Sự Kiện',
+        subCategory: secondPost.subCategory || 'dai-le-su-kien',
+        iconUrl: getIconForCategory(secondPost.mainCategory || 'dong-chay-hoang-phap', secondPost.subCategory || 'dai-le-su-kien'),
+        title: (secondPost.title || '').toUpperCase(),
+        subtitle: secondPost.subtitle || 'Dòng Chảy Hoằng Pháp Tùng Lâm Hòa Phúc',
+        imgUrl: secondPost.thumbnailUrl || secondPost.bannerUrl || '',
+        imgPosition: secondPost.thumbnailPosition || secondPost.bannerPosition || 'center 35%',
+        targetUrl: getPostTargetUrl(secondPost),
+        date: secondPost.publishedDate,
       });
     }
 
-    // ── 2E. Lấy bài viết Trí Tuệ Phật Pháp (Admin Tri Tue Phat Phap) ──
-    const triTuePosts = allPosts
-      .filter((p) => p.mainCategory === 'tri-tue-phat-phap' && p.status === 'published')
-      .sort((a, b) => {
-        const timeA = a.publishedDate ? new Date(a.publishedDate).getTime() : 0;
-        const timeB = b.publishedDate ? new Date(b.publishedDate).getTime() : 0;
-        return timeB - timeA;
-      });
+    // ── 2E. SLOT 5: BÀI VIẾT TRÍ TUỆ PHẬT PHÁP ──
+    const triTuePosts = sortedPosts.filter((p) => p.mainCategory === 'tri-tue-phat-phap');
+    const postTriTue = triTuePosts.find((p) => !result.some((r) => r.id === p.id)) || sortedPosts.find((p) => !result.some((r) => r.id === p.id));
 
-    // Ưu tiên tác phẩm hoặc bài viết có phụ đề hay
-    const postTriTue =
-      triTuePosts.find((p) => p.subCategory === 'an-pham-sach' || p.subCategory === 'phap-am') || triTuePosts[0];
-
-    if (postTriTue) {
+    if (postTriTue && !result.some((r) => r.id === postTriTue.id)) {
       result.push({
         id: postTriTue.id,
         sourceType: 'tri-tue-phat-phap',
-        category: 'Trí Tuệ Phật Pháp',
+        category: postTriTue.categoryName || 'Trí Tuệ Phật Pháp',
         subCategory: postTriTue.subCategory,
         iconUrl: getIconForCategory('tri-tue-phat-phap', postTriTue.subCategory),
         title: (postTriTue.title || '').toUpperCase(),
         subtitle: postTriTue.subtitle || 'Trí Tuệ Phật Pháp Tùng Lâm Hòa Phúc',
         imgUrl: postTriTue.thumbnailUrl || postTriTue.bannerUrl || '',
         imgPosition: postTriTue.thumbnailPosition || postTriTue.bannerPosition || 'center 35%',
-        targetUrl: `/tri-tue-phat-phap/${postTriTue.slug}`,
+        targetUrl: getPostTargetUrl(postTriTue),
         date: postTriTue.publishedDate,
       });
     }
 
-    // ── 2F. Thêm 1 bài Cộng Tu / Sự Kiện Định Kỳ từ Hoằng Pháp ──
-    const postCongTu = dchpPosts.find(
-      (p) =>
-        (p.subCategory === 'cong-tu' || p.subCategory === 'tinh-do-nhan-gian') &&
-        !result.some((r) => r.id === p.id)
-    );
-
-    if (postCongTu) {
+    // ── 2F. SLOT 6: BÀI VIẾT HOẰNG PHÁP TIẾP THEO (Cộng Tu / Sự Kiện) ──
+    const nextPost = sortedPosts.find((p) => !result.some((r) => r.id === p.id));
+    if (nextPost) {
       result.push({
-        id: postCongTu.id,
-        sourceType: 'posts',
-        category: postCongTu.categoryName || 'Cộng Tu Định Kỳ',
-        subCategory: postCongTu.subCategory,
-        iconUrl: getIconForCategory('dong-chay-hoang-phap', postCongTu.subCategory),
-        title: (postCongTu.title || '').toUpperCase(),
-        subtitle: postCongTu.subtitle || 'Dòng Chảy Hoằng Pháp Tùng Lâm Hòa Phúc',
-        imgUrl: postCongTu.thumbnailUrl || postCongTu.bannerUrl || '',
-        imgPosition: postCongTu.thumbnailPosition || postCongTu.bannerPosition || 'center 35%',
-        targetUrl: `/dong-chay-hoang-phap/${postCongTu.slug}`,
-        date: postCongTu.publishedDate,
+        id: nextPost.id,
+        sourceType: (nextPost.mainCategory as any) || 'posts',
+        category: nextPost.categoryName || 'Cộng Tu Định Kỳ',
+        subCategory: nextPost.subCategory,
+        iconUrl: getIconForCategory(nextPost.mainCategory || 'dong-chay-hoang-phap', nextPost.subCategory),
+        title: (nextPost.title || '').toUpperCase(),
+        subtitle: nextPost.subtitle || 'Dòng Chảy Hoằng Pháp Tùng Lâm Hòa Phúc',
+        imgUrl: nextPost.thumbnailUrl || nextPost.bannerUrl || '',
+        imgPosition: nextPost.thumbnailPosition || nextPost.bannerPosition || 'center 35%',
+        targetUrl: getPostTargetUrl(nextPost),
+        date: nextPost.publishedDate,
       });
     }
 
-    // ── 2G. Nếu còn bài Tông Chỉ nổi bật thứ 2 (Ví dụ: Tiếp Bước Thầy Tôi) ──
-    const tongChiTiepBuoc = allTongChi.find(
+    // ── 2G. SLOT 7: TÔNG PHONG TRUYỀN THỪA (Tiếp Bước Thầy Tôi) ──
+    const tongChiTiepBuoc = (allTongChi || []).find(
       (tc) => tc.id !== (bdtTongChi ? bdtTongChi.id : null) && !result.some((r) => r.targetUrl === `/tong-chi-tu-hoc/${tc.slug}`)
     );
     if (tongChiTiepBuoc) {
@@ -245,11 +285,21 @@ export async function GET() {
       });
     }
 
-    return NextResponse.json({
-      success: true,
-      data: result,
-      total: result.length,
-    });
+    return NextResponse.json(
+      {
+        success: true,
+        data: result,
+        total: result.length,
+      },
+      {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0, s-maxage=0',
+          'Pragma': 'no-cache',
+          'Expires': '0',
+          'Surrogate-Control': 'no-store',
+        },
+      }
+    );
   } catch (error: any) {
     console.error('[API /api/home/news-carousel] Lỗi:', error);
     return NextResponse.json(
@@ -257,7 +307,12 @@ export async function GET() {
         success: false,
         error: error.message || 'Lỗi lấy tin tức carousel',
       },
-      { status: 500 }
+      {
+        status: 500,
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0',
+        },
+      }
     );
   }
 }

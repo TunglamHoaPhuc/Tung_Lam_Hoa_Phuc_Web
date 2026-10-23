@@ -355,10 +355,31 @@ export async function GET(req: NextRequest) {
         p.content?.toLowerCase().includes(q)
     );
   }
-  // Sắp xếp bài viết mới nhất lên đầu (theo ngày xuất bản giảm dần)
+  // Helper tính thời gian bài viết chính xác đến mili-giây
+  function getPostExactTime(p: PostRecord): number {
+    let time = 0;
+    if (p.publishedDate) {
+      const parsed = new Date(p.publishedDate).getTime();
+      if (!isNaN(parsed)) time = parsed;
+    }
+    if (p.id && typeof p.id === 'string' && p.id.startsWith('post-')) {
+      const rawNum = p.id.replace('post-', '');
+      if (/^\d{12,}$/.test(rawNum)) {
+        const ts = Number(rawNum);
+        if (!isNaN(ts)) time = Math.max(time, ts);
+      }
+    }
+    if (p.wpModified) {
+      const modTime = new Date(p.wpModified).getTime();
+      if (!isNaN(modTime)) time = Math.max(time, modTime);
+    }
+    return time;
+  }
+
+  // Sắp xếp bài viết mới nhất lên đầu (theo ngày xuất bản và timestamp chính xác)
   posts.sort((a, b) => {
-    const timeA = a.publishedDate ? new Date(a.publishedDate).getTime() : 0;
-    const timeB = b.publishedDate ? new Date(b.publishedDate).getTime() : 0;
+    const timeA = getPostExactTime(a);
+    const timeB = getPostExactTime(b);
     if (timeB !== timeA) return timeB - timeA;
     const wpA = typeof a.wpPostId === 'number' ? a.wpPostId : parseInt(String(a.wpPostId || 0), 10);
     const wpB = typeof b.wpPostId === 'number' ? b.wpPostId : parseInt(String(b.wpPostId || 0), 10);
@@ -546,6 +567,7 @@ export async function PUT(req: NextRequest) {
     // 🌟 LÀM MỚI TỨC THỜI TRANG CHỦ VÀ CÁC TRANG CHUYÊN MỤC
     try {
       revalidatePath('/', 'page');
+      revalidatePath('/', 'layout');
       revalidatePath('/dong-chay-hoang-phap', 'page');
       revalidatePath('/tong-chi-tu-hoc', 'page');
       revalidatePath('/tri-tue-phat-phap', 'page');
@@ -623,6 +645,7 @@ export async function POST(req: NextRequest) {
 
     try {
       revalidatePath('/', 'page');
+      revalidatePath('/', 'layout');
       revalidatePath('/dong-chay-hoang-phap', 'page');
       revalidatePath('/tri-tue-phat-phap', 'page');
     } catch (e) {
