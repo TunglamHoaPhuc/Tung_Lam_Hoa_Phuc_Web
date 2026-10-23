@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { loadServerlessJsonAsync } from '@/lib/serverless-db';
 import { getDeletedPostsAsync } from '@/lib/deleted-posts';
-import { PostRecord } from '@/app/api/admin/posts/route';
+import { PostRecord, SPECIAL_GIOI_THIEU_WP_IDS, SPECIAL_TONG_CHI_WP_IDS } from '@/app/api/admin/posts/route';
 import { StatueRecord, OFFICIAL_STATUE_DATASET } from '@/data/statue-data';
 
 export const dynamic = 'force-dynamic';
@@ -42,7 +42,7 @@ const STATUES_CONFIG = {
   defaultData: OFFICIAL_STATUE_DATASET,
 };
 
-// 🌟 Tính toán thời gian bài viết chính xác đến mili-giây (hỗ trợ cả ngày đăng, timestamp id và wpModified)
+// 🌟 Tính toán thời gian bài viết chính xác theo ngày đăng & timestamp tạo mới (giống hệt 100% trang Admin /admin/posts)
 function getPostExactTime(p: PostRecord): number {
   let time = 0;
   if (p.publishedDate) {
@@ -58,10 +58,6 @@ function getPostExactTime(p: PostRecord): number {
         time = Math.max(time, ts);
       }
     }
-  }
-  if (p.wpModified) {
-    const modTime = new Date(p.wpModified).getTime();
-    if (!isNaN(modTime)) time = Math.max(time, modTime);
   }
   return time;
 }
@@ -130,12 +126,15 @@ export async function GET() {
     const deletedWpIds = new Set((deletedList || []).filter((d) => d.wpPostId).map((d) => String(d.wpPostId)));
     const deletedSlugs = new Set((deletedList || []).filter((d) => d.slug).map((d) => d.slug));
 
-    // Lọc bỏ bài đã xóa hoặc không hợp lệ
+    // Lọc bỏ bài đã xóa, các chuyên mục đặc thù độc lập (giống hệt logic getPosts() của /admin/posts)
     const validPosts = (allPosts || []).filter(
       (p) =>
         !deletedSet.has(p.id) &&
         !deletedWpIds.has(String(p.wpPostId)) &&
         !deletedSlugs.has(p.slug) &&
+        !SPECIAL_GIOI_THIEU_WP_IDS.has(String(p.wpPostId)) &&
+        !SPECIAL_GIOI_THIEU_WP_IDS.has(String(p.id).replace('post-', '')) &&
+        !SPECIAL_TONG_CHI_WP_IDS.has(String(p.wpPostId)) &&
         (p.status === 'published' || !p.status) &&
         p.title &&
         p.slug

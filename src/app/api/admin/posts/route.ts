@@ -369,10 +369,6 @@ export async function GET(req: NextRequest) {
         if (!isNaN(ts)) time = Math.max(time, ts);
       }
     }
-    if (p.wpModified) {
-      const modTime = new Date(p.wpModified).getTime();
-      if (!isNaN(modTime)) time = Math.max(time, modTime);
-    }
     return time;
   }
 
