@@ -17,25 +17,20 @@ const DB_CONFIG = {
   defaultData: [] as any[],
 };
 
+import { getS3Config as getSharedS3Config } from '@/lib/env-config';
+import { requireAdminAuth } from '@/lib/auth-guard';
+
 function getS3Config() {
-  const envPath = path.resolve(process.cwd(), '.env.local');
-  let accessKey = process.env.S3_ACCESS_KEY_ID || '';
-  let secretKey = process.env.S3_SECRET_ACCESS_KEY || '';
-  let bucketName = process.env.S3_BUCKET_NAME || 'media-tunglamhoaphuc';
-  let publicBaseUrl = process.env.S3_PUBLIC_URL || 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com';
-
-  if (!secretKey && fs.existsSync(envPath)) {
-    const env = fs.readFileSync(envPath, 'utf-8');
-    env.split('\n').forEach((l) => {
-      const line = l.trim();
-      if (line.startsWith('S3_ACCESS_KEY_ID=')) accessKey = line.split('=')[1].replace(/["']/g, '').trim();
-      if (line.startsWith('S3_SECRET_ACCESS_KEY=')) secretKey = line.split('=')[1].replace(/["']/g, '').trim();
-      if (line.startsWith('S3_BUCKET_NAME=')) bucketName = line.split('=')[1].replace(/["']/g, '').trim();
-      if (line.startsWith('S3_PUBLIC_URL=')) publicBaseUrl = line.split('=')[1].replace(/["']/g, '').trim().replace(/\/$/, '');
-    });
+  const conf = getSharedS3Config(true);
+  if (!conf) {
+    throw new Error('[sync-wp-posts] Thiếu cấu hình S3 credentials');
   }
-
-  return { accessKey, secretKey, bucketName, publicBaseUrl };
+  return {
+    accessKey: conf.accessKeyId,
+    secretKey: conf.secretAccessKey,
+    bucketName: conf.bucketName,
+    publicBaseUrl: conf.publicUrl,
+  };
 }
 
 function mapCategories(catIds: number[] = []) {
@@ -148,7 +143,10 @@ function splitTitle(title: string, currentSubtitle: string): { title: string; su
   return { title: trimmed, subtitle: currentSubtitle };
 }
 
-export async function POST() {
+export async function POST(req: Request) {
+  const authError = requireAdminAuth(req);
+  if (authError) return authError;
+
   try {
     const s3Config = getS3Config();
     const s3 = new S3Client({

@@ -81,7 +81,8 @@ export default function DongChayHoangPhapClient({
   // 1. Lọc bài viết theo danh mục
   let filteredArticles = articles.filter((art) => {
     if (activeCategory === 'all' || activeCategory === 'moi-nhat') return true;
-    return art.category === activeCategory;
+    const cat = art.category || 'cong-tu';
+    return cat === activeCategory;
   });
 
   // 2. Sắp xếp bài viết

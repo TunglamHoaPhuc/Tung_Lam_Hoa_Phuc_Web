@@ -2,15 +2,27 @@ import fs from 'fs';
 import path from 'path';
 import os from 'os';
 import { S3Client, PutObjectCommand, GetObjectCommand } from '@aws-sdk/client-s3';
+import { getS3Config, S3Config } from './env-config';
 
-// In-memory cache for ultra-fast response within warm Lambda containers
+// In-memory cache cho các Lambda container đang warm
 const memoryCache: Record<string, { data: any; timestamp: number }> = {};
+
+// In-memory mutex lock chống xung đột ghi đè đồng thời trên cùng container
+const writeLocks: Map<string, Promise<any>> = new Map();
+
+/**
+ * Xóa cache bộ nhớ để ép buộc đọc mới từ S3
+ */
+export function invalidateServerlessCache(fileName?: string) {
+  if (fileName) {
+    delete memoryCache[fileName];
+  } else {
+    Object.keys(memoryCache).forEach((k) => delete memoryCache[k]);
+  }
+}
 
 /**
  * Lấy đường dẫn file trong thư mục tạm và đảm bảo thư mục cha tồn tại.
- * - Trên Linux / Vercel Serverless: Thư mục tạm mặc định là '/tmp'.
- * - Trên Windows: Sử dụng os.tmpdir() để trỏ đúng thư mục tạm hợp lệ của hệ thống.
- * - Tự động tạo thư mục bằng fs.mkdirSync(..., { recursive: true }) nếu chưa có.
  */
 function getTmpFilePath(fileName: string): string {
   const tmpDir = process.platform === 'win32' ? os.tmpdir() : '/tmp';
@@ -25,7 +37,7 @@ function getTmpFilePath(fileName: string): string {
 }
 
 /**
- * Ghi file an toàn vào thư mục tạm, tự động tạo thư mục nếu chưa tồn tại
+ * Ghi file an toàn vào thư mục tạm
  */
 function safeWriteTmpFile(filePath: string, content: string): boolean {
   try {
@@ -41,124 +53,49 @@ function safeWriteTmpFile(filePath: string, content: string): boolean {
   }
 }
 
-function getS3Client(): { client: S3Client; bucketName: string } | null {
-  let secretKey = process.env.S3_SECRET_ACCESS_KEY || 'K005/I+vUZ8TcuI2ww8TLeRPtsVzEaA';
-  let accessKey = process.env.S3_ACCESS_KEY_ID || '005bc25330e1c1f0000000029';
-  let endpoint = process.env.S3_ENDPOINT || 'https://s3.us-east-005.backblazeb2.com';
-  let region = process.env.S3_REGION || 'us-east-005';
-  let bucketName = process.env.S3_BUCKET_NAME || 'media-tunglamhoaphuc';
+let cachedS3Client: { client: S3Client; bucketName: string; config: S3Config } | null = null;
 
-  // Fallback: read .env.local on disk if secretKey missing in process.env
-  if (!secretKey) {
-    try {
-      const envPath = path.resolve(process.cwd(), '.env.local');
-      if (fs.existsSync(envPath)) {
-        const raw = fs.readFileSync(envPath, 'utf-8');
-        raw.split('\n').forEach((line) => {
-          const match = line.match(/^\s*([\w.-]+)\s*=\s*(.*)?\s*$/);
-          if (match) {
-            let val = match[2] || '';
-            if (val.startsWith('"') && val.endsWith('"')) val = val.slice(1, -1);
-            if (val.startsWith("'") && val.endsWith("'")) val = val.slice(1, -1);
-            val = val.trim();
-            if (match[1] === 'S3_SECRET_ACCESS_KEY' && val) secretKey = val;
-            if (match[1] === 'S3_ACCESS_KEY_ID' && val) accessKey = val;
-            if (match[1] === 'S3_ENDPOINT' && val) endpoint = val;
-            if (match[1] === 'S3_REGION' && val) region = val;
-            if (match[1] === 'S3_BUCKET_NAME' && val) bucketName = val;
-          }
-        });
-      }
-    } catch {
-      // ignore
-    }
-  }
+function getS3Client(strict: boolean = false): { client: S3Client; bucketName: string; config: S3Config } | null {
+  if (cachedS3Client) return cachedS3Client;
 
-  if (!secretKey || !accessKey) return null;
+  const s3Config = getS3Config(strict);
+  if (!s3Config) return null;
 
   const client = new S3Client({
-    endpoint,
-    region,
+    endpoint: s3Config.endpoint,
+    region: s3Config.region,
     credentials: {
-      accessKeyId: accessKey,
-      secretAccessKey: secretKey,
+      accessKeyId: s3Config.accessKeyId,
+      secretAccessKey: s3Config.secretAccessKey,
     },
     forcePathStyle: true,
   });
 
-  return { client, bucketName };
+  cachedS3Client = { client, bucketName: s3Config.bucketName, config: s3Config };
+  return cachedS3Client;
 }
 
 export interface ServerlessDbOptions<T> {
   fileName: string;
-  localRelativePath: string; // e.g. 'src/data/statues-database.json'
-  s3Key?: string; // e.g. 'tunglamhoaphuc2/database/statues-database.json'
+  localRelativePath: string; // e.g. 'src/data/posts-database.json'
+  s3Key?: string; // e.g. 'tunglamhoaphuc2/database/posts-database.json'
   defaultData: T;
 }
 
+export interface SaveResult {
+  success: boolean;
+  persistedToS3: boolean;
+  persistedLocally: boolean;
+  error?: string;
+}
+
 /**
- * Đọc dữ liệu JSON an toàn trên Vercel Serverless & Local Dev
- * Thứ tự ưu tiên: Memory Cache -> /tmp -> Local file -> Fallback
+ * Đọc dữ liệu JSON an toàn (Đồng bộ)
  */
 export function loadServerlessJson<T>(opts: ServerlessDbOptions<T>): T {
   const { fileName, localRelativePath, defaultData } = opts;
 
-  // 1. Kiểm tra Memory Cache (chỉ cache trong production dưới 10 giây)
-  const isDev = process.env.NODE_ENV !== 'production';
-  if (!isDev && memoryCache[fileName] && Date.now() - memoryCache[fileName].timestamp < 10000) {
-    return memoryCache[fileName].data as T;
-  }
-
-  const localPath = path.resolve(process.cwd(), localRelativePath);
-  const tmpPath = getTmpFilePath(fileName);
-
-  // Nếu file cục bộ mới hơn file /tmp (ví dụ vừa deploy bản build mới), ưu tiên file cục bộ
-  let useTmp = fs.existsSync(tmpPath);
-  if (useTmp && fs.existsSync(localPath)) {
-    try {
-      if (fs.statSync(localPath).mtimeMs > fs.statSync(tmpPath).mtimeMs) {
-        useTmp = false;
-      }
-    } catch {
-      // ignore
-    }
-  }
-
-  // 2. Kiểm tra thư mục /tmp (Vercel Lambda writable space)
-  if (useTmp) {
-    try {
-      const raw = fs.readFileSync(tmpPath, 'utf8');
-      const parsed = JSON.parse(raw);
-      memoryCache[fileName] = { data: parsed, timestamp: Date.now() };
-      return parsed;
-    } catch {
-      // Tiếp tục fallback
-    }
-  }
-
-  // 3. Kiểm tra file cục bộ dự án
-  if (fs.existsSync(localPath)) {
-    try {
-      const raw = fs.readFileSync(localPath, 'utf8');
-      const parsed = JSON.parse(raw);
-      memoryCache[fileName] = { data: parsed, timestamp: Date.now() };
-      return parsed;
-    } catch {
-      // Tiếp tục fallback
-    }
-  }
-
-  return defaultData;
-}
-
-/**
- * Đọc dữ liệu JSON bất đồng bộ (Ưu tiên S3 để mọi Lambda container luôn thấy dữ liệu mới nhất)
- * Thứ tự ưu tiên: Memory Cache (< 15s) -> S3 Backblaze B2 -> /tmp -> Local file -> Fallback
- */
-export async function loadServerlessJsonAsync<T>(opts: ServerlessDbOptions<T>): Promise<T> {
-  const { fileName, localRelativePath, s3Key, defaultData } = opts;
-
-  // 1. Kiểm tra Memory Cache (áp dụng cho cả dev và prod trong 3 giây để tránh giật lag giữa các request liên tiếp)
+  // 1. Kiểm tra Memory Cache (chỉ giữ dưới 3 giây)
   if (memoryCache[fileName] && Date.now() - memoryCache[fileName].timestamp < 3000) {
     return memoryCache[fileName].data as T;
   }
@@ -166,7 +103,7 @@ export async function loadServerlessJsonAsync<T>(opts: ServerlessDbOptions<T>): 
   const localPath = path.resolve(process.cwd(), localRelativePath);
   const tmpPath = getTmpFilePath(fileName);
 
-  // 2. Nếu đang chạy môi trường phát triển cục bộ (Local Dev) và có file local -> Luôn ưu tiên file cục bộ!
+  // 2. Kiểm tra file cục bộ (ưu tiên ở development)
   const isDev = process.env.NODE_ENV !== 'production';
   if (isDev && fs.existsSync(localPath)) {
     try {
@@ -175,11 +112,65 @@ export async function loadServerlessJsonAsync<T>(opts: ServerlessDbOptions<T>): 
       memoryCache[fileName] = { data: parsed, timestamp: Date.now() };
       return parsed;
     } catch {
-      // Tiếp tục fallback nếu file hỏng
+      // Fallback
     }
   }
 
-  // 3. Tải từ S3 Backblaze B2 (chủ yếu trên Vercel Serverless Production)
+  // 3. Kiểm tra thư mục /tmp
+  if (fs.existsSync(tmpPath)) {
+    try {
+      const raw = fs.readFileSync(tmpPath, 'utf8');
+      const parsed = JSON.parse(raw);
+      memoryCache[fileName] = { data: parsed, timestamp: Date.now() };
+      return parsed;
+    } catch {
+      // Fallback
+    }
+  }
+
+  // 4. File cục bộ nếu có
+  if (fs.existsSync(localPath)) {
+    try {
+      const raw = fs.readFileSync(localPath, 'utf8');
+      const parsed = JSON.parse(raw);
+      memoryCache[fileName] = { data: parsed, timestamp: Date.now() };
+      return parsed;
+    } catch {
+      // Fallback
+    }
+  }
+
+  return defaultData;
+}
+
+/**
+ * Đọc dữ liệu JSON bất đồng bộ (Ưu tiên S3 để mọi Lambda container luôn thấy dữ liệu mới nhất)
+ */
+export async function loadServerlessJsonAsync<T>(opts: ServerlessDbOptions<T>): Promise<T> {
+  const { fileName, localRelativePath, s3Key, defaultData } = opts;
+
+  // 1. Kiểm tra Memory Cache (trong 3 giây để tránh tải lặp cùng 1 request flow)
+  if (memoryCache[fileName] && Date.now() - memoryCache[fileName].timestamp < 3000) {
+    return memoryCache[fileName].data as T;
+  }
+
+  const localPath = path.resolve(process.cwd(), localRelativePath);
+  const tmpPath = getTmpFilePath(fileName);
+
+  // 2. Ở môi trường local dev: Nếu có file local, ưu tiên file local
+  const isDev = process.env.NODE_ENV !== 'production';
+  if (isDev && fs.existsSync(localPath)) {
+    try {
+      const raw = fs.readFileSync(localPath, 'utf8');
+      const parsed = JSON.parse(raw);
+      memoryCache[fileName] = { data: parsed, timestamp: Date.now() };
+      return parsed;
+    } catch {
+      // Fallback
+    }
+  }
+
+  // 3. Tải từ S3 Backblaze B2 (Nguồn sự thật Single Source of Truth trên Production)
   const s3Info = getS3Client();
   if (s3Info) {
     try {
@@ -194,14 +185,11 @@ export async function loadServerlessJsonAsync<T>(opts: ServerlessDbOptions<T>): 
       if (str) {
         const parsed = JSON.parse(str);
         memoryCache[fileName] = { data: parsed, timestamp: Date.now() };
-
-        // Lưu vào /tmp để container dùng nhanh
         safeWriteTmpFile(tmpPath, str);
-
         return parsed;
       }
     } catch (err: any) {
-      // S3 lỗi mạng hoặc chưa có file, chuyển sang fallback
+      console.warn(`[serverless-db] S3 get error cho ${fileName}:`, err.message);
     }
   }
 
@@ -210,60 +198,87 @@ export async function loadServerlessJsonAsync<T>(opts: ServerlessDbOptions<T>): 
 }
 
 /**
- * Lưu dữ liệu JSON an toàn:
- * 1. Ghi đè file cục bộ nếu có quyền ghi (Local dev).
- * 2. Ghi vào /tmp nếu chạy trên Vercel (bảo vệ chống lỗi EROFS).
- * 3. Đồng bộ trực tiếp lên S3 Backblaze B2 để dữ liệu tồn tại vĩnh viễn giữa các Lambda instance.
+ * Lưu dữ liệu JSON an toàn & bền vững:
+ * 1. Khóa Mutex chống ghi đè đồng thời trên cùng container.
+ * 2. Ghi đè file cục bộ (nếu có quyền ghi).
+ * 3. Ghi vào /tmp để container hiện tại luôn có bản mới nhất.
+ * 4. Đồng bộ trực tiếp lên S3 Backblaze B2 và kiểm tra lỗi nghiêm ngặt.
+ * KHÔNG trả kết quả thành công giả nếu S3 thất bại trên production.
  */
 export async function saveServerlessJson<T>(opts: ServerlessDbOptions<T>, data: T): Promise<boolean> {
-  const { fileName, localRelativePath, s3Key, defaultData } = opts;
-  const jsonStr = JSON.stringify(data, null, 2);
+  const { fileName, localRelativePath, s3Key } = opts;
+  const isDev = process.env.NODE_ENV !== 'production';
 
-  // 1. Cập nhật Memory Cache
-  memoryCache[fileName] = { data, timestamp: Date.now() };
+  // Chờ khóa mutex nếu đang có thao tác ghi khác cho cùng fileName
+  const currentLock = writeLocks.get(fileName) || Promise.resolve();
+  let releaseLock: () => void = () => {};
+  const nextLock = new Promise<void>((resolve) => {
+    releaseLock = resolve;
+  });
+  writeLocks.set(fileName, nextLock);
 
-  // 2. Thử ghi vào local file (nếu writable)
-  let localWritten = false;
-  const localPath = path.resolve(process.cwd(), localRelativePath);
   try {
-    const localDir = path.dirname(localPath);
-    if (!fs.existsSync(localDir)) {
-      fs.mkdirSync(localDir, { recursive: true });
+    await currentLock;
+
+    const jsonStr = JSON.stringify(data, null, 2);
+
+    // 1. Cập nhật Memory Cache
+    memoryCache[fileName] = { data, timestamp: Date.now() };
+
+    // 2. Thử ghi vào local file nếu có thể
+    let localWritten = false;
+    const localPath = path.resolve(process.cwd(), localRelativePath);
+    try {
+      const localDir = path.dirname(localPath);
+      if (!fs.existsSync(localDir)) {
+        fs.mkdirSync(localDir, { recursive: true });
+      }
+      fs.writeFileSync(localPath, jsonStr, 'utf8');
+      localWritten = true;
+    } catch {
+      // EROFS on serverless is expected
     }
-    fs.writeFileSync(localPath, jsonStr, 'utf8');
-    localWritten = true;
-  } catch (err: any) {
-    // EROFS: read-only file system on Vercel - Đây là hành vi dự kiến của Serverless
-  }
 
-  // 3. Luôn ghi vào /tmp để container hiện tại luôn có dữ liệu mới nhất
-  const tmpPath = getTmpFilePath(fileName);
-  safeWriteTmpFile(tmpPath, jsonStr);
+    // 3. Luôn ghi vào /tmp
+    const tmpPath = getTmpFilePath(fileName);
+    safeWriteTmpFile(tmpPath, jsonStr);
 
-  // 4. Đồng bộ lên S3 Backblaze B2 để các Lambda khác hoặc lần truy cập sau đều đọc được
-  const s3Target = s3Key || `tunglamhoaphuc2/database/${fileName}`;
-  const s3Info = getS3Client();
-  if (s3Info) {
-    const isDev = process.env.NODE_ENV !== 'production';
-    const s3Promise = s3Info.client.send(
-      new PutObjectCommand({
-        Bucket: s3Info.bucketName,
-        Key: s3Target,
-        Body: jsonStr,
-        ContentType: 'application/json',
-      })
-    ).then(() => {
-      console.log(`✅ [serverless-db] Đã đồng bộ ${fileName} lên S3 (${s3Target}) thành công!`);
-    }).catch((err) => {
-      console.error(`❌ [serverless-db] Lỗi đồng bộ S3 ${s3Target}:`, err);
-    });
+    // 4. Đồng bộ lên S3 Backblaze B2
+    const s3Info = getS3Client();
+    if (!s3Info) {
+      if (!isDev) {
+        const errMsg = `[serverless-db] Không thể lưu ${fileName}: Thiếu cấu hình S3 trên môi trường Production!`;
+        console.error(errMsg);
+        throw new Error(errMsg);
+      }
+      // Trên local dev nếu không có S3 thì cho phép chỉ lưu local
+      return localWritten;
+    }
 
-    // Trên production (Vercel): chờ S3 hoàn tất trước khi kết thúc Lambda lifecycle
-    // Trên local dev: không chặn luồng để phản hồi tức thì
-    if (!isDev) {
-      await s3Promise;
+    const s3Target = s3Key || `tunglamhoaphuc2/database/${fileName}`;
+    try {
+      await s3Info.client.send(
+        new PutObjectCommand({
+          Bucket: s3Info.bucketName,
+          Key: s3Target,
+          Body: jsonStr,
+          ContentType: 'application/json',
+          CacheControl: 'no-cache, no-store, must-revalidate',
+        })
+      );
+      return true;
+    } catch (s3Err: any) {
+      console.error(`❌ [serverless-db] Lỗi đồng bộ S3 ${s3Target}:`, s3Err.message);
+      // Ném lỗi rõ ràng nếu là production để caller không báo thành công giả
+      if (!isDev) {
+        throw new Error(`Lưu vào bộ lưu trữ đám mây S3 thất bại: ${s3Err.message}`);
+      }
+      return localWritten;
+    }
+  } finally {
+    releaseLock();
+    if (writeLocks.get(fileName) === nextLock) {
+      writeLocks.delete(fileName);
     }
   }
-
-  return true;
 }

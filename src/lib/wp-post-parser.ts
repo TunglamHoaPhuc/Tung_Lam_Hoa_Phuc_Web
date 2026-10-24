@@ -3,13 +3,19 @@ import path from 'path';
 import sharp from 'sharp';
 import { decodeHtmlEntities } from './html-entities';
 
-// Cấu hình S3 chuẩn
-const S3_BUCKET = process.env.S3_BUCKET_NAME || 'media-tunglamhoaphuc';
-const S3_REGION = process.env.S3_REGION || 'us-east-005';
-const S3_ENDPOINT = (process.env.S3_ENDPOINT || 'https://s3.us-east-005.backblazeb2.com').replace(/\/+$/, '');
-const S3_ACCESS_KEY = (process.env.S3_ACCESS_KEY_ID || '005bc25330e1c1f000000003e').replace(/["']/g, '').trim();
-const S3_SECRET_KEY = (process.env.S3_SECRET_ACCESS_KEY || 'K005XHjiQ99dAcUkjPewsrz+mC4DrLA').replace(/["']/g, '').trim();
-const S3_PUBLIC_BASE = (process.env.S3_PUBLIC_URL || `https://${S3_BUCKET}.s3.${S3_REGION}.backblazeb2.com`).replace(/\/+$/, '');
+import { getS3Config } from './env-config';
+
+function getParserS3Info() {
+  const conf = getS3Config();
+  return {
+    bucket: conf?.bucketName || 'media-tunglamhoaphuc',
+    region: conf?.region || 'us-east-005',
+    endpoint: conf?.endpoint || 'https://s3.us-east-005.backblazeb2.com',
+    accessKey: conf?.accessKeyId || '',
+    secretKey: conf?.secretAccessKey || '',
+    publicBase: conf?.publicUrl || 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com',
+  };
+}
 
 export interface ExtractedPhoto {
   imageUrl: string;
@@ -187,12 +193,17 @@ export async function mirrorWpImageToS3(
   }
 
   try {
+    const s3Info = getParserS3Info();
+    if (!s3Info.accessKey || !s3Info.secretKey) {
+      return sourceUrl;
+    }
+
     const s3Client = new S3Client({
-      endpoint: S3_ENDPOINT,
-      region: S3_REGION,
+      endpoint: s3Info.endpoint,
+      region: s3Info.region,
       credentials: {
-        accessKeyId: S3_ACCESS_KEY,
-        secretAccessKey: S3_SECRET_KEY,
+        accessKeyId: s3Info.accessKey,
+        secretAccessKey: s3Info.secretKey,
       },
       forcePathStyle: true,
     });
@@ -208,7 +219,7 @@ export async function mirrorWpImageToS3(
       .replace(/[^a-z0-9._-]/g, '_');
 
     const s3Key = `tunglamhoaphuc2/${categoryRoot}/${subCategory}/${baseName}.webp`;
-    const targetUrl = `${S3_PUBLIC_BASE}/${s3Key}`;
+    const targetUrl = `${s3Info.publicBase}/${s3Key}`;
 
     // Tải ảnh từ WordPress
     const res = await fetch(sourceUrl, {
@@ -228,7 +239,7 @@ export async function mirrorWpImageToS3(
     // Đẩy lên S3
     await s3Client.send(
       new PutObjectCommand({
-        Bucket: S3_BUCKET,
+        Bucket: s3Info.bucket,
         Key: s3Key,
         Body: optimized,
         ContentType: 'image/webp',

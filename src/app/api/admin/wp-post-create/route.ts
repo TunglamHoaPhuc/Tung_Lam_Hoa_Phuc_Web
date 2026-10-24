@@ -1,7 +1,11 @@
 import { NextResponse } from 'next/server';
 import { createOrUpdateWpPost } from '@/lib/wp-admin-client';
+import { requireAdminAuth } from '@/lib/auth-guard';
 
 export async function POST(request: Request) {
+  const authError = requireAdminAuth(request);
+  if (authError) return authError;
+
   let body: any = {};
   try {
     body = await request.json().catch(() => ({}));

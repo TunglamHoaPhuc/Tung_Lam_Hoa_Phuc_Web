@@ -126,3 +126,4 @@ Ket_Noi_S3_Hoa_Phuc.bat
 *.bak
 *.bak_*
 *.backup.json
+src/data/backups/
