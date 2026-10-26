@@ -363,13 +363,14 @@ export default function TrangChiTietTongChi() {
       try {
         setLoading(true);
 
-        // 1. Lấy dữ liệu quản trị từ Admin Database (Hero Banner & Tọa độ tiêu điểm căn chỉnh 3x3)
+        // 1. Lấy dữ liệu quản trị từ Admin Database (Hero Banner, Tọa độ & Nội dung Local)
         let localItem: any = null;
         let computedRelated: any[] = [];
         try {
+          const timestamp = Date.now();
           const [detailRes, allRes] = await Promise.all([
-            fetch(`/api/admin/tong-chi/${slug}`, { cache: 'no-store' }),
-            fetch('/api/admin/tong-chi', { cache: 'no-store' }),
+            fetch(`/api/admin/tong-chi/${slug}?t=${timestamp}`, { cache: 'no-store' }),
+            fetch(`/api/admin/tong-chi?t=${timestamp}`, { cache: 'no-store' }),
           ]);
 
           if (detailRes.ok) {
@@ -411,12 +412,14 @@ export default function TrangChiTietTongChi() {
           console.log('Local fetch failed:', localErr);
         }
 
-        // 2. Lấy nội dung bài viết trực tiếp từ WordPress Live API (Nguồn nội dung chính thống duy nhất)
-        const isNumericId = /^\d+$/.test(slug);
-        const wpTargetId = localItem?.wpPostId || (isBoDeTam ? '470' : slug === 'tam-quy' ? '488' : slug);
-        const wpUrl = isNumericId || localItem?.wpPostId || isBoDeTam || slug === 'tam-quy'
-          ? `https://admin.tunglamhoaphuc.com/wp-json/wp/v2/tong-chi/${wpTargetId}?_embed`
-          : `https://admin.tunglamhoaphuc.com/wp-json/wp/v2/tong-chi?slug=${slug}&_embed`;
+        // 2. Logic kiểm tra cờ ưu tiên (Local-First Priority Fallback)
+        // Kiểm tra xem Local Database đã có nội dung hợp lệ chưa
+        const hasLocalContent = Boolean(localItem?.content && localItem.content.trim().length > 0);
+        const urlParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
+        const forceWp = urlParams?.get('forceWp') === 'true' || urlParams?.get('syncWp') === 'true';
+
+        // Chỉ fetch WordPress Live API khi Local chưa có nội dung HOẶC có chỉ thị forceWp
+        const shouldFetchWp = !hasLocalContent || forceWp;
 
         let wpContent = '';
         let wpTitle = '';
@@ -426,36 +429,54 @@ export default function TrangChiTietTongChi() {
         let wpVideoTitle = '';
         let wpVideoDesc = '';
 
-        try {
-          const res = await fetch(wpUrl, { cache: 'no-store' });
-          if (res.ok) {
-            const rawData = await res.json();
-            const post = (isNumericId || localItem?.wpPostId || isBoDeTam || slug === 'tam-quy') ? rawData : (Array.isArray(rawData) && rawData.length > 0 ? rawData[0] : null);
+        if (shouldFetchWp) {
+          const isNumericId = /^\d+$/.test(slug);
+          const wpTargetId = localItem?.wpPostId || (isBoDeTam ? '470' : slug === 'tam-quy' ? '488' : slug);
+          const wpUrl = isNumericId || localItem?.wpPostId || isBoDeTam || slug === 'tam-quy'
+            ? `https://admin.tunglamhoaphuc.com/wp-json/wp/v2/tong-chi/${wpTargetId}?_embed`
+            : `https://admin.tunglamhoaphuc.com/wp-json/wp/v2/tong-chi?slug=${slug}&_embed`;
 
-            if (post && post.id) {
-              const acf = post.acf || {};
-              const rawHtml = post.content?.rendered || '';
-              const parsed = convertWpHtmlToCleanContent(rawHtml);
+          try {
+            const res = await fetch(wpUrl, { cache: 'no-store' });
+            if (res.ok) {
+              const rawData = await res.json();
+              const post = (isNumericId || localItem?.wpPostId || isBoDeTam || slug === 'tam-quy') ? rawData : (Array.isArray(rawData) && rawData.length > 0 ? rawData[0] : null);
 
-              wpContent = parsed.cleanedContent;
-              wpTitle = post.title?.rendered || '';
-              wpSubtitle = acf.tieu_de_phu || parsed.extractedSubtitle || '';
-              wpExcerpt = (post.excerpt?.rendered || '').replace(/<[^>]+>/g, '').replace(/&#8230;/g, '...').trim();
-              wpVideoUrl = acf.duong_dan_link_youtube || '';
-              wpVideoTitle = acf.tieu_de_video || '';
-              wpVideoDesc = acf.mo_ta_ngan_video || '';
+              if (post && post.id) {
+                const acf = post.acf || {};
+                const rawHtml = post.content?.rendered || '';
+                const parsed = convertWpHtmlToCleanContent(rawHtml);
+
+                wpContent = parsed.cleanedContent;
+                wpTitle = post.title?.rendered || '';
+                wpSubtitle = acf.tieu_de_phu || parsed.extractedSubtitle || '';
+                wpExcerpt = (post.excerpt?.rendered || '').replace(/<[^>]+>/g, '').replace(/&#8230;/g, '...').trim();
+                wpVideoUrl = acf.duong_dan_link_youtube || '';
+                wpVideoTitle = acf.tieu_de_video || '';
+                wpVideoDesc = acf.mo_ta_ngan_video || '';
+              }
             }
+          } catch (wpErr) {
+            console.log('WordPress fetch fallback failed:', wpErr);
           }
-        } catch (wpErr) {
-          console.log('WordPress fetch failed, fallback to local content:', wpErr);
         }
 
-        // 3. WordPress Gutenberg là nguồn nội dung duy nhất; Banner quản trị lấy từ CMS
+        // 3. ƯU TIÊN NỘI DUNG LOCAL DATABASE (LOCAL-FIRST PRIORITY FALLBACK):
+        // Khi Admin vừa sửa nội dung cục bộ, luôn ưu tiên hiển thị nội dung đó
         const finalBanner = localItem?.bannerImage || 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/nen-tang-tu-hoc/tong-chi-tu-hoc-nen-tang-tu-hoc-bo-de-tam-herobanner-thumbnail.webp';
         const finalBannerPosition = localItem?.bannerPosition || 'center 47%';
-        const finalContent = wpContent || localItem?.content || '';
-        const finalTitle = wpTitle || localItem?.title || (isBoDeTam ? 'BỒ ĐỀ TÂM' : 'TÔNG CHỈ TU HỌC');
-        const finalSubtitle = wpSubtitle || localItem?.subtitle || (isBoDeTam ? 'Cội nguồn thiện pháp' : '');
+        
+        const finalContent = forceWp
+          ? (wpContent || localItem?.content || '')
+          : (localItem?.content || wpContent || '');
+
+        const finalTitle = forceWp
+          ? (wpTitle || localItem?.title || (isBoDeTam ? 'BỒ ĐỀ TÂM' : 'TÔNG CHỈ TU HỌC'))
+          : (localItem?.title || wpTitle || (isBoDeTam ? 'BỒ ĐỀ TÂM' : 'TÔNG CHỈ TU HỌC'));
+
+        const finalSubtitle = forceWp
+          ? (wpSubtitle || localItem?.subtitle || (isBoDeTam ? 'Cội nguồn thiện pháp' : ''))
+          : (localItem?.subtitle || wpSubtitle || (isBoDeTam ? 'Cội nguồn thiện pháp' : ''));
 
         const defaultSourceBooks = [
           {
@@ -485,7 +506,9 @@ export default function TrangChiTietTongChi() {
           id: localItem?.id || 4,
           title: finalTitle,
           subtitle: finalSubtitle,
-          shortDescription: wpExcerpt || localItem?.excerpt || '',
+          shortDescription: forceWp
+            ? (wpExcerpt || localItem?.excerpt || '')
+            : (localItem?.excerpt || wpExcerpt || ''),
           heroBanner: finalBanner,
           bannerPosition: finalBannerPosition,
           poemContent: finalContent,

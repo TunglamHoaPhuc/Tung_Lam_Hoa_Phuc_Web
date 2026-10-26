@@ -260,7 +260,10 @@ export const CalendarSection: FC = () => {
   useEffect(() => {
     async function loadSchedule() {
       try {
-        const res = await fetch('/api/admin/schedule', { cache: 'no-store' });
+        const res = await fetch(`/api/admin/schedule?t=${Date.now()}`, {
+          cache: 'no-store',
+          next: { revalidate: 0 },
+        });
         if (res.ok) {
           const json = await res.json();
           if (json.success && json.data) {

@@ -7,6 +7,8 @@ import { parseGutenbergPostContent } from '@/lib/wp-post-parser';
 import { recordDeletedPost, getDeletedPostsAsync, isPostDeletedAsync } from '@/lib/deleted-posts';
 import { deleteWpPost, updateWpPostFields, formatWpDate } from '@/lib/wp-admin-client';
 import { decodeHtmlEntities } from '@/lib/html-entities';
+import { requireAdminAuth } from '@/lib/auth-guard';
+import { enqueueSyncTask } from '@/lib/sync-queue';
 
 const DB_CONFIG = {
   fileName: 'posts-database.json',
@@ -48,10 +50,10 @@ export async function GET(
   let postIndex = posts.findIndex((p) => p.id === id || p.slug === id || String(p.wpPostId) === id);
   let post: any = postIndex !== -1 ? posts[postIndex] : null;
 
-  // 🪷 TỰ ĐỘNG ĐỒNG BỘ THỜI GIAN THỰC TỪ WORDPRESS:
-  // Nếu bài viết liên kết với WordPress, kiểm tra xem ngày xuất bản (post_date),
-  // tiêu đề, tác giả hoặc nội dung có bị thay đổi trong WordPress hay không.
-  if (post && post.wpPostId) {
+  // 🪷 ĐỒNG BỘ TỪ WORDPRESS:
+  // Chỉ kiểm tra khi có cờ ?syncWp=true để tốc độ xem bài viết đạt < 10ms tức thì
+  const isManualSync = new URL(req.url).searchParams.get('syncWp') === 'true';
+  if (post && post.wpPostId && isManualSync) {
     try {
       const wpRes = await fetch(`https://admin.tunglamhoaphuc.com/wp-json/wp/v2/posts/${post.wpPostId}?_embed=true`, {
         headers: { 'User-Agent': 'Mozilla/5.0' },
@@ -203,6 +205,10 @@ export async function PUT(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  // 🛡️ Bắt buộc xác thực quyền quản trị viên
+  const authError = requireAdminAuth(req);
+  if (authError) return authError;
+
   try {
     const { id } = await params;
     const decodedId = decodeURIComponent(id);
@@ -269,15 +275,18 @@ export async function PUT(
             }
           } else {
             console.warn(`⚠️ [sync-wp-fields] Lỗi đồng bộ lên WP #${targetWpPostId}:`, wpRes.error);
+            enqueueSyncTask('update_wp_post', String(targetWpPostId), wpPayload, wpRes.error);
           }
-        } catch (e) {
+        } catch (e: any) {
           console.warn('[auto-sync-wp-fields error]', e);
+          enqueueSyncTask('update_wp_post', String(targetWpPostId), wpPayload, e.message);
         }
       }
     }
 
     try {
       revalidatePath('/', 'page');
+      revalidatePath('/', 'layout');
       revalidatePath('/dong-chay-hoang-phap', 'page');
       if (rawPosts[targetIndex].slug) {
         revalidatePath(`/dong-chay-hoang-phap/${rawPosts[targetIndex].slug}`, 'page');
@@ -307,6 +316,10 @@ export async function DELETE(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  // 🛡️ Bắt buộc xác thực quyền quản trị viên
+  const authError = requireAdminAuth(req);
+  if (authError) return authError;
+
   try {
     const { id } = await params;
     const decodedId = decodeURIComponent(id);
@@ -342,17 +355,28 @@ export async function DELETE(
       console.warn('[revalidatePath error]', e);
     }
 
+    let wpDeletedSuccess = true;
+    let wpErrorMsg: string | undefined;
+
     // Thử xóa bài viết trên WordPress nếu có wpPostId
     if (deletedPost.wpPostId) {
       const numWpId = typeof deletedPost.wpPostId === 'number' ? deletedPost.wpPostId : parseInt(String(deletedPost.wpPostId), 10);
-      if (!isNaN(numWpId)) {
-        deleteWpPost(numWpId).catch((e) => console.warn('Could not trash WP post:', e));
+      if (!isNaN(numWpId) && numWpId > 0) {
+        const delRes = await deleteWpPost(numWpId);
+        if (!delRes.success) {
+          wpDeletedSuccess = false;
+          wpErrorMsg = delRes.error;
+          enqueueSyncTask('delete_wp_post', String(numWpId), null, delRes.error);
+        }
       }
     }
 
     return NextResponse.json({
       success: true,
-      message: `Đã xóa bài viết "${deletedPost.title}" thành công`,
+      wpSynced: wpDeletedSuccess,
+      message: wpDeletedSuccess
+        ? `Đã xóa bài viết "${deletedPost.title}" thành công!`
+        : `Đã xóa bài viết trên Next.js (WP đang chờ thử lại: ${wpErrorMsg})`,
     });
   } catch (error: any) {
     return NextResponse.json(

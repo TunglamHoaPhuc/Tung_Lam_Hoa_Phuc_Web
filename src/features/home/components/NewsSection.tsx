@@ -18,13 +18,13 @@ interface NewsItem {
 
 const INITIAL_NEWS_DATA: NewsItem[] = [
   {
-    id: "post-632",
+    id: "post-1060",
     category: "Khóa Lễ Truyền Thống",
     iconUrl: "/images/icons/icon-khoa-le-truyen-thong.png",
-    title: "NGÀI ĐỊA TẠNG BỒ TÁT, TẠI SAO NGÀI ĐƯỢC CA NGỢI VÀ TÔN VINH?",
-    subtitle: "Hạnh nguyện Đại bi cứu khổ độ sanh nơi cảnh giới khổ đau",
-    imgUrl: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/03-dong-chay-hoang-phap/khoa-le-truyen-thong/le-dia-tang-bo-tat-80-bia.webp",
-    targetUrl: "/dong-chay-hoang-phap/ngai-dia-tang-bo-tat-tai-sao-ngai-duoc-ca-ngoi-va-ton-vinh-2",
+    title: "LỄ HẰNG THUẬN TẠI TÙNG LÂM HÒA PHÚC",
+    subtitle: "Tùng Lâm Hòa Phúc",
+    imgUrl: "https://admin.tunglamhoaphuc.com/wp-content/uploads/2026/10/7.jfif",
+    targetUrl: "/dong-chay-hoang-phap/le-hang-thuan-tai-tung-lam-hoa-phuc-2",
     imgPosition: "center 35%",
   },
   {
@@ -98,11 +98,15 @@ export const NewsSection: FC = () => {
   useEffect(() => {
     async function fetchLatestNews() {
       try {
-        const res = await fetch('/api/home/news-carousel', { cache: 'no-store' });
+        const res = await fetch(`/api/home/news-carousel?t=${Date.now()}`, {
+          cache: 'no-store',
+          next: { revalidate: 0 },
+        });
         if (res.ok) {
           const json = await res.json();
           if (json.success && Array.isArray(json.data) && json.data.length > 0) {
             setNewsList(json.data);
+            setActiveIdx(0);
           }
         }
       } catch (err) {

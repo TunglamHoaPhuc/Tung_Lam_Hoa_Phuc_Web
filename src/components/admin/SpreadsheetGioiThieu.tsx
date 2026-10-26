@@ -384,7 +384,7 @@ export function SpreadsheetGioiThieu() {
   const fetchTopics = async (silent: boolean = false) => {
     try {
       if (!silent) setLoading(true);
-      const res = await fetch('/api/admin/gioi-thieu');
+      const res = await fetch(`/api/admin/gioi-thieu?t=${Date.now()}`, { cache: 'no-store' });
       const data = await res.json();
       if (data.success && data.topics) {
         setTopics(data.topics);

@@ -36,7 +36,10 @@ export default function WisdomDetailPage() {
     async function loadDynamicPost() {
       if (!slug || matchedBook) return;
       try {
-        const res = await fetch(`/api/admin/posts/${slug}`, { cache: 'no-store' });
+        const res = await fetch(`/api/admin/posts/${slug}?t=${Date.now()}`, {
+          cache: 'no-store',
+          next: { revalidate: 0 },
+        });
         if (res.ok) {
           const json = await res.json();
           if (json.success && json.post) {

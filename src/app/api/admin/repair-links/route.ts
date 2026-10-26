@@ -3,26 +3,30 @@ import { S3Client, ListObjectsV2Command } from '@aws-sdk/client-s3';
 import fs from 'fs';
 import path from 'path';
 
+import { getS3Config } from '@/lib/env-config';
+import { requireAdminAuth } from '@/lib/auth-guard';
+
 function getS3Client() {
-  const accessKeyId = process.env.S3_ACCESS_KEY_ID || '005bc25330e1c1f0000000029';
-  const secretAccessKey = process.env.S3_SECRET_ACCESS_KEY;
-  const endpoint = process.env.S3_ENDPOINT || 'https://s3.us-east-005.backblazeb2.com';
-  const region = process.env.S3_REGION || 'us-east-005';
-  const bucketName = process.env.S3_BUCKET_NAME || 'media-tunglamhoaphuc';
-  const publicUrl = process.env.S3_PUBLIC_URL || `https://${bucketName}.s3.${region}.backblazeb2.com`;
+  const conf = getS3Config(true);
+  if (!conf) {
+    throw new Error('[repair-links] Thiếu cấu hình S3 credentials');
+  }
 
   const client = new S3Client({
-    endpoint,
-    region,
-    credentials: { accessKeyId, secretAccessKey: secretAccessKey || '' },
+    endpoint: conf.endpoint,
+    region: conf.region,
+    credentials: { accessKeyId: conf.accessKeyId, secretAccessKey: conf.secretAccessKey },
     forcePathStyle: true,
   });
 
-  return { client, bucketName, publicUrl };
+  return { client, bucketName: conf.bucketName, publicUrl: conf.publicUrl };
 }
 
 // 🪷 Quét và tự động sửa mọi link ảnh trong bài viết khi người dùng sắp xếp/gộp thư mục trên S3 hoặc Ổ Z:
-export async function POST() {
+export async function POST(req: Request) {
+  const authError = requireAdminAuth(req);
+  if (authError) return authError;
+
   try {
     const { client, bucketName, publicUrl } = getS3Client();
 

@@ -3,56 +3,23 @@ import fs from 'fs';
 import path from 'path';
 import sharp from 'sharp';
 
+import { getS3Config } from './env-config';
+
 // 🪷 Thư mục gốc độc quyền của dự án trên S3 Bucket (Gom tất cả file vào đây)
 export const S3_ROOT_PREFIX = 'tunglamhoaphuc2';
 
 function getEnvConfig() {
-  let secretKey = (process.env.S3_SECRET_ACCESS_KEY || 'K005XHjiQ99dAcUkjPewsrz+mC4DrLA').replace(/["']/g, '').trim();
-  let accessKey = (process.env.S3_ACCESS_KEY_ID || '005bc25330e1c1f000000003e').replace(/["']/g, '').trim();
-  let endpoint = (process.env.S3_ENDPOINT || 'https://s3.us-east-005.backblazeb2.com').replace(/["']/g, '').trim();
-  let region = (process.env.S3_REGION || 'us-east-005').replace(/["']/g, '').trim();
-  let bucketName = (process.env.S3_BUCKET_NAME || 'media-tunglamhoaphuc').replace(/["']/g, '').trim();
-  let publicUrl = (process.env.S3_PUBLIC_URL || `https://${bucketName}.s3.${region}.backblazeb2.com`).replace(/["']/g, '').trim();
-
-  // Fallback: If secretKey is empty, read directly from .env.local on disk
-  if (!secretKey) {
-    try {
-      const envPath = path.resolve(process.cwd(), '.env.local');
-      if (fs.existsSync(envPath)) {
-        const raw = fs.readFileSync(envPath, 'utf-8');
-        raw.split('\n').forEach((line) => {
-          const match = line.match(/^\s*([\w.-]+)\s*=\s*(.*)?\s*$/);
-          if (match) {
-            let val = match[2] || '';
-            if (val.startsWith('"') && val.endsWith('"')) val = val.slice(1, -1);
-            if (val.startsWith("'") && val.endsWith("'")) val = val.slice(1, -1);
-            val = val.trim();
-            if (match[1] === 'S3_SECRET_ACCESS_KEY' && val) secretKey = val;
-            if (match[1] === 'S3_ACCESS_KEY_ID' && val) accessKey = val;
-            if (match[1] === 'S3_ENDPOINT' && val) endpoint = val;
-            if (match[1] === 'S3_REGION' && val) region = val;
-            if (match[1] === 'S3_BUCKET_NAME' && val) bucketName = val;
-            if (match[1] === 'S3_PUBLIC_URL' && val) publicUrl = val;
-          }
-        });
-      }
-    } catch (err) {
-      console.error('Error reading .env.local in s3-client:', err);
-    }
+  const conf = getS3Config(true);
+  if (!conf) {
+    throw new Error('[s3-client] Thiếu cấu hình S3 (S3_ACCESS_KEY_ID hoặc S3_SECRET_ACCESS_KEY)');
   }
-
-  // Đảm bảo endpoint có giao thức https://
-  if (endpoint && !endpoint.startsWith('http://') && !endpoint.startsWith('https://')) {
-    endpoint = `https://${endpoint}`;
-  }
-
   return {
-    secretKey,
-    accessKey,
-    endpoint,
-    region,
-    bucketName,
-    publicUrl: publicUrl.replace(/\/$/, ''),
+    secretKey: conf.secretAccessKey,
+    accessKey: conf.accessKeyId,
+    endpoint: conf.endpoint,
+    region: conf.region,
+    bucketName: conf.bucketName,
+    publicUrl: conf.publicUrl.replace(/\/$/, ''),
   };
 }
 

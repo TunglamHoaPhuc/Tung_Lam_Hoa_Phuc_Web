@@ -238,7 +238,12 @@ function normalizeArticleImages(article: any) {
   }
 }
 
+import { requireAdminAuth } from '@/lib/auth-guard';
+
 async function handleSyncOrUpdate(req: NextRequest) {
+  const authError = requireAdminAuth(req);
+  if (authError) return authError;
+
   try {
     let body: any = null;
     try {

@@ -4,7 +4,7 @@ import { loadServerlessJsonAsync } from '@/lib/serverless-db';
 import { getDeletedPostsAsync } from '@/lib/deleted-posts';
 
 export const dynamic = 'force-dynamic';
-export const revalidate = 60; // Cache 60s trên edge
+export const revalidate = 0; // Trực tiếp không cache trên edge
 
 const POSTS_DB_CONFIG = {
   fileName: 'posts-database.json',

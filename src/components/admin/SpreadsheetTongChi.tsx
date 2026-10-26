@@ -680,7 +680,7 @@ export function SpreadsheetTongChi() {
   // Fetch initial data
   const loadData = () => {
     setLoading(true);
-    fetch('/api/admin/tong-chi')
+    fetch(`/api/admin/tong-chi?t=${Date.now()}`, { cache: 'no-store' })
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {

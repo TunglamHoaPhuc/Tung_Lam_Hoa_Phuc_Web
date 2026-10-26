@@ -82,7 +82,7 @@ export function SpreadsheetVuTru() {
   const fetchAreas = async () => {
     try {
       setLoading(true);
-      const res = await fetch('/api/admin/vu-tru');
+      const res = await fetch(`/api/admin/vu-tru?t=${Date.now()}`, { cache: 'no-store' });
       const data = await res.json();
       if (data.success && data.areas) {
         setAreas(data.areas);

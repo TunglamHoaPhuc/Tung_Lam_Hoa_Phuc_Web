@@ -1,27 +1,29 @@
 import { NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
-import fs from 'fs';
-import path from 'path';
+import { loadServerlessJsonAsync, saveServerlessJson } from '@/lib/serverless-db';
 
-const DB_PATH = path.resolve(process.cwd(), 'src/data/danh-tang-database.json');
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
-function getMonks() {
-  if (!fs.existsSync(DB_PATH)) return [];
-  try {
-    const raw = fs.readFileSync(DB_PATH, 'utf-8');
-    return JSON.parse(raw);
-  } catch {
-    return [];
-  }
+const DB_CONFIG = {
+  fileName: 'danh-tang-database.json',
+  localRelativePath: 'src/data/danh-tang-database.json',
+  s3Key: 'tunglamhoaphuc2/database/danh-tang-database.json',
+  defaultData: [] as any[],
+};
+
+async function getMonks(): Promise<any[]> {
+  return await loadServerlessJsonAsync<any[]>(DB_CONFIG);
 }
 
-function saveMonks(monks: any[]) {
-  fs.writeFileSync(DB_PATH, JSON.stringify(monks, null, 2), 'utf-8');
+async function saveMonks(monks: any[]): Promise<boolean> {
+  return await saveServerlessJson<any[]>(DB_CONFIG, monks);
 }
 
 function triggerRevalidation() {
   try {
     revalidatePath('/', 'page');
+    revalidatePath('/vu-tru-phat-giao', 'page');
     revalidatePath('/vu-tru-phat-giao/to-duong', 'page');
   } catch (e) {
     console.warn('Revalidation warning:', e);
@@ -31,8 +33,15 @@ function triggerRevalidation() {
 // 🪷 Lấy danh sách Danh Tăng
 export async function GET(req: Request) {
   try {
-    const monks = getMonks();
-    return NextResponse.json({ success: true, total: monks.length, data: monks });
+    const monks = await getMonks();
+    return NextResponse.json(
+      { success: true, total: monks.length, data: monks },
+      {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        },
+      }
+    );
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
@@ -42,16 +51,16 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const monks = getMonks();
+    const monks = await getMonks();
 
     if (body.id) {
       const idx = monks.findIndex((m: any) => m.id === body.id);
       if (idx >= 0) {
-        monks[idx] = { ...monks[idx], ...body };
+        monks[idx] = { ...monks[idx], ...body, updatedAt: new Date().toISOString() };
       } else {
-        monks.unshift(body);
+        monks.unshift({ ...body, updatedAt: new Date().toISOString() });
       }
-      saveMonks(monks);
+      await saveMonks(monks);
       triggerRevalidation();
       return NextResponse.json({ success: true, message: 'Đã lưu thông tin Danh Tăng thành công!', data: body });
     }
@@ -69,7 +78,7 @@ export async function PUT(req: Request) {
     if (!Array.isArray(body)) {
       return NextResponse.json({ success: false, error: 'Dữ liệu phải là một mảng Danh Tăng' }, { status: 400 });
     }
-    saveMonks(body);
+    await saveMonks(body);
     triggerRevalidation();
 
     return NextResponse.json({ success: true, count: body.length });

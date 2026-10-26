@@ -98,7 +98,9 @@ export interface PostRecord {
 
 import { loadServerlessJson, loadServerlessJsonAsync, saveServerlessJson } from '@/lib/serverless-db';
 import { isPostDeleted, isPostDeletedAsync, getDeletedPostsAsync, recordDeletedPost } from '@/lib/deleted-posts';
-import { deleteWpPost, updateWpPostFields, formatWpDate } from '@/lib/wp-admin-client';
+import { deleteWpPost, updateWpPostFields, formatWpDate, createOrUpdateWpPost } from '@/lib/wp-admin-client';
+import { requireAdminAuth } from '@/lib/auth-guard';
+import { enqueueSyncTask } from '@/lib/sync-queue';
 
 const DB_CONFIG = {
   fileName: 'posts-database.json',
@@ -193,13 +195,12 @@ export async function GET(req: NextRequest) {
   const deletedWpIds = new Set(deletedList.filter((d) => d.wpPostId).map((d) => String(d.wpPostId)));
   const deletedSlugs = new Set(deletedList.filter((d) => d.slug).map((d) => d.slug));
 
-  // 🪷 TỰ ĐỘNG ĐỒNG BỘ TỪ WORDPRESS ADMIN:
-  // - Ở Local Dev: Bỏ qua fetch 30 bài WP từ xa để tốc độ tải bảng luôn đạt < 10ms tức thì,
-  //   trừ khi có ?syncWp=true hoặc có ?syncPostId=<id> (khi vừa quay lại từ tab Gutenberg)
-  // - Ở Production: Kiểm tra nếu có bài mới hoặc bài được sửa đổi trên WP
-  const isDev = process.env.NODE_ENV !== 'production';
+  // 🪷 ĐỒNG BỘ TỪ WORDPRESS ADMIN:
+  // Tách biệt hoàn toàn luồng xem công khai và luồng đồng bộ.
+  // Chỉ kiểm tra WordPress khi quản trị viên chủ động bấm đồng bộ (?syncWp=true)
+  // hoặc vừa quay lại từ tab Gutenberg (?syncPostId=<id>) để đảm bảo API phản hồi tức thì < 50ms.
   const syncPostId = searchParams.get('syncPostId');
-  const shouldCheckWp = !isDev || searchParams.get('syncWp') === 'true' || Boolean(syncPostId);
+  const shouldCheckWp = searchParams.get('syncWp') === 'true' || Boolean(syncPostId);
   let hasChanges = false;
 
   if (shouldCheckWp) {
@@ -355,10 +356,27 @@ export async function GET(req: NextRequest) {
         p.content?.toLowerCase().includes(q)
     );
   }
-  // Sắp xếp bài viết mới nhất lên đầu (theo ngày xuất bản giảm dần)
+  // Helper tính thời gian bài viết chính xác đến mili-giây
+  function getPostExactTime(p: PostRecord): number {
+    let time = 0;
+    if (p.publishedDate) {
+      const parsed = new Date(p.publishedDate).getTime();
+      if (!isNaN(parsed)) time = parsed;
+    }
+    if (p.id && typeof p.id === 'string' && p.id.startsWith('post-')) {
+      const rawNum = p.id.replace('post-', '');
+      if (/^\d{12,}$/.test(rawNum)) {
+        const ts = Number(rawNum);
+        if (!isNaN(ts)) time = Math.max(time, ts);
+      }
+    }
+    return time;
+  }
+
+  // Sắp xếp bài viết mới nhất lên đầu (theo ngày xuất bản và timestamp chính xác)
   posts.sort((a, b) => {
-    const timeA = a.publishedDate ? new Date(a.publishedDate).getTime() : 0;
-    const timeB = b.publishedDate ? new Date(b.publishedDate).getTime() : 0;
+    const timeA = getPostExactTime(a);
+    const timeB = getPostExactTime(b);
     if (timeB !== timeA) return timeB - timeA;
     const wpA = typeof a.wpPostId === 'number' ? a.wpPostId : parseInt(String(a.wpPostId || 0), 10);
     const wpB = typeof b.wpPostId === 'number' ? b.wpPostId : parseInt(String(b.wpPostId || 0), 10);
@@ -398,6 +416,10 @@ export async function GET(req: NextRequest) {
 
 // 🌟 PUT: Cập nhật mảng bài viết (Batch Save từ Bảng tính Spreadsheet)
 export async function PUT(req: NextRequest) {
+  // 🛡️ Bắt buộc xác thực quyền quản trị viên
+  const authError = requireAdminAuth(req);
+  if (authError) return authError;
+
   try {
     const rawBody = await req.json();
     let body: PostRecord[] = [];
@@ -532,7 +554,10 @@ export async function PUT(req: NextRequest) {
               }
             }
           } else {
-            console.warn(`⚠️ [sync-wp-fields] Lỗi đồng bộ lên WP #${changedPostsWithWpId[idx].wpPostId}:`, (r as any).reason || (r as any).value?.error);
+            const errReason = (r as any).reason || (r as any).value?.error;
+            console.warn(`⚠️ [sync-wp-fields] Lỗi đồng bộ lên WP #${changedPostsWithWpId[idx].wpPostId}:`, errReason);
+            // Ghi nhận vào hàng đợi retry để không mất đồng bộ
+            enqueueSyncTask('update_wp_post', String(changedPostsWithWpId[idx].wpPostId), changedPostsWithWpId[idx], String(errReason));
           }
         });
         if (hasModifiedUpdate) {
@@ -546,6 +571,7 @@ export async function PUT(req: NextRequest) {
     // 🌟 LÀM MỚI TỨC THỜI TRANG CHỦ VÀ CÁC TRANG CHUYÊN MỤC
     try {
       revalidatePath('/', 'page');
+      revalidatePath('/', 'layout');
       revalidatePath('/dong-chay-hoang-phap', 'page');
       revalidatePath('/tong-chi-tu-hoc', 'page');
       revalidatePath('/tri-tue-phat-phap', 'page');
@@ -574,6 +600,10 @@ export async function PUT(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
+  // 🛡️ Bắt buộc xác thực quyền quản trị viên
+  const authError = requireAdminAuth(req);
+  if (authError) return authError;
+
   try {
     const body = await req.json();
     const posts = await getPosts();
@@ -589,8 +619,32 @@ export async function POST(req: NextRequest) {
         .replace(/[^a-z0-9]+/g, '-')
         .replace(/(^-|-$)/g, '');
 
+    // 🌟 ĐỒNG BỘ TẠO BÀI TRÊN WORDPRESS GUTENBERG
+    let createdWpPostId: number | undefined = undefined;
+    try {
+      const wpResult = await createOrUpdateWpPost({
+        title: body.title || 'Tiêu đề bài viết',
+        subtitle: body.subtitle || '',
+        content: body.content || '',
+        contentHtml: body.contentHtml || '',
+        excerpt: body.summary || '',
+        category: body.mainCategory || 'dong-chay-hoang-phap',
+        postType: 'post',
+        status: body.status === 'published' ? 'publish' : 'draft',
+        photoGallery: body.photoGallery || [],
+        date: body.publishedDate,
+      });
+      if (wpResult.success && wpResult.wpPostId) {
+        createdWpPostId = wpResult.wpPostId;
+      }
+    } catch (wpErr: any) {
+      console.warn('[posts-POST] Lỗi tạo bài trên WP, đưa vào hàng đợi retry:', wpErr.message);
+      enqueueSyncTask('create_wp_post', newId, body, wpErr.message);
+    }
+
     const newPost: PostRecord = {
       id: newId,
+      wpPostId: createdWpPostId || body.wpPostId,
       slug,
       title: body.title || 'Tiêu đề bài viết',
       subtitle: body.subtitle || '',
@@ -623,6 +677,7 @@ export async function POST(req: NextRequest) {
 
     try {
       revalidatePath('/', 'page');
+      revalidatePath('/', 'layout');
       revalidatePath('/dong-chay-hoang-phap', 'page');
       revalidatePath('/tri-tue-phat-phap', 'page');
     } catch (e) {
@@ -643,6 +698,10 @@ export async function POST(req: NextRequest) {
 
 // 🗑️ DELETE: Xóa bài viết khỏi cơ sở dữ liệu và đồng bộ S3/WordPress
 export async function DELETE(req: NextRequest) {
+  // 🛡️ Bắt buộc xác thực quyền quản trị viên
+  const authError = requireAdminAuth(req);
+  if (authError) return authError;
+
   try {
     const { searchParams } = new URL(req.url);
     const queryId = searchParams.get('id');
@@ -664,7 +723,6 @@ export async function DELETE(req: NextRequest) {
     );
 
     if (targetIdx === -1) {
-      // Dù không thấy trong database, vẫn ghi vào danh sách đen xóa để chống hồi sinh
       await recordDeletedPost(id, id, decodedId);
       return NextResponse.json({ success: true, message: 'Đã xóa bài viết khỏi hệ thống.' });
     }
@@ -672,7 +730,6 @@ export async function DELETE(req: NextRequest) {
     const deletedPost = rawPosts[targetIdx];
     rawPosts.splice(targetIdx, 1);
 
-    // Chạy song song lưu posts và ghi blacklist bài viết đã xóa để giảm 50% thời gian phản hồi máy chủ
     await Promise.all([
       savePosts(rawPosts),
       recordDeletedPost(deletedPost.id, deletedPost.wpPostId, deletedPost.slug),
@@ -686,16 +743,27 @@ export async function DELETE(req: NextRequest) {
       console.warn('[revalidatePath error]', e);
     }
 
+    let wpDeletedSuccess = true;
+    let wpErrorMsg: string | undefined;
+
     if (deletedPost.wpPostId) {
       const numWpId = typeof deletedPost.wpPostId === 'number' ? deletedPost.wpPostId : parseInt(String(deletedPost.wpPostId), 10);
-      if (!isNaN(numWpId)) {
-        deleteWpPost(numWpId).catch((e) => console.warn('Could not trash WP post:', e));
+      if (!isNaN(numWpId) && numWpId > 0) {
+        const delRes = await deleteWpPost(numWpId);
+        if (!delRes.success) {
+          wpDeletedSuccess = false;
+          wpErrorMsg = delRes.error;
+          enqueueSyncTask('delete_wp_post', String(numWpId), null, delRes.error);
+        }
       }
     }
 
     return NextResponse.json({
       success: true,
-      message: `Đã xóa bài viết "${deletedPost.title}" thành công!`,
+      wpSynced: wpDeletedSuccess,
+      message: wpDeletedSuccess
+        ? `Đã xóa bài viết "${deletedPost.title}" thành công trên cả Next.js và WordPress!`
+        : `Đã xóa bài viết trên Next.js, nhưng xóa trên WordPress chưa hoàn tất (${wpErrorMsg}). Đã đưa vào hàng đợi tự động thử lại.`,
     });
   } catch (err: any) {
     return NextResponse.json({ success: false, error: err.message }, { status: 500 });

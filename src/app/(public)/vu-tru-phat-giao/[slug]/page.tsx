@@ -104,7 +104,10 @@ export default function UniverseDetailPage() {
     let isMounted = true;
     async function loadDynamicArea() {
       try {
-        const res = await fetch(`/api/admin/vu-tru/${slug}`, { cache: 'no-store' });
+        const res = await fetch(`/api/admin/vu-tru/${slug}?t=${Date.now()}`, {
+          cache: 'no-store',
+          next: { revalidate: 0 },
+        });
         if (res.ok) {
           const json = await res.json();
           if (json.success && json.area && isMounted) {

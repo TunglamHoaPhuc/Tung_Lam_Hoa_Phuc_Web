@@ -179,7 +179,10 @@ const DharmaSection: FC<DharmaSectionProps> = ({ sectionRef }) => {
     async function fetchFeatured() {
       try {
         setLoading(true);
-        const res = await fetch('/api/public/dharma-featured');
+        const res = await fetch(`/api/public/dharma-featured?t=${Date.now()}`, {
+          cache: 'no-store',
+          next: { revalidate: 0 },
+        });
         if (res.ok) {
           const json = await res.json();
           if (json.success && json.data && isMounted) {

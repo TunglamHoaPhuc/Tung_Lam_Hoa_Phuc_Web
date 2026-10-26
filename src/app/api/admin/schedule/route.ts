@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { loadServerlessJson, saveServerlessJson, ServerlessDbOptions } from '@/lib/serverless-db';
 import scheduleDbJson from '@/data/schedule-database.json';
 
@@ -103,6 +104,14 @@ export async function POST(req: NextRequest) {
     const saved = await saveServerlessJson(DB_OPTIONS, updatedData);
     if (!saved) {
       return NextResponse.json({ success: false, error: 'Không thể ghi dữ liệu' }, { status: 500 });
+    }
+
+    try {
+      revalidatePath('/', 'page');
+      revalidatePath('/lich-tu-hoc', 'page');
+      revalidatePath('/admin/lich-tu-hoc', 'page');
+    } catch (e) {
+      console.warn('Revalidation warning:', e);
     }
 
     return NextResponse.json({ success: true, message: 'Đã lưu lịch tu học thành công' });

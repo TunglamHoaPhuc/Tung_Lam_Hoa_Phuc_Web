@@ -6,6 +6,9 @@ import { UNIVERSE_AREAS, UniverseArea } from '@/data/universe-data';
 import { loadServerlessJsonAsync, saveServerlessJson } from '@/lib/serverless-db';
 import { parseGutenbergPostContent } from '@/lib/wp-post-parser';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export const DB_CONFIG = {
   fileName: 'universe-database.json',
   localRelativePath: 'src/data/universe-database.json',

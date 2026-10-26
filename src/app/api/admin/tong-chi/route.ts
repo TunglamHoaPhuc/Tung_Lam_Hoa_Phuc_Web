@@ -1,33 +1,23 @@
 import { NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
-import fs from 'fs';
-import path from 'path';
+import { loadServerlessJsonAsync, saveServerlessJson } from '@/lib/serverless-db';
 
-const DATA_FILE = path.resolve(process.cwd(), 'src/data/tong-chi-data.json');
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
-function getArticles() {
-  if (!fs.existsSync(DATA_FILE)) {
-    return [];
-  }
-  try {
-    const raw = fs.readFileSync(DATA_FILE, 'utf-8');
-    return JSON.parse(raw);
-  } catch (err) {
-    console.error('Error reading tong-chi-data.json:', err);
-    return [];
-  }
+const DB_CONFIG = {
+  fileName: 'tong-chi-data.json',
+  localRelativePath: 'src/data/tong-chi-data.json',
+  s3Key: 'tunglamhoaphuc2/database/tong-chi-data.json',
+  defaultData: [] as any[],
+};
+
+async function getArticles(): Promise<any[]> {
+  return await loadServerlessJsonAsync<any[]>(DB_CONFIG);
 }
 
-function saveArticles(articles: any[]) {
-  try {
-    const dir = path.dirname(DATA_FILE);
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
-    }
-    fs.writeFileSync(DATA_FILE, JSON.stringify(articles, null, 2), 'utf-8');
-  } catch (err) {
-    console.warn('[tong-chi] Lỗi ghi file:', err);
-  }
+async function saveArticles(articles: any[]): Promise<boolean> {
+  return await saveServerlessJson<any[]>(DB_CONFIG, articles);
 }
 
 export async function GET(request: Request) {
@@ -36,7 +26,7 @@ export async function GET(request: Request) {
     const category = searchParams.get('category');
     const search = searchParams.get('search');
 
-    let articles = getArticles();
+    let articles = await getArticles();
 
     if (category && category !== 'all') {
       articles = articles.filter((a: any) => a.category === category);
@@ -52,7 +42,14 @@ export async function GET(request: Request) {
       );
     }
 
-    return NextResponse.json({ success: true, data: articles });
+    return NextResponse.json(
+      { success: true, data: articles },
+      {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        },
+      }
+    );
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
@@ -68,7 +65,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const articles = getArticles();
+    const articles = await getArticles();
 
     function slugify(text: string) {
       return text
@@ -102,14 +99,17 @@ export async function POST(request: Request) {
       keywords: body.keywords || [],
       sourceBook: body.sourceBook || [],
       wpPostId: body.wpPostId || undefined,
+      isLocalEdited: true,
+      updatedAt: new Date().toISOString(),
     };
 
     articles.unshift(newArticle);
-    saveArticles(articles);
+    await saveArticles(articles);
 
     try {
       revalidatePath('/', 'page');
       revalidatePath('/tong-chi-tu-hoc', 'page');
+      revalidatePath(`/tong-chi-tu-hoc/${slug}`, 'page');
     } catch (e) {
       console.warn('[revalidatePath error]', e);
     }
@@ -124,16 +124,16 @@ export async function PUT(request: Request) {
   try {
     const body = await request.json();
     if (Array.isArray(body)) {
-      const existingArticles = getArticles();
+      const existingArticles = await getArticles();
       const merged = body.map((incoming: any) => {
         const match = existingArticles.find((ex: any) => String(ex.id) === String(incoming.id) || ex.slug === incoming.slug);
         if (match && (!incoming.content || incoming.content.trim() === '') && match.content && match.content.trim() !== '') {
           // Bảo vệ nội dung phong phú không bị ghi đè rỗng từ client chưa tải xong
-          return { ...incoming, content: match.content };
+          return { ...incoming, content: match.content, isLocalEdited: true, updatedAt: new Date().toISOString() };
         }
-        return incoming;
+        return { ...incoming, isLocalEdited: true, updatedAt: new Date().toISOString() };
       });
-      saveArticles(merged);
+      await saveArticles(merged);
 
       // 🌟 REVALIDATE TỨC THỜI CHO TRANG CHỦ & TÔNG CHỈ TU HỌC
       try {
@@ -150,4 +150,3 @@ export async function PUT(request: Request) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
-

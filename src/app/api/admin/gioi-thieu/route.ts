@@ -5,6 +5,9 @@ import path from 'path';
 import { loadServerlessJsonAsync, saveServerlessJson } from '@/lib/serverless-db';
 import { parseGutenbergPostContent } from '@/lib/wp-post-parser';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 const DB_PATH = path.resolve(process.cwd(), 'src/data/gioi-thieu-database.json');
 export const DB_CONFIG = {
   fileName: 'gioi-thieu-database.json',

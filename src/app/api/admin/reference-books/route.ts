@@ -1,30 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
+import { revalidatePath } from 'next/cache';
 import { THU_VIEN_BOOKS } from '@/data/thu-vien-data';
+import { loadServerlessJsonAsync, saveServerlessJson } from '@/lib/serverless-db';
 
-const DATA_FILE = path.join(process.cwd(), 'src', 'data', 'reference-books-data.json');
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
-function getCustomBooks(): any[] {
-  try {
-    if (fs.existsSync(DATA_FILE)) {
-      const raw = fs.readFileSync(DATA_FILE, 'utf8');
-      return JSON.parse(raw);
-    }
-  } catch (err) {
-    console.error('Error reading reference-books-data.json:', err);
-  }
-  return [];
+const DB_CONFIG = {
+  fileName: 'reference-books-data.json',
+  localRelativePath: 'src/data/reference-books-data.json',
+  s3Key: 'tunglamhoaphuc2/database/reference-books-data.json',
+  defaultData: [] as any[],
+};
+
+async function getCustomBooks(): Promise<any[]> {
+  return await loadServerlessJsonAsync<any[]>(DB_CONFIG);
 }
 
-function saveCustomBooks(data: any[]): boolean {
-  try {
-    fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2), 'utf8');
-    return true;
-  } catch (err) {
-    console.error('Error writing reference-books-data.json:', err);
-    return false;
-  }
+async function saveCustomBooks(data: any[]): Promise<boolean> {
+  return await saveServerlessJson<any[]>(DB_CONFIG, data);
 }
 
 // 🪷 GET: Lấy danh sách toàn bộ sách (kết hợp Tủ sách Tuyển chọn + Kho 400+ sách Tàng Kinh Các)
@@ -34,7 +28,7 @@ export async function GET(req: NextRequest) {
     const search = (searchParams.get('q') || '').toLowerCase().trim();
     const category = searchParams.get('category') || '';
 
-    const customBooks = getCustomBooks();
+    const customBooks = await getCustomBooks();
 
     // Chuẩn hóa 400+ đầu sách từ Tàng Kinh Các
     const tangKinhCacBooks = (THU_VIEN_BOOKS || []).map((b) => ({
@@ -65,13 +59,20 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    return NextResponse.json({
-      success: true,
-      data: allBooks,
-      total: allBooks.length,
-      customCount: customBooks.length,
-      tangKinhCacCount: tangKinhCacBooks.length,
-    });
+    return NextResponse.json(
+      {
+        success: true,
+        data: allBooks,
+        total: allBooks.length,
+        customCount: customBooks.length,
+        tangKinhCacCount: tangKinhCacBooks.length,
+      },
+      {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+        },
+      }
+    );
   } catch (err: any) {
     return NextResponse.json({ success: false, error: err.message }, { status: 500 });
   }
@@ -87,7 +88,7 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: false, message: 'Tiêu đề sách là bắt buộc' }, { status: 400 });
     }
 
-    const customBooks = getCustomBooks();
+    const customBooks = await getCustomBooks();
     const bookId = id || title.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/đ/g, 'd').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 
     const existingIdx = customBooks.findIndex((b: any) => b.id === bookId);
@@ -112,7 +113,16 @@ export async function POST(req: NextRequest) {
       customBooks.unshift(newBook);
     }
 
-    saveCustomBooks(customBooks);
+    await saveCustomBooks(customBooks);
+
+    try {
+      revalidatePath('/', 'page');
+      revalidatePath('/vu-tru-phat-giao', 'page');
+      revalidatePath('/vu-tru-phat-giao/tang-kinh-cac', 'page');
+      revalidatePath('/vu-tru-phat-giao/thu-vien', 'page');
+    } catch (e) {
+      console.warn('Revalidation warning:', e);
+    }
 
     return NextResponse.json({
       success: true,

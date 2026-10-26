@@ -3,10 +3,12 @@
  * Tùng Lâm Hòa Phúc - Hệ Thống Quản Trị Tự Động Đồng Bộ Bài Viết
  */
 
-const rawWpBase = (process.env.WP_ADMIN_BASE_URL || 'https://admin.tunglamhoaphuc.com').replace(/["']/g, '').trim().replace(/\/+$/, '');
-export const WP_BASE_URL = rawWpBase.includes('mocwp.com') ? 'https://admin.tunglamhoaphuc.com' : (rawWpBase || 'https://admin.tunglamhoaphuc.com');
-export const WP_USERNAME = (process.env.WP_ADMIN_USERNAME || 'admin_tunglam').replace(/["']/g, '').trim();
-export const WP_PASSWORD = (process.env.WP_ADMIN_PASSWORD || 'suXWb3nIwNH@B1zshdC#kDrL').replace(/["']/g, '').trim();
+import { getWpConfig } from './env-config';
+import { markRecentSync } from './sync-queue';
+
+export function getWpBaseUrl(): string {
+  return getWpConfig().baseUrl;
+}
 
 const COMMON_HEADERS = {
   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
@@ -38,15 +40,17 @@ export async function getWpSession(forceRefresh: boolean = false): Promise<{ coo
     return { cookies: sessionCache.cookies, nonce: sessionCache.nonce };
   }
 
+  const wpConfig = getWpConfig(true);
+
   const params = new URLSearchParams();
-  params.append('log', WP_USERNAME);
-  params.append('pwd', WP_PASSWORD);
+  params.append('log', wpConfig.username);
+  params.append('pwd', wpConfig.password || '');
   params.append('wp-submit', 'Đăng nhập');
-  params.append('redirect_to', `${WP_BASE_URL}/wp-admin/`);
+  params.append('redirect_to', `${wpConfig.baseUrl}/wp-admin/`);
   params.append('testcookie', '1');
 
   // 1. Đăng nhập vào WordPress qua wp-login.php
-  const loginRes = await fetch(`${WP_BASE_URL}/wp-login.php`, {
+  const loginRes = await fetch(`${wpConfig.baseUrl}/wp-login.php`, {
     method: 'POST',
     headers: {
       ...COMMON_HEADERS,
@@ -71,11 +75,11 @@ export async function getWpSession(forceRefresh: boolean = false): Promise<{ coo
     .join('; ');
 
   if (!cookieHeader.includes('wordpress_logged_in_')) {
-    console.warn('WordPress login response did not contain logged_in cookie. Status:', loginRes.status);
+    console.warn('[wp-admin-client] WordPress login response does not contain logged_in cookie. Status:', loginRes.status);
   }
 
   // 2. Tải trang wp-admin để trích xuất REST API Nonce
-  const adminRes = await fetch(`${WP_BASE_URL}/wp-admin/`, {
+  const adminRes = await fetch(`${wpConfig.baseUrl}/wp-admin/`, {
     headers: {
       ...COMMON_HEADERS,
       Cookie: cookieHeader,
@@ -89,7 +93,7 @@ export async function getWpSession(forceRefresh: boolean = false): Promise<{ coo
     nonce = matchNonce[1];
   } else {
     // Fallback thử tìm nonce ở post-new.php
-    const newRes = await fetch(`${WP_BASE_URL}/wp-admin/post-new.php`, {
+    const newRes = await fetch(`${wpConfig.baseUrl}/wp-admin/post-new.php`, {
       headers: {
         ...COMMON_HEADERS,
         Cookie: cookieHeader,
@@ -130,7 +134,6 @@ export const WP_CATEGORIES: Record<string, number> = {
 
 /**
  * Chuyển đổi nội dung HTML / Markdown sang các khối Gutenberg chuẩn (WordPress Block Comments)
- * Tự động gom các ảnh liên tiếp thành khối wp:gallery dạng Bento/Lưới đẹp mắt
  */
 export function convertToGutenbergBlocks(html: string, photoGallery: any[] = []): string {
   if (!html && (!photoGallery || photoGallery.length === 0)) return '';
@@ -141,7 +144,6 @@ export function convertToGutenbergBlocks(html: string, photoGallery: any[] = [])
     return content;
   }
 
-  // Hàm tạo khối ảnh wp:image
   const buildWpImage = (url: string, caption = '', alt = '') => {
     const finalAlt = alt || caption || 'Ảnh tư liệu Tùng Lâm Hòa Phúc';
     const captionHtml = caption
@@ -150,7 +152,6 @@ export function convertToGutenbergBlocks(html: string, photoGallery: any[] = [])
     return `<!-- wp:image {"sizeSlug":"large","linkTo":"none"} -->\n<figure class="wp-block-image size-large"><img src="${url}" alt="${finalAlt}"/>${captionHtml}</figure>\n<!-- /wp:image -->`;
   };
 
-  // Hàm tạo khối thư viện ảnh wp:gallery
   const buildWpGallery = (images: Array<{ url: string; caption?: string; alt?: string }>) => {
     if (!images || images.length === 0) return '';
     if (images.length === 1) {
@@ -163,7 +164,7 @@ export function convertToGutenbergBlocks(html: string, photoGallery: any[] = [])
     return `<!-- wp:gallery {"columns":${cols},"linkTo":"none"} -->\n<figure class="wp-block-gallery has-nested-images columns-${cols} is-cropped">\n${innerImages}\n</figure>\n<!-- /wp:gallery -->`;
   };
 
-  // 1. Gom nhóm các ảnh Markdown liên tiếp (![...](...)) thành khối Gallery
+  // 1. Gom nhóm các ảnh Markdown liên tiếp thành khối Gallery
   const galleryPlaceholders: string[] = [];
   content = content.replace(/(?:!\[[\s\S]*?\]\(https?:\/\/[^\s\)]+\)\s*){2,}/g, (match) => {
     const imgs: Array<{ url: string; caption: string; alt: string }> = [];
@@ -194,7 +195,7 @@ export function convertToGutenbergBlocks(html: string, photoGallery: any[] = [])
     return `\n<!-- wp:heading {"level":${level}} -->\n<h${level}${attrs}>${inner.trim()}</h${level}>\n<!-- /wp:heading -->\n`;
   });
 
-  // 3. Chuyển đổi blockquote (Trích dẫn lời dạy, kinh điển)
+  // 3. Chuyển đổi blockquote
   content = content.replace(/^>\s+(.+)$/gm, (_match, text) => {
     return `\n<!-- wp:quote -->\n<blockquote class="wp-block-quote"><p>${text.trim()}</p></blockquote>\n<!-- /wp:quote -->\n`;
   });
@@ -234,7 +235,7 @@ export function convertToGutenbergBlocks(html: string, photoGallery: any[] = [])
     content = content.replace(`__GALLERY_BLOCK_${i}__`, galBlock);
   });
 
-  // 7. Chuyển đổi các đoạn văn bản còn lại thành khối wp:paragraph
+  // 7. Chuyển đổi các đoạn văn bản còn lại
   const blocks = content.split(/\n\s*\n/);
   const formattedBlocks = blocks
     .map((block) => {
@@ -259,7 +260,6 @@ export function convertToGutenbergBlocks(html: string, photoGallery: any[] = [])
 
   let finalResult = formattedBlocks.join('\n\n');
 
-  // 8. Nếu bài viết có mảng photoGallery và trong nội dung chưa có khối gallery, tự động gắn khối gallery xuống cuối
   if (photoGallery && photoGallery.length > 0 && !finalResult.includes('<!-- wp:gallery')) {
     const extraGallery = buildWpGallery(
       photoGallery.map((p: any) => ({
@@ -300,9 +300,10 @@ export async function getWpPost(
   postType: string = 'posts'
 ): Promise<any | null> {
   try {
+    const wpBase = getWpBaseUrl();
     let { cookies, nonce } = await getWpSession();
     const endpoint = postType === 'tong-chi' ? 'tong-chi' : 'posts';
-    let res = await fetch(`${WP_BASE_URL}/wp-json/wp/v2/${endpoint}/${postId}?context=edit`, {
+    let res = await fetch(`${wpBase}/wp-json/wp/v2/${endpoint}/${postId}?context=edit`, {
       headers: {
         ...COMMON_HEADERS,
         Cookie: cookies,
@@ -313,7 +314,7 @@ export async function getWpPost(
     if (res.status === 403) {
       invalidateWpSession();
       const freshSession = await getWpSession(true);
-      res = await fetch(`${WP_BASE_URL}/wp-json/wp/v2/${endpoint}/${postId}?context=edit`, {
+      res = await fetch(`${wpBase}/wp-json/wp/v2/${endpoint}/${postId}?context=edit`, {
         headers: {
           ...COMMON_HEADERS,
           Cookie: freshSession.cookies,
@@ -332,14 +333,18 @@ export async function getWpPost(
 }
 
 /**
- * Tạo mới hoặc cập nhật bài viết lên WordPress Gutenberg
+ * 🌟 Tạo mới hoặc cập nhật bài viết lên WordPress Gutenberg
+ * Đã sửa lỗi: Khi bài viết đã tồn tại, LUÔN cập nhật đầy đủ các trường hỗ trợ
+ * (title, content, excerpt, status, categories, date) mà không chặn bởi điều kiện rỗng hay forceUpdate.
  */
 export async function createOrUpdateWpPost(payload: WpPostPayload): Promise<{
   success: boolean;
   wpPostId: number;
   editUrl: string;
   isNew: boolean;
+  data?: any;
 }> {
+  const wpBase = getWpBaseUrl();
   let { cookies, nonce } = await getWpSession();
 
   const postType = payload.postType === 'tong-chi' ? 'tong-chi' : 'posts';
@@ -353,9 +358,12 @@ export async function createOrUpdateWpPost(payload: WpPostPayload): Promise<{
 
   const postBody: Record<string, any> = {
     title: payload.title,
-    content: gutenbergContent,
     status: payload.status || 'draft',
   };
+
+  if (gutenbergContent) {
+    postBody.content = gutenbergContent;
+  }
 
   const rawDate = payload.date || payload.publishedDate || payload.publishedAt;
   if (rawDate) {
@@ -370,17 +378,31 @@ export async function createOrUpdateWpPost(payload: WpPostPayload): Promise<{
     postBody.categories = [categoryId];
   }
 
-  // 1. Nếu có ID sẵn, kiểm tra xem có tồn tại trên admin.tunglamhoaphuc.com không
+  // 1. Nếu có ID sẵn, kiểm tra xem có tồn tại trên WordPress không
   const existingId = payload.id ? Number(payload.id) : null;
   if (existingId && !isNaN(existingId) && existingId > 0) {
     const existingPost = await getWpPost(existingId, postType);
     if (existingPost) {
-      const currentContent = (existingPost.content?.raw || '').trim();
-      const needsPopulating = payload.forceUpdate || currentContent.length < 15;
+      // 🛡️ Đánh dấu nguồn Next.js trước khi gửi để tránh Webhook loop
+      markRecentSync(String(existingId), 'nextjs');
 
-      if (needsPopulating && gutenbergContent.length > 0) {
-        // Cập nhật nội dung bài viết hiện có nếu đang trống
-        await fetch(`${WP_BASE_URL}/wp-json/wp/v2/${postType}/${existingId}`, {
+      let updateRes = await fetch(`${wpBase}/wp-json/wp/v2/${postType}/${existingId}`, {
+        method: 'POST',
+        headers: {
+          ...COMMON_HEADERS,
+          'Content-Type': 'application/json',
+          Cookie: cookies,
+          'X-WP-Nonce': nonce,
+        },
+        body: JSON.stringify(postBody),
+      });
+
+      if (updateRes.status === 403) {
+        invalidateWpSession();
+        const freshSession = await getWpSession(true);
+        cookies = freshSession.cookies;
+        nonce = freshSession.nonce;
+        updateRes = await fetch(`${wpBase}/wp-json/wp/v2/${postType}/${existingId}`, {
           method: 'POST',
           headers: {
             ...COMMON_HEADERS,
@@ -392,17 +414,24 @@ export async function createOrUpdateWpPost(payload: WpPostPayload): Promise<{
         });
       }
 
+      if (!updateRes.ok) {
+        const errText = await updateRes.text();
+        throw new Error(`WordPress REST API update error (${updateRes.status}): ${errText}`);
+      }
+
+      const updatedData = await updateRes.json();
       return {
         success: true,
         wpPostId: existingPost.id,
-        editUrl: `${WP_BASE_URL}/wp-admin/post.php?post=${existingPost.id}&action=edit`,
+        editUrl: `${wpBase}/wp-admin/post.php?post=${existingPost.id}&action=edit`,
         isNew: false,
+        data: updatedData,
       };
     }
   }
 
-  // 2. Nếu chưa tồn tại hoặc ID cũ không có trên hệ thống -> Tạo bài viết mới với toàn bộ khối nội dung
-  let createRes = await fetch(`${WP_BASE_URL}/wp-json/wp/v2/${postType}`, {
+  // 2. Nếu chưa tồn tại hoặc ID cũ không có trên hệ thống -> Tạo bài viết mới
+  let createRes = await fetch(`${wpBase}/wp-json/wp/v2/${postType}`, {
     method: 'POST',
     headers: {
       ...COMMON_HEADERS,
@@ -418,7 +447,7 @@ export async function createOrUpdateWpPost(payload: WpPostPayload): Promise<{
     const freshSession = await getWpSession(true);
     cookies = freshSession.cookies;
     nonce = freshSession.nonce;
-    createRes = await fetch(`${WP_BASE_URL}/wp-json/wp/v2/${postType}`, {
+    createRes = await fetch(`${wpBase}/wp-json/wp/v2/${postType}`, {
       method: 'POST',
       headers: {
         ...COMMON_HEADERS,
@@ -432,25 +461,34 @@ export async function createOrUpdateWpPost(payload: WpPostPayload): Promise<{
 
   if (!createRes.ok) {
     const errText = await createRes.text();
-    throw new Error(`WordPress REST API error (${createRes.status}): ${errText}`);
+    throw new Error(`WordPress REST API create error (${createRes.status}): ${errText}`);
   }
 
   const newPost = await createRes.json();
+  markRecentSync(String(newPost.id), 'nextjs');
+
   return {
     success: true,
     wpPostId: newPost.id,
-    editUrl: `${WP_BASE_URL}/wp-admin/post.php?post=${newPost.id}&action=edit`,
+    editUrl: `${wpBase}/wp-admin/post.php?post=${newPost.id}&action=edit`,
     isNew: true,
+    data: newPost,
   };
 }
 
 /**
  * Xóa hoặc chuyển bài viết vào Thùng rác (Trash) trên WordPress
  */
-export async function deleteWpPost(wpPostId: number, force: boolean = false): Promise<boolean> {
+export async function deleteWpPost(
+  wpPostId: number,
+  force: boolean = false
+): Promise<{ success: boolean; error?: string }> {
   try {
+    const wpBase = getWpBaseUrl();
     let { cookies, nonce } = await getWpSession();
-    let res = await fetch(`${WP_BASE_URL}/wp-json/wp/v2/posts/${wpPostId}?force=${force}`, {
+    markRecentSync(String(wpPostId), 'nextjs');
+
+    let res = await fetch(`${wpBase}/wp-json/wp/v2/posts/${wpPostId}?force=${force}`, {
       method: 'DELETE',
       headers: {
         ...COMMON_HEADERS,
@@ -462,7 +500,7 @@ export async function deleteWpPost(wpPostId: number, force: boolean = false): Pr
     if (res.status === 403) {
       invalidateWpSession();
       const fresh = await getWpSession(true);
-      res = await fetch(`${WP_BASE_URL}/wp-json/wp/v2/posts/${wpPostId}?force=${force}`, {
+      res = await fetch(`${wpBase}/wp-json/wp/v2/posts/${wpPostId}?force=${force}`, {
         method: 'DELETE',
         headers: {
           ...COMMON_HEADERS,
@@ -472,15 +510,20 @@ export async function deleteWpPost(wpPostId: number, force: boolean = false): Pr
       });
     }
 
-    return res.ok;
-  } catch (err) {
+    if (!res.ok) {
+      const errText = await res.text();
+      return { success: false, error: `WordPress xóa thất bại (${res.status}): ${errText}` };
+    }
+
+    return { success: true };
+  } catch (err: any) {
     console.warn(`[wp-admin-client] Không thể xóa WP Post #${wpPostId}:`, err);
-    return false;
+    return { success: false, error: err.message };
   }
 }
 
 /**
- * 📅 Chuẩn hóa chuỗi ngày sang định dạng WordPress REST API yêu cầu: YYYY-MM-DDTHH:MM:SS (theo múi giờ Việt Nam UTC+7)
+ * Chuẩn hóa chuỗi ngày sang định dạng WordPress REST API yêu cầu: YYYY-MM-DDTHH:MM:SS
  */
 export function formatWpDate(inputDate?: string | Date | null): string {
   if (!inputDate) {
@@ -490,11 +533,9 @@ export function formatWpDate(inputDate?: string | Date | null): string {
 
   if (typeof inputDate === 'string') {
     const trimmed = inputDate.trim();
-    // Đã đúng định dạng YYYY-MM-DD -> Bổ sung 08:00:00 (giờ sáng trang nghiêm)
     if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) {
       return `${trimmed}T08:00:00`;
     }
-    // Định dạng DD/MM/YYYY hoặc DD/MM/YYYY HH:mm:ss
     const dmyMatch = trimmed.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:\s+(\d{1,2}):(\d{1,2})(?::(\d{1,2}))?)?$/);
     if (dmyMatch) {
       const day = dmyMatch[1].padStart(2, '0');
@@ -505,7 +546,6 @@ export function formatWpDate(inputDate?: string | Date | null): string {
       const second = (dmyMatch[6] || '00').padStart(2, '0');
       return `${year}-${month}-${day}T${hour}:${minute}:${second}`;
     }
-    // Chuỗi ISO có 'T' và không chứa 'Z' / múi giờ -> Lấy 19 ký tự đầu
     if (trimmed.includes('T') && !trimmed.endsWith('Z') && !/[+-]\d{2}:?\d{2}$/.test(trimmed)) {
       const match = trimmed.match(/^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})/);
       if (match) return match[1];
@@ -517,7 +557,6 @@ export function formatWpDate(inputDate?: string | Date | null): string {
     return new Date().toISOString().slice(0, 19);
   }
 
-  // Chuẩn hóa sang múi giờ Việt Nam (UTC+7)
   try {
     const vnDateStr = d.toLocaleString('sv-SE', { timeZone: 'Asia/Ho_Chi_Minh' });
     return vnDateStr.replace(' ', 'T');
@@ -527,24 +566,26 @@ export function formatWpDate(inputDate?: string | Date | null): string {
 }
 
 /**
- * ⚡ Cập nhật bất kỳ trường nào của bài viết lên WordPress REST API (ví dụ: ngày đăng, tiêu đề, trạng thái...)
+ * Cập nhật bất kỳ trường nào của bài viết lên WordPress REST API
  */
 export async function updateWpPostFields(
   postId: number | string,
   fields: Record<string, any>,
-  postType: string = 'tong-chi'
+  postType: string = 'posts'
 ): Promise<{ success: boolean; data?: any; error?: string }> {
   try {
+    const wpBase = getWpBaseUrl();
     let { cookies, nonce } = await getWpSession();
     const endpoint = postType === 'tong-chi' ? 'tong-chi' : 'posts';
-    
-    // Nếu cập nhật ngày đăng, luôn đảm bảo status là published để WordPress không tự đổi sang future
+
+    markRecentSync(String(postId), 'nextjs');
+
     const payloadToSend: Record<string, any> = { ...fields };
     if (payloadToSend.date && !payloadToSend.status) {
       payloadToSend.status = 'publish';
     }
 
-    let res = await fetch(`${WP_BASE_URL}/wp-json/wp/v2/${endpoint}/${postId}`, {
+    let res = await fetch(`${wpBase}/wp-json/wp/v2/${endpoint}/${postId}`, {
       method: 'POST',
       headers: {
         ...COMMON_HEADERS,
@@ -558,7 +599,7 @@ export async function updateWpPostFields(
     if (res.status === 403) {
       invalidateWpSession();
       const fresh = await getWpSession(true);
-      res = await fetch(`${WP_BASE_URL}/wp-json/wp/v2/${endpoint}/${postId}`, {
+      res = await fetch(`${wpBase}/wp-json/wp/v2/${endpoint}/${postId}`, {
         method: 'POST',
         headers: {
           ...COMMON_HEADERS,
@@ -581,4 +622,3 @@ export async function updateWpPostFields(
     return { success: false, error: err.message };
   }
 }
-
