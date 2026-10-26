@@ -1,7 +1,7 @@
 [
   {
     "id": 1,
-    "slug": "tong-phong-truyen-thua-truc-lam",
+    "slug": "tiep-buoc-thay-toi",
     "title": "TIẾP BƯỚC THẦY TÔI",
     "subtitle": "Hoằng Pháp – Kiến An mãi nhớ Thầy",
     "category": "tong-phong-truyen-thua",
@@ -123,7 +123,7 @@
         "linkUrl": "https://chuahoangphap.com.vn"
       }
     ],
-    "updatedAt": "2026-10-26T03:08:54.372Z",
+    "updatedAt": "2026-10-26T05:58:31.316Z",
     "bannerPosition": "center 9%",
     "wpPostId": "385",
     "viewsCount": 54212
@@ -198,7 +198,7 @@
         "linkUrl": ""
       }
     ],
-    "updatedAt": "2026-10-26T03:08:54.350Z",
+    "updatedAt": "2026-10-26T05:58:31.298Z",
     "bannerPosition": "center 44%",
     "wpPostId": "403",
     "viewsCount": 49801
@@ -358,7 +358,7 @@
         "linkUrl": "/tong-chi-tu-hoc/bo-tat-hanh-luc-do-ba-la-mat"
       }
     ],
-    "updatedAt": "2026-10-26T03:08:54.364Z",
+    "updatedAt": "2026-10-26T05:58:31.313Z",
     "bannerPosition": "center 17%",
     "wpPostId": "401",
     "viewsCount": 46500
@@ -434,12 +434,12 @@
       }
     ],
     "keywords": [],
-    "updatedAt": "2026-10-26T03:08:54.341Z",
+    "updatedAt": "2026-10-26T05:58:31.291Z",
     "bannerPosition": "center 50%",
     "author": "Vô Trí - Tâm Hòa",
     "authorLink": "/gioi-thieu/su-phu-tru-tri",
     "wpPostId": "470",
-    "viewsCount": 58242
+    "viewsCount": 58243
   },
   {
     "id": 5,
@@ -503,7 +503,7 @@
         "linkUrl": "/tong-chi-tu-hoc/tam-quy-ngu-gioi"
       }
     ],
-    "updatedAt": "2026-10-26T03:08:54.329Z",
+    "updatedAt": "2026-10-26T05:58:31.281Z",
     "bannerPosition": "center 6%",
     "wpPostId": "488",
     "author": "Sa Môn Vô Trí (Thích Tâm Hòa)",
@@ -702,7 +702,7 @@
         "linkUrl": "/tong-chi-tu-hoc/niem-phat-phuong-phap-tro-hanh"
       }
     ],
-    "updatedAt": "2026-10-26T03:08:54.301Z",
+    "updatedAt": "2026-10-26T05:58:31.250Z",
     "wpPostId": "650",
     "viewsCount": 43200,
     "bannerPosition": "center 37%"

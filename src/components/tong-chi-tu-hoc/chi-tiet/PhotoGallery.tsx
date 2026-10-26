@@ -220,7 +220,7 @@ export function PhotoGallery({
               {/* Hình ảnh tối ưu hóa WebP siêu nét và nhẹ */}
               <img
                 src={previewSrc}
-                alt={titleText || captionText || `Ảnh tư liệu #${idx + 1}`}
+                alt={titleText || captionText || `Ảnh tư liệu ${idx + 1}`}
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                 style={{ objectPosition: item.imagePosition || 'center 50%' }}
                 loading="lazy"
@@ -239,13 +239,13 @@ export function PhotoGallery({
               {/* Lớp phủ Gradient dịu mắt ở chân ảnh */}
               <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#1C120B]/95 via-[#1C120B]/50 to-transparent pointer-events-none" />
 
-              {/* Huy hiệu số thứ tự ảnh ở góc trên trái */}
+              {/* Huy hiệu số thứ tự ảnh ở góc trên trái (Bỏ dấu #, chỉ ghi 1/4) */}
               <div className="absolute top-3 left-3 z-10">
                 <span 
                   style={{ fontFamily: "'UTM Avo', sans-serif" }}
                   className="px-2.5 py-1 rounded-lg bg-[#1a1008]/85 border border-[#c8aa6e]/60 text-[10px] sm:text-xs font-bold text-[#ffde59] tracking-wider shadow-md backdrop-blur-xs"
                 >
-                  #{String(idx + 1).padStart(2, '0')} / {totalCount}
+                  {idx + 1}/{totalCount}
                 </span>
               </div>
 
@@ -256,7 +256,7 @@ export function PhotoGallery({
                     style={{ fontFamily: "'UTM ClassizismAntiqua', 'UTM_ClassizismAntiqua', serif" }}
                     className="text-white font-normal uppercase tracking-wide transition-all duration-300 group-hover:-translate-y-0.5 drop-shadow-[0_4px_12px_rgba(0,0,0,0.95)] leading-snug max-w-[95%] mx-auto text-sm sm:text-base md:text-lg text-center line-clamp-2"
                   >
-                    {titleText || `ẢNH TƯ LIỆU #${idx + 1}`}
+                    {titleText || `ẢNH TƯ LIỆU ${idx + 1}`}
                   </h3>
 
                   <div className="w-12 sm:w-16 h-[2px] bg-[#ffde59] my-2 sm:my-2.5 shadow-[0_0_8px_#ffde59]" />
@@ -419,14 +419,17 @@ export function PhotoGallery({
                 >
                   <RotateCcw className="w-4 h-4" />
                 </button>
-                <span className="text-[11px] font-mono text-[#F2C14E] px-1 font-bold">
+                <span 
+                  style={{ fontFamily: "'UTM Avo', sans-serif" }} 
+                  className="text-[11px] text-[#F2C14E] px-1 font-bold tracking-tight"
+                >
                   {Math.round(zoomScale * 100)}%
                 </span>
               </div>
             </div>
 
             {/* 3. CAPTION & DETAIL INFO PANEL (NỘI DUNG 1 BÊN - KHU VỰC 1 BÊN) */}
-            <div className="w-full mt-4 pt-3.5 border-t border-[#F2C14E]/30 flex flex-col md:flex-row items-start justify-between gap-4 md:gap-6 text-left">
+            <div className="w-full mt-4 pt-1 flex flex-col md:flex-row items-start justify-between gap-5 md:gap-7 text-left">
               {/* BÊN TRÁI: TIÊU ĐỀ & NỘI DUNG CHÚ THÍCH */}
               <div className="flex-1 min-w-0 space-y-2">
                 <h3
@@ -438,7 +441,8 @@ export function PhotoGallery({
                     : 'ẢNH TƯ LIỆU'}
                 </h3>
 
-                <div className="w-16 h-[2px] bg-gradient-to-r from-[#ffde59] to-transparent shadow-[0_0_8px_#ffde59]" />
+                {/* Đường kẻ gradient mỏng thanh lịch, kéo dài cân đối, không phát sáng */}
+                <div className="w-full max-w-[340px] sm:max-w-[440px] h-[1px] bg-gradient-to-r from-[#F2C14E]/90 via-[#F2C14E]/35 to-transparent my-2.5" />
 
                 <p
                   style={{ fontFamily: "'UTM Avo', sans-serif" }}
@@ -448,9 +452,17 @@ export function PhotoGallery({
                 </p>
               </div>
 
-              {/* BÊN PHẢI: KHU VỰC / VỊ TRÍ (FONT UTM AVO NGHIÊNG) */}
+              {/* ĐƯỜNG KẺ GRADIENT DỌC PHÂN ĐỊNH GIỮA TIÊU ĐỀ/MÔ TẢ VỚI VỊ TRÍ/KHU VỰC */}
               {currentItem.khuVuc && (
-                <div className="shrink-0 w-full md:w-auto md:min-w-[210px] md:max-w-[280px] p-3 rounded-xl border border-[#F2C14E]/40 bg-[#1C120B]/85 backdrop-blur-xs flex flex-col gap-1 shadow-md">
+                <>
+                  <div className="hidden md:block w-[1px] self-stretch min-h-[70px] bg-gradient-to-b from-transparent via-[#F2C14E]/40 to-transparent shrink-0" />
+                  <div className="md:hidden w-full h-[1px] bg-gradient-to-r from-transparent via-[#F2C14E]/30 to-transparent" />
+                </>
+              )}
+
+              {/* BÊN PHẢI: KHU VỰC / VỊ TRÍ (BỎ KHUNG BỌC, GIỮ CHỮ TINH TẾ) */}
+              {currentItem.khuVuc && (
+                <div className="shrink-0 w-full md:w-auto md:min-w-[170px] md:max-w-[250px] flex flex-col gap-1.5 text-left pt-1">
                   <div className="flex items-center gap-1.5 text-[#F2C14E] text-[11px] uppercase tracking-wider">
                     <MapPin className="w-3.5 h-3.5 text-[#ffde59] shrink-0" />
                     <span

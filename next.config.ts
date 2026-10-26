@@ -66,6 +66,15 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: '/tong-chi-tu-hoc/tong-phong-truyen-thua-truc-lam',
+        destination: '/tong-chi-tu-hoc/tiep-buoc-thay-toi',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

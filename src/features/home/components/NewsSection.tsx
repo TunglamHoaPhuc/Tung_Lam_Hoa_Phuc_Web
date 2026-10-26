@@ -84,7 +84,7 @@ const INITIAL_NEWS_DATA: NewsItem[] = [
     title: "TIẾP BƯỚC THẦY TÔI",
     subtitle: "Hoằng Pháp – Kiến An mãi nhớ Thầy",
     imgUrl: "https://admin.tunglamhoaphuc.com/wp-content/uploads/2026/07/tong-chi-tu-hoc-tong-phong-truyen-thua-tiep-buoc-thay-toi-banner-thumnail-scaled.jpg",
-    targetUrl: "/tong-chi-tu-hoc/tong-phong-truyen-thua-truc-lam",
+    targetUrl: "/tong-chi-tu-hoc/tiep-buoc-thay-toi",
     imgPosition: "center 35%",
   },
 ];

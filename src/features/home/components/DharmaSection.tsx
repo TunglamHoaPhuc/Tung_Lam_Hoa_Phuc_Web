@@ -72,7 +72,7 @@ const INITIAL_TOP_POSTS: PostItem[] = [
     description: 'Kính dâng bậc Ân Sư Sư Tổ Ngộ Chân Tử khai sơn chốn Tổ Hoằng Pháp, kế thừa mạng mạch chánh pháp ngàn đời.',
     publishedDate: '',
     viewsCount: '54.2K',
-    targetUrl: '/tong-chi-tu-hoc/tong-phong-truyen-thua-truc-lam',
+    targetUrl: '/tong-chi-tu-hoc/tiep-buoc-thay-toi',
     thumbnailPosition: 'center 20%',
     imagePosition: 'center 20%',
   },
