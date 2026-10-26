@@ -59,7 +59,40 @@ function isPoemStanza(text: string): boolean {
   if (!text) return false;
   const lines = text.split('\n').map((l) => l.trim()).filter(Boolean);
   if (lines.length < 2) return false; // Đoạn văn xuôi đơn lẻ không bị hiểu nhầm là thơ
-  return lines.every((l) => l.length < 95 && !/^\s*(?:[-*•]|\d+[.)]|###?)\s+/.test(l));
+  return lines.every((l) => l.length < 95 && !/^\s*(?:[-•]|\*(?!\*))\s+|\d+[.)]\s+|###?\s+/.test(l));
+}
+
+// 🪷 Helper: Nhận diện đường phân cách (Dấu gạch ngang, em-dash, <hr>, wp-block-separator)
+function isDividerLine(line: string): boolean {
+  if (!line) return false;
+  const t = line.trim();
+  // 1. Dòng chỉ chứa từ 2 ký tự phân cách trở lên: - hoặc — hoặc – hoặc * hoặc _ hoặc = hoặc ~ hoặc • (không chứa chữ/số)
+  if (/^[-—–*_~=•·\s]{2,}$/.test(t) && !/[a-zA-Z0-9À-ỹ]/.test(t)) {
+    return true;
+  }
+  // 2. Thẻ HTML <hr> hoặc Gutenberg separator
+  if (/^<hr[^>]*\/?>$/i.test(t)) {
+    return true;
+  }
+  if (/wp-block-separator/i.test(t)) {
+    return true;
+  }
+  return false;
+}
+
+// 🪷 Helper: Nhận diện một câu thơ ngắn (< 95 ký tự, không chứa nhiều câu văn xuôi)
+function isShortVerseLine(text: string): boolean {
+  if (!text) return false;
+  const t = text.trim();
+  if (isDividerLine(t)) return false;
+  if (t.length > 95 || t.length < 5) return false;
+  // Markdown heading or list bullet (- item, • item, or * item followed by space) or numbered list
+  if (/^#{1,4}\s+|^\s*(?:[-•]|\*(?!\*))\s+|\d+[.)]\s+/.test(t)) return false;
+  if (t.startsWith('http') || t.startsWith('Cũng vậy') || t.startsWith('Một tâm nguyện')) return false;
+  const stripped = t.replace(/\*\*(.*?)\*\*/g, '$1').replace(/\*(.*?)\*/g, '$1');
+  const sentenceCount = (stripped.match(/[.!?](\s+|$)/g) || []).length;
+  if (sentenceCount > 1) return false;
+  return true;
 }
 
 // 🪷 Helper: Format inline text (Bold, Italic, Underline, Keywords) tuân thủ trực tiếp theo khung soạn thảo
@@ -163,10 +196,8 @@ function renderKeywordPopups(
           }}
           style={{
             fontFamily: "'UTM Avo', sans-serif",
-            borderBottom: '2px solid transparent',
-            borderImage: 'linear-gradient(to right, #F2C14E, #FFDE59, rgba(242, 193, 78, 0.2)) 1',
           }}
-          className={`cursor-pointer transition-all inline-block mx-0.5 align-baseline font-bold text-[#FFDE59] hover:text-white pb-[2px] ${
+          className={`cursor-pointer transition-all inline align-baseline font-bold text-[#FFDE59] hover:text-white pb-[1px] border-b border-transparent hover:border-[#F2C14E] ${
             isInsideBold ? 'drop-shadow-md' : 'drop-shadow-sm'
           } hover:drop-shadow-[0_0_8px_rgba(255,222,89,0.85)]`}
           title={`Bấm để xem chú thích: ${match.title || match.keyword}`}
@@ -800,7 +831,8 @@ type SectionElement =
   | { type: 'paragraph'; text: string }
   | { type: 'poem'; stanzas: string[] }
   | { type: 'quote'; quote: string; quoteAuthor?: string }
-  | { type: 'image'; src: string; caption?: string; alt?: string; align?: 'center' | 'left' | 'right' };
+  | { type: 'image'; src: string; caption?: string; alt?: string; align?: 'center' | 'left' | 'right' }
+  | { type: 'divider' };
 
 type SectionBlock = {
   heading: string;
@@ -816,6 +848,59 @@ type SectionBlock = {
   hasTamQuyPractices?: boolean;
 };
 
+// 🪷 Xử lý phân nhóm & gộp thơ cho từng section
+function processSectionElements(elements: SectionElement[]): SectionElement[] {
+  // 🪷 Bước 1: Gộp các câu thơ đơn lẻ (paragraph) liên tiếp (từ 2 câu trở lên) thành các khổ thơ (poem)
+  const elementsWithPoems: SectionElement[] = [];
+  let pendingVerses: string[] = [];
+
+  const flushPendingVerses = () => {
+    if (pendingVerses.length === 0) return;
+    if (pendingVerses.length >= 2) {
+      elementsWithPoems.push({
+        type: 'poem',
+        stanzas: [pendingVerses.join('\n')],
+      });
+    } else {
+      for (const v of pendingVerses) {
+        elementsWithPoems.push({ type: 'paragraph', text: v });
+      }
+    }
+    pendingVerses = [];
+  };
+
+  for (const el of elements) {
+    if (el.type === 'paragraph' && isShortVerseLine(el.text)) {
+      pendingVerses.push(el.text.trim());
+    } else {
+      flushPendingVerses();
+      elementsWithPoems.push(el);
+    }
+  }
+  flushPendingVerses();
+
+  // 🪷 Bước 2: Tối ưu gộp các khối thơ liên tiếp thành một bài thơ hoàn chỉnh
+  const mergedElements: SectionElement[] = [];
+  let currentPoemStanzas: string[] = [];
+
+  for (const el of elementsWithPoems) {
+    if (el.type === 'poem') {
+      currentPoemStanzas.push(...el.stanzas);
+    } else {
+      if (currentPoemStanzas.length > 0) {
+        mergedElements.push({ type: 'poem', stanzas: currentPoemStanzas });
+        currentPoemStanzas = [];
+      }
+      mergedElements.push(el);
+    }
+  }
+  if (currentPoemStanzas.length > 0) {
+    mergedElements.push({ type: 'poem', stanzas: currentPoemStanzas });
+  }
+
+  return mergedElements;
+}
+
 function parseSections(raw: string): { sections: SectionBlock[]; endQuote?: { text: string; author?: string } } {
   if (!raw) return { sections: [] };
 
@@ -825,6 +910,7 @@ function parseSections(raw: string): { sections: SectionBlock[]; endQuote?: { te
     .replace(/&lt;/g, '<')
     .replace(/<br\s*[\/]?>/gi, '\n')
     .replace(/<\/p>/gi, '\n\n')
+    .replace(/<hr[^>]*\/?>/gi, '\n\n---\n\n')
     .replace(/<\/?(?:div|p|section|article|header|footer)[^>]*>/gi, '\n')
     .replace(/&nbsp;/g, ' ')
     .replace(/&amp;/g, '&')
@@ -938,28 +1024,48 @@ function parseSections(raw: string): { sections: SectionBlock[]; endQuote?: { te
       }
     }
 
-    // Check if line is a Section Heading (Markdown #, ##, ###, #### or uppercase heading)
+    // 1. Kiểm tra nếu là đường phân cách (---, ———, ***, <hr>, wp-block-separator...)
+    if (isDividerLine(line)) {
+      if (!currentSection) {
+        currentSection = {
+          heading: '',
+          sectionId: 'intro',
+          elements: [],
+        };
+      }
+      const lastEl = currentSection.elements[currentSection.elements.length - 1];
+      if (!lastEl || lastEl.type !== 'divider') {
+        currentSection.elements.push({ type: 'divider' });
+      }
+      i++;
+      continue;
+    }
+
+    // 2. Check if line is a Section Heading (Markdown #, ##, ###, #### or uppercase heading)
     const strippedLine = line.replace(/^#{1,4}\s+/, '').replace(/^\*\*|\*\*$/g, '').replace(/<[^>]+>/g, '').trim();
     const isMdHeading = /^#{1,4}\s+/.test(line);
+    const hasLetters = /[a-zA-ZÀ-ỹ]/.test(strippedLine);
     const isHeading =
-      isMdHeading ||
-      ((strippedLine.startsWith('BỒ ĐỀ TÂM') ||
-        strippedLine.startsWith('SỐNG VỚI') ||
-        strippedLine.startsWith('ĐỂ BỒ ĐỀ TÂM') ||
-        strippedLine.startsWith('TAM QUY') ||
-        strippedLine.startsWith('NGŨ GIỚI') ||
-        (strippedLine === strippedLine.toUpperCase() && !strippedLine.startsWith('>') && !strippedLine.startsWith('!['))) &&
-      strippedLine.length < 80 &&
-      strippedLine.length > 3 &&
-      !strippedLine.includes('“') &&
-      !strippedLine.includes('”') &&
-      !strippedLine.startsWith('📘') &&
-      !strippedLine.startsWith('VIDEO:') &&
-      !strippedLine.startsWith('Sa Môn') &&
-      !strippedLine.startsWith('Vô Trí'));
+      hasLetters &&
+      (isMdHeading ||
+        ((strippedLine.startsWith('BỒ ĐỀ TÂM') ||
+          strippedLine.startsWith('SỐNG VỚI') ||
+          strippedLine.startsWith('ĐỂ BỒ ĐỀ TÂM') ||
+          strippedLine.startsWith('TAM QUY') ||
+          strippedLine.startsWith('NGŨ GIỚI') ||
+          (strippedLine === strippedLine.toUpperCase() && !strippedLine.startsWith('>') && !strippedLine.startsWith('!['))) &&
+        strippedLine.length < 80 &&
+        strippedLine.length > 3 &&
+        !strippedLine.includes('“') &&
+        !strippedLine.includes('”') &&
+        !strippedLine.startsWith('📘') &&
+        !strippedLine.startsWith('VIDEO:') &&
+        !strippedLine.startsWith('Sa Môn') &&
+        !strippedLine.startsWith('Vô Trí')));
 
     if (isHeading) {
       if (currentSection) {
+        currentSection.elements = processSectionElements(currentSection.elements);
         sections.push(currentSection);
       }
       const cleanHeading = line.replace(/^#{1,4}\s+/, '').replace(/^\*\*|\*\*$/g, '').replace(/<[^>]+>/g, '').trim();
@@ -968,12 +1074,6 @@ function parseSections(raw: string): { sections: SectionBlock[]; endQuote?: { te
         sectionId: toSectionId(cleanHeading),
         elements: [],
       };
-      i++;
-      continue;
-    }
-
-    // Bỏ qua hoàn toàn các dấu ngắt / đường phân cách (---, ***, ___, em-dash, <hr>)
-    if (/^(?:-{2,}|\*{2,}|_{2,}|\u2014{2,}|<hr[^>]*\/?>)$/i.test(line.trim())) {
       i++;
       continue;
     }
@@ -1223,6 +1323,7 @@ function parseSections(raw: string): { sections: SectionBlock[]; endQuote?: { te
         break;
       }
       if (
+        isDividerLine(nextL) ||
         nextL.startsWith('>') ||
         nextL.startsWith('&gt;') ||
         /^#{1,4}\s+/.test(nextL) ||
@@ -1234,8 +1335,7 @@ function parseSections(raw: string): { sections: SectionBlock[]; endQuote?: { te
         /^<img/i.test(nextL) ||
         /^\[(?:ẢNH|HÌNH|ANH|IMAGE):/i.test(nextL) ||
         /^(Infographic|Hình tam giác|4 card|4 Ngăn kéo|Ngăn kéo card|QUOTE CUỐI|TÀI LIỆU)/i.test(nextL) ||
-        ((nextL.startsWith('BỒ ĐỀ TÂM') || nextL.startsWith('SỐNG VỚI') || nextL.startsWith('ĐỂ BỒ ĐỀ TÂM')) && nextL.length < 80) ||
-        /^(?:-{2,}|\*{2,}|_{2,}|\u2014{2,}|<hr[^>]*\/?>)$/i.test(nextL.trim())
+        ((nextL.startsWith('BỒ ĐỀ TÂM') || nextL.startsWith('SỐNG VỚI') || nextL.startsWith('ĐỂ BỒ ĐỀ TÂM')) && nextL.length < 80)
       ) {
         break;
       }
@@ -1252,7 +1352,7 @@ function parseSections(raw: string): { sections: SectionBlock[]; endQuote?: { te
       const t = pl.trim();
       if (!t) return false;
       if (/^(?:\*|_|<i>|<em|)(?:Tác giả[:\s]*|)(Vô Trí\s*-\s*Tâm Hòa|Thích Tâm Hòa|Sa Môn Vô Trí|Tâm Hòa)(?:\*|_|<\/i>|<\/em>|\s)*$/i.test(t)) return false;
-      if (/^(?:-{2,}|\*{2,}|_{2,}|\u2014{2,}|<hr[^>]*\/?>)$/i.test(t)) return false;
+      if (isDividerLine(t)) return false;
       return true;
     });
     if (filteredPLines.length === 0) {
@@ -1286,25 +1386,7 @@ function parseSections(raw: string): { sections: SectionBlock[]; endQuote?: { te
   }
 
   if (currentSection) {
-    // Tối ưu gộp các khối thơ liên tiếp thành một bài thơ hoàn chỉnh
-    const mergedElements: SectionElement[] = [];
-    let currentPoemStanzas: string[] = [];
-
-    for (const el of currentSection.elements) {
-      if (el.type === 'poem') {
-        currentPoemStanzas.push(...el.stanzas);
-      } else {
-        if (currentPoemStanzas.length > 0) {
-          mergedElements.push({ type: 'poem', stanzas: currentPoemStanzas });
-          currentPoemStanzas = [];
-        }
-        mergedElements.push(el);
-      }
-    }
-    if (currentPoemStanzas.length > 0) {
-      mergedElements.push({ type: 'poem', stanzas: currentPoemStanzas });
-    }
-    currentSection.elements = mergedElements;
+    currentSection.elements = processSectionElements(currentSection.elements);
     sections.push(currentSection);
   }
 
@@ -1417,23 +1499,36 @@ export function InfographicArticleRenderer({
                 );
               }
 
-              // 🪷 RENDER THỂ THƠ (HIỂN THỊ TRỰC TIẾP TRÊN NỀN BÌNH THƯỜNG, CĂN GIỮA, KHÔNG ĐỂ TRONG KHUNG)
+              // 🪷 RENDER ĐƯỜNG PHÂN CÁCH GRADIENT ĐƠN
+              if (el.type === 'divider') {
+                return (
+                  <div key={elIdx} className="w-full flex items-center justify-center my-8 sm:my-10 clear-both">
+                    <div className="w-36 sm:w-48 h-[1.5px] bg-gradient-to-r from-transparent via-[#F2C14E]/70 to-transparent" />
+                  </div>
+                );
+              }
+
+              // 🪷 RENDER THỂ THƠ (CĂN CHÍNH GIỮA, KHÔNG DROP CAP, ĐỒNG NHẤT CỠ CHỮ & MÀU SẮC, GẠCH GRADIENT KHI HOVER)
               if (el.type === 'poem') {
                 return (
-                  <div key={elIdx} className="my-8 max-w-2xl mx-auto text-center select-text">
+                  <div key={elIdx} className="my-8 w-full max-w-3xl mx-auto text-center select-text">
                     {/* Danh sách các khổ thơ */}
                     <div className="space-y-6 sm:space-y-8">
                       {el.stanzas.map((stanza, sIdx) => (
-                        <div key={sIdx} className="space-y-2 sm:space-y-3">
+                        <div key={sIdx} className="group/stanza relative py-2 sm:py-3 space-y-2.5 sm:space-y-3 cursor-default transition-all">
                           {stanza.split('\n').map((line, lIdx) => (
                             <p
                               key={lIdx}
                               style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                              className="text-lg sm:text-xl md:text-2xl not-italic font-medium text-[#FFE5A3] leading-loose md:leading-[2.6rem] tracking-wide drop-shadow-sm text-center"
+                              className="text-lg sm:text-xl md:text-2xl not-italic font-medium text-[#FFE5A3] leading-loose md:leading-[2.6rem] tracking-wide drop-shadow-sm text-center mx-auto"
                             >
                               {highlightText(line, popups, onKeywordClick)}
                             </p>
                           ))}
+                          {/* Đường gạch gradient 2 đầu mỏng tinh tế, chỉ hiện lên khi rê chuột vào khổ thơ (hover) */}
+                          <div className="pt-3 sm:pt-4 flex justify-center">
+                            <div className="w-28 sm:w-36 h-[1px] bg-gradient-to-r from-transparent via-[#F2C14E]/60 to-transparent opacity-0 group-hover/stanza:opacity-100 transition-opacity duration-300 pointer-events-none" />
+                          </div>
                         </div>
                       ))}
                     </div>
@@ -1499,8 +1594,8 @@ export function InfographicArticleRenderer({
           {sec.hasTamBaoDailyLife && <TamBaoInDailyLifeGrid />}
           {sec.hasTamQuyPractices && <TamQuyDailyPracticesGrid />}
 
-          {/* 6. ĐƯỜNG GRADIENT DÀI PHÂN ĐOẠN */}
-          {idx < sections.length - 1 && (
+          {/* 6. ĐƯỜNG GRADIENT DÀI PHÂN ĐOẠN (CHỈ HIỆN KHI ĐOẠN TRƯỚC KHÔNG PHẢI LÀ DIVIDER) */}
+          {idx < sections.length - 1 && (!sec.elements.length || sec.elements[sec.elements.length - 1].type !== 'divider') && (
             <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-[#F2C14E]/30 to-transparent my-10 sm:my-12 clear-both" />
           )}
         </section>

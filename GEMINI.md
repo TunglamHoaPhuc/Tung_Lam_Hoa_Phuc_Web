@@ -40,3 +40,9 @@ Mỗi khi AI thực thi lệnh hoặc build/chạy dev cho dự án, BẮT BUỘ
 - **Bộ Quy Tắc Fullstack**: Tuân thủ tuyệt đối các quy chuẩn chuyên sâu tại [fullstack-rules.md](file:///c:/Users/MY%20PC/Tung_Lam_Hoa_Phuc_Web/.agents/rules/fullstack-rules.md) (Ranh giới Server vs Client Components, phòng chống Hydration Error, Next/Image CLS Guard, chuẩn hóa Response REST API, Atomic File Write cho JSON database).
 - **Cổng Kiểm Soát Chất Lượng Bắt Buộc (Quality Gate)**: Sau mỗi lần thay đổi mã nguồn TypeScript/TSX, Agent BẮT BUỘC chạy `npx tsc --noEmit` để xác nhận 0 lỗi Type trước khi thông báo hoàn tất cho người dùng.
 
+---
+
+## 📜 7. QUY CHUẨN HIỂN THỊ BÀI THƠ VS. VĂN XUÔI (/learn)
+- **Bài Thơ (Poem / Thi Kệ)**: Bắt buộc căn chính giữa (`text-center mx-auto`). Tuyệt đối KHÔNG dùng chữ hoa Drop Cap đầu bài, đồng nhất cỡ chữ, màu sắc và khoảng cách giữa các câu. Sử dụng đường gạch gradient 2 đầu mỏng tinh tế (`h-[1px] bg-gradient-to-r from-transparent via-[#F2C14E]/60 to-transparent`) chỉ hiện lên khi rê chuột vào khổ thơ (hover). Gạch chân từ khóa popup cũng chỉ hiện khi hover.
+- **Văn Xuôi (Prose)**: Căn đều 2 bên (`text-justify [text-align-last:left]`), thụt lề từ đoạn 2 (`indent-6 md:indent-8`), có chữ hoa Drop Cap đầu bài (font `UTM_ClassizismAntiqua`, vàng kim, viền gạch chân) tương tự bản mô tả đầu trang Tông Chỉ Tu Học.
+

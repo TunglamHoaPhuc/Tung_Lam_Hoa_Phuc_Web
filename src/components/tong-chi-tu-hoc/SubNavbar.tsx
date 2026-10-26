@@ -18,6 +18,7 @@ interface SubNavbarProps {
   onScrollToSection: (id: string) => void;
   pageTitle?: string;
   navItems?: NavItem[];
+  logoUrl?: string;
 }
 
 export function SubNavbar({
@@ -26,6 +27,7 @@ export function SubNavbar({
   onScrollToSection,
   pageTitle = 'TÔNG CHỈ TU HỌC',
   navItems = NAV_ITEMS,
+  logoUrl,
 }: SubNavbarProps) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -47,9 +49,13 @@ export function SubNavbar({
     ? 'Quay về trang Dòng Chảy Hoằng Pháp'
     : 'Quay về trang Tông Chỉ Tu Học';
 
-  const logoSrc = isUniverse || isHoangPhap
-    ? 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/logo-moc-an.webp'
-    : 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/bieu-tuong-tong-chi-tu-hoc-tung-lam-hoa-phuc.webp';
+  const logoSrc = logoUrl || (
+    isHoangPhap
+      ? '/images/icons/icon-dong-chay-hoang-phap.webp'
+      : isUniverse
+      ? 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/logo-moc-an.webp'
+      : 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/bieu-tuong-tong-chi-tu-hoc-tung-lam-hoa-phuc.webp'
+  );
 
   // Click outside listener
   useEffect(() => {

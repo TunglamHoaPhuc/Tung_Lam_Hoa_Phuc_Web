@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef, FC } from 'react';
-import { ChevronLeft, ChevronRight, Maximize2, Minimize2, ZoomIn, ZoomOut, BookOpen, Sparkles, Download, Layers } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Maximize2, Minimize2, ZoomIn, ZoomOut, RotateCcw, BookOpen, Sparkles, Download, Layers } from 'lucide-react';
 
 const TOTAL_PAGES = 30;
 
@@ -15,8 +15,12 @@ export const TuAnFlipbook: FC = () => {
   const [currentPage, setCurrentPage] = useState(1); // 1-indexed
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [zoomLevel, setZoomLevel] = useState(1);
+  const [panOffset, setPanOffset] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [dragStart, setDragStart] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const [isDualView, setIsDualView] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
 
   // Responsive single/dual view detection
   useEffect(() => {
@@ -31,6 +35,58 @@ export const TuAnFlipbook: FC = () => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  // 🎯 Ctrl + Lăn chuột zoom vào vị trí con trỏ chuột
+  const handleWheel = (e: React.WheelEvent) => {
+    if (e.ctrlKey || e.metaKey) {
+      e.preventDefault();
+      const stage = stageRef.current;
+      if (!stage) return;
+
+      const rect = stage.getBoundingClientRect();
+      const cursorX = e.clientX - rect.left;
+      const cursorY = e.clientY - rect.top;
+
+      const factor = e.deltaY < 0 ? 1.18 : 0.85;
+      const newZoom = Math.min(Math.max(zoomLevel * factor, 1), 4);
+
+      if (newZoom === 1) {
+        setZoomLevel(1);
+        setPanOffset({ x: 0, y: 0 });
+      } else {
+        const ratio = newZoom / zoomLevel;
+        const newPanX = cursorX - (cursorX - panOffset.x) * ratio;
+        const newPanY = cursorY - (cursorY - panOffset.y) * ratio;
+        setZoomLevel(newZoom);
+        setPanOffset({ x: newPanX, y: newPanY });
+      }
+    }
+  };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (zoomLevel <= 1) return;
+    e.preventDefault();
+    setIsDragging(true);
+    setDragStart({ x: e.clientX - panOffset.x, y: e.clientY - panOffset.y });
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || zoomLevel <= 1) return;
+    e.preventDefault();
+    setPanOffset({
+      x: e.clientX - dragStart.x,
+      y: e.clientY - dragStart.y,
+    });
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const handleResetZoom = () => {
+    setZoomLevel(1);
+    setPanOffset({ x: 0, y: 0 });
+  };
 
   const handlePrev = () => {
     if (isDualView) {
@@ -122,12 +178,21 @@ export const TuAnFlipbook: FC = () => {
             <ZoomOut className="w-4 h-4" />
           </button>
           <button
-            onClick={() => setZoomLevel((z) => Math.min(1.8, z + 0.2))}
+            onClick={() => setZoomLevel((z) => Math.min(4, z + 0.2))}
             className="w-8 h-8 rounded-lg bg-[#2D1B10] border border-[#F2C14E]/30 text-[#FFE5A3] hover:bg-[#F2C14E] hover:text-black flex items-center justify-center transition-all cursor-pointer"
             title="Phóng to"
           >
             <ZoomIn className="w-4 h-4" />
           </button>
+          {zoomLevel > 1 && (
+            <button
+              onClick={handleResetZoom}
+              className="w-8 h-8 rounded-lg bg-[#2D1B10] border border-[#F2C14E]/30 text-[#FFE5A3] hover:bg-[#F2C14E] hover:text-black flex items-center justify-center transition-all cursor-pointer"
+              title="Đặt lại kích thước"
+            >
+              <RotateCcw className="w-4 h-4" />
+            </button>
+          )}
 
           {/* Dual/Single view toggle on desktop */}
           <button
@@ -151,7 +216,17 @@ export const TuAnFlipbook: FC = () => {
       </div>
 
       {/* ── 2. FLIPBOOK DISPLAY AREA (REALISTIC SPREAD / SINGLE PAGE) ── */}
-      <div className="relative w-full flex-1 flex items-center justify-center my-auto py-2 overflow-hidden">
+      <div 
+        ref={stageRef}
+        onWheel={handleWheel}
+        onMouseDown={handleMouseDown}
+        onMouseMove={handleMouseMove}
+        onMouseUp={handleMouseUp}
+        onMouseLeave={handleMouseUp}
+        className={`relative w-full flex-1 flex items-center justify-center my-auto py-2 overflow-hidden ${
+          zoomLevel > 1 ? (isDragging ? 'cursor-grabbing' : 'cursor-grab') : 'cursor-default'
+        }`}
+      >
         {/* Navigation Left Arrow */}
         <button
           onClick={handlePrev}
@@ -166,8 +241,13 @@ export const TuAnFlipbook: FC = () => {
 
         {/* Book Container with 3D Spine and Page Shadow */}
         <div
-          className="transition-transform duration-300 flex items-center justify-center max-w-full max-h-[75vh]"
-          style={{ transform: `scale(${zoomLevel})` }}
+          className={`flex items-center justify-center max-w-full max-h-[75vh] ease-out ${
+            isDragging ? 'duration-0' : 'duration-200'
+          }`}
+          style={{ 
+            transform: `translate(${panOffset.x}px, ${panOffset.y}px) scale(${zoomLevel})`,
+            transformOrigin: 'center center'
+          }}
         >
           {isDualView ? (
             /* ── DUAL PAGE VIEW (DESKTOP) ── */

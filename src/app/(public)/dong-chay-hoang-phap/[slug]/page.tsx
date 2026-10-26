@@ -159,6 +159,7 @@ export default function DongChayHoangPhapDetailPage() {
         onScrollToSection={scrollToSection}
         pageTitle={shortAnchorTitle}
         navItems={NAV_ITEMS}
+        logoUrl="/images/icons/icon-dong-chay-hoang-phap.webp"
       />
 
       <SidebarNav
@@ -167,6 +168,7 @@ export default function DongChayHoangPhapDetailPage() {
         onScrollToSection={scrollToSection}
         pageTitle={shortAnchorTitle}
         navItems={NAV_ITEMS}
+        logoUrl="/images/icons/icon-dong-chay-hoang-phap.webp"
       />
 
       {/* ── 2. HERO BANNER HOẶC THÔNG BÁO BÀI VIẾT ĐÃ GỠ BỎ ── */}
@@ -243,32 +245,6 @@ export default function DongChayHoangPhapDetailPage() {
                 }
               }}
             />
-
-            {/* BLOCK META FOOTER */}
-            <div
-              style={{ fontFamily: "'UTM Avo', sans-serif" }}
-              className="border-t border-[#F2C14E]/20 pt-6 mt-12 flex flex-wrap items-center justify-between gap-4 text-xs md:text-sm text-[#D3C0AD]"
-            >
-              <div className="flex items-center gap-6">
-                {(article.publishedDate || article.date) && (
-                  <span className="flex items-center gap-1.5">
-                    <Calendar className="w-4 h-4 text-[#F2C14E]" />
-                    <span>Ngày đăng: <strong className="text-[#F2C14E]">{article.publishedDate || article.date}</strong></span>
-                  </span>
-                )}
-
-                <span className="flex items-center gap-1.5">
-                  <Eye className="w-4 h-4 text-[#F2C14E]" />
-                  <span>Lượt xem: <strong className="text-[#F2C14E]">{article.viewsCount || article.views || 108}</strong></span>
-                </span>
-              </div>
-
-              {article.author && (
-                <div>
-                  <span>Tác giả / Biên tập: <strong className="text-[#F2C14E]">{article.author}</strong></span>
-                </div>
-              )}
-            </div>
           </div>
 
           {/* ── 4. BLOCK VIDEO LIÊN QUAN / PHÁP THOẠI ── */}
@@ -413,17 +389,6 @@ export default function DongChayHoangPhapDetailPage() {
           {/* ── 9. BLOCK TÌM HIỂU THÊM ── */}
           <div id="related-section" className="w-full">
             <DiscoverMore relatedArticles={relatedArticlesFormatted} />
-          </div>
-
-          {/* Nút Quay Lại Cuối Bài */}
-          <div className="flex justify-center pt-2 pb-6">
-            <Link
-              href="/dong-chay-hoang-phap"
-              className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-gradient-to-r from-[#3A2718] to-[#25170E] border-2 border-[#F2C14E]/70 hover:border-[#F2C14E] text-[#FFE5A3] hover:text-[#FFDE59] text-sm font-bold shadow-[0_0_20px_rgba(242,193,78,0.25)] hover:shadow-[0_0_25px_rgba(242,193,78,0.4)] transition-all hover:scale-105"
-            >
-              <ArrowLeft className="w-5 h-5 text-[#F2C14E]" />
-              <span>Quay lại Danh Mục Dòng Chảy Hoằng Pháp</span>
-            </Link>
           </div>
 
           {/* ── Smart Search AI Bar ── */}

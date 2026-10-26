@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
-import { ExternalLink } from 'lucide-react';
 import { SubNavbar } from '@/components/tong-chi-tu-hoc/SubNavbar';
 import { SidebarNav } from '@/components/tong-chi-tu-hoc/SidebarNav';
 import { HeroBanner } from '@/components/tong-chi-tu-hoc/HeroBanner';
@@ -16,8 +15,14 @@ import { PhotoGallery } from '@/components/tong-chi-tu-hoc/chi-tiet/PhotoGallery
 import { DiscoverMore } from '@/components/tong-chi-tu-hoc/chi-tiet/DiscoverMore';
 import { AiQnA } from '@/components/tong-chi-tu-hoc/chi-tiet/AiQnA';
 import { DetailModal } from '@/components/tong-chi-tu-hoc/chi-tiet/DetailModal';
-import { BookCitationSection, SourceBookData } from '@/components/tong-chi-tu-hoc/chi-tiet/BookCitationSection';
-import { InfographicArticleRenderer, toSectionId } from '@/components/tong-chi-tu-hoc/chi-tiet/InfographicArticleRenderer';
+import {
+  BookCitationSection,
+  SourceBookData,
+} from '@/components/tong-chi-tu-hoc/chi-tiet/BookCitationSection';
+import {
+  InfographicArticleRenderer,
+  toSectionId,
+} from '@/components/tong-chi-tu-hoc/chi-tiet/InfographicArticleRenderer';
 import { TaiNguyenLienQuanCompact } from '@/components/tong-chi-tu-hoc/chi-tiet/TaiNguyenLienQuanCompact';
 
 interface DuLieuBaiVietChiTiet {
@@ -69,7 +74,10 @@ interface DuLieuBaiVietChiTiet {
 }
 
 // 🪷 Parser biến mã HTML WordPress Gutenberg thành Markdown/Clean format chuẩn cho InfographicArticleRenderer
-function convertWpHtmlToCleanContent(wpRawHtml: string): { cleanedContent: string; extractedSubtitle?: string } {
+function convertWpHtmlToCleanContent(wpRawHtml: string): {
+  cleanedContent: string;
+  extractedSubtitle?: string;
+} {
   if (!wpRawHtml) return { cleanedContent: '' };
 
   let html = wpRawHtml
@@ -82,7 +90,9 @@ function convertWpHtmlToCleanContent(wpRawHtml: string): { cleanedContent: strin
 
   // 1. Bóc tách thẻ phụ (Subtitle)
   let extractedSubtitle: string | undefined = undefined;
-  const firstP = html.match(/^<p[^>]*>(?:<em><strong>|<strong><em>|<em>|<strong>)([\s\S]*?)(?:<\/strong><\/em>|<\/em><\/strong>|<\/em>|<\/strong>)<\/p>/i);
+  const firstP = html.match(
+    /^<p[^>]*>(?:<em><strong>|<strong><em>|<em>|<strong>)([\s\S]*?)(?:<\/strong><\/em>|<\/em><\/strong>|<\/em>|<\/strong>)<\/p>/i
+  );
   if (firstP) {
     const rawSub = firstP[1].replace(/<[^>]+>/g, '').trim();
     if (rawSub.length > 0 && rawSub.length < 80 && !rawSub.includes('“') && !rawSub.includes('”')) {
@@ -93,7 +103,10 @@ function convertWpHtmlToCleanContent(wpRawHtml: string): { cleanedContent: strin
 
   // 2. Headings
   html = html.replace(/<h[1-3][^>]*>(.*?)<\/h[1-3]>/gi, (_m, inner) => {
-    const cleanText = inner.replace(/<[^>]+>/g, '').replace(/^\*\*|\*\*$/g, '').trim();
+    const cleanText = inner
+      .replace(/<[^>]+>/g, '')
+      .replace(/^\*\*|\*\*$/g, '')
+      .trim();
     return `\n\n### ${cleanText}\n\n`;
   });
 
@@ -105,7 +118,10 @@ function convertWpHtmlToCleanContent(wpRawHtml: string): { cleanedContent: strin
       .replace(/<br\s*[\/]?>/gi, '\n')
       .replace(/<[^>]+>/g, '')
       .replace(/^[“"”\s]+|[“"”\s]+$/g, '');
-    const lines = clean.split('\n').map((l: string) => l.trim()).filter(Boolean);
+    const lines = clean
+      .split('\n')
+      .map((l: string) => l.trim())
+      .filter(Boolean);
     const quoteLines = lines.map((l: string) => `> ${l}`);
     return `\n\n${quoteLines.join('\n')}\n\n`;
   });
@@ -117,15 +133,22 @@ function convertWpHtmlToCleanContent(wpRawHtml: string): { cleanedContent: strin
     const capMatch = figInner.match(/<figcaption[^>]*>([\s\S]*?)<\/figcaption>/i);
     const rawSrc = srcMatch ? srcMatch[1] : '';
     const src = rawSrc ? getImageUrl(rawSrc) : '';
-    const caption = capMatch ? capMatch[1].replace(/<[^>]+>/g, '').trim() : (altMatch ? altMatch[1].trim() : '');
+    const caption = capMatch
+      ? capMatch[1].replace(/<[^>]+>/g, '').trim()
+      : altMatch
+        ? altMatch[1].trim()
+        : '';
     if (!src) return '';
     return `\n\n![${caption}](${src})\n\n`;
   });
 
   // 5. Ảnh thông thường dạng standalone <img>
-  html = html.replace(/<img[^>]+src=["']([^"']+)["'][^>]*alt=["']([^"']*)["'][^>]*\/?>/gi, (_m, src, alt) => {
-    return `\n\n![${alt}](${getImageUrl(src)})\n\n`;
-  });
+  html = html.replace(
+    /<img[^>]+src=["']([^"']+)["'][^>]*alt=["']([^"']*)["'][^>]*\/?>/gi,
+    (_m, src, alt) => {
+      return `\n\n![${alt}](${getImageUrl(src)})\n\n`;
+    }
+  );
   html = html.replace(/<img[^>]+src=["']([^"']+)["'][^>]*\/?>/gi, (_m, src) => {
     return `\n\n![](${getImageUrl(src)})\n\n`;
   });
@@ -134,27 +157,54 @@ function convertWpHtmlToCleanContent(wpRawHtml: string): { cleanedContent: strin
   html = html.replace(/<hr[^>]*\/?>/gi, '\n\n');
 
   // 7. Quotes dạng đoạn văn in đậm có ngoặc kép
-  html = html.replace(/<p[^>]*><strong><em>[“"”]?([\s\S]*?)[”"”]?<\/em><\/strong><\/p>/gi, (_m, quoteText) => {
-    const lines = quoteText.replace(/<br\s*[\/]?>/gi, '\n').replace(/<[^>]+>/g, '').split('\n');
-    const quoteLines = lines.map((l: string) => `> ${l.trim()}`).filter((l: string) => l !== '>');
-    return `\n\n${quoteLines.join('\n')}\n\n`;
-  });
-
-  html = html.replace(/<p[^>]*><strong>[“"”]?([\s\S]*?)[”"”]?<\/strong><\/p>/gi, (_m, quoteText) => {
-    if (quoteText.includes('“') || quoteText.includes('”') || quoteText.includes('Con nguyện') || quoteText.includes('Sống là cống hiến') || quoteText.includes('Sống Là Cống Hiến')) {
-      const lines = quoteText.replace(/<br\s*[\/]?>/gi, '\n').replace(/<[^>]+>/g, '').split('\n');
+  html = html.replace(
+    /<p[^>]*><strong><em>[“"”]?([\s\S]*?)[”"”]?<\/em><\/strong><\/p>/gi,
+    (_m, quoteText) => {
+      const lines = quoteText
+        .replace(/<br\s*[\/]?>/gi, '\n')
+        .replace(/<[^>]+>/g, '')
+        .split('\n');
       const quoteLines = lines.map((l: string) => `> ${l.trim()}`).filter((l: string) => l !== '>');
       return `\n\n${quoteLines.join('\n')}\n\n`;
     }
-    return `\n\n**${quoteText.replace(/<[^>]+>/g, '').trim()}**\n\n`;
-  });
+  );
+
+  html = html.replace(
+    /<p[^>]*><strong>[“"”]?([\s\S]*?)[”"”]?<\/strong><\/p>/gi,
+    (_m, quoteText) => {
+      if (
+        quoteText.includes('“') ||
+        quoteText.includes('”') ||
+        quoteText.includes('Con nguyện') ||
+        quoteText.includes('Sống là cống hiến') ||
+        quoteText.includes('Sống Là Cống Hiến')
+      ) {
+        const lines = quoteText
+          .replace(/<br\s*[\/]?>/gi, '\n')
+          .replace(/<[^>]+>/g, '')
+          .split('\n');
+        const quoteLines = lines
+          .map((l: string) => `> ${l.trim()}`)
+          .filter((l: string) => l !== '>');
+        return `\n\n${quoteLines.join('\n')}\n\n`;
+      }
+      return `\n\n**${quoteText.replace(/<[^>]+>/g, '').trim()}**\n\n`;
+    }
+  );
 
   // 8. Tác giả
-  html = html.replace(/<p[^>]*>(?:<em>)?(Vô Trí\s*[-–]\s*Tâm Hòa|Sa Môn Vô Trí[^\n<]*)(?:<\/em>)?<\/p>/gi, '\n\n*$1*\n\n');
+  html = html.replace(
+    /<p[^>]*>(?:<em>)?(Vô Trí\s*[-–]\s*Tâm Hòa|Sa Môn Vô Trí[^\n<]*)(?:<\/em>)?<\/p>/gi,
+    '\n\n*$1*\n\n'
+  );
 
   // 9. Paragraphs
   html = html.replace(/<p[^>]*>(.*?)<\/p>/gi, (_m, pText) => {
-    const cleanP = pText.replace(/<br\s*[\/]?>/gi, '\n').replace(/<span[^>]*>/gi, '').replace(/<\/span>/gi, '').trim();
+    const cleanP = pText
+      .replace(/<br\s*[\/]?>/gi, '\n')
+      .replace(/<span[^>]*>/gi, '')
+      .replace(/<\/span>/gi, '')
+      .trim();
     if (!cleanP) return '';
     return `\n\n${cleanP}\n\n`;
   });
@@ -214,10 +264,7 @@ async function resolveImageUrl(imgField: any, fallbackUrl: string = ''): Promise
 
   if (typeof imgField === 'object' && imgField !== null) {
     const rawUrl =
-      imgField.url ||
-      imgField.source_url ||
-      imgField.sizes?.large ||
-      imgField.sizes?.full;
+      imgField.url || imgField.source_url || imgField.sizes?.large || imgField.sizes?.full;
     return rawUrl ? getImageUrl(rawUrl) : fallbackUrl;
   }
 
@@ -273,7 +320,11 @@ export default function TrangChiTietTongChi() {
       const lines = data.poemContent.split('\n');
       for (const l of lines) {
         const line = l.trim();
-        const strippedLine = line.replace(/^#{1,4}\s+/, '').replace(/^\*\*|\*\*$/g, '').replace(/<[^>]+>/g, '').trim();
+        const strippedLine = line
+          .replace(/^#{1,4}\s+/, '')
+          .replace(/^\*\*|\*\*$/g, '')
+          .replace(/<[^>]+>/g, '')
+          .trim();
         const isMdHeading = /^#{1,4}\s+/.test(line);
         const isUpperHeading =
           (strippedLine.startsWith('BỒ ĐỀ TÂM') ||
@@ -281,7 +332,9 @@ export default function TrangChiTietTongChi() {
             strippedLine.startsWith('ĐỂ BỒ ĐỀ TÂM') ||
             strippedLine.startsWith('TAM QUY') ||
             strippedLine.startsWith('NGŨ GIỚI') ||
-            (strippedLine === strippedLine.toUpperCase() && !strippedLine.startsWith('>') && !strippedLine.startsWith('!['))) &&
+            (strippedLine === strippedLine.toUpperCase() &&
+              !strippedLine.startsWith('>') &&
+              !strippedLine.startsWith('!['))) &&
           strippedLine.length < 80 &&
           strippedLine.length > 3 &&
           !strippedLine.includes('“') &&
@@ -294,7 +347,8 @@ export default function TrangChiTietTongChi() {
         if (isMdHeading || isUpperHeading) {
           const id = toSectionId(strippedLine);
           if (id && !items.some((it) => it.id === id)) {
-            const label = strippedLine.length > 32 ? strippedLine.slice(0, 30) + '...' : strippedLine;
+            const label =
+              strippedLine.length > 32 ? strippedLine.slice(0, 30) + '...' : strippedLine;
             items.push({ id, label });
           }
         }
@@ -335,8 +389,8 @@ export default function TrangChiTietTongChi() {
   const sidebarTitle = isBoDeTam
     ? 'BỒ ĐỀ TÂM'
     : (data?.title || 'TÔNG CHỈ TU HỌC').length > 18
-    ? (data?.title || 'TÔNG CHỈ TU HỌC').split('-')[0].trim()
-    : (data?.title || 'TÔNG CHỈ TU HỌC');
+      ? (data?.title || 'TÔNG CHỈ TU HỌC').split('-')[0].trim()
+      : data?.title || 'TÔNG CHỈ TU HỌC';
 
   const [activeKeywordPopup, setActiveKeywordPopup] = useState<{
     keyword: string;
@@ -348,13 +402,17 @@ export default function TrangChiTietTongChi() {
 
   const handlePrevPhoto = () => {
     if (activePhotoIndex !== null && data?.photoGallery) {
-      setActivePhotoIndex(activePhotoIndex === 0 ? data.photoGallery.length - 1 : activePhotoIndex - 1);
+      setActivePhotoIndex(
+        activePhotoIndex === 0 ? data.photoGallery.length - 1 : activePhotoIndex - 1
+      );
     }
   };
 
   const handleNextPhoto = () => {
     if (activePhotoIndex !== null && data?.photoGallery) {
-      setActivePhotoIndex(activePhotoIndex === data.photoGallery.length - 1 ? 0 : activePhotoIndex + 1);
+      setActivePhotoIndex(
+        activePhotoIndex === data.photoGallery.length - 1 ? 0 : activePhotoIndex + 1
+      );
     }
   };
 
@@ -395,7 +453,9 @@ export default function TrangChiTietTongChi() {
             const allData = await allRes.json();
             if (allData.success && Array.isArray(allData.data)) {
               const currentCat = localItem?.category || 'tong-phong-truyen-thua';
-              const others = allData.data.filter((a: any) => a.slug !== slug && a.id !== localItem?.id);
+              const others = allData.data.filter(
+                (a: any) => a.slug !== slug && a.id !== localItem?.id
+              );
               const sameCat = others.filter((a: any) => a.category === currentCat);
               const diffCat = others.filter((a: any) => a.category !== currentCat);
               const combined = [...sameCat, ...diffCat];
@@ -415,7 +475,8 @@ export default function TrangChiTietTongChi() {
         // 2. Logic kiểm tra cờ ưu tiên (Local-First Priority Fallback)
         // Kiểm tra xem Local Database đã có nội dung hợp lệ chưa
         const hasLocalContent = Boolean(localItem?.content && localItem.content.trim().length > 0);
-        const urlParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
+        const urlParams =
+          typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
         const forceWp = urlParams?.get('forceWp') === 'true' || urlParams?.get('syncWp') === 'true';
 
         // Chỉ fetch WordPress Live API khi Local chưa có nội dung HOẶC có chỉ thị forceWp
@@ -431,16 +492,23 @@ export default function TrangChiTietTongChi() {
 
         if (shouldFetchWp) {
           const isNumericId = /^\d+$/.test(slug);
-          const wpTargetId = localItem?.wpPostId || (isBoDeTam ? '470' : slug === 'tam-quy' ? '488' : slug);
-          const wpUrl = isNumericId || localItem?.wpPostId || isBoDeTam || slug === 'tam-quy'
-            ? `https://admin.tunglamhoaphuc.com/wp-json/wp/v2/tong-chi/${wpTargetId}?_embed`
-            : `https://admin.tunglamhoaphuc.com/wp-json/wp/v2/tong-chi?slug=${slug}&_embed`;
+          const wpTargetId =
+            localItem?.wpPostId || (isBoDeTam ? '470' : slug === 'tam-quy' ? '488' : slug);
+          const wpUrl =
+            isNumericId || localItem?.wpPostId || isBoDeTam || slug === 'tam-quy'
+              ? `https://admin.tunglamhoaphuc.com/wp-json/wp/v2/tong-chi/${wpTargetId}?_embed`
+              : `https://admin.tunglamhoaphuc.com/wp-json/wp/v2/tong-chi?slug=${slug}&_embed`;
 
           try {
             const res = await fetch(wpUrl, { cache: 'no-store' });
             if (res.ok) {
               const rawData = await res.json();
-              const post = (isNumericId || localItem?.wpPostId || isBoDeTam || slug === 'tam-quy') ? rawData : (Array.isArray(rawData) && rawData.length > 0 ? rawData[0] : null);
+              const post =
+                isNumericId || localItem?.wpPostId || isBoDeTam || slug === 'tam-quy'
+                  ? rawData
+                  : Array.isArray(rawData) && rawData.length > 0
+                    ? rawData[0]
+                    : null;
 
               if (post && post.id) {
                 const acf = post.acf || {};
@@ -450,7 +518,10 @@ export default function TrangChiTietTongChi() {
                 wpContent = parsed.cleanedContent;
                 wpTitle = post.title?.rendered || '';
                 wpSubtitle = acf.tieu_de_phu || parsed.extractedSubtitle || '';
-                wpExcerpt = (post.excerpt?.rendered || '').replace(/<[^>]+>/g, '').replace(/&#8230;/g, '...').trim();
+                wpExcerpt = (post.excerpt?.rendered || '')
+                  .replace(/<[^>]+>/g, '')
+                  .replace(/&#8230;/g, '...')
+                  .trim();
                 wpVideoUrl = acf.duong_dan_link_youtube || '';
                 wpVideoTitle = acf.tieu_de_video || '';
                 wpVideoDesc = acf.mo_ta_ngan_video || '';
@@ -463,41 +534,50 @@ export default function TrangChiTietTongChi() {
 
         // 3. ƯU TIÊN NỘI DUNG LOCAL DATABASE (LOCAL-FIRST PRIORITY FALLBACK):
         // Khi Admin vừa sửa nội dung cục bộ, luôn ưu tiên hiển thị nội dung đó
-        const finalBanner = localItem?.bannerImage || 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/nen-tang-tu-hoc/tong-chi-tu-hoc-nen-tang-tu-hoc-bo-de-tam-herobanner-thumbnail.webp';
+        const finalBanner =
+          localItem?.bannerImage ||
+          'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/nen-tang-tu-hoc/tong-chi-tu-hoc-nen-tang-tu-hoc-bo-de-tam-herobanner-thumbnail.webp';
         const finalBannerPosition = localItem?.bannerPosition || 'center 47%';
-        
+
         const finalContent = forceWp
-          ? (wpContent || localItem?.content || '')
-          : (localItem?.content || wpContent || '');
+          ? wpContent || localItem?.content || ''
+          : localItem?.content || wpContent || '';
 
         const finalTitle = forceWp
-          ? (wpTitle || localItem?.title || (isBoDeTam ? 'BỒ ĐỀ TÂM' : 'TÔNG CHỈ TU HỌC'))
-          : (localItem?.title || wpTitle || (isBoDeTam ? 'BỒ ĐỀ TÂM' : 'TÔNG CHỈ TU HỌC'));
+          ? wpTitle || localItem?.title || (isBoDeTam ? 'BỒ ĐỀ TÂM' : 'TÔNG CHỈ TU HỌC')
+          : localItem?.title || wpTitle || (isBoDeTam ? 'BỒ ĐỀ TÂM' : 'TÔNG CHỈ TU HỌC');
 
         const finalSubtitle = forceWp
-          ? (wpSubtitle || localItem?.subtitle || (isBoDeTam ? 'Cội nguồn thiện pháp' : ''))
-          : (localItem?.subtitle || wpSubtitle || (isBoDeTam ? 'Cội nguồn thiện pháp' : ''));
+          ? wpSubtitle || localItem?.subtitle || (isBoDeTam ? 'Cội nguồn thiện pháp' : '')
+          : localItem?.subtitle || wpSubtitle || (isBoDeTam ? 'Cội nguồn thiện pháp' : '');
 
         const defaultSourceBooks = [
           {
             title: 'KHUYẾN PHÁT BỒ ĐỀ TÂM GIẢNG LUẬN',
             author: 'Đại Đức Thích Tâm Hòa',
-            description: 'Bộ sách giảng giải chi tiết về tầm quan trọng và phương pháp phát khởi Bồ Đề tâm của người học Phật.',
-            coverImage: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/uploads/chua-pho-chieu-hai-phong-1787464212629.webp',
-            linkUrl: 'https://drive.google.com/file/d/1bIo3HRT7asCbIeVF_NTs5u4kqTGw3Ear/view?usp=sharing',
+            description:
+              'Bộ sách giảng giải chi tiết về tầm quan trọng và phương pháp phát khởi Bồ Đề tâm của người học Phật.',
+            coverImage:
+              'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/uploads/chua-pho-chieu-hai-phong-1787464212629.webp',
+            linkUrl:
+              'https://drive.google.com/file/d/1bIo3HRT7asCbIeVF_NTs5u4kqTGw3Ear/view?usp=sharing',
           },
           {
             title: 'ĐI QUA KHỔ VUI CUỘC ĐỜI (QUYỂN 01, 02, 03)',
             author: 'Sa Môn Vô Trí (hiệu Tâm Hòa)',
-            description: 'Những chia sẻ chân thật và sâu sắc về hành trình tu học, vượt qua nghịch cảnh và kiến tạo đời sống an lạc.',
-            coverImage: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/uploads/tong-chi-tu-hoc_tong-phong-truyen-thua_tiep-buoc-thay-toi_thay_-chu-thich-popup-sach-dqkvcd-1787464550735.jpg',
+            description:
+              'Những chia sẻ chân thật và sâu sắc về hành trình tu học, vượt qua nghịch cảnh và kiến tạo đời sống an lạc.',
+            coverImage:
+              'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/uploads/tong-chi-tu-hoc_tong-phong-truyen-thua_tiep-buoc-thay-toi_thay_-chu-thich-popup-sach-dqkvcd-1787464550735.jpg',
             linkUrl: '/vu-tru-phat-giao/tang-kinh-cac',
           },
           {
             title: 'LỜI ĐỨC PHẬT DẠY & CÁC BÀI GIẢNG',
             author: 'Tùng Lâm Hòa Phúc',
-            description: 'Tập hợp các lời dạy căn bản của Đức Phật và các bài pháp thoại trong các khóa tu tại Tùng Lâm Hòa Phúc.',
-            coverImage: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/uploads/chua-hoang-phap--kien-an-tinh-hai-phong-1787463859334.jpg',
+            description:
+              'Tập hợp các lời dạy căn bản của Đức Phật và các bài pháp thoại trong các khóa tu tại Tùng Lâm Hòa Phúc.',
+            coverImage:
+              'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/uploads/chua-hoang-phap--kien-an-tinh-hai-phong-1787463859334.jpg',
             linkUrl: 'https://www.youtube.com/playlist?list=PL2aRqXTU1nn456nh72vOF1W7Au764sTVN',
           },
         ];
@@ -507,8 +587,8 @@ export default function TrangChiTietTongChi() {
           title: finalTitle,
           subtitle: finalSubtitle,
           shortDescription: forceWp
-            ? (wpExcerpt || localItem?.excerpt || '')
-            : (localItem?.excerpt || wpExcerpt || ''),
+            ? wpExcerpt || localItem?.excerpt || ''
+            : localItem?.excerpt || wpExcerpt || '',
           heroBanner: finalBanner,
           bannerPosition: finalBannerPosition,
           poemContent: finalContent,
@@ -524,14 +604,24 @@ export default function TrangChiTietTongChi() {
             linkUrl: k.linkUrl || '',
           })),
           videoBlock: {
-            title: wpVideoTitle || localItem?.videoBlock?.title || 'KHUYẾN PHÁT BỒ ĐỀ TÂM VĂN - TRỌN BỘ | ĐẠI ĐỨC THÍCH TÂM HÒA',
-            description: wpVideoDesc || localItem?.videoBlock?.description || 'Chư Phật ba đời không rời Bồ Đề tâm để thành tựu các pháp.',
-            videoUrl: wpVideoUrl || localItem?.videoBlock?.videoUrl || 'https://www.youtube.com/playlist?list=PL2aRqXTU1nn456nh72vOF1W7Au764sTVN',
+            title:
+              wpVideoTitle ||
+              localItem?.videoBlock?.title ||
+              'KHUYẾN PHÁT BỒ ĐỀ TÂM VĂN - TRỌN BỘ | ĐẠI ĐỨC THÍCH TÂM HÒA',
+            description:
+              wpVideoDesc ||
+              localItem?.videoBlock?.description ||
+              'Chư Phật ba đời không rời Bồ Đề tâm để thành tựu các pháp.',
+            videoUrl:
+              wpVideoUrl ||
+              localItem?.videoBlock?.videoUrl ||
+              'https://www.youtube.com/playlist?list=PL2aRqXTU1nn456nh72vOF1W7Au764sTVN',
           },
           photoGallery: localItem?.photoGallery || [
             {
               title: 'LỄ TƯỞNG NIỆM KHAI SƠN TÔNG PHONG HOẰNG PHÁP',
-              imageUrl: 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp',
+              imageUrl:
+                'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/Phap-hoi-niem-Phat.webp',
               khuVuc: 'Bảo tàng',
               noiDung: 'Lễ Tưởng Niệm Khai Sơn Tông Phong Hoằng Pháp',
             },
@@ -549,8 +639,6 @@ export default function TrangChiTietTongChi() {
     if (slug) fetchDetailData();
   }, [slug]);
 
-
-
   // 🛠️ XỬ LÝ CLICK TỪ KHÓA BÔI ĐẶM
   const handlePoemContentClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const target = e.target as HTMLElement;
@@ -560,11 +648,20 @@ export default function TrangChiTietTongChi() {
       const rawText = boldEl.textContent?.trim() || '';
       if (!rawText) return;
 
-      const cleanClickedText = rawText.replace(/[.,;:]+$/, '').trim().toLowerCase();
+      const cleanClickedText = rawText
+        .replace(/[.,;:]+$/, '')
+        .trim()
+        .toLowerCase();
 
       const matchedPopup = data?.popups?.find((p) => {
-        const popupKeyword = (p.keyword || '').replace(/[.,;:]+$/, '').trim().toLowerCase();
-        const popupTitle = (p.title || '').replace(/[.,;:]+$/, '').trim().toLowerCase();
+        const popupKeyword = (p.keyword || '')
+          .replace(/[.,;:]+$/, '')
+          .trim()
+          .toLowerCase();
+        const popupTitle = (p.title || '')
+          .replace(/[.,;:]+$/, '')
+          .trim()
+          .toLowerCase();
 
         return (
           popupKeyword === cleanClickedText ||
@@ -665,24 +762,9 @@ export default function TrangChiTietTongChi() {
         navItems={navItems}
       />
 
-      <div className={`w-full transition-all duration-500 ${isScrolled ? 'pl-16 md:pl-24' : 'pl-4'} pr-4 md:pr-12`}>
-        {/* Banner chuyển đổi sang bản WP Live nếu là bài Bồ Đề Tâm */}
-        {isBoDeTam && (
-          <div className="max-w-5xl mx-auto my-3 p-3 bg-[#1C120A] border border-[#F2C14E]/40 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-3 shadow-lg">
-            <div className="flex items-center gap-2.5 text-xs text-[#FFE5A3]">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping shrink-0" />
-              <span>Đang xem bản dữ liệu nội bộ. Bạn có thể mở <strong>Bản Live WordPress (Post 470)</strong> để vừa gõ trên WP vừa xem kết quả trực tiếp!</span>
-            </div>
-            <Link
-              href="/tong-chi-tu-hoc/wp-preview"
-              className="px-4 py-1.5 rounded-xl bg-gradient-to-r from-[#F2C14E] to-[#FFDE59] text-[#1A120B] text-xs font-bold shrink-0 transition-all hover:scale-105 shadow-md flex items-center gap-1.5"
-            >
-              <ExternalLink className="w-3.5 h-3.5" />
-              <span>Mở Bản Live WordPress</span>
-            </Link>
-          </div>
-        )}
-
+      <div
+        className={`w-full transition-all duration-500 ${isScrolled ? 'pl-16 md:pl-24' : 'pl-4'} pr-4 md:pr-12`}
+      >
         <HeroBanner
           id="tong-chi-tu-hoc"
           bannerUrl={data?.heroBanner}
@@ -705,9 +787,18 @@ export default function TrangChiTietTongChi() {
                 popups={data.popups}
                 onKeywordClick={(kw) => {
                   const matchedPopup = data?.popups?.find((p) => {
-                    const popupKeyword = (p.keyword || '').replace(/[.,;:]+$/, '').trim().toLowerCase();
-                    const popupTitle = (p.title || '').replace(/[.,;:]+$/, '').trim().toLowerCase();
-                    const cleanClickedText = kw.replace(/[.,;:]+$/, '').trim().toLowerCase();
+                    const popupKeyword = (p.keyword || '')
+                      .replace(/[.,;:]+$/, '')
+                      .trim()
+                      .toLowerCase();
+                    const popupTitle = (p.title || '')
+                      .replace(/[.,;:]+$/, '')
+                      .trim()
+                      .toLowerCase();
+                    const cleanClickedText = kw
+                      .replace(/[.,;:]+$/, '')
+                      .trim()
+                      .toLowerCase();
 
                     return (
                       popupKeyword === cleanClickedText ||
@@ -759,7 +850,10 @@ export default function TrangChiTietTongChi() {
                 )}
 
                 {data?.featuredArticle?.title && (
-                  <FeaturedPosts heroBanner={data?.heroBanner} featuredArticle={data?.featuredArticle} />
+                  <FeaturedPosts
+                    heroBanner={data?.heroBanner}
+                    featuredArticle={data?.featuredArticle}
+                  />
                 )}
 
                 {data?.photoGallery && data.photoGallery.length > 1 && (
