@@ -114,28 +114,31 @@ export interface MonthThemeInfo {
   primaryColor: string;
   secondaryColor: string;
   themeBg: string;
+  quoteImg?: string;
+  quoteTitle?: string;
 }
 
 export const MONTH_THEMES: Record<number, MonthThemeInfo> = {
-  0: { // Tháng 1
-    month: 1,
-    bannerImg: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-01-duc-ban-su-thanh-dao.webp",
-    title: "ĐỨC BẢN SƯ THÀNH ĐẠO",
-    quoteLines: [
+  0: {
+    "month": 1,
+    "bannerImg": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-01-duc-ban-su-thanh-dao.webp",
+    "title": "Đức Bản Sư Thành Đạo",
+    "quoteLines": [
       "Hạnh phúc là khi bạn biết",
       "nhận diện sự có mặt của",
       "niềm vui và nỗi buồn."
     ],
-    author: "Vô Trí - Tâm Hòa",
-    primaryColor: "#8B3A1C",
-    secondaryColor: "#F2C14E",
-    themeBg: "#2A170F",
+    "author": "Vô Trí - Tâm Hòa",
+    "primaryColor": "#8B3A1C",
+    "secondaryColor": "#F2C14E",
+    "themeBg": "#2A170F",
+    "quoteImg": "/images/lich-tu-hoc/quotes/thang-01-quy-y-tam-bao.png"
   },
-  1: { // Tháng 2
-    month: 2,
-    bannerImg: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-02-nghinh-xuan-di-lac.webp",
-    title: "NGHINH XUÂN DI LẶC",
-    quoteLines: [
+  1: {
+    "month": 2,
+    "bannerImg": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-02-nghinh-xuan-di-lac.webp",
+    "title": "Nghinh Xuân Di Lặc",
+    "quoteLines": [
       "Nam mô Từ phụ Thích Ca",
       "Xuân về khắp chốn, nhà nhà hân hoan.",
       "Giữ lòng nếp sống thanh nhàn",
@@ -145,32 +148,34 @@ export const MONTH_THEMES: Record<number, MonthThemeInfo> = {
       "Chắp tay khấn nguyện âm thầm",
       "Dân giàu, nước thịnh, thái bình thiên thu."
     ],
-    author: "Vô Trí - Tâm Hòa",
-    primaryColor: "#1E4B3E",
-    secondaryColor: "#FFDE59",
-    themeBg: "#122620",
+    "author": "Vô Trí - Tâm Hòa",
+    "primaryColor": "#1E4B3E",
+    "secondaryColor": "#FFDE59",
+    "themeBg": "#122620",
+    "quoteImg": "/images/lich-tu-hoc/quotes/thang-02-tu-hoc-phat-phap.jpg"
   },
-  2: { // Tháng 3
-    month: 3,
-    bannerImg: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-03-huong-sen-tay-bac.webp",
-    title: "HƯƠNG SEN TÂY BẮC",
-    quoteLines: [
+  2: {
+    "month": 3,
+    "bannerImg": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-03-huong-sen-tay-bac.webp",
+    "title": "Hương Sen Tây Bắc",
+    "quoteLines": [
       "Thử thách tạo nên sức mạnh",
       "Mỗi thử thách trong cuộc đời đều mang đến những kinh nghiệm thú vị.",
       "Người biết chấp nhận thử thách, tìm cách thích ứng",
       "và biến thử thách thành động lực mới",
       "là người có sức chịu đựng kiên cường."
     ],
-    author: "Vô Trí - Tâm Hòa",
-    primaryColor: "#6B2D5C",
-    secondaryColor: "#FFE5A3",
-    themeBg: "#261121",
+    "author": "Vô Trí - Tâm Hòa",
+    "primaryColor": "#6B2D5C",
+    "secondaryColor": "#FFE5A3",
+    "themeBg": "#261121",
+    "quoteImg": "/images/lich-tu-hoc/quotes/thang-03-dung-bo-cuoc.jpg"
   },
-  3: { // Tháng 4
-    month: 4,
-    bannerImg: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-04-huong-ve-coi-nguon.webp",
-    title: "HƯỚNG VỀ CỘI NGUỒN",
-    quoteLines: [
+  3: {
+    "month": 4,
+    "bannerImg": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-04-huong-ve-coi-nguon.webp",
+    "title": "Hướng Về Cội Nguồn",
+    "quoteLines": [
       "Nắng xưa... trở về",
       "Rồi một ngày bầu trời xanh hửng nắng",
       "Ai trở về trong manh áo bùn nâu",
@@ -182,16 +187,17 @@ export const MONTH_THEMES: Record<number, MonthThemeInfo> = {
       "Tìm gì đây bên khói bếp đìu hiu",
       "Chờ được thấy “dáng Thầy” trong tiềm thức."
     ],
-    author: "Vô Trí - Tâm Hòa",
-    primaryColor: "#B45309",
-    secondaryColor: "#F2C14E",
-    themeBg: "#2E1A08",
+    "author": "Vô Trí - Tâm Hòa",
+    "primaryColor": "#B45309",
+    "secondaryColor": "#F2C14E",
+    "themeBg": "#2E1A08",
+    "quoteImg": "/images/lich-tu-hoc/quotes/thang-04-tich-cuc-nang-cao.jpg"
   },
-  4: { // Tháng 5
-    month: 5,
-    bannerImg: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-05-phat-dan.webp",
-    title: "PHẬT ĐẢN",
-    quoteLines: [
+  4: {
+    "month": 5,
+    "bannerImg": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-05-phat-dan.webp",
+    "title": "Phật Đản",
+    "quoteLines": [
       "Phật về",
       "Phật về nắng đẹp hoan ca",
       "Phật về già trẻ gần xa tưng bừng",
@@ -202,90 +208,97 @@ export const MONTH_THEMES: Record<number, MonthThemeInfo> = {
       "Phật về rạng rỡ nụ cười",
       "Phật về tâm đạo thảnh thơi cõi lòng."
     ],
-    author: "Vô Trí - Tâm Hòa",
-    primaryColor: "#854D0E",
-    secondaryColor: "#FFDE59",
-    themeBg: "#261504",
+    "author": "Vô Trí - Tâm Hòa",
+    "primaryColor": "#854D0E",
+    "secondaryColor": "#FFDE59",
+    "themeBg": "#261504",
+    "quoteImg": "/images/lich-tu-hoc/quotes/thang-05-tu-tap-khiem-ha.jpg"
   },
-  5: { // Tháng 6
-    month: 6,
-    bannerImg: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-06-uom-mam-sen-viet.webp",
-    title: "ƯƠM MẦM SEN VIỆT",
-    quoteLines: [
+  5: {
+    "month": 6,
+    "bannerImg": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-06-uom-mam-sen-viet.webp",
+    "title": "Ươm Mầm Sen Việt",
+    "quoteLines": [
       "Tuổi trẻ đến chùa",
       "Vui thay tuổi trẻ đến chùa",
       "Học theo hạnh Phật hơn thua mặc người",
       "Uy nghi, lễ phép, tươi cười",
       "Búp sen dâng tặng cho đời bình an."
     ],
-    author: "Vô Trí - Tâm Hòa",
-    primaryColor: "#0F5132",
-    secondaryColor: "#FFE5A3",
-    themeBg: "#082115",
+    "author": "Vô Trí - Tâm Hòa",
+    "primaryColor": "#0F5132",
+    "secondaryColor": "#FFE5A3",
+    "themeBg": "#082115",
+    "quoteImg": "/images/lich-tu-hoc/quotes/thang-06-tinh-thuong-phung-su.jpg"
   },
-  6: { // Tháng 7
-    month: 7,
-    bannerImg: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-07-den-on-dap-nghia.webp",
-    title: "ĐỀN ƠN ĐÁP NGHĨA",
-    quoteLines: [
+  6: {
+    "month": 7,
+    "bannerImg": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-07-den-on-dap-nghia.webp",
+    "title": "Đền Ơn Đáp Nghĩa",
+    "quoteLines": [
       "Sống cho riêng mình là người chật hẹp.",
       "Sống cho muôn người thì rộng lớn thênh thang."
     ],
-    author: "Vô Trí - Tâm Hòa",
-    primaryColor: "#991B1B",
-    secondaryColor: "#FFDE59",
-    themeBg: "#2A0A0A",
+    "author": "Vô Trí - Tâm Hòa",
+    "primaryColor": "#991B1B",
+    "secondaryColor": "#FFDE59",
+    "themeBg": "#2A0A0A",
+    "quoteImg": "/images/lich-tu-hoc/quotes/thang-07-biet-minh-biet-ta.jpg"
   },
-  7: { // Tháng 8
-    month: 8,
-    bannerImg: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-08-hieu-hanh-dap-den.webp",
-    title: "HIẾU HẠNH ĐÁP ĐỀN",
-    quoteLines: [
+  7: {
+    "month": 8,
+    "bannerImg": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-08-hieu-hanh-dap-den.webp",
+    "title": "Hiếu Hạnh Đáp Đền",
+    "quoteLines": [
       "Không một tác phẩm nào đẹp và thiêng liêng",
       "bằng sự hiện hữu của cha và mẹ.",
       "Đó là tượng đài của tình thương",
       "và sự hy sinh bất tử."
     ],
-    author: "Vô Trí - Tâm Hòa",
-    primaryColor: "#7C2D12",
-    secondaryColor: "#F2C14E",
-    themeBg: "#240E06",
+    "author": "Vô Trí - Tâm Hòa",
+    "primaryColor": "#7C2D12",
+    "secondaryColor": "#F2C14E",
+    "themeBg": "#240E06",
+    "quoteImg": "/images/lich-tu-hoc/quotes/thang-08-ve-ben-thay.jpg"
   },
-  8: { // Tháng 9
-    month: 9,
-    bannerImg: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-09-thanh-nguyet-huong-thu.webp",
-    title: "THANH NGUYỆT HƯƠNG THU",
-    quoteLines: [
+  8: {
+    "month": 9,
+    "bannerImg": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-09-thanh-nguyet-huong-thu.webp",
+    "title": "Thanh Nguyệt Hương Thu",
+    "quoteLines": [
       "Này bạn, dù bên ngoài bão giông",
       "nhưng đừng đánh mất sự bình an bên trong.",
       "Chất liệu vững chãi được tạo ra từ nội tâm an lạc",
       "sẽ không bao giờ mất nếu bạn biết an trú",
       "vào đoàn thể đẹp của Tăng thân."
     ],
-    author: "Vô Trí - Tâm Hòa",
-    primaryColor: "#1E3A8A",
-    secondaryColor: "#FFDE59",
-    themeBg: "#0B1533",
+    "author": "Vô Trí - Tâm Hòa",
+    "primaryColor": "#1E3A8A",
+    "secondaryColor": "#FFDE59",
+    "themeBg": "#0B1533",
+    "quoteImg": "/images/lich-tu-hoc/quotes/thang-09-nhan-moi-la-suc-manh.jpg"
   },
-  9: { // Tháng 10
-    month: 10,
-    bannerImg: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-10-hanh-nguyen-quan-am.webp",
-    title: "HẠNH NGUYỆN QUAN ÂM",
-    quoteLines: [
-      "Âm đức là âm thầm cống hiến, lặng lẽ phụng sự,",
-      "an nhiên giúp người thương vật bằng cái tâm trong sáng.",
-      "Đó chính là mật hạnh của Bồ tát."
+  9: {
+    "month": 10,
+    "bannerImg": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-10-hanh-nguyen-quan-am.webp",
+    "title": "Học hạnh buông xả",
+    "quoteLines": [
+      "Học hạnh buông xả là học cách",
+      "mở rộng dung lượng trái tim,",
+      "để bao dung những điều chưa trọn vẹn",
+      "và mỉm cười trước mọi đổi thay."
     ],
-    author: "Vô Trí - Tâm Hòa",
-    primaryColor: "#701A75",
-    secondaryColor: "#FFE5A3",
-    themeBg: "#240826",
+    "author": "Vô Trí - Tâm Hòa",
+    "primaryColor": "#8B3A1C",
+    "secondaryColor": "#F2C14E",
+    "themeBg": "#2A170F",
+    "quoteImg": "/images/lich-tu-hoc/quotes/thang-10-tim-ve-yen-lang.jpg"
   },
-  10: { // Tháng 11
-    month: 11,
-    bannerImg: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-11-an-duc-to-thay.webp",
-    title: "ÂN ĐỨC TỔ THẦY",
-    quoteLines: [
+  10: {
+    "month": 11,
+    "bannerImg": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-11-an-duc-to-thay.webp",
+    "title": "Hoằng Pháp - Kiến An mãi nhớ Thầy",
+    "quoteLines": [
       "Hoằng Pháp - Kiến An mãi nhớ Thầy",
       "Hải Phòng - Phổ Chiếu vẫn còn đây",
       "Người đi năm tháng chưa phai dấu",
@@ -295,25 +308,27 @@ export const MONTH_THEMES: Record<number, MonthThemeInfo> = {
       "Dáng xưa vững chãi như tùng bách",
       "Cháu con tiếp bước đẹp tháng ngày."
     ],
-    author: "Vô Trí - Tâm Hòa",
-    primaryColor: "#9A3412",
-    secondaryColor: "#F2C14E",
-    themeBg: "#2B0F05",
+    "author": "Vô Trí - Tâm Hòa",
+    "primaryColor": "#9A3412",
+    "secondaryColor": "#F2C14E",
+    "themeBg": "#2B0F05",
+    "quoteImg": "/images/lich-tu-hoc/quotes/thang-11-ve-ben-thay.jpg"
   },
-  11: { // Tháng 12
-    month: 12,
-    bannerImg: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-12-via-phat-di-da.webp",
-    title: "VÍA PHẬT DI ĐÀ",
-    quoteLines: [
+  11: {
+    "month": 12,
+    "bannerImg": "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/01-trang-chu/calendar_webp/thang-12-via-phat-di-da.webp",
+    "title": "Vía Phật Di Đà",
+    "quoteLines": [
       "Hoa sen cần bùn để sống.",
       "Bạn cũng cần chất liệu khổ đau",
       "để vững chãi vươn lên."
     ],
-    author: "Vô Trí - Tâm Hòa",
-    primaryColor: "#78350F",
-    secondaryColor: "#FFDE59",
-    themeBg: "#210E04",
-  },
+    "author": "Vô Trí - Tâm Hòa",
+    "primaryColor": "#78350F",
+    "secondaryColor": "#FFDE59",
+    "themeBg": "#210E04",
+    "quoteImg": "/images/lich-tu-hoc/quotes/thang-12-kho-dau-la-chat-lieu.jpg"
+  }
 };
 
 const DAY_OF_WEEK_NAMES = [
@@ -453,7 +468,7 @@ export function getEventsForMonth(solarYear: number, solarMonth: number): Record
     // ─────────────────────────────────────────────────────────────────────────────
     // 4. CÁC ĐẠI LỄ & PHÁP HỘI ĐẶC THÙ THEO THÁNG ÂM LỊCH
     // ─────────────────────────────────────────────────────────────────────────────
-    
+
     // THÁNG 6 ÂL: KHAI ĐÀN VU LAN BÁO HIẾU (Tối 30 hoặc 29/06 ÂL)
     if (lunar.month === 6 && isLastDayOfLunarMonth) {
       dayEvents.push({

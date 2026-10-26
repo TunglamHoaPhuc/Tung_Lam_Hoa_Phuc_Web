@@ -2,21 +2,32 @@
 
 import { WisdomArchiveSection } from '@/features/wisdom/components/WisdomArchiveSection';
 import { SmartSearchAIBar } from '@/components/public/SmartSearchAIBar';
+import { WISDOM_ITEMS } from '@/data/wisdom-archive-data';
+import { getImageUrl } from '@/utils/image';
 
 export default function TriTuePhatPhapPage() {
+  // Lấy ảnh bài viết/pháp bảo tiêu biểu cho Header (ưu tiên mục đầu tiên của Kho tàng Trí Tuệ)
+  const headerBgImage = getImageUrl(
+    WISDOM_ITEMS[0]?.thumbnailUrl ||
+    'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/nen-tang-tu-hoc/tong-chi-tu-hoc-nen-tang-tu-hoc-bo-de-tam-herobanner-thumbnail.webp'
+  );
+
   return (
     <div className="min-h-screen bg-[#2A1D14] text-[#e3d2c1] selection:bg-[#F2C14E] selection:text-black">
-      {/* ── HERO BANNER TOP CHUẨN ĐỒNG BỘ DÒNG CHẢY HOẰNG PHÁP ── */}
+      {/* ── HERO BANNER TOP VỚI GRADIENT WATERMARK TÔNG PHONG TRUYỀN THỪA ── */}
       <div className="relative w-full overflow-hidden bg-[#2A1D14] pt-24 pb-8 md:pt-28 md:pb-10">
-        {/* Ảnh nền đằng sau mờ phủ gradient & giảm opacity nhẹ */}
-        <div
-          className="absolute inset-0 bg-cover bg-center opacity-30 md:opacity-35 blur-[2.5px] pointer-events-none scale-105"
-          style={{
-            backgroundImage: "url('/images/toan-canh-chua.jpg')",
-          }}
-        />
+        {/* Ảnh nền đằng sau mờ phủ gradient hòa quyện như Tông Phong Truyền Thừa */}
+        {headerBgImage && (
+          <div
+            className="absolute inset-0 bg-cover bg-center opacity-30 pointer-events-none mix-blend-luminosity [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_75%)]"
+            style={{
+              backgroundImage: `url('${headerBgImage}')`,
+              backgroundPosition: 'center 25%',
+            }}
+          />
+        )}
         {/* Hiệu ứng mờ mềm mại hòa vào nền nâu */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#2A1D14]/45 via-[#2A1D14]/75 to-[#2A1D14] pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#2A1D14]/40 via-[#2A1D14]/70 to-[#2A1D14] pointer-events-none" />
 
         <div className="relative z-10 max-w-[1280px] mx-auto px-4 md:px-10 flex flex-col items-center justify-center text-center">
           <div className="w-10 h-10 rounded-full bg-[#3a2718] border border-[#f2cc8f]/40 flex items-center justify-center text-[#ffde59] mb-2 shadow-md">

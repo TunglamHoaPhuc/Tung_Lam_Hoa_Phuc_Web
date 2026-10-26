@@ -2,9 +2,10 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { ChevronRight, CheckCircle2, BookOpen } from 'lucide-react';
+import { usePathname } from 'next/navigation';
+import { ChevronRight } from 'lucide-react';
 import { NAV_ITEMS } from '@/data/tong-chi-tu-hoc-data';
-import tongChiData from '@/data/tong-chi-data.json';
+import { NavDropdownPanel } from './NavDropdownPanel';
 
 interface NavItem {
   id: string;
@@ -28,17 +29,27 @@ export function SubNavbar({
 }: SubNavbarProps) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname() || '';
 
-  // Tìm bài viết hiện tại và lọc danh sách các bài CÙNG CHUYÊN MỤC
-  const normalizedTitle = (pageTitle || '').toLowerCase().trim();
-  const currentItem = tongChiData.find((a) => {
-    const t = a.title.toLowerCase().trim();
-    return t === normalizedTitle || normalizedTitle.includes(t) || t.includes(normalizedTitle);
-  }) || tongChiData[0];
+  // Nhận diện phân hệ để hiển thị đúng biểu tượng & đường dẫn trang chủ
+  const isUniverse = pathname.includes('/vu-tru-phat-giao');
+  const isHoangPhap = pathname.includes('/dong-chay-hoang-phap');
 
-  const currentCategory = currentItem ? currentItem.category : 'tong-phong-truyen-thua';
-  const categoryName = currentItem?.categoryName || 'TÔNG PHONG TRUYỀN THỪA';
-  const sameCategoryArticles = tongChiData.filter((a) => a.category === currentCategory);
+  const homeHref = isUniverse
+    ? '/vu-tru-phat-giao'
+    : isHoangPhap
+    ? '/dong-chay-hoang-phap'
+    : '/tong-chi-tu-hoc';
+
+  const homeTitle = isUniverse
+    ? 'Quay về trang Vũ Trụ Phật Giáo'
+    : isHoangPhap
+    ? 'Quay về trang Dòng Chảy Hoằng Pháp'
+    : 'Quay về trang Tông Chỉ Tu Học';
+
+  const logoSrc = isUniverse || isHoangPhap
+    ? 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/09-icon-minh-hoa/logo-moc-an.webp'
+    : 'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/bieu-tuong-tong-chi-tu-hoc-tung-lam-hoa-phuc.webp';
 
   // Click outside listener
   useEffect(() => {
@@ -62,14 +73,14 @@ export function SubNavbar({
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 pl-28 md:pl-40 lg:pl-48 h-full flex items-center justify-between gap-4 py-1 w-full my-auto">
-        {/* KHỐI TRÁI: LOGO + NÚT TRÒN ( > ) MỞ DROPDOWN CÙNG CHUYÊN MỤC + TIÊU ĐỀ */}
+        {/* KHỐI TRÁI: LOGO + NÚT TRÒN ( > ) MỞ DROPDOWN + TIÊU ĐỀ */}
         <div ref={dropdownRef} className="relative flex items-center justify-center my-auto space-x-2 md:space-x-3 flex-shrink-0">
           <div className="h-8 w-[1px] bg-gradient-to-b from-transparent via-[#c8aa6e]/60 to-transparent flex-shrink-0 my-auto" />
 
-          <Link href="/tong-chi-tu-hoc" title="Quay về trang Tông Chỉ Tu Học" className="flex items-center">
+          <Link href={homeHref} title={homeTitle} className="flex items-center">
             <img
-              src="https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/02-tong-chi-tu-hoc/bieu-tuong-tong-chi-tu-hoc-tung-lam-hoa-phuc.webp"
-              alt="Biểu tượng Tông Chỉ Tu Học"
+              src={logoSrc}
+              alt={homeTitle}
               loading="lazy"
               decoding="async"
               className="h-10 md:h-12 w-auto object-contain flex-shrink-0 my-auto drop-shadow-[0_0_8px_rgba(242,193,78,0.4)] hover:scale-105 transition-transform"
@@ -79,7 +90,7 @@ export function SubNavbar({
             />
           </Link>
 
-          {/* NÚT TRÒN ( > ) BẤM VÀO ĐỂ MỞ DROPDOWN MƯỢT MÀ CÁC BÀI THƠ CÙNG CHUYÊN MỤC */}
+          {/* NÚT TRÒN ( > ) BẤM VÀO ĐỂ MỞ DROPDOWN MƯỢT MÀ */}
           <button
             type="button"
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
@@ -88,7 +99,7 @@ export function SubNavbar({
                 ? 'bg-[#FFDE59] text-[#1C120A] border-[#FFDE59] shadow-[0_0_12px_#FFDE59] scale-110'
                 : 'bg-[#f2cc8f] hover:bg-[#ffde59] text-[#2c1c11] border-[#f2cc8f] hover:scale-110'
             }`}
-            title="Bấm để xem các bài thơ / nội dung cùng chuyên mục"
+            title="Bấm để xem danh mục nội dung"
           >
             <ChevronRight
               className={`w-3.5 h-3.5 md:w-4 md:h-4 stroke-[2.5] transition-transform duration-300 ${
@@ -97,107 +108,25 @@ export function SubNavbar({
             />
           </button>
 
-          {/* TIÊU ĐỀ BÀI VIẾT (CŨNG CÓ THỂ BẤM ĐỂ MỞ DROPDOWN) */}
+          {/* TIÊU ĐỀ TRÊN THANH BAR (BẤM ĐỂ MỞ DROPDOWN) */}
           <button
             type="button"
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
             style={{ fontFamily: "'UTM Niagara', sans-serif" }}
             className="group/title text-xl sm:text-2xl md:text-3xl text-[#ffde59] hover:text-white tracking-wide uppercase drop-shadow-[0_0_10px_rgba(255,222,89,0.4)] whitespace-nowrap flex items-center justify-center gap-1.5 my-auto cursor-pointer px-1.5 py-0.5 rounded-xl hover:bg-[#F2C14E]/10 transition-colors"
-            title="Bấm để xem các bài thơ / nội dung cùng chuyên mục"
+            title="Bấm để xem danh mục nội dung"
           >
             <span>{pageTitle}</span>
           </button>
 
-          {/* 🪷 DROPDOWN MENU CÙNG CHUYÊN MỤC 🪷 */}
+          {/* 🪷 DROPDOWN MENU CHUẨN XÁC NỘI DUNG VỚI FONT UTM AVO BOLD VIẾT HOA 🪷 */}
           {isDropdownOpen && (
-            <div
-              className="absolute left-10 top-full mt-3 w-80 sm:w-96 bg-[#1C120A]/98 border-2 border-[#F2C14E] rounded-2xl shadow-[0_12px_40px_rgba(0,0,0,0.85),0_0_30px_rgba(242,193,78,0.3)] backdrop-blur-xl p-3 z-[100] animate-in fade-in zoom-in-95 slide-in-from-top-2 duration-200"
-            >
-              {/* Dropdown Header */}
-              <div className="flex items-center justify-between pb-2 mb-2 border-b border-[#F2C14E]/30 px-2">
-                <div className="flex items-center gap-2">
-                  <BookOpen className="w-4 h-4 text-[#F2C14E]" />
-                  <span
-                    style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                    className="text-[11px] font-bold text-[#F2C14E] uppercase tracking-wider"
-                  >
-                    {categoryName}
-                  </span>
-                </div>
-                <span
-                  style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                  className="px-2 py-0.5 rounded-full bg-[#3A2718] border border-[#F2C14E]/40 text-[10px] font-bold text-[#ffde59]"
-                >
-                  {sameCategoryArticles.length} bài
-                </span>
-              </div>
-
-              {/* List of articles in same category */}
-              <div className="space-y-1.5 max-h-80 overflow-y-auto custom-scrollbar pr-1">
-                {sameCategoryArticles.map((art) => {
-                  const isCurrent =
-                    art.id === currentItem?.id ||
-                    art.title.toLowerCase().trim() === normalizedTitle;
-
-                  return (
-                    <Link
-                      key={art.id || art.slug}
-                      href={`/tong-chi-tu-hoc/${art.slug}`}
-                      onClick={() => setIsDropdownOpen(false)}
-                      className={`group flex items-center justify-between gap-2.5 p-2.5 rounded-xl border transition-all cursor-pointer ${
-                        isCurrent
-                          ? 'bg-[#3A2718] border-[#F2C14E] shadow-[0_0_15px_rgba(242,193,78,0.25)]'
-                          : 'bg-[#25170E]/70 hover:bg-[#352012] border-[#F2C14E]/20 hover:border-[#F2C14E]/60'
-                      }`}
-                    >
-                      <div className="flex items-center gap-2.5 min-w-0">
-                        <div
-                          className={`w-6 h-6 rounded-lg flex items-center justify-center text-[10px] font-bold shrink-0 border ${
-                            isCurrent
-                              ? 'bg-[#F2C14E] text-[#1C120A] border-[#F2C14E]'
-                              : 'bg-[#1C120A] text-[#FFE5A3] border-[#F2C14E]/40 group-hover:border-[#F2C14E]'
-                          }`}
-                        >
-                          #{art.id}
-                        </div>
-
-                        <div className="min-w-0">
-                          <h4
-                            style={{ fontFamily: "'UTM Niagara', serif" }}
-                            className={`text-xl sm:text-2xl uppercase tracking-wider font-normal leading-none truncate transition-colors ${
-                              isCurrent
-                                ? 'text-[#ffde59]'
-                                : 'text-[#FFE5A3] group-hover:text-[#ffde59]'
-                            }`}
-                          >
-                            {art.title}
-                          </h4>
-                          {art.subtitle && (
-                            <p
-                              style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                              className="text-[10px] text-[#c9b896]/80 italic truncate mt-0.5"
-                            >
-                              {art.subtitle}
-                            </p>
-                          )}
-                        </div>
-                      </div>
-
-                      {isCurrent ? (
-                        <span
-                          style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                          className="px-1.5 py-0.5 rounded bg-[#F2C14E] text-[#1C120A] text-[9px] font-bold uppercase shrink-0 flex items-center gap-1 shadow-sm"
-                        >
-                          <CheckCircle2 className="w-2.5 h-2.5" />
-                          <span>Đang xem</span>
-                        </span>
-                      ) : (
-                        <ChevronRight className="w-4 h-4 text-[#F2C14E]/60 group-hover:text-[#F2C14E] group-hover:translate-x-0.5 transition-all shrink-0" />
-                      )}
-                    </Link>
-                  );
-                })}
-              </div>
+            <div className="absolute left-10 top-full mt-3 z-[100] animate-in fade-in zoom-in-95 slide-in-from-top-2 duration-200">
+              <NavDropdownPanel
+                pageTitle={pageTitle}
+                activeSection={activeSection}
+                onClose={() => setIsDropdownOpen(false)}
+              />
             </div>
           )}
 
@@ -240,10 +169,10 @@ export function SubNavbar({
 
                   <span
                     style={{ fontFamily: "'UTM Niagara', sans-serif" }}
-                    className={`text-xl sm:text-2xl whitespace-nowrap transition-all duration-500 ease-in-out transform flex items-center justify-center my-auto ${
+                    className={`text-xl sm:text-2xl whitespace-nowrap uppercase tracking-wider transition-all duration-500 ease-in-out transform flex items-center justify-center my-auto ${
                       isActive
-                        ? 'max-w-[220px] opacity-100 text-[#ffde59] drop-shadow-[0_0_8px_rgba(255,222,89,0.5)] translate-x-0'
-                        : 'max-w-0 opacity-0 text-[#f2cc8f] group-hover:max-w-[220px] group-hover:opacity-100 group-hover:text-[#ffde59] translate-x-1 group-hover:translate-x-0 overflow-hidden'
+                        ? 'max-w-[280px] opacity-100 text-[#ffde59] drop-shadow-[0_0_8px_rgba(255,222,89,0.5)] translate-x-0'
+                        : 'max-w-0 opacity-0 text-[#f2cc8f] group-hover:max-w-[280px] group-hover:opacity-100 group-hover:text-[#ffde59] translate-x-1 group-hover:translate-x-0 overflow-hidden'
                     }`}
                   >
                     {item.label}
@@ -259,4 +188,3 @@ export function SubNavbar({
 }
 
 export default SubNavbar;
-

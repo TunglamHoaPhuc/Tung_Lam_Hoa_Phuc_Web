@@ -740,7 +740,7 @@ export default function TrangChiTietTongChi() {
                 )}
 
                 {data?.photoGallery && data.photoGallery.length > 1 && (
-                  <PhotoGallery photoGallery={data?.photoGallery} onSelectPhoto={(idx) => setActivePhotoIndex(idx)} />
+                  <PhotoGallery photoGallery={data?.photoGallery} />
                 )}
               </div>
 
@@ -752,12 +752,12 @@ export default function TrangChiTietTongChi() {
         </main>
 
         <DetailModal
-          activePhotoIndex={activePhotoIndex}
-          photoGallery={data?.photoGallery}
-          onClosePhotoModal={() => setActivePhotoIndex(null)}
-          onPrevPhoto={handlePrevPhoto}
-          onNextPhoto={handleNextPhoto}
-          onSelectPhotoIndex={(idx) => setActivePhotoIndex(idx)}
+          activePhotoIndex={null}
+          photoGallery={[]}
+          onClosePhotoModal={() => {}}
+          onPrevPhoto={() => {}}
+          onNextPhoto={() => {}}
+          onSelectPhotoIndex={() => {}}
           activeKeywordPopup={activeKeywordPopup}
           onCloseKeywordPopup={() => setActiveKeywordPopup(null)}
         />

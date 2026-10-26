@@ -29,16 +29,16 @@ export const SectionHeader: FC<SectionHeaderProps> = ({
   iconClassName,
 }) => {
   return (
-    <div className={`relative z-10 flex flex-col items-center justify-center text-center mb-10 md:mb-14 ${className}`}>
-      {/* Tầng 1: Icon - Chiều cao chuẩn tương xứng tiêu đề */}
-      <div className="mb-3 md:mb-4 flex items-center justify-center">
+    <div className={`relative z-10 flex flex-col items-center justify-center text-center mb-10 md:mb-14 overflow-visible pt-3 sm:pt-4 ${className}`}>
+      {/* Tầng 1: Icon - Chiều cao chuẩn tương xứng tiêu đề (Có không gian thở để hào quang tỏa đều 360 độ) */}
+      <div className="mb-3 md:mb-4 flex items-center justify-center overflow-visible pt-1">
         {iconUrl ? (
           <img
             src={iconUrl}
             alt={title || "Section Icon"}
             className={
               iconClassName ||
-              "h-11 sm:h-13 md:h-16 lg:h-20 w-auto max-w-[130px] object-contain drop-shadow-[0_0_14px_rgba(242,193,78,0.6)] transition-all duration-300 hover:scale-110"
+              "h-11 sm:h-13 md:h-16 lg:h-20 w-auto max-w-[130px] object-contain drop-shadow-[0_0_16px_rgba(242,193,78,0.7)] transition-all duration-300 hover:scale-110"
             }
           />
         ) : (

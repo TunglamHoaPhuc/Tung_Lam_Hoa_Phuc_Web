@@ -6,9 +6,17 @@ import Footer from '@/components/public/layout/Footer';
 import { InteractiveMap2D } from '@/features/universe/components/InteractiveMap2D';
 import { UniverseGridMode } from '@/features/universe/components/UniverseGridMode';
 import { SmartSearchAIBar } from '@/components/public/SmartSearchAIBar';
+import { UNIVERSE_AREAS } from '@/data/universe-data';
+import { getImageUrl } from '@/utils/image';
 
 export default function VuTruPhatGiaoPage() {
   const [viewMode, setViewMode] = useState<'grid' | '2d'>('grid');
+
+  // Lấy ảnh khu vực tiêu biểu (Tam Bảo - Đại Hùng Bảo Điện) làm nền Header
+  const headerBgImage = getImageUrl(
+    UNIVERSE_AREAS[0]?.imgUrl ||
+    'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/04-vu-tru-phat-giao/khu-vuc/tam-bao.webp'
+  );
 
   return (
     <>
@@ -25,17 +33,20 @@ export default function VuTruPhatGiaoPage() {
             CHẾ ĐỘ 2: VIEWMODE === 'grid' (MẶC ĐỊNH HIỂN THỊ DẠNG LƯỚI CÁC KHU VỰC)
         ════════════════════════════════════════════════════════════════════════ */
         <div className="min-h-screen bg-[#2A1D14] text-[#e3d2c1] selection:bg-[#F2C14E] selection:text-black flex flex-col">
-          {/* Header Title Centered */}
+          {/* Header Title Centered với watermark Tông Phong Truyền Thừa */}
           <div className="relative w-full overflow-hidden bg-[#2A1D14] pt-28 pb-10">
-            {/* Ảnh nền đằng sau mờ phủ gradient & giảm opacity nhẹ */}
-            <div
-              className="absolute inset-0 bg-cover bg-center opacity-30 md:opacity-35 blur-[2.5px] pointer-events-none scale-105"
-              style={{
-                backgroundImage: "url('/images/toan-canh-chua.jpg')",
-              }}
-            />
+            {/* Ảnh nền đằng sau mờ phủ gradient hòa quyện như Tông Phong Truyền Thừa */}
+            {headerBgImage && (
+              <div
+                className="absolute inset-0 bg-cover bg-center opacity-30 pointer-events-none mix-blend-luminosity [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_75%)]"
+                style={{
+                  backgroundImage: `url('${headerBgImage}')`,
+                  backgroundPosition: 'center 35%',
+                }}
+              />
+            )}
             {/* Hiệu ứng gradient mờ mềm mại hòa vào nền nâu */}
-            <div className="absolute inset-0 bg-gradient-to-b from-[#2A1D14]/45 via-[#2A1D14]/75 to-[#2A1D14] pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#2A1D14]/40 via-[#2A1D14]/70 to-[#2A1D14] pointer-events-none" />
 
             <div className="relative z-10 max-w-[1280px] mx-auto px-4 md:px-10 flex flex-col items-center justify-center text-center">
               <div className="w-10 h-10 rounded-full bg-[#3a2718] border border-[#f2cc8f]/40 flex items-center justify-center text-[#ffde59] mb-2 shadow-md">

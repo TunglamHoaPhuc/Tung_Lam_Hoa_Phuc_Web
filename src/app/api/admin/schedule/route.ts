@@ -21,6 +21,12 @@ export interface CustomScheduleEvent {
   contentHtml?: string;
 }
 
+export interface QuoteGalleryItem {
+  id: string;
+  url: string;
+  title?: string;
+}
+
 export interface ScheduleDatabaseData {
   featuredPrograms: Array<{
     id: string;
@@ -43,8 +49,11 @@ export interface ScheduleDatabaseData {
     primaryColor: string;
     secondaryColor: string;
     themeBg: string;
+    quoteImg?: string;
+    quoteTitle?: string;
   }>;
   customEvents: Array<CustomScheduleEvent>;
+  quoteGallery?: Array<QuoteGalleryItem>;
 }
 
 const DB_OPTIONS: ServerlessDbOptions<ScheduleDatabaseData> = {
@@ -88,6 +97,7 @@ export async function POST(req: NextRequest) {
       featuredPrograms: Array.isArray(body.featuredPrograms) ? body.featuredPrograms : currentData.featuredPrograms,
       monthThemes: body.monthThemes && typeof body.monthThemes === 'object' ? body.monthThemes : currentData.monthThemes,
       customEvents: Array.isArray(body.customEvents) ? body.customEvents : (currentData.customEvents || []),
+      quoteGallery: Array.isArray(body.quoteGallery) ? body.quoteGallery : (currentData.quoteGallery || []),
     };
 
     const saved = await saveServerlessJson(DB_OPTIONS, updatedData);

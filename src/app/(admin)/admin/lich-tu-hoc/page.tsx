@@ -28,6 +28,7 @@ import {
   Video,
   X,
   Edit3,
+  Bold,
 } from 'lucide-react';
 import { useTableDragDrop, GripHandleIcon } from '@/components/admin/useTableDragDrop';
 import { AdminPagination, useAdminPagination } from '@/components/admin/AdminPagination';
@@ -69,6 +70,8 @@ interface MonthTheme {
   primaryColor: string;
   secondaryColor: string;
   themeBg: string;
+  quoteImg?: string;
+  quoteTitle?: string;
 }
 
 export interface CustomScheduleEvent {
@@ -98,6 +101,194 @@ export interface CustomScheduleEvent {
   continueChanting?: boolean;
   continueChantingUntil?: string;
   continueChantingName?: string;
+}
+
+/**
+ * Trình soạn thảo Câu Trích Dẫn trực quan WYSIWYG:
+ * - Hỗ trợ bôi đen chữ và nhấn Ctrl+B hoặc click nút [ B ] để in đậm
+ * - KHÔNG hiển thị ký tự thô như ** hay <b> ra màn hình soạn thảo
+ * - Tự động đồng bộ chuẩn hóa mảng quoteLines
+ */
+/**
+ * Trình soạn thảo Câu Trích Dẫn trực quan WYSIWYG:
+ * - Hỗ trợ bôi đen chữ và nhấn Ctrl+B hoặc click nút [ B ] để in đậm
+ * - Chuẩn hóa từng dòng độc lập (<div>), Enter xuống đúng 1 dòng không bao giờ nhảy 2 dòng
+ * - Chống nhảy con trỏ khi tương tác, giữ nguyên khoảng trắng đầu/cuối dòng khi soạn thảo
+ */
+function VisualQuoteEditor({
+  value,
+  onChange,
+}: {
+  value: string[];
+  onChange: (lines: string[]) => void;
+}) {
+  const editorRef = React.useRef<HTMLDivElement>(null);
+  const isInternalChangeRef = React.useRef(false);
+
+  // Hàm trích xuất chính xác các dòng văn bản từ cấu trúc DOM của contentEditable
+  const extractLines = React.useCallback((): string[] => {
+    if (!editorRef.current) return [];
+    const el = editorRef.current;
+    if (!el.hasChildNodes()) {
+      const text = el.textContent || '';
+      return text ? [text] : [];
+    }
+
+    const lines: string[] = [];
+    let currentLine = '';
+
+    function traverse(node: Node) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        currentLine += node.textContent || '';
+        return;
+      }
+      if (node.nodeType === Node.ELEMENT_NODE) {
+        const elem = node as HTMLElement;
+        const tag = elem.tagName.toUpperCase();
+
+        if (tag === 'BR') {
+          lines.push(currentLine);
+          currentLine = '';
+          return;
+        }
+
+        if (tag === 'B' || tag === 'STRONG') {
+          // Bọc nội dung in đậm để CalendarSection nhận diện font UTM Niagara
+          const boldText = Array.from(elem.childNodes)
+            .map((c) => c.textContent || '')
+            .join('');
+          currentLine += `<b>${boldText}</b>`;
+          return;
+        }
+
+        if (tag === 'DIV' || tag === 'P') {
+          if (currentLine.length > 0) {
+            lines.push(currentLine);
+            currentLine = '';
+          }
+
+          // Dòng rỗng dạng <div><br></div> hoặc <div></div>
+          const isBrOnly =
+            elem.childNodes.length === 1 &&
+            (elem.childNodes[0] as HTMLElement).tagName?.toUpperCase() === 'BR';
+          if (elem.childNodes.length === 0 || isBrOnly) {
+            lines.push('');
+            return;
+          }
+
+          // Bỏ qua thẻ <br> giả lập ở cuối khối do trình duyệt tự động chèn
+          const hasTrailingDummyBr =
+            elem.childNodes.length > 1 &&
+            (elem.childNodes[elem.childNodes.length - 1] as HTMLElement).tagName?.toUpperCase() === 'BR';
+          const children = hasTrailingDummyBr
+            ? Array.from(elem.childNodes).slice(0, -1)
+            : Array.from(elem.childNodes);
+
+          for (const child of children) {
+            traverse(child);
+          }
+          lines.push(currentLine);
+          currentLine = '';
+          return;
+        }
+
+        for (const child of Array.from(elem.childNodes)) {
+          traverse(child);
+        }
+      }
+    }
+
+    for (const child of Array.from(el.childNodes)) {
+      traverse(child);
+    }
+    if (currentLine.length > 0) {
+      lines.push(currentLine);
+    }
+
+    return lines;
+  }, []);
+
+  // Chỉ đồng bộ DOM từ value bên ngoài (khi đổi tháng hoặc tải dữ liệu), không ghi đè khi đang gõ phím
+  React.useEffect(() => {
+    if (isInternalChangeRef.current) {
+      isInternalChangeRef.current = false;
+      return;
+    }
+
+    if (!editorRef.current) return;
+
+    // Chuẩn hóa HTML: mỗi dòng là một <div>...</div> độc lập
+    const lines = value && value.length > 0 ? value : [''];
+    const targetHtml = lines
+      .map((line) => `<div>${line ? line : '<br>'}</div>`)
+      .join('');
+
+    if (editorRef.current.innerHTML !== targetHtml) {
+      editorRef.current.innerHTML = targetHtml;
+    }
+  }, [value]);
+
+  const handleInput = () => {
+    if (!editorRef.current) return;
+    isInternalChangeRef.current = true;
+    const lines = extractLines();
+    onChange(lines);
+  };
+
+  const handleBoldClick = () => {
+    if (!editorRef.current) return;
+    editorRef.current.focus();
+    document.execCommand('bold', false);
+    handleInput();
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if ((e.ctrlKey || e.metaKey) && (e.key === 'b' || e.key === 'B')) {
+      e.preventDefault();
+      document.execCommand('bold', false);
+      handleInput();
+    }
+  };
+
+  const handlePaste = (e: React.ClipboardEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    const text = e.clipboardData.getData('text/plain');
+    if (!text) return;
+    document.execCommand('insertText', false, text);
+    handleInput();
+  };
+
+  return (
+    <div className="space-y-1.5">
+      <div className="flex items-center justify-between">
+        <label className="text-[11px] text-[#FFE5A3]/90 font-semibold block">
+          Câu Trích Dẫn (Thơ / Văn Xuôi)
+        </label>
+        <button
+          type="button"
+          onClick={handleBoldClick}
+          className="px-2.5 py-1 rounded bg-[#2A180E] hover:bg-[#F2C14E] text-[#FFE5A3] hover:text-[#1A120B] border border-[#F2C14E]/50 font-bold text-xs flex items-center gap-1.5 transition shadow-xs cursor-pointer active:scale-95 group"
+          title="Bôi đen chữ rồi bấm hoặc nhấn Ctrl+B để in đậm chữ Niagara phát sáng"
+        >
+          <Bold className="w-3.5 h-3.5 text-[#F2C14E] group-hover:text-[#1A120B]" />
+          <span className="text-[10px] font-mono tracking-wider">Ctrl + B</span>
+        </button>
+      </div>
+
+      <div
+        ref={editorRef}
+        contentEditable
+        onInput={handleInput}
+        onBlur={handleInput}
+        onKeyDown={handleKeyDown}
+        onPaste={handlePaste}
+        className="w-full min-h-[95px] px-3 py-2 bg-[#120803] border border-[#F2C14E]/30 rounded-lg text-white/90 text-xs outline-none focus:border-[#F2C14E] leading-relaxed whitespace-pre-wrap select-text [&_b]:text-[#FFDE59] [&_b]:font-bold [&_b]:underline [&_b]:decoration-[#FFDE59]/50 [&_strong]:text-[#FFDE59] [&_strong]:font-bold"
+      />
+      <span className="text-[10px] text-[#FFE5A3]/60 italic block">
+        💡 Mẹo: Bôi đen chữ rồi nhấn <kbd className="px-1 py-0.5 rounded bg-black/60 border border-[#F2C14E]/30 font-bold text-[#FFDE59]">Ctrl + B</kbd> hoặc nút <kbd className="px-1 py-0.5 rounded bg-black/60 border border-[#F2C14E]/30 font-bold text-[#FFDE59]">B</kbd> để in đậm. Phần in đậm sẽ tự động hiển thị font UTM Niagara vàng to phát sáng trên trang chủ.
+      </span>
+    </div>
+  );
 }
 
 export function isEventOnDate(evt: CustomScheduleEvent, targetDateStr: string): boolean {
@@ -156,7 +347,7 @@ function slugify(text: string): string {
 }
 
 export default function AdminSchedulePage() {
-  const [activeTab, setActiveTab] = useState<'traditional' | 'calendar'>('calendar');
+  const [activeTab, setActiveTab] = useState<'traditional' | 'calendar' | 'quotes'>('calendar');
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
@@ -165,6 +356,7 @@ export default function AdminSchedulePage() {
   const [programs, setPrograms] = useState<FeaturedProgram[]>([]);
   const [monthThemes, setMonthThemes] = useState<Record<string, MonthTheme>>({});
   const [customEvents, setCustomEvents] = useState<CustomScheduleEvent[]>([]);
+  const [quoteGallery, setQuoteGallery] = useState<Array<{ id: string; url: string; title?: string }>>([]);
 
   // Calendar view states
   const [currentYear, setCurrentYear] = useState<number>(2026);
@@ -227,6 +419,7 @@ export default function AdminSchedulePage() {
         setPrograms(data.data.featuredPrograms || []);
         setMonthThemes(data.data.monthThemes || {});
         setCustomEvents(data.data.customEvents || []);
+        setQuoteGallery(data.data.quoteGallery || []);
       }
     } catch (err: any) {
       setMessage({ text: 'Lỗi tải lịch: ' + err.message, type: 'error' });
@@ -246,6 +439,7 @@ export default function AdminSchedulePage() {
           featuredPrograms: programs,
           monthThemes,
           customEvents,
+          quoteGallery,
         }),
       });
       const data = await res.json();
@@ -312,6 +506,8 @@ export default function AdminSchedulePage() {
     primaryColor: '#7C2D12',
     secondaryColor: '#F2C14E',
     themeBg: '#240E06',
+    quoteImg: '/images/lich-tu-hoc/quotes/thang-08-ve-ben-thay.jpg',
+    quoteTitle: 'Về bên Thầy tìm thấy bình an',
   };
 
   const updateCurrentMonthField = (field: keyof MonthTheme, value: any) => {
@@ -322,6 +518,43 @@ export default function AdminSchedulePage() {
         [field]: value,
       },
     });
+  };
+
+  // Quote Gallery Handlers (Kho ảnh Quote / Pháp ngữ dùng chung)
+  const addQuote = () => {
+    const newQuote = {
+      id: 'quote-' + Date.now(),
+      url: '/images/lich-tu-hoc/quotes/thang-01-quy-y-tam-bao.png',
+      title: 'Câu Pháp Ngữ Mới',
+    };
+    setQuoteGallery((prev) => [newQuote, ...prev]);
+    handleOpenImagePicker((url) => {
+      setQuoteGallery((prev) =>
+        prev.map((q) => (q.id === newQuote.id ? { ...q, url } : q))
+      );
+    }, 'lich-tu-hoc/quotes');
+  };
+
+  const updateQuote = (id: string, field: 'url' | 'title', value: string) => {
+    setQuoteGallery((prev) =>
+      prev.map((q) => (q.id === id ? { ...q, [field]: value } : q))
+    );
+  };
+
+  const deleteQuote = (id: string) => {
+    if (confirm('Bạn có chắc chắn muốn xóa ảnh quote này khỏi kho dùng chung?')) {
+      setQuoteGallery((prev) => prev.filter((q) => q.id !== id));
+    }
+  };
+
+  const moveQuote = (index: number, direction: 'up' | 'down') => {
+    const targetIndex = direction === 'up' ? index - 1 : index + 1;
+    if (targetIndex < 0 || targetIndex >= quoteGallery.length) return;
+    const next = [...quoteGallery];
+    const temp = next[index];
+    next[index] = next[targetIndex];
+    next[targetIndex] = temp;
+    setQuoteGallery(next);
   };
 
   // Calendar calculations
@@ -478,11 +711,10 @@ export default function AdminSchedulePage() {
       {/* Alert / Notification */}
       {message && (
         <div
-          className={`p-4 rounded-xl border flex items-center gap-3 animate-in fade-in duration-300 ${
-            message.type === 'success'
+          className={`p-4 rounded-xl border flex items-center gap-3 animate-in fade-in duration-300 ${message.type === 'success'
               ? 'bg-emerald-950/70 border-emerald-500/50 text-emerald-200'
               : 'bg-rose-950/70 border-rose-500/50 text-rose-200'
-          }`}
+            }`}
         >
           {message.type === 'success' ? (
             <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
@@ -493,29 +725,39 @@ export default function AdminSchedulePage() {
         </div>
       )}
 
-      {/* ── 2. Tinh Gọn 2 Tabs Cấp Cao Nhất ── */}
+      {/* ── 2. Tinh Gọn 3 Tabs Cấp Cao Nhất ── */}
       <div className="flex border-b border-[#F2C14E]/20 gap-2 overflow-x-auto pb-1">
         <button
           type="button"
           onClick={() => setActiveTab('calendar')}
-          className={`px-6 py-3 font-bold text-sm rounded-t-xl flex items-center gap-2 transition cursor-pointer ${
-            activeTab === 'calendar'
+          className={`px-6 py-3 font-bold text-sm rounded-t-xl flex items-center gap-2 transition cursor-pointer shrink-0 ${activeTab === 'calendar'
               ? 'bg-[#2A180D] text-[#F2C14E] border-t border-x border-[#F2C14E]/40 shadow-inner'
               : 'text-[#e3d2c1]/70 hover:text-[#e3d2c1] hover:bg-[#2A180D]/40'
-          }`}
+            }`}
         >
           <Calendar className="w-4 h-4 text-[#F2C14E]" />
-          <span>Lịch Tu Học & Sự Kiện Theo Tháng ({customEvents.length})</span>
+          <span>Lịch Tu Học & Sự Kiện ({customEvents.length})</span>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setActiveTab('quotes')}
+          className={`px-6 py-3 font-bold text-sm rounded-t-xl flex items-center gap-2 transition cursor-pointer shrink-0 ${activeTab === 'quotes'
+              ? 'bg-[#2A180D] text-[#F2C14E] border-t border-x border-[#F2C14E]/40 shadow-inner'
+              : 'text-[#e3d2c1]/70 hover:text-[#e3d2c1] hover:bg-[#2A180D]/40'
+            }`}
+        >
+          <Sparkles className="w-4 h-4 text-[#FFDE59]" />
+          <span>Kho Ảnh Quote / Pháp Ngữ ({quoteGallery.length})</span>
         </button>
 
         <button
           type="button"
           onClick={() => setActiveTab('traditional')}
-          className={`px-6 py-3 font-bold text-sm rounded-t-xl flex items-center gap-2 transition cursor-pointer ${
-            activeTab === 'traditional'
+          className={`px-6 py-3 font-bold text-sm rounded-t-xl flex items-center gap-2 transition cursor-pointer shrink-0 ${activeTab === 'traditional'
               ? 'bg-[#2A180D] text-[#F2C14E] border-t border-x border-[#F2C14E]/40 shadow-inner'
               : 'text-[#e3d2c1]/70 hover:text-[#e3d2c1] hover:bg-[#2A180D]/40'
-          }`}
+            }`}
         >
           <Layers className="w-4 h-4 text-[#F2C14E]" />
           <span>Khóa Lễ Truyền Thống ({programs.length})</span>
@@ -565,15 +807,14 @@ export default function AdminSchedulePage() {
                     handleDragEnd();
                     setDragActiveId(null);
                   }}
-                  className={`p-5 rounded-2xl border transition-all ${
-                    isDropTarget
+                  className={`p-5 rounded-2xl border transition-all ${isDropTarget
                       ? dropPosition === 'above'
                         ? 'border-t-4 border-t-[#F2C14E] bg-[#3A2213]'
                         : 'border-b-4 border-b-[#F2C14E] bg-[#3A2213]'
                       : isDragSource
-                      ? 'opacity-40 border-dashed border-[#F2C14E]'
-                      : 'bg-gradient-to-r from-[#201007] to-[#170C05] border-[#F2C14E]/25 hover:border-[#F2C14E]/50 shadow-md'
-                  }`}
+                        ? 'opacity-40 border-dashed border-[#F2C14E]'
+                        : 'bg-gradient-to-r from-[#201007] to-[#170C05] border-[#F2C14E]/25 hover:border-[#F2C14E]/50 shadow-md'
+                    }`}
                 >
                   <div className="flex flex-col lg:flex-row gap-5 items-start lg:items-center">
                     {/* Drag Handle - Chỉ khi giữ chuột tại đây mới kích hoạt kéo thả */}
@@ -767,11 +1008,10 @@ export default function AdminSchedulePage() {
           <div className="flex flex-col lg:flex-row items-stretch gap-5">
             {/* ── CỘT TRÁI: CHỦ ĐỀ THÁNG (Có thể thu gọn / mở rộng) ── */}
             <div
-              className={`transition-all duration-300 shrink-0 ${
-                isThemeCollapsed
+              className={`transition-all duration-300 shrink-0 ${isThemeCollapsed
                   ? 'w-full lg:w-14'
                   : 'w-full lg:w-[350px] xl:w-[380px]'
-              }`}
+                }`}
             >
               {isThemeCollapsed ? (
                 /* Collapsed Slim Bar */
@@ -846,31 +1086,13 @@ export default function AdminSchedulePage() {
                     </div>
                   </div>
 
-                  {/* Title & Author */}
+                  {/* Quote & Author */}
                   <div className="space-y-3">
-                    <div>
-                      <label className="text-[11px] text-[#FFE5A3]/90 font-semibold block mb-1">
-                        Tiêu Đề Chủ Đề Tháng
-                      </label>
-                      <input
-                        type="text"
-                        value={currentMonthData.title}
-                        onChange={(e) => updateCurrentMonthField('title', e.target.value)}
-                        className="w-full px-3 py-1.5 bg-[#120803] border border-[#F2C14E]/30 rounded-lg text-[#FFDE59] font-bold text-sm outline-none focus:border-[#F2C14E]"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="text-[11px] text-[#FFE5A3]/90 font-semibold block mb-1">
-                        Câu Trích Dẫn (Thơ / Văn Xuôi)
-                      </label>
-                      <textarea
-                        rows={4}
-                        value={currentMonthData.quoteLines.join('\n')}
-                        onChange={(e) => updateCurrentMonthField('quoteLines', e.target.value.split('\n'))}
-                        className="w-full px-3 py-1.5 bg-[#120803] border border-[#F2C14E]/30 rounded-lg text-white/90 text-xs outline-none focus:border-[#F2C14E] leading-relaxed"
-                      />
-                    </div>
+                    <VisualQuoteEditor
+                      key={selectedMonthIdx}
+                      value={currentMonthData.quoteLines}
+                      onChange={(lines) => updateCurrentMonthField('quoteLines', lines)}
+                    />
 
                     <div>
                       <label className="text-[11px] text-[#FFE5A3]/90 font-semibold block mb-1">
@@ -896,11 +1118,10 @@ export default function AdminSchedulePage() {
                           key={mIdx}
                           type="button"
                           onClick={() => setSelectedMonthIdx(mIdx)}
-                          className={`py-1 rounded-md text-xs font-bold transition cursor-pointer ${
-                            selectedMonthIdx === mIdx
+                          className={`py-1 rounded-md text-xs font-bold transition cursor-pointer ${selectedMonthIdx === mIdx
                               ? 'bg-[#F2C14E] text-black shadow-md'
                               : 'bg-black/40 text-[#FFE5A3]/70 hover:text-white hover:bg-black/80'
-                          }`}
+                            }`}
                         >
                           T{mIdx + 1}
                         </button>
@@ -965,11 +1186,10 @@ export default function AdminSchedulePage() {
                         key={cat}
                         type="button"
                         onClick={() => setFilterCategory(cat)}
-                        className={`px-2.5 py-0.5 rounded font-semibold transition cursor-pointer ${
-                          filterCategory === cat
+                        className={`px-2.5 py-0.5 rounded font-semibold transition cursor-pointer ${filterCategory === cat
                             ? 'bg-[#F2C14E] text-black font-bold'
                             : 'text-[#FFE5A3]/70 hover:text-white'
-                        }`}
+                          }`}
                       >
                         {cat}
                       </button>
@@ -1033,9 +1253,8 @@ export default function AdminSchedulePage() {
                         <div className="flex items-center justify-between">
                           <span
                             style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                            className={`text-base sm:text-lg font-black leading-none ${
-                              isSunday ? 'text-[#FFDE59]' : 'text-white'
-                            }`}
+                            className={`text-base sm:text-lg font-black leading-none ${isSunday ? 'text-[#FFDE59]' : 'text-white'
+                              }`}
                           >
                             {dayNum}
                           </span>
@@ -1051,11 +1270,10 @@ export default function AdminSchedulePage() {
 
                           <span
                             style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                            className={`text-[10px] sm:text-[11px] font-bold rounded px-1 ${
-                              isFirstOrFullMoon
+                            className={`text-[10px] sm:text-[11px] font-bold rounded px-1 ${isFirstOrFullMoon
                                 ? 'bg-red-600 text-white font-black'
                                 : 'text-amber-200/80'
-                            }`}
+                              }`}
                           >
                             {lunarCellStr}
                           </span>
@@ -1076,13 +1294,12 @@ export default function AdminSchedulePage() {
                                 className="relative group/admin-icon cursor-pointer transition-transform hover:scale-125 z-10 hover:z-50"
                               >
                                 <div
-                                  className={`w-7 h-7 rounded-full p-0.5 shadow-md flex items-center justify-center transition-all ${
-                                    isDaiLe
+                                  className={`w-7 h-7 rounded-full p-0.5 shadow-md flex items-center justify-center transition-all ${isDaiLe
                                       ? 'bg-red-950/90 border border-red-500 hover:border-[#FFDE59] shadow-[0_0_8px_rgba(239,68,68,0.5)]'
                                       : isMulti
-                                      ? 'bg-[#3A2010] border-2 border-[#FFDE59] hover:border-white shadow-[0_0_8px_rgba(255,222,89,0.6)]'
-                                      : 'bg-black/70 border border-[#F2C14E]/70 hover:border-[#FFDE59]'
-                                  }`}
+                                        ? 'bg-[#3A2010] border-2 border-[#FFDE59] hover:border-white shadow-[0_0_8px_rgba(255,222,89,0.6)]'
+                                        : 'bg-black/70 border border-[#F2C14E]/70 hover:border-[#FFDE59]'
+                                    }`}
                                 >
                                   <img
                                     src={iconUrl}
@@ -1163,6 +1380,150 @@ export default function AdminSchedulePage() {
         </div>
       )}
 
+      {/* ── TAB 3: KHO ẢNH QUOTE / PHÁP NGỮ DÙNG CHUNG ── */}
+      {activeTab === 'quotes' && (
+        <div className="space-y-6 animate-in fade-in duration-300">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-[#2A180D]/50 p-4 rounded-xl border border-[#F2C14E]/20">
+            <div>
+              <h2 className="text-lg font-bold text-[#F2C14E] flex items-center gap-2">
+                <Sparkles className="w-5 h-5 text-[#FFDE59]" />
+                <span>Kho Ảnh Quote / Pháp Ngữ Dùng Chung ({quoteGallery.length})</span>
+              </h2>
+              <p className="text-xs text-[#e3d2c1]/70 mt-0.5">
+                Các ảnh trong kho này sẽ tự động chạy luân phiên trên slide trang chủ ở tất cả các tháng (không cần chọn quote nào cho tháng nào)
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={addQuote}
+              className="px-4 py-2 bg-gradient-to-r from-[#F2C14E] to-[#D4A338] hover:from-[#f5cb68] hover:to-[#dfaf44] text-black font-bold text-xs rounded-xl flex items-center gap-2 shadow-md transition cursor-pointer self-start sm:self-auto"
+            >
+              <Plus className="w-4 h-4" />
+              <span>Thêm Ảnh Quote Mới</span>
+            </button>
+          </div>
+
+          {/* Grid of Quote Cards */}
+          {quoteGallery.length === 0 ? (
+            <div className="p-12 text-center rounded-2xl bg-[#201007] border border-[#F2C14E]/20 text-[#FFE5A3]/60">
+              <ImageIcon className="w-12 h-12 mx-auto mb-3 opacity-40 text-[#F2C14E]" />
+              <p className="text-sm font-medium">Chưa có ảnh quote nào trong kho dùng chung.</p>
+              <button
+                type="button"
+                onClick={addQuote}
+                className="mt-4 px-4 py-2 bg-[#3A2213] hover:bg-[#F2C14E] text-[#FFE5A3] hover:text-black border border-[#F2C14E]/40 rounded-xl text-xs font-bold transition inline-flex items-center gap-1.5 cursor-pointer"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                <span>Thêm ảnh đầu tiên</span>
+              </button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
+              {quoteGallery.map((item, idx) => (
+                <div
+                  key={item.id}
+                  className="p-3.5 rounded-2xl bg-gradient-to-b from-[#24130A] to-[#180A04] border border-[#F2C14E]/30 hover:border-[#F2C14E]/60 shadow-lg flex flex-col justify-between transition group"
+                >
+                  <div className="space-y-3">
+                    {/* Badge thứ tự */}
+                    <div className="flex items-center justify-between text-xs text-[#F2C14E]">
+                      <span className="font-mono font-bold px-2 py-0.5 rounded-full bg-black/60 border border-[#F2C14E]/30">
+                        #{idx + 1}
+                      </span>
+                      <span className="text-[11px] text-[#FFE5A3]/60">Slide {idx + 2}</span>
+                    </div>
+
+                    {/* Preview 3:4 */}
+                    <div
+                      onClick={() =>
+                        handleOpenImagePicker(
+                          (url) => updateQuote(item.id, 'url', url),
+                          'lich-tu-hoc/quotes'
+                        )
+                      }
+                      className="relative w-full aspect-[3/4] rounded-xl overflow-hidden border border-[#F2C14E]/40 cursor-pointer group/img bg-black shadow-inner"
+                      title="Bấm để chọn ảnh từ Cloud S3"
+                    >
+                      <Image
+                        src={item.url || '/images/default.jpg'}
+                        alt={item.title || 'Quote poster'}
+                        fill
+                        className="object-contain p-1 transition-transform duration-300 group-hover/img:scale-102"
+                      />
+                      <div className="absolute inset-0 bg-black/65 opacity-0 group-hover/img:opacity-100 transition-opacity flex flex-col items-center justify-center text-[#FFDE59] gap-1 p-2 text-center">
+                        <ImageIcon className="w-6 h-6 text-[#F2C14E]" />
+                        <span className="text-xs font-bold">Đổi ảnh S3</span>
+                      </div>
+                    </div>
+
+                    {/* URL Input */}
+                    <div>
+                      <label className="text-[10px] text-[#F2C14E]/80 font-semibold block mb-0.5">
+                        Link Ảnh (S3 / URL):
+                      </label>
+                      <input
+                        type="text"
+                        value={item.url}
+                        onChange={(e) => updateQuote(item.id, 'url', e.target.value)}
+                        placeholder="Đường dẫn ảnh..."
+                        className="w-full px-2.5 py-1.5 bg-[#120803] border border-[#F2C14E]/30 rounded-lg text-white/90 text-xs focus:border-[#F2C14E] outline-none"
+                      />
+                    </div>
+
+                    {/* Title Input */}
+                    <div>
+                      <label className="text-[10px] text-[#F2C14E]/80 font-semibold block mb-0.5">
+                        Tiêu Đề / Ý Nghĩa:
+                      </label>
+                      <input
+                        type="text"
+                        value={item.title || ''}
+                        onChange={(e) => updateQuote(item.id, 'title', e.target.value)}
+                        placeholder="Tiêu đề / Ý nghĩa câu quote..."
+                        className="w-full px-2.5 py-1.5 bg-[#120803] border border-[#F2C14E]/30 rounded-lg text-[#FFDE59] font-medium text-xs focus:border-[#F2C14E] outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Actions Toolbar */}
+                  <div className="flex items-center justify-between pt-3 mt-3 border-t border-[#F2C14E]/20">
+                    <div className="flex items-center gap-1">
+                      <button
+                        type="button"
+                        onClick={() => moveQuote(idx, 'up')}
+                        disabled={idx === 0}
+                        className="p-1.5 rounded-lg bg-black/50 hover:bg-[#F2C14E] text-[#FFE5A3] hover:text-black border border-[#F2C14E]/30 transition disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed"
+                        title="Di chuyển lên trước"
+                      >
+                        <MoveUp className="w-3.5 h-3.5" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => moveQuote(idx, 'down')}
+                        disabled={idx === quoteGallery.length - 1}
+                        className="p-1.5 rounded-lg bg-black/50 hover:bg-[#F2C14E] text-[#FFE5A3] hover:text-black border border-[#F2C14E]/30 transition disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed"
+                        title="Di chuyển xuống sau"
+                      >
+                        <MoveDown className="w-3.5 h-3.5" />
+                      </button>
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={() => deleteQuote(item.id)}
+                      className="p-1.5 rounded-lg bg-red-950/60 hover:bg-red-600 text-red-300 hover:text-white border border-red-500/40 transition cursor-pointer"
+                      title="Xóa ảnh này khỏi kho"
+                    >
+                      <Trash2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
       {/* ── MODAL CẬP NHẬT THỜI KHÓA SỰ KIỆN CHI TIẾT ── */}
       {editingEvent && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/85 backdrop-blur-md animate-in fade-in duration-300">
@@ -1220,11 +1581,10 @@ export default function AdminSchedulePage() {
                           endDateStr: undefined,
                         });
                       }}
-                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
-                        !editingEvent.isMultiDay && (!editingEvent.endDateStr || editingEvent.endDateStr === editingEvent.solarDateStr)
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${!editingEvent.isMultiDay && (!editingEvent.endDateStr || editingEvent.endDateStr === editingEvent.solarDateStr)
                           ? 'bg-[#F2C14E] text-black shadow-md ring-1 ring-[#FFDE59]'
                           : 'bg-[#2A180D] text-[#FFE5A3]/70 hover:text-white border border-[#F2C14E]/20'
-                      }`}
+                        }`}
                     >
                       <span>Trong 1 ngày</span>
                     </button>
@@ -1241,11 +1601,10 @@ export default function AdminSchedulePage() {
                           endDateStr: editingEvent.endDateStr || formatSolarDateStr(nextDays),
                         });
                       }}
-                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${
-                        editingEvent.isMultiDay || (editingEvent.endDateStr && editingEvent.endDateStr !== editingEvent.solarDateStr)
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer ${editingEvent.isMultiDay || (editingEvent.endDateStr && editingEvent.endDateStr !== editingEvent.solarDateStr)
                           ? 'bg-gradient-to-r from-[#F2C14E] to-[#FFDE59] text-black shadow-md ring-1 ring-[#FFDE59]'
                           : 'bg-[#2A180D] text-[#FFE5A3]/70 hover:text-white border border-[#F2C14E]/20'
-                      }`}
+                        }`}
                     >
                       <Clock className="w-3.5 h-3.5" />
                       <span>Khóa tu nhiều ngày</span>
@@ -1390,11 +1749,10 @@ export default function AdminSchedulePage() {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
                   {/* Loại 1: Cộng Tu */}
                   <label
-                    className={`flex items-center gap-2 p-2.5 rounded-xl border cursor-pointer transition ${
-                      editingEvent.category === 'Cộng Tu'
+                    className={`flex items-center gap-2 p-2.5 rounded-xl border cursor-pointer transition ${editingEvent.category === 'Cộng Tu'
                         ? 'bg-[#3D2210] border-[#F2C14E] text-[#FFDE59] shadow-md ring-1 ring-[#F2C14E]/60'
                         : 'bg-black/40 border-white/20 text-white/70 hover:border-white/40'
-                    }`}
+                      }`}
                   >
                     <input
                       type="radio"
@@ -1409,11 +1767,10 @@ export default function AdminSchedulePage() {
 
                   {/* Loại 2: Khóa Lễ Truyền Thống */}
                   <label
-                    className={`flex items-center gap-2 p-2.5 rounded-xl border cursor-pointer transition ${
-                      editingEvent.category === 'Khóa Lễ Truyền Thống'
+                    className={`flex items-center gap-2 p-2.5 rounded-xl border cursor-pointer transition ${editingEvent.category === 'Khóa Lễ Truyền Thống'
                         ? 'bg-[#3D2210] border-[#F2C14E] text-[#FFDE59] shadow-md ring-1 ring-[#F2C14E]/60'
                         : 'bg-black/40 border-white/20 text-white/70 hover:border-white/40'
-                    }`}
+                      }`}
                   >
                     <input
                       type="radio"
@@ -1428,11 +1785,10 @@ export default function AdminSchedulePage() {
 
                   {/* Loại 3: Đại Lễ Sự Kiện */}
                   <label
-                    className={`flex items-center gap-2 p-2.5 rounded-xl border cursor-pointer transition ${
-                      editingEvent.category === 'Đại Lễ Sự Kiện'
+                    className={`flex items-center gap-2 p-2.5 rounded-xl border cursor-pointer transition ${editingEvent.category === 'Đại Lễ Sự Kiện'
                         ? 'bg-red-950/80 border-red-500 text-[#FFDE59] shadow-md ring-1 ring-red-500/60'
                         : 'bg-black/40 border-white/20 text-white/70 hover:border-white/40'
-                    }`}
+                      }`}
                   >
                     <input
                       type="radio"

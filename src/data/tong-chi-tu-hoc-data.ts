@@ -2,12 +2,12 @@ import { NavItem, SectionData } from '@/types/tong-chi-tu-hoc';
 
 // ─── Navigation Items ───────────────────────────────────────────────────────
 export const NAV_ITEMS: NavItem[] = [
-  { id: 'tong-chi-tu-hoc', label: 'Giới Thiệu' },
-  { id: 'tong-phong',       label: 'Tông Phong' },
-  { id: 'nen-tang',         label: 'Nền Tảng' },
-  { id: 'phap-mon',         label: 'Hành Trì' },
-  { id: 'lo-trinh',         label: 'Lộ Trình' },
-  { id: 'nep-song',         label: 'Nếp Sống' },
+  { id: 'tong-chi-tu-hoc', label: 'GIỚI THIỆU' },
+  { id: 'tong-phong',       label: 'TÔNG PHONG TRUYỀN THỪA' },
+  { id: 'nen-tang',         label: 'NỀN TẢNG TU HỌC' },
+  { id: 'phap-mon',         label: 'PHƯƠNG PHÁP HÀNH TRÌ' },
+  { id: 'lo-trinh',         label: 'LỘ TRÌNH TU HỌC' },
+  { id: 'nep-song',         label: 'NẾP SỐNG THIỀN GIA' },
 ];
 
 // ─── Sections Data (Đồng bộ Backblaze S3 WebP) ─────────────────────────────

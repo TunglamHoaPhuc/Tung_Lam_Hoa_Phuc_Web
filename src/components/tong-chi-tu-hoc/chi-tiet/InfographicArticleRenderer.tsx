@@ -161,9 +161,14 @@ function renderKeywordPopups(
             e.stopPropagation();
             onKeywordClick(match.keyword);
           }}
-          className={`cursor-pointer transition-all inline-block mx-0.5 align-baseline font-bold text-[#FFDE59] border-b border-[#F2C14E]/70 hover:border-[#FFDE59] hover:text-white pb-[1px] ${
+          style={{
+            fontFamily: "'UTM Avo', sans-serif",
+            borderBottom: '2px solid transparent',
+            borderImage: 'linear-gradient(to right, #F2C14E, #FFDE59, rgba(242, 193, 78, 0.2)) 1',
+          }}
+          className={`cursor-pointer transition-all inline-block mx-0.5 align-baseline font-bold text-[#FFDE59] hover:text-white pb-[2px] ${
             isInsideBold ? 'drop-shadow-md' : 'drop-shadow-sm'
-          }`}
+          } hover:drop-shadow-[0_0_8px_rgba(255,222,89,0.85)]`}
           title={`Bấm để xem chú thích: ${match.title || match.keyword}`}
         >
           {token}
@@ -1320,10 +1325,11 @@ export function InfographicArticleRenderer({
   if (!rawContent) return null;
 
   const { sections, endQuote } = parseSections(rawContent);
+  let globalParagraphIndex = 0;
 
   return (
     <div
-      style={{ fontFamily: "var(--font-montserrat), 'Montserrat', 'UTM Avo', sans-serif" }}
+      style={{ fontFamily: "'UTM Avo', sans-serif" }}
       className="space-y-8 max-w-3xl mx-auto text-left"
     >
       {sections.map((sec, idx) => (
@@ -1422,7 +1428,7 @@ export function InfographicArticleRenderer({
                           {stanza.split('\n').map((line, lIdx) => (
                             <p
                               key={lIdx}
-                              style={{ fontFamily: "var(--font-montserrat), 'Montserrat', 'UTM Avo', sans-serif" }}
+                              style={{ fontFamily: "'UTM Avo', sans-serif" }}
                               className="text-lg sm:text-xl md:text-2xl not-italic font-medium text-[#FFE5A3] leading-loose md:leading-[2.6rem] tracking-wide drop-shadow-sm text-center"
                             >
                               {highlightText(line, popups, onKeywordClick)}
@@ -1446,8 +1452,23 @@ export function InfographicArticleRenderer({
                 return (
                   <p
                     key={elIdx}
-                    style={{ fontFamily: "var(--font-montserrat), 'Montserrat', 'UTM Avo', sans-serif" }}
+                    style={{ fontFamily: "'UTM Avo', sans-serif" }}
                     className="text-base sm:text-lg text-[#FFE5A3] font-medium leading-relaxed text-center tracking-wide my-4 select-text drop-shadow-xs"
+                  >
+                    {highlightText(el.text, popups, onKeywordClick)}
+                  </p>
+                );
+              }
+
+              globalParagraphIndex++;
+              const isFirstParagraph = globalParagraphIndex === 1;
+
+              if (isFirstParagraph) {
+                return (
+                  <p
+                    key={elIdx}
+                    style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                    className="text-base sm:text-lg md:text-xl text-[#FFDE59] leading-relaxed md:leading-loose text-justify [text-align-last:left] tracking-wide my-6 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] first-letter:float-left first-letter:[font-family:'UTM_ClassizismAntiqua','UTM_ClassicAntiqua',serif] first-letter:text-6xl md:first-letter:text-7xl first-letter:font-bold first-letter:text-[#ffde59] first-letter:mr-3.5 first-letter:mb-1 first-letter:pb-1.5 first-letter:border-b-2 first-letter:border-[#ffde59] first-letter:leading-none"
                   >
                     {highlightText(el.text, popups, onKeywordClick)}
                   </p>
@@ -1457,8 +1478,8 @@ export function InfographicArticleRenderer({
               return (
                 <p
                   key={elIdx}
-                  style={{ fontFamily: "var(--font-montserrat), 'Montserrat', 'UTM Avo', sans-serif" }}
-                  className="text-base sm:text-lg text-[#FFE5A3] leading-relaxed md:leading-loose text-left sm:text-justify [text-align-last:left] tracking-wide whitespace-pre-line indent-8 sm:indent-10"
+                  style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                  className="text-base sm:text-lg text-[#FFE5A3] leading-relaxed md:leading-loose text-justify [text-align-last:left] tracking-wide whitespace-pre-line indent-6 sm:indent-8 my-4"
                 >
                   {highlightText(el.text, popups, onKeywordClick)}
                 </p>

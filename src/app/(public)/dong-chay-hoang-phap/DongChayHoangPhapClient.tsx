@@ -7,6 +7,7 @@ import { SmartSearchAIBar } from '@/components/public/SmartSearchAIBar';
 import { CategoryFilter } from '@/components/common/CategoryFilter';
 import { PostCard } from '@/components/common/PostCard';
 import { PostItem } from '@/types/post';
+import { getImageUrl } from '@/utils/image';
 
 type SortOption = 'newest' | 'oldest' | 'a-z' | 'z-a';
 
@@ -105,19 +106,30 @@ export default function DongChayHoangPhapClient({
     return 0;
   });
 
+  // Lấy ảnh bài viết tiêu biểu cho Header (ưu tiên bài đầu tiên của danh sách)
+  const featuredArticle = articles[0] || initialArticles[0];
+  const headerBgImage = getImageUrl(
+    featuredArticle?.bannerUrl ||
+    featuredArticle?.thumbnailUrl ||
+    '/images/toan-canh-chua.jpg'
+  );
+
   return (
     <div className="min-h-screen bg-[#2A1D14] text-[#e3d2c1] selection:bg-[#F2C14E] selection:text-black">
-      {/* ── HEADER VỚI BACKGROUND MỜ VÀ SCROLL FADE VIGNETTE ── */}
+      {/* ── HEADER VỚI BACKGROUND WATERMARK TÔNG PHONG TRUYỀN THỪA ── */}
       <div className="relative w-full overflow-hidden bg-[#2A1D14] pt-28 pb-10">
-        {/* Ảnh nền đằng sau mờ phủ gradient & giảm opacity nhẹ */}
-        <div
-          className="absolute inset-0 bg-cover bg-center opacity-30 md:opacity-35 blur-[2.5px] pointer-events-none scale-105"
-          style={{
-            backgroundImage: "url('/images/toan-canh-chua.jpg')",
-          }}
-        />
+        {/* Ảnh nền đằng sau mờ phủ gradient hòa quyện như Tông Phong Truyền Thừa */}
+        {headerBgImage && (
+          <div
+            className="absolute inset-0 bg-cover bg-center opacity-30 pointer-events-none mix-blend-luminosity [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_75%)]"
+            style={{
+              backgroundImage: `url('${headerBgImage}')`,
+              backgroundPosition: featuredArticle?.thumbnailPosition || featuredArticle?.imagePosition || 'center 20%',
+            }}
+          />
+        )}
         {/* Hiệu ứng gradient mờ mềm mại hòa vào nền nâu */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#2A1D14]/45 via-[#2A1D14]/75 to-[#2A1D14] pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#2A1D14]/40 via-[#2A1D14]/70 to-[#2A1D14] pointer-events-none" />
 
         <div className="relative z-10 max-w-[1280px] mx-auto px-4 md:px-10 flex flex-col items-center justify-center text-center">
           {/* Biểu tượng bánh xe Pháp Chuyển */}

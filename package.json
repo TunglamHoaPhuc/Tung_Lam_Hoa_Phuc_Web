@@ -11,6 +11,7 @@
     "postinstall": "prisma generate",
     "start": "next start",
     "lint": "eslint",
+    "type-check": "tsc --noEmit",
     "sync:sheet": "node scripts/sync-google-sheet.mjs"
   },
   "dependencies": {

@@ -36,96 +36,12 @@ export function DetailModal({
   activeKeywordPopup,
   onCloseKeywordPopup,
 }: PropsModal) {
-  const currentPhoto =
-    activePhotoIndex !== null && photoGallery && photoGallery[activePhotoIndex]
-      ? photoGallery[activePhotoIndex]
-      : null;
-
   const rawLink = activeKeywordPopup?.linkUrl?.trim() || '';
   const hasLink = Boolean(rawLink !== '' && rawLink !== '#');
   const isExternal = rawLink.startsWith('http://') || rawLink.startsWith('https://');
 
   return (
     <>
-      {/* ==================== POPUP BỘ SƯ TẬP ẢNH ==================== */}
-      {currentPhoto && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md animate-fadeIn">
-          <div className="relative bg-[#5a3e21] border border-[#c8aa6e]/80 rounded-2xl max-w-2xl w-full shadow-2xl text-left text-[#e3d2c1] overflow-hidden">
-            <div className="flex items-center justify-between border-b border-[#c8aa6e]/50 px-6 py-4 bg-[#4a321a]">
-              <h3
-                style={{ fontFamily: "'UTM ClassizismAntiqua', serif" }}
-                className="text-lg sm:text-xl font-bold text-[#ffde59] uppercase tracking-wider mx-auto pl-6"
-              >
-                BỘ SƯ TẬP ẢNH TƯ LIỆU
-              </h3>
-              <button
-                type="button"
-                onClick={onClosePhotoModal}
-                className="border border-[#c8aa6e]/60 rounded-lg p-1.5 text-[#ffde59] hover:text-white hover:bg-[#c8aa6e]/20 transition-colors cursor-pointer"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <div className="p-4 sm:p-6 space-y-4">
-              <div className="relative aspect-[4/3] w-full max-h-[380px] rounded-xl overflow-hidden border border-[#c8aa6e]/40 shadow-inner bg-black/40 flex items-center justify-center">
-                <img
-                  src={getImageUrl(currentPhoto.imageUrl || currentPhoto.url) || '/images/toan-canh-chua.jpg'}
-                  alt={currentPhoto.title || 'Ảnh tư liệu'}
-                  className="w-full h-full object-contain"
-                  loading="lazy"
-                  onError={(e) => {
-                    (e.currentTarget as HTMLImageElement).src = '/images/toan-canh-chua.jpg';
-                  }}
-                />
-              </div>
-
-              <div className="space-y-4">
-                <div className="flex items-center justify-between pt-1">
-                  <button
-                    type="button"
-                    onClick={onPrevPhoto}
-                    className="border border-[#c8aa6e] bg-[#3a2613] hover:bg-[#ffde59] text-[#ffde59] hover:text-[#2c1c11] px-4 py-2 rounded-xl transition-all font-bold flex items-center justify-center cursor-pointer"
-                  >
-                    &larr;
-                  </button>
-
-                  <div className="flex items-center gap-1.5">
-                    {photoGallery?.map((_, dotIdx) => (
-                      <span
-                        key={dotIdx}
-                        onClick={() => onSelectPhotoIndex(dotIdx)}
-                        className={`cursor-pointer rounded-full transition-all ${
-                          dotIdx === activePhotoIndex
-                            ? 'w-3 h-3 bg-[#ffde59] border border-[#ffde59]'
-                            : 'w-2 h-2 bg-[#c8aa6e]/40 hover:bg-[#c8aa6e]'
-                        }`}
-                      />
-                    ))}
-                  </div>
-
-                  <button
-                    type="button"
-                    onClick={onNextPhoto}
-                    className="border border-[#c8aa6e] bg-[#3a2613] hover:bg-[#ffde59] text-[#ffde59] hover:text-[#2c1c11] px-4 py-2 rounded-xl transition-all font-bold flex items-center justify-center cursor-pointer"
-                  >
-                    &rarr;
-                  </button>
-                </div>
-
-                <div className="bg-[#4a321a]/80 p-4 rounded-xl border border-[#c8aa6e]/30 space-y-1">
-                  <h4 className="font-bold text-[#ffde59] text-base">{currentPhoto.title}</h4>
-                  {currentPhoto.noiDung && (
-                    <p className="text-xs sm:text-sm text-[#e3d2c1]/90 leading-relaxed font-sans">
-                      {currentPhoto.noiDung}
-                    </p>
-                  )}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* ==================== POPUP CHÚ THÍCH TỪ KHÓA ==================== */}
       {activeKeywordPopup && (

@@ -54,6 +54,61 @@ export function cleanEventTitle(title?: string): string {
 }
 
 /**
+ * Render câu trích dẫn hỗ trợ phần chữ bôi đậm (bold):
+ * - Phần bôi đậm (thẻ <b>, <strong> hoặc **...**) hiển thị font UTM Niagara thường, cỡ to hơn, phát sáng vàng gold
+ * - Nằm xen kẽ trực tiếp trên cùng một dòng văn (inline text)
+ * - Các phần chữ thường hiển thị font UTM Avo hài hòa
+ */
+function renderQuoteSegment(text: string): React.ReactNode {
+  if (!text) return null;
+  const regex = /(?:<b>(.*?)<\/b>|<strong>(.*?)<\/strong>|\*\*(.*?)\*\*)/gi;
+  const parts: React.ReactNode[] = [];
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = regex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push(
+        <span
+          key={`t-${lastIndex}`}
+          style={{ fontFamily: "'UTM Avo', sans-serif" }}
+          className="text-xs sm:text-[13.5px] md:text-sm text-[#FFE5A3]/95 inline align-baseline"
+        >
+          {text.substring(lastIndex, match.index)}
+        </span>
+      );
+    }
+    const boldContent = match[1] || match[2] || match[3] || '';
+    if (boldContent) {
+      parts.push(
+        <span
+          key={`b-${match.index}`}
+          style={{ fontFamily: "'UTM Niagara', 'UTM_Niagara', serif" }}
+          className="text-2xl sm:text-[26px] md:text-[28px] font-normal text-[#FFDE59] drop-shadow-[0_0_12px_rgba(255,222,89,0.85)] tracking-normal inline align-baseline mx-1 leading-none"
+        >
+          {boldContent}
+        </span>
+      );
+    }
+    lastIndex = regex.lastIndex;
+  }
+
+  if (lastIndex < text.length) {
+    parts.push(
+      <span
+        key={`t-${lastIndex}`}
+        style={{ fontFamily: "'UTM Avo', sans-serif" }}
+        className="text-xs sm:text-[13.5px] md:text-sm text-[#FFE5A3]/95 inline align-baseline"
+      >
+        {text.substring(lastIndex)}
+      </span>
+    );
+  }
+
+  return parts;
+}
+
+/**
  * Chống nhảy chữ rớt từ đơn (Orphan words) và hỗ trợ ngắt dòng chủ động:
  * 1. Nếu có ký tự '|' -> ngắt dòng chủ động theo ý biên tập viên.
  * 2. Thay khoảng trắng giữa 2 từ cuối cùng bằng \u00A0 (non-breaking space) để từ cuối cùng không bao giờ bị rớt lại 1 mình.
@@ -162,6 +217,28 @@ export const CalendarSection: FC = () => {
     }
   }, [selectedEvent]);
 
+  // State cho Pop-up Xem Ảnh Quote Tinh Gọn
+  const [isQuoteZoomOpen, setIsQuoteZoomOpen] = useState<boolean>(false);
+  const [selectedZoomQuote, setSelectedZoomQuote] = useState<{ url: string; title?: string } | null>(null);
+
+  // Khóa cuộn trang và lắng nghe phím ESC khi mở pop-up zoom ảnh quote
+  useEffect(() => {
+    if (isQuoteZoomOpen) {
+      const originalOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === "Escape") {
+          setIsQuoteZoomOpen(false);
+        }
+      };
+      window.addEventListener("keydown", handleKeyDown);
+      return () => {
+        document.body.style.overflow = originalOverflow;
+        window.removeEventListener("keydown", handleKeyDown);
+      };
+    }
+  }, [isQuoteZoomOpen]);
+
   // State cho Slide Poster Tương Tác Cột Trái
   const [activeSlideIdx, setActiveSlideIdx] = useState<number>(0);
   const [isSlidePaused, setIsSlidePaused] = useState<boolean>(false);
@@ -177,6 +254,7 @@ export const CalendarSection: FC = () => {
     featuredPrograms?: any[];
     monthThemes?: Record<string, any>;
     customEvents?: any[];
+    quoteGallery?: Array<{ id: string; url: string; title?: string }>;
   } | null>(null);
 
   useEffect(() => {
@@ -209,6 +287,8 @@ export const CalendarSection: FC = () => {
         primaryColor: mt.primaryColor || '#8B3A1C',
         secondaryColor: mt.secondaryColor || '#F2C14E',
         themeBg: mt.themeBg || '#2A170F',
+        quoteImg: mt.quoteImg || MONTH_THEMES[currentMonth]?.quoteImg,
+        quoteTitle: mt.quoteTitle || MONTH_THEMES[currentMonth]?.quoteTitle,
       };
     }
     return MONTH_THEMES[currentMonth] || MONTH_THEMES[0];
@@ -300,9 +380,15 @@ export const CalendarSection: FC = () => {
           const currentTime = currentDate.getTime();
 
           if (currentTime >= startTime && currentTime <= finalEndTime) {
+            const ceTitleLower = (ce.title || '').toLowerCase().trim();
+
+            // Tìm xem trước khi lọc, trong ngày d đã có sự kiện multiDayInfo cùng tên chưa (để kế thừa cho ngày Tạ đàn)
+            const existingMatchingMultiEv = baseMap[d]?.find(
+              (ev) => (ev.title || '').toLowerCase().trim() === ceTitleLower && ev.multiDayInfo
+            );
+
             // Loại bỏ sự kiện mặc định bị trùng lặp hoặc mâu thuẫn trong ngày d
             if (baseMap[d]) {
-              const ceTitleLower = (ce.title || '').toLowerCase().trim();
               baseMap[d] = baseMap[d].filter((ev) => {
                 const evTitleLower = (ev.title || '').toLowerCase().trim();
                 if (evTitleLower === ceTitleLower) return false;
@@ -341,6 +427,12 @@ export const CalendarSection: FC = () => {
                 endDateStr: ce.endDateStr,
                 isChantingExtension,
                 isChantingFinalDay,
+              };
+            } else if (existingMatchingMultiEv?.multiDayInfo) {
+              // Kế thừa multiDayInfo nếu sự kiện riêng này là ngày kết khóa / tạ đàn của chuỗi khóa tu đã phủ
+              multiDayInfo = {
+                ...existingMatchingMultiEv.multiDayInfo,
+                isLastDay: true,
               };
             }
 
@@ -428,54 +520,72 @@ export const CalendarSection: FC = () => {
     return list;
   }, [monthEventsMap]);
 
-  // Cấu trúc Slides Cột Trái: Slide 0 là Chủ Đề Tháng, Slide 1..N là các sự kiện trong tháng
-  // Tối ưu: Gộp (Deduplicate) các sự kiện kéo dài nhiều ngày để CHỈ HIỆN 1 SLIDE DUY NHẤT
+  // Danh sách toàn bộ ảnh quote dùng chung (ưu tiên ảnh quote của tháng đang chọn lên trước)
+  const allQuoteList = useMemo(() => {
+    let list: Array<{ id: string; url: string; title?: string }> = [];
+
+    if (dbData?.quoteGallery && dbData.quoteGallery.length > 0) {
+      list = [...dbData.quoteGallery];
+    } else {
+      // Fallback lấy toàn bộ quoteImg từ 12 tháng nếu quoteGallery chưa có
+      const defaultList: Array<{ id: string; url: string; title?: string }> = [];
+      for (let m = 0; m < 12; m++) {
+        const theme = (dbData?.monthThemes && dbData.monthThemes[String(m)]) || MONTH_THEMES[m];
+        if (theme?.quoteImg) {
+          defaultList.push({
+            id: `quote-${m + 1}`,
+            url: theme.quoteImg,
+            title: theme.quoteTitle || theme.title || `Quote Tu Học Tháng ${m + 1}`,
+          });
+        }
+      }
+      list = defaultList;
+    }
+
+    // Ưu tiên đưa quote của tháng đang chọn lên đầu danh sách slide (ngay sau slide chủ đề)
+    if (list.length > 1) {
+      const curQuoteUrl = monthTheme.quoteImg;
+      const curIdx = list.findIndex(
+        (q) => (curQuoteUrl && q.url === curQuoteUrl) || q.id === `quote-${currentMonth + 1}`
+      );
+      if (curIdx > 0) {
+        const matching = list[curIdx];
+        list = [matching, ...list.slice(0, curIdx), ...list.slice(curIdx + 1)];
+      }
+    }
+
+    return list;
+  }, [dbData, monthTheme, currentMonth]);
+
+  // Cấu trúc Slides Cột Trái: Slide 0 là Chủ Đề Tháng, Slide 1..N là toàn bộ Kho Ảnh Quote
   type SlideItem =
-    | { type: 'theme'; day: null }
-    | { type: 'event'; day: number; event: CalendarEvent };
+    | { type: 'theme' }
+    | { type: 'quote'; quote: { id: string; url: string; title?: string } };
 
   const slides: SlideItem[] = useMemo(() => {
-    const seenEventKeys = new Set<string>();
-    const uniqueEvents: CalendarEvent[] = [];
-
-    allMonthEvents.forEach((ev) => {
-      const key = ev.id ? String(ev.id) : `${ev.title}_${ev.category}`;
-      if (!seenEventKeys.has(key)) {
-        seenEventKeys.add(key);
-        uniqueEvents.push(ev);
-      }
+    const s: SlideItem[] = [{ type: 'theme' }];
+    allQuoteList.forEach((q) => {
+      s.push({ type: 'quote', quote: q });
     });
-
-    const eventSlides: SlideItem[] = uniqueEvents.map((ev) => ({
-      type: 'event',
-      day: ev.day,
-      event: ev,
-    }));
-    return [{ type: 'theme', day: null }, ...eventSlides];
-  }, [allMonthEvents]);
+    return s;
+  }, [allQuoteList]);
 
   // Reset slide index khi đổi tháng
   useEffect(() => {
     setActiveSlideIdx(0);
   }, [currentMonth, currentYear]);
 
-  // Tự động chạy Slide (Auto-play mỗi 5 giây, tạm dừng khi hover)
+  // Tự động chạy Slide (Auto-play mỗi 6 giây, tạm dừng khi hover)
   useEffect(() => {
     if (slides.length <= 1 || isSlidePaused) return;
     const interval = setInterval(() => {
       setActiveSlideIdx((prev) => (prev + 1) % slides.length);
-    }, 5000);
+    }, 6000);
     return () => clearInterval(interval);
   }, [slides.length, isSlidePaused]);
 
-  // Xác định sự kiện đang được kích hoạt highlight từ Slide cột trái (áp dụng cho toàn chuỗi ngày)
-  const activeHighlightedEvent = useMemo(() => {
-    const cur = slides[activeSlideIdx];
-    if (cur && cur.type === 'event') {
-      return cur.event;
-    }
-    return null;
-  }, [slides, activeSlideIdx]);
+  // Cố định lịch không nhảy theo khóa tu nữa
+  const activeHighlightedEvent = null;
 
   // Chuyển slide tiếp/lùi
   const handlePrevSlide = () => {
@@ -503,18 +613,10 @@ export const CalendarSection: FC = () => {
     setActiveDate(new Date(currentYear, currentMonth + 1, 1));
   };
 
-  // Khi click vào ô ngày trên bảng lịch: Chuyển slide cột trái tới poster sự kiện của ngày đó
+  // Khi click vào ô ngày trên bảng lịch: Mở popup chi tiết khóa tu/sự kiện đầu tiên của ngày
   const handleDayCellClick = (dayNumber: number, dayEvents: CalendarEvent[]) => {
     if (dayEvents.length > 0) {
-      const clickedEv = dayEvents[0];
-      const targetIdx = slides.findIndex(
-        (s) =>
-          s.type === 'event' &&
-          (s.event.id === clickedEv.id || (s.event.title && s.event.title === clickedEv.title))
-      );
-      if (targetIdx !== -1) {
-        setActiveSlideIdx(targetIdx);
-      }
+      setSelectedEvent(dayEvents[0]);
     }
   };
 
@@ -553,42 +655,41 @@ export const CalendarSection: FC = () => {
         ══════════════════════════════════════════════ */}
         <div className="flex flex-col lg:flex-row items-stretch gap-6 sm:gap-7">
 
-          {/* ── 1. CỘT TRÁI: SLIDE POSTER TƯƠNG TÁC ĐA NĂNG (17x19CM, ĐỒNG BỘ VIỀN VÀNG VỚI LỊCH) ── */}
+          {/* ── 1. CỘT TRÁI: SLIDE POSTER TƯƠNG TÁC ĐA NĂNG (TỐI ƯU GỌN GÀNG TRÊN MOBILE, ĐỒNG BỘ CHIỀU CAO VỚI LỊCH TRÊN DESKTOP) ── */}
           <div
             onMouseEnter={() => setIsSlidePaused(true)}
             onMouseLeave={() => setIsSlidePaused(false)}
-            className="w-full lg:w-[350px] xl:w-[380px] shrink-0 rounded-3xl bg-gradient-to-b from-[#2A170F] via-[#201007] to-[#150A04] border border-[#F2C14E]/40 shadow-[0_20px_60px_rgba(0,0,0,0.85)] backdrop-blur-md flex flex-col justify-between overflow-hidden transition-all min-h-[530px] md:min-h-[550px] relative group/leftcol"
+            className="w-full lg:w-[350px] xl:w-[380px] shrink-0 rounded-3xl bg-gradient-to-b from-[#2A170F] via-[#201007] to-[#150A04] border border-[#F2C14E]/40 shadow-[0_20px_60px_rgba(0,0,0,0.85)] backdrop-blur-md flex flex-col justify-between overflow-hidden transition-all min-h-[440px] sm:min-h-[470px] lg:min-h-[610px] xl:min-h-[620px] h-full lg:self-stretch relative group/leftcol"
           >
 
-            {/* Slide Navigation Buttons (Prev / Next nổi tinh tế) */}
+            {/* Slide Navigation Buttons (Prev / Next nổi tinh tế khi hover) */}
             {slides.length > 1 && (
               <>
                 <button
                   type="button"
                   onClick={handlePrevSlide}
-                  className="absolute left-2.5 top-1/3 -translate-y-1/2 z-30 w-8 h-8 rounded-full bg-black/75 hover:bg-[#F2C14E] text-[#FFE5A3] hover:text-black border border-[#F2C14E]/60 flex items-center justify-center opacity-0 group-hover/leftcol:opacity-100 transition-all cursor-pointer shadow-lg active:scale-95"
+                  className="absolute left-2.5 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-black/65 border border-[#F2C14E]/60 text-[#FFDE59] hover:bg-[#FFDE59] hover:text-[#1C0F08] transition-all flex items-center justify-center cursor-pointer opacity-70 group-hover/leftcol:opacity-100 shadow-lg backdrop-blur-sm"
                   aria-label="Slide trước"
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
-
                 <button
                   type="button"
                   onClick={handleNextSlide}
-                  className="absolute right-2.5 top-1/3 -translate-y-1/2 z-30 w-8 h-8 rounded-full bg-black/75 hover:bg-[#F2C14E] text-[#FFE5A3] hover:text-black border border-[#F2C14E]/60 flex items-center justify-center opacity-0 group-hover/leftcol:opacity-100 transition-all cursor-pointer shadow-lg active:scale-95"
-                  aria-label="Slide sau"
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full bg-black/65 border border-[#F2C14E]/60 text-[#FFDE59] hover:bg-[#FFDE59] hover:text-[#1C0F08] transition-all flex items-center justify-center cursor-pointer opacity-70 group-hover/leftcol:opacity-100 shadow-lg backdrop-blur-sm"
+                  aria-label="Slide tiếp theo"
                 >
                   <ChevronRight className="w-4 h-4" />
                 </button>
               </>
             )}
 
-            {/* ── NỘI DUNG SLIDE: CHỦ ĐỀ THÁNG HOẶC POSTER SỰ KIỆN ── */}
+            {/* ── NỘI DUNG SLIDE: CHỦ ĐỀ THÁNG HOẶC QUOTE TU HỌC ── */}
             {currentSlide.type === 'theme' ? (
-              /* SLIDE 0: CHỦ ĐỀ THÁNG (TRANH + QUOTE + TÁC GIẢ) */
-              <div className="flex-1 flex flex-col justify-between animate-in fade-in duration-500">
-                {/* 1.1 TRANH MINH HỌA NGHỆ THUẬT */}
-                <div className="relative w-full aspect-[1200/1015] shrink-0 overflow-hidden bg-black/30">
+              /* SLIDE 0: CHỦ ĐỀ KHÓA TU THÁNG (TIÊU ĐỀ NỔI BẬT UTM NIAGARA + QUOTE GỐC CÂN ĐỐI) */
+              <div className="flex-1 flex flex-col justify-between animate-in fade-in duration-500 overflow-hidden h-full">
+                {/* 1.1 TRANH MINH HỌA NGHỆ THUẬT (TỈ LỆ GỐC ASPECT 1200/1015 TRÊN DESKTOP, ASPECT 16/10 TRÊN MOBILE) */}
+                <div className="relative w-full aspect-[16/10] sm:aspect-[1200/900] lg:aspect-[1200/1015] shrink-0 overflow-hidden bg-black/40">
                   <img
                     src={monthTheme.bannerImg}
                     alt={monthTheme.title}
@@ -597,290 +698,198 @@ export const CalendarSection: FC = () => {
                       (e.currentTarget as HTMLImageElement).src = '/images/vu-tru-phat-giao/bao-thap/bao-thap-banner.jpg';
                     }}
                   />
-                  {/* Lớp gradient đậm che kín đáy */}
-                  <div className="absolute inset-x-0 bottom-0 h-4 sm:h-5 bg-gradient-to-t from-[#201007] from-35% via-[#201007]/90 to-transparent pointer-events-none" />
+                  {/* Lớp gradient đáy chuyển tiếp mượt mà (h-12 sm:h-14), phủ dài hơn một xíu tạo độ hòa trộn êm ái mà không che mất chữ poster */}
+                  <div className="absolute inset-x-0 bottom-0 h-12 sm:h-14 bg-gradient-to-t from-[#201007] from-10% via-[#201007]/60 via-35% via-[#201007]/15 via-70% to-transparent pointer-events-none" />
                 </div>
 
-                {/* Đường chỉ vàng kim phân định */}
-                <div className="flex items-center justify-center gap-2 w-full px-5 py-2 shrink-0 opacity-85">
-                  <div className="flex-1 h-px bg-gradient-to-r from-transparent via-[#F2C14E]/60 to-[#F2C14E]" />
-                  <span className="text-[#F2C14E] text-xs select-none drop-shadow-[0_0_6px_rgba(242,193,78,0.7)]">❖</span>
-                  <div className="flex-1 h-px bg-gradient-to-l from-transparent via-[#F2C14E]/60 to-[#F2C14E]" />
+                {/* 2. Đường kẻ Gradient cắt ranh giới mép chân ảnh có icon tròn chính giữa (phong cách Dấu Ấn Hoằng Pháp) */}
+                <div className="relative w-full h-[1px] bg-gradient-to-r from-transparent via-[#F2C14E]/70 to-transparent z-10 shrink-0 my-3">
+                  {/* Huy hiệu Logo Quote Chủ Đề nổi chính giữa tim đường kẻ */}
+                  <div className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-12 sm:h-12 rounded-full border-2 border-[#F2C14E] bg-[#24160E] flex items-center justify-center p-2 shadow-[0_0_16px_rgba(242,193,78,0.6)]">
+                    <img
+                      src="/images/icons/icon-quote-chu-de.png"
+                      alt="Quote Chủ Đề"
+                      className="w-full h-full object-contain filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"
+                    />
+                  </div>
                 </div>
 
-                {/* 1.2 KHỐI NỘI DUNG QUOTE & TÁC GIẢ */}
-                <div className="p-4 sm:p-5 pt-0 flex-1 flex flex-col justify-between items-center text-center">
-                  <div className="w-full flex-1 flex flex-col justify-center my-auto py-1">
+                {/* 1.2 KHỐI NỘI DUNG CÂU QUOTE & TÁC GIẢ */}
+                <div className="px-4 sm:px-5 pt-5 sm:pt-6 pb-2 flex-1 flex flex-col justify-between items-center text-center overflow-visible">
+                  <div className="w-full flex-1 flex flex-col justify-center my-auto overflow-visible py-1">
+                    {/* Nội dung trích dẫn (Thơ / Văn xuôi hỗ trợ chữ bôi đậm UTM Niagara thường vàng to phát sáng inline) */}
                     {(() => {
                       const isPoem = [1, 3, 4, 5, 10].includes(currentMonth);
+                      const hasAnyBold = (monthTheme.quoteLines || []).some((l: string) => /<b>|<strong>|\*\*/i.test(l));
+
                       if (isPoem) {
                         return (
-                          <div className="space-y-1 my-auto">
+                          <div className="w-full my-auto space-y-1 sm:space-y-1.5 py-1 overflow-visible">
                             {monthTheme.quoteLines.map((line: string, idx: number) => {
-                              if (line === "") return <div key={idx} className="h-1" />;
+                              if (line === "") return <div key={idx} className="h-0.5" />;
                               const cleanLine = line.replace(/[“”"']/g, '').trim();
                               if (!cleanLine) return null;
-                              const isLong = monthTheme.quoteLines.length > 5;
                               return (
-                                <p
+                                <div
                                   key={idx}
-                                  style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                                  className={`leading-relaxed tracking-wide text-center ${
-                                    idx === 0
-                                      ? isLong
-                                        ? "font-bold text-xs sm:text-sm text-[#FFDE59]"
-                                        : "font-bold text-sm sm:text-base text-[#FFDE59]"
-                                      : isLong
-                                        ? "font-normal text-[11px] sm:text-xs text-[#FFE5A3]/90"
-                                        : "font-normal text-xs sm:text-sm text-[#FFE5A3]/90"
-                                  }`}
+                                  className="h-6 sm:h-7 flex items-center justify-center overflow-visible"
                                 >
-                                  {cleanLine}
-                                </p>
+                                  <p className="text-xs sm:text-[13px] md:text-sm text-[#FFE5A3]/95 tracking-wide text-center leading-none flex items-center justify-center overflow-visible">
+                                    {renderQuoteSegment(cleanLine)}
+                                  </p>
+                                </div>
                               );
                             })}
                           </div>
                         );
                       } else {
-                        const cleanLines = monthTheme.quoteLines
+                        // Văn xuôi (Prose): Nối liền mạch thành đoạn văn hoàn chỉnh với chiều cao dòng cố định đồng nhất
+                        const cleanLines = (monthTheme.quoteLines || [])
                           .map((l: string) => l.replace(/[“”"']/g, '').trim())
                           .filter(Boolean);
-                        const firstSentence = cleanLines[0] || "";
-                        const restSentences = cleanLines.slice(1).join(" ");
+
+                        let fullProse = cleanLines.join(' ');
+                        // Nếu chưa có thẻ bôi đậm nào, tự động bôi đậm câu đầu tiên
+                        if (!hasAnyBold && cleanLines.length > 0) {
+                          const first = cleanLines[0];
+                          const rest = cleanLines.slice(1).join(' ');
+                          fullProse = `<b>${first}</b> ${rest}`.trim();
+                        }
+
                         return (
-                          <p
-                            style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                            className="text-justify leading-relaxed text-xs sm:text-sm text-[#FFE5A3]/90 my-auto px-1 sm:px-2"
-                          >
-                            <strong className="font-bold text-[#FFDE59] inline mr-1">
-                              {firstSentence}
-                            </strong>
-                            <span className="inline">{restSentences}</span>
-                          </p>
+                          <div className="w-full my-auto flex flex-col items-center justify-center overflow-visible px-1 sm:px-3">
+                            <p className="text-xs sm:text-[13.5px] md:text-sm leading-[26px] sm:leading-[30px] md:leading-[32px] text-center text-[#FFE5A3]/95 tracking-wide overflow-visible w-full">
+                              {renderQuoteSegment(fullProse)}
+                            </p>
+                          </div>
                         );
                       }
                     })()}
                   </div>
 
-                  {/* 1.3 HUY HIỆU TÁC GIẢ */}
-                  <div className="pt-2 w-full flex justify-center shrink-0">
-                    <div className="inline-flex items-center px-5 py-1 rounded-full border border-[#F2C14E]/60 bg-[#7C4A1C]/50 hover:bg-[#7C4A1C]/70 backdrop-blur-sm shadow-md transition-colors">
-                      <span
-                        style={{ fontFamily: "'UTM Niagara', serif" }}
-                        className="text-sm sm:text-base text-[#FFE5A3] uppercase tracking-widest leading-none pt-0.5"
-                      >
-                        {monthTheme.author}
-                      </span>
-                    </div>
+                  {/* 1.3 NGUỒN TRÍCH DẪN (Không có dấu ngoặc đơn theo yêu cầu) */}
+                  <div className="pt-2 pb-1 w-full flex items-center justify-center shrink-0">
+                    <span
+                      style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                      className="text-xs sm:text-[13px] text-amber-200/90 italic tracking-wider"
+                    >
+                      {monthTheme.author}
+                    </span>
                   </div>
                 </div>
               </div>
             ) : (
-              /* SLIDE 1..N: POSTER SỰ KIỆN TRONG THÁNG (ĐỒNG BỘ VIỀN VÀNG VỚI LỊCH) */
-              <div className="flex-1 flex flex-col justify-between animate-in fade-in duration-500">
-                {/* Ảnh Poster sự kiện */}
-                <div className="relative w-full aspect-[1200/1015] shrink-0 overflow-hidden bg-black/40">
-                  <img
-                    src={currentSlide.event.imgUrl}
-                    alt={currentSlide.event.title}
-                    className="w-full h-full object-cover transition-transform duration-700 hover:scale-102"
+              /* SLIDE QUOTE: KHO ẢNH PHÁP NGỮ / QUOTE TU HỌC (AMBIENT BLUR NỀN + LỚP MỜ LÀM MỀM KHUNG + CLICK MỞ POPUP TINH GỌN) */
+              <div className="flex-1 flex flex-col justify-center items-center overflow-hidden h-full relative p-2.5 sm:p-3 animate-in fade-in duration-500">
+                <div className="w-full h-full flex items-center justify-center overflow-hidden relative rounded-2xl bg-black/60 shadow-inner group/quote">
+                  {/* Lớp nền ambient blur tạo hiệu ứng mờ viền hòa sắc tuyệt đẹp */}
+                  <div
+                    className="absolute inset-0 bg-cover bg-center filter blur-xl scale-110 opacity-40 pointer-events-none transition-all duration-700"
                     style={{
-                      objectPosition: `center ${currentSlide.event.imgPositionY ?? 50}%`,
-                    }}
-                    onError={(e) => {
-                      (e.currentTarget as HTMLImageElement).src = '/images/vu-tru-phat-giao/bao-thap/bao-thap-banner.jpg';
+                      backgroundImage: `url(${currentSlide.quote.url || monthTheme.quoteImg || monthTheme.bannerImg})`,
                     }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#201007] via-transparent to-black/30 pointer-events-none" />
-                </div>
+                  {/* Lớp vignette phủ nhẹ làm nổi bật bức tranh chính */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-black/60 pointer-events-none" />
 
-                {/* 2. Đường kẻ Gradient cắt ranh giới mép chân ảnh có icon tròn chính giữa (phong cách Dấu Ấn Hoằng Pháp) */}
-                <div className="relative w-full h-[1px] bg-gradient-to-r from-transparent via-[#F2C14E]/70 to-transparent z-10 shrink-0 my-1">
-                  {/* Huy hiệu Logo Danh mục nổi chính giữa tim đường kẻ */}
-                  <div className="absolute left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-11 h-11 sm:w-12 sm:h-12 rounded-full border-2 border-[#F2C14E] bg-[#24160E] flex items-center justify-center p-2 shadow-[0_0_16px_rgba(242,193,78,0.6)]">
-                    <img
-                      src={getEventCategoryIcon(currentSlide.event.category)}
-                      alt={currentSlide.event.category}
-                      className="w-full h-full object-contain filter drop-shadow-[0_0_6px_rgba(242,193,78,0.5)]"
-                    />
-                  </div>
-                </div>
-
-                {/* Chi tiết nội dung Sự Kiện */}
-                <div className="p-4 sm:p-5 pt-7 sm:pt-8 flex-1 flex flex-col justify-between space-y-3 text-center">
-                  <div className="space-y-1.5 my-auto w-full">
-                    {/* Sub Tiêu Đề NẰM Ở TRÊN - Lọc bỏ chữ mặc định "KHÓA LỄ TRUYỀN THỐNG", chỉ hiện khi có tiêu đề phụ thực tế, font UTM Avo */}
-                    {(() => {
-                      const cleanSub = getDisplaySubtitle(currentSlide.event);
-                      return cleanSub ? (
-                        <p
-                          style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                          className="text-sm sm:text-base md:text-[18px] text-amber-200/95 font-medium italic normal-case tracking-wide line-clamp-1 w-full text-center"
-                        >
-                          {cleanSub}
-                        </p>
-                      ) : null;
-                    })()}
-
-                    {/* Tiêu Đề Chính NẰM Ở DƯỚI - Tự động co giãn kích thước, cân bằng dòng text-wrap: balance, chống nhảy chữ */}
-                    {(() => {
-                      const titleStr = cleanEventTitle(currentSlide.event.title);
-                      const styleInfo = getAdaptiveTitleClasses(titleStr);
-                      const formatted = formatBalancedTitle(titleStr);
-
-                      return (
-                        <h3
-                          style={{
-                            fontFamily: "'UTM Niagara', serif",
-                            textWrap: 'balance',
-                            whiteSpace: formatted.includes('\n') ? 'pre-line' : 'normal',
-                          }}
-                          className={`${styleInfo.fontSize} ${styleInfo.lineHeight} ${styleInfo.tracking} font-normal uppercase text-[#FFDE59] drop-shadow-[0_0_16px_rgba(255,222,89,0.65)] w-full text-center mt-1.5 px-0.5`}
-                        >
-                          {formatted}
-                        </h3>
-                      );
-                    })()}
-
-                    {/* Khung Thời Gian, Thời Lượng & Vị Trí - Xếp DỌC: Thời gian ghi riêng, Thời lượng xuống dòng ghi riêng */}
-                    <div
-                      style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                      className="flex flex-col items-center justify-center gap-2 pt-2.5 w-full"
-                    >
-                      {/* Dòng 1: Thời Gian Bắt Đầu (Ghi riêng, chữ to rõ, dùng icon Lịch Tu Học) */}
-                      <div className="flex items-center justify-center gap-2 text-base sm:text-lg font-bold text-[#FFDE59] tracking-wide">
-                        <img
-                          src="/images/icons/icon-lich-tu-hoc.webp"
-                          alt="Thời gian"
-                          className="w-5 h-5 sm:w-6 sm:h-6 object-contain shrink-0 drop-shadow-[0_0_8px_rgba(242,193,78,0.6)]"
-                        />
-                        <span>{currentSlide.event.timeSlot1Time || '08h00'}</span>
-                      </div>
-
-                      {/* Huy hiệu chuỗi ngày nếu là Khóa tu nhiều ngày */}
-                      {currentSlide.event.multiDayInfo && (
-                        <div
-                          style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                          className="flex items-center justify-center gap-1.5 text-xs sm:text-[13px] text-[#FFDE59] font-bold tracking-wide px-3 py-1 rounded-full bg-[#F2C14E]/20 border border-[#F2C14E]/40 shadow-xs"
-                        >
-                          <Clock className="w-3.5 h-3.5 text-[#F2C14E] shrink-0" />
-                          <span>Kỳ hạn: {currentSlide.event.multiDayInfo.totalDays} ngày</span>
-                        </div>
-                      )}
-
-                      {/* Dòng 2: Thời Lượng (Xuống dòng ghi riêng nếu có) */}
-                      {currentSlide.event.timeSlot2Time && (
-                        <div className="flex items-center justify-center gap-1.5 text-xs sm:text-[13.5px] text-[#FFE5A3]/95 font-medium tracking-wide">
-                          <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#F2C14E] shrink-0 drop-shadow-[0_0_6px_rgba(242,193,78,0.5)]" />
-                          <span>
-                            {currentSlide.event.timeSlot2Time.toLowerCase().includes('phút') ||
-                            currentSlide.event.timeSlot2Time.toLowerCase().includes('giờ') ||
-                            currentSlide.event.timeSlot2Time.toLowerCase().includes('ngày')
-                              ? `Thời lượng: ${currentSlide.event.timeSlot2Time}`
-                              : currentSlide.event.timeSlot2Label && !currentSlide.event.timeSlot2Label.toLowerCase().includes('tiếp')
-                              ? `${currentSlide.event.timeSlot2Label}: ${currentSlide.event.timeSlot2Time}`
-                              : currentSlide.event.timeSlot2Time}
-                          </span>
-                        </div>
-                      )}
-
-                      {/* Dòng 3: Vị Trí / Địa Điểm (Dùng icon Các Khu Vực Nổi Bật) */}
-                      <div className="flex items-center justify-center gap-2 text-xs sm:text-[13.5px] text-[#FFE5A3]/95 font-medium tracking-wide">
-                        <img
-                          src="/images/icons/icon-cac-khu-vuc-noi-bat.webp"
-                          alt="Địa điểm"
-                          className="w-5 h-5 sm:w-6 sm:h-6 object-contain shrink-0 drop-shadow-[0_0_8px_rgba(242,193,78,0.6)]"
-                        />
-                        <span>{currentSlide.event.location || 'Tùng Lâm Hòa Phúc'}</span>
-                      </div>
+                  {/* Bức ảnh Quote với Feather Mask mờ viền ~14px làm mềm khung, không che chữ */}
+                  <div
+                    className="relative z-10 h-full w-auto max-w-full flex items-center justify-center cursor-zoom-in group/imgbox"
+                    onClick={() => {
+                      setSelectedZoomQuote(currentSlide.quote);
+                      setIsQuoteZoomOpen(true);
+                    }}
+                  >
+                    <div className="relative h-full w-auto max-w-full flex items-center justify-center rounded-xl overflow-hidden shadow-[0_12px_40px_rgba(0,0,0,0.95)]">
+                      <img
+                        src={currentSlide.quote.url}
+                        alt={currentSlide.quote.title || 'Quote tu học'}
+                        className="h-full w-auto max-w-full object-contain mx-auto transition-transform duration-500 group-hover/imgbox:scale-[1.01]"
+                        onError={(e) => {
+                          (e.currentTarget as HTMLImageElement).src = monthTheme.bannerImg;
+                        }}
+                        title="Bấm để xem ảnh rõ nét"
+                      />
+                      {/* Lớp viền mờ mềm mại (Feather Mask 14px) quanh mép khung ảnh */}
+                      <div className="absolute inset-0 pointer-events-none rounded-xl shadow-[inset_0_0_14px_rgba(26,18,11,0.92)]" />
                     </div>
-                  </div>
-
-                  {/* Nút Xem Chi Tiết Bài Viết - Tinh tế, sang trọng, icon nhỏ dễ thương */}
-                  <div className="pt-2 flex justify-center">
-                    <button
-                      type="button"
-                      onClick={() => setSelectedEvent(currentSlide.event)}
-                      className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#1C0F08]/85 hover:bg-[#3D2210] border border-[#F2C14E]/60 hover:border-[#FFDE59] text-[#FFE5A3] hover:text-[#FFDE59] transition-all duration-300 text-xs tracking-wider cursor-pointer shadow-md group/btn"
-                      style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                    >
-                      <span className="font-medium text-[11px] sm:text-xs">Xem chi tiết bài viết</span>
-                      <ArrowRight className="w-3.5 h-3.5 text-[#F2C14E] transition-transform duration-300 group-hover/btn:translate-x-1" />
-                    </button>
                   </div>
                 </div>
               </div>
             )}
 
-            {/* Dải Dots Indicators (Chấm điều hướng slide) */}
-            {slides.length > 1 && (
-              <div className="flex items-center justify-center gap-1.5 pb-3 shrink-0">
-                {slides.map((_, idx) => (
+            {/* Dải Điều Hướng Slide: Các Dấu Chấm Nhảy Dần Dần (Hỗ trợ cuộn ngang mượt nếu nhiều quote) */}
+            <div className="flex items-center justify-center gap-1.5 px-3 pt-2.5 pb-3 shrink-0 overflow-x-auto overflow-y-visible max-w-full scrollbar-none">
+              {slides.map((_, idx) => {
+                const isActive = activeSlideIdx === idx;
+                return (
                   <button
                     key={idx}
                     type="button"
                     onClick={() => setActiveSlideIdx(idx)}
-                    className={`h-1.5 rounded-full transition-all cursor-pointer ${
-                      activeSlideIdx === idx
-                        ? 'w-6 bg-[#FFDE59] shadow-[0_0_8px_rgba(255,222,89,0.8)]'
-                        : 'w-1.5 bg-[#F2C14E]/30 hover:bg-[#F2C14E]/60'
+                    className={`h-2 rounded-full transition-all duration-300 ease-in-out cursor-pointer shrink-0 ${
+                      isActive
+                        ? 'w-6 bg-[#FFDE59] shadow-[0_0_8px_rgba(255,222,89,0.9)] scale-100'
+                        : 'w-2 bg-[#F2C14E]/30 hover:bg-[#F2C14E]/60 hover:scale-110'
                     }`}
-                    aria-label={`Chuyển tới slide ${idx + 1}`}
+                    aria-label={`Chuyển sang trang ${idx + 1}`}
                   />
-                ))}
-              </div>
-            )}
+                );
+              })}
+            </div>
 
           </div>
 
           {/* ── 2. CỘT PHẢI: BẢNG LỊCH CỐ ĐỊNH 6 HÀNG (42 Ô) - LOGO BIỂU TƯỢNG & ĐỒNG BỘ VIỀN VÀNG ── */}
           <div className="flex-1 rounded-3xl p-4 sm:p-5 md:p-6 bg-gradient-to-b from-[#2A170F]/95 via-[#1D0F08]/95 to-[#140A04]/98 border border-[#F2C14E]/35 shadow-[0_20px_60px_rgba(0,0,0,0.85)] backdrop-blur-md flex flex-col justify-between space-y-3 transition-all min-h-[530px] md:min-h-[550px]">
 
-            {/* 2.1 THANH ĐIỀU HƯỚNG THÁNG & PHẬT LỊCH / DƯƠNG LỊCH */}
-            <div className="flex flex-wrap items-center justify-between gap-2.5 p-2 sm:p-2.5 rounded-2xl bg-black/55 border border-[#F2C14E]/35 shadow-inner">
-              {/* Nút lùi tháng */}
+            {/* 2.1 THANH ĐIỀU HƯỚNG THÁNG & PHẬT LỊCH / DƯƠNG LỊCH (TỐI ƯU GỌN GÀNG 1 HÀNG TRÊN MOBILE, KHÔNG VỠ DÒNG) */}
+            <div className="flex items-center justify-between gap-1.5 sm:gap-2.5 p-1.5 sm:p-2 rounded-2xl bg-black/60 border border-[#F2C14E]/35 shadow-inner">
+              {/* Nút lùi tháng - Pinned Trái */}
               <button
+                type="button"
                 onClick={handlePrevMonth}
-                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#3D2210] border border-[#F2C14E]/60 text-[#FFDE59] hover:bg-[#F2C14E] hover:text-[#1C0F08] transition-all flex items-center justify-center cursor-pointer shadow-md hover:scale-105 active:scale-95"
+                className="w-8 h-8 sm:w-9 sm:h-9 shrink-0 rounded-full bg-[#3D2210] border border-[#F2C14E]/60 text-[#FFDE59] hover:bg-[#F2C14E] hover:text-[#1C0F08] transition-all flex items-center justify-center cursor-pointer shadow-md active:scale-95"
                 aria-label="Tháng trước"
               >
                 <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
 
-              {/* Nhãn Tháng Dương Lịch & Phật Lịch */}
-              <div className="flex flex-wrap items-center justify-center gap-2">
+              {/* Khối Nhãn Trung Tâm: Tháng Dương Lịch & Phật Lịch (Gọn gàng trên Mobile) */}
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-0.5 sm:gap-2 text-center min-w-0 flex-1 px-1">
                 {/* Pill 1: Tháng Dương Lịch */}
-                <div className="flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#201007]/90 border border-[#F2C14E]/50 shadow-[0_2px_10px_rgba(0,0,0,0.5)]">
+                <div className="flex items-center justify-center px-2.5 sm:px-4 py-0.5 sm:py-1 rounded-full bg-[#201007]/90 border border-[#F2C14E]/50 shadow-xs">
                   <span
                     style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                    className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#FFDE59]"
+                    className="text-[11px] sm:text-xs md:text-sm font-bold uppercase tracking-wider text-[#FFDE59] whitespace-nowrap"
                   >
                     THÁNG {String(currentMonth + 1).padStart(2, '0')} / {currentYear}
                   </span>
                 </div>
 
                 {/* Pill 2: Phật Lịch & Âm Lịch */}
-                <div className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-black/60 border border-[#F2C14E]/50 shadow-sm">
+                <div className="flex items-center justify-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full bg-black/60 border border-[#F2C14E]/40 shadow-xs">
                   <span
                     style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                    className="text-[11px] sm:text-xs font-bold text-[#FFDE59] tracking-wide"
+                    className="text-[9.5px] sm:text-xs font-bold text-[#FFDE59] tracking-wide shrink-0"
                   >
                     PL. {buddhistEra}
                   </span>
-                  <span className="text-[#F2C14E]/60 text-xs">•</span>
+                  <span className="text-[#F2C14E]/60 text-[9px] sm:text-xs">•</span>
                   <span
                     style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                    className="text-[11px] sm:text-xs font-medium text-amber-200/90"
+                    className="text-[9px] sm:text-xs font-medium text-amber-200/90 whitespace-nowrap"
                   >
-                    Tháng {firstDayLunar.month === lastDayLunar.month ? firstDayLunar.month : `${firstDayLunar.month} - ${lastDayLunar.month}`} ÂL Năm Bính Ngọ
+                    Tháng {firstDayLunar.month === lastDayLunar.month ? firstDayLunar.month : `${firstDayLunar.month}-${lastDayLunar.month}`} ÂL Bính Ngọ
                   </span>
                 </div>
               </div>
 
-              {/* Nút tiến tháng */}
+              {/* Nút tiến tháng - Pinned Phải */}
               <button
+                type="button"
                 onClick={handleNextMonth}
-                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#3D2210] border border-[#F2C14E]/60 text-[#FFDE59] hover:bg-[#F2C14E] hover:text-[#1C0F08] transition-all flex items-center justify-center cursor-pointer shadow-md hover:scale-105 active:scale-95"
+                className="w-8 h-8 sm:w-9 sm:h-9 shrink-0 rounded-full bg-[#3D2210] border border-[#F2C14E]/60 text-[#FFDE59] hover:bg-[#F2C14E] hover:text-[#1C0F08] transition-all flex items-center justify-center cursor-pointer shadow-md active:scale-95"
                 aria-label="Tháng sau"
               >
                 <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
@@ -957,14 +966,12 @@ export const CalendarSection: FC = () => {
                   }
 
                   const hasEvent = cell.events.length > 0;
-                  // ĐỒNG BỘ VIỀN VÀNG: Ô ngày trùng khớp với sự kiện trên Slide Cột Trái (toàn dải ngày)
-                  const isHighlightedBySlide =
-                    activeHighlightedEvent !== null &&
-                    cell.events.some(
-                      (e) =>
-                        (e.id && e.id === activeHighlightedEvent.id) ||
-                        (e.title && e.title === activeHighlightedEvent.title)
-                    );
+                  // Khung viền vàng cố định ngày Hôm Nay (Realtime Today)
+                  const today = new Date();
+                  const isToday =
+                    cell.dayNumber === today.getDate() &&
+                    currentMonth === today.getMonth() &&
+                    currentYear === today.getFullYear();
 
                   // Kiểm tra ô này có chứa khóa tu nhiều ngày không
                   const multiDayEvent = cell.events.find((e) => e.multiDayInfo);
@@ -973,9 +980,9 @@ export const CalendarSection: FC = () => {
                     <div
                       key={`day-${cell.dayNumber}`}
                       onClick={() => handleDayCellClick(cell.dayNumber, cell.events)}
-                      className={`min-h-[58px] sm:min-h-[64px] md:min-h-[68px] p-1 sm:p-1.5 flex flex-col justify-between relative rounded-xl transition-all duration-300 cursor-pointer group/cell ${
-                        isHighlightedBySlide
-                          ? "border-2 border-[#FFDE59] shadow-[0_0_25px_rgba(255,222,89,0.95)] ring-2 ring-[#FFDE59]/70 scale-105 z-20 bg-gradient-to-b from-[#633B18] via-[#4A260F] to-[#2B1408] hover:z-50"
+                      className={`min-h-[46px] sm:min-h-[58px] md:min-h-[66px] p-1 sm:p-1.5 flex flex-col justify-between relative rounded-xl transition-all duration-300 cursor-pointer group/cell ${
+                        isToday
+                          ? "border-2 border-[#FFDE59] shadow-[0_0_22px_rgba(255,222,89,0.9)] ring-2 ring-[#FFDE59]/70 bg-gradient-to-b from-[#552E14] via-[#3C1F0B] to-[#201007] z-20"
                           : multiDayEvent
                           ? "bg-[#25150C]/90 border border-[#F2C14E]/50 shadow-[0_0_10px_rgba(242,193,78,0.2)] hover:border-[#FFDE59] hover:bg-[#351C0F] z-10 hover:z-50"
                           : "bg-black/45 border border-[#F2C14E]/20 hover:border-[#F2C14E]/60 hover:bg-black/65 z-10 hover:z-50"
@@ -985,9 +992,9 @@ export const CalendarSection: FC = () => {
                       <div className="flex items-center justify-between w-full">
                         <span
                           style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                          className={`text-sm sm:text-base md:text-lg font-black leading-none ${
-                            isHighlightedBySlide
-                              ? "text-[#FFDE59] drop-shadow-[0_0_8px_rgba(255,222,89,0.9)]"
+                          className={`text-xs sm:text-base md:text-lg font-black leading-none ${
+                            isToday
+                              ? "text-[#FFDE59] drop-shadow-[0_0_8px_rgba(255,222,89,0.95)]"
                               : multiDayEvent
                               ? "text-[#FFDE59]"
                               : cell.isSunday
@@ -1000,7 +1007,7 @@ export const CalendarSection: FC = () => {
 
                         <span
                           style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                          className={`text-[8px] sm:text-[9px] font-bold rounded px-1 leading-tight ${
+                          className={`text-[7.5px] sm:text-[9px] font-bold rounded px-1 leading-tight ${
                             cell.isFirstOrFullMoon
                               ? "bg-[#DC2626] text-white shadow-sm font-black"
                               : cell.isSamHoi
@@ -1014,25 +1021,36 @@ export const CalendarSection: FC = () => {
 
                       {/* Phần giữa: LOGO BIỂU TƯỢNG TRỰC TIẾP TRÊN NỀN Ô + TOOLTIP 2 DÒNG GỌN GÀNG */}
                       {hasEvent ? (
-                        <div className="flex items-center justify-center gap-1.5 my-auto flex-wrap py-0.5">
+                        <div className="flex items-center justify-center gap-1 sm:gap-1.5 my-auto flex-wrap py-0.5">
                           {cell.events.map((ev, i) => {
                             const iconUrl = getEventCategoryIcon(ev.category);
-                            const subtitleText = ev.subtitle || ev.subTitle1 || '';
+                            const isMulti = !!ev.multiDayInfo;
+                            const isBoundaryDay =
+                              !isMulti ||
+                              ev.multiDayInfo?.isFirstDay ||
+                              ev.multiDayInfo?.isLastDay ||
+                              ev.multiDayInfo?.isChantingFinalDay;
 
                             return (
                               <div
                                 key={i}
-                                className="relative group/icon cursor-pointer transition-transform hover:scale-125 z-10 hover:z-50 p-0.5"
+                                className={`relative group/icon cursor-pointer transition-transform hover:scale-125 z-10 hover:z-50 ${
+                                  isBoundaryDay ? "p-0.5" : "p-0"
+                                }`}
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   setSelectedEvent(ev);
                                 }}
                               >
-                                {/* Logo Biểu Tượng Nằm Trực Tiếp Trên Nền Ô */}
+                                {/* Logo Biểu Tượng: Cân đối kích thước vừa vặn rõ ràng cho các ngày trong khóa tu */}
                                 <img
                                   src={iconUrl}
                                   alt={ev.title}
-                                  className="w-5 h-5 sm:w-6 sm:h-6 object-contain filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"
+                                  className={`${
+                                    isBoundaryDay
+                                      ? "w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]"
+                                      : "w-3.5 h-3.5 sm:w-4 sm:h-4 opacity-85 group-hover/icon:opacity-100 group-hover/icon:scale-125"
+                                  } object-contain`}
                                 />
 
                                 {/* Tooltip Gọn Gàng 2 Dòng: Sub-tiêu đề ở trên, Tiêu đề chính ở dưới */}
@@ -1418,6 +1436,38 @@ export const CalendarSection: FC = () => {
                   <ArrowRight className="w-4 h-4 text-[#F2C14E] group-hover/link:text-[#1A120B] transition-transform duration-300 group-hover/link:translate-x-1" />
                 </Link>
               </div>
+            </div>
+          </div>,
+          document.body
+        )}
+
+        {/* ── 4. POPUP XEM ẢNH QUOTE RÕ CHỮ TINH GỌN (CHỈ HIỂN THỊ ẢNH RÕ NÉT, NÚT X ĐÓNG VÀ ESC) ── */}
+        {mounted && isQuoteZoomOpen && createPortal(
+          <div
+            className="fixed inset-0 z-[9999] bg-black/92 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 animate-in fade-in duration-200 select-none cursor-zoom-out"
+            onClick={() => setIsQuoteZoomOpen(false)}
+          >
+            {/* Nút đóng X góc trên bên phải */}
+            <button
+              type="button"
+              onClick={() => setIsQuoteZoomOpen(false)}
+              className="fixed top-4 right-4 sm:top-6 sm:right-6 z-50 w-10 h-10 rounded-full bg-black/75 border border-[#F2C14E]/60 text-[#FFDE59] hover:bg-[#FFDE59] hover:text-[#1A120B] transition-all flex items-center justify-center cursor-pointer shadow-2xl backdrop-blur-sm group"
+              title="Đóng (ESC hoặc click ra ngoài)"
+              aria-label="Đóng xem ảnh"
+            >
+              <X className="w-5 h-5 transition-transform duration-200 group-hover:rotate-90" />
+            </button>
+
+            {/* Bức ảnh Quote độ phân giải gốc sắc nét, không bị che bởi bất kỳ thanh nút hay chú thích nào */}
+            <div
+              className="relative max-h-full max-w-full flex items-center justify-center cursor-default"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <img
+                src={selectedZoomQuote?.url || monthTheme.quoteImg || monthTheme.bannerImg}
+                alt={selectedZoomQuote?.title || monthTheme.quoteTitle || monthTheme.title || 'Quote tu học'}
+                className="max-h-[92vh] max-w-[94vw] w-auto h-auto object-contain rounded-2xl shadow-[0_25px_80px_rgba(0,0,0,0.95)] border border-[#F2C14E]/30 animate-in zoom-in-95 duration-200"
+              />
             </div>
           </div>,
           document.body

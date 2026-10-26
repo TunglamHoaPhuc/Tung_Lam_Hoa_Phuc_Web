@@ -1,0 +1,16 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "bradlc.vscode-tailwindcss",
+    "usernamehw.errorlens",
+    "yoavbls.pretty-ts-errors",
+    "prisma.prisma",
+    "formulahendry.auto-rename-tag",
+    "christian-kohler.path-intellisense",
+    "aaron-bond.better-comments",
+    "pkief.material-icon-theme",
+    "wix.vscode-import-cost",
+    "humao.rest-client"
+  ]
+}

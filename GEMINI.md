@@ -33,3 +33,10 @@ Mỗi khi AI thực thi lệnh hoặc build/chạy dev cho dự án, BẮT BUỘ
 - **Bảo Mật Thông Tin Bí Mật (Secrets & Credentials)**: Tuyệt đối không bao giờ làm lộ, log hoặc đẩy các file nhạy cảm (`.env.local`, API keys, S3/Backblaze credentials, DB passwords, Rclone tokens...) lên Git hoặc môi trường công khai.
 - **Phòng Chống Mất Mát Dữ Liệu (Data Integrity)**: Khi cập nhật các file dữ liệu cốt lõi (`tong-chi-data.json`, `posts-database.json`, `sach-an-pham-data.json`, `memorial-data.json`...), luôn xử lý an toàn, bảo toàn toàn vẹn các trường dữ liệu và nội dung hiện có, tuyệt đối không chạy lệnh xóa hủy diệt.
 - **Trách Nhiệm & Thận Trọng**: Sử dụng quyền tự chủ để tối ưu tốc độ và chất lượng cho dự án, luôn đặt tính ổn định, sự trang nghiêm và an toàn dữ liệu của Tùng Lâm Hòa Phúc lên hàng đầu.
+
+---
+
+## 🌐 6. QUY CHUẨN PHÁT TRIỂN FULLSTACK & QUALITY GATE
+- **Bộ Quy Tắc Fullstack**: Tuân thủ tuyệt đối các quy chuẩn chuyên sâu tại [fullstack-rules.md](file:///c:/Users/MY%20PC/Tung_Lam_Hoa_Phuc_Web/.agents/rules/fullstack-rules.md) (Ranh giới Server vs Client Components, phòng chống Hydration Error, Next/Image CLS Guard, chuẩn hóa Response REST API, Atomic File Write cho JSON database).
+- **Cổng Kiểm Soát Chất Lượng Bắt Buộc (Quality Gate)**: Sau mỗi lần thay đổi mã nguồn TypeScript/TSX, Agent BẮT BUỘC chạy `npx tsc --noEmit` để xác nhận 0 lỗi Type trước khi thông báo hoàn tất cho người dùng.
+

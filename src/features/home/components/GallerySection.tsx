@@ -139,7 +139,7 @@ export const GallerySection: FC = () => {
       {/* ══════════════════════════════════════════════════════
           1. SECTION CÁC KHU VỰC NỔI BẬT (Slider Tỉ Lệ Vàng Mở Rộng)
       ══════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden w-full">
+      <section className="relative overflow-visible w-full pt-2">
 
         {/* ── 1. Header Section ── */}
         <SectionHeader
@@ -211,12 +211,12 @@ export const GallerySection: FC = () => {
               <div className="w-[1px] h-8 md:h-10 bg-gradient-to-b from-transparent via-[#F2C14E]/60 to-transparent shrink-0 mx-1" />
 
               {/* Ô 2: Nội dung Tên & Mô Tả (Căn chính giữa tâm tuyệt đối) */}
-              <div className="flex-1 flex flex-col items-center justify-center text-center px-2 md:px-4 min-w-0">
+              <div className="flex-1 flex flex-col items-center justify-center text-center px-2 md:px-4 min-w-0 overflow-visible">
                 <h3
-                  className="text-lg sm:text-2xl md:text-3xl font-normal uppercase tracking-wider text-[#F2C14E] leading-tight truncate w-full"
+                  className="text-lg sm:text-2xl md:text-3xl font-normal uppercase tracking-wider text-[#F2C14E] leading-normal py-1 sm:py-1.5 w-full whitespace-nowrap overflow-visible"
                   style={{
                     fontFamily: "'UTM Niagara', 'Playfair Display', serif",
-                    textShadow: "0 0 16px rgba(242,193,78,0.5)",
+                    textShadow: "0 0 16px rgba(242,193,78,0.65), 0 0 32px rgba(242,193,78,0.35)",
                   }}
                 >
                   {currentArea.name}
@@ -278,7 +278,7 @@ export const GallerySection: FC = () => {
       {/* ══════════════════════════════════════════════════════
           2. SECTION CÁC BẢO TƯỢNG NỔI BẬT (Slider Tỉ Lệ Vàng & Thanh Chú Thích 4 Khoang)
       ══════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden w-full">
+      <section className="relative overflow-visible w-full pt-2">
         <SectionHeader
           title="CÁC BẢO TƯỢNG NỔI BẬT"
           iconUrl="/images/icons/icon-cac-bao-tuong-noi-bat.webp?v=2"
@@ -339,12 +339,12 @@ export const GallerySection: FC = () => {
               <div className="w-[1px] h-10 md:h-12 bg-gradient-to-b from-transparent via-[#F2C14E]/60 to-transparent shrink-0 mx-2" />
 
               {/* Khoang 2 (Tên Bảo Tượng - UTM Niagara): flex-1 px-2 md:px-4 text-center min-w-0 */}
-              <div className="flex-1 px-2 md:px-4 flex flex-col items-center justify-center text-center min-w-0">
+              <div className="flex-1 px-2 md:px-4 flex flex-col items-center justify-center text-center min-w-0 overflow-visible">
                 <h3
-                  className="text-lg sm:text-2xl md:text-3xl font-normal uppercase tracking-wider text-[#F2C14E] leading-tight truncate w-full"
+                  className="text-lg sm:text-2xl md:text-3xl font-normal uppercase tracking-wider text-[#F2C14E] leading-normal py-1 sm:py-1.5 w-full whitespace-nowrap overflow-visible"
                   style={{
                     fontFamily: "'UTM Niagara', 'Playfair Display', serif",
-                    textShadow: "0 0 16px rgba(242,193,78,0.5)",
+                    textShadow: "0 0 16px rgba(242,193,78,0.65), 0 0 32px rgba(242,193,78,0.35)",
                   }}
                 >
                   {currentStatue.name}

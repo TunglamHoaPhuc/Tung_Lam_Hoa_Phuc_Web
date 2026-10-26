@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
@@ -14,9 +14,31 @@ interface SectionCarouselProps {
 
 export function SectionCarousel({ section, dynamicBgImage }: SectionCarouselProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(true);
 
   // Ưu tiên 1: Ảnh động từ WP Taxonomy -> Ưu tiên 2: bgImage của Section -> Ưu tiên 3: bgWatermark
   const bgImage = getImageUrl(dynamicBgImage || section.bgImage || section.bgWatermark || '');
+
+  const checkScrollability = useCallback(() => {
+    if (scrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
+      setCanScrollLeft(scrollLeft > 10);
+      setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 10);
+    }
+  }, []);
+
+  useEffect(() => {
+    checkScrollability();
+    const t1 = setTimeout(checkScrollability, 150);
+    const t2 = setTimeout(checkScrollability, 600);
+    window.addEventListener('resize', checkScrollability);
+    return () => {
+      clearTimeout(t1);
+      clearTimeout(t2);
+      window.removeEventListener('resize', checkScrollability);
+    };
+  }, [section.cards, checkScrollability]);
 
   const handleScroll = (direction: 'left' | 'right') => {
     if (scrollRef.current) {
@@ -24,6 +46,7 @@ export function SectionCarousel({ section, dynamicBgImage }: SectionCarouselProp
         left: direction === 'left' ? -320 : 320,
         behavior: 'smooth',
       });
+      setTimeout(checkScrollability, 350);
     }
   };
 
@@ -73,11 +96,26 @@ export function SectionCarousel({ section, dynamicBgImage }: SectionCarouselProp
         </div>
       </div>
 
-      {/* SLIDER CARDS */}
-      <div
-        ref={scrollRef}
-        className="flex items-center gap-6 overflow-x-auto pb-4 pt-2 snap-x snap-mandatory scroll-smooth relative z-10 no-scrollbar"
-      >
+      {/* SLIDER CARDS WRAPPER VỚI HIỆU ỨNG GRADIENT MỀM MẠI */}
+      <div className="relative group/carousel">
+        {/* Gradient mờ viền phải làm dịu các slide đang chờ tiếp theo */}
+        <div
+          className={`pointer-events-none absolute right-0 top-0 bottom-4 w-28 sm:w-44 md:w-64 bg-gradient-to-l from-[#2c1c11] via-[#2c1c11]/85 to-transparent z-20 transition-opacity duration-300 rounded-r-xl ${
+            canScrollRight ? 'opacity-100' : 'opacity-0'
+          }`}
+        />
+        {/* Gradient mờ viền trái khi đã cuộn */}
+        <div
+          className={`pointer-events-none absolute left-0 top-0 bottom-4 w-16 sm:w-28 md:w-40 bg-gradient-to-r from-[#2c1c11] via-[#2c1c11]/85 to-transparent z-20 transition-opacity duration-300 rounded-l-xl ${
+            canScrollLeft ? 'opacity-100' : 'opacity-0'
+          }`}
+        />
+
+        <div
+          ref={scrollRef}
+          onScroll={checkScrollability}
+          className="flex items-center gap-6 overflow-x-auto pb-4 pt-2 snap-x snap-mandatory scroll-smooth relative z-10 no-scrollbar"
+        >
         {section.cards.map((card) => {
           const isExternal = card.link?.startsWith('http');
 
@@ -131,6 +169,7 @@ export function SectionCarousel({ section, dynamicBgImage }: SectionCarouselProp
             </Link>
           );
         })}
+        </div>
       </div>
     </section>
   );

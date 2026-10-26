@@ -3,9 +3,10 @@
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { Search, ChevronDown } from 'lucide-react';
-import { STATUE_ASSEMBLIES, STATUE_LIST, StatueItem } from '@/data/statue-data';
+import { STATUE_ASSEMBLIES, STATUE_LIST, THAT_PHAT_DUOC_SU_DATA, StatueItem } from '@/data/statue-data';
 import { SmartSearchAIBar } from '@/components/public/SmartSearchAIBar';
 import { CustomDropdown } from '@/components/common/CustomDropdown';
+import { getImageUrl } from '@/utils/image';
 
 function toSentenceCase(str?: string): string {
   if (!str) return '';
@@ -89,19 +90,29 @@ export default function BaoTuongPhatGiaoPage() {
     return STATUE_ASSEMBLIES.filter((asm) => asm.id !== 'all');
   }, [selectedAssembly]);
 
+  // Lấy ảnh tôn tượng tiêu biểu cho Header (ưu tiên tôn tượng đầu tiên hoặc Thất Phật Dược Sư)
+  const headerBgImage = getImageUrl(
+    STATUE_LIST[0]?.imgUrl ||
+    THAT_PHAT_DUOC_SU_DATA[0]?.imgUrl ||
+    'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/05-bao-tuong-phat-giao/chu_phat_hai_hoi/duc_phat_duoc_su/phat_duoc_su_luu_ly_quang_vuong_nhu_lai_tuong_chinh.webp'
+  );
+
   return (
     <div className="min-h-screen bg-[#2A1D14] text-[#e3d2c1] selection:bg-[#F2C14E] selection:text-black">
-      {/* ── 1. HERO BANNER VỚI GRADIENT BLUR NỐI DÀI ĐẾN SMART FILTER ── */}
+      {/* ── 1. HERO BANNER VỚI GRADIENT WATERMARK TÔNG PHONG TRUYỀN THỪA ── */}
       <div className="relative w-full overflow-hidden bg-[#2A1D14] pt-24 pb-8 md:pt-28 md:pb-10">
-        {/* Ảnh nền đằng sau mờ phủ gradient & giảm opacity nhẹ */}
-        <div
-          className="absolute inset-0 bg-cover bg-center opacity-30 md:opacity-35 blur-[2.5px] pointer-events-none scale-105"
-          style={{
-            backgroundImage: "url('/images/toan-canh-chua.jpg')",
-          }}
-        />
+        {/* Ảnh nền đằng sau mờ phủ gradient hòa quyện như Tông Phong Truyền Thừa */}
+        {headerBgImage && (
+          <div
+            className="absolute inset-0 bg-cover bg-center opacity-30 pointer-events-none mix-blend-luminosity [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_75%)]"
+            style={{
+              backgroundImage: `url('${headerBgImage}')`,
+              backgroundPosition: STATUE_LIST[0]?.imgPosition || 'center 20%',
+            }}
+          />
+        )}
         {/* Hiệu ứng gradient mờ mềm mại hòa vào nền nâu kéo dài đến bộ lọc */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#2A1D14]/45 via-[#2A1D14]/75 to-[#2A1D14] pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#2A1D14]/40 via-[#2A1D14]/70 to-[#2A1D14] pointer-events-none" />
 
         <div className="relative z-10 max-w-[1280px] mx-auto px-4 md:px-10 flex flex-col items-center justify-center text-center">
           <div className="w-10 h-10 rounded-full bg-[#3a2718] border border-[#f2cc8f]/40 flex items-center justify-center text-[#ffde59] mb-2 shadow-md">

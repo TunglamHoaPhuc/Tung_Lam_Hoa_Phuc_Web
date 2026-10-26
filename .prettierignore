@@ -1,0 +1,12 @@
+node_modules
+.next
+build
+out
+dist
+public
+drive_download
+generated
+scratch
+_host_pullback
+*.tsbuildinfo
+*.log
