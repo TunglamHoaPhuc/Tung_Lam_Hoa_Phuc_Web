@@ -196,14 +196,28 @@ export function getDisplaySubtitle(event?: { subtitle?: string; subTitle1?: stri
 }
 
 export const CalendarSection: FC = () => {
-  // Mặc định mở Tháng 10 Dương Lịch 2026 (Tương ứng Tháng 9 Âm Lịch Bính Ngọ - Học Hạnh Buông Xả)
-  const [activeDate, setActiveDate] = useState<Date>(new Date(2026, 9, 1));
+  // Ngày thực tế trên thiết bị người dùng (Đồng bộ thời gian thực khi Hydration)
+  const [clientRealToday, setClientRealToday] = useState<{ day: number; month: number; year: number } | null>(null);
+
+  // Mặc định khởi tạo mở Tháng & Năm hiện tại theo thời gian thực
+  const [activeDate, setActiveDate] = useState<Date>(() => {
+    const now = new Date();
+    return new Date(now.getFullYear(), now.getMonth(), 1);
+  });
   const [selectedEvent, setSelectedEvent] = useState<CalendarEvent | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>("Tất Cả");
   const [mounted, setMounted] = useState<boolean>(false);
 
   useEffect(() => {
     setMounted(true);
+    const now = new Date();
+    setClientRealToday({
+      day: now.getDate(),
+      month: now.getMonth(),
+      year: now.getFullYear(),
+    });
+    // Đảm bảo activeDate đồng bộ đúng tháng/năm thực tế tại máy người dùng khi vào trang
+    setActiveDate(new Date(now.getFullYear(), now.getMonth(), 1));
   }, []);
 
   // Khóa cuộn trang nền khi mở pop-up xem chi tiết thời khóa
@@ -883,7 +897,7 @@ export const CalendarSection: FC = () => {
                     style={{ fontFamily: "'UTM Avo', sans-serif" }}
                     className="text-[9px] sm:text-xs font-medium text-amber-200/90 whitespace-nowrap"
                   >
-                    Tháng {firstDayLunar.month === lastDayLunar.month ? firstDayLunar.month : `${firstDayLunar.month}-${lastDayLunar.month}`} ÂL Bính Ngọ
+                    Tháng {firstDayLunar.month === lastDayLunar.month ? firstDayLunar.month : `${firstDayLunar.month}-${lastDayLunar.month}`} ÂL {firstDayLunar.canChiYear || 'Bính Ngọ'}
                   </span>
                 </div>
               </div>
@@ -969,12 +983,13 @@ export const CalendarSection: FC = () => {
                   }
 
                   const hasEvent = cell.events.length > 0;
-                  // Khung viền vàng cố định ngày Hôm Nay (Realtime Today)
-                  const today = new Date();
+                  // Khung viền vàng cố định ngày Hôm Nay (Realtime Today từ đồng hồ thiết bị người dùng)
                   const isToday =
-                    cell.dayNumber === today.getDate() &&
-                    currentMonth === today.getMonth() &&
-                    currentYear === today.getFullYear();
+                    mounted &&
+                    clientRealToday !== null &&
+                    cell.dayNumber === clientRealToday.day &&
+                    currentMonth === clientRealToday.month &&
+                    currentYear === clientRealToday.year;
 
                   // Kiểm tra ô này có chứa khóa tu nhiều ngày không
                   const multiDayEvent = cell.events.find((e) => e.multiDayInfo);

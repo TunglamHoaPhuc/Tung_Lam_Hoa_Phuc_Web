@@ -359,8 +359,8 @@ export default function AdminSchedulePage() {
   const [quoteGallery, setQuoteGallery] = useState<Array<{ id: string; url: string; title?: string }>>([]);
 
   // Calendar view states
-  const [currentYear, setCurrentYear] = useState<number>(2026);
-  const [selectedMonthIdx, setSelectedMonthIdx] = useState<number>(7); // 0-indexed: 7 = Tháng 8
+  const [currentYear, setCurrentYear] = useState<number>(() => new Date().getFullYear());
+  const [selectedMonthIdx, setSelectedMonthIdx] = useState<number>(() => new Date().getMonth());
   const [isThemeCollapsed, setIsThemeCollapsed] = useState<boolean>(false);
   const [filterCategory, setFilterCategory] = useState<string>('Tất Cả');
 
