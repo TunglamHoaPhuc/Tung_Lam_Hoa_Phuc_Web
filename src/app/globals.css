@@ -344,3 +344,14 @@
   border-top: 1px solid rgba(242, 193, 78, 0.4) !important;
   margin: 1.5rem 0 !important;
 }
+
+/* Native <dialog> modal scroll containment & backdrop styling */
+dialog:modal {
+  overscroll-behavior: contain;
+}
+dialog::backdrop {
+  overflow: hidden;
+  overscroll-behavior: contain;
+  background-color: rgba(0, 0, 0, 0.78);
+  backdrop-filter: blur(4px);
+}

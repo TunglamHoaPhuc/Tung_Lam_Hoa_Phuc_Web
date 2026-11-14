@@ -21,6 +21,7 @@ import {
   Waves,
   Compass,
   Calendar,
+  QrCode,
 } from 'lucide-react';
 
 const NAV_ITEMS = [
@@ -56,6 +57,12 @@ const NAV_ITEMS = [
     name: 'Vũ Trụ Phật Giáo',
     href: '/admin/vu-tru-phat-giao',
     icon: Compass,
+  },
+  {
+    name: 'Bài Vị & Mã QR',
+    href: '/admin/memorials/danh-sach',
+    icon: QrCode,
+    badge: 'Tưởng Ân',
   },
   {
     name: 'Bảo Tượng Phật Giáo',
