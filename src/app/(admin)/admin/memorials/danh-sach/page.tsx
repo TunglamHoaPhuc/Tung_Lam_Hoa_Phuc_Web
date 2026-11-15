@@ -52,12 +52,12 @@ const SHEET_STATS_CONFIG = [
   { slug: 'phu-mau-xuat-gia', label: 'Phụ Mẫu X.Gia' },
 ];
 
+const PRODUCTION_SITE_ORIGIN = 'https://www.tunglamhoaphuc.com';
+
 function normalizeQrOrigin(raw: string): string {
   const trimmed = raw.trim();
-  if (!trimmed) return '';
-  const hasScheme = /^https?:\/\//i.test(trimmed);
-  const isLocalHost = /^(localhost|127\.|192\.168\.|10\.|172\.(1[6-9]|2\d|3[0-1])\.)/i.test(trimmed);
-  const candidate = hasScheme ? trimmed : `${isLocalHost ? 'http' : 'https'}://${trimmed}`;
+  if (!trimmed) return PRODUCTION_SITE_ORIGIN;
+  const candidate = /^https?:\/\//i.test(trimmed) ? trimmed : `https://${trimmed}`;
   try {
     const parsed = new URL(candidate);
     return parsed.origin;
@@ -81,8 +81,7 @@ export default function AdminMemorialsDanhSachPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [isSyncing, setIsSyncing] = useState(false);
 
-  const [baseOrigin, setBaseOrigin] = useState('https://tunglamhoaphuc.vn');
-  const [lanOrigins, setLanOrigins] = useState<string[]>([]);
+  const [baseOrigin, setBaseOrigin] = useState(PRODUCTION_SITE_ORIGIN);
   const [qrImages, setQrImages] = useState<Record<string, string>>({});
   const [copiedQrId, setCopiedQrId] = useState<string | null>(null);
 
@@ -98,9 +97,6 @@ export default function AdminMemorialsDanhSachPage() {
       const json = await res.json();
       if (json?.success && json.data) {
         setRecords(json.data.records || []);
-        if (Array.isArray(json.data.lanOrigins)) {
-          setLanOrigins(json.data.lanOrigins);
-        }
         if (json.data.meta) {
           setMeta(json.data.meta);
           setDriveUrlInput(json.data.meta.driveUrl || DEFAULT_MEMORIAL_DRIVE_URL);
@@ -116,7 +112,10 @@ export default function AdminMemorialsDanhSachPage() {
   useEffect(() => {
     fetchAdminData();
     if (typeof window !== 'undefined') {
-      setBaseOrigin(window.location.origin);
+      const host = window.location.hostname;
+      const isPublicDomain =
+        host.includes('.') && !host.endsWith('.local') && !/^\d+\.\d+\.\d+\.\d+$/.test(host);
+      setBaseOrigin(isPublicDomain ? window.location.origin : PRODUCTION_SITE_ORIGIN);
     }
   }, [fetchAdminData]);
 
@@ -210,7 +209,7 @@ export default function AdminMemorialsDanhSachPage() {
       const highResUrl = await QRCode.toDataURL(fullUrl, {
         width: 1000,
         margin: 2,
-        color: { dark: '#1C1008', light: '#FFFFFF' },
+        color: { dark: '#000000', light: '#FFFFFF' },
       });
       const a = document.createElement('a');
       a.href = highResUrl;
@@ -218,6 +217,116 @@ export default function AdminMemorialsDanhSachPage() {
       a.click();
     } catch {
       toast.error('Không thể tạo file ảnh QR.');
+    }
+  };
+
+  const handleDownloadA4Poster = async (preset: QrPreset) => {
+    const cleanOrigin = normalizeQrOrigin(baseOrigin);
+    const fullUrl = `${cleanOrigin}${preset.path}`;
+    try {
+      // A4 200 DPI (1654 x 2339 px) sắc nét cho in đen trắng
+      const W = 1654;
+      const H = 2339;
+      const canvas = document.createElement('canvas');
+      canvas.width = W;
+      canvas.height = H;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) throw new Error('Canvas unavailable');
+
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(0, 0, W, H);
+
+      // Khung viền kép trang nghiêm đen trắng
+      ctx.strokeStyle = '#000000';
+      ctx.lineWidth = 6;
+      ctx.strokeRect(72, 72, W - 144, H - 144);
+      ctx.lineWidth = 2;
+      ctx.strokeRect(92, 92, W - 184, H - 184);
+
+      ctx.fillStyle = '#000000';
+      ctx.textAlign = 'center';
+
+      // Eyebrow
+      ctx.font = 'bold 34px Arial, sans-serif';
+      ctx.fillText('TÙNG LÂM HÒA PHÚC', W / 2, 220);
+
+      // Đường kẻ mảnh
+      ctx.beginPath();
+      ctx.moveTo(W / 2 - 220, 255);
+      ctx.lineTo(W / 2 + 220, 255);
+      ctx.lineWidth = 3;
+      ctx.stroke();
+
+      // Tiêu đề chính
+      ctx.font = 'bold 78px Arial, sans-serif';
+      ctx.fillText('TRA CỨU MÃ SỐ BÀI VỊ', W / 2, 370);
+
+      // Phụ đề
+      ctx.font = '600 40px Arial, sans-serif';
+      ctx.fillText('Nhà Tứ Ân  •  Vãng Sinh Đường', W / 2, 445);
+
+      // Tạo ảnh QR sắc nét đặt chính giữa
+      const qrDataUrl = await QRCode.toDataURL(fullUrl, {
+        width: 920,
+        margin: 2,
+        errorCorrectionLevel: 'H',
+        color: { dark: '#000000', light: '#FFFFFF' },
+      });
+      const qrImg = new Image();
+      await new Promise<void>((resolve, reject) => {
+        qrImg.onload = () => resolve();
+        qrImg.onerror = () => reject(new Error('QR image load error'));
+        qrImg.src = qrDataUrl;
+      });
+
+      const qrSize = 860;
+      const qrX = (W - qrSize) / 2;
+      const qrY = 535;
+      ctx.lineWidth = 4;
+      ctx.strokeRect(qrX - 24, qrY - 24, qrSize + 48, qrSize + 48);
+      ctx.drawImage(qrImg, qrX, qrY, qrSize, qrSize);
+
+      ctx.font = 'bold 34px Arial, sans-serif';
+      ctx.fillText('QUÉT MÃ QR ĐỂ TRA CỨU TRÊN ĐIỆN THOẠI', W / 2, 1495);
+
+      // Khung hướng dẫn 3 bước đơn giản
+      const boxX = 165;
+      const boxY = 1565;
+      const boxW = W - 330;
+      const boxH = 470;
+      ctx.lineWidth = 3;
+      ctx.strokeRect(boxX, boxY, boxW, boxH);
+
+      ctx.font = 'bold 38px Arial, sans-serif';
+      ctx.fillText('HƯỚNG DẪN SỬ DỤNG', W / 2, boxY + 75);
+
+      ctx.textAlign = 'left';
+      const steps = [
+        'Bước 1: Mở Camera điện thoại hoặc ứng dụng Zalo → chọn quét mã QR phía trên.',
+        'Bước 2: Nhấn vào đường dẫn hiện lên trên màn hình điện thoại.',
+        'Bước 3: Gõ Tên hương linh, Tên dòng họ (Tổ tiên), Pháp danh hoặc',
+        '              4 số cuối SĐT người thân để xem ngay Mã số bài vị.',
+      ];
+      ctx.font = '32px Arial, sans-serif';
+      let sy = boxY + 150;
+      steps.forEach((line) => {
+        ctx.fillText(line, boxX + 55, sy);
+        sy += 68;
+      });
+
+      // Chân trang
+      ctx.textAlign = 'center';
+      ctx.font = '28px monospace';
+      ctx.fillText(fullUrl, W / 2, H - 190);
+      ctx.font = 'italic 30px Arial, sans-serif';
+      ctx.fillText('Hoan hỷ liên hệ Ban Tri Khách nếu cần hỗ trợ kiểm tra sổ gốc.', W / 2, H - 135);
+
+      const a = document.createElement('a');
+      a.href = canvas.toDataURL('image/png');
+      a.download = 'QR-Tra-Cuu-Bai-Vi-A4-Den-Trang.png';
+      a.click();
+    } catch {
+      toast.error('Không thể tạo bản in A4 đen trắng.');
     }
   };
 
@@ -401,42 +510,26 @@ export default function AdminMemorialsDanhSachPage() {
               <span>Mã QR Tra Cứu Toàn Chùa (Dùng Chung Tại Nhà Tưởng Ân)</span>
             </h2>
             <p className="text-xs text-[#c9b896] mt-0.5">
-              Chỉ cần 1 mã QR duy nhất để in dán tại Nhà Tưởng Ân — quét vào có thể tìm tất cả Nhà Tưởng Ân (Cá nhân, Tổ tiên, Phụ mẫu) &amp; Vãng Sinh Đường.
+              Chỉ cần 1 mã QR duy nhất để in dán tại Nhà Tứ Ân — quét vào có thể tìm tất cả khu vực Nhà Tứ Ân &amp; Vãng Sinh Đường.
             </p>
           </div>
 
-          <div className="flex flex-col items-start sm:items-end gap-1.5">
-            <div className="flex items-center gap-2">
-              <label htmlFor="qr-domain-input" className="text-xs text-[#c9b896] shrink-0">
-                Tên miền QR:
-              </label>
-              <input
-                id="qr-domain-input"
-                type="url"
-                value={baseOrigin}
-                onChange={(e) => setBaseOrigin(e.target.value)}
-                onBlur={() => {
-                  const normalized = normalizeQrOrigin(baseOrigin);
-                  if (normalized) setBaseOrigin(normalized);
-                }}
-                placeholder="https://tunglamhoaphuc.vn"
-                className="w-60 px-3 py-1.5 rounded-lg bg-[#120B06] border border-[#F2C14E]/35 text-xs text-[#FFE5A3] focus:outline-none focus:border-[#F2C14E]"
-              />
-            </div>
-            {lanOrigins.length > 0 && (
-              <div className="flex flex-wrap items-center gap-1.5">
-                {lanOrigins.map((lan) => (
-                  <button
-                    key={lan}
-                    type="button"
-                    onClick={() => setBaseOrigin(lan)}
-                    className="px-2.5 py-1 rounded-md border border-[#F2C14E]/30 bg-[#140B06] text-[11px] text-[#F2C14E] hover:bg-[#F2C14E]/15 transition-colors cursor-pointer"
-                  >
-                    Dùng link LAN test điện thoại: {lan}
-                  </button>
-                ))}
-              </div>
-            )}
+          <div className="flex items-center gap-2">
+            <label htmlFor="qr-domain-input" className="text-xs text-[#c9b896] shrink-0">
+              Tên miền QR:
+            </label>
+            <input
+              id="qr-domain-input"
+              type="url"
+              value={baseOrigin}
+              onChange={(e) => setBaseOrigin(e.target.value)}
+              onBlur={() => {
+                const normalized = normalizeQrOrigin(baseOrigin);
+                if (normalized) setBaseOrigin(normalized);
+              }}
+              placeholder="https://www.tunglamhoaphuc.com"
+              className="w-64 px-3 py-1.5 rounded-lg bg-[#120B06] border border-[#F2C14E]/35 text-xs text-[#FFE5A3] focus:outline-none focus:border-[#F2C14E]"
+            />
           </div>
         </div>
 
@@ -481,11 +574,19 @@ export default function AdminMemorialsDanhSachPage() {
                 <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2.5 pt-1">
                   <button
                     type="button"
-                    onClick={() => handleDownloadQrPng(preset)}
+                    onClick={() => handleDownloadA4Poster(preset)}
                     className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-[#F2C14E] text-[#1C1008] font-bold text-xs hover:brightness-110 transition-all cursor-pointer shadow"
                   >
                     <Download className="w-3.5 h-3.5" />
-                    <span>Tải ảnh QR (PNG 1000px)</span>
+                    <span>Tải bản in A4 đen trắng (PNG)</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleDownloadQrPng(preset)}
+                    className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl border border-[#F2C14E]/45 text-[#F2C14E] hover:bg-[#F2C14E]/15 font-semibold text-xs transition-all cursor-pointer"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    <span>Tải riêng mã QR</span>
                   </button>
                   <button
                     type="button"

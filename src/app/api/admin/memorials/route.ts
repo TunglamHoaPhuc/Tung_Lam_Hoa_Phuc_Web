@@ -1,5 +1,4 @@
-import os from 'node:os';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import {
@@ -28,31 +27,18 @@ const SyncBodySchema = z.object({
   driveUrl: z.string().optional(),
 });
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const [records, meta] = await Promise.all([
       getAllMemorialRecords(),
       getMemorialSyncMeta(),
     ]);
 
-    const port = request.nextUrl.port || process.env.PORT || '3000';
-    const lanOrigins: string[] = [];
-    const nets = os.networkInterfaces();
-    for (const entries of Object.values(nets)) {
-      for (const entry of entries ?? []) {
-        if (entry.family === 'IPv4' && !entry.internal) {
-          const portSuffix = port === '80' || port === '443' ? '' : `:${port}`;
-          lanOrigins.push(`http://${entry.address}${portSuffix}`);
-        }
-      }
-    }
-
     return NextResponse.json(
       {
         success: true,
         data: {
           records,
-          lanOrigins,
           meta: {
             ...meta,
             driveUrl: meta.driveUrl || DEFAULT_MEMORIAL_DRIVE_URL,
