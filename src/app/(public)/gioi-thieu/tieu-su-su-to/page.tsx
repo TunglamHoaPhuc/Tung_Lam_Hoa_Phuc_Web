@@ -1,5 +1,5 @@
 import { GIOI_THIEU_DETAILS } from '@/data/gioi-thieu-data';
-import { GioiThieuDetailLayout } from '@/components/gioi-thieu/GioiThieuDetailLayout';
+import { TieuSuSuToOdysseyView } from '@/components/gioi-thieu/TieuSuSuToOdysseyView';
 import { getTopics } from '@/app/api/admin/gioi-thieu/route';
 
 export const metadata = {
@@ -7,8 +7,7 @@ export const metadata = {
   description: 'Tóm tắt tiểu sử Cố Lão Hòa Thượng Ngộ Chân Tử, Sư tổ khai sơn Tông phong Hoằng Pháp, cuộc đời tu tập và đạo nghiệp cứu khổ nhân sinh.',
 };
 
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
+export const revalidate = 300;
 
 export default async function TieuSuSuToPage() {
   const fallback = GIOI_THIEU_DETAILS['tieu-su-su-to'];
@@ -16,13 +15,24 @@ export default async function TieuSuSuToPage() {
 
   try {
     const topics = await getTopics();
-    const live = topics.find((t) => t.slug === 'tieu-su-su-to' || t.id === 'gt-04');
+    const live = topics.find((t) => t.slug === 'tieu-su-su-to' || t.id === 'gt-05') as
+      | (typeof topics[number] & { updatedAt?: string })
+      | undefined;
     if (live) {
-      detail = { ...fallback, ...live };
+      const isLiveUpToDate =
+        Boolean(live.updatedAt && live.updatedAt >= '2026-11-17T00:00:00') ||
+        Boolean(live.content?.includes('Trần Quán'));
+      detail = isLiveUpToDate
+        ? { ...fallback, ...live }
+        : {
+            ...live,
+            ...fallback,
+            wpPostId: live.wpPostId ?? fallback.wpPostId,
+          };
     }
   } catch (err) {
-    console.warn('TieuSuSuToPage SSR load error:', err);
+    console.warn('TieuSuSuToPage ISR load error:', err);
   }
 
-  return <GioiThieuDetailLayout detail={detail} slug="tieu-su-su-to" />;
+  return <TieuSuSuToOdysseyView detail={detail} slug="tieu-su-su-to" />;
 }

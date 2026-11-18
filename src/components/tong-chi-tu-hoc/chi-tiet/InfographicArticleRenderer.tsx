@@ -829,6 +829,7 @@ function TamQuyDailyPracticesGrid() {
 // 🪷 Block Parser Data Structure
 type SectionElement =
   | { type: 'paragraph'; text: string }
+  | { type: 'list'; ordered: boolean; items: { marker: string; text: string }[] }
   | { type: 'poem'; stanzas: string[] }
   | { type: 'quote'; quote: string; quoteAuthor?: string }
   | { type: 'image'; src: string; caption?: string; alt?: string; align?: 'center' | 'left' | 'right' }
@@ -1359,10 +1360,6 @@ function parseSections(raw: string): { sections: SectionBlock[]; endQuote?: { te
       continue;
     }
 
-    // Kiểm tra xem đoạn này có phải là Thơ (Poem) không
-    const joinedText = filteredPLines.join('\n');
-    const isPoem = isPoemStanza(joinedText);
-
     if (!currentSection) {
       currentSection = {
         heading: '',
@@ -1371,18 +1368,59 @@ function parseSections(raw: string): { sections: SectionBlock[]; endQuote?: { te
       };
     }
 
-    if (isPoem) {
-      // Tách các khổ thơ nếu có
-      currentSection.elements.push({
-        type: 'poem',
-        stanzas: [joinedText],
+    const parseListMarker = (rawL: string): { ordered: boolean; marker: string; text: string } | null => {
+      const bulletMatch = rawL.match(/^\s*(?:[-•]|\*(?!\*))\s+(.+)$/);
+      if (bulletMatch) {
+        return { ordered: false, marker: '—', text: bulletMatch[1].trim() };
+      }
+      const numMatch = rawL.match(/^\s*(\d+[.)])\s+(.+)$/);
+      if (numMatch) {
+        return { ordered: true, marker: numMatch[1], text: numMatch[2].trim() };
+      }
+      return null;
+    };
+
+    // Tách sạch các khối danh sách (- / 1)) khỏi đoạn văn xuôi hoặc khổ thơ
+    let textChunk: string[] = [];
+    let listChunk: { ordered: boolean; items: { marker: string; text: string }[] } | null = null;
+
+    const flushTextChunk = () => {
+      if (textChunk.length === 0) return;
+      const joinedText = textChunk.join('\n');
+      if (isPoemStanza(joinedText)) {
+        currentSection!.elements.push({ type: 'poem', stanzas: [joinedText] });
+      } else {
+        currentSection!.elements.push({ type: 'paragraph', text: joinedText });
+      }
+      textChunk = [];
+    };
+
+    const flushListChunk = () => {
+      if (!listChunk || listChunk.items.length === 0) return;
+      currentSection!.elements.push({
+        type: 'list',
+        ordered: listChunk.ordered,
+        items: listChunk.items,
       });
-    } else {
-      currentSection.elements.push({
-        type: 'paragraph',
-        text: joinedText,
-      });
+      listChunk = null;
+    };
+
+    for (const rawLine of filteredPLines) {
+      const listHit = parseListMarker(rawLine);
+      if (listHit) {
+        flushTextChunk();
+        if (!listChunk || listChunk.ordered !== listHit.ordered) {
+          flushListChunk();
+          listChunk = { ordered: listHit.ordered, items: [] };
+        }
+        listChunk.items.push({ marker: listHit.marker, text: listHit.text });
+      } else {
+        flushListChunk();
+        textChunk.push(rawLine);
+      }
     }
+    flushListChunk();
+    flushTextChunk();
   }
 
   if (currentSection) {
@@ -1536,6 +1574,38 @@ export function InfographicArticleRenderer({
                 );
               }
 
+              // 🪷 RENDER DANH SÁCH GẠCH ĐẦU DÒNG / ĐÁNH SỐ (KHÔNG THỤT LỀ LỆCH, MỖI MỤC MỘT DÒNG RÕ RÀNG)
+              if (el.type === 'list') {
+                return (
+                  <ul
+                    key={elIdx}
+                    style={{ fontFamily: "'UTM Avo', sans-serif" }}
+                    className="my-4 space-y-3 pl-0 list-none"
+                  >
+                    {el.items.map((item, itemIdx) => (
+                      <li
+                        key={itemIdx}
+                        className="flex items-start gap-3 text-base sm:text-lg text-[#FFE5A3] leading-relaxed tracking-wide"
+                      >
+                        <span
+                          aria-hidden="true"
+                          className={
+                            el.ordered
+                              ? 'shrink-0 min-w-[1.75rem] pt-0.5 text-sm sm:text-base font-bold text-[#F2C14E] tabular-nums'
+                              : 'shrink-0 mt-[0.55rem] w-2 h-2 rotate-45 bg-[#F2C14E] shadow-[0_0_8px_rgba(242,193,78,0.55)]'
+                          }
+                        >
+                          {el.ordered ? item.marker : null}
+                        </span>
+                        <div className="flex-1 text-justify [text-align-last:left]">
+                          {highlightText(item.text, popups, onKeywordClick)}
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                );
+              }
+
               // 🪷 RENDER CÂU CHUYỂN TIẾP TRANG TRỌNG HOẶC ĐOẠN VĂN XUÔI
               const trimmed = el.text.trim();
               const isTransitionLeadIn =
@@ -1556,7 +1626,9 @@ export function InfographicArticleRenderer({
               }
 
               globalParagraphIndex++;
-              const isFirstParagraph = globalParagraphIndex === 1;
+              const prevEl = elIdx > 0 ? sec.elements[elIdx - 1] : null;
+              const isFirstParagraph = globalParagraphIndex === 1 && idx === 0;
+              const shouldIndent = prevEl?.type === 'paragraph';
 
               if (isFirstParagraph) {
                 return (
@@ -1574,7 +1646,9 @@ export function InfographicArticleRenderer({
                 <p
                   key={elIdx}
                   style={{ fontFamily: "'UTM Avo', sans-serif" }}
-                  className="text-base sm:text-lg text-[#FFE5A3] leading-relaxed md:leading-loose text-justify [text-align-last:left] tracking-wide whitespace-pre-line indent-6 sm:indent-8 my-4"
+                  className={`text-base sm:text-lg text-[#FFE5A3] leading-relaxed md:leading-loose text-justify [text-align-last:left] tracking-wide whitespace-pre-line my-4 ${
+                    shouldIndent ? 'indent-6 sm:indent-8' : ''
+                  }`}
                 >
                   {highlightText(el.text, popups, onKeywordClick)}
                 </p>
