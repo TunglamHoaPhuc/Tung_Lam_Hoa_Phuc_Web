@@ -231,7 +231,7 @@ const BASE_CHRONICLES: ChronicleChapter[] = [
     ],
     biographyDetails: [
       'Cố Lão Hòa Thượng Ngộ Chân Tử thế danh Trần Rinh, đản sinh ngày mùng 3 tháng 3 năm Tân Sửu (1901) tại thôn Cao Mại, xã Quang Hưng, huyện Kiến Xương, tỉnh Thái Bình. Thân phụ là cụ Trần Quán (gia phong Nho học, tu theo đạo Tam Giáo), thân mẫu là cụ Trần Thị Phược (Phật tử thuần thành quy y chùa La Cao).',
-      'Ngài là anh cả trong gia đình có năm anh em (3 trai, 2 gái) đều một lòng hướng Phật: em trai thứ hai là cụ Trần Đinh (xuất gia tu học tại Hải Phòng), em trai thứ ba là cụ Trần Văn (giữ hương hỏa gia đình và trường trai trọn đời), hai em gái út là bà Trần Thị Nhàn và bà Trần Thị Thanh (tu hành thanh tịnh tại gia). Năm 13 tuổi, Ngài sang chùa La Cao học đạo cùng Sư tổ Quang Huy.',
+      'Ngài là anh cả trong gia đình có năm anh em (3 trai, 2 gái) đều một lòng hướng Phật: em trai thứ hai là cụ Trần Đinh (xuất gia tu học tại Hải Phòng), em trai thứ ba là cụ Trần Văn (giữ hương hỏa gia đình và trường trai trọn đời), hai em gái út là bà Trần Thị Nhàn và bà Trần Thị Thanh (tu hành thanh tịnh tại gia). Năm 13 tuổi, Ngài sang chùa La Cao học đạo cùng Sư tổ Quang Huy (dân gian kính gọi là Cụ Giáo Chức).',
     ],
     vowTitle: 'CĂN LÀNH TÚC DUYÊN',
     vowDetails: [
@@ -244,8 +244,8 @@ const BASE_CHRONICLES: ChronicleChapter[] = [
     shortLabel: '1919',
     year: 'Năm 1919 (08/02 Kỷ Mùi)',
     headline: 'XUẤT GIA, THỌ QUY GIỚI & ĐẮC PHÁP',
-    location: 'Chùa La Cao • Chùa Bà Đá (Hà Nội) • Yên Tử',
-    keyVirtue: 'Tập sự, xuất gia tu học, thọ Quy giới & tham học cùng Thầy',
+    location: 'Chùa La Cao • Yên Tử • Chùa Bà Đá (Hà Nội)',
+    keyVirtue: 'Thụ học Sư Tổ Quang Huy, gặp Tôn Sư Hư Không Tử thọ Quy giới',
     legacyMark: 'Tôn sư Hư Không Tử ban hiệu Ngộ Chân Tử',
     medallionImage: IMG_QUY_GIOI_1919,
     backdropImage: IMG_QUY_GIOI_1919,
@@ -257,12 +257,12 @@ const BASE_CHRONICLES: ChronicleChapter[] = [
       },
       {
         url: IMG_SU_TO_QUANG_HUY,
-        caption: 'Minh họa Sư Tổ Quang Huy — vị Tôn sư đầu tiên dìu dắt Ngài vào cửa Phật tại chùa La Cao',
+        caption: 'Minh họa Sư Tổ Quang Huy (Cụ Giáo Chức) — vị Tôn sư đầu tiên dìu dắt Ngài tại chùa La Cao và giới thiệu ra Yên Tử',
         objectPosition: 'center 22%',
       },
       {
         url: YT_HU_KHONG_TU_DAM_DAO,
-        caption: 'Tư liệu phim: Sư Tổ tham học đạo pháp cùng Tôn sư Hư Không Tử',
+        caption: 'Tư liệu phim: Tôn sư Hư Không Tử — bậc chân tu du hóa tha phương hành hạnh Độc giác, cảm hóa Sư Tổ Ngộ Chân Tử',
         objectPosition: 'center center',
       },
       {
@@ -272,8 +272,8 @@ const BASE_CHRONICLES: ChronicleChapter[] = [
       },
     ],
     biographyDetails: [
-      'Từ năm 13 tuổi được Sư tổ Quang Huy dìu dắt tại chùa La Cao; đến ngày mùng 8 tháng 2 năm Kỷ Mùi (1919), Ngài hội ngộ Tôn sư Hư Không Tử và được chính thức trao truyền quy giới cùng pháp danh Ngộ Chân Tử.',
-      'Ngài đắc pháp với Cụ Tổ chùa Bà Đá (Hà Nội), đồng thời theo Thầy hành cước chiêm bái các danh lam cổ tự và tham học tại chốn tổ linh thiêng như Yên Tử, Côn Sơn, Hương Tích.',
+      'Năm 13 tuổi, Ngài được diện kiến Sư tổ Quang Huy (nhân dân Thái Bình kính gọi là Cụ Giáo Chức) — bậc uy đức tu theo môn phái Đại Đạo dung hợp Tam Giáo tại chùa La Cao. Sư tổ Quang Huy đã hướng đạo cho Ngài chuyển sang nghiên cứu Phật học và giới thiệu Ngài ra chùa Yên Tử tu tập.',
+      'Sau thời gian tầm sư học đạo, Ngài gặp được Tôn sư Hư Không Tử — bậc chân tu thoát tục thường du hóa tha phương theo hạnh Độc giác, chuyên giảng kinh hóa độ quần mê. Cảm mến lời giảng thanh thoát cùng dung mạo uy nghiêm của Tôn sư, vào ngày 08/02 năm Kỷ Mùi (1919), Ngài được trao truyền quy giới với pháp danh Ngộ Chân Tử, rồi đắc pháp với Cụ Tổ chùa Bà Đá (Hà Nội) và chiêm bái Yên Tử, Côn Sơn, Hương Tích.',
     ],
     vowTitle: 'SƠ TÂM KIÊN CỐ',
     vowDetails: [
