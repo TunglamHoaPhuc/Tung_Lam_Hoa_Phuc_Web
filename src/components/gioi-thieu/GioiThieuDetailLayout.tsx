@@ -3,8 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import Header from '@/components/public/layout/Header';
-import Footer from '@/components/public/layout/Footer';
 import { SmartSearchAIBar } from '@/components/public/SmartSearchAIBar';
 import { ArrowLeft, ArrowRight, Calendar, Sparkles, Scroll, Landmark, User, HeartHandshake, BookOpen } from 'lucide-react';
 import { GioiThieuTopicDetail, GIOI_THIEU_DETAILS } from '@/data/gioi-thieu-data';
@@ -52,9 +50,7 @@ export function GioiThieuDetailLayout({ detail: initialDetail, slug }: Props) {
 
   return (
     <div className="min-h-screen bg-[#2A1D14] text-[#e3d2c1] selection:bg-[#F2C14E] selection:text-black flex flex-col justify-between">
-      <Header scrolled={true} />
-
-      <main className="flex-1 pb-16 pt-20">
+      <div className="flex-1 pb-16 pt-20">
         {/* ── HERO BANNER TOP ── */}
         <div className="relative w-full overflow-hidden bg-[#2A1D14] pt-12 pb-14 border-b border-[#F2C14E]/20">
           <div
@@ -292,9 +288,7 @@ export function GioiThieuDetailLayout({ detail: initialDetail, slug }: Props) {
             <SmartSearchAIBar contextTitle={`Tra cứu về ${topic.title}`} />
           </div>
         </div>
-      </main>
-
-      <Footer />
+      </div>
     </div>
   );
 }

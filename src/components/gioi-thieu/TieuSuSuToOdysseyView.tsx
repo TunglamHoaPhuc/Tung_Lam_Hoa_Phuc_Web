@@ -4,8 +4,6 @@ import React, { useState, useEffect, useRef, useMemo, useCallback } from 'react'
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import Header from '@/components/public/layout/Header';
-import Footer from '@/components/public/layout/Footer';
 import { SmartSearchAIBar } from '@/components/public/SmartSearchAIBar';
 import { SuToKaraokeReader } from './SuToKaraokeReader';
 import { GioiThieuTopicDetail, GIOI_THIEU_DETAILS } from '@/data/gioi-thieu-data';
@@ -706,6 +704,13 @@ export function TieuSuSuToOdysseyView({ detail: initialDetail, slug }: Props) {
     return () => document.removeEventListener('fullscreenchange', onFsChange);
   }, []);
 
+  useEffect(() => {
+    document.body.classList.toggle('odyssey-led-fullscreen', isLedMode);
+    return () => {
+      document.body.classList.remove('odyssey-led-fullscreen');
+    };
+  }, [isLedMode]);
+
   const handleToggleFullscreen = useCallback(async () => {
     try {
       if (!document.fullscreenElement) {
@@ -1340,8 +1345,6 @@ export function TieuSuSuToOdysseyView({ detail: initialDetail, slug }: Props) {
         isLedMode ? 'odyssey-led-mode' : ''
       }`}
     >
-      {!isLedMode && <Header scrolled={true} />}
-
       {/* ── FLOATING EVENT ACTION BAR (TRÌNH CHIẾU LED & MÃ QR SỰ KIỆN) ── */}
       {!isLedMode && (
         <div className="fixed bottom-4 left-4 z-40 hidden md:flex items-center gap-2">
@@ -1402,7 +1405,7 @@ export function TieuSuSuToOdysseyView({ detail: initialDetail, slug }: Props) {
         })}
       </nav>
 
-      <main className="flex-1 overflow-x-clip">
+      <div className="flex-1 overflow-x-clip">
         {/* ══════════════════════════════════════════════════════════════════════
             SECTION 0: PINNED 100DVH HERO VIEWPORT (BẢO TƯỢNG PHẬT GIÁO STYLE)
            ══════════════════════════════════════════════════════════════════════ */}
@@ -2654,9 +2657,7 @@ export function TieuSuSuToOdysseyView({ detail: initialDetail, slug }: Props) {
             )}
           </div>
         </section>
-      </main>
-
-      {!isLedMode && <Footer />}
+      </div>
 
       {/* ── ACCESSIBLE NATIVE <DIALOG>: EVENT QR & SHARE KIT ── */}
       <OdysseyNativeDialog
