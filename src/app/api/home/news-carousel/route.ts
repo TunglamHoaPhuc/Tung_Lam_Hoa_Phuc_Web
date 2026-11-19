@@ -3,13 +3,17 @@ import { loadServerlessJsonAsync } from '@/lib/serverless-db';
 import { getDeletedPostsAsync } from '@/lib/deleted-posts';
 import { PostRecord, SPECIAL_GIOI_THIEU_WP_IDS, SPECIAL_TONG_CHI_WP_IDS } from '@/app/api/admin/posts/route';
 import { StatueRecord, OFFICIAL_STATUE_DATASET } from '@/data/statue-data';
+import { getTopics } from '@/app/api/admin/gioi-thieu/route';
+
+const SU_TO_FALLBACK_IMG =
+  'https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/su-to-ngo-chan-tu/hinh-su-to-final-19d1002.webp';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export interface CarouselNewsItem {
   id: string;
-  sourceType: 'posts' | 'tong-chi' | 'bao-tuong' | 'tri-tue-phat-phap';
+  sourceType: 'posts' | 'tong-chi' | 'bao-tuong' | 'tri-tue-phat-phap' | 'gioi-thieu';
   category: string;
   subCategory?: string;
   iconUrl: string;
@@ -151,6 +155,29 @@ export async function GET() {
     });
 
     const result: CarouselNewsItem[] = [];
+
+    // ── 2·0. SLOT GHIM: TIỂU SỬ SƯ TỔ NGỘ CHÂN TỬ (bản thiết kế Odyssey /gioi-thieu/tieu-su-su-to) ──
+    // Luôn ghim ở vị trí đầu tiên mục "Tin Mới Nhất" trên Trang Chủ, đọc tiêu đề/ảnh trực tiếp từ dữ liệu Giới Thiệu.
+    try {
+      const topics = await getTopics();
+      const suTo = (topics || []).find((t) => t.slug === 'tieu-su-su-to');
+      result.push({
+        id: 'gioi-thieu-tieu-su-su-to',
+        sourceType: 'gioi-thieu',
+        category: 'Tiểu Sử Sư Tổ',
+        subCategory: 'tieu-su-su-to',
+        iconUrl: getIconForCategory('tong-chi-tu-hoc'),
+        title: (suTo?.title || 'TIỂU SỬ SƯ TỔ NGỘ CHÂN TỬ').toUpperCase(),
+        subtitle:
+          suTo?.subtitle ||
+          'Sư tổ khai sơn Tông phong Hoằng Pháp (1901 – 1988) – Ngọn đèn Tịnh Độ và tấm lòng Bồ Tát cứu khổ nhân gian',
+        imgUrl: suTo?.heroBanner || SU_TO_FALLBACK_IMG,
+        imgPosition: suTo?.heroBannerPosition || 'center 20%',
+        targetUrl: '/gioi-thieu/tieu-su-su-to',
+      });
+    } catch (e) {
+      console.error('[API /api/home/news-carousel] Không đọc được Tiểu Sử Sư Tổ:', e);
+    }
 
     // ── 2A. SLOT 1: BÀI VIẾT MỚI NHẤT VỪA ĐƯỢC TẠO HOẶC CẬP NHẬT TRÊN HỆ THỐNG ADMIN ──
     // Đảm bảo hiển thị ngay lập tức bài mới nhất ở vị trí trung tâm chính diện của Trang Chủ

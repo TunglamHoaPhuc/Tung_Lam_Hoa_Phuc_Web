@@ -18,6 +18,16 @@ interface NewsItem {
 
 const INITIAL_NEWS_DATA: NewsItem[] = [
   {
+    id: "gioi-thieu-tieu-su-su-to",
+    category: "Tiểu Sử Sư Tổ",
+    iconUrl: "/images/icons/icon-tong-chi-tu-hoc.webp",
+    title: "TIỂU SỬ SƯ TỔ NGỘ CHÂN TỬ",
+    subtitle: "Sư tổ khai sơn Tông phong Hoằng Pháp (1901 – 1988) – Ngọn đèn Tịnh Độ và tấm lòng Bồ Tát cứu khổ nhân gian",
+    imgUrl: "https://media-tunglamhoaphuc.s3.us-east-005.backblazeb2.com/tunglamhoaphuc2/07-anh-tho-cac-vi-cao-tang/su-to-ngo-chan-tu/hinh-su-to-final-19d1002.webp",
+    targetUrl: "/gioi-thieu/tieu-su-su-to",
+    imgPosition: "center 20%",
+  },
+  {
     id: "post-1060",
     category: "Khóa Lễ Truyền Thống",
     iconUrl: "/images/icons/icon-khoa-le-truyen-thong.png",
