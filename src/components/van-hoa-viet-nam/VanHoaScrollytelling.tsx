@@ -140,10 +140,12 @@ function BalancedTitleLockup({
     };
   }, [top, sub, size]);
 
+  // UTMNiagara.ttf has tall stacked Vietnamese diacritics (ascent 2093 / upm 2048 -> natural 1.30em).
+  // Keep line-height >= 1.30 + top breathing room so overflow containers never slice off Ễ, Ổ, Ế, Ề, Ể, Ấ, Ắ...
   const topSizeClass =
     size === 'intro'
-      ? 'text-[2.75rem] sm:text-[4.25rem] lg:text-[5.25rem] leading-[1.02]'
-      : 'text-[2.35rem] sm:text-[3.25rem] lg:text-[3.95rem] leading-[1.02]';
+      ? 'text-[2.75rem] sm:text-[4.25rem] lg:text-[5.25rem] leading-[1.32] pt-[0.12em]'
+      : 'text-[2.35rem] sm:text-[3.25rem] lg:text-[3.95rem] leading-[1.32] pt-[0.12em]';
 
   const subSizeClass =
     size === 'intro'
@@ -222,7 +224,7 @@ function BalancedTitleLockup({
       </h1>
 
       <p
-        className={`mt-1.5 font-['UTM_ClassizismAntiqua',serif] uppercase text-[#F4D99B] drop-shadow-[0_3px_14px_rgba(0,0,0,0.92)] ${subSizeClass} ${
+        className={`mt-0.5 font-['UTM_ClassizismAntiqua',serif] uppercase text-[#F4D99B] drop-shadow-[0_3px_14px_rgba(0,0,0,0.92)] ${subSizeClass} ${
           canKeepSingleLine ? 'whitespace-nowrap' : ''
         }`}
         style={
@@ -1145,7 +1147,7 @@ export default function VanHoaScrollytelling() {
              DEDICATED FINAL HUB SLIDE: 3 IN-WEB POPUPS (Sách · YouTube · Toàn Văn)
              ===================================================================== */
           <section
-            className={`vh-no-scrollbar w-full max-w-5xl max-h-[76dvh] overflow-y-auto overflow-x-hidden px-1 py-2 transition-opacity duration-[240ms] ${
+            className={`vh-no-scrollbar w-full max-w-5xl max-h-[76dvh] overflow-y-auto overflow-x-hidden px-1 pt-4 pb-2 transition-opacity duration-[240ms] ${
               textFadePhase === 'out-all' ? 'opacity-0' : 'opacity-100'
             }`}
           >
@@ -1274,7 +1276,7 @@ export default function VanHoaScrollytelling() {
           </section>
         ) : (
           <article
-            className={`vh-no-scrollbar w-full lg:w-[46%] xl:w-[45%] max-h-[54dvh] lg:max-h-[76dvh] overflow-y-auto overflow-x-hidden pr-5 lg:pr-1 pb-1 transition-opacity duration-[240ms] ${
+            className={`vh-no-scrollbar w-full lg:w-[46%] xl:w-[45%] max-h-[54dvh] lg:max-h-[76dvh] overflow-y-auto overflow-x-hidden pt-3 sm:pt-4 pr-5 lg:pr-1 pb-1 transition-opacity duration-[240ms] ${
               textFadePhase === 'out-all' ? 'opacity-0' : 'opacity-100'
             } ${isTextOnRightDesktop ? 'lg:text-right' : 'text-left'}`}
           >
@@ -1532,9 +1534,9 @@ export default function VanHoaScrollytelling() {
               </p>
               <h2
                 id="vh-directory-title"
-                className="font-['UTM_Niagara',serif] text-3xl text-[#FFE5A3] mt-0.5"
+                className="font-['UTM_Niagara',serif] text-3xl leading-[1.32] pt-1 text-[#FFE5A3] mt-0.5"
               >
-                Văn Hóa Soi Đường — Đạo Sáng Non Sông
+                Văn Hóa Soi Đường, Đạo Sáng Non Sông
               </h2>
             </div>
             <form method="dialog">
@@ -1617,8 +1619,8 @@ export default function VanHoaScrollytelling() {
               <p className="font-['UTM_ClassizismAntiqua',serif] text-xs uppercase tracking-[0.2em] text-[#D9B66B]">
                 Toàn Văn Bài Viết · Ngày Văn Hóa Việt Nam 24/11
               </p>
-              <h2 id="vh-reader-title" className="font-['UTM_Niagara',serif] text-3xl text-[#FFE5A3]">
-                Văn Hóa Soi Đường — Đạo Sáng Non Sông
+              <h2 id="vh-reader-title" className="font-['UTM_Niagara',serif] text-3xl leading-[1.32] pt-1 text-[#FFE5A3]">
+                Văn Hóa Soi Đường, Đạo Sáng Non Sông
               </h2>
             </div>
             <form method="dialog">
@@ -1756,7 +1758,7 @@ export default function VanHoaScrollytelling() {
               </p>
               <h2
                 id="vh-youtube-title"
-                className="font-['UTM_Niagara',serif] text-2xl sm:text-3xl text-[#FFE5A3] truncate"
+                className="font-['UTM_Niagara',serif] text-2xl sm:text-3xl leading-[1.32] pt-1 text-[#FFE5A3] truncate"
               >
                 {MUSEUM_YOUTUBE_VIDEO.title}
               </h2>
@@ -1816,7 +1818,7 @@ export default function VanHoaScrollytelling() {
               </p>
               <h2
                 id="vh-book-title"
-                className="font-['UTM_Niagara',serif] text-2xl sm:text-3xl text-[#FFE5A3]"
+                className="font-['UTM_Niagara',serif] text-2xl sm:text-3xl leading-[1.32] pt-1 text-[#FFE5A3]"
               >
                 {REFERENCE_BOOK.title}
               </h2>
