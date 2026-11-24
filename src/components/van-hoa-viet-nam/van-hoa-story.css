@@ -1,0 +1,383 @@
+/* Full-Frame Uncropped Cinema Scrollytelling Styles · Tùng Lâm Hòa Phúc Brand Guideline */
+
+.vh-stage-bg {
+  background: #0a0806;
+}
+
+/* Native <dialog> modal scroll containment (modern-web-guidance: dialog) */
+dialog.vh-modal-dialog:modal {
+  overscroll-behavior: contain;
+  margin: auto;
+  max-width: min(920px, calc(100vw - 2rem));
+  max-height: calc(100dvh - 2.5rem);
+  border: none;
+  padding: 0;
+  background: transparent;
+}
+
+dialog.vh-modal-dialog::backdrop {
+  background: rgba(8, 6, 4, 0.86);
+  backdrop-filter: blur(16px);
+  overflow: hidden;
+  overscroll-behavior: contain;
+}
+
+/* =========================================================================
+   EXACT-FIT UNCROPPED PHOTO FRAME + 4-EDGE & CORNER FEATHERED MIST MASKS
+   - Uses CSS container queries (container-type: size) so the frame shrinks
+     to the EXACT aspect ratio of the photo (zero cropping, zero letterbox)
+   - Feathered gradient mask applies directly to all 4 edges & 4 corners
+     of the photo itself so NO hard border or corner is ever visible!
+   ========================================================================= */
+
+.vh-photo-stage-box {
+  container-type: size;
+}
+
+.vh-exact-fit-frame {
+  position: relative;
+  width: min(100cqw, calc(100cqh * var(--img-ratio, 1)));
+  height: min(100cqh, calc(100cqw / var(--img-ratio, 1)));
+}
+
+/* Soft mist dissolve on all 4 edges + rounded corner falloff (general / mobile / landscape) */
+.vh-feather-photo-all {
+  -webkit-mask-image:
+    linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(0, 0, 0, 0.35) 6%,
+      rgba(0, 0, 0, 0.85) 14%,
+      black 22%,
+      black 78%,
+      rgba(0, 0, 0, 0.85) 86%,
+      rgba(0, 0, 0, 0.35) 94%,
+      transparent 100%
+    ),
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(0, 0, 0, 0.35) 6%,
+      rgba(0, 0, 0, 0.85) 14%,
+      black 22%,
+      black 78%,
+      rgba(0, 0, 0, 0.85) 86%,
+      rgba(0, 0, 0, 0.35) 94%,
+      transparent 100%
+    );
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(0, 0, 0, 0.35) 6%,
+      rgba(0, 0, 0, 0.85) 14%,
+      black 22%,
+      black 78%,
+      rgba(0, 0, 0, 0.85) 86%,
+      rgba(0, 0, 0, 0.35) 94%,
+      transparent 100%
+    ),
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(0, 0, 0, 0.35) 6%,
+      rgba(0, 0, 0, 0.85) 14%,
+      black 22%,
+      black 78%,
+      rgba(0, 0, 0, 0.85) 86%,
+      rgba(0, 0, 0, 0.35) 94%,
+      transparent 100%
+    );
+  mask-composite: intersect;
+}
+
+/* Desktop Portrait anchored RIGHT: deep soft dissolve on inner left + gentle mist on top/bottom/right */
+.vh-feather-photo-right {
+  -webkit-mask-image:
+    linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(0, 0, 0, 0.35) 10%,
+      rgba(0, 0, 0, 0.85) 20%,
+      black 30%,
+      black 82%,
+      rgba(0, 0, 0, 0.45) 93%,
+      transparent 100%
+    ),
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(0, 0, 0, 0.45) 6%,
+      black 15%,
+      black 84%,
+      rgba(0, 0, 0, 0.45) 94%,
+      transparent 100%
+    );
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(
+      to right,
+      transparent 0%,
+      rgba(0, 0, 0, 0.35) 10%,
+      rgba(0, 0, 0, 0.85) 20%,
+      black 30%,
+      black 82%,
+      rgba(0, 0, 0, 0.45) 93%,
+      transparent 100%
+    ),
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(0, 0, 0, 0.45) 6%,
+      black 15%,
+      black 84%,
+      rgba(0, 0, 0, 0.45) 94%,
+      transparent 100%
+    );
+  mask-composite: intersect;
+}
+
+/* Desktop Portrait anchored LEFT: deep soft dissolve on inner right + gentle mist on top/bottom/left */
+.vh-feather-photo-left {
+  -webkit-mask-image:
+    linear-gradient(
+      to left,
+      transparent 0%,
+      rgba(0, 0, 0, 0.35) 10%,
+      rgba(0, 0, 0, 0.85) 20%,
+      black 30%,
+      black 82%,
+      rgba(0, 0, 0, 0.45) 93%,
+      transparent 100%
+    ),
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(0, 0, 0, 0.45) 6%,
+      black 15%,
+      black 84%,
+      rgba(0, 0, 0, 0.45) 94%,
+      transparent 100%
+    );
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(
+      to left,
+      transparent 0%,
+      rgba(0, 0, 0, 0.35) 10%,
+      rgba(0, 0, 0, 0.85) 20%,
+      black 30%,
+      black 82%,
+      rgba(0, 0, 0, 0.45) 93%,
+      transparent 100%
+    ),
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(0, 0, 0, 0.45) 6%,
+      black 15%,
+      black 84%,
+      rgba(0, 0, 0, 0.45) 94%,
+      transparent 100%
+    );
+  mask-composite: intersect;
+}
+
+/* Mobile Portrait Reading Scrim: keeps top statue clear while lifting text legibility cleanly at bottom */
+.vh-scrim-mobile-portrait {
+  background: linear-gradient(
+    180deg,
+    rgba(10, 8, 6, 0.72) 0%,
+    rgba(10, 8, 6, 0.14) 18%,
+    rgba(10, 8, 6, 0.18) 38%,
+    rgba(10, 8, 6, 0.74) 56%,
+    rgba(10, 8, 6, 0.93) 74%,
+    rgba(10, 8, 6, 0.98) 100%
+  );
+}
+
+/* Mobile Landscape Reading Scrim: crisp obsidian reading canvas rising below the uncropped landscape photo */
+.vh-scrim-mobile-landscape {
+  background: linear-gradient(
+    180deg,
+    rgba(10, 8, 6, 0.76) 0%,
+    rgba(10, 8, 6, 0.12) 14%,
+    rgba(10, 8, 6, 0.14) 38%,
+    rgba(10, 8, 6, 0.85) 50%,
+    rgba(10, 8, 6, 0.97) 66%,
+    rgba(10, 8, 6, 1) 100%
+  );
+}
+
+/* Desktop Scrim — Text on LEFT, artwork breathing on RIGHT */
+.vh-scrim-desktop-text-left {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(10, 8, 6, 0.94) 0%,
+      rgba(10, 8, 6, 0.84) 38%,
+      rgba(10, 8, 6, 0.42) 58%,
+      rgba(10, 8, 6, 0.08) 78%,
+      rgba(10, 8, 6, 0.12) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(10, 8, 6, 0.56) 0%,
+      rgba(10, 8, 6, 0) 18%,
+      rgba(10, 8, 6, 0) 80%,
+      rgba(10, 8, 6, 0.86) 100%
+    );
+}
+
+/* Desktop Scrim — Text on RIGHT, artwork breathing on LEFT */
+.vh-scrim-desktop-text-right {
+  background:
+    linear-gradient(
+      270deg,
+      rgba(10, 8, 6, 0.94) 0%,
+      rgba(10, 8, 6, 0.84) 38%,
+      rgba(10, 8, 6, 0.42) 58%,
+      rgba(10, 8, 6, 0.08) 78%,
+      rgba(10, 8, 6, 0.12) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(10, 8, 6, 0.56) 0%,
+      rgba(10, 8, 6, 0) 18%,
+      rgba(10, 8, 6, 0) 80%,
+      rgba(10, 8, 6, 0.86) 100%
+    );
+}
+
+/* Glassmorphic Bottom Nav Pill */
+.vh-nav-pill {
+  background: rgba(16, 12, 9, 0.54);
+  backdrop-filter: blur(22px) saturate(125%);
+  -webkit-backdrop-filter: blur(22px) saturate(125%);
+  border: 1px solid rgba(242, 193, 78, 0.22);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.6);
+}
+
+/* Orb glow on the horizontal beat track */
+.vh-nav-orb {
+  background: radial-gradient(circle at 35% 35%, #fff6d6 0%, #f2c14e 55%, #b45309 100%);
+  box-shadow: 0 0 14px rgba(242, 193, 78, 0.88), 0 0 4px rgba(255, 246, 214, 0.92);
+}
+
+/* =========================================================================
+   SLOW, GENTLE CROSSFADE TRANSITIONS
+   ========================================================================= */
+@keyframes vhSlowFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes vhBodyCrossfade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.vh-title-crossfade {
+  animation: vhSlowFadeIn 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.vh-body-crossfade {
+  animation: vhBodyCrossfade 0.82s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Opt-in ambient motion strictly guarded by prefers-reduced-motion: no-preference (modern-web-guidance: motion) */
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes vhGentleFloat {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-2.5px);
+    }
+  }
+
+  @keyframes vhEndFlash {
+    0%, 100% {
+      background-color: #d97706;
+      box-shadow: 0 0 0 0 rgba(242, 193, 78, 0.72);
+    }
+    50% {
+      background-color: #f59e0b;
+      box-shadow: 0 0 24px 4px rgba(242, 193, 78, 0.78);
+    }
+  }
+
+  @keyframes vhCharReveal {
+    0% {
+      opacity: 0;
+      transform: translateY(10px) scale(0.96);
+      filter: blur(6px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0px);
+    }
+  }
+
+  @keyframes vhDividerBloom {
+    0% {
+      opacity: 0;
+      transform: scaleX(0.72);
+    }
+    100% {
+      opacity: 1;
+      transform: scaleX(1);
+    }
+  }
+
+  .vh-char-reveal {
+    opacity: 0;
+    animation: vhCharReveal 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    will-change: opacity, transform, filter;
+  }
+
+  .vh-divider-bloom {
+    opacity: 0;
+    animation: vhDividerBloom 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  .vh-gentle-float {
+    animation: vhGentleFloat 7.5s ease-in-out infinite;
+  }
+
+  .vh-orb-end-flash {
+    animation: vhEndFlash 1.7s ease-in-out infinite;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vh-title-crossfade,
+  .vh-body-crossfade {
+    animation: none;
+  }
+}
+
+/* Completely hide internal scrollbars inside reading stage (zero dark bars!) */
+.vh-no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.vh-no-scrollbar::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
